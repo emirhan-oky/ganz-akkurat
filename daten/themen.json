@@ -1,0 +1,76 @@
+{
+  "_hinweis": "Themenpool. Ein Lauf nimmt die zwei obersten Cluster mit Status 'bereit' und erzeugt daraus je fuenf Shorts - einen je Winkel. Ein Cluster wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
+
+  "cluster": [
+    {
+      "id": "dock-kein-bild",
+      "reihe": "SchreibtischKlar",
+      "status": "bereit",
+      "titel": "Dock lädt, aber kein Bild",
+      "kernfrage": "Warum bleibt der Monitor schwarz, obwohl das Dock funktioniert?",
+      "quellenIds": ["apple-displays-mba", "displaylink-macos-grenzen", "apple-display-fehlerbehebung"],
+      "winkel": [
+        {
+          "id": "gleiche-buchse",
+          "titel": "Gleiche Buchse, andere Technik",
+          "kernaussage": "Ein USB-C-Anschluss überträgt nur mit DisplayPort Alt Mode ein Bild.",
+          "szenenfolge": ["hook", "anschluss", "aussage", "vergleich", "checkliste", "cta"]
+        },
+        {
+          "id": "dual-display-luege",
+          "titel": "„Dual Display\" am Dock sagt nichts über dein Notebook",
+          "kernaussage": "Die Displayzahl bestimmt der Chip des Notebooks, nicht das Dock.",
+          "szenenfolge": ["hook", "warnung", "aussage", "anschluss", "checkliste", "cta"]
+        },
+        {
+          "id": "displaylink-preis",
+          "titel": "DisplayLink löst das Problem – und schafft ein neues",
+          "kernaussage": "DisplayLink umgeht die Displaygrenze, spielt aber keine geschützten Videoinhalte auf dem Mac ab.",
+          "szenenfolge": ["hook", "aussage", "vergleich", "warnung", "cta"]
+        },
+        {
+          "id": "kabel-schuld",
+          "titel": "Wenn das Kabel der Fehler ist",
+          "kernaussage": "Ein Ladekabel ohne ausreichende Datenleitungen überträgt kein Bild.",
+          "szenenfolge": ["hook", "anschluss", "warnung", "checkliste", "cta"]
+        },
+        {
+          "id": "zwanzig-sekunden-test",
+          "titel": "In 20 Sekunden prüfen, ob zwei Displays gehen",
+          "kernaussage": "Die native Displayzahl steht im Datenblatt des Herstellers.",
+          "szenenfolge": ["hook", "checkliste", "aussage", "cta"]
+        }
+      ]
+    },
+    {
+      "id": "reise-ladeausruestung",
+      "reihe": "UnterwegsKlar",
+      "status": "recherche",
+      "titel": "Was im Handgepäck wirklich laden muss",
+      "kernfrage": "Welche Ladeausrüstung deckt Notebook, Telefon und Kopfhörer auf einer Reise ab?",
+      "quellenIds": [],
+      "_offen": "Belege fehlen: Wattzahlen je Geraeteklasse, Wh-Grenzen fuer Powerbanks im Handgepaeck bei den relevanten Fluggesellschaften, GaN-Netzteile. Vor Produktion einzeln abrufen und in quellen.json aufnehmen.",
+      "winkel": []
+    },
+    {
+      "id": "ein-netzteil-fuer-alles",
+      "reihe": "LadeKlar",
+      "status": "recherche",
+      "titel": "Ein Netzteil für alles",
+      "kernfrage": "Wie viel Watt braucht ein Netzteil, das Notebook und Telefon gleichzeitig versorgt?",
+      "quellenIds": [],
+      "_offen": "Belege fehlen: USB Power Delivery Profile, Leistungsaufteilung bei Mehrfachanschluss, Herstellerangaben zur Ladeleistung.",
+      "winkel": []
+    },
+    {
+      "id": "refurbished-monitor",
+      "reihe": "NeuOderRefurbished",
+      "status": "recherche",
+      "titel": "Monitor gebraucht kaufen",
+      "kernfrage": "Worauf muss man bei einem generalüberholten Monitor achten?",
+      "quellenIds": [],
+      "_offen": "Belege fehlen: Gewaehrleistung bei generalueberholter Ware, Panel-Pruefpunkte, uebliche Zustandsklassen im Handel.",
+      "winkel": []
+    }
+  ]
+}

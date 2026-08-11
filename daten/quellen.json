@@ -1,0 +1,56 @@
+{
+  "_hinweis": "Belegdatenbank. Jede technische Kernaussage in einem Short verweist auf mindestens einen Eintrag. Neue Quellen werden nur aufgenommen, nachdem die URL tatsaechlich abgerufen und der Inhalt geprueft wurde - nie aus dem Gedaechtnis oder aus einem Suchtreffer-Ausschnitt. Das Feld geprueftAm dokumentiert diesen Abruf.",
+
+  "quellen": [
+    {
+      "id": "apple-displays-mba",
+      "titel": "Wie viele Displays können mit einem MacBook Air verbunden werden?",
+      "url": "https://support.apple.com/de-de/122212",
+      "herausgeber": "Apple",
+      "geprueftAm": "2026-08-08",
+      "art": "hersteller",
+      "belegt": [
+        "Die Zahl extern anschließbarer Displays hängt vom Chip des Notebooks ab, nicht vom Dock.",
+        "Ein Dock kann die native Display-Unterstützung des Notebooks nicht erweitern."
+      ]
+    },
+    {
+      "id": "apple-display-fehlerbehebung",
+      "titel": "Fehlerbehebung für externe Displays",
+      "url": "https://support.apple.com/de-de/102501",
+      "herausgeber": "Apple",
+      "geprueftAm": "2026-08-08",
+      "art": "hersteller",
+      "belegt": [
+        "Offizielle Prüfschritte, wenn ein externes Display schwarz bleibt.",
+        "Kabel und Anschlussart gehören zu den ersten Prüfpunkten."
+      ]
+    },
+    {
+      "id": "displaylink-macos-grenzen",
+      "titel": "DisplayLink Manager App für macOS",
+      "url": "https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in",
+      "herausgeber": "DisplayLink",
+      "geprueftAm": "2026-08-08",
+      "art": "hersteller",
+      "belegt": [
+        "DisplayLink benötigt unter macOS zusätzliche Software, nicht nur Hardware.",
+        "DisplayLink umgeht die native Display-Begrenzung, bringt aber eigene Einschränkungen mit."
+      ]
+    },
+    {
+      "id": "displaylink-kopierschutz",
+      "titel": "Geschützte Videoinhalte werden auf dem Mac nicht abgespielt",
+      "url": "https://support.displaylink.com/knowledgebase/articles/830301-content-protected-video-does-not-play-on-mac-while",
+      "herausgeber": "DisplayLink",
+      "geprueftAm": "2026-08-08",
+      "art": "hersteller",
+      "belegt": [
+        "Kopiergeschützte Inhalte laufen über DisplayLink unter macOS nicht.",
+        "Streamingdienste sind eine konkrete Einschränkung von DisplayLink-Docks."
+      ]
+    }
+  ],
+
+  "_luecke": "Der Bestand deckt bisher nur den Themenbereich Display und Dock ab. Fuer UnterwegsKlar, LadeKlar und NeuOderRefurbished fehlen belegte Quellen. Diese muessen vor der ersten Produktion in diesen Reihen einzeln abgerufen und geprueft werden - die Skript-Engine verweigert Themen ohne Beleg."
+}
