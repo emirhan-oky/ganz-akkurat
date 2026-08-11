@@ -21,8 +21,16 @@ export type AblageZugang = {
   bucket: string;
   schluesselId: string;
   geheimnis: string;
-  /** Oeffentliche Basisadresse des Buckets, ohne Schraegstrich am Ende. */
-  oeffentlicheBasis: string;
+  /**
+   * Oeffentliche Basisadresse des Buckets, ohne Schraegstrich am Ende.
+   *
+   * Bewusst optional: Schreibrecht und oeffentlicher Zugriff sind zwei
+   * getrennte Einstellungen in Cloudflare, und sie schlagen getrennt fehl.
+   * Ein Zugang kann schreiben koennen, ohne dass der Bucket freigegeben ist —
+   * und umgekehrt. Waeren sie hier zusammengefasst, verdeckte die eine
+   * fehlende Angabe die Diagnose der anderen.
+   */
+  oeffentlicheBasis?: string;
 };
 
 /** Liest den Zugang aus der Umgebung und meldet fehlende Angaben einzeln. */
@@ -32,7 +40,6 @@ export const zugangAusUmgebung = (): AblageZugang => {
     bucket: process.env.R2_BUCKET,
     schluesselId: process.env.R2_ACCESS_KEY_ID,
     geheimnis: process.env.R2_SECRET_ACCESS_KEY,
-    oeffentlicheBasis: process.env.R2_OEFFENTLICHE_URL,
   };
 
   const fehlend = Object.entries(felder)
@@ -51,7 +58,7 @@ export const zugangAusUmgebung = (): AblageZugang => {
     bucket: felder.bucket!,
     schluesselId: felder.schluesselId!,
     geheimnis: felder.geheimnis!,
-    oeffentlicheBasis: felder.oeffentlicheBasis!.replace(/\/+$/, ''),
+    oeffentlicheBasis: process.env.R2_OEFFENTLICHE_URL?.replace(/\/+$/, ''),
   };
 };
 
@@ -85,6 +92,12 @@ export const hochladen = async (
     throw new Error(`Upload von ${path.basename(lokalerPfad)} fehlgeschlagen (HTTP ${antwort.status}): ${await antwort.text()}`);
   }
 
+  if (!z.oeffentlicheBasis) {
+    throw new Error(
+      'R2_OEFFENTLICHE_URL fehlt in .env. Die Datei liegt zwar im Bucket, aber ohne ' +
+        'öffentliche Adresse könnte Buffer sie nicht laden.',
+    );
+  }
   return `${z.oeffentlicheBasis}/${zielpfad}`;
 };
 

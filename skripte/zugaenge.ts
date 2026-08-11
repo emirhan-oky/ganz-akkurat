@@ -1,6 +1,9 @@
 import 'dotenv/config';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { kanaeleLesen, naechsterMontag, organisationErmitteln, zeitplanBauen } from '../src/buffer';
-import { zugangAusUmgebung } from '../src/ablage';
+import { hochladen, loeschen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
 
 /**
@@ -62,16 +65,50 @@ const buffer = async () => {
   }
 };
 
+/**
+ * Die Ablage wird mit einem echten Durchlauf geprueft: schreiben, oeffentlich
+ * abrufen, wieder loeschen.
+ *
+ * Ein blosser Blick auf die Zugangsdaten genuegt hier nicht. Der haeufigste
+ * Fehler ist ein Bucket, der sich einwandfrei beschreiben laesst, aber nicht
+ * oeffentlich freigegeben ist — Buffer koennte die Videos dann nicht laden,
+ * und das faellt sonst erst beim Veroeffentlichen auf.
+ */
 const ablage = async () => {
+  let z;
   try {
-    const z = zugangAusUmgebung();
-    // Ein Schreibversuch waere teurer als noetig: erreicht die oeffentliche
-    // Basisadresse ueberhaupt jemanden?
-    const a = await fetch(z.oeffentlicheBasis, { method: 'HEAD' }).catch(() => null);
-    gut('Dateiablage', `Bucket ${z.bucket}, öffentlich unter ${z.oeffentlicheBasis}${a ? '' : ' (nicht erreichbar)'}`);
+    z = zugangAusUmgebung();
   } catch (f) {
-    schlecht('Dateiablage', (f as Error).message.split('\n')[0]!);
+    return schlecht('Dateiablage', (f as Error).message.split('\n')[0]!);
   }
+
+  const probe = 'verbindungstest.txt';
+  const datei = path.join(os.tmpdir(), probe);
+  await fs.writeFile(datei, `SetupKlar Verbindungstest\n`);
+
+  try {
+    await hochladen(z, datei, probe);
+    gut('Dateiablage', `Schreiben auf Bucket ${z.bucket} funktioniert`);
+  } catch (f) {
+    const text = (f as Error).message;
+    if (/403|AccessDenied/.test(text)) {
+      schlecht('Dateiablage', `Bucket ${z.bucket}: Lesen erlaubt, Schreiben verweigert`);
+      offen('', 'Das R2-Token hat nur Leserecht. Neues Token mit „Object Read & Write" anlegen.');
+    } else {
+      schlecht('Dateiablage', text.slice(0, 110));
+    }
+    return;
+  }
+
+  if (!z.oeffentlicheBasis) {
+    offen('', 'R2_OEFFENTLICHE_URL fehlt – Bucket → Settings → Public access → Allow Access');
+  } else if (await oeffentlichErreichbar(`${z.oeffentlicheBasis}/${probe}`)) {
+    gut('', `öffentlich erreichbar unter ${z.oeffentlicheBasis}`);
+  } else {
+    schlecht('', 'Bucket ist nicht öffentlich freigegeben – Buffer könnte die Videos nicht laden');
+  }
+
+  await loeschen(z, probe).catch(() => undefined);
 };
 
 const main = async () => {
