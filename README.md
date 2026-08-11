@@ -30,11 +30,17 @@ KI-Kennzeichnung sowie die Belegpflicht sind persönliche Haftung.
 
 | Befehl | Wirkung |
 |---|---|
-| `npm run vorschau` | Remotion-Studio öffnen, Szenen live bearbeiten |
-| `npm run lauf` | Neuen Wochenlauf erzeugen (Skripte + Vertonung) |
-| `npm run rendern` | Alle Shorts des aktuellen Laufs rendern |
-| `npm run freigabe` | Freigabe-Übersicht im Browser öffnen |
+| `npm run zugaenge` | Alle vier Dienste prüfen und sagen, was fehlt |
+| `npm run lauf` | Wochenlauf als **Trockenlauf** – kostet nichts |
+| `npm run lauf -- --mit-ton` | Wochenlauf mit echter Vertonung |
+| `npm run veroeffentlichen -- <lauf-id>` | Probelauf der Veröffentlichung |
+| `npm run veroeffentlichen -- <lauf-id> --wirklich` | Beiträge wirklich einplanen |
+| `npm run vorschau` | Remotion-Studio, Szenen live bearbeiten |
+| `npm run stimmproben` | Hörproben mehrerer Stimmen erzeugen |
 | `npm run pruefen` | Typprüfung |
+
+Trockenlauf und Probelauf sind jeweils der Standard. Geld und geplante
+Beiträge entstehen nur mit ausdrücklichem Schalter.
 
 ## Aufbau
 
