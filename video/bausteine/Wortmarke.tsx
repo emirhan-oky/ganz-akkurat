@@ -37,12 +37,18 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
   </svg>
 );
 
-/** Kopfzeile: Logozeichen, Wortmarke und die Reihe des jeweiligen Themas. */
-export const Kopfzeile: React.FC<{ reihe?: string }> = ({ reihe }) => (
+/**
+ * Kopfzeile: Logozeichen, Wortmarke und der Setup-Kontext des Themas.
+ *
+ * Der Kontext steht bewusst ohne "Klar"-Endung neben der Wortmarke: sonst
+ * liest die Zeile "SetupKlar SchreibtischKlar" und das zweite Wort wirkt wie
+ * eine Rubrik statt wie die Angabe, um welche Art Setup es hier geht.
+ */
+export const Kopfzeile: React.FC<{ kontext?: string }> = ({ kontext }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
     <Logozeichen groesse={40} />
     <Wortmarke groesse={34} />
-    {reihe && (
+    {kontext && (
       <span
         style={{
           fontFamily: SCHRIFT.familie,
@@ -55,7 +61,7 @@ export const Kopfzeile: React.FC<{ reihe?: string }> = ({ reihe }) => (
           letterSpacing: 0.2,
         }}
       >
-        {reihe}
+        {kontext}
       </span>
     )}
   </div>

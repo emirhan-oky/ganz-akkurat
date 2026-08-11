@@ -65,7 +65,7 @@ const Kennzeichnung: React.FC<{ werbung: boolean; kiStimme: boolean }> = ({ werb
   );
 };
 
-export const Short: React.FC<{ daten: ShortDaten; reihe?: string }> = ({ daten, reihe }) => {
+export const Short: React.FC<{ daten: ShortDaten; kontext?: string }> = ({ daten, kontext }) => {
   const plan = szenenZeitplan(daten);
 
   return (
@@ -100,7 +100,7 @@ export const Short: React.FC<{ daten: ShortDaten; reihe?: string }> = ({ daten, 
             gap: ABSTAND.m,
           }}
         >
-          <Kopfzeile reihe={reihe} />
+          <Kopfzeile kontext={kontext} />
           <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
         </div>
 

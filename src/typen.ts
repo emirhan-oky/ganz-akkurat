@@ -173,7 +173,7 @@ export const Plattformtext = z.object({
 
 export const Short = z.object({
   id: z.string(),
-  /** Themencluster, zu dem dieser Short gehoert. */
+  /** Thema, zu dem dieser Short gehoert. */
   themaId: z.string(),
   /** Interner Arbeitstitel, nicht der Veroeffentlichungstitel. */
   arbeitstitel: z.string(),
@@ -211,21 +211,31 @@ export type Short = z.infer<typeof Short>;
 
 /* ────────────────────────────── Lauf ───────────────────────────────── */
 
-export const Themencluster = z.object({
+/**
+ * Ein Thema: eine Alltagsfrage, aus der fuenf Shorts entstehen.
+ *
+ * Das Oberthema der Marke ist immer "Setup". Der `kontext` sagt nur, um
+ * welche Art Setup es diesmal geht — Schreibtisch, unterwegs, gebraucht
+ * gekauft. Er ist bewusst **freier Text** und kein Enum: sobald die Liste
+ * geschlossen ist, wird aus dem Kontext eine Rubrik, in die jedes Thema
+ * hineinpassen muss. Neue Kontexte sollen ohne Codeaenderung entstehen.
+ */
+export const Thema = z.object({
   id: z.string(),
-  /** Uebergeordnete Situation, nicht nur Produktkategorie. */
-  reihe: z.enum(['SchreibtischKlar', 'UnterwegsKlar', 'LadeKlar', 'NeuOderRefurbished']),
+  /** Art des Setups, frei benennbar. Erscheint als Pille in der Kopfzeile. */
+  kontext: z.string().min(1),
   titel: z.string(),
   kernfrage: z.string(),
+  /** Belegdecke fuer alle Shorts dieses Themas — einmal recherchiert. */
   quellenIds: z.array(z.string()).min(1),
 });
-export type Themencluster = z.infer<typeof Themencluster>;
+export type Thema = z.infer<typeof Thema>;
 
-/** Ein Wochenlauf: 2 Themencluster mit je 5 Shorts. */
+/** Ein Wochenlauf: 2 Themen mit je 5 Shorts. */
 export const Lauf = z.object({
   id: z.string(),
   erstelltAm: z.string(),
-  cluster: z.array(Themencluster).length(2),
+  themen: z.array(Thema).length(2),
   shorts: z.array(Short).length(10),
   status: z.enum(['entwurf', 'vertont', 'gerendert', 'freigegeben', 'veroeffentlicht']),
 });

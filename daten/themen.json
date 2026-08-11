@@ -1,14 +1,14 @@
 {
-  "_hinweis": "Themenpool. Ein Lauf nimmt die zwei obersten Cluster mit Status 'bereit' und erzeugt daraus je fuenf Shorts - einen je Winkel. Ein Cluster wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
+  "_hinweis": "Themenpool. Das Oberthema der Marke ist immer 'Setup' - der 'kontext' sagt nur, um welche Art Setup es geht (Schreibtisch, unterwegs, gebraucht). Er ist freier Text, damit neue Kontexte ohne Codeaenderung entstehen. Ein Lauf nimmt die zwei obersten Themen mit Status 'bereit' und erzeugt daraus je fuenf Shorts - einen je Winkel. Ein Thema wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
 
-  "cluster": [
+  "themen": [
     {
       "id": "dock-kein-bild",
-      "reihe": "SchreibtischKlar",
+      "kontext": "Schreibtisch",
       "status": "bereit",
       "titel": "Dock lädt, aber kein Bild",
       "kernfrage": "Warum bleibt der Monitor schwarz, obwohl das Dock funktioniert?",
-      "quellenIds": ["apple-displays-mba", "displaylink-macos-grenzen", "apple-display-fehlerbehebung"],
+      "quellenIds": ["apple-displays-mba", "displaylink-macos-grenzen", "apple-display-fehlerbehebung", "displaylink-kopierschutz"],
       "winkel": [
         {
           "id": "gleiche-buchse",
@@ -44,7 +44,7 @@
     },
     {
       "id": "powerbank-flug",
-      "reihe": "UnterwegsKlar",
+      "kontext": "Unterwegs",
       "status": "bereit",
       "titel": "Powerbank im Flugzeug",
       "kernfrage": "Welche Powerbank darf mit an Bord, und was muss man vorher tun?",
@@ -84,7 +84,7 @@
     },
     {
       "id": "ein-netzteil-fuer-alles",
-      "reihe": "LadeKlar",
+      "kontext": "Laden",
       "status": "recherche",
       "titel": "Ein Netzteil für alles",
       "kernfrage": "Wie viel Watt braucht ein Netzteil, das Notebook und Telefon gleichzeitig versorgt?",
@@ -94,7 +94,7 @@
     },
     {
       "id": "refurbished-monitor",
-      "reihe": "NeuOderRefurbished",
+      "kontext": "B-Ware & Nachhaltig",
       "status": "recherche",
       "titel": "Monitor gebraucht kaufen",
       "kernfrage": "Worauf muss man bei einem generalüberholten Monitor achten?",

@@ -32,14 +32,14 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 const ENTWUERFE: Short[] = [...dockKeinBild, ...powerbankFlug];
 
 /**
- * Die Reihe eines Shorts steht im Themenpool, nicht im Entwurf.
- * So gibt es genau eine Stelle, an der ein Thema seiner Reihe zugeordnet ist.
+ * Der Setup-Kontext eines Shorts steht im Themenpool, nicht im Entwurf.
+ * So gibt es genau eine Stelle, an der ein Thema seinem Kontext zugeordnet ist.
  */
-const reihenZuordnung = async (): Promise<Map<string, string>> => {
+const kontextZuordnung = async (): Promise<Map<string, string>> => {
   const pool = JSON.parse(await fs.readFile('daten/themen.json', 'utf8')) as {
-    cluster: { id: string; reihe: string }[];
+    themen: { id: string; kontext: string }[];
   };
-  return new Map(pool.cluster.map((c) => [c.id, c.reihe]));
+  return new Map(pool.themen.map((t) => [t.id, t.kontext]));
 };
 
 const laufId = () => {
@@ -129,14 +129,14 @@ const main = async () => {
 
   const propsOrdner = path.join(wurzel, 'props');
   await fs.mkdir(propsOrdner, { recursive: true });
-  const reihen = await reihenZuordnung();
+  const kontexte = await kontextZuordnung();
 
   for (const short of zuRendern) {
     const propsDatei = path.join(propsOrdner, `${short.id}.json`);
     const ziel = path.join(videoOrdner, `${short.id}.mp4`);
     await fs.writeFile(
       propsDatei,
-      JSON.stringify({ daten: short, reihe: reihen.get(short.themaId) ?? 'SetupKlar' }),
+      JSON.stringify({ daten: short, kontext: kontexte.get(short.themaId) ?? 'Setup' }),
     );
 
     const beginn = Date.now();

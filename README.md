@@ -3,8 +3,25 @@
 Automatisierte Shortvideo-Produktion für die deutschsprachige Medienmarke
 **SetupKlar** – Technik-Setups für Schreibtisch, unterwegs, Reise und Laden.
 
-Ein Lauf erzeugt **2 Themencluster mit je 5 Shorts**. Veröffentlicht wird an
+Ein Lauf erzeugt **2 Themen mit je 5 Shorts**. Veröffentlicht wird an
 5 Tagen je 2 Videos.
+
+## Themenaufbau
+
+Das Oberthema der Marke ist immer **Setup**. Darunter:
+
+```
+Setup-Kontext   "Schreibtisch", "Unterwegs", "B-Ware & Nachhaltig" …
+  └── Thema     eine Alltagsfrage + die Quellen, die sie belegen
+        └── Winkel   fünf Blickwinkel auf dieselbe Frage = fünf Shorts
+```
+
+Der Kontext sagt nur, um welche **Art** Setup es geht – er ist freier Text,
+keine feste Liste. Neue Kontexte entstehen ohne Codeänderung, damit aus der
+Angabe keine Rubrik wird, in die jedes Thema hineinpassen muss.
+
+Die Quellen hängen am **Thema**, nicht am einzelnen Short: einmal
+recherchieren, fünfmal veröffentlichen.
 
 ## Ablauf
 

@@ -61,7 +61,7 @@ const main = async () => {
   const ziel = 'laeufe/probe/vertont.mp4';
   const propsDatei = 'laeufe/probe/props.json';
   await fs.mkdir('laeufe/probe', { recursive: true });
-  await fs.writeFile(propsDatei, JSON.stringify({ daten: Short.parse(vertont), reihe: 'SchreibtischKlar' }));
+  await fs.writeFile(propsDatei, JSON.stringify({ daten: Short.parse(vertont), kontext: 'Schreibtisch' }));
 
   await ausfuehren('npx', [
     'remotion', 'render', 'video/index.ts', 'Short', ziel,

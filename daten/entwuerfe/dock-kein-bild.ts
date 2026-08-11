@@ -1,7 +1,7 @@
 import type { Short } from '../../src/typen';
 
 /**
- * Cluster „Dock lädt, aber kein Bild" — fünf Shorts, fünf Winkel.
+ * Thema „Dock lädt, aber kein Bild" — fünf Shorts, fünf Winkel.
  *
  * Schreibregel dieses Projekts: **Bildtext ist die verdichtete Behauptung,
  * der Sprechtext führt sie aus.** Wer ohne Ton schaut, bekommt die Aussage

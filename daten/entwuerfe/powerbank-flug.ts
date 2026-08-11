@@ -1,7 +1,7 @@
 import type { Short } from '../../src/typen';
 
 /**
- * Cluster „Powerbank im Flugzeug" — Reihe UnterwegsKlar.
+ * Thema „Powerbank im Flugzeug" — Setup-Kontext Unterwegs.
  *
  * Alle Aussagen stammen aus der Passagierinformation des Luftfahrt-Bundesamts.
  * Bewusst auf die **behoerdliche** Regel gestuetzt statt auf die einer
