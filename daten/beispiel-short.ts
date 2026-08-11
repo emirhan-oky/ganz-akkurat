@@ -1,0 +1,102 @@
+import type { Short } from '../src/typen';
+
+/**
+ * Referenz-Short.
+ *
+ * Dient zwei Zwecken: er ist die Vorschau im Remotion-Studio, und er ist der
+ * Massstab fuer die Skript-Engine — so klingt und so sitzt ein SetupKlar-Short.
+ * Inhaltlich echt und belegt, kein Blindtext.
+ */
+export const beispielShort: Short = {
+  id: 'skl-0001',
+  themaId: 'usbc-dock-kein-bild',
+  arbeitstitel: 'Dock lädt, aber kein Bild',
+
+  szenen: [
+    {
+      art: 'hook',
+      kontext: 'USB-C am Notebook',
+      text: 'Dein Dock lädt. Der Monitor bleibt schwarz.',
+      sprechtext: 'Dein Dock lädt, aber der Monitor bleibt einfach schwarz.',
+    },
+    {
+      art: 'anschluss',
+      ueberschrift: 'Wo das Signal hängen bleibt',
+      kette: [
+        { geraet: 'notebook', beschriftung: 'Notebook' },
+        { geraet: 'dock', beschriftung: 'USB-C-Dock' },
+        { geraet: 'monitor', beschriftung: 'Monitor' },
+      ],
+      bruchNach: 0,
+      sprechtext:
+        'Und das liegt fast nie am Dock. Das Bild kommt schon aus deinem Notebook nicht raus.',
+    },
+    {
+      art: 'aussage',
+      text: 'Ein USB-C-Port überträgt nur dann Bild, wenn er DisplayPort Alt Mode kann.',
+      hervorhebung: 'DisplayPort Alt Mode',
+      sprechtext:
+        'Denn ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode beherrscht. Und das sieht man dem Stecker nicht an.',
+    },
+    {
+      art: 'vergleich',
+      ueberschrift: 'Gleiche Buchse, zwei Welten',
+      links: {
+        titel: 'Mit Alt Mode',
+        zeilen: ['Bild und Ton laufen', 'Lädt gleichzeitig', 'Meist Thunderbolt-Port'],
+        bewertung: 'ja',
+      },
+      rechts: {
+        titel: 'Ohne Alt Mode',
+        zeilen: ['Nur Strom und Daten', 'Monitor bleibt schwarz', 'Oft der zweite USB-C-Port'],
+        bewertung: 'nein',
+      },
+      sprechtext:
+        'Der eine Port macht Bild, Ton und Strom. Der andere sieht identisch aus, gibt aber nur Strom und Daten weiter.',
+    },
+    {
+      art: 'checkliste',
+      ueberschrift: 'Das prüfst du vor dem Kauf',
+      punkte: [
+        { text: 'Steht am Port ein DisplayPort-Symbol?', bewertung: 'ja' },
+        { text: 'Wie viele Displays nennt der Hersteller?', bewertung: 'ja' },
+        { text: 'Nicht auf „Dual Display" am Dock verlassen', bewertung: 'nein' },
+      ],
+      sprechtext:
+        'Also: Schau, ob am Port ein DisplayPort-Symbol steht. Prüf im Datenblatt deines Notebooks, wie viele Displays es überhaupt kann. Und verlass dich nie auf die Angabe Dual Display am Dock.',
+    },
+    {
+      art: 'cta',
+      text: 'Die komplette Checkliste liegt im angehefteten Beitrag.',
+      sprechtext: 'Die komplette Checkliste findest du im angehefteten Beitrag.',
+    },
+  ],
+
+  quellenIds: ['apple-displays-mba', 'displaylink-macos-grenzen'],
+
+  texte: {
+    tiktok: {
+      titel: 'Dock lädt, Monitor bleibt schwarz',
+      beschreibung:
+        'Nicht jeder USB-C-Port überträgt Bild. Ohne DisplayPort Alt Mode kommt nur Strom durch. Das prüfst du vor dem Kauf.',
+      hashtags: ['#usbc', '#homeoffice', '#technik', '#schreibtisch', '#setupklar'],
+    },
+    instagram: {
+      titel: 'Warum dein Dock lädt, aber kein Bild zeigt',
+      beschreibung:
+        'Gleiche Buchse, völlig andere Technik: Nur ein USB-C-Port mit DisplayPort Alt Mode überträgt ein Bild. Fehlt der, lädt dein Notebook zwar, der Monitor bleibt aber schwarz. Die drei Punkte aus dem Video prüfst du am besten vor dem Kauf.',
+      hashtags: ['#usbc', '#homeofficesetup', '#schreibtischsetup', '#technikwissen', '#setupklar'],
+    },
+    youtube: {
+      titel: 'Dock lädt, aber kein Bild? Das ist der Grund',
+      beschreibung:
+        'Ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode unterstützt. Sonst kommen nur Strom und Daten durch – das Dock funktioniert, der Monitor bleibt trotzdem schwarz.\n\nQuellen:\nApple: Wie viele Displays können mit einem MacBook Air verbunden werden? https://support.apple.com/de-de/122212\nDisplayLink Manager für macOS und Einschränkungen https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in',
+      hashtags: ['#Shorts', '#USBC', '#Homeoffice'],
+    },
+  },
+
+  kennzeichnung: {
+    werbung: false,
+    kiStimme: true,
+  },
+};

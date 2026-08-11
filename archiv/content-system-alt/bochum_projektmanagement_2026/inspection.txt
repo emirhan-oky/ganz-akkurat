@@ -1,0 +1,29 @@
+{
+  "ndjson": "{\"kind\":\"table\",\"sheet\":\"Initiativziele\",\"address\":\"A1:P12\",\"rows\":12,\"cols\":16,\"values\":[[\"Initiativziele\",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[\"Sortiert nach Bewerbungswelle und Profilpassung. URLs führen zu offiziellen Karriere-/Bewerbungsseiten; Status vor Versand nochmals kurz prüfen.\",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[\"Welle\",\"Prio\",\"Unternehmen\",\"Ort\",\"Branche\",\"Initiativweg\",\"Geeignete Zielrollen\",\"Arbeitszeit\",\"Profilpassung\",\"Warum passend\",\"Lücke/Risiko\",\"Personalisierter Einstieg\",\"Kontakt\",\"Offizielle Quelle\",\"Geprüft\",\"Nächster Schritt\"],[1,\"A\",\"contec GmbH\",\"Bochum\",\"Gesundheits-/Sozialberatung\",\"Bewerbungsformular/Kontakt möglich\",\"Junior Consultant; Projektkoordination; Organisationsentwicklung\",\"VZ / ggf. TZ\",\"5/5\",\"Apeiros + DRK + Koordination passen unmittelbar zur Sozial- und Gesundheitswirtschaft.\",\"Beratungserfahrung noch nicht formal ausgewiesen.\",\"Über die Bochumer Gesundheitscampus- und Beratungslandschaft; gezielt wegen Organisationsentwicklung im Sozialbereich.\",\"Lena Radke / People Management\",\"https://karriere.contec.de/\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"HÖCKER Project Managers GmbH\",\"Bochum\",\"Projektmanagement/Bau\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektassistenz; Junior Projektmanagement; PMO\",\"VZ / TZ anfragen\",\"4/5\",\"Kernunternehmen für Projektmanagement; Koordination, Ressourcen- und Terminsteuerung übertragbar.\",\"Bautechnischer Hintergrund fehlt; auf Assistenz/Junior fokussieren.\",\"Bei der gezielten Suche nach Projektmanagement-Unternehmen in Bochum gefunden.\",\"Recruiting / info@hoecker-pm.com\",\"https://hoecker-pm.com/de/karriere/initiativbewerbung\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"VISUS Health IT GmbH\",\"Bochum\",\"Health IT\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektkoordination; PMO; Junior Consultant; Customer Projects\",\"VZ / Werkstudent / TZ anfragen\",\"5/5\",\"Gesundheitsumfeld, Koordination und künftige Wirtschaftsinformatik ergeben ein stimmiges Profil.\",\"IT-Praxiserfahrung noch begrenzt.\",\"Über den Gesundheitscampus Bochum und die Verbindung von Gesundheitswesen und IT.\",\"Jakob Schuhmann / HR\",\"https://www.visus.com/karriere/initiativbewerbung.html\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"GLS Gemeinschaftsbank eG\",\"Bochum\",\"Nachhaltige Bank\",\"Initiativbewerbung im Jobportal\",\"Projektkoordination; Organisationsentwicklung; Transformation; PMO\",\"VZ / TZ / Jobsharing\",\"5/5\",\"Analytik, Kommunikation, Nachhaltigkeitsinteresse und Haltung passen sehr gut.\",\"Keine Bankausbildung; nicht auf fachbankliche Rollen zielen.\",\"Durch die Bochumer Präsenz und die sozial-ökologische Ausrichtung der Bank.\",\"Recruiting-Team\",\"https://www.gls.de/gls-bank/ueber-uns/karriere/\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"GBTEC Software AG\",\"Bochum\",\"Software/BPM\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektkoordination; Junior Consulting BPM; PMO; Customer Success\",\"VZ / Werkstudent / TZ anfragen\",\"5/5\",\"Prozessoptimierung bei Picnic, Koordination und Wirtschaftsinformatik passen zu BPM.\",\"Noch keine BPM-Softwarekenntnisse.\",\"Bei der Suche nach Bochumer Unternehmen für Prozessmanagement und Digitalisierung.\",\"Talent Acquisition\",\"https://www.gbtec.com/de/unternehmen/karriere/stellenangebote/\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"Stadtwerke Bochum Holding GmbH\",\"Bochum\",\"Energie/Kommunal\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektkoordination; Prozessmanagement; Transformation; Kundenprojekte\",\"VZ / TZ anfragen\",\"4.5/5\",\"Koordination, Klimathema und Interesse an kommunaler Transformation passen.\",\"Energiewirtschaftliche Kenntnisse müssen aufgebaut werden.\",\"Über die Rolle der Stadtwerke bei Energiewende und kommunaler Daseinsvorsorge.\",\"Recruiting / karriere@stadtwerke-bochum.de\",\"https://www.stadtwerke-bochum.de/karriere/stellenangebote\",\"04.08.2026\",\"Anschreiben zuerst\"],[1,\"A\",\"rku.it GmbH\",\"Herne\",\"Kommunale IT\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektkoordination; Project Office Management; PMO\",\"VZ / Werkstudent / TZ anfragen\",\"5/5\",\"Koordination, Prozesse, MS Office und Wirtschaftsinformatik sind sehr anschlussfähig.\",\"Direkte IT-Projekterfahrung fehlt noch.\",\"Persönliche Empfehlung durch Herrn Oruc, Systemadministrator Infrastructure Services.\",\"Recruiting-Team / Referenz Herr Oruc\",\"https://rku-it.de/karriere\",\"04.08.2026\",\"Anschreiben vorhanden\"],[1,\"A\",\"do.it projekt-management GmbH & Co. KG\",\"Castrop-Rauxel\",\"Sozialwirtschaft/Projektmanagement\",\"Initiativbewerbung ausdrücklich möglich\",\"Projektkoordination; Bildungs-/Sozialprojekte; Projektassistenz\",\"VZ / TZ anfragen\",\"5/5\",\"Vier Jahre Kinder- und Jugendhilfe plus Projekt- und Koordinationserfahrung sind besonders passend.\",\"Unternehmensgröße und konkreter Bedarf vorher telefonisch prüfen.\",\"Über die Verbindung von Projektmanagement, Kita-Trägerberatung und sozialer Verantwortung.\",\"Bewerbungsteam / bewerbung@do-it-management.de\",\"https://www.ogs-software.de/karriere/\",\"04.08.2026\",\"Anschreiben zuerst\"]]}",
+  "truncated": false,
+  "metadata": {
+    "revision": "r4qb38",
+    "target": {
+      "id": "wb/hbrptb",
+      "beforeLines": 0,
+      "afterLines": 0
+    },
+    "kind": {
+      "requested": "table",
+      "tokens": [
+        "table"
+      ]
+    },
+    "include": {
+      "requested": "values,formulas",
+      "tokens": [
+        "values",
+        "formulas"
+      ]
+    },
+    "exclude": {
+      "tokens": []
+    },
+    "notices": []
+  }
+}
