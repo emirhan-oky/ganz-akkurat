@@ -30,6 +30,11 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   warnung: 3.0,
   anschluss: 4.5,
   cta: 2.2,
+  /**
+   * Die Endkarte steht bewusst lange. Sie soll gelesen und fotografiert
+   * werden koennen — dafuer reicht die Sprechdauer allein nicht aus.
+   */
+  endkarte: 5.0,
 };
 
 /** Geschaetzte Sprechdauer einer einzelnen Szene in Sekunden. */

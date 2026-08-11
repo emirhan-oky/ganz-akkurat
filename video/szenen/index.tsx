@@ -577,6 +577,125 @@ const Cta: React.FC<SzenenProps<'cta'>> = ({ szene, dauer }) => {
   );
 };
 
+/* ───────────────────────────── Endkarte ────────────────────────────── */
+
+/**
+ * Die Schlusskarte muss als **Standbild** funktionieren: Sie wird pausiert,
+ * fotografiert und weitergeschickt. Deshalb bekommt sie keine Dauerbewegung
+ * — die Punkte laufen einmal ein und stehen dann ruhig. Alles, was hier
+ * noch wandert, macht den Screenshot unbrauchbar.
+ */
+const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  // Punkte laufen im ersten Drittel ein, danach steht die Karte still.
+  const einlaufzeit = Math.round(dauer * 0.34);
+
+  return (
+    <Buehne>
+      <div
+        style={{
+          ...auftritt(frame, fps, 0),
+          backgroundColor: FARBEN.grundRein,
+          border: `4px solid ${FARBEN.tinte}`,
+          borderRadius: RADIUS.l,
+          padding: ABSTAND.xl,
+          boxShadow: '0 18px 48px rgba(17,24,32,0.10)',
+        }}
+      >
+        <h2
+          style={{
+            ...grundtext,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: GROESSEN.ueberschrift,
+            lineHeight: 1.12,
+            margin: `0 0 ${ABSTAND.l}px`,
+          }}
+        >
+          {szene.ueberschrift}
+        </h2>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
+          {szene.punkte.map((punkt, i) => (
+            <div
+              key={i}
+              style={{
+                ...auftrittImSprechrhythmus(frame, fps, i, szene.punkte.length, einlaufzeit),
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: ABSTAND.m,
+              }}
+            >
+              <span
+                style={{
+                  ...grundtext,
+                  fontWeight: SCHRIFT.schwarz,
+                  fontSize: 34,
+                  color: FARBEN.grundRein,
+                  backgroundColor: FARBEN.blau,
+                  minWidth: 52,
+                  height: 52,
+                  borderRadius: RADIUS.rund,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {i + 1}
+              </span>
+              <span
+                style={{
+                  ...grundtext,
+                  fontWeight: SCHRIFT.halbfett,
+                  fontSize: GROESSEN.fliesstext,
+                  lineHeight: 1.32,
+                  paddingTop: 2,
+                }}
+              >
+                {punkt}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Markenzeile im Fuss: bleibt auf jedem weitergeschickten Screenshot. */}
+        <div
+          style={{
+            marginTop: ABSTAND.xl,
+            paddingTop: ABSTAND.m,
+            borderTop: `2px solid ${FARBEN.gitter}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: ABSTAND.m,
+          }}
+        >
+          <span style={{ fontFamily: SCHRIFT.familie, fontSize: 36, color: FARBEN.tinte }}>
+            <span style={{ fontWeight: SCHRIFT.duenn }}>Setup</span>
+            <span style={{ fontWeight: SCHRIFT.fett }}>Klar</span>
+          </span>
+          {szene.abschluss && (
+            <span
+              style={{
+                ...grundtext,
+                fontWeight: SCHRIFT.halbfett,
+                fontSize: GROESSEN.fussnote,
+                color: FARBEN.tinteWeich,
+                letterSpacing: 0,
+                textAlign: 'right',
+              }}
+            >
+              {szene.abschluss}
+            </span>
+          )}
+        </div>
+      </div>
+    </Buehne>
+  );
+};
+
 /* ──────────────────────────── Verteiler ────────────────────────────── */
 
 /**
@@ -602,5 +721,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
       return <Anschluss szene={szene} dauer={dauer} />;
     case 'cta':
       return <Cta szene={szene} dauer={dauer} />;
+    case 'endkarte':
+      return <Endkarte szene={szene} dauer={dauer} />;
   }
 };

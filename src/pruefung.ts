@@ -71,8 +71,29 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   if (erste?.art !== 'hook') {
     melde('fehler', 'aufbau', 'Der Short beginnt nicht mit einer Hook-Szene.');
   }
-  if (letzte?.art !== 'cta') {
-    melde('hinweis', 'aufbau', 'Der Short endet nicht mit einer Endkarte.');
+  if (letzte?.art !== 'endkarte' && letzte?.art !== 'cta') {
+    melde('hinweis', 'aufbau', 'Der Short endet weder mit Endkarte noch mit Abbinder.');
+  } else if (letzte.art === 'cta') {
+    melde(
+      'hinweis',
+      'aufbau',
+      'Der Short endet mit einem reinen Abbinder. Eine Endkarte mit den Kernpunkten hält Zuschauer im Video und wird häufiger gespeichert.',
+    );
+  }
+
+  /*
+   * Verweise auf angeheftete Beitraege oder das Profil verlangen einen
+   * Absprung, den auf Shortplattformen kaum jemand macht. Was der Zuschauer
+   * mitnehmen soll, gehoert ins Video.
+   */
+  for (const szene of short.szenen) {
+    if (/angehefte|link in bio|im profil|in der beschreibung/i.test(szene.sprechtext)) {
+      melde(
+        'hinweis',
+        'absprung',
+        'Der Sprechtext verweist aus dem Video heraus. Besser den Inhalt selbst als Endkarte zeigen.',
+      );
+    }
   }
 
   /* ── Produktionsregel: keine behauptete Erfahrung ────────────────── */

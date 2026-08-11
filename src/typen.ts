@@ -117,10 +117,28 @@ const SzeneAnschluss = SzeneBasis.extend({
   bruchNach: z.number().int().nonnegative().optional(),
 });
 
-/** Endkarte mit Handlungsaufforderung. */
+/** Kurzer Abbinder ohne Inhalt. Nur, wenn es nichts zusammenzufassen gibt. */
 const SzeneCta = SzeneBasis.extend({
   art: z.literal('cta'),
   text: z.string().max(90),
+});
+
+/**
+ * Schlusskarte mit Inhalt zum Mitnehmen.
+ *
+ * Der Regelabschluss eines Shorts. Sie fasst den Kern noch einmal so
+ * zusammen, dass ein Screenshot genuegt — statt auf einen angehefteten
+ * Beitrag zu verweisen, den kaum jemand oeffnet. Wer im Video bleibt,
+ * soll alles bekommen; das erhoeht zugleich Wiedergabedauer und
+ * Speicherungen, statt Zuschauer wegzuschicken.
+ */
+const SzeneEndkarte = SzeneBasis.extend({
+  art: z.literal('endkarte'),
+  ueberschrift: z.string().max(46),
+  /** Die Kernpunkte des Videos, knapp genug zum Erfassen im Standbild. */
+  punkte: z.array(z.string().max(58)).min(2).max(4),
+  /** Leise Handlungsaufforderung unter der Karte. */
+  abschluss: z.string().max(52).optional(),
 });
 
 export const Szene = z.discriminatedUnion('art', [
@@ -132,6 +150,7 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneWarnung,
   SzeneAnschluss,
   SzeneCta,
+  SzeneEndkarte,
 ]);
 export type Szene = z.infer<typeof Szene>;
 export type SzenenArt = Szene['art'];
