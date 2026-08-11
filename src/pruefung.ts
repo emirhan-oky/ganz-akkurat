@@ -17,8 +17,22 @@ export type Befund = {
   text: string;
 };
 
-/** Woerter, die eine eigene Produkterfahrung behaupten. */
-const ERFAHRUNGSWOERTER = /\b(getestet|test|ausprobiert|im einsatz|benutze ich|meiner erfahrung)\b/i;
+/**
+ * Wendungen, die eine eigene Produkterfahrung behaupten.
+ *
+ * Bewusst eng gefasst: „zum Test tauschen" ist eine Diagnoseanweisung an den
+ * Zuschauer und keine Behauptung. Erst die erste Person oder das Perfekt
+ * macht daraus eine Erfahrungsaussage, die belegt sein muesste.
+ */
+const ERFAHRUNGSBEHAUPTUNG =
+  /\b(getestet|ausprobiert|selbst benutzt|benutze ich|nutze ich|im dauereinsatz|meiner erfahrung|wir haben .{0,24}(getestet|ausprobiert))\b/i;
+
+/**
+ * Ein Inhalt darf nur „Test" heissen, wenn das Produkt selbst benutzt wurde.
+ * Reine Quellenvergleiche heissen „Vergleich", „Kompatibilitaetscheck" oder
+ * „Kaufhilfe". Diese Regel gilt fuer die Veroeffentlichungstitel.
+ */
+const TITEL_ALS_TEST = /\b(test|testbericht|getestet|im praxistest)\b/i;
 
 /**
  * Prueft einen Short gegen alle Regeln, die ohne die fertige Videodatei
@@ -64,12 +78,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   /* ── Produktionsregel: keine behauptete Erfahrung ────────────────── */
 
   for (const szene of short.szenen) {
-    if (ERFAHRUNGSWOERTER.test(szene.sprechtext)) {
+    const treffer = szene.sprechtext.match(ERFAHRUNGSBEHAUPTUNG);
+    if (treffer) {
       melde(
         'fehler',
         'produktionsregel',
-        `Der Sprechtext behauptet eigene Produkterfahrung („${szene.sprechtext.match(ERFAHRUNGSWOERTER)?.[0]}"). ` +
+        `Der Sprechtext behauptet eigene Produkterfahrung („${treffer[0]}"). ` +
           'Erlaubt nur, wenn das Produkt tatsächlich selbst benutzt wurde.',
+      );
+    }
+  }
+
+  for (const [plattform, text] of Object.entries(short.texte)) {
+    const treffer = text.titel.match(TITEL_ALS_TEST);
+    if (treffer) {
+      melde(
+        'fehler',
+        'produktionsregel',
+        `Der ${plattform}-Titel nennt den Inhalt „${treffer[0]}". Ohne eigene Nutzung sind nur ` +
+          '„Vergleich", „Kompatibilitätscheck" oder „Kaufhilfe" zulässig.',
       );
     }
   }
