@@ -1,0 +1,29 @@
+# Zugangsschluessel - NIEMALS committen
+.env
+.env.local
+*.key
+
+# Abhaengigkeiten
+node_modules/
+.module-cache/
+
+# Produktionsergebnisse (gross, reproduzierbar)
+laeufe/
+out/
+outputs/
+.artifacts/
+tmp/
+*.mp4
+*.mov
+*.wav
+*.mp3
+
+# Zwischenspeicher
+.cache/
+.remotion/
+
+# macOS
+.DS_Store
+
+# Fremder Symlink aus Codex-Runtime
+/node_modules
