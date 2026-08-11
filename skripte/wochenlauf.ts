@@ -7,6 +7,7 @@ import { Quelle, Short } from '../src/typen';
 import { laufPruefen } from '../src/pruefung';
 import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
+import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
 
 const ausfuehren = promisify(execFile);
@@ -76,8 +77,17 @@ const main = async () => {
     for (const short of shorts) {
       const datei = `ton/${id}/${short.id}.mp3`;
       const { short: vertont, ton } = await shortVertonen(short, STIMME, schluessel, datei);
-      await fs.writeFile(path.join('public', datei), ton);
-      console.log(`   ${short.id}  ${vertont.tonspur!.dauerSek.toFixed(1)}s`);
+
+      // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohe
+      // Datei bleibt liegen, damit sich das Ergebnis nachvollziehen laesst.
+      const rohPfad = path.join('public', `ton/${id}/${short.id}.roh.mp3`);
+      await fs.writeFile(rohPfad, ton);
+      const pegel = await lautheitAngleichen(rohPfad, path.join('public', datei));
+
+      console.log(
+        `   ${short.id}  ${vertont.tonspur!.dauerSek.toFixed(1)}s  ` +
+          `Lautheit ${pegel.vorher.toFixed(1)} → ${pegel.nachher} LUFS`,
+      );
       fertige.push(vertont);
     }
     console.log('');
@@ -120,7 +130,16 @@ const main = async () => {
     ], { maxBuffer: 32 * 1024 * 1024 });
 
     const mb = (await fs.stat(ziel)).size / 1_048_576;
-    console.log(`   ${short.id}  ${mb.toFixed(1)} MB  (${((Date.now() - beginn) / 1000).toFixed(0)}s)`);
+
+    // Technische Endkontrolle an der fertigen Datei. Was hier auffaellt,
+    // liesse sich am Skript nicht erkennen.
+    const technisch = await videoPruefen(ziel);
+    for (const b of technisch) {
+      ergebnis.befunde.push({ stufe: b.stufe, shortId: short.id, regel: 'datei', text: b.text });
+    }
+
+    const anmerkung = technisch.length > 0 ? `  ← ${technisch.map((b) => b.text).join(' ')}` : '';
+    console.log(`   ${short.id}  ${mb.toFixed(1)} MB  (${((Date.now() - beginn) / 1000).toFixed(0)}s)${anmerkung}`);
   }
   console.log('');
 
