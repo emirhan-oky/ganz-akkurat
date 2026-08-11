@@ -78,7 +78,12 @@ Alle Schlüssel stehen in `.env` (nicht in Git, Vorlage in `.env.example`).
 
 | Zweck | Dienst | Status |
 |---|---|---|
-| Stimme | ElevenLabs | Schlüssel braucht `text_to_speech`-Recht |
+| Stimme | ElevenLabs | läuft, aber Free-Tarif: nur englische Standardstimmen, 10.000 Zeichen/Monat |
 | B-Roll | Pexels | läuft |
-| Veröffentlichung | Make.com | Schlüssel hinterlegt, Szenario offen |
-| Verteilung | Buffer | Zugang offen |
+| Verteilung | Buffer | läuft, alle drei Kanäle verbunden |
+| Dateiablage | offen | Buffer braucht öffentlich erreichbare Video-URLs |
+
+**Buffer:** Die alte REST-Schnittstelle nimmt keine öffentlichen Tokens mehr an
+und wird am 1. Februar 2027 abgeschaltet. Genutzt wird `api.buffer.com/graphql`.
+Kanäle liegen **nicht** unter `account`, sondern in einer eigenen Abfrage:
+`channels(input: { organizationId: "…" })`.
