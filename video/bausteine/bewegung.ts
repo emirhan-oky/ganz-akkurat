@@ -26,6 +26,29 @@ export const auftritt = (frame: number, fps: number, verzoegerungBilder = 0) => 
 export const auftrittGestaffelt = (frame: number, fps: number, index: number, grundVerzoegerung = 0) =>
   auftritt(frame, fps, grundVerzoegerung + index * TEMPO.versatzProElement);
 
+/**
+ * Auftritt im Sprechrhythmus.
+ *
+ * Der entscheidende Unterschied zu `auftrittGestaffelt`: Dort erscheinen alle
+ * Elemente kurz nach Szenenbeginn in festem Abstand, danach passiert nichts
+ * mehr. Hier verteilen sie sich ueber die **ganze** Szenenlaenge — und weil
+ * sich die Szenenlaenge aus der tatsaechlichen Sprechdauer ergibt, erscheint
+ * jedes Element ungefaehr dann, wenn die Stimme es erwaehnt.
+ *
+ * Die letzten 15 Prozent bleiben frei, damit der vollstaendige Stand noch
+ * einen Moment ruhig zu sehen ist, bevor die Szene wechselt.
+ */
+export const auftrittImSprechrhythmus = (
+  frame: number,
+  fps: number,
+  index: number,
+  anzahl: number,
+  dauerBilder: number,
+) => {
+  const anteil = anzahl <= 1 ? 0 : (index / anzahl) * 0.85;
+  return auftritt(frame, fps, Math.round(anteil * dauerBilder));
+};
+
 /** Reines Einblenden ohne Versatz — fuer grossflaechige Elemente. */
 export const einblenden = (frame: number, verzoegerungBilder = 0, dauer: number = TEMPO.einblenden) =>
   interpolate(frame - verzoegerungBilder, [0, dauer], [0, 1], {

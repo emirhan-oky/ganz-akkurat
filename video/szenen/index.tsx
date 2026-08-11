@@ -3,7 +3,14 @@ import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT } from '../../src/marke';
 import type { Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Geraet } from '../bausteine/Geraete';
-import { auftritt, auftrittGestaffelt, einblenden, impuls, linienFortschritt } from '../bausteine/bewegung';
+import {
+  auftritt,
+  auftrittGestaffelt,
+  auftrittImSprechrhythmus,
+  einblenden,
+  impuls,
+  linienFortschritt,
+} from '../bausteine/bewegung';
 
 /**
  * Das Szenenvokabular von SetupKlar.
@@ -35,12 +42,14 @@ const bewertungsfarben = (b?: 'ja' | 'nein' | 'achtung' | 'neutral') => {
 
 /* ─────────────────────────────── Hook ──────────────────────────────── */
 
-const Hook: React.FC<{ szene: Extract<Szene, { art: 'hook' }> }> = ({ szene }) => {
+type SzenenProps<A extends Szene['art']> = { szene: Extract<Szene, { art: A }>; dauer: number };
+
+const Hook: React.FC<SzenenProps<'hook'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       {szene.kontext && (
         <div style={{ ...auftritt(frame, fps, 0), marginBottom: ABSTAND.m }}>
           <span
@@ -89,7 +98,7 @@ const Hook: React.FC<{ szene: Extract<Szene, { art: 'hook' }> }> = ({ szene }) =
 
 /* ────────────────────────────── Aussage ────────────────────────────── */
 
-const Aussage: React.FC<{ szene: Extract<Szene, { art: 'aussage' }> }> = ({ szene }) => {
+const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -99,7 +108,7 @@ const Aussage: React.FC<{ szene: Extract<Szene, { art: 'aussage' }> }> = ({ szen
     : [szene.text];
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       <p
         style={{
           ...grundtext,
@@ -126,7 +135,7 @@ const Aussage: React.FC<{ szene: Extract<Szene, { art: 'aussage' }> }> = ({ szen
 
 /* ─────────────────────────────── Zahl ──────────────────────────────── */
 
-const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) => {
+const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -140,7 +149,7 @@ const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) =
   const einheitGroesse = Math.round(wertGroesse * 0.38);
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       <div
         style={{
           ...auftritt(frame, fps, 0),
@@ -200,16 +209,18 @@ const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) =
  * nebeneinander. Nebeneinander blieben je Spalte rund 400 Pixel — zu wenig
  * fuer lesbare Spezifikationszeilen.
  */
-const Vergleich: React.FC<{ szene: Extract<Szene, { art: 'vergleich' }> }> = ({ szene }) => {
+const Vergleich: React.FC<SzenenProps<'vergleich'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const Karte: React.FC<{ seite: typeof szene.links; verzoegerung: number }> = ({ seite, verzoegerung }) => {
+  // Die zweite Karte erscheint erst, wenn die Stimme bei ihr angekommen ist.
+  // Beide gleichzeitig zu zeigen nimmt dem Vergleich die Spannung.
+  const Karte: React.FC<{ seite: typeof szene.links; index: number }> = ({ seite, index }) => {
     const farben = bewertungsfarben(seite.bewertung);
     return (
       <div
         style={{
-          ...auftritt(frame, fps, verzoegerung),
+          ...auftrittImSprechrhythmus(frame, fps, index, 2, dauer),
           backgroundColor: seite.bewertung ? farben.hinten : FARBEN.grundRein,
           border: `3px solid ${seite.bewertung ? farben.vorne : FARBEN.flaeche}`,
           borderRadius: RADIUS.l,
@@ -245,7 +256,7 @@ const Vergleich: React.FC<{ szene: Extract<Szene, { art: 'vergleich' }> }> = ({ 
             key={i}
             style={{
               ...grundtext,
-              ...auftrittGestaffelt(frame, fps, i, verzoegerung + 6),
+              ...auftrittGestaffelt(frame, fps, i, 6),
               fontWeight: SCHRIFT.normal,
               fontSize: GROESSEN.fliesstext,
               color: FARBEN.tinteWeich,
@@ -261,7 +272,7 @@ const Vergleich: React.FC<{ szene: Extract<Szene, { art: 'vergleich' }> }> = ({ 
   };
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       {szene.ueberschrift && (
         <h2
           style={{
@@ -277,8 +288,8 @@ const Vergleich: React.FC<{ szene: Extract<Szene, { art: 'vergleich' }> }> = ({ 
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
-        <Karte seite={szene.links} verzoegerung={4} />
-        <Karte seite={szene.rechts} verzoegerung={14} />
+        <Karte seite={szene.links} index={0} />
+        <Karte seite={szene.rechts} index={1} />
       </div>
     </Buehne>
   );
@@ -286,12 +297,12 @@ const Vergleich: React.FC<{ szene: Extract<Szene, { art: 'vergleich' }> }> = ({ 
 
 /* ──────────────────────────── Checkliste ───────────────────────────── */
 
-const Checkliste: React.FC<{ szene: Extract<Szene, { art: 'checkliste' }> }> = ({ szene }) => {
+const Checkliste: React.FC<SzenenProps<'checkliste'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       <h2
         style={{
           ...grundtext,
@@ -312,7 +323,7 @@ const Checkliste: React.FC<{ szene: Extract<Szene, { art: 'checkliste' }> }> = (
             <div
               key={i}
               style={{
-                ...auftrittGestaffelt(frame, fps, i, 8),
+                ...auftrittImSprechrhythmus(frame, fps, i, szene.punkte.length, dauer),
                 display: 'flex',
                 alignItems: 'center',
                 gap: ABSTAND.m,
@@ -348,12 +359,12 @@ const Checkliste: React.FC<{ szene: Extract<Szene, { art: 'checkliste' }> }> = (
 
 /* ───────────────────────────── Warnung ─────────────────────────────── */
 
-const Warnung: React.FC<{ szene: Extract<Szene, { art: 'warnung' }> }> = ({ szene }) => {
+const Warnung: React.FC<SzenenProps<'warnung'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       <div
         style={{
           ...auftritt(frame, fps, 0),
@@ -421,12 +432,12 @@ const Warnung: React.FC<{ szene: Extract<Szene, { art: 'warnung' }> }> = ({ szen
  * Weg von oben nach unten. Ein Bruch wird als rotes Kreuz auf der
  * Verbindungslinie gezeigt, genau dort wo es in der Realitaet scheitert.
  */
-const Anschluss: React.FC<{ szene: Extract<Szene, { art: 'anschluss' }> }> = ({ szene }) => {
+const Anschluss: React.FC<SzenenProps<'anschluss'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       {szene.ueberschrift && (
         <h2
           style={{
@@ -443,7 +454,9 @@ const Anschluss: React.FC<{ szene: Extract<Szene, { art: 'anschluss' }> }> = ({ 
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {szene.kette.map((glied, i) => {
-          const verzoegerung = 6 + i * 8;
+          // Verzoegerung ueber die ganze Szene verteilt statt in festem
+          // Abstand am Anfang: das Diagramm baut sich im Sprechtempo auf.
+          const verzoegerung = Math.round((i / szene.kette.length) * 0.85 * dauer);
           const bruchHier = szene.bruchNach === i;
           const istLetztes = i === szene.kette.length - 1;
 
@@ -523,12 +536,12 @@ const Anschluss: React.FC<{ szene: Extract<Szene, { art: 'anschluss' }> }> = ({ 
 
 /* ─────────────────────────────── CTA ───────────────────────────────── */
 
-const Cta: React.FC<{ szene: Extract<Szene, { art: 'cta' }> }> = ({ szene }) => {
+const Cta: React.FC<SzenenProps<'cta'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne>
+    <Buehne dauerBilder={dauer}>
       <div style={{ ...auftritt(frame, fps, 0), textAlign: 'center' }}>
         <p
           style={{
@@ -566,23 +579,28 @@ const Cta: React.FC<{ szene: Extract<Szene, { art: 'cta' }> }> = ({ szene }) => 
 
 /* ──────────────────────────── Verteiler ────────────────────────────── */
 
-export const SzeneRendern: React.FC<{ szene: Szene }> = ({ szene }) => {
+/**
+ * `dauer` ist die Laenge dieser Szene in Bildern. Sie stammt aus den echten
+ * Sprech-Zeitstempeln und ist deshalb der Taktgeber fuer alles, was sich im
+ * Bild aufbaut — nicht eine geschaetzte Sekundenzahl.
+ */
+export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
     case 'hook':
-      return <Hook szene={szene} />;
+      return <Hook szene={szene} dauer={dauer} />;
     case 'aussage':
-      return <Aussage szene={szene} />;
+      return <Aussage szene={szene} dauer={dauer} />;
     case 'zahl':
-      return <Zahl szene={szene} />;
+      return <Zahl szene={szene} dauer={dauer} />;
     case 'vergleich':
-      return <Vergleich szene={szene} />;
+      return <Vergleich szene={szene} dauer={dauer} />;
     case 'checkliste':
-      return <Checkliste szene={szene} />;
+      return <Checkliste szene={szene} dauer={dauer} />;
     case 'warnung':
-      return <Warnung szene={szene} />;
+      return <Warnung szene={szene} dauer={dauer} />;
     case 'anschluss':
-      return <Anschluss szene={szene} />;
+      return <Anschluss szene={szene} dauer={dauer} />;
     case 'cta':
-      return <Cta szene={szene} />;
+      return <Cta szene={szene} dauer={dauer} />;
   }
 };

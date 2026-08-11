@@ -79,7 +79,7 @@ export const Short: React.FC<{ daten: ShortDaten; reihe?: string }> = ({ daten, 
         if (!zeit) return null;
         return (
           <Sequence key={i} from={zeit.startBild} durationInFrames={zeit.dauerBilder} name={`${i + 1} ${szene.art}`}>
-            <SzeneRendern szene={szene} />
+            <SzeneRendern szene={szene} dauer={zeit.dauerBilder} />
           </Sequence>
         );
       })}
