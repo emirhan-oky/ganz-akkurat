@@ -43,14 +43,44 @@
       ]
     },
     {
-      "id": "reise-ladeausruestung",
+      "id": "powerbank-flug",
       "reihe": "UnterwegsKlar",
-      "status": "recherche",
-      "titel": "Was im Handgepäck wirklich laden muss",
-      "kernfrage": "Welche Ladeausrüstung deckt Notebook, Telefon und Kopfhörer auf einer Reise ab?",
-      "quellenIds": [],
-      "_offen": "Belege fehlen: Wattzahlen je Geraeteklasse, Wh-Grenzen fuer Powerbanks im Handgepaeck bei den relevanten Fluggesellschaften, GaN-Netzteile. Vor Produktion einzeln abrufen und in quellen.json aufnehmen.",
-      "winkel": []
+      "status": "bereit",
+      "titel": "Powerbank im Flugzeug",
+      "kernfrage": "Welche Powerbank darf mit an Bord, und was muss man vorher tun?",
+      "quellenIds": ["lba-lithiumbatterien"],
+      "winkel": [
+        {
+          "id": "niemals-in-den-koffer",
+          "titel": "Powerbank gehört niemals in den Koffer",
+          "kernaussage": "Ersatzbatterien sind im aufgegebenen Gepäck verboten.",
+          "szenenfolge": ["hook", "warnung", "aussage", "checkliste", "cta"]
+        },
+        {
+          "id": "mah-in-wh",
+          "titel": "mAh in Wattstunden umrechnen",
+          "kernaussage": "Die 100-Wh-Grenze entspricht rund 27.000 mAh bei 3,7 Volt Zellspannung.",
+          "szenenfolge": ["hook", "aussage", "zahl", "checkliste", "cta"]
+        },
+        {
+          "id": "hundert-bis-hundertsechzig",
+          "titel": "Die Zone zwischen 100 und 160 Wattstunden",
+          "kernaussage": "Zwischen 100 und 160 Wh ist eine Genehmigung nötig, dann höchstens zwei Stück.",
+          "szenenfolge": ["hook", "vergleich", "zahl", "warnung", "cta"]
+        },
+        {
+          "id": "pole-sichern",
+          "titel": "Pole gegen Kurzschluss sichern",
+          "kernaussage": "Die Batteriepole müssen gegen Kurzschluss isoliert sein.",
+          "szenenfolge": ["hook", "aussage", "anschluss", "checkliste", "cta"]
+        },
+        {
+          "id": "airline-strenger",
+          "titel": "Deine Airline darf strenger sein",
+          "kernaussage": "Fluggesellschaften dürfen strengere Anforderungen stellen als die behördliche Regel.",
+          "szenenfolge": ["hook", "aussage", "vergleich", "checkliste", "cta"]
+        }
+      ]
     },
     {
       "id": "ein-netzteil-fuer-alles",

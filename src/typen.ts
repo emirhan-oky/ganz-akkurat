@@ -21,7 +21,7 @@ export const Quelle = z.object({
   herausgeber: z.string(),
   /** Wann zuletzt geprueft. Preise und Spezifikationen altern. */
   geprueftAm: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  art: z.enum(['hersteller', 'standard', 'plattform', 'messung', 'presse']),
+  art: z.enum(['hersteller', 'standard', 'behoerde', 'plattform', 'messung', 'presse']),
 });
 export type Quelle = z.infer<typeof Quelle>;
 

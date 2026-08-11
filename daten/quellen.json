@@ -49,8 +49,24 @@
         "Kopiergeschützte Inhalte laufen über DisplayLink unter macOS nicht.",
         "Streamingdienste sind eine konkrete Einschränkung von DisplayLink-Docks."
       ]
+    },
+    {
+      "id": "lba-lithiumbatterien",
+      "titel": "Elektronische Geräte mit Lithium-Batterien im Passagiergepäck",
+      "url": "https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html",
+      "herausgeber": "Luftfahrt-Bundesamt",
+      "geprueftAm": "2026-08-11",
+      "art": "behoerde",
+      "belegt": [
+        "Geräte mit Lithium-Ionen-Batterie bis 100 Wh Nennenergie sind ohne Genehmigung zulässig.",
+        "Zwischen 100 Wh und 160 Wh ist eine Genehmigung der Fluggesellschaft erforderlich; über 160 Wh ist die Beförderung ausgeschlossen.",
+        "Ersatzbatterien und Powerbanks sind im aufgegebenen Gepäck verboten und gehören ausschließlich ins Handgepäck.",
+        "Wo eine Genehmigung nötig ist, sind höchstens zwei Ersatzbatterien pro Person zulässig.",
+        "Die Batteriepole müssen gegen Kurzschluss isoliert sein.",
+        "Fluggesellschaften dürfen strengere Anforderungen stellen; die Regeln der eigenen Airline sind vorab zu prüfen."
+      ]
     }
   ],
 
-  "_luecke": "Der Bestand deckt bisher nur den Themenbereich Display und Dock ab. Fuer UnterwegsKlar, LadeKlar und NeuOderRefurbished fehlen belegte Quellen. Diese muessen vor der ersten Produktion in diesen Reihen einzeln abgerufen und geprueft werden - die Skript-Engine verweigert Themen ohne Beleg."
+  "_luecke": "LadeKlar und NeuOderRefurbished haben weiterhin keine belegten Quellen. Offen sind unter anderem USB-Power-Delivery-Profile, Leistungsaufteilung bei Mehrfachanschluss sowie Gewaehrleistung und Zustandsklassen bei generalueberholter Ware."
 }

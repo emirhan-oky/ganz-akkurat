@@ -130,6 +130,15 @@ const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) =
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  /*
+   * Die Schriftgroesse richtet sich nach der Laenge der Zahl. Eine feste
+   * Groesse laesst „27.000 mAh" ueber den rechten Rand der Buehne laufen —
+   * also genau dorthin, wo TikTok seine Bedienleiste einblendet.
+   */
+  const zeichen = szene.wert.length + (szene.einheit?.length ?? 0);
+  const wertGroesse = zeichen <= 4 ? 220 : zeichen <= 7 ? 180 : zeichen <= 10 ? 140 : 112;
+  const einheitGroesse = Math.round(wertGroesse * 0.38);
+
   return (
     <Buehne>
       <div
@@ -146,7 +155,7 @@ const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) =
           style={{
             ...grundtext,
             fontWeight: SCHRIFT.schwarz,
-            fontSize: 220,
+            fontSize: wertGroesse,
             lineHeight: 0.9,
             color: FARBEN.blau,
             letterSpacing: -8,
@@ -159,7 +168,7 @@ const Zahl: React.FC<{ szene: Extract<Szene, { art: 'zahl' }> }> = ({ szene }) =
             style={{
               ...grundtext,
               fontWeight: SCHRIFT.fett,
-              fontSize: 76,
+              fontSize: einheitGroesse,
               color: FARBEN.tinteWeich,
             }}
           >

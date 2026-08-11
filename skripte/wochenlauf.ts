@@ -9,6 +9,7 @@ import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
+import { powerbankFlug } from '../daten/entwuerfe/powerbank-flug';
 
 const ausfuehren = promisify(execFile);
 
@@ -28,7 +29,18 @@ const MIT_TON = process.argv.includes('--mit-ton');
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /** Alle produktionsbereiten Entwuerfe dieses Laufs. */
-const ENTWUERFE: Short[] = [...dockKeinBild];
+const ENTWUERFE: Short[] = [...dockKeinBild, ...powerbankFlug];
+
+/**
+ * Die Reihe eines Shorts steht im Themenpool, nicht im Entwurf.
+ * So gibt es genau eine Stelle, an der ein Thema seiner Reihe zugeordnet ist.
+ */
+const reihenZuordnung = async (): Promise<Map<string, string>> => {
+  const pool = JSON.parse(await fs.readFile('daten/themen.json', 'utf8')) as {
+    cluster: { id: string; reihe: string }[];
+  };
+  return new Map(pool.cluster.map((c) => [c.id, c.reihe]));
+};
 
 const laufId = () => {
   const d = new Date();
@@ -117,11 +129,15 @@ const main = async () => {
 
   const propsOrdner = path.join(wurzel, 'props');
   await fs.mkdir(propsOrdner, { recursive: true });
+  const reihen = await reihenZuordnung();
 
   for (const short of zuRendern) {
     const propsDatei = path.join(propsOrdner, `${short.id}.json`);
     const ziel = path.join(videoOrdner, `${short.id}.mp4`);
-    await fs.writeFile(propsDatei, JSON.stringify({ daten: short, reihe: 'SchreibtischKlar' }));
+    await fs.writeFile(
+      propsDatei,
+      JSON.stringify({ daten: short, reihe: reihen.get(short.themaId) ?? 'SetupKlar' }),
+    );
 
     const beginn = Date.now();
     await ausfuehren('npx', [
