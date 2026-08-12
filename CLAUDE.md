@@ -106,19 +106,31 @@ Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env` und sind mit einem echten Video durchgetestet.
 
-Als Nächstes steht die visuelle Aufwertung an — zurückgestellt, solange die
-Ablage offen war, jetzt wieder an der Reihe:
+**Als Nächstes geht es um den Inhalt, nicht um die Optik.** Die offene Kritik
+am Lauf `2026-08-12` steht in `offene-punkte.md`: fehlende Systemangabe
+(macOS/Windows), zu beschreibende Titel, zu dünne Themen und die Frage, wie
+Produkte gezeigt werden sollen, ohne die Regeln `produktname` und Eigenbau-
+Vektorgrafik zu brechen. Nichts davon ist entschieden.
 
-- **Kamera-Layer** über `Buehne`: Push-in während der Erklärung, Punch auf die
-  Bruchstelle, Gleiten beim Wechsel. `video/bausteine/bewegung.ts` kennt bisher
-  nur Element-Auftritte — die Kamera steht 45 Sekunden still.
-- **Detailzoom** in den Stecker: Pins zeigen, Signal auf dem Pfad fließen lassen
-  (`@remotion/paths`, `getPointAtLength`). Die Icons in `Geraete.tsx`
-  illustrieren, statt den Beweis zu zeigen.
+**Kamera-Layer: probiert, verworfen (12.08.2026).** Ein `Kamera`-Baustein fuhr
+in der Anschluss-Szene auf die Bruchstelle zu. Die Bewegung wirkte auch nach
+Umbau auf gleichmäßige Kurven nicht flüssig genug und ist wieder entfernt.
+Falls das Thema zurückkommt, die Messwerte von damals: `spring` erreicht in der
+Spitze das 2,95-fache seiner Durchschnittsgeschwindigkeit, `Easing.inOut(sin)`
+nur das 1,57-fache; über etwa 1 % Bildänderung je Einzelbild wird eine Fahrt
+unruhig. Der eigentliche Engpass war die Szenenlänge — nach dem Bildaufbau
+bleiben keine zwei Sekunden für eine Fahrt.
 
+Geblieben ist ein dabei gefundener Fehler: Die Signalkette braucht bei drei
+Geräten 1134 Pixel, die Bühne hat 1100 — die Beschriftung des letzten Geräts lag
+in dem Bereich, den Reels mit der Beschreibung überdeckt. Sie skaliert sich
+jetzt auf den verfügbaren Platz. **Die Videos in `laeufe/2026-08-12` sind vor
+dieser Korrektur gerendert.**
+
+Später denkbar für die Optik: **Detailzoom** in den Stecker (`@remotion/paths`,
+`getPointAtLength`), `@remotion/three`, eigene Makroaufnahmen als Beleg-B-Roll.
 Verworfen: LottieFiles (bricht das Eigenbau-Prinzip) und Rive (Interaktivität
-ist bei gerendertem Video wertlos). Später denkbar: `@remotion/three`, eigene
-Makroaufnahmen als Beleg-B-Roll.
+ist bei gerendertem Video wertlos).
 
 Offen bleibt `daten/entwuerfe/powerbank-flug.ts` — steht auf einer einzigen
 Quelle (LBA) und ist deshalb geparkt, nicht im Wochenlauf.
