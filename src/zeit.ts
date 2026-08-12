@@ -35,6 +35,12 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
    * werden koennen — dafuer reicht die Sprechdauer allein nicht aus.
    */
   endkarte: 5.0,
+  /**
+   * Die Kaufkriterien stehen noch laenger als die Endkarte: Sie tragen zu
+   * jedem Kriterium ein Pruefdetail und darunter den Verweis. Wer danach
+   * einkaufen gehen soll, muss die Liste zu Ende lesen koennen.
+   */
+  kaufkriterien: 6.5,
 };
 
 /** Geschaetzte Sprechdauer einer einzelnen Szene in Sekunden. */

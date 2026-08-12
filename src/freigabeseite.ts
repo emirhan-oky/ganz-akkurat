@@ -1,5 +1,5 @@
 import type { Befund } from './pruefung';
-import type { Quelle, Short } from './typen';
+import { WINKELARTEN, type Quelle, type Short } from './typen';
 
 /**
  * Erzeugt die Freigabe-Uebersicht als eigenstaendige HTML-Datei.
@@ -74,7 +74,9 @@ export const freigabeseiteBauen = (opts: {
             <span class="nummer">${i + 1} von ${shorts.length}</span>
             <h3>${escape(short.arbeitstitel)}</h3>
             <div class="marken">
-              ${short.kennzeichnung.werbung ? '<span class="marke werbung">Werbung</span>' : ''}
+              <span class="marke machart">${escape(WINKELARTEN[short.winkelart].titel)}</span>
+              ${short.kennzeichnung.werbung === 'video' ? '<span class="marke werbung">Werbung im Bild</span>' : ''}
+              ${short.kennzeichnung.werbung === 'beschreibung' ? '<span class="marke werbung">Werbung in der Beschreibung</span>' : ''}
               ${short.kennzeichnung.kiStimme ? '<span class="marke ki">KI-Stimme</span>' : ''}
               ${short.tonspur ? `<span class="marke dauer">${short.tonspur.dauerSek.toFixed(1)} s</span>` : '<span class="marke ohneton">ohne Ton</span>'}
             </div>
@@ -148,6 +150,7 @@ export const freigabeseiteBauen = (opts: {
   h3 { margin: 4px 0 10px; font-size: 21px; }
   .marken { display: flex; gap: 8px; flex-wrap: wrap; }
   .marke { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--rand); color: var(--weich); }
+  .marke.machart { background: var(--tinte); border-color: var(--tinte); color: #fff; }
   .marke.werbung { background: var(--gelbHell); border-color: var(--gelb); color: #8a6200; }
   .marke.ki { background: var(--blauHell); border-color: var(--blau); color: var(--blau); }
   .marke.ohneton { background: var(--rotHell); border-color: var(--rot); color: var(--rot); }

@@ -96,14 +96,47 @@ export type Veroeffentlichung = {
   beitragId: string;
 };
 
+/**
+ * Antwortvarianten der Beitragsaktionen.
+ *
+ * Buffer meldet Fachfehler **nicht** ueber das `errors`-Feld von GraphQL,
+ * sondern als eigene Variante der Antwort. Ein technisch fehlerfreier Aufruf
+ * kann also `LimitReachedError` enthalten — ohne diese Auswertung gaelte ein
+ * abgelehnter Beitrag als angelegt.
+ */
+const ANTWORTVARIANTEN = `
+  __typename
+  ... on PostActionSuccess { post { id status dueAt } }
+  ... on NotFoundError { message }
+  ... on UnauthorizedError { message }
+  ... on UnexpectedError { message }
+  ... on RestProxyError { code message link }
+  ... on LimitReachedError { message }
+  ... on InvalidInputError { message }
+`;
+
+type Antwort = { __typename: string; post?: { id: string; status: string }; message?: string; code?: string };
+
+/** Holt den Beitrag heraus oder wirft mit der Fehlermeldung von Buffer. */
+const beitragAuswerten = (a: Antwort, was: string): { id: string; status: string } => {
+  if (a.__typename === 'PostActionSuccess' && a.post) return a.post;
+  const zusatz = a.code ? ` (${a.code})` : '';
+  throw new Error(`${was}: ${a.__typename}${zusatz} – ${a.message ?? 'ohne Meldung'}`);
+};
+
 /** Legt einen geplanten Beitrag mit Videoanhang an. */
 export const beitragPlanen = async (
   schluessel: string,
   opts: { kanalId: string; text: string; videoUrl: string; titel: string; faelligAm: Date },
 ): Promise<string> => {
-  const daten = await abfragen<{ createPost: { post: { id: string } } }>(
+  const daten = await abfragen<{ createPost: Antwort }>(
     schluessel,
     /*
+     * Die Enum-Werte stehen klein geschrieben im Schema: `customScheduled`
+     * fuer einen festen Termin, `automatic` fuer selbsttaetiges
+     * Veroeffentlichen. Die Dokumentation nennt an dieser Stelle
+     * SCHEDULED und AUTOMATIC - beides existiert nicht.
+     *
      * `aiAssisted` wird gesetzt, weil die Stimme synthetisch ist. Das ist
      * keine Formalie: Es ergaenzt die Kennzeichnung im Bild um die Angabe
      * dort, wo die Plattformen sie auswerten.
@@ -113,11 +146,11 @@ export const beitragPlanen = async (
          channelId: $channelId
          text: $text
          dueAt: $dueAt
-         mode: SCHEDULED
-         schedulingType: AUTOMATIC
+         mode: customScheduled
+         schedulingType: automatic
          aiAssisted: true
          assets: [{ video: { url: $url, metadata: { title: $titel, thumbnailOffset: 1000 } } }]
-       }) { post { id status dueAt } }
+       }) { ${ANTWORTVARIANTEN} }
      }`,
     {
       channelId: opts.kanalId,
@@ -127,7 +160,17 @@ export const beitragPlanen = async (
       titel: opts.titel,
     },
   );
-  return daten.createPost.post.id;
+  return beitragAuswerten(daten.createPost, 'Beitrag anlegen').id;
+};
+
+/** Entfernt einen geplanten Beitrag wieder. */
+export const beitragLoeschen = async (schluessel: string, beitragId: string): Promise<void> => {
+  const daten = await abfragen<{ deletePost: Antwort }>(
+    schluessel,
+    `mutation($id: PostId!) { deletePost(input: { id: $id }) { ${ANTWORTVARIANTEN} } }`,
+    { id: beitragId },
+  );
+  beitragAuswerten(daten.deletePost, 'Beitrag löschen');
 };
 
 /**
@@ -139,13 +182,20 @@ export const beitragPlanen = async (
  * miteinander um dieselbe Aufmerksamkeit konkurrieren.
  */
 export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] => {
-  const UHRZEITEN = [8, 18];
+  /**
+   * Ein Video je Werktag, nicht zwei je Tag.
+   *
+   * Der Lauf erzeugt fuenf Shorts aus einem Thema. Zwei Beitraege taeglich
+   * haetten sie auf zweieinhalb Tage gedraengt — die fuenf Videos eines
+   * Themas haetten sich dann gegenseitig im Feed Konkurrenz gemacht, statt
+   * die Woche zu trage. Die Uhrzeit ist eine Annahme, kein Messergebnis:
+   * abends laeuft Kurzvideo im Schnitt besser als frueh morgens.
+   */
+  const UHRZEIT = 18;
   return shorts.map((_, i) => {
-    const tag = Math.floor(i / UHRZEITEN.length);
-    const stunde = UHRZEITEN[i % UHRZEITEN.length]!;
     const zeitpunkt = new Date(beginn);
-    zeitpunkt.setDate(zeitpunkt.getDate() + tag);
-    zeitpunkt.setHours(stunde, 0, 0, 0);
+    zeitpunkt.setDate(zeitpunkt.getDate() + i);
+    zeitpunkt.setHours(UHRZEIT, 0, 0, 0);
     return zeitpunkt;
   });
 };

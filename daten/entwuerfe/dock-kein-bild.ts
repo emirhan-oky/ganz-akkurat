@@ -19,6 +19,7 @@ export const dockKeinBild: Short[] = [
     id: 'skl-dkb-01',
     themaId: 'dock-kein-bild',
     arbeitstitel: 'Gleiche Buchse, andere Technik',
+    winkelart: 'diagnose',
     szenen: [
       {
         art: 'hook',
@@ -72,7 +73,7 @@ export const dockKeinBild: Short[] = [
         sprechtext: 'Merk dir das eine: Der Port muss Alt Mode können. Ansehen kannst du ihm das nicht.',
       },
     ],
-    quellenIds: ['apple-displays-mba', 'apple-display-fehlerbehebung'],
+    quellenIds: ['vesa-dp-altmode', 'plugable-altmode', 'apple-display-fehlerbehebung'],
     texte: {
       tiktok: {
         titel: 'Dock lädt, Monitor bleibt schwarz',
@@ -93,7 +94,7 @@ export const dockKeinBild: Short[] = [
         hashtags: ['#Shorts', '#USBC', '#Homeoffice'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 2 von 5 ─────────────────────────── */
@@ -101,6 +102,7 @@ export const dockKeinBild: Short[] = [
     id: 'skl-dkb-02',
     themaId: 'dock-kein-bild',
     arbeitstitel: 'Dual Display sagt nichts über dein Notebook',
+    winkelart: 'entlarvung',
     szenen: [
       {
         art: 'hook',
@@ -108,10 +110,24 @@ export const dockKeinBild: Short[] = [
         text: '„Dual Display" steht drauf. Klappt trotzdem nicht.',
         sprechtext: 'Auf dem Dock steht groß Dual Display. Zwei Monitore anschließen klappt trotzdem nicht.',
       },
+      /*
+       * Die Entlarvung braucht die Gegenueberstellung, nicht die Warnung:
+       * Das Werbewort und die Wirklichkeit muessen nebeneinander stehen,
+       * sonst bleibt es bei einer Behauptung ueber das Werbewort.
+       */
       {
-        art: 'warnung',
-        text: 'Die Angabe beschreibt das Dock, nicht dein Notebook.',
-        loesung: 'Entscheidend ist, wie viele Displays dein Chip nativ ansteuert.',
+        art: 'vergleich',
+        ueberschrift: 'Was „Dual Display" beschreibt',
+        links: {
+          titel: 'Die Angabe meint',
+          zeilen: ['Zwei Anschlüsse am Dock', 'Sagt nichts über dein Gerät'],
+          bewertung: 'achtung',
+        },
+        rechts: {
+          titel: 'Entscheidend ist',
+          zeilen: ['Wie viele Displays dein Chip kann', 'Steht im Datenblatt des Notebooks'],
+          bewertung: 'ja',
+        },
         sprechtext:
           'Denn diese Angabe sagt nur, wie viele Anschlüsse das Dock hat. Wie viele Bildschirme wirklich ankommen, entscheidet der Chip in deinem Notebook.',
       },
@@ -150,7 +166,7 @@ export const dockKeinBild: Short[] = [
         sprechtext: 'Die Zahl steht im Datenblatt deines Notebooks. Nur die zählt.',
       },
     ],
-    quellenIds: ['apple-displays-mba'],
+    quellenIds: ['apple-displays-mba', 'plugable-altmode', 'dell-mehrere-monitore'],
     texte: {
       tiktok: {
         titel: 'Dual Display heißt nicht zwei Monitore',
@@ -170,7 +186,7 @@ export const dockKeinBild: Short[] = [
         hashtags: ['#Shorts', '#USBC', '#Monitor'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 3 von 5 ─────────────────────────── */
@@ -178,6 +194,7 @@ export const dockKeinBild: Short[] = [
     id: 'skl-dkb-03',
     themaId: 'dock-kein-bild',
     arbeitstitel: 'DisplayLink löst ein Problem und schafft ein neues',
+    winkelart: 'kompromiss',
     szenen: [
       {
         art: 'hook',
@@ -226,7 +243,7 @@ export const dockKeinBild: Short[] = [
         sprechtext: 'Zum Arbeiten gut, für Streaming ungeeignet. So einfach ist die Regel.',
       },
     ],
-    quellenIds: ['displaylink-macos-grenzen', 'displaylink-kopierschutz'],
+    quellenIds: ['displaylink-macos-grenzen', 'displaylink-kopierschutz', 'synaptics-displaylink-funktion'],
     texte: {
       tiktok: {
         titel: 'DisplayLink: Der Haken',
@@ -246,7 +263,7 @@ export const dockKeinBild: Short[] = [
         hashtags: ['#Shorts', '#DisplayLink', '#Mac'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 4 von 5 ─────────────────────────── */
@@ -254,6 +271,7 @@ export const dockKeinBild: Short[] = [
     id: 'skl-dkb-04',
     themaId: 'dock-kein-bild',
     arbeitstitel: 'Wenn das Kabel der Fehler ist',
+    winkelart: 'selbsttest',
     szenen: [
       {
         art: 'hook',
@@ -302,7 +320,7 @@ export const dockKeinBild: Short[] = [
         sprechtext: 'Tausch zuerst das Kabel. Das kostet nichts und klärt die Hälfte der Fälle.',
       },
     ],
-    quellenIds: ['apple-display-fehlerbehebung'],
+    quellenIds: ['apple-display-fehlerbehebung', 'plugable-altmode', 'vesa-dp-altmode'],
     texte: {
       tiktok: {
         titel: 'Kein Bild? Prüf das Kabel',
@@ -322,7 +340,7 @@ export const dockKeinBild: Short[] = [
         hashtags: ['#Shorts', '#USBC', '#Kabel'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 5 von 5 ─────────────────────────── */
@@ -330,6 +348,7 @@ export const dockKeinBild: Short[] = [
     id: 'skl-dkb-05',
     themaId: 'dock-kein-bild',
     arbeitstitel: 'In 20 Sekunden prüfen, ob zwei Displays gehen',
+    winkelart: 'kaufberatung',
     szenen: [
       {
         art: 'hook',
@@ -356,26 +375,40 @@ export const dockKeinBild: Short[] = [
         sprechtext:
           'Modellnummer heraussuchen, Herstellerseite öffnen, und dort die Zeile mit den externen Displays lesen. Diese Zahl ist die Wahrheit.',
       },
+      /*
+       * Frueher eine Aussage. Als Warnung gesetzt, weil der Satz ohnehin
+       * eine Sackgasse beschreibt und eine Loesung anzubieten hat — und
+       * weil „aussage" sonst in vier von fuenf Shorts dieses Themas steht.
+       */
       {
-        art: 'aussage',
+        art: 'warnung',
         text: 'Steht dort eine Eins, hilft auch kein teureres Dock.',
-        hervorhebung: 'kein teureres Dock',
+        loesung: 'Dann bleibt nur der Umweg über DisplayLink.',
         sprechtext:
           'Steht dort eine Eins, ändert daran auch das teuerste Dock nichts. Dann bleibt nur der Umweg über DisplayLink.',
       },
       {
-        art: 'endkarte',
-        ueberschrift: 'Der 20-Sekunden-Check',
-        punkte: [
-          'Modellnummer heraussuchen',
-          'Herstellerseite öffnen',
-          'Zeile „externe Displays" lesen',
+        art: 'kaufkriterien',
+        ueberschrift: 'Worauf du beim Dock achtest',
+        kriterien: [
+          {
+            text: 'Der Notebook-Port muss DisplayPort Alt Mode können',
+            pruefen: 'Datenblatt, Zeile „externe Displays"',
+          },
+          {
+            text: 'Reicht der Chip nicht, hilft nur DisplayLink',
+            pruefen: 'Spielt dafür keine geschützten Videos am Mac',
+          },
+          {
+            text: 'Kabel mit vollen Datenleitungen, kein Ladekabel',
+            pruefen: 'Angabe „USB 3.x" statt nur „Charging"',
+          },
         ],
-        abschluss: 'Technik, die zusammenpasst',
-        sprechtext: 'Drei Schritte, zwanzig Sekunden. Schneller als jede Rücksendung.',
+        sprechtext:
+          'Wenn du jetzt kaufst: Der Port muss Alt Mode können, sonst hilft nur DisplayLink. Und nimm ein Kabel mit vollen Datenleitungen.',
       },
     ],
-    quellenIds: ['apple-displays-mba', 'displaylink-macos-grenzen'],
+    quellenIds: ['apple-displays-mba', 'displaylink-macos-grenzen', 'displaylink-kopierschutz'],
     texte: {
       tiktok: {
         titel: '20-Sekunden-Check vor dem Dock-Kauf',
@@ -391,10 +424,18 @@ export const dockKeinBild: Short[] = [
       youtube: {
         titel: 'So prüfst du in 20 Sekunden, ob zwei Monitore gehen',
         beschreibung:
-          'Die Zahl externer Displays steht im Datenblatt des Notebookherstellers und lässt sich durch ein anderes Dock nicht erhöhen.\n\nQuellen:\nApple, externe Displays am MacBook Air: https://support.apple.com/de-de/122212\nDisplayLink Manager für macOS: https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in',
+          'Die Zahl externer Displays steht im Datenblatt des Notebookherstellers und lässt sich durch ein anderes Dock nicht erhöhen.\n\nQuellen:\nApple, externe Displays am MacBook Air: https://support.apple.com/de-de/122212\nDisplayLink Manager für macOS: https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in\nDisplayLink, geschützte Videoinhalte am Mac: https://support.displaylink.com/knowledgebase/articles/830301-content-protected-video-does-not-play-on-mac-while',
         hashtags: ['#Shorts', '#Monitor', '#Homeoffice'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    /**
+     * Noch ohne Partnerlinks: Bis Gewerbeanmeldung und Partnerkonto stehen,
+     * wirbt kein Short. Die Kaufkriterien-Szene bleibt trotzdem — sie ist
+     * Beratung, keine Werbung, und traegt das Video auch ohne Link.
+     *
+     * Sobald Links dazukommen, erzwingt die Pruefung die Kennzeichnung von
+     * selbst; niemand muss daran denken.
+     */
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 ];

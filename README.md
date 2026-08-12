@@ -3,8 +3,9 @@
 Automatisierte Shortvideo-Produktion für die deutschsprachige Medienmarke
 **SetupKlar** – Technik-Setups für Schreibtisch, unterwegs, Reise und Laden.
 
-Ein Lauf erzeugt **2 Themen mit je 5 Shorts**. Veröffentlicht wird an
-5 Tagen je 2 Videos.
+Ein Lauf erzeugt **ein Thema mit fünf Shorts** – ein Video pro Werktag. Der
+Engpass ist nicht die Produktion, sondern der Beleg: drei geprüfte Quellen je
+Short sind für ein Thema pro Woche zu halten, für zwei nicht.
 
 ## Themenaufbau
 
@@ -21,7 +22,72 @@ keine feste Liste. Neue Kontexte entstehen ohne Codeänderung, damit aus der
 Angabe keine Rubrik wird, in die jedes Thema hineinpassen muss.
 
 Die Quellen hängen am **Thema**, nicht am einzelnen Short: einmal
-recherchieren, fünfmal veröffentlichen.
+recherchieren, fünfmal veröffentlichen. Jeder Short braucht trotzdem
+**mindestens drei** eigene Belege – eine Quelle belegt eine Aussage, drei
+belegen ein Video.
+
+Rohe Ideen aus einer Ideensession landen zuerst in `daten/ideen.json` – ohne
+Quellenpflicht, sonst bremst die Belegarbeit das Sammeln aus. Erst wenn drei
+offizielle Quellen stehen und fünf Winkel formuliert sind, wandert eine Idee
+nach `themen.json`.
+
+## Macharten: warum fünf Videos fünf verschiedene sind
+
+Fünf Videos zu einem Thema dürfen nicht fünfmal dasselbe tun. Ohne Benennung
+passiert das trotzdem: Im Dock-Thema waren zwei Videos faktisch identisch
+(„prüf nach, ob dein Gerät das kann"), nur verschieden betitelt. Die Vielfalt
+entstand aus gemischten Szenenbausteinen, nicht aus verschiedenen Zugriffen.
+
+Jeder Short trägt deshalb eine **Machart** (`winkelart`), und je Lauf müssen
+alle fünf verschieden sein. Vierzehn stehen zur Wahl:
+
+```
+Warum es klemmt        Diagnose · Verwechslung · Übersehener Punkt · Der Haken
+Was die Angabe bedeutet Entlarvung · Mythos · Grenzwert · Umrechnung
+Was gilt               Vorschrift · Reihenfolge
+Was du tust            Selbsttest · Kaufberatung · Kompromiss · Notlösung
+```
+
+Jede Machart hat eine **Signaturszene**, die sie tragen muss – eine Diagnose
+ohne unterbrochene Signalkette ist keine Diagnose, sondern eine Behauptung.
+Das Schema weist einen Short zurück, dem sie fehlt.
+
+## Werbung: ein Video je Thema, sonst gar keins
+
+**Vier von fünf Shorts haben überhaupt keine Partnerlinks** – auch nicht in
+der Beschreibung. Nur der Kaufberatungs-Short wirbt, und er trägt dafür das
+Label im Bild.
+
+Der Grund ist nicht Zurückhaltung, sondern eine ungeklärte Rechtsfrage: Ob die
+Kennzeichnung allein in der Beschreibung für ein Video genügt, sagt weder der
+Leitfaden der Medienanstalten noch eine eindeutige Rechtsprechung. Für YouTube
+wird die Einblendung empfohlen. Statt diese Frage auf fünf Videos zu verteilen,
+trägt sie eines allein – die anderen vier sind unstrittig werbefrei.
+
+**Kein Video verweist nach draußen**, auch das werbende nicht. Das Label ist
+Vorsicht, keine Einladung, die Beschreibung zu öffnen.
+
+| `kennzeichnung.werbung` | Bedeutung |
+|---|---|
+| `keine` | kein kommerzieller Inhalt – der Normalfall, 4 von 5 |
+| `beschreibung` | Links nur unten, kein Label im Bild – derzeit ungenutzt |
+| `video` | Label wird eingebrannt – der Kaufberatungs-Short |
+
+Wo geworben wird, steht die Kennzeichnung **zeilengenau am Link**: Ein
+„Werbung" am Anfang deckt keinen Link zwanzig Zeilen weiter unten. Zulässig
+sind nur „Werbung", „Anzeige" und „Werbepartner" – „Affiliate-Link" und
+„gesponsert" hat der BGH als unscharf verworfen (06.02.2014, I ZR 2/11).
+
+Unabhängig davon gilt in **jedem** Video: **Es fällt nie ein Produktname, nur
+Merkmale.** Als harte Prüfung gebaut (`ZUBEHOERMARKEN` in `src/pruefung.ts`).
+Gerätehersteller stehen bewusst nicht auf der Liste – „bei einem MacBook mit
+M1" ist der Kontext des Zuschauers, keine Empfehlung.
+
+Die Szenenart `kaufkriterien` nennt deshalb **kein Modell**, sondern das
+Merkmal – das bleibt richtig, wenn das Gerät längst abgelöst ist. Trägt sie
+einen `verweis`, wird das Video kommerzielle Kommunikation (§ 5a Abs. 4 UWG,
+§ 6 DDG) und das Schema verlangt `werbung: 'video'`. Umgekehrt ist ein Label
+ohne Verweis kein Fehler, sondern die vorsichtige Wahl.
 
 ## Ablauf
 
@@ -35,7 +101,7 @@ Prompt "Wir entwerfen neue Shortvideos"
   5  Render            Remotion → 1080×1920, reine Motion Graphics
   6  Qualitätsprüfung  Länge, Lautheit, sichere Zonen, Kennzeichnung
   │
-  7  FREIGABE          du siehst alle 10 Videos und gibst frei
+  7  FREIGABE          du siehst alle 5 Videos und gibst frei
   │
   8  Veröffentlichung  Make.com → Buffer → TikTok, Reels, Shorts
 ```
@@ -92,8 +158,9 @@ technisch erzwungen:
 - Jede technische Kernaussage braucht eine **Hersteller- oder Standardquelle**.
   Das Schema erzwingt mindestens eine Quelle je Short.
 - Preise werden **datiert** und als veränderlich gekennzeichnet.
-- Affiliate-Inhalte tragen **„Werbung"**, synthetische Stimme trägt
-  **„KI-Stimme"**. Beides ist im Video eingebrannt, nicht abschaltbar.
+- Die synthetische Stimme trägt **„KI-Stimme"**, eingebrannt und nicht
+  abschaltbar. Das Werbe-Label erscheint nur bei `werbung: 'video'` – stehen
+  die Links nur in der Beschreibung, ist dort auch der Ort der Kennzeichnung.
 
 ## Zugänge
 

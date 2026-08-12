@@ -9,7 +9,6 @@ import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
-import { powerbankFlug } from '../daten/entwuerfe/powerbank-flug';
 
 const ausfuehren = promisify(execFile);
 
@@ -28,8 +27,15 @@ const ausfuehren = promisify(execFile);
 const MIT_TON = process.argv.includes('--mit-ton');
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
-/** Alle produktionsbereiten Entwuerfe dieses Laufs. */
-const ENTWUERFE: Short[] = [...dockKeinBild, ...powerbankFlug];
+/**
+ * Die fuenf Shorts dieses Laufs — **ein** Thema, nicht zwei.
+ *
+ * Der Engpass war nie die Produktion, sondern der Beleg: drei geprueefte
+ * Quellen je Short sind fuer ein Thema pro Woche zu halten, fuer zwei nicht.
+ * `powerbank-flug` bleibt als Entwurf liegen, bis seine Quellenlage steht —
+ * bisher traegt das ganze Thema eine einzige Quelle.
+ */
+const ENTWUERFE: Short[] = dockKeinBild;
 
 /**
  * Der Setup-Kontext eines Shorts steht im Themenpool, nicht im Entwurf.

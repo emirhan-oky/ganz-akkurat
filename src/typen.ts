@@ -141,6 +141,36 @@ const SzeneEndkarte = SzeneBasis.extend({
   abschluss: z.string().max(52).optional(),
 });
 
+/**
+ * Kaufkriterien — die Bruecke vom Problem zum Produkt.
+ *
+ * Der Unterschied zur Checkliste: Die prueft, was jemand **schon hat**. Diese
+ * Szene sagt, worauf beim **Kauf** zu achten ist. Sie nennt bewusst kein
+ * Modell, sondern das Merkmal — das bleibt richtig, wenn das Geraet laengst
+ * abgeloest ist, und macht den Link in der Beschreibung erst nachvollziehbar.
+ *
+ * Sobald `verweis` gesetzt ist, verweist das Video selbst auf die
+ * Beschreibung und wird damit kommerzielle Kommunikation (§ 5a Abs. 4 UWG,
+ * § 6 DDG). Die Werbekennzeichnung im Bild ist dann Pflicht — das erzwingt
+ * das Short-Schema weiter unten, damit sie nicht vergessen werden kann.
+ */
+const SzeneKaufkriterien = SzeneBasis.extend({
+  art: z.literal('kaufkriterien'),
+  ueberschrift: z.string().max(46),
+  kriterien: z
+    .array(
+      z.object({
+        text: z.string().max(58),
+        /** Woran sich das Merkmal im Datenblatt erkennen laesst. */
+        pruefen: z.string().max(44).optional(),
+      }),
+    )
+    .min(2)
+    .max(3),
+  /** Hinweis auf die Beschreibung. Loest die Kennzeichnungspflicht aus. */
+  verweis: z.string().max(52).optional(),
+});
+
 export const Szene = z.discriminatedUnion('art', [
   SzeneHook,
   SzeneAussage,
@@ -151,9 +181,98 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneAnschluss,
   SzeneCta,
   SzeneEndkarte,
+  SzeneKaufkriterien,
 ]);
 export type Szene = z.infer<typeof Szene>;
 export type SzenenArt = Szene['art'];
+
+/* ───────────────────────────── Winkelart ───────────────────────────── */
+
+/**
+ * Die Machart eines Shorts — nicht das Thema, sondern der Zugriff darauf.
+ *
+ * Fuenf Videos zu einem Thema duerfen nicht fuenfmal dasselbe tun. Ohne
+ * Benennung passiert genau das trotzdem: Im Dock-Thema waren Video 2 und 5
+ * beide „pruef nach, ob dein Geraet das kann", nur verschieden betitelt.
+ * Erst der Name macht die Wiederholung sichtbar — und damit pruefbar.
+ */
+export const Winkelart = z.enum([
+  /* Warum es klemmt */
+  'diagnose',
+  'verwechslung',
+  'uebersehenerPunkt',
+  'haken',
+  /* Was die Angabe bedeutet */
+  'entlarvung',
+  'mythos',
+  'grenzwert',
+  'umrechnung',
+  /* Was gilt */
+  'vorschrift',
+  'reihenfolge',
+  /* Was du tust */
+  'selbsttest',
+  'kaufberatung',
+  'kompromiss',
+  'notloesung',
+]);
+export type Winkelart = z.infer<typeof Winkelart>;
+
+/**
+ * Was jede Machart beantwortet und welche Szene sie tragen muss.
+ *
+ * Die `signatur` ist kein Schmuck: Eine Diagnose ohne unterbrochene
+ * Signalkette ist keine Diagnose, sondern eine Behauptung. Wo mehrere
+ * Szenenarten stehen, darf der Stoff verschieden liegen — die Regel soll
+ * fuehren, nicht fesseln.
+ */
+export const WINKELARTEN: Record<
+  Winkelart,
+  { titel: string; frage: string; signatur: readonly SzenenArt[] }
+> = {
+  diagnose: { titel: 'Diagnose', frage: 'Warum geht es bei dir nicht?', signatur: ['anschluss'] },
+  verwechslung: {
+    titel: 'Verwechslung',
+    frage: 'Zwei Dinge sehen gleich aus und sind es nicht.',
+    signatur: ['vergleich'],
+  },
+  uebersehenerPunkt: {
+    titel: 'Übersehener Punkt',
+    frage: 'Die Regel, die fast alle überlesen.',
+    signatur: ['warnung'],
+  },
+  haken: {
+    titel: 'Der Haken',
+    frage: 'Alles richtig gemacht und trotzdem abgelehnt.',
+    signatur: ['vergleich'],
+  },
+  entlarvung: { titel: 'Entlarvung', frage: 'Was das Werbewort verschweigt.', signatur: ['vergleich'] },
+  mythos: { titel: 'Mythos', frage: 'Was alle sagen — und was stimmt.', signatur: ['vergleich', 'aussage'] },
+  grenzwert: { titel: 'Grenzwert', frage: 'Die Zahl, an der es kippt.', signatur: ['zahl'] },
+  umrechnung: {
+    titel: 'Umrechnung',
+    frage: 'Auf dem Gerät steht eine andere Einheit als in der Regel.',
+    signatur: ['zahl'],
+  },
+  vorschrift: { titel: 'Vorschrift', frage: 'Was verboten ist — und warum.', signatur: ['warnung'] },
+  reihenfolge: {
+    titel: 'Reihenfolge',
+    frage: 'Die Reihenfolge entscheidet, ob es geht.',
+    signatur: ['anschluss'],
+  },
+  selbsttest: { titel: 'Selbsttest', frage: 'Prüf es in zwanzig Sekunden.', signatur: ['checkliste'] },
+  kaufberatung: {
+    titel: 'Kaufberatung',
+    frage: 'Worauf du beim Kauf achtest.',
+    signatur: ['kaufkriterien'],
+  },
+  kompromiss: {
+    titel: 'Kompromiss',
+    frage: 'Was du aufgibst, wenn du das nimmst.',
+    signatur: ['vergleich'],
+  },
+  notloesung: { titel: 'Notlösung', frage: 'Was tun, wenn du es jetzt brauchst.', signatur: ['checkliste'] },
+};
 
 /* ────────────────────────────── Short ──────────────────────────────── */
 
@@ -178,10 +297,20 @@ export const Short = z.object({
   /** Interner Arbeitstitel, nicht der Veroeffentlichungstitel. */
   arbeitstitel: z.string(),
 
+  /** Die Machart dieses Shorts. Je Lauf muessen alle fuenf verschieden sein. */
+  winkelart: Winkelart,
+
   szenen: z.array(Szene).min(3).max(9),
 
-  /** Jede Kernaussage im Skript verweist auf mindestens eine Quelle. */
-  quellenIds: z.array(z.string()).min(1),
+  /**
+   * Belegdecke dieses Shorts: mindestens **drei** Quellen.
+   *
+   * Eine Quelle belegt eine Aussage, drei belegen ein Video. Die Huerde ist
+   * bewusst hoch: Wer drei offizielle Belege fuer ein 40-Sekunden-Video
+   * zusammentraegt, hat das Thema verstanden — und ein Short, der die Huerde
+   * reisst, gehoert noch nicht in die Produktion.
+   */
+  quellenIds: z.array(z.string()).min(3),
 
   texte: z.object({
     tiktok: Plattformtext,
@@ -190,8 +319,20 @@ export const Short = z.object({
   }),
 
   kennzeichnung: z.object({
-    /** Sobald ein Affiliate-Link im Beitrag steht: Pflicht. */
-    werbung: z.boolean(),
+    /**
+     * **Wo** die Werbung stattfindet — nicht ob.
+     *
+     * Ein einzelnes Ja/Nein konnte das nicht trennen und hat beides
+     * gekoppelt: Sobald irgendwo ein Partnerlink stand, brannte das Label
+     * ins Bild. Bei Links, die ausschliesslich in der Beschreibung stehen,
+     * waere damit jedes Video als Werbung markiert worden.
+     *
+     * - `keine`        kein kommerzieller Inhalt
+     * - `beschreibung` Links nur in der Beschreibung, dort gekennzeichnet.
+     *                  Das Video bleibt Information und traegt kein Label.
+     * - `video`        Das Video verweist selbst auf die Links. Label im Bild.
+     */
+    werbung: z.enum(['keine', 'beschreibung', 'video']),
     /** Synthetische Stimme im Video: Pflicht. */
     kiStimme: z.boolean(),
   }),
@@ -206,7 +347,72 @@ export const Short = z.object({
       szenenStartSek: z.array(z.number().nonnegative()),
     })
     .optional(),
-});
+  })
+  /**
+   * Machart, Abschluss und Kennzeichnung haengen nicht am Gewissen.
+   *
+   * Wer eine Diagnose ohne Signalkette schreibt oder einen Verweis ins Video
+   * setzt und das Werbe-Kennzeichen vergisst, kommt hier nicht durch. Bei bis
+   * zu 500.000 Euro Bussgeld ist das die einzige Stelle, an der die
+   * Kennzeichnungsregel zuverlaessig greift.
+   */
+  .superRefine((short, ctx) => {
+    const arten = new Set(short.szenen.map((s) => s.art));
+
+    /* ── Die Machart muss ihre tragende Szene haben ──────────────── */
+
+    const { titel, signatur } = WINKELARTEN[short.winkelart];
+    if (!signatur.some((art) => arten.has(art))) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['szenen'],
+        message: `Machart „${titel}" braucht mindestens eine Szene der Art ${signatur
+          .map((a) => `„${a}"`)
+          .join(' oder ')}.`,
+      });
+    }
+
+    /* ── Genau eine Schlusskarte, und die steht am Ende ──────────── */
+
+    const letzte = short.szenen[short.szenen.length - 1];
+    if (letzte?.art !== 'endkarte' && letzte?.art !== 'kaufkriterien') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['szenen'],
+        message: 'Der Short endet weder mit einer Endkarte noch mit Kaufkriterien.',
+      });
+    }
+    if (arten.has('endkarte') && arten.has('kaufkriterien')) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['szenen'],
+        message:
+          'Endkarte und Kaufkriterien sind beide Schlusskarten. Zwei davon kosten Laufzeit und sagen dasselbe zweimal.',
+      });
+    }
+
+    /* ── Wo verwiesen wird, muss auch gekennzeichnet werden ──────── */
+
+    const verweist = short.szenen.some((s) => s.art === 'kaufkriterien' && s.verweis);
+    if (verweist && short.kennzeichnung.werbung !== 'video') {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['kennzeichnung', 'werbung'],
+        message:
+          'Die Kaufkriterien verweisen auf die Beschreibung. Damit ist das Video selbst kommerzielle ' +
+          'Kommunikation (§ 5a Abs. 4 UWG) und braucht werbung: "video".',
+      });
+    }
+    /*
+     * Die Regel gilt bewusst nur in eine Richtung.
+     *
+     * Ein Verweis erzwingt das Label — das ist Pflicht. Umgekehrt ist ein
+     * Label ohne Verweis kein Fehler, sondern die vorsichtige Wahl: Ob eine
+     * Kennzeichnung allein in der Beschreibung fuer ein Video genuegt, ist
+     * ungeklaert; die Praxisliteratur empfiehlt fuer YouTube die Einblendung.
+     * Wer sie ohne Not setzt, kennzeichnet zu viel — nie ein Rechtsproblem.
+     */
+  });
 export type Short = z.infer<typeof Short>;
 
 /* ────────────────────────────── Lauf ───────────────────────────────── */
@@ -227,16 +433,52 @@ export const Thema = z.object({
   titel: z.string(),
   kernfrage: z.string(),
   /** Belegdecke fuer alle Shorts dieses Themas — einmal recherchiert. */
-  quellenIds: z.array(z.string()).min(1),
+  quellenIds: z.array(z.string()).min(3),
 });
 export type Thema = z.infer<typeof Thema>;
 
-/** Ein Wochenlauf: 2 Themen mit je 5 Shorts. */
+/**
+ * Eine rohe Videoidee — die Vorstufe zum Thema.
+ *
+ * Hier landet, was in einer Ideensession entsteht: eine Frage, ein Kontext,
+ * eine Spur, wo der Beleg zu finden waere. Bewusst **ohne** Quellenpflicht,
+ * sonst bremst die Belegarbeit das Sammeln aus. Eine Idee wandert erst dann
+ * nach `themen.json`, wenn drei offizielle Quellen stehen und fuenf Winkel
+ * formuliert sind. So bleibt der Themenpool sauber und der Vorrat trotzdem
+ * gross.
+ */
+export const Idee = z.object({
+  id: z.string(),
+  /** Art des Setups. Gleiche Werte wie bei Thema, ebenfalls freier Text. */
+  kontext: z.string().min(1),
+  /** Die Alltagsfrage, um die das Video kreist. */
+  kernfrage: z.string().min(1),
+  /** Optionale Notiz: warum das traegt, welcher Winkel denkbar ist. */
+  notiz: z.string().optional(),
+  /** Wo der Beleg vermutlich steht — Hersteller, Norm, Behoerde. */
+  quellenspur: z.array(z.string()).default([]),
+  erfasstAm: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  status: z.enum(['roh', 'inArbeit', 'uebernommen', 'verworfen']).default('roh'),
+});
+export type Idee = z.infer<typeof Idee>;
+
+/**
+ * Ein Wochenlauf: **ein** Thema mit fuenf Shorts.
+ *
+ * Fuenf statt zehn, weil der Engpass nie die Produktion war, sondern der
+ * Beleg — drei gepruefte Quellen je Short lassen sich fuer ein Thema pro
+ * Woche halten, fuer zwei nicht.
+ *
+ * Achtung: Dieses Schema wird derzeit von keinem Skript geparst. Der
+ * Wochenlauf validiert Shorts einzeln. Die laufweiten Regeln — fuenf
+ * verschiedene Macharten, keine Szenenart im Uebermass — stehen deshalb in
+ * `laufPruefen`, weil das tatsaechlich ausgefuehrt wird.
+ */
 export const Lauf = z.object({
   id: z.string(),
   erstelltAm: z.string(),
-  themen: z.array(Thema).length(2),
-  shorts: z.array(Short).length(10),
+  thema: Thema,
+  shorts: z.array(Short).length(5),
   status: z.enum(['entwurf', 'vertont', 'gerendert', 'freigegeben', 'veroeffentlicht']),
 });
 export type Lauf = z.infer<typeof Lauf>;

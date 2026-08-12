@@ -1,5 +1,5 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT } from '../../src/marke';
+import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
 import type { Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Geraet } from '../bausteine/Geraete';
@@ -703,6 +703,146 @@ const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
  * Sprech-Zeitstempeln und ist deshalb der Taktgeber fuer alles, was sich im
  * Bild aufbaut — nicht eine geschaetzte Sekundenzahl.
  */
+/* ──────────────────────────── Kaufkriterien ─────────────────────────── */
+
+/**
+ * Die Erntekarte des Kaufwinkels.
+ *
+ * Sie sieht der Endkarte bewusst aehnlich — gleicher Rahmen, gleiche
+ * Nummernkreise —, weil sie dieselbe Aufgabe hat: als Standbild ueberleben.
+ * Der Unterschied liegt im `pruefen`-Detail unter jedem Kriterium und im
+ * abgesetzten Verweis am Fuss. Wer das Video anhaelt, hat eine Einkaufsliste
+ * statt eines Merksatzes.
+ */
+const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  // Wie bei der Endkarte: Einlauf im ersten Drittel, danach steht die Karte.
+  const einlaufzeit = Math.round(dauer * 0.34);
+
+  return (
+    <Buehne>
+      <div
+        style={{
+          ...auftritt(frame, fps, 0),
+          backgroundColor: FARBEN.grundRein,
+          border: `4px solid ${FARBEN.tinte}`,
+          borderRadius: RADIUS.l,
+          padding: ABSTAND.xl,
+          boxShadow: '0 18px 48px rgba(17,24,32,0.10)',
+        }}
+      >
+        <h2
+          style={{
+            ...grundtext,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: GROESSEN.ueberschrift,
+            lineHeight: 1.12,
+            margin: `0 0 ${ABSTAND.l}px`,
+          }}
+        >
+          {szene.ueberschrift}
+        </h2>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.l }}>
+          {szene.kriterien.map((kriterium, i) => (
+            <div
+              key={i}
+              style={{
+                ...auftrittImSprechrhythmus(frame, fps, i, szene.kriterien.length, einlaufzeit),
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: ABSTAND.m,
+              }}
+            >
+              <span
+                style={{
+                  ...grundtext,
+                  fontWeight: SCHRIFT.schwarz,
+                  fontSize: 34,
+                  color: FARBEN.grundRein,
+                  backgroundColor: FARBEN.blau,
+                  minWidth: 52,
+                  height: 52,
+                  borderRadius: RADIUS.rund,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {i + 1}
+              </span>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.xs, paddingTop: 2 }}>
+                <span
+                  style={{
+                    ...grundtext,
+                    fontWeight: SCHRIFT.halbfett,
+                    fontSize: GROESSEN.fliesstext,
+                    lineHeight: 1.32,
+                  }}
+                >
+                  {kriterium.text}
+                </span>
+
+                {/* Wo das Merkmal nachzulesen ist — macht das Kriterium pruefbar
+                    statt zu einer Behauptung, der man glauben muss. */}
+                {kriterium.pruefen && (
+                  <span
+                    style={{
+                      ...grundtext,
+                      fontWeight: SCHRIFT.normal,
+                      fontSize: GROESSEN.detail,
+                      color: FARBEN.tinteWeich,
+                      letterSpacing: 0,
+                      lineHeight: 1.28,
+                    }}
+                  >
+                    {kriterium.pruefen}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Der Verweis loest die Werbekennzeichnung aus (siehe Short-Schema).
+            Deshalb steht er sichtbar abgesetzt und nicht als Nebensatz. */}
+        {szene.verweis && (
+          <div
+            style={{
+              ...auftritt(frame, fps, einlaufzeit + TEMPO.einblenden),
+              marginTop: ABSTAND.xl,
+              backgroundColor: FARBEN.blauHell,
+              borderRadius: RADIUS.m,
+              padding: `${ABSTAND.m}px ${ABSTAND.l}px`,
+              display: 'flex',
+              alignItems: 'center',
+              gap: ABSTAND.m,
+            }}
+          >
+            <span style={{ ...grundtext, fontSize: 40, color: FARBEN.blau, flexShrink: 0 }}>↓</span>
+            <span
+              style={{
+                ...grundtext,
+                fontWeight: SCHRIFT.halbfett,
+                fontSize: GROESSEN.detail,
+                color: FARBEN.blau,
+                letterSpacing: 0,
+                lineHeight: 1.28,
+              }}
+            >
+              {szene.verweis}
+            </span>
+          </div>
+        )}
+      </div>
+    </Buehne>
+  );
+};
+
 export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
     case 'hook':
@@ -723,5 +863,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
       return <Cta szene={szene} dauer={dauer} />;
     case 'endkarte':
       return <Endkarte szene={szene} dauer={dauer} />;
+    case 'kaufkriterien':
+      return <Kaufkriterien szene={szene} dauer={dauer} />;
   }
 };

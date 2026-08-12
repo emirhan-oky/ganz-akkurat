@@ -20,6 +20,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-01',
     themaId: 'powerbank-flug',
     arbeitstitel: 'Powerbank gehört niemals in den Koffer',
+    winkelart: 'vorschrift',
     szenen: [
       {
         art: 'hook',
@@ -41,14 +42,25 @@ export const powerbankFlug: Short[] = [
         sprechtext:
           'Der Grund ist einfach. Fängt eine Batterie in der Kabine an zu qualmen, sieht das jemand und kann eingreifen. Im Frachtraum nicht.',
       },
+      /*
+       * Als Gegenueberstellung statt als Liste: Die Regel ist eine
+       * Zweiteilung — was mitkommt und was unten bleibt. Die Liste zeigte
+       * nur die eine Haelfte, und „checkliste" stand in vier von fuenf
+       * Shorts dieses Themas.
+       */
       {
-        art: 'checkliste',
-        ueberschrift: 'Ins Handgepäck gehören',
-        punkte: [
-          { text: 'Powerbanks und Ersatzakkus', bewertung: 'ja' },
-          { text: 'Telefon, Tablet, Notebook', bewertung: 'ja' },
-          { text: 'E-Zigaretten', bewertung: 'ja' },
-        ],
+        art: 'vergleich',
+        ueberschrift: 'Alles mit Akku',
+        links: {
+          titel: 'Ins Handgepäck',
+          zeilen: ['Powerbanks und Ersatzakkus', 'Telefon, Tablet, Notebook', 'E-Zigaretten'],
+          bewertung: 'ja',
+        },
+        rechts: {
+          titel: 'In den Koffer',
+          zeilen: ['Nichts davon', 'Auch nicht „nur diesmal"'],
+          bewertung: 'nein',
+        },
         sprechtext: 'Dasselbe gilt für Telefon, Tablet, Notebook und E-Zigaretten. Alles mit Akku bleibt bei dir.',
       },
       {
@@ -83,7 +95,7 @@ export const powerbankFlug: Short[] = [
         hashtags: ['#Shorts', '#Powerbank', '#Reisen'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 2 von 5 ─────────────────────────── */
@@ -91,6 +103,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-02',
     themaId: 'powerbank-flug',
     arbeitstitel: 'mAh in Wattstunden umrechnen',
+    winkelart: 'umrechnung',
     szenen: [
       {
         art: 'hook',
@@ -156,7 +169,7 @@ export const powerbankFlug: Short[] = [
         hashtags: ['#Shorts', '#Powerbank', '#Reisen'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 3 von 5 ─────────────────────────── */
@@ -164,6 +177,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-03',
     themaId: 'powerbank-flug',
     arbeitstitel: 'Die Zone zwischen 100 und 160 Wattstunden',
+    winkelart: 'grenzwert',
     szenen: [
       {
         art: 'hook',
@@ -233,7 +247,7 @@ export const powerbankFlug: Short[] = [
         hashtags: ['#Shorts', '#Powerbank', '#Reisen'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 4 von 5 ─────────────────────────── */
@@ -241,6 +255,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-04',
     themaId: 'powerbank-flug',
     arbeitstitel: 'Pole gegen Kurzschluss sichern',
+    winkelart: 'uebersehenerPunkt',
     szenen: [
       {
         art: 'hook',
@@ -249,9 +264,9 @@ export const powerbankFlug: Short[] = [
         sprechtext: 'Die meisten kennen die Wattstundengrenze. Diesen Punkt hier übersehen fast alle.',
       },
       {
-        art: 'aussage',
+        art: 'warnung',
         text: 'Die Batteriepole müssen gegen Kurzschluss isoliert sein.',
-        hervorhebung: 'gegen Kurzschluss isoliert',
+        loesung: 'Das ist Vorschrift, keine Empfehlung.',
         sprechtext:
           'Die Pole deiner Ersatzbatterien müssen gegen Kurzschluss gesichert sein. Das ist keine Empfehlung, das steht in der Vorschrift.',
       },
@@ -308,7 +323,7 @@ export const powerbankFlug: Short[] = [
         hashtags: ['#Shorts', '#Powerbank', '#Reisen'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 
   /* ─────────────────────────── 5 von 5 ─────────────────────────── */
@@ -316,6 +331,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-05',
     themaId: 'powerbank-flug',
     arbeitstitel: 'Deine Airline darf strenger sein',
+    winkelart: 'haken',
     szenen: [
       {
         art: 'hook',
@@ -389,6 +405,6 @@ export const powerbankFlug: Short[] = [
         hashtags: ['#Shorts', '#Powerbank', '#Reisen'],
       },
     },
-    kennzeichnung: { werbung: false, kiStimme: true },
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
   },
 ];

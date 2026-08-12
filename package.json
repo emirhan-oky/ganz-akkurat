@@ -9,10 +9,11 @@
     "vorschau": "remotion studio video/index.ts",
     "rendern": "tsx skripte/rendern.ts",
     "freigabe": "tsx skripte/freigabe.ts",
-    "pruefen": "tsc --noEmit",
+    "pruefen": "tsc --noEmit && tsx skripte/schemapruefung.ts",
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",
-    "zugaenge": "tsx skripte/zugaenge.ts"
+    "zugaenge": "tsx skripte/zugaenge.ts",
+    "buffer-probe": "tsx skripte/buffer-probe.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",

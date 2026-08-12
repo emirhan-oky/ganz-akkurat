@@ -1,6 +1,5 @@
 {
   "_hinweis": "Belegdatenbank. Jede technische Kernaussage in einem Short verweist auf mindestens einen Eintrag. Neue Quellen werden nur aufgenommen, nachdem die URL tatsaechlich abgerufen und der Inhalt geprueft wurde - nie aus dem Gedaechtnis oder aus einem Suchtreffer-Ausschnitt. Das Feld geprueftAm dokumentiert diesen Abruf.",
-
   "quellen": [
     {
       "id": "apple-displays-mba",
@@ -65,8 +64,56 @@
         "Die Batteriepole müssen gegen Kurzschluss isoliert sein.",
         "Fluggesellschaften dürfen strengere Anforderungen stellen; die Regeln der eigenen Airline sind vorab zu prüfen."
       ]
+    },
+    {
+      "id": "vesa-dp-altmode",
+      "titel": "VESA Brings DisplayPort to New USB Type-C Connector",
+      "url": "https://vesa.org/featured-articles/vesa-brings-displayport-to-new-usb-type-c-connector/",
+      "herausgeber": "VESA",
+      "geprueftAm": "2026-08-12",
+      "art": "standard",
+      "belegt": [
+        "Video über USB-C läuft über den DisplayPort Alt Mode: „Using the DisplayPort Alt Mode, a USB Type-C connector and cable can deliver full DisplayPort audio/video (A/V) performance.\"",
+        "Alt Mode ist eine zusätzliche Fähigkeit von Anschluss UND Kabel, keine Eigenschaft jeder USB-C-Buchse."
+      ]
+    },
+    {
+      "id": "plugable-altmode",
+      "titel": "Understanding USB-C Alt Mode",
+      "url": "https://kb.plugable.com/understanding-usb-c-alt-mode",
+      "herausgeber": "Plugable",
+      "geprueftAm": "2026-08-12",
+      "art": "hersteller",
+      "belegt": [
+        "Alt Mode ist optional: „Alt Mode is an optional feature that not all manufacturers include on their systems.\"",
+        "Reine Lade- und USB-2.0-Kabel übertragen kein Video: „USB-C cables that support USB 2.0 only or ‚charging only‘ cables are not built to support video.\"",
+        "Die Displaygrenze setzt der Chip des Rechners — Apple M1/M2/M3 Basis-Chips sind auf ein externes Display begrenzt."
+      ]
+    },
+    {
+      "id": "synaptics-displaylink-funktion",
+      "titel": "How Does DisplayLink Work?",
+      "url": "https://www.synaptics.com/products/displaylink-graphics/corporate/how",
+      "herausgeber": "Synaptics",
+      "geprueftAm": "2026-08-12",
+      "art": "hersteller",
+      "belegt": [
+        "DisplayLink ist treiberbasiert, nicht rein hardwareseitig: „DisplayLink uses a driver-based host solution\".",
+        "Der Treiber greift die Pixel im Framebuffer ab, komprimiert sie und schickt sie an das Gerät — die Rechenarbeit passiert auf dem Host, nicht in der nativen Videoausgabe."
+      ]
+    },
+    {
+      "id": "dell-mehrere-monitore",
+      "titel": "Advanced Multi-Monitor Setup: Connection Methods and Scaling Fixes",
+      "url": "https://www.dell.com/support/kbdoc/en-us/000134286/how-to-setup-multiple-monitors",
+      "herausgeber": "Dell",
+      "geprueftAm": "2026-08-12",
+      "art": "hersteller",
+      "belegt": [
+        "Die Grafikeinheit ist die eigentliche Grenze: „your graphics card is usually the real ceiling, not your cables\".",
+        "Docks unterscheiden sich nach Anschlussart: „Dell docks vary by connector type (Thunderbolt, USB-C, or USB with DisplayLink), and each type supports a different number of displays and resolutions\"."
+      ]
     }
   ],
-
   "_luecke": "LadeKlar und NeuOderRefurbished haben weiterhin keine belegten Quellen. Offen sind unter anderem USB-Power-Delivery-Profile, Leistungsaufteilung bei Mehrfachanschluss sowie Gewaehrleistung und Zustandsklassen bei generalueberholter Ware."
 }

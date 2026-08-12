@@ -11,6 +11,7 @@ export const beispielShort: Short = {
   id: 'skl-0001',
   themaId: 'usbc-dock-kein-bild',
   arbeitstitel: 'Dock lädt, aber kein Bild',
+  winkelart: 'diagnose',
 
   szenen: [
     {
@@ -65,14 +66,33 @@ export const beispielShort: Short = {
       sprechtext:
         'Also: Schau, ob am Port ein DisplayPort-Symbol steht. Prüf im Datenblatt deines Notebooks, wie viele Displays es überhaupt kann. Und verlass dich nie auf die Angabe Dual Display am Dock.',
     },
+    /*
+     * Frueher ein Abbinder, der auf den angehefteten Beitrag verwies. Das
+     * schickt Zuschauer weg und macht das Video kennzeichnungspflichtig,
+     * ohne dass irgendwer den Beitrag oeffnet. Was mitgenommen werden soll,
+     * steht jetzt im Video.
+     */
     {
-      art: 'cta',
-      text: 'Die komplette Checkliste liegt im angehefteten Beitrag.',
-      sprechtext: 'Die komplette Checkliste findest du im angehefteten Beitrag.',
+      art: 'endkarte',
+      ueberschrift: 'Kein Bild über das Dock?',
+      punkte: [
+        'Der Port muss DisplayPort Alt Mode können',
+        'Die Displayzahl steht im Datenblatt des Notebooks',
+        '„Dual Display" beschreibt nur das Dock',
+      ],
+      abschluss: 'Technik, die zusammenpasst',
+      sprechtext: 'Merk dir das eine: Der Port muss Alt Mode können. Ansehen kannst du ihm das nicht.',
     },
   ],
 
-  quellenIds: ['apple-displays-mba', 'displaylink-macos-grenzen'],
+  /*
+   * Mindestens drei Belege — der Referenz-Short ist zugleich die
+   * Standard-Prop der Komposition. Reisst er das Schema, wirft
+   * `calculateMetadata` im Browser-Kontext, und Remotion bleibt in einem
+   * unerfuellten Promise stehen, statt abzubrechen: Der Render haengt dann
+   * ohne Fehlermeldung.
+   */
+  quellenIds: ['apple-displays-mba', 'vesa-dp-altmode', 'plugable-altmode', 'displaylink-macos-grenzen'],
 
   texte: {
     tiktok: {
@@ -96,7 +116,7 @@ export const beispielShort: Short = {
   },
 
   kennzeichnung: {
-    werbung: false,
+    werbung: 'keine',
     kiStimme: true,
   },
 };

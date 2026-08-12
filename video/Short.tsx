@@ -34,10 +34,20 @@ const Fortschritt: React.FC = () => {
   );
 };
 
-/** Pflichthinweise: Werbung bei Affiliate-Inhalten, KI-Stimme bei Synthese. */
-const Kennzeichnung: React.FC<{ werbung: boolean; kiStimme: boolean }> = ({ werbung, kiStimme }) => {
+/**
+ * Pflichthinweise im Bild.
+ *
+ * Das Werbelabel erscheint **nur**, wenn das Video selbst auf die Links
+ * verweist. Stehen die Partnerlinks ausschliesslich in der Beschreibung, ist
+ * dort auch der Ort der Kennzeichnung — dann ist das Video Information und
+ * ein Label im Bild waere falsch, nicht vorsichtig.
+ */
+const Kennzeichnung: React.FC<{ werbung: ShortDaten['kennzeichnung']['werbung']; kiStimme: boolean }> = ({
+  werbung,
+  kiStimme,
+}) => {
   const hinweise: string[] = [];
-  if (werbung) hinweise.push(KENNZEICHNUNG.werbung);
+  if (werbung === 'video') hinweise.push(KENNZEICHNUNG.werbung);
   if (kiStimme) hinweise.push(KENNZEICHNUNG.kiStimme);
 
   if (hinweise.length === 0) return null;
