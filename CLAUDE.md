@@ -100,8 +100,25 @@ vorgesehen.
 Fünf Shorts pro Woche aus **einem** Thema, ein Video je Werktag um 18:00
 (`src/buffer.ts`).
 
-## Offen
+## Stand und nächster Schritt
 
-- `daten/entwuerfe/powerbank-flug.ts` steht auf einer einzigen Quelle (LBA) und
-  ist deshalb geparkt — nicht im Wochenlauf.
-- R2-Zugangsdaten für die Ablage fehlen (`npm run zugaenge` zeigt, welche).
+Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
+R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
+liegen in `.env` und sind mit einem echten Video durchgetestet.
+
+Als Nächstes steht die visuelle Aufwertung an — zurückgestellt, solange die
+Ablage offen war, jetzt wieder an der Reihe:
+
+- **Kamera-Layer** über `Buehne`: Push-in während der Erklärung, Punch auf die
+  Bruchstelle, Gleiten beim Wechsel. `video/bausteine/bewegung.ts` kennt bisher
+  nur Element-Auftritte — die Kamera steht 45 Sekunden still.
+- **Detailzoom** in den Stecker: Pins zeigen, Signal auf dem Pfad fließen lassen
+  (`@remotion/paths`, `getPointAtLength`). Die Icons in `Geraete.tsx`
+  illustrieren, statt den Beweis zu zeigen.
+
+Verworfen: LottieFiles (bricht das Eigenbau-Prinzip) und Rive (Interaktivität
+ist bei gerendertem Video wertlos). Später denkbar: `@remotion/three`, eigene
+Makroaufnahmen als Beleg-B-Roll.
+
+Offen bleibt `daten/entwuerfe/powerbank-flug.ts` — steht auf einer einzigen
+Quelle (LBA) und ist deshalb geparkt, nicht im Wochenlauf.
