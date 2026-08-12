@@ -3,40 +3,50 @@
 Automatisierte Shortvideo-Produktion für die deutschsprachige Medienmarke
 **SetupKlar** – Technik-Setups für Schreibtisch, unterwegs, Reise und Laden.
 
-Ein Lauf erzeugt **ein Thema mit fünf Shorts** – ein Video pro Werktag. Der
-Engpass ist nicht die Produktion, sondern der Beleg: drei geprüfte Quellen je
-Short sind für ein Thema pro Woche zu halten, für zwei nicht.
+Ein Lauf erzeugt **fünf Shorts, einen je Rubrik** – ein Video pro Werktag.
 
-## Themenaufbau
+## Die fünf Rubriken
 
-Das Oberthema der Marke ist immer **Setup**. Darunter:
+Das Oberthema der Marke ist immer **Setup**. Darunter fünf feste Sendeplätze,
+je einer pro Werktag:
 
 ```
-Setup-Kontext   "Schreibtisch", "Unterwegs", "B-Ware & Nachhaltig" …
-  └── Thema     eine Alltagsfrage + die Quellen, die sie belegen
-        └── Winkel   fünf Blickwinkel auf dieselbe Frage = fünf Shorts
+Schreibtisch  Monitore, Docks, Kabel, Strom, Ton, Ergonomie am festen Platz
+Unterwegs     Akku, Laden, Tethering, Rucksack, fremde Steckdosen und WLANs
+Reise         Flug, Handgepäck, Wattstunden, fremde Stromnetze, Roaming, Zoll
+Zuhause       WLAN, Router, Fernseher, Streaming, Netzwerk in der Wohnung
+Kaufen        Kaufhilfe, Gebrauchtkauf, Garantie, Reparatur, Akkutausch
 ```
 
-Der Kontext sagt nur, um welche **Art** Setup es geht – er ist freier Text,
-keine feste Liste. Neue Kontexte entstehen ohne Codeänderung, damit aus der
-Angabe keine Rubrik wird, in die jedes Thema hineinpassen muss.
+Die Liste ist **geschlossen** (`Rubrik` in `src/typen.ts`). Wer eine sechste
+braucht, hat kein neues Thema, sondern ein falsch zugeschnittenes. Vorher war
+das freier Text – mit der Begründung, aus der Angabe solle keine Rubrik werden,
+in die jedes Thema hineinpassen muss. Genau das ist seit dem 12.08.2026
+gewollt.
 
-Die Quellen hängen am **Thema**, nicht am einzelnen Short: einmal
-recherchieren, fünfmal veröffentlichen. Jeder Short braucht trotzdem
-**mindestens drei** eigene Belege – eine Quelle belegt eine Aussage, drei
-belegen ein Video.
+**Unterwegs und Reise** überlappen, wenn man sie als Orte denkt. Der Schnitt
+läuft deshalb an der Frage: Sobald eine **Vorschrift oder eine Landesgrenze**
+mitentscheidet, ist es Reise – sonst der Alltagsweg.
+
+Jede Rubrik zieht aus einem eigenen **Thema**: eine Alltagsfrage mit
+**mindestens drei** offiziellen Belegen. Ein Thema trägt ein Video, nicht fünf.
+Vorher war es umgekehrt – einmal recherchieren, fünfmal veröffentlichen – und
+genau daher kam die Oberflächlichkeit: Wer aus einer Frage fünf Videos ziehen
+muss, schneidet sie in fünf dünne Scheiben.
 
 Rohe Ideen aus einer Ideensession landen zuerst in `daten/ideen.json` – ohne
 Quellenpflicht, sonst bremst die Belegarbeit das Sammeln aus. Erst wenn drei
-offizielle Quellen stehen und fünf Winkel formuliert sind, wandert eine Idee
-nach `themen.json`.
+offizielle Quellen stehen, wandert eine Idee nach `themen.json`.
 
 ## Macharten: warum fünf Videos fünf verschiedene sind
 
-Fünf Videos zu einem Thema dürfen nicht fünfmal dasselbe tun. Ohne Benennung
+Die fünf Videos einer Woche dürfen nicht fünfmal dasselbe tun. Ohne Benennung
 passiert das trotzdem: Im Dock-Thema waren zwei Videos faktisch identisch
 („prüf nach, ob dein Gerät das kann"), nur verschieden betitelt. Die Vielfalt
 entstand aus gemischten Szenenbausteinen, nicht aus verschiedenen Zugriffen.
+
+Die Regel bleibt neben den Rubriken sinnvoll: Sie verhindert fünf Diagnosen auf
+fünf verschiedenen Sendeplätzen.
 
 Jeder Short trägt deshalb eine **Machart** (`winkelart`), und je Lauf müssen
 alle fünf verschieden sein. Vierzehn stehen zur Wahl:
@@ -52,7 +62,7 @@ Jede Machart hat eine **Signaturszene**, die sie tragen muss – eine Diagnose
 ohne unterbrochene Signalkette ist keine Diagnose, sondern eine Behauptung.
 Das Schema weist einen Short zurück, dem sie fehlt.
 
-## Werbung: ein Video je Thema, sonst gar keins
+## Werbung: nur die Rubrik „Kaufen", sonst gar keins
 
 **Stand 12.08.2026 gibt es gar keine Werbung und keine Links, in keiner
 Beschreibung.** Affiliate setzt ein Kleingewerbe voraus – Reihenfolge: Gewerbe →
@@ -60,8 +70,10 @@ Steuernummer → Amazon PartnerNet. Das Folgende beschreibt das Modell ab
 Partnerkonto; die Prüfungen dafür stehen bereits.
 
 **Vier von fünf Shorts haben überhaupt keine Partnerlinks** – auch nicht in
-der Beschreibung. Nur der Kaufberatungs-Short wirbt, und er trägt dafür das
-Label im Bild.
+der Beschreibung. Nur der Short der Rubrik **Kaufen** wirbt, und er trägt dafür
+das Label im Bild. Seit die Rubriken fest sind, ist das ein Sendeplatz und
+keine Machart, die zufällig in einer Woche vorkommt: Der Zuschauer lernt,
+welches der fünf Videos werblich ist.
 
 Der Grund ist nicht Zurückhaltung, sondern eine ungeklärte Rechtsfrage: Ob die
 Kennzeichnung allein in der Beschreibung für ein Video genügt, sagt weder der

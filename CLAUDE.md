@@ -27,11 +27,27 @@ Exit-Code nicht. Eine Prüfung, die dauerhaft rot ist, liest bald niemand mehr.
 
 `src/typen.ts` ist der einzige Vertrag. Alles andere richtet sich danach.
 
+**`rubrik`** — der Sendeplatz, eine **geschlossene** Liste von fünf
+(`RUBRIKEN`): `schreibtisch`, `unterwegs`, `reise`, `zuhause`, `kaufen`. Je
+Woche trägt jede Rubrik genau einen Short, einen je Werktag.
+
+`unterwegs` und `reise` überlappen, wenn man sie als Orte denkt. Der Schnitt
+läuft deshalb an der Frage: **Sobald eine Vorschrift oder eine Landesgrenze
+mitentscheidet, ist es Reise** — sonst der Alltagsweg. `kaufen` ist der einzige
+Sendeplatz, auf dem Partnerlinks vorgesehen sind (Variante A, siehe unten).
+
+Die Rubrik steht am **Short**, nicht nur am Thema. Vorher holte der Renderer
+die Kopfzeilen-Pille über die `themaId` aus `themen.json` und fiel still auf
+„Setup" zurück, wenn er nichts fand — ein stiller Rückfall an einer Stelle, die
+im fertigen Video sichtbar ist.
+
 **`winkelart`** — eine von 14 Macharten (`WINKELARTEN`), je mit einer
 Pflicht-Signaturszene. Die fünf Shorts eines Laufs müssen fünf *verschiedene*
 Macharten haben; eine Dopplung ist ein Fehler auf jedem betroffenen Short.
 Grund: Vielfalt entstand vorher nur aus gemischten Szenenbausteinen, nicht aus
-verschiedenen Zugriffen — zwei Videos sagten faktisch dasselbe.
+verschiedenen Zugriffen — zwei Videos sagten faktisch dasselbe. Die Regel bleibt
+auch neben `rubrik` sinnvoll: Sie verhindert fünf Diagnosen auf fünf
+Sendeplätzen.
 
 **`kennzeichnung.werbung`** — Dreiwert, kein Boolean:
 
@@ -41,18 +57,28 @@ verschiedenen Zugriffen — zwei Videos sagten faktisch dasselbe.
 | `beschreibung` | Partnerlinks nur in der Beschreibung, kein Label im Bild |
 | `video` | Label wird ins Video eingebrannt (`video/Short.tsx`) |
 
-**`Lauf`** ist ein Thema × 5 Shorts. Das Schema wird von **keinem Skript
-geparst** — laufweite Regeln gehören deshalb in `laufweiteBefunde` in
-`src/pruefung.ts`, nicht in ein `superRefine` auf `Lauf`. Eine Regel dort ist
-tote Regel.
+**`Lauf`** ist 5 Shorts, einer je Rubrik. Ein `Thema` liefert seit dem
+12.08.2026 **einen** Short, nicht fünf — das alte „ein Thema, fünf Zugriffe"
+war die Ursache der Oberflächlichkeit: Wer aus einer Frage fünf Videos ziehen
+muss, schneidet sie in fünf dünne Scheiben. Die `winkel` in `themen.json` sind
+dadurch keine fünf Videos mehr, sondern Alternativen, aus denen eine gewählt
+wird.
 
-Es gibt kein `produktnaehe` mehr. `winkelart` hat es ersetzt.
+Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln gehören
+deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein `superRefine`
+auf `Lauf`. Eine Regel dort ist tote Regel.
+
+Es gibt kein `produktnaehe` mehr — `winkelart` hat es ersetzt — und kein
+`kontext` als freien Text mehr: daraus ist `rubrik` geworden.
 
 ## Harte Regeln (`src/pruefung.ts`)
 
 Fehler halten einen Short zurück, Hinweise erscheinen nur in der
 Freigabe-Übersicht.
 
+- **`rubrik`** — jede der fünf Rubriken kommt im Lauf genau einmal vor. Geprüft
+  wird beides: eine Rubrik doppelt **und** eine Rubrik fehlt. Nur die Dopplung
+  zu prüfen ließe einen Lauf mit vier Shorts durchgehen.
 - **`beleg`** — mindestens drei Quellen je Short, und `presse` zählt nie mit
   (`OFFIZIELLE_ARTEN`). Ein Fachartikel referiert bestenfalls das Datenblatt und
   altert schneller als die Spezifikation.
@@ -97,8 +123,9 @@ vorgesehen.
 
 ## Takt
 
-Fünf Shorts pro Woche aus **einem** Thema, ein Video je Werktag um 18:00
-(`src/buffer.ts`).
+Fünf Shorts pro Woche, **einer je Rubrik**, ein Video je Werktag um 18:00
+(`src/buffer.ts`). Die Fünf kommt vom Takt der Werktage, nicht davon, wie viel
+ein Thema hergibt.
 
 ## Stand und nächster Schritt
 
@@ -106,26 +133,51 @@ Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env` und sind mit einem echten Video durchgetestet.
 
-**Als Nächstes geht es um den Inhalt, nicht um die Optik.** Die offene Kritik
-am Lauf `2026-08-12` steht in `offene-punkte.md`: fehlende Systemangabe
-(macOS/Windows), zu beschreibende Titel, zu dünne Themen und die Frage, wie
-Produkte gezeigt werden sollen, ohne die Regeln `produktname` und Eigenbau-
-Vektorgrafik zu brechen. Nichts davon ist entschieden.
+**Alle vier Punkte aus `offene-punkte.md` sind besprochen und entschieden
+(12.08.2026). Im Code steht davon bisher nur die Rubrik-Umstellung.** Die
+Aufgabenliste für den Rest steht am Ende von `offene-punkte.md` — dort
+nachlesen, bevor irgendetwas an Themen, Titeln oder Produktdarstellung
+geändert wird. Kurzfassung der Beschlüsse:
+
+- **Titel und Hook** folgen einem von drei Mustern (`verdaechtiger`, `uhr`,
+  `zweisatz`). Der Hebel ist **Entwarnung**, nicht Konfrontation — „Dein
+  Monitor ist nicht kaputt", nicht „Du machst es falsch". Die Hook ist die
+  kurze Hälfte, der Titel trägt den Kontext mit. Der Ton darf zugespitzt sein,
+  die Tatsache muss von den Quellen getragen sein.
+- **Systemangabe** über ein Feld `system` (`macos`, `windows`, `beide`,
+  `ohne`), sichtbar in der Hook-Pille, im Titel nur bei echter
+  Systemspezifik — und nur belegbar, wenn eine Quelle systemspezifisch ist.
+- **Produkte werden gezeigt**, in allen fünf Rubriken: generisch, selbst
+  gezeichnet, im jetzigen flächigen Stil. **Benennen** (Markenname, Link)
+  bleibt auf die Rubrik Kaufen mit Label im Bild beschränkt.
+- **Keine Fotos, keine KI-Bilder.** Ein Bildmodell erfindet Buchsen — das wäre
+  derselbe Fehler, den die Belegpflicht verhindern soll, nur ungeprüft. Folge:
+  Es wird nie etwas selbst benutzt, also bleibt `produktionsregel` dauerhaft
+  und **„Test" ist für diesen Kanal endgültig ausgeschlossen**.
+
+**Arbeitsweise bei diesen Themen: erst zu Ende besprechen, dann bauen.** Nach
+einem bestätigten Einzelpunkt sofort loszubauen hat sich als falsch erwiesen —
+die Umsetzung kommt gesammelt.
 
 **Kamera-Layer: probiert, verworfen (12.08.2026).** Ein `Kamera`-Baustein fuhr
 in der Anschluss-Szene auf die Bruchstelle zu. Die Bewegung wirkte auch nach
 Umbau auf gleichmäßige Kurven nicht flüssig genug und ist wieder entfernt.
-Falls das Thema zurückkommt, die Messwerte von damals: `spring` erreicht in der
-Spitze das 2,95-fache seiner Durchschnittsgeschwindigkeit, `Easing.inOut(sin)`
-nur das 1,57-fache; über etwa 1 % Bildänderung je Einzelbild wird eine Fahrt
-unruhig. Der eigentliche Engpass war die Szenenlänge — nach dem Bildaufbau
-bleiben keine zwei Sekunden für eine Fahrt.
+Falls das Thema zurückkommt, die Messwerte von damals: `spring` in Remotions
+**Voreinstellung** (`damping: 10`) erreicht in der Spitze das 2,95-fache seiner
+Durchschnittsgeschwindigkeit, `Easing.inOut(sin)` nur das 1,57-fache; über etwa
+1 % Bildänderung je Einzelbild wird eine Fahrt unruhig. Nicht gemessen wurde
+`TEMPO.feder` aus `src/marke.ts` (`damping: 200`) — die ist stark überdämpft,
+kann gar nicht überschwingen und wäre vermutlich brauchbar gewesen. Der
+eigentliche Engpass war ohnehin die Szenenlänge: nach dem Bildaufbau bleiben
+keine zwei Sekunden für eine Fahrt.
 
 Geblieben ist ein dabei gefundener Fehler: Die Signalkette braucht bei drei
 Geräten 1134 Pixel, die Bühne hat 1100 — die Beschriftung des letzten Geräts lag
 in dem Bereich, den Reels mit der Beschreibung überdeckt. Sie skaliert sich
 jetzt auf den verfügbaren Platz. **Die Videos in `laeufe/2026-08-12` sind vor
-dieser Korrektur gerendert.**
+dieser Korrektur gerendert.** `skripte/veroeffentlichen.ts` prüft das nicht —
+es lädt hoch, was im Ordner liegt. Vor einer echten Veröffentlichung dieses
+Laufs also neu rendern.
 
 Später denkbar für die Optik: **Detailzoom** in den Stecker (`@remotion/paths`,
 `getPointAtLength`), `@remotion/three`, eigene Makroaufnahmen als Beleg-B-Roll.
