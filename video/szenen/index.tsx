@@ -1,5 +1,5 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
+import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
 import type { Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Geraet } from '../bausteine/Geraete';
@@ -431,10 +431,118 @@ const Warnung: React.FC<SzenenProps<'warnung'>> = ({ szene, dauer }) => {
  * Die Kette laeuft senkrecht: das nutzt das Hochformat und liest sich als
  * Weg von oben nach unten. Ein Bruch wird als rotes Kreuz auf der
  * Verbindungslinie gezeigt, genau dort wo es in der Realitaet scheitert.
+ *
+ * Die Gliedmasse stehen als Konstanten fest, damit sich die Gesamthoehe der
+ * Kette vorab ausrechnen laesst — sie entscheidet darueber, wie gross die
+ * Glieder gezeichnet werden duerfen (siehe Passung unten).
  */
+const GERAET_GROESSE = 240;
+const GLIED_HOEHE = GERAET_GROESSE + ABSTAND.xs + 46; // Geraet + Abstand + eine Zeile Beschriftung
+const VERBINDUNG_HOEHE = ABSTAND.s + 110;
+
 const Anschluss: React.FC<SzenenProps<'anschluss'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
+  /*
+   * Passung an die Buehnenhoehe.
+   *
+   * Drei Glieder brauchen 1134 Pixel, die Buehne ist 1100 hoch — die Kette
+   * ragte damit unten aus der sicheren Zone heraus, genau dorthin, wo Reels
+   * Beschreibung und Tonzeile einblendet. Ohne Schnittkante faellt das nicht
+   * auf: Die Beschriftung des letzten Geraets lief einfach unbemerkt in den
+   * verdeckten Bereich.
+   *
+   * Statt die Gliedmasse fest zu verkleinern — was bei zwei Gliedern unnoetig
+   * klein waere — richtet sich die Groesse nach dem, was uebrig bleibt.
+   */
+  const ueberschriftPlatz = szene.ueberschrift ? Math.round(GROESSEN.aussage * 1.2) + ABSTAND.l : 0;
+  const glieder = szene.kette.length;
+  const rohHoehe = glieder * GLIED_HOEHE + (glieder - 1) * VERBINDUNG_HOEHE;
+  const passung = Math.min(1, (BUEHNE.hoehe - ueberschriftPlatz) / rohHoehe);
+  const gliedHoehe = GLIED_HOEHE * passung;
+
+  const kette = (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {szene.kette.map((glied, i) => {
+          // Verzoegerung ueber die ganze Szene verteilt statt in festem
+          // Abstand am Anfang: das Diagramm baut sich im Sprechtempo auf.
+          const verzoegerung = Math.round((i / szene.kette.length) * 0.85 * dauer);
+          const bruchHier = szene.bruchNach === i;
+          const istLetztes = i === szene.kette.length - 1;
+
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              <div style={{ ...auftritt(frame, fps, verzoegerung), textAlign: 'center', height: gliedHoehe }}>
+                <Geraet art={glied.geraet} groesse={GERAET_GROESSE * passung} />
+                <div
+                  style={{
+                    ...grundtext,
+                    fontWeight: SCHRIFT.halbfett,
+                    fontSize: GROESSEN.detail * passung,
+                    lineHeight: 1.2,
+                    marginTop: ABSTAND.xs * passung,
+                  }}
+                >
+                  {glied.beschriftung}
+                </div>
+              </div>
+
+              {!istLetztes && (
+                // Die Verbindung braucht eigene Hoehe, sonst sitzt das
+                // Bruchzeichen auf der Beschriftung darueber.
+                <div
+                  style={{
+                    position: 'relative',
+                    height: 110 * passung,
+                    marginTop: ABSTAND.s * passung,
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <svg width={80 * passung} height={110 * passung} viewBox="0 0 80 110">
+                    <line
+                      x1="40"
+                      y1="0"
+                      x2="40"
+                      y2={110 * linienFortschritt(frame, verzoegerung + 6, 10)}
+                      stroke={bruchHier ? FARBEN.neinRot : FARBEN.blau}
+                      strokeWidth={7}
+                      strokeLinecap="round"
+                      strokeDasharray={bruchHier ? '14 12' : undefined}
+                    />
+                  </svg>
+
+                  {bruchHier && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 23 * passung,
+                        opacity: einblenden(frame, verzoegerung + 14, 8),
+                        transform: `scale(${impuls(frame, fps, verzoegerung + 14)})`,
+                        width: 64 * passung,
+                        height: 64 * passung,
+                        borderRadius: RADIUS.rund,
+                        backgroundColor: FARBEN.neinRot,
+                        color: FARBEN.grundRein,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontFamily: SCHRIFT.familie,
+                        fontWeight: SCHRIFT.schwarz,
+                        fontSize: 38 * passung,
+                      }}
+                    >
+                      ✕
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+    </div>
+  );
 
   return (
     <Buehne dauerBilder={dauer}>
@@ -452,84 +560,7 @@ const Anschluss: React.FC<SzenenProps<'anschluss'>> = ({ szene, dauer }) => {
         </h2>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {szene.kette.map((glied, i) => {
-          // Verzoegerung ueber die ganze Szene verteilt statt in festem
-          // Abstand am Anfang: das Diagramm baut sich im Sprechtempo auf.
-          const verzoegerung = Math.round((i / szene.kette.length) * 0.85 * dauer);
-          const bruchHier = szene.bruchNach === i;
-          const istLetztes = i === szene.kette.length - 1;
-
-          return (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div style={{ ...auftritt(frame, fps, verzoegerung), textAlign: 'center' }}>
-                <Geraet art={glied.geraet} groesse={240} />
-                <div
-                  style={{
-                    ...grundtext,
-                    fontWeight: SCHRIFT.halbfett,
-                    fontSize: GROESSEN.detail,
-                    marginTop: ABSTAND.xs,
-                  }}
-                >
-                  {glied.beschriftung}
-                </div>
-              </div>
-
-              {!istLetztes && (
-                // Die Verbindung braucht eigene Hoehe, sonst sitzt das
-                // Bruchzeichen auf der Beschriftung darueber.
-                <div
-                  style={{
-                    position: 'relative',
-                    height: 110,
-                    marginTop: ABSTAND.s,
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width="80" height="110" viewBox="0 0 80 110">
-                    <line
-                      x1="40"
-                      y1="0"
-                      x2="40"
-                      y2={110 * linienFortschritt(frame, verzoegerung + 6, 10)}
-                      stroke={bruchHier ? FARBEN.neinRot : FARBEN.blau}
-                      strokeWidth={7}
-                      strokeLinecap="round"
-                      strokeDasharray={bruchHier ? '14 12' : undefined}
-                    />
-                  </svg>
-
-                  {bruchHier && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 23,
-                        opacity: einblenden(frame, verzoegerung + 14, 8),
-                        transform: `scale(${impuls(frame, fps, verzoegerung + 14)})`,
-                        width: 64,
-                        height: 64,
-                        borderRadius: RADIUS.rund,
-                        backgroundColor: FARBEN.neinRot,
-                        color: FARBEN.grundRein,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: SCHRIFT.familie,
-                        fontWeight: SCHRIFT.schwarz,
-                        fontSize: 38,
-                      }}
-                    >
-                      ✕
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      {kette}
     </Buehne>
   );
 };
