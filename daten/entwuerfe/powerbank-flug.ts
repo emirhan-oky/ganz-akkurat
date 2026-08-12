@@ -19,6 +19,7 @@ export const powerbankFlug: Short[] = [
   {
     id: 'skl-pbf-01',
     themaId: 'powerbank-flug',
+    rubrik: 'reise',
     arbeitstitel: 'Powerbank gehört niemals in den Koffer',
     winkelart: 'vorschrift',
     szenen: [
@@ -102,6 +103,7 @@ export const powerbankFlug: Short[] = [
   {
     id: 'skl-pbf-02',
     themaId: 'powerbank-flug',
+    rubrik: 'reise',
     arbeitstitel: 'mAh in Wattstunden umrechnen',
     winkelart: 'umrechnung',
     szenen: [
@@ -176,6 +178,7 @@ export const powerbankFlug: Short[] = [
   {
     id: 'skl-pbf-03',
     themaId: 'powerbank-flug',
+    rubrik: 'reise',
     arbeitstitel: 'Die Zone zwischen 100 und 160 Wattstunden',
     winkelart: 'grenzwert',
     szenen: [
@@ -254,6 +257,7 @@ export const powerbankFlug: Short[] = [
   {
     id: 'skl-pbf-04',
     themaId: 'powerbank-flug',
+    rubrik: 'reise',
     arbeitstitel: 'Pole gegen Kurzschluss sichern',
     winkelart: 'uebersehenerPunkt',
     szenen: [
@@ -330,6 +334,7 @@ export const powerbankFlug: Short[] = [
   {
     id: 'skl-pbf-05',
     themaId: 'powerbank-flug',
+    rubrik: 'reise',
     arbeitstitel: 'Deine Airline darf strenger sein',
     winkelart: 'haken',
     szenen: [

@@ -1,4 +1,4 @@
-import { WINKELARTEN, type Quelle, type Short, type Winkelart } from './typen';
+import { RUBRIKEN, Rubrik, WINKELARTEN, type Quelle, type Short, type Winkelart } from './typen';
 import { LAENGE_SEK } from './zeit';
 
 /**
@@ -332,6 +332,52 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 const laufweiteBefunde = (shorts: Short[]): Befund[] => {
   const befunde: Befund[] = [];
 
+  /* ── Jede Rubrik genau einmal ────────────────────────────────────── */
+
+  /*
+   * Der Sendeplatz ist das Versprechen an den Zuschauer: montags bis
+   * freitags je eine Rubrik. Zwei Shorts derselben Rubrik in einer Woche
+   * heissen, dass eine andere ausfaellt — und genau das war das alte
+   * Modell, in dem fuenf Videos aus einem einzigen Thema kamen.
+   */
+  const proRubrik = new Map<Rubrik, Short[]>();
+  for (const short of shorts) {
+    proRubrik.set(short.rubrik, [...(proRubrik.get(short.rubrik) ?? []), short]);
+  }
+
+  for (const [rubrik, gruppe] of proRubrik) {
+    if (gruppe.length < 2) continue;
+    for (const short of gruppe) {
+      befunde.push({
+        stufe: 'fehler',
+        shortId: short.id,
+        regel: 'rubrik',
+        text:
+          `Rubrik „${RUBRIKEN[rubrik].titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
+            .map((s) => s.id)
+            .join(', ')}). Jede Woche trägt jede Rubrik genau einen Short.`,
+      });
+    }
+  }
+
+  /*
+   * Die Gegenprobe. Ohne sie faellt ein Lauf mit vier Shorts nicht auf —
+   * die Dopplungspruefung oben schweigt, weil nichts doppelt ist.
+   */
+  if (shorts.length === 5) {
+    const fehlend = Rubrik.options.filter((r) => !proRubrik.has(r));
+    if (fehlend.length > 0) {
+      for (const short of shorts) {
+        befunde.push({
+          stufe: 'fehler',
+          shortId: short.id,
+          regel: 'rubrik',
+          text: `Im Lauf fehlt die Rubrik ${fehlend.map((r) => `„${RUBRIKEN[r].titel}"`).join(', ')}.`,
+        });
+      }
+    }
+  }
+
   /* ── Fuenf verschiedene Macharten ────────────────────────────────── */
 
   const proMachart = new Map<string, Short[]>();
@@ -352,7 +398,7 @@ const laufweiteBefunde = (shorts: Short[]): Befund[] => {
         text:
           `Machart „${titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
             .map((s) => s.id)
-            .join(', ')}). Fünf Videos zu einem Thema brauchen fünf verschiedene Zugriffe.`,
+            .join(', ')}). Die fünf Videos einer Woche brauchen fünf verschiedene Zugriffe.`,
       });
     }
   }

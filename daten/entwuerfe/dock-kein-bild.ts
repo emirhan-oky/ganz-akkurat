@@ -18,6 +18,7 @@ export const dockKeinBild: Short[] = [
   {
     id: 'skl-dkb-01',
     themaId: 'dock-kein-bild',
+    rubrik: 'schreibtisch',
     arbeitstitel: 'Gleiche Buchse, andere Technik',
     winkelart: 'diagnose',
     szenen: [
@@ -101,6 +102,7 @@ export const dockKeinBild: Short[] = [
   {
     id: 'skl-dkb-02',
     themaId: 'dock-kein-bild',
+    rubrik: 'schreibtisch',
     arbeitstitel: 'Dual Display sagt nichts über dein Notebook',
     winkelart: 'entlarvung',
     szenen: [
@@ -193,6 +195,7 @@ export const dockKeinBild: Short[] = [
   {
     id: 'skl-dkb-03',
     themaId: 'dock-kein-bild',
+    rubrik: 'schreibtisch',
     arbeitstitel: 'DisplayLink löst ein Problem und schafft ein neues',
     winkelart: 'kompromiss',
     szenen: [
@@ -270,6 +273,7 @@ export const dockKeinBild: Short[] = [
   {
     id: 'skl-dkb-04',
     themaId: 'dock-kein-bild',
+    rubrik: 'schreibtisch',
     arbeitstitel: 'Wenn das Kabel der Fehler ist',
     winkelart: 'selbsttest',
     szenen: [
@@ -347,6 +351,7 @@ export const dockKeinBild: Short[] = [
   {
     id: 'skl-dkb-05',
     themaId: 'dock-kein-bild',
+    rubrik: 'schreibtisch',
     arbeitstitel: 'In 20 Sekunden prüfen, ob zwei Displays gehen',
     winkelart: 'kaufberatung',
     szenen: [

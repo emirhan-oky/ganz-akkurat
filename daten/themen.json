@@ -1,9 +1,10 @@
 {
-  "_hinweis": "Themenpool. Das Oberthema der Marke ist immer 'Setup' - der 'kontext' sagt nur, um welche Art Setup es geht (Schreibtisch, unterwegs, gebraucht). Er ist freier Text, damit neue Kontexte ohne Codeaenderung entstehen. Ein Lauf nimmt das oberste Thema mit Status 'bereit' und erzeugt daraus fuenf Shorts - einen je Winkel, jeder mit einer anderen Machart (winkelart). Ein Thema wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
+  "_hinweis": "Themenpool. Das Oberthema der Marke ist immer 'Setup'. Die 'rubrik' ist der Sendeplatz und eine GESCHLOSSENE Liste (siehe Rubrik in src/typen.ts): schreibtisch, unterwegs, reise, zuhause, kaufen. Ein Wochenlauf nimmt FUENF Themen - eines je Rubrik - und macht aus jedem EINEN Short. Die 'winkel' eines Themas sind damit keine fuenf Videos mehr, sondern Alternativen, aus denen einer gewaehlt wird; die uebrigen bleiben Vorrat. Ein Thema wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
+  "_rubrikwechsel": "powerbank-flug stand vorher unter 'Unterwegs' und ist jetzt 'reise': Sobald eine Vorschrift oder eine Landesgrenze mitentscheidet, ist es Reise. Das ist der Schnitt zwischen den beiden Rubriken.",
   "themen": [
     {
       "id": "dock-kein-bild",
-      "kontext": "Schreibtisch",
+      "rubrik": "schreibtisch",
       "status": "bereit",
       "titel": "Dock lädt, aber kein Bild",
       "kernfrage": "Warum bleibt der Monitor schwarz, obwohl das Dock funktioniert?",
@@ -79,7 +80,7 @@
     },
     {
       "id": "powerbank-flug",
-      "kontext": "Unterwegs",
+      "rubrik": "reise",
       "status": "bereit",
       "titel": "Powerbank im Flugzeug",
       "kernfrage": "Welche Powerbank darf mit an Bord, und was muss man vorher tun?",
@@ -151,7 +152,7 @@
     },
     {
       "id": "ein-netzteil-fuer-alles",
-      "kontext": "Laden",
+      "rubrik": "unterwegs",
       "status": "recherche",
       "titel": "Ein Netzteil für alles",
       "kernfrage": "Wie viel Watt braucht ein Netzteil, das Notebook und Telefon gleichzeitig versorgt?",
@@ -161,7 +162,7 @@
     },
     {
       "id": "refurbished-monitor",
-      "kontext": "B-Ware & Nachhaltig",
+      "rubrik": "kaufen",
       "status": "recherche",
       "titel": "Monitor gebraucht kaufen",
       "kernfrage": "Worauf muss man bei einem generalüberholten Monitor achten?",

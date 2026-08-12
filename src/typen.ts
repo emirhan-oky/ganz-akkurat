@@ -274,6 +274,62 @@ export const WINKELARTEN: Record<
   notloesung: { titel: 'Notlösung', frage: 'Was tun, wenn du es jetzt brauchst.', signatur: ['checkliste'] },
 };
 
+/* ────────────────────────────── Rubrik ─────────────────────────────── */
+
+/**
+ * Die fuenf festen Rubriken des Kanals. Eine je Woche und Werktag.
+ *
+ * Das ersetzt das alte Modell „ein Thema, fuenf Zugriffe". Das erzeugte
+ * formal Vielfalt und inhaltlich fuenf Scheiben derselben Frage — die Videos
+ * blieben beim Anreissen. Fuenf unabhaengige Fragen sind einzeln tiefer, und
+ * der Zuschauer lernt einen Sendeplatz statt einer Themenwoche.
+ *
+ * Anders als der frueher freie `kontext` ist das jetzt **bewusst eine
+ * geschlossene Liste**: Eine Rubrik, in die jedes Thema hineinpassen muss,
+ * ist genau der Punkt. Wer eine sechste braucht, hat kein neues Thema,
+ * sondern ein falsch zugeschnittenes.
+ */
+export const Rubrik = z.enum(['schreibtisch', 'unterwegs', 'reise', 'zuhause', 'kaufen']);
+export type Rubrik = z.infer<typeof Rubrik>;
+
+/**
+ * Was jede Rubrik traegt — und woran die Abgrenzung entschieden wird.
+ *
+ * `unterwegs` und `reise` gehen ineinander ueber, wenn man sie als Orte
+ * denkt. Der Schnitt laeuft deshalb nicht am Ort, sondern an der Frage:
+ * Sobald eine **Vorschrift oder eine Landesgrenze** im Spiel ist, ist es
+ * Reise. Sonst ist es der Alltagsweg.
+ */
+export const RUBRIKEN: Record<Rubrik, { titel: string; traegt: string; abgrenzung: string }> = {
+  schreibtisch: {
+    titel: 'Schreibtisch',
+    traegt: 'Monitore, Docks, Kabel, Strom, Ton, Ergonomie am festen Platz.',
+    abgrenzung: 'Das Gerät steht. Nichts davon wird eingepackt.',
+  },
+  unterwegs: {
+    titel: 'Unterwegs',
+    traegt: 'Akku, Laden, Tethering, Rucksack, fremde Steckdosen und WLANs.',
+    abgrenzung: 'Alltagsweg im Inland. Es geht um Ausdauer, nicht um Erlaubnis.',
+  },
+  reise: {
+    titel: 'Reise',
+    traegt: 'Flug, Handgepäck, Wattstunden, fremde Stromnetze, Roaming, Zoll.',
+    abgrenzung: 'Eine Vorschrift oder eine Landesgrenze entscheidet mit.',
+  },
+  zuhause: {
+    titel: 'Zuhause',
+    traegt: 'WLAN, Router, Fernseher, Streaming, Netzwerk in der Wohnung.',
+    abgrenzung: 'In der Wohnung, aber nicht am Arbeitsplatz.',
+  },
+  kaufen: {
+    titel: 'Kaufen',
+    traegt: 'Kaufhilfe, Gebrauchtkauf, Garantie, Reparatur, Akkutausch.',
+    abgrenzung:
+      'Der einzige Sendeplatz, auf dem Partnerlinks vorgesehen sind (Variante A). ' +
+      'Die anderen vier bleiben ohne Links.',
+  },
+};
+
 /* ────────────────────────────── Short ──────────────────────────────── */
 
 /** Untertitelwort mit Zeitstempel, abgeleitet aus der Sprachsynthese. */
@@ -294,6 +350,15 @@ export const Short = z.object({
   id: z.string(),
   /** Thema, zu dem dieser Short gehoert. */
   themaId: z.string(),
+  /**
+   * Die Rubrik — der Sendeplatz dieses Shorts.
+   *
+   * Steht bewusst am Short und nicht nur am Thema: Der Renderer holte die
+   * Kopfzeilen-Pille frueher ueber die themaId aus `themen.json` und fiel
+   * still auf „Setup" zurueck, wenn er nichts fand. Ein stiller Rueckfall
+   * ist genau die Sorte Fehler, die dieses Projekt sonst hart prueft.
+   */
+  rubrik: Rubrik,
   /** Interner Arbeitstitel, nicht der Veroeffentlichungstitel. */
   arbeitstitel: z.string(),
 
@@ -418,21 +483,24 @@ export type Short = z.infer<typeof Short>;
 /* ────────────────────────────── Lauf ───────────────────────────────── */
 
 /**
- * Ein Thema: eine Alltagsfrage, aus der fuenf Shorts entstehen.
+ * Ein Thema: eine Alltagsfrage, aus der **ein** Short entsteht.
  *
- * Das Oberthema der Marke ist immer "Setup". Der `kontext` sagt nur, um
- * welche Art Setup es diesmal geht — Schreibtisch, unterwegs, gebraucht
- * gekauft. Er ist bewusst **freier Text** und kein Enum: sobald die Liste
- * geschlossen ist, wird aus dem Kontext eine Rubrik, in die jedes Thema
- * hineinpassen muss. Neue Kontexte sollen ohne Codeaenderung entstehen.
+ * Frueher lieferte ein Thema fuenf Shorts. Das war die Ursache der
+ * Oberflaechlichkeit: Wer aus einer Frage fuenf Videos ziehen muss, schneidet
+ * sie in fuenf duenne Scheiben. Jetzt traegt jedes Thema ein Video, und die
+ * Woche besteht aus fuenf Themen — eines je Rubrik.
+ *
+ * Der frueher freie `kontext` ist damit die feste `rubrik` geworden. Der alte
+ * Kommentar hier warnte davor, die Liste zu schliessen, weil dann jedes Thema
+ * in eine Rubrik passen muesste. Genau das ist jetzt gewollt.
  */
 export const Thema = z.object({
   id: z.string(),
-  /** Art des Setups, frei benennbar. Erscheint als Pille in der Kopfzeile. */
-  kontext: z.string().min(1),
+  /** Sendeplatz des Themas. Erscheint als Pille in der Kopfzeile. */
+  rubrik: Rubrik,
   titel: z.string(),
   kernfrage: z.string(),
-  /** Belegdecke fuer alle Shorts dieses Themas — einmal recherchiert. */
+  /** Belegdecke des Themas — drei offizielle Quellen, einmal recherchiert. */
   quellenIds: z.array(z.string()).min(3),
 });
 export type Thema = z.infer<typeof Thema>;
@@ -449,8 +517,8 @@ export type Thema = z.infer<typeof Thema>;
  */
 export const Idee = z.object({
   id: z.string(),
-  /** Art des Setups. Gleiche Werte wie bei Thema, ebenfalls freier Text. */
-  kontext: z.string().min(1),
+  /** Sendeplatz, auf den die Idee zielt. Gleiche Liste wie beim Thema. */
+  rubrik: Rubrik,
   /** Die Alltagsfrage, um die das Video kreist. */
   kernfrage: z.string().min(1),
   /** Optionale Notiz: warum das traegt, welcher Winkel denkbar ist. */
@@ -463,21 +531,21 @@ export const Idee = z.object({
 export type Idee = z.infer<typeof Idee>;
 
 /**
- * Ein Wochenlauf: **ein** Thema mit fuenf Shorts.
+ * Ein Wochenlauf: fuenf Shorts, einer je Rubrik.
  *
- * Fuenf statt zehn, weil der Engpass nie die Produktion war, sondern der
- * Beleg — drei gepruefte Quellen je Short lassen sich fuer ein Thema pro
- * Woche halten, fuer zwei nicht.
+ * Fuenf, weil der Takt fuenf Werktage hat — nicht, weil ein Thema fuenf
+ * hergibt. Jeder Short bringt sein eigenes Thema und seine eigenen drei
+ * Quellen mit; die Belegarbeit verteilt sich damit auf fuenf schmale
+ * Recherchen statt einer tiefen.
  *
  * Achtung: Dieses Schema wird derzeit von keinem Skript geparst. Der
- * Wochenlauf validiert Shorts einzeln. Die laufweiten Regeln — fuenf
- * verschiedene Macharten, keine Szenenart im Uebermass — stehen deshalb in
- * `laufPruefen`, weil das tatsaechlich ausgefuehrt wird.
+ * Wochenlauf validiert Shorts einzeln. Die laufweiten Regeln — jede Rubrik
+ * genau einmal, fuenf verschiedene Macharten, keine Szenenart im Uebermass —
+ * stehen deshalb in `laufPruefen`, weil das tatsaechlich ausgefuehrt wird.
  */
 export const Lauf = z.object({
   id: z.string(),
   erstelltAm: z.string(),
-  thema: Thema,
   shorts: z.array(Short).length(5),
   status: z.enum(['entwurf', 'vertont', 'gerendert', 'freigegeben', 'veroeffentlicht']),
 });

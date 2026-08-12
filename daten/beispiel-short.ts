@@ -10,6 +10,7 @@ import type { Short } from '../src/typen';
 export const beispielShort: Short = {
   id: 'skl-0001',
   themaId: 'usbc-dock-kein-bild',
+  rubrik: 'schreibtisch',
   arbeitstitel: 'Dock lädt, aber kein Bild',
   winkelart: 'diagnose',
 

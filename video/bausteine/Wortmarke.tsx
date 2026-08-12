@@ -1,4 +1,5 @@
 import { FARBEN, SCHRIFT } from '../../src/marke';
+import { RUBRIKEN, type Rubrik } from '../../src/typen';
 
 /**
  * Die Wortmarke lebt vom Staerkekontrast: "Setup" duenn, "Klar" fett.
@@ -38,31 +39,30 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
 );
 
 /**
- * Kopfzeile: Logozeichen, Wortmarke und der Setup-Kontext des Themas.
+ * Kopfzeile: Logozeichen, Wortmarke und die Rubrik des Shorts.
  *
- * Der Kontext steht bewusst ohne "Klar"-Endung neben der Wortmarke: sonst
- * liest die Zeile "SetupKlar SchreibtischKlar" und das zweite Wort wirkt wie
- * eine Rubrik statt wie die Angabe, um welche Art Setup es hier geht.
+ * Die Rubrik steht bewusst ohne "Klar"-Endung neben der Wortmarke: sonst
+ * liest die Zeile "SetupKlar SchreibtischKlar". Dass die Pille wie ein
+ * Sendeplatz wirkt, ist seit der Umstellung auf feste Rubriken gewollt —
+ * der Zuschauer soll den Wochentag daran wiedererkennen.
  */
-export const Kopfzeile: React.FC<{ kontext?: string }> = ({ kontext }) => (
+export const Kopfzeile: React.FC<{ rubrik: Rubrik }> = ({ rubrik }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
     <Logozeichen groesse={40} />
     <Wortmarke groesse={34} />
-    {kontext && (
-      <span
-        style={{
-          fontFamily: SCHRIFT.familie,
-          fontWeight: SCHRIFT.halbfett,
-          fontSize: 24,
-          color: FARBEN.blau,
-          backgroundColor: FARBEN.blauHell,
-          padding: '8px 18px',
-          borderRadius: 999,
-          letterSpacing: 0.2,
-        }}
-      >
-        {kontext}
-      </span>
-    )}
+    <span
+      style={{
+        fontFamily: SCHRIFT.familie,
+        fontWeight: SCHRIFT.halbfett,
+        fontSize: 24,
+        color: FARBEN.blau,
+        backgroundColor: FARBEN.blauHell,
+        padding: '8px 18px',
+        borderRadius: 999,
+        letterSpacing: 0.2,
+      }}
+    >
+      {RUBRIKEN[rubrik].titel}
+    </span>
   </div>
 );

@@ -28,25 +28,15 @@ const MIT_TON = process.argv.includes('--mit-ton');
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /**
- * Die fuenf Shorts dieses Laufs — **ein** Thema, nicht zwei.
+ * Die fuenf Shorts dieses Laufs — einer je Rubrik.
  *
- * Der Engpass war nie die Produktion, sondern der Beleg: drei geprueefte
- * Quellen je Short sind fuer ein Thema pro Woche zu halten, fuer zwei nicht.
- * `powerbank-flug` bleibt als Entwurf liegen, bis seine Quellenlage steht —
- * bisher traegt das ganze Thema eine einzige Quelle.
+ * `dock-kein-bild` ist noch der alte Zuschnitt: fuenf Shorts aus **einem**
+ * Thema, alle auf dem Sendeplatz „Schreibtisch". Im neuen Modell ist das ein
+ * Vorrat, kein Lauf — die Rubrikpruefung meldet das entsprechend. Sobald je
+ * ein Short fuer Unterwegs, Reise, Zuhause und Kaufen steht, wird hier
+ * zusammengestellt statt einer Datei zugewiesen.
  */
 const ENTWUERFE: Short[] = dockKeinBild;
-
-/**
- * Der Setup-Kontext eines Shorts steht im Themenpool, nicht im Entwurf.
- * So gibt es genau eine Stelle, an der ein Thema seinem Kontext zugeordnet ist.
- */
-const kontextZuordnung = async (): Promise<Map<string, string>> => {
-  const pool = JSON.parse(await fs.readFile('daten/themen.json', 'utf8')) as {
-    themen: { id: string; kontext: string }[];
-  };
-  return new Map(pool.themen.map((t) => [t.id, t.kontext]));
-};
 
 const laufId = () => {
   const d = new Date();
@@ -135,15 +125,11 @@ const main = async () => {
 
   const propsOrdner = path.join(wurzel, 'props');
   await fs.mkdir(propsOrdner, { recursive: true });
-  const kontexte = await kontextZuordnung();
 
   for (const short of zuRendern) {
     const propsDatei = path.join(propsOrdner, `${short.id}.json`);
     const ziel = path.join(videoOrdner, `${short.id}.mp4`);
-    await fs.writeFile(
-      propsDatei,
-      JSON.stringify({ daten: short, kontext: kontexte.get(short.themaId) ?? 'Setup' }),
-    );
+    await fs.writeFile(propsDatei, JSON.stringify({ daten: short }));
 
     const beginn = Date.now();
     await ausfuehren('npx', [

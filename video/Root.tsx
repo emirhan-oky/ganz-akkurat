@@ -21,7 +21,7 @@ export const RemotionRoot: React.FC = () => (
     height={FORMAT.hoehe}
     fps={FORMAT.bilderProSekunde}
     durationInFrames={900}
-    defaultProps={{ daten: beispielShort, kontext: 'Schreibtisch' }}
+    defaultProps={{ daten: beispielShort }}
     /**
      * Die Laufzeit ergibt sich aus den Daten, nicht aus einem festen Wert:
      * bei vorhandener Tonspur aus deren echten Zeitstempeln, sonst aus der
