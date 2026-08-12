@@ -7,8 +7,6 @@
   "scripts": {
     "lauf": "tsx skripte/wochenlauf.ts",
     "vorschau": "remotion studio video/index.ts",
-    "rendern": "tsx skripte/rendern.ts",
-    "freigabe": "tsx skripte/freigabe.ts",
     "pruefen": "tsc --noEmit && tsx skripte/schemapruefung.ts",
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",

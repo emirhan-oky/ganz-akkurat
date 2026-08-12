@@ -54,6 +54,11 @@ Das Schema weist einen Short zurück, dem sie fehlt.
 
 ## Werbung: ein Video je Thema, sonst gar keins
 
+**Stand 12.08.2026 gibt es gar keine Werbung und keine Links, in keiner
+Beschreibung.** Affiliate setzt ein Kleingewerbe voraus – Reihenfolge: Gewerbe →
+Steuernummer → Amazon PartnerNet. Das Folgende beschreibt das Modell ab
+Partnerkonto; die Prüfungen dafür stehen bereits.
+
 **Vier von fünf Shorts haben überhaupt keine Partnerlinks** – auch nicht in
 der Beschreibung. Nur der Kaufberatungs-Short wirbt, und er trägt dafür das
 Label im Bild.
@@ -103,7 +108,7 @@ Prompt "Wir entwerfen neue Shortvideos"
   │
   7  FREIGABE          du siehst alle 5 Videos und gibst frei
   │
-  8  Veröffentlichung  Make.com → Buffer → TikTok, Reels, Shorts
+  8  Veröffentlichung  Cloudflare R2 → Buffer → TikTok, Reels, Shorts
 ```
 
 Schritte 1–6 laufen ohne Zutun. Schritt 7 ist bewusst manuell: Werbe- und
@@ -120,7 +125,8 @@ KI-Kennzeichnung sowie die Belegpflicht sind persönliche Haftung.
 | `npm run veroeffentlichen -- <lauf-id> --wirklich` | Beiträge wirklich einplanen |
 | `npm run vorschau` | Remotion-Studio, Szenen live bearbeiten |
 | `npm run stimmproben` | Hörproben mehrerer Stimmen erzeugen |
-| `npm run pruefen` | Typprüfung |
+| `npm run buffer-probe` | Rauchtest der Kette Ablage → Buffer, räumt selbst auf |
+| `npm run pruefen` | Typprüfung und Schemaprüfung der Daten |
 
 Trockenlauf und Probelauf sind jeweils der Standard. Geld und geplante
 Beiträge entstehen nur mit ausdrücklichem Schalter.
@@ -131,11 +137,12 @@ Beiträge entstehen nur mit ausdrücklichem Schalter.
 src/marke.ts        Design-Tokens: Farbe, Schrift, Raster, sichere Zonen
 src/typen.ts        Datenverträge – was nicht validiert, wird nicht gerendert
 src/zeit.ts         Szenenlängen aus echten Sprech-Zeitstempeln
+src/ablage.ts       Cloudflare R2: Upload und öffentliche URL
+src/buffer.ts       Einplanung über die Buffer-GraphQL-Schnittstelle
 video/              Remotion: Szenenvokabular und Komposition
-daten/              Themenpool, Quellen, Referenz-Short
+daten/              Themenpool, Ideenspeicher, Quellen, Referenz-Short
 laeufe/             Produktionsergebnisse (nicht in Git)
-archiv/             Strategie- und Entscheidungsdokumente
-SetupKlar/Branding/ Logo, Banner, Profilbild
+SetupKlar/Branding/ Logo, Kanalbanner, Profilbild
 ```
 
 ## Gestaltungsregeln
@@ -150,8 +157,8 @@ Kein Hexwert gehört in eine Szene.
 
 ## Produktionsregeln
 
-Diese Regeln stammen aus der Markenstrategie in `archiv/` und sind teilweise
-technisch erzwungen:
+Diese Regeln stammen aus der Markenstrategie und sind teilweise technisch
+erzwungen (`src/pruefung.ts`):
 
 - Ein Inhalt heißt nur **„Test"**, wenn das Produkt selbst benutzt wurde.
   Sonst: „Vergleich", „Kompatibilitätscheck", „Kaufhilfe".
@@ -171,7 +178,12 @@ Alle Schlüssel stehen in `.env` (nicht in Git, Vorlage in `.env.example`).
 | Stimme | ElevenLabs | läuft, aber Free-Tarif: nur englische Standardstimmen, 10.000 Zeichen/Monat |
 | B-Roll | Pexels | läuft |
 | Verteilung | Buffer | läuft, alle drei Kanäle verbunden |
-| Dateiablage | offen | Buffer braucht öffentlich erreichbare Video-URLs |
+| Dateiablage | Cloudflare R2 | läuft, mit einem echten Video durchgetestet |
+
+`npm run zugaenge` prüft alle vier auf einmal und sagt, was fehlt. Bei der
+Ablage werden Schreibrecht und öffentlicher Zugriff getrennt geprüft – ein
+Bucket kann beschreibbar sein und trotzdem keine öffentliche URL liefern, und
+genau die braucht Buffer.
 
 **Buffer:** Die alte REST-Schnittstelle nimmt keine öffentlichen Tokens mehr an
 und wird am 1. Februar 2027 abgeschaltet. Genutzt wird `api.buffer.com/graphql`.
