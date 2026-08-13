@@ -198,10 +198,26 @@ keine zwei Sekunden für eine Fahrt.
 Geblieben ist ein dabei gefundener Fehler: Die Signalkette braucht bei drei
 Geräten 1134 Pixel, die Bühne hat 1100 — die Beschriftung des letzten Geräts lag
 in dem Bereich, den Reels mit der Beschreibung überdeckt. Sie skaliert sich
-jetzt auf den verfügbaren Platz. **Die Videos in `laeufe/2026-08-12` sind vor
-dieser Korrektur gerendert.** `skripte/veroeffentlichen.ts` prüft das nicht —
-es lädt hoch, was im Ordner liegt. Vor einer echten Veröffentlichung dieses
-Laufs also neu rendern.
+jetzt auf den verfügbaren Platz. Die Videos in `laeufe/2026-08-12` waren vor
+dieser Korrektur gerendert — **der Lauf ist seit dem 13.08.2026 ohnehin
+unbrauchbar**, weil seine Daten dem Datenvertrag nicht mehr entsprechen und die
+Vertonung unter der Free-Lizenz von ElevenLabs entstand, die keine kommerzielle
+Nutzung erlaubt.
+
+Die Lücke, die dieser Fall aufdeckte, ist geschlossen:
+`skripte/veroeffentlichen.ts` lud hoch, was im Ordner lag. Es prüft jetzt
+zweierlei — ob die Shorts noch dem Schema entsprechen, und ob die Videodatei
+jünger ist als alles in `video/`, `src/` und `daten/`. Ist sie das nicht, wurde
+seit dem Render am Aussehen gearbeitet, und der Lauf muss wiederholt werden.
+
+Zwei Fallstricke dabei, beide beim Bau gefunden und beide derselbe Denkfehler —
+ein Schritt schreibt in etwas, das er selbst überwacht:
+
+- **`daten/verlauf.json` ist von der Frischeprüfung ausgenommen.** Der
+  Wochenlauf schreibt es *nach* dem Rendern; ohne die Ausnahme wäre jedes
+  frische Video sofort veraltet und die Prüfung dauerhaft rot.
+- **Nur ein Lauf `--mit-ton` schreibt den Verlauf fort.** Ein Trockenlauf ist
+  eine Übung; wer ihn mitschreibt, verbrennt ein Thema, das nie erschienen ist.
 
 Später denkbar für die Optik: **Detailzoom** in den Stecker (`@remotion/paths`,
 `getPointAtLength`), `@remotion/three`, eigene Makroaufnahmen als Beleg-B-Roll.

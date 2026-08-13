@@ -1,5 +1,5 @@
 import type { Befund } from './pruefung';
-import { WINKELARTEN, type Quelle, type Short } from './typen';
+import { RUBRIKEN, SYSTEME, VERTIEFUNGEN, WINKELARTEN, type Quelle, type Short, type Szene } from './typen';
 
 /**
  * Erzeugt die Freigabe-Uebersicht als eigenstaendige HTML-Datei.
@@ -13,6 +13,25 @@ import { WINKELARTEN, type Quelle, type Short } from './typen';
 
 const escape = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/**
+ * Was eine Szene im Bild behauptet — die Seite der Aussage, die belegt sein
+ * muss. Nicht der Sprechtext: Der fuehrt aus, die Behauptung steht im Bild.
+ */
+const behauptung = (szene: Szene): string => {
+  switch (szene.art) {
+    case 'aussage':
+      return szene.text;
+    case 'zahl':
+      return `${szene.wert}${szene.einheit ? ' ' + szene.einheit : ''} — ${szene.bedeutung}`;
+    case 'herleitung':
+      return `${szene.schritte.map((s) => s.wert).join('  ')}  =  ${szene.ergebnis.wert}`;
+    case 'einschraenkung':
+      return `${szene.bedingung} — ${szene.folge}`;
+    default:
+      return '';
+  }
+};
 
 export const freigabeseiteBauen = (opts: {
   laufId: string;
@@ -37,10 +56,57 @@ export const freigabeseiteBauen = (opts: {
           const q = quellen.find((x) => x.id === id);
           return q
             ? `<li><a href="${escape(q.url)}" target="_blank" rel="noopener">${escape(q.titel)}</a>
-                 <span class="meta">${escape(q.herausgeber)} · geprüft ${escape(q.geprueftAm)}</span></li>`
+                 <span class="meta">${escape(q.herausgeber)} · geprüft ${escape(q.geprueftAm)}${
+                   q.abrufart === 'manuell' ? ' · <b class="manuell">nur von Hand geprüft</b>' : ''
+                 }</span></li>`
             : `<li class="fehlt">Unbekannte Quelle: ${escape(id)}</li>`;
         })
         .join('');
+
+      /*
+       * Die Belegtafel — der eigentliche Grund, warum die Freigabe manuell
+       * bleibt.
+       *
+       * Vorher standen die Quellen als Liste am Ende, ohne Bezug zu dem, was
+       * im Video behauptet wird. Damit war die Freigabe ein Plausibilitaets-
+       * urteil: Klingt richtig, also wird es stimmen. Jetzt steht neben
+       * jeder Behauptung der woertliche Satz, auf dem sie ruht.
+       */
+      const belegte = short.szenen
+        .map((szene, index) => ({ szene, index }))
+        .filter(({ szene }) => 'quelleId' in szene);
+
+      const belegtafel = belegte.length
+        ? belegte
+            .map(({ szene, index }) => {
+              const id = (szene as Extract<Szene, { quelleId: string }>).quelleId;
+              const q = quellen.find((x) => x.id === id);
+
+              const zitate = q
+                ? q.belegt
+                    .map(
+                      (b) => `<blockquote>„${escape(b.zitat)}"</blockquote>
+                              <p class="folgerung">${escape(b.stuetzt)}</p>`,
+                    )
+                    .join('')
+                : `<p class="fehlt">Quelle „${escape(id)}" steht nicht in quellen.json.</p>`;
+
+              return `
+              <div class="beleg">
+                <p class="szenenart">Szene ${index + 1} · ${escape(szene.art)}</p>
+                <p class="behauptung">${escape(behauptung(szene))}</p>
+                ${zitate}
+                ${
+                  q
+                    ? `<p class="herkunft"><a href="${escape(q.url)}" target="_blank" rel="noopener">${escape(
+                        q.herausgeber,
+                      )}</a>${q.abrufart === 'manuell' ? ' · <b class="manuell">nur von Hand geprüft</b>' : ''}</p>`
+                    : ''
+                }
+              </div>`;
+            })
+            .join('')
+        : '<p class="fehlt">Keine Szene dieses Shorts trägt einen Beleg.</p>';
 
       const befundListe = eigene.length
         ? `<ul class="befunde">${eigene
@@ -74,7 +140,15 @@ export const freigabeseiteBauen = (opts: {
             <span class="nummer">${i + 1} von ${shorts.length}</span>
             <h3>${escape(short.arbeitstitel)}</h3>
             <div class="marken">
+              <span class="marke rubrik">${escape(RUBRIKEN[short.rubrik].titel)}</span>
               <span class="marke machart">${escape(WINKELARTEN[short.winkelart].titel)}</span>
+              ${
+                short.vertiefung
+                  ? `<span class="marke tiefe">${escape(VERTIEFUNGEN[short.vertiefung].titel)}</span>`
+                  : '<span class="marke flach">ohne Vertiefung</span>'
+              }
+              <span class="marke muster">${escape(short.titelmuster)}</span>
+              ${short.system !== 'ohne' ? `<span class="marke system">${escape(SYSTEME[short.system].titel)}</span>` : ''}
               ${short.kennzeichnung.werbung === 'video' ? '<span class="marke werbung">Werbung im Bild</span>' : ''}
               ${short.kennzeichnung.werbung === 'beschreibung' ? '<span class="marke werbung">Werbung in der Beschreibung</span>' : ''}
               ${short.kennzeichnung.kiStimme ? '<span class="marke ki">KI-Stimme</span>' : ''}
@@ -82,7 +156,14 @@ export const freigabeseiteBauen = (opts: {
             </div>
           </div>
 
+          <p class="merksatz">${escape(short.merksatz)}</p>
+
           ${befundListe}
+
+          <details open>
+            <summary>Belege (${belegte.length} Aussagen)</summary>
+            <div class="belege">${belegtafel}</div>
+          </details>
 
           <details>
             <summary>Plattformtexte</summary>
@@ -151,6 +232,35 @@ export const freigabeseiteBauen = (opts: {
   .marken { display: flex; gap: 8px; flex-wrap: wrap; }
   .marke { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--rand); color: var(--weich); }
   .marke.machart { background: var(--tinte); border-color: var(--tinte); color: #fff; }
+  .marke.rubrik { background: var(--blauHell); border-color: var(--blau); color: var(--blau); }
+  .marke.tiefe { background: var(--gruenHell); border-color: var(--gruen); color: var(--gruen); }
+  .marke.flach { background: var(--grund); }
+  .marke.system { background: var(--tinte); border-color: var(--tinte); color: #fff; }
+
+  .merksatz {
+    font-size: 18px; font-weight: 600; font-style: italic;
+    border-left: 5px solid var(--blau); padding-left: 14px;
+    margin: 0 0 16px; color: var(--tinte);
+  }
+
+  /*
+   * Die Belegtafel steht bewusst aufgeklappt und ueber den Plattformtexten.
+   * Sie ist der Grund, warum dieser Schritt nicht automatisiert ist — wer
+   * sie zuklappt, gibt nach Gefuehl frei.
+   */
+  .belege { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+  .beleg { background: var(--grund); border-radius: 12px; padding: 14px 16px; }
+  .beleg .szenenart { color: var(--weich); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; margin: 0 0 4px; }
+  .beleg .behauptung { font-weight: 600; margin: 0 0 10px; }
+  .beleg blockquote {
+    margin: 0 0 4px; padding: 8px 12px; background: var(--karte);
+    border-left: 4px solid var(--gruen); border-radius: 0 8px 8px 0;
+    font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .beleg .folgerung { font-size: 13px; color: var(--weich); margin: 0 0 10px; }
+  .beleg .herkunft { font-size: 13px; margin: 0; }
+  .beleg .fehlt, .quellen .fehlt { color: var(--rot); }
+  .manuell { color: #8a6200; }
   .marke.werbung { background: var(--gelbHell); border-color: var(--gelb); color: #8a6200; }
   .marke.ki { background: var(--blauHell); border-color: var(--blau); color: var(--blau); }
   .marke.ohneton { background: var(--rotHell); border-color: var(--rot); color: var(--rot); }

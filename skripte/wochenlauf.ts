@@ -175,13 +175,21 @@ const main = async () => {
   /* ── 6  Verlauf fortschreiben ────────────────────────────────────── */
 
   /*
+   * Zwei Bedingungen, und beide sind noetig.
+   *
    * Erst hier, nicht frueher: Was an der Pruefung gescheitert ist, wurde nie
-   * gerendert und soll auch nicht im Gedaechtnis stehen. Sonst gaelte ein
-   * Thema als gelaufen, das nie erschienen ist.
+   * gerendert und gehoert nicht ins Gedaechtnis.
+   *
+   * Und nur mit Ton: Ein Trockenlauf ist eine Uebung. Wer ihn mitschreibt,
+   * verbrennt ein Thema, das nie erschienen ist — beim naechsten Entwurf
+   * gaelte es als schon gelaufen. Veroeffentlicht werden kann ohnehin nur ein
+   * vertonter Lauf, das prueft `veroeffentlichen.ts`.
    */
-  if (zuRendern.length > 0) {
+  if (MIT_TON && zuRendern.length > 0) {
     await verlaufSchreiben(id, zuRendern);
     console.log(`6  Verlauf fortgeschrieben (${zuRendern.length} Shorts)\n`);
+  } else if (zuRendern.length > 0) {
+    console.log('6  Verlauf unberührt – Trockenläufe zählen nicht als gelaufen\n');
   }
 
   console.log(`   ${seitenPfad}\n`);
