@@ -6,6 +6,7 @@ import { hochladen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/abla
 import {
   beitragPlanen,
   beitragstext,
+  beitragstitel,
   kanaeleLesen,
   naechsterMontag,
   organisationErmitteln,
@@ -204,15 +205,17 @@ const main = async () => {
         continue;
       }
 
-      const titel = short.texte.youtube.titel;
+      const titel = beitragstitel(short, kanal.service) ?? short.texte.youtube.titel;
       const wann = faellig.toLocaleString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 
       if (WIRKLICH) {
         const beitragId = await beitragPlanen(schluessel, {
           kanalId: kanal.id,
+          dienst: kanal.service,
           text,
           videoUrl,
           titel,
+          kiStimme: short.kennzeichnung.kiStimme,
           faelligAm: faellig,
         });
         geplant.push({ shortId: short.id, kanalId: kanal.id, dienst: kanal.service, faelligAm: faellig.toISOString(), beitragId });

@@ -168,6 +168,25 @@ Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env` und sind mit einem echten Video durchgetestet.
 
+`npm run buffer-probe` ist der Rauchtest dieser Kette: Er legt ein Video ab,
+plant auf jedem Kanal einen Beitrag für Dezember 2027 und räumt beides sofort
+wieder weg. Er braucht keine Vertonung — ein stumm gerendertes Video genügt,
+weil die Kette geprüft wird und nicht der Inhalt. Am 13.08.2026 fand er drei
+Dinge, die keine Prüfung davor sehen konnte, weil sie erst beim Anlegen
+auffallen:
+
+- **Jeder Dienst verlangt eigene `metadata`.** YouTube `title` und
+  `categoryId` (28, Science & Technology), Instagram einen `type` (`reel`,
+  nicht `post` — sonst landet das Hochformat im Raster). Ohne sie lehnt Buffer
+  ab. Das betraf zwei von drei Kanälen.
+- **`isAiGenerated` steht je Dienst**, nicht nur als `aiAssisted` am Beitrag.
+  Das eine ist Buffers interne Notiz, das andere die Angabe, die die Plattform
+  anzeigt — die Entsprechung zu `kennzeichnung.kiStimme`.
+- **`deletePost` antwortet mit einer anderen Union als `createPost`**
+  (`DeletePostSuccess | VoidMutationError`, ohne `post`). Mit den falschen
+  Fragmenten schlug das Aufräumen fehl, und der Testbeitrag blieb im Konto
+  stehen — an der einen Stelle, die dafür da ist, nichts zurückzulassen.
+
 **Alle vier Punkte aus `offene-punkte.md` sind besprochen und entschieden
 (12.08.2026). Im Code steht davon bisher nur die Rubrik-Umstellung.** Die
 Aufgabenliste für den Rest steht am Ende von `offene-punkte.md` — dort

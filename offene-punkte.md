@@ -380,6 +380,15 @@ mit einem grünen `npm run pruefen` belegt.
       Alle drei ziehen jetzt aus `daten/entwuerfe/index.ts`.
 - [x] **Zugänge geprüft:** R2 schreibt und ist öffentlich erreichbar, Buffer
       hat drei verbundene Kanäle, Pexels antwortet.
+- [x] **Veröffentlichungskette rauchgetestet** (`npm run buffer-probe`, mit
+      einem stumm gerenderten Video, also ohne Kontingent). Drei Fehler, alle
+      erst durch den Test sichtbar: YouTube verlangt `title` und
+      `categoryId`, Instagram einen `type` — **zwei von drei Kanälen hätten
+      den echten Lauf abgelehnt**, und zwar nach dem Rendern und Vertonen.
+      Dazu antwortet `deletePost` mit einer anderen Union als `createPost`,
+      weshalb das Aufräumen fehlschlug und der Testbeitrag im Konto blieb.
+      Alles behoben, zweiter Durchlauf: drei von drei angenommen, drei von
+      drei gelöscht.
 
 **Offen geblieben**
 
@@ -391,9 +400,11 @@ mit einem grünen `npm run pruefen` belegt.
 - **ElevenLabs-Tarif.** Bedarf rund 27.800 Zeichen im Monat. Free scheidet
   schon wegen der fehlenden kommerziellen Lizenz aus, Starter läge bei 93 %
   Auslastung ohne Puffer. Empfohlen: Creator.
-- **Der ganze Weg nach draußen ist mit dem neuen Stand nie gelaufen.**
-  R2-Ablage, Buffer-Einplanung und Veröffentlichung sind seit dem Umbau
-  nicht mehr durchgetestet worden — nur die Prüfungen davor.
+- **Der Weg nach draußen ist rauchgetestet, aber nie im Ganzen gelaufen.**
+  R2-Ablage und Buffer-Einplanung tragen (siehe oben). Was aussteht, ist
+  `npm run veroeffentlichen` selbst — also der Schritt, der die
+  Freigabeentscheidung liest, die Frischeprüfung anwendet und alle fünf
+  Shorts auf die Werktage verteilt. Der braucht einen freigegebenen Lauf.
 - Der Lauf `laeufe/2026-08-12` ist endgültig unbrauchbar: veraltet gerendert
   und unter der Free-Lizenz vertont. `veroeffentlichen.ts` weist ihn jetzt
   von selbst ab.

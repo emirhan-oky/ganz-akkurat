@@ -88,6 +88,17 @@ export const beitragstext = (short: Short, dienst: string): string | null => {
   return `${texte.beschreibung}\n\n${texte.hashtags.join(' ')}`.trim();
 };
 
+/**
+ * Der Titel des Beitrags auf diesem Dienst.
+ *
+ * Vorher stand an beiden Aufrufstellen fest `short.texte.youtube.titel` —
+ * auch fuer TikTok. Die drei Titel sind aber verschieden gebaut: TikTok
+ * kuerzer, YouTube mit Kontext. Der Titel je Dienst steht in `short.texte`,
+ * er wurde nur nicht benutzt.
+ */
+export const beitragstitel = (short: Short, dienst: string): string | null =>
+  textFuerDienst(short, dienst)?.titel ?? null;
+
 export type Veroeffentlichung = {
   shortId: string;
   kanalId: string;
@@ -124,11 +135,69 @@ const beitragAuswerten = (a: Antwort, was: string): { id: string; status: string
   throw new Error(`${was}: ${a.__typename}${zusatz} – ${a.message ?? 'ohne Meldung'}`);
 };
 
+/**
+ * YouTube-Kategorie 28, „Science & Technology".
+ *
+ * `categoryId` ist bei YouTube Pflicht — ohne sie lehnt Buffer den Beitrag ab.
+ * Die Kennungen kommen aus der YouTube Data API und sind fuer den
+ * deutschsprachigen Raum dieselben wie fuer den englischen; uebersetzt wird
+ * nur der angezeigte Name.
+ */
+const YOUTUBE_KATEGORIE_TECHNIK = '28';
+
+/**
+ * Was jeder Dienst zusaetzlich zum Text verlangt.
+ *
+ * Der Rauchtest am 13.08.2026 hat das aufgedeckt: YouTube braucht `title` und
+ * `categoryId`, Instagram einen `type`. Ohne diese Felder nimmt Buffer den
+ * Beitrag nicht an — zwei von drei Kanaelen waeren im echten Lauf
+ * gescheitert, und zwar erst nach dem Rendern und Vertonen.
+ *
+ * `isAiGenerated` steht hier bewusst je Dienst und nicht nur als `aiAssisted`
+ * am Beitrag. Das eine ist Buffers eigene Notiz, das andere die Angabe, die
+ * an die Plattform durchgereicht und dort als Hinweis angezeigt wird. Sie
+ * ergaenzt die Kennzeichnung im Bild an der Stelle, an der die Plattformen
+ * sie auswerten.
+ */
+const metadatenFuerDienst = (dienst: string, titel: string, kiStimme: boolean): Record<string, unknown> | null => {
+  switch (dienst) {
+    case 'youtube':
+      return {
+        youtube: {
+          title: titel,
+          categoryId: YOUTUBE_KATEGORIE_TECHNIK,
+          privacy: 'public',
+          madeForKids: false,
+          isAiGenerated: kiStimme,
+        },
+      };
+    case 'instagram':
+      // `reel` und nicht `post`: Ein Hochformatvideo laeuft als Reel, ein
+      // `post` landet im Raster und verliert die Reichweite, um die es geht.
+      return { instagram: { type: 'reel', shouldShareToFeed: true, isAiGenerated: kiStimme } };
+    case 'tiktok':
+      return { tiktok: { title: titel, isAiGenerated: kiStimme } };
+    default:
+      return null;
+  }
+};
+
 /** Legt einen geplanten Beitrag mit Videoanhang an. */
 export const beitragPlanen = async (
   schluessel: string,
-  opts: { kanalId: string; text: string; videoUrl: string; titel: string; faelligAm: Date },
+  opts: {
+    kanalId: string;
+    dienst: string;
+    text: string;
+    videoUrl: string;
+    titel: string;
+    kiStimme: boolean;
+    faelligAm: Date;
+  },
 ): Promise<string> => {
+  const metadaten = metadatenFuerDienst(opts.dienst, opts.titel, opts.kiStimme);
+  if (!metadaten) throw new Error(`Kein Metadatensatz für den Dienst ${opts.dienst} hinterlegt.`);
+
   const daten = await abfragen<{ createPost: Antwort }>(
     schluessel,
     /*
@@ -136,12 +205,8 @@ export const beitragPlanen = async (
      * fuer einen festen Termin, `automatic` fuer selbsttaetiges
      * Veroeffentlichen. Die Dokumentation nennt an dieser Stelle
      * SCHEDULED und AUTOMATIC - beides existiert nicht.
-     *
-     * `aiAssisted` wird gesetzt, weil die Stimme synthetisch ist. Das ist
-     * keine Formalie: Es ergaenzt die Kennzeichnung im Bild um die Angabe
-     * dort, wo die Plattformen sie auswerten.
      */
-    `mutation($channelId: ChannelId!, $text: String!, $dueAt: DateTime!, $url: String!, $titel: String!) {
+    `mutation($channelId: ChannelId!, $text: String!, $dueAt: DateTime!, $url: String!, $titel: String!, $metadata: PostInputMetaData!) {
        createPost(input: {
          channelId: $channelId
          text: $text
@@ -149,6 +214,7 @@ export const beitragPlanen = async (
          mode: customScheduled
          schedulingType: automatic
          aiAssisted: true
+         metadata: $metadata
          assets: [{ video: { url: $url, metadata: { title: $titel, thumbnailOffset: 1000 } } }]
        }) { ${ANTWORTVARIANTEN} }
      }`,
@@ -158,19 +224,36 @@ export const beitragPlanen = async (
       dueAt: opts.faelligAm.toISOString(),
       url: opts.videoUrl,
       titel: opts.titel,
+      metadata: metadaten,
     },
   );
   return beitragAuswerten(daten.createPost, 'Beitrag anlegen').id;
 };
 
-/** Entfernt einen geplanten Beitrag wieder. */
+/**
+ * Entfernt einen geplanten Beitrag wieder.
+ *
+ * `deletePost` antwortet mit einer **anderen** Union als `createPost`:
+ * `DeletePostSuccess | VoidMutationError`, ohne `post`-Feld. Mit den
+ * Varianten von `createPost` lehnt GraphQL die Abfrage ab („Fragment cannot
+ * be spread here") — und beim Rauchtest hiess das, dass der Testbeitrag im
+ * Konto stehen blieb, obwohl das Aufraeumen ausdruecklich dafuer da ist.
+ */
 export const beitragLoeschen = async (schluessel: string, beitragId: string): Promise<void> => {
-  const daten = await abfragen<{ deletePost: Antwort }>(
+  const daten = await abfragen<{ deletePost: { __typename: string; message?: string } }>(
     schluessel,
-    `mutation($id: PostId!) { deletePost(input: { id: $id }) { ${ANTWORTVARIANTEN} } }`,
+    `mutation($id: PostId!) {
+       deletePost(input: { id: $id }) {
+         __typename
+         ... on DeletePostSuccess { id }
+         ... on VoidMutationError { message }
+       }
+     }`,
     { id: beitragId },
   );
-  beitragAuswerten(daten.deletePost, 'Beitrag löschen');
+  if (daten.deletePost.__typename !== 'DeletePostSuccess') {
+    throw new Error(`Beitrag löschen: ${daten.deletePost.__typename} – ${daten.deletePost.message ?? 'ohne Meldung'}`);
+  }
 };
 
 /**

@@ -2,7 +2,14 @@ import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { hochladen, loeschen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
-import { beitragLoeschen, beitragPlanen, beitragstext, kanaeleLesen, organisationErmitteln } from '../src/buffer';
+import {
+  beitragLoeschen,
+  beitragPlanen,
+  beitragstext,
+  beitragstitel,
+  kanaeleLesen,
+  organisationErmitteln,
+} from '../src/buffer';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 
 /**
@@ -94,9 +101,11 @@ const main = async () => {
       try {
         const id = await beitragPlanen(schluessel, {
           kanalId: kanal.id,
+          dienst: kanal.service,
           text,
           videoUrl,
-          titel: short.texte.youtube.titel,
+          titel: beitragstitel(short, kanal.service) ?? short.texte.youtube.titel,
+          kiStimme: short.kennzeichnung.kiStimme,
           faelligAm: TERMIN,
         });
         angelegt.push(id);
