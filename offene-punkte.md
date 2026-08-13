@@ -363,6 +363,24 @@ mit einem grünen `npm run pruefen` belegt.
 - [x] Titel und Hooks auf die drei Muster
 - [x] Quellen recherchiert und wörtlich geprüft (33 Zitate, 0 Beanstandungen)
 
+**Vor dem Tarifkauf erledigt (13.08.2026)**
+
+- [x] **Sprechprobe** (`npm run sprechprobe`) — misst die Sprechdauer mit der
+      deutschen Systemstimme von macOS und kostet kein Kontingent. Der Grund
+      war die Formel in `src/zeit.ts`: Sie rechnete mit 15,0 Zeichen je
+      Sekunde, gemessen sind 15,9. Der Reise-Short galt damit als 78,7
+      Sekunden lang und war 70,4 — unter dem Zielfenster. Das wäre erst
+      **nach** der Abrechnung aufgefallen. Er ist jetzt um eine belegte
+      Warnung erweitert (Kurzschluss-Sicherung, LBA und EASA wortgleich),
+      alle fünf liegen im Fenster.
+- [x] **Drei veraltete Listen zusammengeführt.** Die Schemaprüfung kannte drei
+      von fünf Shorts und meldete trotzdem grün; `buffer-probe.ts` zeigte auf
+      `laeufe/2026-08-11`, das es nicht mehr gibt; `zugaenge.ts` rechnete den
+      Rhythmus mit zehn Videos, zwei je Tag — der Takt von vor den Rubriken.
+      Alle drei ziehen jetzt aus `daten/entwuerfe/index.ts`.
+- [x] **Zugänge geprüft:** R2 schreibt und ist öffentlich erreichbar, Buffer
+      hat drei verbundene Kanäle, Pexels antwortet.
+
 **Offen geblieben**
 
 - **Deutsche Stimme.** `skripte/wochenlauf.ts` fällt ohne

@@ -89,9 +89,34 @@ export const powerbankFlug: Short[] = [
         ueberschrift: 'Gilt auch außerhalb Europas',
         bedingung: 'Über 100 Wh brauchst du die Zustimmung der Airline',
         folge: 'Dann höchstens zwei Ersatzbatterien — und über 160 Wh gar keine',
-        quelleId: 'easa-lithium-handgepaeck',
+        /*
+         * Bewusst die FAA und nicht die EASA: Die Szene behauptet, die Grenze
+         * gelte auch ausserhalb Europas — belegen kann das nur eine Quelle von
+         * ausserhalb Europas. Die EASA traegt dafuer die Szene darunter.
+         */
+        quelleId: 'faa-lithium-grenzwerte',
         sprechtext:
           'Und das ist keine deutsche Eigenheit. Die europäische und die amerikanische Luftfahrtbehörde nennen dieselbe Zahl. Wer darüber liegt, braucht die Zustimmung der Fluggesellschaft und darf dann höchstens zwei Ersatzbatterien mitnehmen. Über hundertsechzig Wattstunden ist ganz Schluss.',
+      },
+      {
+        /*
+         * Kam am 13.08.2026 dazu, aus zwei Gruenden. Der erste ist die Laenge:
+         * Die Sprechprobe mass 70,4 Sekunden gegen ein Zielfenster von 75 bis
+         * 90 — der Short war zu kurz, und die alte Schaetzformel hatte das
+         * verdeckt.
+         *
+         * Der zweite ist der bessere: Die Kurzschluss-Sicherung steht bei LBA
+         * und EASA wortgleich und ist der einzige Punkt der ganzen Vorschrift,
+         * den man auch dann noch falsch machen kann, wenn man richtig
+         * gerechnet hat. Wer 74 Wattstunden hat und die Powerbank lose zu den
+         * Schluesseln wirft, verstoesst trotzdem.
+         */
+        art: 'warnung',
+        text: 'Lose in der Tasche reicht nicht',
+        loesung: 'Pole abkleben oder in die Originalhülle — jede Batterie einzeln',
+        quelleId: 'easa-lithium-handgepaeck',
+        sprechtext:
+          'Eine Sache übersehen selbst die, die richtig gerechnet haben. Beide Behörden verlangen, dass jede Ersatzbatterie einzeln gegen Kurzschluss gesichert ist. Lose zwischen Schlüssel und Kleingeld reicht dafür nicht. Es genügt, die Pole abzukleben oder die Powerbank in ihrer Hülle zu lassen.',
       },
       {
         art: 'endkarte',
@@ -103,7 +128,10 @@ export const powerbankFlug: Short[] = [
         ],
         abschluss: 'Technik, die zusammenpasst',
         sprechtext:
-          'Merk dir die Rechnung, nicht die Zahl. Dann kannst du jede Powerbank im Laden selbst einschätzen, bevor du sie kaufst. Und pack sie ins Handgepäck — im aufgegebenen Koffer ist sie ausnahmslos verboten, in Europa wie in den USA.',
+          // Gekürzt am 13.08.2026: Der Short lag gemessen bei 89,3 Sekunden,
+          // das Fenster endet bei 90. „In Europa wie in den USA" stand zwei
+          // Szenen vorher schon.
+          'Merk dir die Rechnung, nicht die Zahl. Dann kannst du jede Powerbank selbst einschätzen, bevor du sie kaufst. Und pack sie ins Handgepäck — im aufgegebenen Koffer ist sie ausnahmslos verboten.',
       },
     ],
 
@@ -125,7 +153,7 @@ export const powerbankFlug: Short[] = [
       youtube: {
         titel: 'Auf deiner Powerbank steht mAh. Die Vorschrift will Wattstunden.',
         beschreibung:
-          'Die Grenze für Powerbanks im Handgepäck steht in Wattstunden, auf dem Gerät stehen Milliamperestunden. Die Umrechnung: mAh × 3,7 V ÷ 1000 = Wh.\n\nQuelle:\nLuftfahrt-Bundesamt, Elektronische Geräte mit Lithium-Batterien: https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html',
+          'Die Grenze für Powerbanks im Handgepäck steht in Wattstunden, auf dem Gerät stehen Milliamperestunden. Die Umrechnung: mAh × 3,7 V ÷ 1000 = Wh. Bis 100 Wh braucht es keine Genehmigung – und jede Batterie muss einzeln gegen Kurzschluss gesichert sein.\n\nQuellen:\nLuftfahrt-Bundesamt, Elektronische Geräte mit Lithium-Batterien: https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html\nEASA, Dangerous Goods: https://www.easa.europa.eu/en/domains/air-operations/dangerous-goods\nFAA, Lithium Batteries: https://www.faa.gov/hazmat/packsafe/lithium-batteries',
         hashtags: ['#Shorts', '#Powerbank', '#Handgepäck'],
       },
     },

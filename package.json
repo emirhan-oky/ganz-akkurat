@@ -11,6 +11,7 @@
     "quellen-pruefen": "tsx skripte/quellen-pruefen.ts",
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",
+    "sprechprobe": "tsx skripte/sprechprobe.ts",
     "zugaenge": "tsx skripte/zugaenge.ts",
     "buffer-probe": "tsx skripte/buffer-probe.ts"
   },

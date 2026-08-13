@@ -1,7 +1,6 @@
 import { Short } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
-import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
-import { powerbankFlug } from '../daten/entwuerfe/powerbank-flug';
+import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 
 /**
  * Schemapruefung der Daten — die Luecke, die `tsc` nicht schliesst.
@@ -21,19 +20,20 @@ import { powerbankFlug } from '../daten/entwuerfe/powerbank-flug';
  */
 
 /**
- * Geparkte Entwuerfe blockieren nicht.
+ * Die Prueflinge kommen aus `daten/entwuerfe/index.ts`, nicht aus einer
+ * eigenen Liste. Eine eigene Liste hatte diese Pruefung bis zum 13.08.2026,
+ * und sie war um zwei Shorts veraltet — gemeldet wurde trotzdem gruen.
  *
- * `powerbank-flug` traegt bis heute eine einzige Quelle und steht deshalb
- * nicht im Wochenlauf. Wuerde es die Pruefung rot faerben, waere sie dauerhaft
- * rot — und eine Pruefung, die immer fehlschlaegt, liest bald niemand mehr.
- * Solche Entwuerfe erscheinen als Hinweis und aendern den Exit-Code nicht.
+ * Geparkte Entwuerfe blockieren nicht: Sie erscheinen als Hinweis und aendern
+ * den Exit-Code nicht. Eine Pruefung, die dauerhaft rot ist, liest bald
+ * niemand mehr.
  */
 type Pruefling = { name: string; daten: unknown[]; blockierend: boolean };
 
 const PRUEFLINGE: Pruefling[] = [
   { name: 'Referenz-Short (Standard-Prop der Komposition)', daten: [beispielShort], blockierend: true },
-  { name: 'dock-kein-bild (im Wochenlauf)', daten: dockKeinBild, blockierend: true },
-  { name: 'powerbank-flug (geparkt)', daten: powerbankFlug, blockierend: false },
+  { name: 'Wochenlauf', daten: WOCHENLAUF, blockierend: true },
+  { name: 'geparkt', daten: GEPARKT, blockierend: false },
 ];
 
 const pruefen = ({ name, daten, blockierend }: Pruefling): number => {

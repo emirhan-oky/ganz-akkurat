@@ -1,8 +1,9 @@
 import 'dotenv/config';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import { hochladen, loeschen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
 import { beitragLoeschen, beitragPlanen, beitragstext, kanaeleLesen, organisationErmitteln } from '../src/buffer';
-import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
+import { WOCHENLAUF } from '../daten/entwuerfe';
 
 /**
  * Rauchtest der Veroeffentlichungskette.
@@ -27,6 +28,26 @@ const ENDPUNKT = 'https://api.buffer.com/graphql';
 /** Weit genug weg, dass ein misslungenes Aufraeumen folgenlos bleibt. */
 const TERMIN = new Date('2027-12-24T12:00:00Z');
 
+/**
+ * Das neueste gerenderte Video zu diesem Short.
+ *
+ * Hier stand bis zum 13.08.2026 ein fester Pfad auf `laeufe/2026-08-11`. Den
+ * Ordner gab es da laengst nicht mehr — `laeufe/` steht in `.gitignore` und
+ * wird beim Aufraeumen geleert. Der Rauchtest waere also an der fehlenden
+ * Datei gescheitert und nicht an dem, was er pruefen soll.
+ *
+ * Fuer den Rauchtest genuegt ein stumm gerendertes Video: Es wird sofort
+ * wieder geloescht, und geprueft wird die Kette, nicht der Inhalt.
+ */
+const neuestesVideo = async (shortId: string): Promise<string> => {
+  const laeufe = await fs.readdir('laeufe').catch(() => [] as string[]);
+  for (const lauf of laeufe.sort().reverse()) {
+    const pfad = path.join('laeufe', lauf, 'videos', `${shortId}.mp4`);
+    if (await fs.stat(pfad).then(() => true, () => false)) return pfad;
+  }
+  throw new Error(`Kein gerendertes Video fuer ${shortId} in laeufe/. Erst \`npm run lauf\` ausfuehren.`);
+};
+
 const anfragen = async <T>(schluessel: string, query: string, variables: unknown): Promise<T> => {
   const a = await fetch(ENDPUNKT, {
     method: 'POST',
@@ -43,10 +64,10 @@ const main = async () => {
   const schluessel = process.env.BUFFER_ACCESS_TOKEN;
   if (!schluessel) throw new Error('BUFFER_ACCESS_TOKEN fehlt in .env');
 
-  const short = dockKeinBild[0]!;
+  const short = WOCHENLAUF[0]!;
   const zugang = zugangAusUmgebung();
   const zielpfad = `probe/${short.id}.mp4`;
-  const lokal = path.join('laeufe', '2026-08-11', 'videos', `${short.id}.mp4`);
+  const lokal = await neuestesVideo(short.id);
   const angelegt: string[] = [];
 
   console.log('SetupKlar · Rauchtest der Veröffentlichung\n');

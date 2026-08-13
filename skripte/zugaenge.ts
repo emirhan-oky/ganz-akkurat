@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { kanaeleLesen, naechsterMontag, organisationErmitteln, zeitplanBauen } from '../src/buffer';
 import { hochladen, loeschen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
-import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
+import { WOCHENLAUF } from '../daten/entwuerfe';
 
 /**
  * Zugangspruefung.
@@ -118,15 +118,24 @@ const main = async () => {
   await buffer();
   await ablage();
 
+  /*
+   * Der Rhythmus wird aus dem echten Wochenlauf gerechnet, nicht aus einer
+   * festen Zahl. Hier stand `Array(10)` — zwei Videos je Tag, der Takt von
+   * vor der Rubrik-Umstellung. Die Pruefung zeigte damit einen Zeitplan an,
+   * den es nicht mehr gibt, an genau der Stelle, an der man ihn kontrolliert.
+   */
   console.log('\nVeröffentlichungsrhythmus');
   const montag = naechsterMontag(new Date());
-  const zeiten = zeitplanBauen(Array(10).fill(dockKeinBild[0]!), montag);
+  const zeiten = zeitplanBauen(WOCHENLAUF, montag);
   const erste = zeiten[0]!;
   const letzte = zeiten[zeiten.length - 1]!;
   const f = (d: Date) =>
     d.toLocaleString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-  console.log(`  10 Videos, 2 je Tag an 5 Tagen`);
+  console.log(`  ${WOCHENLAUF.length} Videos, eines je Werktag`);
   console.log(`  von ${f(erste)} bis ${f(letzte)}`);
+  for (const [i, short] of WOCHENLAUF.entries()) {
+    console.log(`  ${f(zeiten[i]!)}  ${short.rubrik.padEnd(13)} ${short.arbeitstitel}`);
+  }
 };
 
 main().catch((f) => {

@@ -13,9 +13,18 @@ import type { Short, Szene } from './typen';
 
 /**
  * Sprechgeschwindigkeit in Zeichen pro Sekunde.
- * Deutsche Erzaehlstimme in lockerem Tempo liegt bei rund 15 Zeichen/s.
+ *
+ * Bis zum 13.08.2026 stand hier 15 — eine Annahme, nie nachgemessen. Die
+ * Sprechprobe (`npm run sprechprobe`, deutsche Systemstimme ueber alle fuenf
+ * Shorts) ergab 15,9. Der Unterschied klingt klein und ist es nicht: Bei
+ * einem Short von rund 1.250 Zeichen sind das acht Sekunden, und acht
+ * Sekunden entscheiden ueber das Zielfenster. Der Reise-Short galt mit 78,7
+ * geschaetzten Sekunden als drin und lag gemessen bei 70,4.
+ *
+ * Die Richtung des Fehlers war die unguenstige: Wer zu lang schaetzt, baut zu
+ * kurze Shorts — und merkt es erst, nachdem ElevenLabs abgerechnet hat.
  */
-const ZEICHEN_PRO_SEKUNDE = 15;
+export const ZEICHEN_PRO_SEKUNDE = 15.9;
 
 /** Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen. */
 const PAUSE_NACH_SZENE_SEK = 0.32;
@@ -60,11 +69,22 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   kaufkriterien: 6.5,
 };
 
+/**
+ * Standdauer einer Szene aus ihrer Sprechdauer.
+ *
+ * Getrennt von der Schaetzung, damit `npm run sprechprobe` mit einer
+ * **gemessenen** Sprechdauer dieselbe Rechnung anstellen kann statt sie
+ * nachzubauen. Die Mindestdauern und die Atempause gelten unabhaengig davon,
+ * woher die Sprechdauer kommt: Ein Bild, das fuenf Sekunden stehen muss,
+ * steht auch dann fuenf Sekunden, wenn der Satz darueber in dreien
+ * gesprochen ist.
+ */
+export const szenendauerAus = (art: Szene['art'], sprechdauerSek: number): number =>
+  Math.max(MINDESTDAUER_SEK[art], sprechdauerSek) + PAUSE_NACH_SZENE_SEK;
+
 /** Geschaetzte Sprechdauer einer einzelnen Szene in Sekunden. */
-export const geschaetzteSzenendauer = (szene: Szene): number => {
-  const sprechdauer = szene.sprechtext.length / ZEICHEN_PRO_SEKUNDE;
-  return Math.max(MINDESTDAUER_SEK[szene.art], sprechdauer) + PAUSE_NACH_SZENE_SEK;
-};
+export const geschaetzteSzenendauer = (szene: Szene): number =>
+  szenendauerAus(szene.art, szene.sprechtext.length / ZEICHEN_PRO_SEKUNDE);
 
 /**
  * Startzeit und Dauer jeder Szene in Bildern.

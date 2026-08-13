@@ -9,9 +9,20 @@ Ausgaben sind deutsch.
 ```
 npm run pruefen           # tsc --noEmit && Schemaprüfung der Daten
 npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
+npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 ```
+
+`sprechprobe` gehört vor jeden Lauf mit Ton. Sie spricht jede Szene mit der
+deutschen Systemstimme von macOS (`say`) und rechnet die Standdauer mit
+derselben Funktion aus wie der Renderer — gemessen wird nur die Sprechdauer.
+Der Anlass: `ZEICHEN_PRO_SEKUNDE` in `src/zeit.ts` stand auf 15,0 und war nie
+nachgemessen; real sind es 15,9. Der Reise-Short galt damit als 78,7 Sekunden
+lang und war 70,4, also unter dem Zielfenster — sichtbar geworden wäre das
+erst nach der Abrechnung bei ElevenLabs, und ein Wochenlauf kostet rund 6.300
+Zeichen. Die Systemstimme klingt nicht wie ElevenLabs und soll es nicht; für
+die Endabnahme bleibt die echte Tonspur zuständig.
 
 `npm run pruefen` muss vor jedem Lauf grün sein. Die Schemaprüfung
 (`skripte/schemapruefung.ts`) existiert wegen einer teuren Erfahrung:
@@ -224,5 +235,14 @@ Später denkbar für die Optik: **Detailzoom** in den Stecker (`@remotion/paths`
 Verworfen: LottieFiles (bricht das Eigenbau-Prinzip) und Rive (Interaktivität
 ist bei gerendertem Video wertlos).
 
-Offen bleibt `daten/entwuerfe/powerbank-flug.ts` — steht auf einer einzigen
-Quelle (LBA) und ist deshalb geparkt, nicht im Wochenlauf.
+Welche Entwürfe im Lauf sind, steht in `daten/entwuerfe/index.ts` — in
+`WOCHENLAUF` das, was läuft, in `GEPARKT` das, was noch nicht trägt. Geparktes
+färbt die Prüfung nicht rot. Die Liste steht dort und **nirgends sonst**:
+Wochenlauf, Schemaprüfung, Zugangsprüfung und Rauchtest ziehen alle daraus.
+Bis zum 13.08.2026 hatte jedes Skript seine eigene, und sie waren
+auseinandergelaufen — die Schemaprüfung kannte drei von fünf Shorts und meldete
+grün. Doppelte Listen fallen nicht auf, weil jede für sich stimmig aussieht.
+
+`powerbank-flug` stand lange in `GEPARKT`, weil es auf einer einzigen Quelle
+(LBA) beruhte; seit dem 13.08.2026 tragen es drei Behörden aus drei
+Rechtsräumen, und es ist im Lauf. `GEPARKT` ist zurzeit leer.

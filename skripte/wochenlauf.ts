@@ -9,11 +9,7 @@ import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { verlaufLesen, verlaufSchreiben } from '../src/verlauf';
-import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
-import { wlanAbends } from '../daten/entwuerfe/wlan-abends';
-import { garantieGewaehrleistung } from '../daten/entwuerfe/garantie-gewaehrleistung';
-import { kabelWatt } from '../daten/entwuerfe/kabel-watt';
-import { powerbankFlug } from '../daten/entwuerfe/powerbank-flug';
+import { WOCHENLAUF } from '../daten/entwuerfe';
 
 const ausfuehren = promisify(execFile);
 
@@ -38,17 +34,14 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
  * Seit dem 13.08.2026 vollstaendig: fuenf Rubriken, fuenf Macharten, fuenf
  * Themen mit je drei woertlich geprueften Quellen.
  *
- * Die Reihenfolge hier ist die Sendereihenfolge der Woche, Montag bis
- * Freitag. `zeitplanBauen` in `src/buffer.ts` verteilt sie auf die Werktage
- * um 18:00.
+ * Die Reihenfolge in `WOCHENLAUF` ist die Sendereihenfolge der Woche, Montag
+ * bis Freitag. `zeitplanBauen` in `src/buffer.ts` verteilt sie auf die
+ * Werktage um 18:00.
+ *
+ * Die Liste steht in `daten/entwuerfe/index.ts` und nicht hier, damit die
+ * Schemapruefung dieselbe sieht.
  */
-const ENTWUERFE: Short[] = [
-  ...dockKeinBild,
-  ...kabelWatt,
-  ...powerbankFlug,
-  ...wlanAbends,
-  ...garantieGewaehrleistung,
-];
+const ENTWUERFE: Short[] = WOCHENLAUF;
 
 const laufId = () => {
   const d = new Date();

@@ -277,6 +277,15 @@ const SzeneWarnung = SzeneBasis.extend({
   text: z.string().max(120),
   /** Was stattdessen zu tun ist. Ohne Loesung bleibt nur Frust. */
   loesung: z.string().max(120).optional(),
+  /**
+   * Optional, wie bei `checkliste` und aus demselben Grund.
+   *
+   * Eine Warnung kann beides sein: ein Rat („lass das lieber") oder eine
+   * Vorschrift. Im zweiten Fall gehoert die Quelle dazu und erscheint in der
+   * Belegtafel — dass Powerbank-Pole gegen Kurzschluss gesichert sein
+   * muessen, ist keine Meinung, sondern steht beim Luftfahrt-Bundesamt.
+   */
+  quelleId: z.string().optional(),
 });
 
 /** Signalweg zwischen Geraeten — die Signaturszene dieser Nische. */
