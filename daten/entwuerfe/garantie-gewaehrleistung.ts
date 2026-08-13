@@ -82,6 +82,33 @@ export const garantieGewaehrleistung: Short[] = [
           'Aber jetzt der Teil, den kaum jemand sagt. Zeigt sich der Fehler im ersten Jahr, wird vermutet, dass er von Anfang an da war. Du musst nichts beweisen. Danach dreht sich das um: Dann liegt es an dir zu zeigen, dass der Mangel schon beim Kauf angelegt war. Die zwei Jahre gelten weiter — nur werden sie schwerer durchzusetzen.',
       },
       {
+        /*
+         * Kam am 13.08.2026 dazu: Der vertonte Short lag bei 72,7 Sekunden,
+         * das Fenster beginnt bei 75.
+         *
+         * Anders als bei den zwei anderen kurzen Shorts liess sich hier keine
+         * ungenutzte Quelle heranziehen — alle drei tragen schon eine Szene.
+         * Ergaenzt ist deshalb der Schritt, der dem Video wirklich fehlte:
+         * Bis hierher weiss der Zuschauer, dass er Rechte hat, aber nicht,
+         * welchen Satz er am Telefon sagt. Ein Rechtsthema ohne Handgriff ist
+         * nur Halbwissen.
+         *
+         * Nebenwirkung, die zaehlt: `checkliste` kam bisher nur in einem der
+         * fuenf Shorts vor.
+         */
+        art: 'checkliste',
+        ueberschrift: 'Was du am Telefon sagst',
+        punkte: [
+          { text: 'Nach Gewährleistung fragen, nicht nach Garantie', bewertung: 'ja' },
+          { text: 'Beim Verkäufer melden, nicht beim Hersteller', bewertung: 'ja' },
+          { text: 'Kaufdatum nennen — unter zwölf Monaten?', bewertung: 'ja' },
+          { text: '„Garantie abgelaufen" als Absage hinnehmen', bewertung: 'nein' },
+        ],
+        quelleId: 'bgb-443-garantie',
+        sprechtext:
+          'Praktisch heißt das: Ruf beim Verkäufer an, nicht beim Hersteller. Sag das Wort Gewährleistung, nicht Garantie. Und nenn das Kaufdatum — liegt es unter zwölf Monaten, bist du in der bequemen Hälfte.',
+      },
+      {
         art: 'endkarte',
         ueberschrift: 'Am Telefon abgewimmelt?',
         punkte: [

@@ -93,6 +93,28 @@ export const wlanAbends: Short[] = [
           'Bevor du Geld ausgibst, drei Handgriffe. Erstens: Häng ein Gerät ans Netzwerkkabel und miss noch mal. Läuft es dort schnell, ist die Leitung sauber und es liegt am Funk. Zweitens: Häng alles, was fünf Gigahertz kann, auf das zweite Netz um. Und drittens sagt der Hersteller selbst, was dann hilft — im Router den Funkkanal wechseln, weg von dem, auf dem die halbe Straße sitzt.',
       },
       {
+        /*
+         * Kam am 13.08.2026 dazu, weil der vertonte Short bei 73,9 Sekunden
+         * lag und das Fenster bei 75 beginnt.
+         *
+         * `intel-funkumgebung` stand bis dahin nur in `quellenIds`, ohne dass
+         * eine Szene sie trug. Der Ratschlag „nimm 5 GHz" steht zwar schon in
+         * der Checkliste — was fehlte, war, dass er nicht von uns kommt.
+         * Genau darin liegt der Unterschied zwischen einem Forentipp und
+         * einer belegten Aussage, und dieser Kanal lebt von dem Unterschied.
+         *
+         * Bewusst **nicht** ergaenzt: dass 5 GHz schlechter durch Waende
+         * kommt. Das stimmt, aber keine der drei Quellen sagt es — also steht
+         * es nicht im Video.
+         */
+        art: 'aussage',
+        text: 'Auch der Chiphersteller rät zu 5 GHz.',
+        hervorhebung: 'Chiphersteller',
+        quelleId: 'intel-funkumgebung',
+        sprechtext:
+          'Das ist übrigens kein Forentipp. Der Hersteller der Funkmodule, die in den meisten Notebooks stecken, empfiehlt genau das: Wer Störungen loswerden will, geht auf fünf Gigahertz.',
+      },
+      {
         art: 'endkarte',
         ueberschrift: 'WLAN abends zäh?',
         punkte: [

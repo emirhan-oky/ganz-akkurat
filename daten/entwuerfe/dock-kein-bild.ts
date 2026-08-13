@@ -112,6 +112,25 @@ export const dockKeinBild: Short[] = [
           'Jetzt sagst du vielleicht: Bei mir geht es aber. Dann steckt eine andere Technik im Dock. Ein Treiber sammelt die Bildpunkte ein und schickt sie als Datenstrom hinüber — der Hersteller beschreibt es genau so. Es funktioniert. Nur macht die Arbeit dein Prozessor.',
       },
       {
+        /*
+         * Kam am 13.08.2026 dazu. Der vertonte Short lag bei 72,7 Sekunden und
+         * damit unter dem Zielfenster — die Schaetzung hatte das nicht gezeigt,
+         * weil sie noch mit einer fremden Stimme kalibriert war.
+         *
+         * Gefuellt wird nicht, sondern belegt: `dell-mehrere-monitore` stand
+         * bis heute nur in `quellenIds` und in der Beschreibung, ohne dass eine
+         * Szene sie trug. Inhaltlich ist es die zweite Entwarnung des Shorts
+         * und damit dieselbe Bewegung wie die Fehlspur — wer zwei Monitore
+         * anschliessen will, kauft sonst als naechstes ein teureres Kabel.
+         */
+        art: 'aussage',
+        text: 'Bei zwei Monitoren zählt die Grafikkarte.',
+        hervorhebung: 'Grafikkarte',
+        quelleId: 'dell-mehrere-monitore',
+        sprechtext:
+          'Und noch etwas, falls du gleich zwei Monitore anschließen willst. Dann ist meistens weder das Kabel die Grenze noch das Dock, sondern die Grafikkarte in deinem Notebook. Der Hersteller sagt es deutlich: Sie ist die eigentliche Decke, nicht die Verkabelung.',
+      },
+      {
         art: 'endkarte',
         ueberschrift: 'Kein Bild über das Dock?',
         punkte: [

@@ -1,0 +1,45 @@
+{
+  "_hinweis": "Gedaechtnis ueber die Woche hinaus: welche Rubrik zuletzt ohne Vertiefung lief, welches Thema schon da war, welches Titelmuster sich abnutzt. Wird von skripte/wochenlauf.ts fortgeschrieben. Bewusst ausserhalb von laeufe/, weil das in .gitignore steht.",
+  "laeufe": [
+    {
+      "lauf": "2026-08-13",
+      "shorts": [
+        {
+          "rubrik": "schreibtisch",
+          "themaId": "dock-kein-bild",
+          "winkelart": "diagnose",
+          "titelmuster": "verdaechtiger",
+          "vertiefung": "fehlspur"
+        },
+        {
+          "rubrik": "unterwegs",
+          "themaId": "kabel-watt",
+          "winkelart": "grenzwert",
+          "titelmuster": "uhr",
+          "vertiefung": "herleitung"
+        },
+        {
+          "rubrik": "reise",
+          "themaId": "powerbank-flug",
+          "winkelart": "umrechnung",
+          "titelmuster": "zweisatz",
+          "vertiefung": "herleitung"
+        },
+        {
+          "rubrik": "zuhause",
+          "themaId": "wlan-abends",
+          "winkelart": "mythos",
+          "titelmuster": "verdaechtiger",
+          "vertiefung": "fehlspur"
+        },
+        {
+          "rubrik": "kaufen",
+          "themaId": "garantie-gewaehrleistung",
+          "winkelart": "verwechslung",
+          "titelmuster": "zweisatz",
+          "vertiefung": "grenzfall"
+        }
+      ]
+    }
+  ]
+}
