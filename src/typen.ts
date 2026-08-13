@@ -350,6 +350,39 @@ const SzeneKaufkriterien = SzeneBasis.extend({
   verweis: z.string().max(52).optional(),
 });
 
+/**
+ * Das Produkt im Bild — generisch gezeichnet, nie benannt.
+ *
+ * Die Umsetzung der Entscheidung vom 12.08.2026: **zeigen ja, benennen
+ * nein.** Das Geraet wird als flaechige Vektorzeichnung gezeigt, die
+ * Merkmale stehen daneben — aber es faellt kein Markenname. Damit bleibt
+ * `produktname` unangetastet und das Video bleibt Information.
+ *
+ * Kein Foto und kein Bildmodell: Ein Bildmodell erfindet Buchsen, und das
+ * waere derselbe Fehler, den die Belegpflicht verhindern soll, nur
+ * ungeprueft.
+ *
+ * Loest zugleich den Hinweis „Szenenart `aussage` kommt in 4 von 5 Shorts
+ * vor" — die Merkmalskarte sagt dasselbe wie eine Aussage, zeigt es aber.
+ */
+const SzeneMerkmalskarte = SzeneBasis.extend({
+  art: z.literal('merkmalskarte'),
+  ueberschrift: z.string().max(50).optional(),
+  /** Welches Geraet gezeichnet wird. Gleiche Auswahl wie in der Signalkette. */
+  geraet: z.enum(['notebook', 'dock', 'monitor', 'kabel', 'netzteil', 'telefon', 'powerbank', 'adapter']),
+  /** Woran man es erkennt — Merkmale, keine Modelle. */
+  merkmale: z
+    .array(
+      z.object({
+        text: z.string().max(52),
+        bewertung: z.enum(['ja', 'nein', 'achtung', 'neutral']).default('neutral'),
+      }),
+    )
+    .min(2)
+    .max(4),
+  quelleId: z.string().optional(),
+});
+
 export const Szene = z.discriminatedUnion('art', [
   SzeneHook,
   SzeneAussage,
@@ -361,6 +394,7 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneFehlspur,
   SzeneHerleitung,
   SzeneEinschraenkung,
+  SzeneMerkmalskarte,
   SzeneCta,
   SzeneEndkarte,
   SzeneKaufkriterien,

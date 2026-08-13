@@ -1,5 +1,5 @@
 import { FARBEN, SCHRIFT } from '../../src/marke';
-import { RUBRIKEN, type Rubrik } from '../../src/typen';
+import { RUBRIKEN, SYSTEME, type Rubrik, type System } from '../../src/typen';
 
 /**
  * Die Wortmarke lebt vom Staerkekontrast: "Setup" duenn, "Klar" fett.
@@ -46,23 +46,40 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
  * Sendeplatz wirkt, ist seit der Umstellung auf feste Rubriken gewollt —
  * der Zuschauer soll den Wochentag daran wiedererkennen.
  */
-export const Kopfzeile: React.FC<{ rubrik: Rubrik }> = ({ rubrik }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-    <Logozeichen groesse={40} />
-    <Wortmarke groesse={34} />
-    <span
-      style={{
-        fontFamily: SCHRIFT.familie,
-        fontWeight: SCHRIFT.halbfett,
-        fontSize: 24,
-        color: FARBEN.blau,
-        backgroundColor: FARBEN.blauHell,
-        padding: '8px 18px',
-        borderRadius: 999,
-        letterSpacing: 0.2,
-      }}
-    >
-      {RUBRIKEN[rubrik].titel}
-    </span>
-  </div>
-);
+export const Kopfzeile: React.FC<{ rubrik: Rubrik; system: System }> = ({ rubrik, system }) => {
+  const pille = {
+    fontFamily: SCHRIFT.familie,
+    fontWeight: SCHRIFT.halbfett,
+    fontSize: 24,
+    padding: '8px 18px',
+    borderRadius: 999,
+    letterSpacing: 0.2,
+  } as const;
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+      <Logozeichen groesse={40} />
+      <Wortmarke groesse={34} />
+      <span style={{ ...pille, color: FARBEN.blau, backgroundColor: FARBEN.blauHell }}>
+        {RUBRIKEN[rubrik].titel}
+      </span>
+
+      {/*
+       * Die Systemangabe erscheint nur bei echter Systemspezifik.
+       *
+       * `beide` und `ohne` bleiben absichtlich unsichtbar: „gilt fuer beide"
+       * ist im Bild keine Information, sondern Rauschen — und `ohne` heisst,
+       * dass es gar keinen Systembezug gibt. Sichtbar wird die Angabe nur,
+       * wenn sie den Zuschauer aussortiert oder einschliesst.
+       *
+       * Dunkel statt blau gesetzt, damit die Rubrik die Leitfarbe behaelt.
+       * Zwei blaue Pillen nebeneinander lesen sich als eine.
+       */}
+      {SYSTEME[system].imTitel && (
+        <span style={{ ...pille, color: FARBEN.grundRein, backgroundColor: FARBEN.tinte }}>
+          {SYSTEME[system].titel}
+        </span>
+      )}
+    </div>
+  );
+};

@@ -110,7 +110,7 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
             gap: ABSTAND.m,
           }}
         >
-          <Kopfzeile rubrik={daten.rubrik} />
+          <Kopfzeile rubrik={daten.rubrik} system={daten.system} />
           <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
         </div>
 

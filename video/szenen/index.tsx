@@ -1158,6 +1158,94 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
   );
 };
 
+/* ─────────────────────────── Merkmalskarte ─────────────────────────── */
+
+/**
+ * Das Produkt im Bild — gezeigt, nicht benannt.
+ *
+ * Das Geraet steht gross und mittig, die Merkmale erscheinen nacheinander
+ * darunter. Bewusst **keine** Karte um das Geraet und kein Schatten: Der
+ * flaechige Stil der Marke lebt davon, dass Objekte auf ihrer Standflaeche
+ * stehen und sonst nichts.
+ *
+ * Was hier nie steht, ist ein Markenname. Die Merkmale sind das, woran man
+ * das Richtige erkennt — und das bleibt richtig, wenn das Modell laengst
+ * abgeloest ist.
+ */
+const Merkmalskarte: React.FC<SzenenProps<'merkmalskarte'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      {szene.ueberschrift && (
+        <p
+          style={{
+            ...grundtext,
+            ...auftritt(frame, fps, 0),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            color: FARBEN.tinteWeich,
+            margin: `0 0 ${ABSTAND.m}px 0`,
+          }}
+        >
+          {szene.ueberschrift}
+        </p>
+      )}
+
+      <div
+        style={{
+          ...auftritt(frame, fps, Math.round(fps * 0.15)),
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: ABSTAND.l,
+        }}
+      >
+        <Geraet art={szene.geraet} groesse={420} />
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
+        {szene.merkmale.map((merkmal, i) => {
+          const farben = bewertungsfarben(merkmal.bewertung);
+          return (
+            <div
+              key={i}
+              style={{
+                ...auftrittGestaffelt(frame, fps, i, Math.round(fps * 0.8)),
+                display: 'flex',
+                alignItems: 'center',
+                gap: ABSTAND.m,
+              }}
+            >
+              <span
+                style={{
+                  ...grundtext,
+                  fontWeight: SCHRIFT.schwarz,
+                  fontSize: 32,
+                  color: FARBEN.grundRein,
+                  backgroundColor: farben.vorne,
+                  width: 48,
+                  height: 48,
+                  borderRadius: RADIUS.rund,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {farben.zeichen}
+              </span>
+              <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, lineHeight: 1.25 }}>
+                {merkmal.text}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </Buehne>
+  );
+};
+
 export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
     case 'hook':
@@ -1180,6 +1268,8 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
       return <Herleitung szene={szene} dauer={dauer} />;
     case 'einschraenkung':
       return <Einschraenkung szene={szene} dauer={dauer} />;
+    case 'merkmalskarte':
+      return <Merkmalskarte szene={szene} dauer={dauer} />;
     case 'cta':
       return <Cta szene={szene} dauer={dauer} />;
     case 'endkarte':

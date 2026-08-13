@@ -41,6 +41,11 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
    */
   herleitung: 6.0,
   einschraenkung: 3.5,
+  /**
+   * Die Merkmalskarte steht laenger als eine Aussage: Erst das Geraet
+   * erfassen, dann die Merkmale lesen — beides nacheinander, nicht parallel.
+   */
+  merkmalskarte: 5.0,
   cta: 2.2,
   /**
    * Die Endkarte steht bewusst lange. Sie soll gelesen und fotografiert

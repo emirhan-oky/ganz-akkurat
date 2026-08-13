@@ -44,12 +44,27 @@ export const kabelWatt: Short[] = [
           'Dein Notebook lädt unterwegs im Schneckentempo, obwohl das Netzteil hundert Watt kann. Bevor du ein neues kaufst: zehn Sekunden, dann weißt du, woran es liegt.',
       },
       {
-        art: 'aussage',
-        text: 'Zwischen Netzteil und Gerät hängt noch etwas.',
-        hervorhebung: 'noch etwas',
+        /*
+         * Die erste Merkmalskarte des Kanals: Das Kabel wird gezeigt, nicht
+         * benannt. Genau die Trennung aus der Entscheidung vom 12.08.2026 —
+         * zeigen ja, benennen nur auf dem Sendeplatz „Kaufen" mit Label.
+         *
+         * Ersetzt hier eine `aussage`, die dasselbe nur behauptet haette.
+         * Der Lauf meldete zuvor „Szenenart aussage kommt in 4 von 5 Shorts
+         * vor" — das Bild unterschied sich nicht, obwohl die Macharten es
+         * taten.
+         */
+        art: 'merkmalskarte',
+        ueberschrift: 'Woran du es erkennst',
+        geraet: 'kabel',
+        merkmale: [
+          { text: 'Aufdruck 60 W oder 240 W am Stecker', bewertung: 'ja' },
+          { text: 'Dickere Tülle heißt meist mehr Ampere', bewertung: 'neutral' },
+          { text: 'Beiliegendes Handykabel: fast immer 60 W', bewertung: 'achtung' },
+        ],
         quelleId: 'usbif-power-delivery',
         sprechtext:
-          'Das liegt daran, dass die Leistung nicht vom Netzteil allein bestimmt wird. Der Standard sagt: Hundert Watt entstehen aus zwanzig Volt und fünf Ampere. Und die fünf Ampere müssen erst mal durch das Kabel passen.',
+          'Denn die Leistung bestimmt nicht das Netzteil allein. Der Standard sagt: Hundert Watt entstehen aus zwanzig Volt und fünf Ampere — und die fünf Ampere müssen erst mal durch das Kabel passen. Ansehen kannst du das dem Kabel fast nicht. Fast: Der Aufdruck sitzt am Stecker.',
       },
       {
         art: 'herleitung',

@@ -347,15 +347,14 @@ mit einem grünen `npm run pruefen` belegt.
 **Video (`video/`)**
 
 - [x] Drei neue Szenenarten: `fehlspur`, `herleitung`, `einschraenkung`
-- [ ] **Hook-Pille trägt die Systemangabe, wenn `macos` oder `windows`**
-      — das Feld steht im Vertrag und wird geprüft, ist aber im Bild noch
-      unsichtbar. Fällt derzeit nicht auf, weil alle fünf Shorts `ohne`
-      tragen; beim ersten systemspezifischen Thema wäre es ein stiller
-      Ausfall.
-- [ ] **Neue Bausteine: Anschlussleiste, Merkmalskarte, Größenvergleich**
-      — die einzige der vier Grundsatzentscheidungen vom 12.08.2026, die
-      noch gar nicht umgesetzt ist. Der Lauf meldet den Mangel selbst:
-      „Szenenart `aussage` kommt in 4 von 5 Shorts vor."
+- [x] Hook-Pille trägt die Systemangabe bei `macos` oder `windows` — dunkel
+      gesetzt, damit die Rubrik die Leitfarbe behält. `beide` und `ohne`
+      bleiben unsichtbar: im Bild wäre das Rauschen.
+- [x] Merkmalskarte gebaut und im Unterwegs-Short im Einsatz: das Gerät
+      gezeichnet, die Merkmale daneben, kein Markenname. Der Hinweis
+      „Szenenart `aussage` kommt in 4 von 5 Shorts vor" ist damit weg.
+- [ ] Anschlussleiste und Größenvergleich — noch offen. `zahl` kommt
+      weiterhin in 4 von 5 Shorts vor.
 - [ ] Flächiger Stil, keine Schattierung, keine Perspektive
 
 **Inhalt**
