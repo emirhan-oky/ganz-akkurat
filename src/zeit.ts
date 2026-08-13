@@ -23,6 +23,14 @@ import type { Short, Szene } from './typen';
  *
  * Die Richtung des Fehlers war die unguenstige: Wer zu lang schaetzt, baut zu
  * kurze Shorts — und merkt es erst, nachdem ElevenLabs abgerechnet hat.
+ *
+ * **Der Wert gehoert auf die gewaehlte Stimme gesetzt.** `npm run stimmproben`
+ * misst ihn bei jeder Probe mit, und die Streuung ist gross: Am 13.08.2026
+ * lagen sechs deutsche Stimmen zwischen 12,2 und 16,0 Zeichen je Sekunde, im
+ * Schnitt bei 13,8. Die Systemstimme von macOS spricht also schneller als
+ * ElevenLabs im Mittel — wer nur nach ihr kalibriert, unterschaetzt die
+ * Laenge. Ein Faktor 1,3 zwischen der schnellsten und der langsamsten Stimme
+ * entscheidet darueber, ob ein Short 90 oder 117 Sekunden dauert.
  */
 export const ZEICHEN_PRO_SEKUNDE = 15.9;
 
