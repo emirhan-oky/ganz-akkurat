@@ -166,8 +166,25 @@ export const LAENGE_SEK = {
   minimum: 15,
   /** Zielfenster ohne Vertiefung: eine Sache, sauber gesagt, fertig. */
   knapp: [40, 60] as const,
-  /** Zielfenster mit Vertiefung: traegt eine Struktur, braucht den Platz. */
-  tief: [75, 90] as const,
+  /**
+   * Zielfenster mit Vertiefung: traegt eine Struktur, braucht den Platz.
+   *
+   * Die Obergrenze stand bis zum 13.08.2026 auf 90 und ist auf 95 gegangen,
+   * als der `teaser` dazukam — er kostet rund drei Sekunden, und danach lagen
+   * drei von fuenf Shorts nur noch zwei Sekunden unter der Grenze. Bei einer
+   * Vertonung, die zwischen Laeufen um sechs Prozent schwankt, haelt das
+   * nicht: Derselbe Text ergab einmal 75,3 und einmal 70,5 Sekunden.
+   *
+   * **95 ist Spielraum, nicht das neue Ziel.** Die Absicht ist ausdruecklich,
+   * die Laenge ueber die Zeit wieder zu druecken — aber ueber Straffung, nie
+   * ueber Weglassen von Substanz. Wo das gelingt, zeigt der Wochenschnitt im
+   * Lauf; deshalb steht er dort neben dem der Vorwoche.
+   */
+  tief: [75, 95] as const,
+  /**
+   * Harte Grenze, in beiden Stufen und ohne Ausnahme. Darueber ist es kein
+   * Short mehr, sondern ein Erklaervideo im Hochformat.
+   */
   maximum: 100,
 } as const;
 

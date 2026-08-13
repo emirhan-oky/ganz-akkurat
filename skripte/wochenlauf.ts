@@ -8,7 +8,7 @@ import { laufPruefen } from '../src/pruefung';
 import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
-import { verlaufLesen, verlaufSchreiben } from '../src/verlauf';
+import { durchschnittsdauer, verlaufLesen, verlaufSchreiben } from '../src/verlauf';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 
 const ausfuehren = promisify(execFile);
@@ -129,7 +129,39 @@ const main = async () => {
   for (const b of ergebnis.befunde) {
     console.log(`   ${b.stufe === 'fehler' ? '✕' : '·'} ${b.shortId}  [${b.regel}] ${b.text}`);
   }
-  console.log(`   ${ergebnis.fehler.length} Fehler, ${ergebnis.hinweise.length} Hinweise\n`);
+  console.log(`   ${ergebnis.fehler.length} Fehler, ${ergebnis.hinweise.length} Hinweise`);
+
+  /*
+   * Laengentendenz statt Laengenurteil.
+   *
+   * Das Zielfenster reicht bis 95 Sekunden, aber die 95 sind Spielraum und
+   * nicht das Ziel — die Absicht ist, die Laenge ueber die Wochen wieder zu
+   * druecken, durch Straffung und nicht durch Weglassen von Substanz.
+   *
+   * Das laesst sich nicht als Regel fassen: Eine Grenze bei 88 waere nur die
+   * alte Grenze unter anderem Namen, und ein Hinweis „koennte kuerzer" waere
+   * jede Woche derselbe und damit nach drei Wochen unsichtbar. Was bleibt,
+   * ist die Zahl neben der Zahl der Vorwoche. Erkennen muss man es selbst —
+   * aber ohne den Messwert kann man es gar nicht.
+   */
+  if (MIT_TON) {
+    const jetzt = durchschnittsdauer({ lauf: id, shorts: fertige.map((s) => ({
+      rubrik: s.rubrik,
+      themaId: s.themaId,
+      winkelart: s.winkelart,
+      titelmuster: s.titelmuster,
+      ...(s.tonspur ? { dauerSek: s.tonspur.dauerSek } : {}),
+    })) });
+    const vorher = durchschnittsdauer(verlauf[verlauf.length - 1]);
+    if (jetzt !== null) {
+      const vergleich =
+        vorher === null
+          ? 'keine Vergleichswoche'
+          : `${vorher.toFixed(1)}s zuvor, ${jetzt > vorher ? '+' : ''}${(jetzt - vorher).toFixed(1)}s`;
+      console.log(`   Länge im Schnitt: ${jetzt.toFixed(1)}s  (${vergleich})`);
+    }
+  }
+  console.log();
 
   /* ── 4  Rendern ──────────────────────────────────────────────────── */
 

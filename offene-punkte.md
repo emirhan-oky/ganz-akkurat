@@ -390,6 +390,36 @@ mit einem grünen `npm run pruefen` belegt.
       Alles behoben, zweiter Durchlauf: drei von drei angenommen, drei von
       drei gelöscht.
 
+**Entschieden am 13.08.2026, Abend**
+
+- **Anteasern ja, DM-Automatisierung nein.** Der Teaser ist gebaut (siehe
+  `produktionsmatrix.md`). Gegen das verbreitete Modell „schreib mir ein
+  Stichwort, dann bekommst du die Infos automatisch" sprechen vier Dinge, das
+  erste davon grundsätzlich: **Wir haben nichts, was nicht schon im Video
+  steht** — und das ist Absicht. Etwas zurückzuhalten, damit jemand schreiben
+  muss, würde die Videos schlechter machen, um den Kanal aufzubauen. Dazu
+  setzt es Reichweite voraus, die es noch nicht gibt, funktioniert nur auf
+  Instagram von drei Kanälen, und Direktkommunikation mit Links hätte eine
+  eigene Kennzeichnungsfrage — bei einem Kanal ohne Gewerbe der falsche erste
+  Schritt. **Denkbar später:** die fünf Endkarten einer Woche als PDF. Das
+  wäre ein Mehrwert zum Mitnehmen statt zurückgehaltener Inhalt, aber erst
+  wenn Reichweite da ist.
+- **Kein Ton außer der Stimme.** Flugzeuggeräusch, Gerichtshammer und
+  Ähnliches sind verworfen: Ein großer Teil sieht Shorts stumm, für die
+  verpufft jeder Atmosphäre-Effekt. Dazu Lizenzfragen bei fremden
+  Soundbibliotheken, ein Umbau an der Lautheitskette, und der Klang führt in
+  Richtung Boulevard-Erklärvideo. Falls Ton, dann ein eigener kurzer
+  Marken-Akzent an Szenenwechseln — Wiedererkennung statt Illustration, und
+  erst wenn das Bild steht.
+- **Zielfenster mit Vertiefung jetzt 75–95 s**, harte Grenze unverändert 100 s.
+  Die 95 sind Spielraum, nicht das Ziel: Die Länge soll über die Wochen wieder
+  sinken, durch Straffung und nie durch Weglassen von Substanz. Messbar über
+  den Wochenschnitt im Lauf.
+
+**Arbeitsweise gerade: keine Vertonung.** Bis die Konzepte stehen, läuft nur
+`npm run lauf` ohne `--mit-ton` — das Kontingent soll nicht in Tests fließen.
+Stand 13.08.2026: 114.043 von 100.000 Zeichen im Monat frei.
+
 **Offen geblieben**
 
 - **Deutsche Stimme.** `skripte/wochenlauf.ts` fällt ohne

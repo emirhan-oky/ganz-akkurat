@@ -162,6 +162,30 @@ Fünf Shorts pro Woche, **einer je Rubrik**, ein Video je Werktag um 18:00
 (`src/buffer.ts`). Die Fünf kommt vom Takt der Werktage, nicht davon, wie viel
 ein Thema hergibt.
 
+## Länge
+
+Zwei Zielfenster (`src/zeit.ts`), gekoppelt an die Vertiefung: **40–60 s ohne,
+75–95 s mit**. Darüber liegt eine harte Grenze bei **100 s**, die ausnahmslos
+gilt und einen Short zurückhält.
+
+Die Obergrenze des tiefen Fensters stand bis zum 13.08.2026 auf 90 und ging
+auf 95, als der `teaser` dazukam. Zwei Dinge sind dabei festgehalten worden:
+
+**95 ist Spielraum, nicht das Ziel.** Die Absicht ist, die Länge über die
+Wochen wieder zu drücken — aber durch Straffung, nie durch Weglassen von
+Substanz. Das lässt sich nicht als Regel fassen: Eine Schwelle bei 88 wäre nur
+die alte Grenze unter neuem Namen, und ein Dauerhinweis „könnte kürzer" wäre
+nach drei Wochen unsichtbar. Stattdessen schreibt der Verlauf die vertonte
+Länge mit, und der Lauf zeigt den Wochenschnitt neben dem der Vorwoche.
+Erkennen muss man es selbst — ohne den Messwert kann man es gar nicht.
+
+**Die vertonte Länge schwankt.** Derselbe Text ergab bei zwei Läufen 75,3 und
+70,5 Sekunden; ElevenLabs liefert nicht zweimal dieselbe Aufnahme. Rund sechs
+Prozent, also etwa fünf Sekunden. Wer an der Kante des Fensters baut, fällt
+beim nächsten Lauf heraus — Zielwert ist deshalb die Mitte, nicht der Rand.
+
+`npm run sprechprobe` prüft das vorab und kostet nichts.
+
 ## Stand und nächster Schritt
 
 Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare

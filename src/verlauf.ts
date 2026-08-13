@@ -32,6 +32,18 @@ export const Verlaufseintrag = z.object({
   winkelart: Winkelart,
   titelmuster: Titelmuster,
   vertiefung: Vertiefung.optional(),
+  /**
+   * Die vertonte Laenge in Sekunden — die einzige Zahl hier, die nicht der
+   * Wiederholungspruefung dient.
+   *
+   * Sie steht wegen einer Absicht, die sich sonst nicht halten liesse: Das
+   * Zielfenster geht seit dem 13.08.2026 bis 95 Sekunden, aber die 95 sind
+   * Spielraum und nicht das Ziel — die Laenge soll ueber die Wochen wieder
+   * sinken, durch Straffung und nicht durch Weglassen. Eine solche Absicht
+   * ohne Messwert verliert sich nach drei Wochen. Mit ihr steht im Lauf, wie
+   * die Woche gegen die Vorwoche liegt.
+   */
+  dauerSek: z.number().optional(),
 });
 export type Verlaufseintrag = z.infer<typeof Verlaufseintrag>;
 
@@ -77,6 +89,10 @@ export const verlaufSchreiben = async (
       winkelart: s.winkelart,
       titelmuster: s.titelmuster,
       ...(s.vertiefung ? { vertiefung: s.vertiefung } : {}),
+      // Nur die echte Laenge, nie die geschaetzte: Ein Trockenlauf schreibt
+      // ohnehin keinen Verlauf, und eine Schaetzung als Messwert zu fuehren
+      // waere schlimmer als gar keiner.
+      ...(s.tonspur ? { dauerSek: Math.round(s.tonspur.dauerSek * 10) / 10 } : {}),
     })),
   };
 
@@ -108,6 +124,19 @@ export const zuletztOhneVertiefung = (verlauf: Verlaufslauf[]): Set<Rubrik> => {
   const letzter = verlauf[verlauf.length - 1];
   if (!letzter) return new Set();
   return new Set(letzter.shorts.filter((s) => !s.vertiefung).map((s) => s.rubrik));
+};
+
+/**
+ * Durchschnittliche Laenge eines Laufs in Sekunden, oder `null`.
+ *
+ * `null` heisst „keine belastbare Zahl": Laeufe von vor dem 13.08.2026 haben
+ * keine Laengen gespeichert. Eine Null auszugeben waere hier schlimmer als
+ * nichts — sie saehe wie ein Fortschritt aus.
+ */
+export const durchschnittsdauer = (lauf: Verlaufslauf | undefined): number | null => {
+  const werte = lauf?.shorts.map((s) => s.dauerSek).filter((d): d is number => typeof d === 'number') ?? [];
+  if (werte.length === 0) return null;
+  return Math.round((werte.reduce((a, b) => a + b, 0) / werte.length) * 10) / 10;
 };
 
 /** Alle Themen, die schon einmal liefen — gegen Wiederholung. */
