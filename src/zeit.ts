@@ -130,3 +130,15 @@ export const LAENGE_SEK = {
 /** Das Zielfenster, das fuer diesen Short gilt. */
 export const zielfenster = (short: Short): readonly [number, number] =>
   short.vertiefung ? LAENGE_SEK.tief : LAENGE_SEK.knapp;
+
+/**
+ * Geschaetzte Gesamtlaenge in Sekunden, ohne Tonspur.
+ *
+ * Damit laesst sich die Laenge schon **vor** der Vertonung pruefen. Vorher
+ * lief die Laengenpruefung nur ueber `short.tonspur` — wer also einen zu
+ * kurzen Short schrieb, erfuhr es erst, nachdem die Sprachsynthese
+ * abgerechnet war. Bei rund 1.400 Zeichen je Short ist das die teuerste
+ * Stelle, an der eine Rueckmeldung zu spaet kommt.
+ */
+export const geschaetzteDauerSek = (short: Short): number =>
+  short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0);

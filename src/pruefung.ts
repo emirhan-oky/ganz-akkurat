@@ -11,7 +11,7 @@ import {
   type Winkelart,
 } from './typen';
 import { gelaufeneThemen, zuletztOhneVertiefung, type Verlaufslauf } from './verlauf';
-import { LAENGE_SEK, zielfenster } from './zeit';
+import { geschaetzteDauerSek, LAENGE_SEK, zielfenster } from './zeit';
 
 /**
  * Qualitaetspruefung vor der Freigabe.
@@ -434,6 +434,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
     if (short.tonspur.woerter.length === 0) {
       melde('fehler', 'untertitel', 'Die Tonspur hat keine Wort-Zeitstempel – es gäbe keine Untertitel.');
+    }
+  } else {
+    /*
+     * Ohne Tonspur wird geschaetzt. Das ist ungenau, aber es kommt zur
+     * richtigen Zeit: Wer erst nach der Vertonung erfaehrt, dass sein Short
+     * zu kurz geraten ist, hat das Zeichenkontingent schon ausgegeben.
+     * Deshalb Hinweis und nicht Fehler — die Schaetzung soll warnen, nicht
+     * den Trockenlauf blockieren.
+     */
+    const geschaetzt = geschaetzteDauerSek(short);
+    const [von, bis] = zielfenster(short);
+    if (geschaetzt < von || geschaetzt > bis) {
+      melde(
+        'hinweis',
+        'laenge',
+        `Geschätzt ${geschaetzt.toFixed(0)}s, Zielfenster ${von}–${bis}s (${
+          short.vertiefung ? 'mit' : 'ohne'
+        } Vertiefung). Vor der Vertonung anpassen – danach kostet es Kontingent.`,
+      );
     }
   }
 

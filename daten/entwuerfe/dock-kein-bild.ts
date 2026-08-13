@@ -94,6 +94,24 @@ export const dockKeinBild: Short[] = [
           'Und der Hersteller sagt es selbst: Alt Mode ist optional, nicht jedes System hat ihn. Der eine Port macht alles. Der andere sieht identisch aus und gibt nur Strom und Daten weiter. Ansehen kannst du ihm das nicht.',
       },
       {
+        /*
+         * Der Grenzfall ist die Antwort auf den haeufigsten Einwand: „Bei mir
+         * geht es aber ohne Alt Mode." Stimmt — dann laeuft ein Treiber, der
+         * das Bild als Datenstrom schickt. Wer das nicht nennt, wird in den
+         * Kommentaren korrigiert; wer es nennt, ist der, der es wusste.
+         *
+         * Die Szene traegt zugleich die Laenge: 68 Sekunden lagen unter dem
+         * Zielfenster von 75 bis 90 fuer einen Short mit Vertiefung.
+         */
+        art: 'einschraenkung',
+        ueberschrift: 'Außer wenn ein Treiber mitspielt',
+        bedingung: 'Manche Docks bringen trotzdem ein Bild',
+        folge: 'Sie schicken es als Datenstrom über einen Treiber — das kostet Rechenleistung',
+        quelleId: 'synaptics-displaylink-funktion',
+        sprechtext:
+          'Jetzt sagst du vielleicht: Bei mir geht es aber. Dann steckt eine andere Technik im Dock. Ein Treiber sammelt die Bildpunkte ein und schickt sie als Datenstrom hinüber — der Hersteller beschreibt es genau so. Es funktioniert. Nur macht die Arbeit dein Prozessor.',
+      },
+      {
         art: 'endkarte',
         ueberschrift: 'Kein Bild über das Dock?',
         punkte: [
@@ -107,7 +125,7 @@ export const dockKeinBild: Short[] = [
       },
     ],
 
-    quellenIds: ['vesa-dp-altmode', 'plugable-altmode', 'dell-mehrere-monitore'],
+    quellenIds: ['vesa-dp-altmode', 'plugable-altmode', 'dell-mehrere-monitore', 'synaptics-displaylink-funktion'],
 
     texte: {
       tiktok: {

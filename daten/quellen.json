@@ -139,6 +139,55 @@
           "stuetzt": "Docks unterscheiden sich nach Anschlussart, und jede Art trägt eine andere Zahl von Displays."
         }
       ]
+    },
+    {
+      "id": "tplink-stoerung-nachbarn",
+      "titel": "How to Fix Slow Internet on a TP-Link Router",
+      "url": "https://www.tp-link.com/us/support/faq/2170/",
+      "herausgeber": "TP-Link",
+      "geprueftAm": "2026-08-13",
+      "art": "hersteller",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "Interference from neighboring networks can slow down your Wi-Fi",
+          "stuetzt": "Nachbarnetze bremsen das eigene WLAN – das ist der Normalfall im Mehrfamilienhaus, kein Defekt."
+        }
+      ]
+    },
+    {
+      "id": "tplink-kapazitaet-abends",
+      "titel": "Why Is My Wi-Fi So Slow? A Guide for Multi-Device Households",
+      "url": "https://www.tp-link.com/us/blog/2670/why-is-my-wi-fi-so-slow-a-guide-for-multi-device-households/",
+      "herausgeber": "TP-Link",
+      "geprueftAm": "2026-08-13",
+      "art": "hersteller",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "neighboring Wi-Fi networks crowding the same channels have a similar effect: less usable capacity",
+          "stuetzt": "Nachbarnetze auf demselben Kanal nehmen nutzbare Kapazität weg – geteilt wird das Funkband, nicht die Leitung."
+        },
+        {
+          "zitat": "that's when most households are online at the same time",
+          "stuetzt": "Die Abendspitze entsteht daraus, dass alle gleichzeitig funken – deshalb ist es abends und nicht morgens."
+        }
+      ]
+    },
+    {
+      "id": "intel-funkumgebung",
+      "titel": "Advanced Intel Wireless Adapter Settings",
+      "url": "https://www.intel.com/content/www/us/en/support/articles/000005585/wireless.html",
+      "herausgeber": "Intel",
+      "geprueftAm": "2026-08-13",
+      "art": "hersteller",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "in order to reduce interference, you may prefer the 5GHz band over the 2.4GHz band",
+          "stuetzt": "Das Ausweichen auf 5 GHz ist die vorgesehene Antwort auf ein volles 2,4-GHz-Band, keine Bastellösung."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

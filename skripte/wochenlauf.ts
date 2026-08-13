@@ -10,6 +10,7 @@ import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { verlaufLesen, verlaufSchreiben } from '../src/verlauf';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
+import { wlanAbends } from '../daten/entwuerfe/wlan-abends';
 
 const ausfuehren = promisify(execFile);
 
@@ -31,13 +32,16 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 /**
  * Die fuenf Shorts dieses Laufs — einer je Rubrik.
  *
- * `dock-kein-bild` ist noch der alte Zuschnitt: fuenf Shorts aus **einem**
- * Thema, alle auf dem Sendeplatz „Schreibtisch". Im neuen Modell ist das ein
- * Vorrat, kein Lauf — die Rubrikpruefung meldet das entsprechend. Sobald je
- * ein Short fuer Unterwegs, Reise, Zuhause und Kaufen steht, wird hier
- * zusammengestellt statt einer Datei zugewiesen.
+ * Stand 13.08.2026: **zwei von fuenf.** Schreibtisch und Zuhause stehen,
+ * belegt und mit Vertiefung. Es fehlen Unterwegs und Kaufen; Reise liegt als
+ * `powerbank-flug` bereit, haengt aber an einer einzigen Quelle und ist
+ * deshalb geparkt.
+ *
+ * Der Lauf ist damit noch nicht gueltig — die Rubrikpruefung greift erst bei
+ * fuenf Shorts, meldet dann aber sowohl Dopplung als auch Fehlen. Bis dahin
+ * laesst sich die Kette ueben, ohne dass etwas veroeffentlicht werden koennte.
  */
-const ENTWUERFE: Short[] = dockKeinBild;
+const ENTWUERFE: Short[] = [...dockKeinBild, ...wlanAbends];
 
 const laufId = () => {
   const d = new Date();

@@ -260,6 +260,15 @@ const SzeneCheckliste = SzeneBasis.extend({
     )
     .min(2)
     .max(5),
+  /**
+   * Optional, anders als bei `aussage` oder `zahl`.
+   *
+   * Eine Checkliste ist eine Handlungsempfehlung, keine Tatsachenbehauptung
+   * — „prüf das mal" muss nicht belegt werden. Beruht sie aber auf einer
+   * Herstellerempfehlung, gehoert die Quelle dazu und erscheint in der
+   * Belegtafel der Freigabe.
+   */
+  quelleId: z.string().optional(),
 });
 
 /** Der Moment, in dem etwas nicht funktioniert. Traegt die meisten Videos. */
@@ -793,7 +802,8 @@ export const Short = z.object({
 
     const belegdecke = new Set(short.quellenIds);
     short.szenen.forEach((szene, i) => {
-      if (!('quelleId' in szene)) return;
+      // Bei der Checkliste ist `quelleId` optional — dort darf es fehlen.
+      if (!('quelleId' in szene) || szene.quelleId === undefined) return;
       if (!belegdecke.has(szene.quelleId)) {
         ctx.addIssue({
           code: 'custom',
