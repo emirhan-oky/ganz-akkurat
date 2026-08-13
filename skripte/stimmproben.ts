@@ -25,23 +25,30 @@ const PROBETEXT =
   'Ansehen kannst du ihm das nicht.';
 
 /**
- * Die Kandidaten stammen aus der Stimmbibliothek, gefiltert auf Deutsch.
+ * Die Kandidaten stammen aus der Stimmbibliothek, gefiltert auf Deutsch und
+ * maennlich.
  *
- * Bewusst ausgelassen: alles, was als „deep", „ominous" oder „meditation"
- * gefuehrt wird. Ein Short von achtzig Sekunden braucht Tempo und Klarheit,
- * keine Hoerbuchstimme — und der Ton des Kanals ist Entwarnung, nicht
- * Feierlichkeit.
+ * **Zweite Runde, andere Achse.** Die erste Runde am 13.08.2026 filterte auf
+ * `narrative_story` und lieferte damit Erzaehler: warm, gesetzt, getragen.
+ * Alle sechs fielen durch, und im Rueckblick zu Recht — eine Hoerbuchstimme
+ * erzaehlt, dieser Kanal erklaert. Der Unterschied hoert sich schon im ersten
+ * Satz.
  *
- * Die Auswahl ist gemischt in Geschlecht und Alter, damit die Entscheidung
- * eine echte ist. Der Kanal hat keine Vorgabe dazu.
+ * Gesucht wird jetzt entlang einer einzigen Frage: **Klingt das nach einem
+ * Menschen oder nach einem Sprecher?** Die Filter dafuer sind
+ * `social_media` und `informative_educational`, die Merkmale `casual`,
+ * `conversational` und `upbeat`. Ausgelassen bleibt alles mit `deep`,
+ * `narrator` oder `epic` im Namen.
  */
 const KANDIDATEN = [
-  { id: 'uvysWDLbKpA4XvpD3GI6', name: 'Leonie', beschreibung: 'klar, zugewandt' },
-  { id: 'dCnu06FiOZma2KVNUoPZ', name: 'Mila', beschreibung: 'jung, bestimmt' },
-  { id: 'NVSsZwbSE09CUqFt7WmS', name: 'Kerstin', beschreibung: 'lebhaft, schnell' },
-  { id: 'NBqeXKdZHweef6y0B67V', name: 'Christian', beschreibung: 'warm, gelassen' },
-  { id: 'Fghah4fztZORbiKfIGAs', name: 'Thomas-Schendel', beschreibung: 'ruhig, bestimmt' },
-  { id: 'ztZBipzb4WQJRDayep3G', name: 'Alex', beschreibung: 'jung, locker, klar' },
+  { id: '6n4YmXLiuP4C7cZqYOJl', name: 'Finn', beschreibung: 'frisch, im Gespraechston' },
+  { id: 'YQCQPPJTHYAQGhuwY6gZ', name: 'Jonas', beschreibung: 'jung, sachkundig, gelassen' },
+  { id: '7EKf9tDpNnyY22oEtrvq', name: 'Simon-Sunday', beschreibung: 'betont normal, kein Sprecherton' },
+  { id: '6IEvIqBOPOMUc5HwR9sQ', name: 'Lenny', beschreibung: 'lockerer Creator-Ton' },
+  { id: 'xj61lbryotizgwAuHImw', name: 'Mark-Albrecht', beschreibung: 'trocken-witzig, Radio' },
+  { id: 'raYPS0b2ZPlIzZWkcD0G', name: 'Lars', beschreibung: 'jung, wach, schnell' },
+  { id: 'n6JEKnKG5a8I78SoBRry', name: 'Julius', beschreibung: 'erklaerend, beilaeufig' },
+  { id: 'AMJfLTmTy3vPtjSvrGqZ', name: 'Peter-Hartlapp', beschreibung: 'Podcast, tiefer' },
 ];
 
 const ZIEL = 'laeufe/stimmproben';
