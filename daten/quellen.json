@@ -260,6 +260,78 @@
           "stuetzt": "Für mehr als 100 Watt gelten eigene Anforderungen an das Kabel, nicht nur an das Netzteil."
         }
       ]
+    },
+    {
+      "id": "easa-lithium-handgepaeck",
+      "titel": "Dangerous Goods – Lithium Batteries",
+      "url": "https://www.easa.europa.eu/en/domains/air-operations/dangerous-goods",
+      "herausgeber": "EASA",
+      "geprueftAm": "2026-08-13",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "Spare batteries and power banks, however, always have to be transported in your carry-on baggage",
+          "stuetzt": "Die europäische Luftsicherheitsbehörde verlangt dasselbe wie das LBA – Powerbanks gehören nie ins aufgegebene Gepäck."
+        },
+        {
+          "zitat": "they must be individually protected to prevent short-circuits",
+          "stuetzt": "Jede Ersatzbatterie einzeln gegen Kurzschluss sichern – lose in der Tasche genügt nicht."
+        }
+      ]
+    },
+    {
+      "id": "faa-lithium-grenzwerte",
+      "titel": "PackSafe – Lithium Batteries",
+      "url": "https://www.faa.gov/hazmat/packsafe/lithium-batteries",
+      "herausgeber": "FAA",
+      "geprueftAm": "2026-08-13",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "batteries are limited to a rating of 100 watt hours (Wh) per battery",
+          "stuetzt": "Die 100-Wh-Grenze gilt auch in den USA – sie ist keine deutsche Besonderheit, sondern internationaler Standard."
+        },
+        {
+          "zitat": "passengers may also carry up to two spare larger lithium ion batteries",
+          "stuetzt": "Über 100 Wh sind höchstens zwei Ersatzbatterien zulässig, und nur mit Zustimmung der Airline."
+        }
+      ]
+    },
+    {
+      "id": "usbif-kabel-kennzeichnung",
+      "titel": "Cables and Connectors – USB-C Cable Logo Requirements",
+      "url": "https://www.usb.org/cable_connector",
+      "herausgeber": "USB Implementers Forum",
+      "geprueftAm": "2026-08-13",
+      "art": "standard",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "must be labelled with either a power capability of 60W or 240W",
+          "stuetzt": "Es gibt nur zwei Kabelklassen: 60 W oder 240 W. Dazwischen gibt es nichts – und ohne Logo weiß man es nicht."
+        },
+        {
+          "zitat": "The policy now extends to all USB-C to USB-C cables",
+          "stuetzt": "Die Kennzeichnungspflicht gilt für alle USB-C-Kabel, nicht nur für besonders leistungsfähige."
+        }
+      ]
+    },
+    {
+      "id": "hp-usbc-leistungsstufen",
+      "titel": "What is USB-C? The Complete Guide",
+      "url": "https://www.hp.com/us-en/tech-takes/connectivity/explainer/what-is-usb-c.html",
+      "herausgeber": "HP",
+      "geprueftAm": "2026-08-13",
+      "art": "hersteller",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "60W (20V/3A) 100W (20V/5A)",
+          "stuetzt": "Der Unterschied zwischen 60 und 100 Watt liegt allein in der Stromstärke – die Spannung bleibt gleich."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

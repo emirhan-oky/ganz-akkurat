@@ -9,12 +9,16 @@ import type { Short } from '../../src/typen';
  * stehen Wattstunden. Wer die Rechnung einmal gesehen hat, kann jede
  * Powerbank selbst einschätzen, statt sich eine Zahl zu merken.
  *
- * **Weiterhin geparkt** (`blockierend: false` in der Schemaprüfung): Der
- * Short steht auf einer einzigen Quelle, dem Luftfahrt-Bundesamt. Fünf
- * Zitate aus einer Quelle sind trotzdem eine Quelle — die Regel verlangt
- * drei. Bewusst auf die **behördliche** Regel gestützt statt auf die einer
- * einzelnen Fluggesellschaft: Airline-Regeln ändern sich und gelten nur dort,
- * die Grenzwerte des Regelwerks gelten überall.
+ * **Seit dem 13.08.2026 nicht mehr geparkt.** Der Short stand lange auf einer
+ * einzigen Quelle, dem Luftfahrt-Bundesamt — fünf Zitate aus einer Quelle
+ * sind trotzdem eine Quelle. Jetzt tragen ihn drei Behörden aus drei
+ * Rechtsräumen: LBA, EASA und die US-amerikanische FAA. Dass alle drei
+ * dieselbe Grenze nennen, ist selbst ein Argument im Video: Die 100 Wh sind
+ * keine deutsche Eigenheit.
+ *
+ * Bewusst auf **behördliche** Regeln gestützt statt auf die einer einzelnen
+ * Fluggesellschaft: Airline-Regeln ändern sich und gelten nur dort, die
+ * Grenzwerte des Regelwerks gelten überall.
  */
 
 const HASHTAGS = ['#powerbank', '#handgepäck', '#reisetipps', '#technikwissen', '#setupklar'];
@@ -76,6 +80,20 @@ export const powerbankFlug: Short[] = [
           'Denn hundert Wattstunden ist die Zahl, bis zu der du nichts anmelden musst. Umgerechnet sind das rund siebenundzwanzigtausend Milliamperestunden.',
       },
       {
+        /*
+         * Die Einschraenkung traegt zugleich die Laenge und den zweiten
+         * Rechtsraum: Dass FAA und EASA dieselbe Zahl nennen wie das LBA,
+         * macht aus einer deutschen Vorschrift eine internationale.
+         */
+        art: 'einschraenkung',
+        ueberschrift: 'Gilt auch außerhalb Europas',
+        bedingung: 'Über 100 Wh brauchst du die Zustimmung der Airline',
+        folge: 'Dann höchstens zwei Ersatzbatterien — und über 160 Wh gar keine',
+        quelleId: 'easa-lithium-handgepaeck',
+        sprechtext:
+          'Und das ist keine deutsche Eigenheit. Die europäische und die amerikanische Luftfahrtbehörde nennen dieselbe Zahl. Wer darüber liegt, braucht die Zustimmung der Fluggesellschaft und darf dann höchstens zwei Ersatzbatterien mitnehmen. Über hundertsechzig Wattstunden ist ganz Schluss.',
+      },
+      {
         art: 'endkarte',
         ueberschrift: 'Powerbank im Handgepäck',
         punkte: [
@@ -85,11 +103,11 @@ export const powerbankFlug: Short[] = [
         ],
         abschluss: 'Technik, die zusammenpasst',
         sprechtext:
-          'Merk dir die Rechnung, nicht die Zahl. Dann kannst du jede Powerbank im Laden selbst einschätzen, bevor du sie kaufst.',
+          'Merk dir die Rechnung, nicht die Zahl. Dann kannst du jede Powerbank im Laden selbst einschätzen, bevor du sie kaufst. Und pack sie ins Handgepäck — im aufgegebenen Koffer ist sie ausnahmslos verboten, in Europa wie in den USA.',
       },
     ],
 
-    quellenIds: ['lba-lithiumbatterien'],
+    quellenIds: ['lba-lithiumbatterien', 'easa-lithium-handgepaeck', 'faa-lithium-grenzwerte'],
 
     texte: {
       tiktok: {
