@@ -320,44 +320,63 @@ nicht mehr — siehe Punkt 3.
 
 # Aufgabenliste für die Umsetzung
 
-Alles unten ist beschlossen und **noch nicht gebaut**. Kommt gesammelt in
-einem Rutsch, nicht häppchenweise.
+Stand 13.08.2026, nach der Umsetzung. Was abgehakt ist, steht im Code und ist
+mit einem grünen `npm run pruefen` belegt.
 
 **Datenvertrag (`src/typen.ts`)**
 
-- [ ] `Titelmuster`-Enum: `verdaechtiger`, `uhr`, `zweisatz`; Feld am Short
-- [ ] `System`-Enum: `macos`, `windows`, `beide`, `ohne`; Feld am Short
-- [ ] `Quelle` bekommt ein Systemfeld, damit die Belegprüfung greifen kann
-- [ ] Empfehlungstabelle Machart → Titelmuster als Kommentar, nicht als Zwang
+- [x] `Titelmuster`-Enum: `verdaechtiger`, `uhr`, `zweisatz`; Feld am Short
+- [x] `System`-Enum: `macos`, `windows`, `beide`, `ohne`; Feld am Short
+- [x] `Quelle` bekommt ein Systemfeld, damit die Belegprüfung greifen kann
+- [x] Empfehlungstabelle Machart → Titelmuster als Kommentar (`MATRIX`)
+- [x] *Dazugekommen:* `Vertiefung`-Enum, `merksatz`, `quelleId` je Szene,
+      `Quelle.belegt` mit wörtlichen Zitaten, drei neue Szenenarten
 
 **Prüfung (`src/pruefung.ts`)**
 
-- [ ] Hart: `system` auf `macos`/`windows` verlangt mindestens eine
+- [x] Hart: `system` auf `macos`/`windows` verlangt mindestens eine
       systemspezifische Quelle
-- [ ] Hart: `produktname` nur noch, wenn `werbung !== 'video'` — wer
-      kennzeichnet, darf nennen
-- [ ] Hart: `produktname` zusätzlich über `short.texte` laufen lassen (heute
-      prüft sie nur die Szenen, Titel gehen ungeprüft durch)
-- [ ] Hinweis: ab drei gleichen Titelmustern je Lauf
-- [ ] Nichts Geschmackliches hart machen — die Machart-Zuordnung bleibt
-      Empfehlung
+- [x] Hart: `produktname` nur noch, wenn `werbung !== 'video'`
+- [x] Hart: `produktname` zusätzlich über `short.texte`
+- [x] Hinweis: ab drei gleichen Titelmustern je Lauf
+- [x] Nichts Geschmackliches hart gemacht
+- [x] *Dazugekommen:* Vertiefung 3 von 5 und Kaufen immer, Zahl im Bild,
+      Länge zweistufig und schon vor der Vertonung, Rotation und
+      Themenwiederholung über `daten/verlauf.json`
 
 **Video (`video/`)**
 
-- [ ] Hook-Pille trägt die Systemangabe, wenn `macos` oder `windows`
-- [ ] Neue Bausteine: Anschlussleiste, Merkmalskarte, Größenvergleich
+- [x] Drei neue Szenenarten: `fehlspur`, `herleitung`, `einschraenkung`
+- [ ] **Hook-Pille trägt die Systemangabe, wenn `macos` oder `windows`**
+      — das Feld steht im Vertrag und wird geprüft, ist aber im Bild noch
+      unsichtbar. Fällt derzeit nicht auf, weil alle fünf Shorts `ohne`
+      tragen; beim ersten systemspezifischen Thema wäre es ein stiller
+      Ausfall.
+- [ ] **Neue Bausteine: Anschlussleiste, Merkmalskarte, Größenvergleich**
+      — die einzige der vier Grundsatzentscheidungen vom 12.08.2026, die
+      noch gar nicht umgesetzt ist. Der Lauf meldet den Mangel selbst:
+      „Szenenart `aussage` kommt in 4 von 5 Shorts vor."
 - [ ] Flächiger Stil, keine Schattierung, keine Perspektive
 
 **Inhalt**
 
-- [ ] Je ein Short für Unterwegs, Reise, Zuhause, Kaufen — sonst ist kein Lauf
-      mehr gültig (Rubrikprüfung)
-- [ ] Titel und Hooks aller Shorts auf die drei Muster umschreiben
-- [ ] Quellen dafür recherchieren — **URL wirklich abrufen und lesen**, nie aus
-      dem Gedächtnis (siehe CLAUDE.md)
+- [x] Je ein Short für alle fünf Rubriken, jeder mit drei geprüften Quellen
+- [x] Titel und Hooks auf die drei Muster
+- [x] Quellen recherchiert und wörtlich geprüft (33 Zitate, 0 Beanstandungen)
 
 **Offen geblieben**
 
-- Ob ein Short länger werden muss (Punkt 3, Tiefe je Video)
-- Die fünf Videos in `laeufe/2026-08-12` sind vor der Sichere-Zone-Korrektur
-  gerendert und tragen noch die alten Titel
+- **Deutsche Stimme.** `skripte/wochenlauf.ts` fällt ohne
+  `ELEVENLABS_VOICE_ID` auf eine englische Standardstimme zurück. Der
+  Free-Tarif gibt über die API keine deutschen Stimmen her — das klärt sich
+  mit dem Tarifwechsel, aber die Stimme muss danach ausgewählt und in `.env`
+  eingetragen werden.
+- **ElevenLabs-Tarif.** Bedarf rund 27.800 Zeichen im Monat. Free scheidet
+  schon wegen der fehlenden kommerziellen Lizenz aus, Starter läge bei 93 %
+  Auslastung ohne Puffer. Empfohlen: Creator.
+- **Der ganze Weg nach draußen ist mit dem neuen Stand nie gelaufen.**
+  R2-Ablage, Buffer-Einplanung und Veröffentlichung sind seit dem Umbau
+  nicht mehr durchgetestet worden — nur die Prüfungen davor.
+- Der Lauf `laeufe/2026-08-12` ist endgültig unbrauchbar: veraltet gerendert
+  und unter der Free-Lizenz vertont. `veroeffentlichen.ts` weist ihn jetzt
+  von selbst ab.
