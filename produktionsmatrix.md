@@ -93,12 +93,41 @@ sein — die Tatsache muss von den Quellen getragen sein.
 
 ### Die vier Vertiefungen
 
-| Vertiefung | Was sie tut | Der Moment beim Zuschauer |
-|---|---|---|
-| **Fehlspur** | Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen | „Genau das dachte ich auch." |
-| **Herleitung** | Die Zahl wird vor seinen Augen gerechnet, nicht behauptet | „Das kann ich jetzt selbst ausrechnen." |
-| **Grenzfall** | Die Regel nennt ihre eigene Ausnahme | „Der weiß, wovon er redet." |
-| **Folgekosten** | Was du aufgibst, wenn du die Lösung nimmst | „Ah, es ist nicht umsonst." |
+| Vertiefung | Was sie tut | Der Moment beim Zuschauer | Teaser |
+|---|---|---|---|
+| **Fehlspur** | Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen | „Genau das dachte ich auch." | **keiner** |
+| **Herleitung** | Die Zahl wird vor seinen Augen gerechnet, nicht behauptet | „Das kann ich jetzt selbst ausrechnen." | „Eine Rechnung, dann kannst du es selbst." |
+| **Grenzfall** | Die Regel nennt ihre eigene Ausnahme | „Der weiß, wovon er redet." | „Am Ende der Haken, den kaum jemand nennt." |
+| **Folgekosten** | Was du aufgibst, wenn du die Lösung nimmst | „Ah, es ist nicht umsonst." | „Was es dich kostet, kommt zum Schluss." |
+
+### Der Teaser
+
+Eine kurze Szene direkt hinter der Hook, rund drei Sekunden, die ankündigt,
+was noch kommt. Der Zweck ist Verweildauer: Bei einem Short von achtzig
+Sekunden entscheidet nicht der Titel, ob jemand bleibt, sondern ob er nach
+fünf Sekunden einen Grund dazu hat.
+
+**Nur bei Shorts mit Vertiefung.** Ein Teaser kostet drei Sekunden — bei
+einem tiefen Short sind das vier Prozent, bei einem knappen ohne Vertiefung
+wären es acht, und zwar bei einem Video, dessen ganzer Zweck ist, *eine*
+Sache schnell zu sagen.
+
+**Die Fehlspur bekommt keinen**, und das ist kein Verzicht: Sie nennt zwei
+Verdächtige und streicht beide durch — danach steht die Frage „was denn dann?"
+von allein im Raum, stärker als ein Satz sie stellen könnte. Ein Versprechen
+davor wäre doppelt und nähme die Spannung vorweg.
+
+**`verweistAuf` bindet das Versprechen.** Der Teaser nennt die Szenenart, die
+ihn einlöst, und das Schema verlangt, dass diese Szene später wirklich kommt.
+Ohne diese Kopplung wäre der Teaser freier Text — also genau die Stelle, an
+der sich Clickbait einschleicht, nur an einem Ort, den keine Belegpflicht
+abdeckt. „Gleich zeige ich dir X" und dann kommt kein X ist derselbe Bruch
+wie eine Zahl ohne Quelle.
+
+Fehlt der Teaser, wo die Vertiefung ihn vorsieht, erscheint ein **Hinweis**,
+kein Fehler. Ob ein Video jemanden hält, ist eine handwerkliche Frage und
+keine rechtliche — hart sind in diesem Projekt nur Regeln, die rechtlich oder
+faktisch begründet sind.
 
 ```
 Fehlspur      Erster Gedanke: Kabel kaputt.  → Neues Kabel, immer noch schwarz.

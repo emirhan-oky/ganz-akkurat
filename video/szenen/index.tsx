@@ -97,6 +97,96 @@ const Hook: React.FC<SzenenProps<'hook'>> = ({ szene, dauer }) => {
   );
 };
 
+/* ────────────────────────────── Teaser ─────────────────────────────── */
+
+/**
+ * Das Versprechen auf spaeter, direkt hinter der Hook.
+ *
+ * Gebaut als die **ruhigste Szene des Videos**: kleiner Vorspann, ein Satz im
+ * Rahmen, darunter der Nutzen. Kein Geraet, keine Zahl, kein Impuls. Der
+ * Teaser soll spuerbar eine Klammer sein und nicht wie Inhalt aussehen —
+ * sonst wartet der Zuschauer auf die Aufloesung von etwas, das nur eine
+ * Ankuendigung war.
+ *
+ * Der Rahmen ist offen gezeichnet: drei Seiten statt vier, wie ein
+ * angefangener Satz. Er faehrt in der ersten halben Sekunde aus, damit die
+ * Szene trotz ihrer Kuerze eine Bewegung hat.
+ */
+const Teaser: React.FC<SzenenProps<'teaser'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const rahmen = linienFortschritt(frame, 2, Math.round(fps * 0.5));
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      <p
+        style={{
+          ...grundtext,
+          ...auftritt(frame, fps, 0),
+          fontWeight: SCHRIFT.halbfett,
+          fontSize: GROESSEN.detail,
+          color: FARBEN.blau,
+          letterSpacing: 2,
+          textTransform: 'uppercase',
+          margin: `0 0 ${ABSTAND.m}px 0`,
+        }}
+      >
+        {szene.vorspann}
+      </p>
+
+      <div
+        style={{
+          ...auftritt(frame, fps, 3),
+          borderLeft: `10px solid ${FARBEN.blau}`,
+          borderTop: `4px solid ${FARBEN.flaeche}`,
+          borderBottom: `4px solid ${FARBEN.flaeche}`,
+          // Der Rahmen wird gezogen, nicht gesetzt: Die Breite waechst in der
+          // ersten halben Sekunde auf ihr Mass.
+          width: `${rahmen * 100}%`,
+          padding: `${ABSTAND.m}px ${ABSTAND.l}px`,
+          borderRadius: `0 ${RADIUS.m}px ${RADIUS.m}px 0`,
+        }}
+      >
+        <p
+          style={{
+            ...grundtext,
+            /*
+             * Der Text erscheint **nach** dem Rahmen, nicht mit ihm. Er waere
+             * sonst waehrend des Ausfahrens mehrfach neu umgebrochen und
+             * haette bei jeder Breite anders gestanden — ein Springen, das
+             * genau in den Sekunden passiert, in denen der Zuschauer
+             * entscheidet, ob er bleibt.
+             */
+            opacity: einblenden(frame, Math.round(fps * 0.45)),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            lineHeight: 1.14,
+            margin: 0,
+          }}
+        >
+          {szene.text}
+        </p>
+      </div>
+
+      {szene.nutzen && (
+        <p
+          style={{
+            ...grundtext,
+            opacity: einblenden(frame, Math.round(dauer * 0.35)),
+            fontSize: GROESSEN.fliesstext,
+            color: FARBEN.tinteWeich,
+            lineHeight: 1.3,
+            margin: `${ABSTAND.l}px 0 0 0`,
+          }}
+        >
+          {szene.nutzen}
+        </p>
+      )}
+    </Buehne>
+  );
+};
+
 /* ─────────────────────────── Illustration ──────────────────────────── */
 
 /**
@@ -1344,6 +1434,8 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
   switch (szene.art) {
     case 'hook':
       return <Hook szene={szene} dauer={dauer} />;
+    case 'teaser':
+      return <Teaser szene={szene} dauer={dauer} />;
     case 'aussage':
       return <Aussage szene={szene} dauer={dauer} />;
     case 'zahl':

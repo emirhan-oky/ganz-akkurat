@@ -113,7 +113,7 @@ export const dockKeinBild: Short[] = [
         quelleId: 'synaptics-displaylink-funktion',
         geraet: 'dock',
         sprechtext:
-          'Jetzt sagst du vielleicht: Bei mir geht es aber. Dann steckt eine andere Technik im Dock. Ein Treiber sammelt die Bildpunkte ein und schickt sie als Datenstrom hinüber — der Hersteller beschreibt es genau so. Es funktioniert. Nur macht die Arbeit dein Prozessor.',
+          'Jetzt sagst du vielleicht: Bei mir geht es aber. Dann steckt eine andere Technik im Dock. Ein Treiber sammelt die Bildpunkte ein und schickt sie als Datenstrom hinüber, so beschreibt es der Hersteller. Es funktioniert — nur macht die Arbeit dein Prozessor.',
       },
       {
         /*
@@ -133,7 +133,10 @@ export const dockKeinBild: Short[] = [
         quelleId: 'dell-mehrere-monitore',
         geraet: 'monitor',
         sprechtext:
-          'Und noch etwas, falls du gleich zwei Monitore anschließen willst. Dann ist meistens weder das Kabel die Grenze noch das Dock, sondern die Grafikkarte in deinem Notebook. Der Hersteller sagt es deutlich: Sie ist die eigentliche Decke, nicht die Verkabelung.',
+          // Gestrafft am 13.08.2026: 89,3 Sekunden waren zu nah an der
+          // Obergrenze von 90, und die Vertonung schwankt um rund sechs
+          // Prozent zwischen Laeufen.
+          'Und falls du gleich zwei Monitore anschließen willst: Dann ist weder das Kabel die Grenze noch das Dock, sondern die Grafikkarte in deinem Notebook. Der Hersteller sagt es deutlich — sie ist die eigentliche Decke, nicht die Verkabelung.',
       },
       {
         art: 'endkarte',

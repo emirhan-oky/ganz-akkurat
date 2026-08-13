@@ -44,6 +44,13 @@ const PAUSE_NACH_SZENE_SEK = 0.32;
 /** Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der Text ist. */
 const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   hook: 1.8,
+  /**
+   * Der Teaser ist bewusst die kuerzeste Szene des Videos. Er verspricht nur
+   * und liefert nichts — jede Sekunde darueber hinaus schiebt den Inhalt
+   * weiter nach hinten, und wer zu lange ankuendigt, verliert genau die
+   * Leute, die er halten will.
+   */
+  teaser: 2.6,
   aussage: 1.6,
   zahl: 2.2,
   vergleich: 4.0,
