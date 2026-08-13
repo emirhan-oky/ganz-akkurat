@@ -55,6 +55,10 @@ export const powerbankFlug: Short[] = [
         art: 'hook',
         kontext: 'Powerbank im Handgepäck',
         text: 'Am Gate zählt eine andere Zahl.',
+        // Das Flugzeug sagt in den ersten Sekunden, was der Sprechtext erst
+        // im vierten Satz nachliefert — und wer stumm zusieht, sieht es
+        // ueberhaupt nur hier.
+        symbol: 'flugzeug',
         sprechtext:
           'Du fliegst nächste Woche und packst die Powerbank ins Handgepäck. Auf ihr steht eine Zahl in Milliamperestunden — am Gate zählt eine ganz andere Einheit.',
       },
@@ -113,6 +117,7 @@ export const powerbankFlug: Short[] = [
          * ausserhalb Europas. Die EASA traegt dafuer die Szene darunter.
          */
         quelleId: 'faa-lithium-grenzwerte',
+        symbol: 'koffer',
         sprechtext:
           'Und das ist keine deutsche Eigenheit. Die europäische und die amerikanische Luftfahrtbehörde nennen dieselbe Zahl. Wer darüber liegt, braucht die Zustimmung der Fluggesellschaft und darf dann höchstens zwei Ersatzbatterien mitnehmen. Über hundertsechzig Wattstunden ist ganz Schluss.',
       },

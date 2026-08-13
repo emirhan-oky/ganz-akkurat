@@ -37,11 +37,26 @@ export const kabelWatt: Short[] = [
 
     szenen: [
       {
+        /*
+         * Hook und Endkarte sind am 13.08.2026 ausgebaut worden, um Abstand
+         * zur Fenstergrenze zu gewinnen: Derselbe Text kam bei zwei
+         * Vertonungen einmal auf 75,3 und einmal auf 70,5 Sekunden. Die
+         * Sprachsynthese liefert nicht zweimal dieselbe Aufnahme, und rund
+         * sechs Prozent Unterschied entscheiden ueber das Zielfenster. Wer
+         * knapp an der Kante baut, faellt beim naechsten Lauf heraus.
+         *
+         * Ergaenzt ist bewusst **keine neue Tatsache**. Ein erster Versuch
+         * fuegte eine Szene ein („es geht nichts kaputt, die Seiten handeln
+         * aus") — keine der drei Quellen sagt das, und eine Behauptung
+         * einzubauen, um ein Zeitfenster zu treffen, waere genau der Fehler,
+         * den die Belegpflicht verhindern soll. Hier steht nur ausfuehrlicher,
+         * was ohnehin schon dasteht.
+         */
         art: 'hook',
         kontext: 'Laden unterwegs',
         text: '10 Sekunden. Dann weißt du es.',
         sprechtext:
-          'Dein Notebook lädt unterwegs im Schneckentempo, obwohl das Netzteil hundert Watt kann. Bevor du ein neues kaufst: zehn Sekunden, dann weißt du, woran es liegt.',
+          'Dein Notebook lädt unterwegs im Schneckentempo, obwohl das Netzteil hundert Watt kann. Also denkst du, das Netzteil ist hinüber oder zu schwach für dieses Gerät. Bevor du ein neues kaufst: zehn Sekunden, dann weißt du, woran es wirklich liegt.',
       },
       {
         /*
@@ -97,7 +112,7 @@ export const kabelWatt: Short[] = [
         ],
         abschluss: 'Technik, die zusammenpasst',
         sprechtext:
-          'Schau also aufs Kabel, bevor du ein neues Netzteil kaufst. Steht dort gar nichts, geh vom schwächeren aus — das kostet dich zehn Sekunden und spart dir den Fehlkauf.',
+          'Schau also aufs Kabel, bevor du ein neues Netzteil kaufst. Der Aufdruck sitzt am Stecker oder auf der Tülle, und mehr als hinsehen musst du nicht. Steht dort gar nichts, geh vom schwächeren aus — das kostet dich zehn Sekunden und spart dir den Fehlkauf.',
       },
     ],
 

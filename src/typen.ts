@@ -136,15 +136,48 @@ export const GeraeteArt = z.enum([
 export type GeraeteArt = z.infer<typeof GeraeteArt>;
 
 /**
- * Zeichnung unter dem Text einer Textszene.
+ * Symbole fuer die Situation, nicht fuer die Technik.
+ *
+ * Die zweite Zeichenkategorie neben `GeraeteArt`, und die Trennung ist der
+ * ganze Punkt:
+ *
+ * | | zeigt | Anspruch |
+ * |---|---|---|
+ * | `geraet` | Dock, Kabel, Router | **muss stimmen** — gezeichnet wird nur, was im Datenblatt steht |
+ * | `symbol` | Flugzeug, Gesetzbuch, Kassenbon | behauptet nichts Technisches, setzt den Ort |
+ *
+ * Der Anlass war die Rubrik Kaufen: Bei „Die Garantie ist abgelaufen" gibt es
+ * kein Geraet zu zeichnen, und ein beliebiges Dock daneben waere Dekoration
+ * gewesen. Ein Gesetzbuch dagegen sagt in einem Bild, worum es geht.
+ *
+ * Warum das kein Widerspruch zur Bildregel ist: Verboten sind erfundene
+ * technische Details — Buchsen, die es nicht gibt. Ein stilisiertes Flugzeug
+ * macht keine Aussage, die falsch sein koennte. Sobald ein Symbol anfinge,
+ * etwas zu behaupten, waere es ein Geraet und muesste belegt sein.
+ *
+ * **Nicht dabei: der Richterhammer.** Deutsche Gerichte benutzen keinen, das
+ * ist ein Bild aus amerikanischen Serien. Bei einem Kanal, dessen Kern die
+ * belegte Aussage ist, ausgerechnet beim Rechtsthema ein Requisit zu zeigen,
+ * das es hierzulande nicht gibt, waere ein vermeidbarer Patzer.
+ */
+export const KontextArt = z.enum(['flugzeug', 'koffer', 'gesetzbuch', 'kassenbon', 'steckdose']);
+export type KontextArt = z.infer<typeof KontextArt>;
+
+/**
+ * Zeichnung unter dem Text einer Szene.
  *
  * Optional, und das ist die ganze Regel: Zwischen Text und Untertitel liegt
- * Platz, aber ein Geraet, das nur diesen Platz fuellt, macht den Short nicht
- * besser. Bei „Die Garantie ist abgelaufen" gibt es nichts zu zeichnen —
- * dort bleibt der Text mittig stehen. Gesetzt wird das Feld nur, wenn die
- * Zeichnung die Aussage **zeigt**, statt sie zu begleiten.
+ * Platz, aber ein Bild, das nur diesen Platz fuellt, macht den Short nicht
+ * besser. Gesetzt wird nur, wenn die Zeichnung die Aussage **zeigt** oder den
+ * Ort setzt, statt sie zu begleiten.
+ *
+ * Beide Felder zugleich waeren zwei Bilder auf einem Platz — geprueft im
+ * `superRefine` des Shorts.
  */
-const mitIllustration = { geraet: GeraeteArt.optional() };
+const mitIllustration = {
+  geraet: GeraeteArt.optional(),
+  symbol: KontextArt.optional(),
+};
 
 /** Aufhaenger. Die ersten drei Sekunden entscheiden ueber alles Weitere. */
 const SzeneHook = SzeneBasis.extend({
@@ -153,6 +186,14 @@ const SzeneHook = SzeneBasis.extend({
   text: z.string().max(70),
   /** Optionaler Unterton, z.B. das Geraet oder die Situation. */
   kontext: z.string().max(60).optional(),
+  /*
+   * Die Hook traegt eine Illustration am wirksamsten: Sie hat wenig Text und
+   * die Aufgabe, in drei Sekunden klarzumachen, worum es geht. Beim
+   * Reise-Short stand der Flug bis zum 13.08.2026 nur im Sprechtext — wer die
+   * ersten Sekunden stumm sah, hielt das Video fuer Powerbank-Wissen mit
+   * zufaelligem Flugbeispiel.
+   */
+  ...mitIllustration,
 });
 
 /**
@@ -831,6 +872,24 @@ export const Short = z.object({
    */
   .superRefine((short, ctx) => {
     const arten = new Set(short.szenen.map((s) => s.art));
+
+    /* ── Ein Bildplatz, ein Bild ─────────────────────────────────── */
+
+    /*
+     * `geraet` und `symbol` teilen sich denselben Platz unter dem Text. Beide
+     * zu setzen ist kein Gestaltungsfall, sondern ein Versehen — und eines,
+     * das im Video nicht auffiele, weil eines der beiden stillschweigend
+     * gewinnt.
+     */
+    short.szenen.forEach((szene, i) => {
+      if ('geraet' in szene && 'symbol' in szene && szene.geraet && szene.symbol) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen', i],
+          message: `Szene ${i + 1} setzt „geraet" und „symbol" — beide teilen sich denselben Bildplatz.`,
+        });
+      }
+    });
 
     /* ── Die Machart muss ihre tragende Szene haben ──────────────── */
 

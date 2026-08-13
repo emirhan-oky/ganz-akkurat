@@ -1,8 +1,8 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
-import type { GeraeteArt, Szene } from '../../src/typen';
+import type { GeraeteArt, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
-import { Geraet } from '../bausteine/Geraete';
+import { Geraet, Symbol } from '../bausteine/Geraete';
 import {
   abschnitt,
   auftritt,
@@ -50,7 +50,7 @@ const Hook: React.FC<SzenenProps<'hook'>> = ({ szene, dauer }) => {
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne dauerBilder={dauer}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       {szene.kontext && (
         <div style={{ ...auftritt(frame, fps, 0), marginBottom: ABSTAND.m }}>
           <span
@@ -111,22 +111,26 @@ const ILLUSTRATION_GROESSE = 560;
 /**
  * Die Zeichnung unter dem Text, sofern die Szene eine nennt.
  *
- * Sie tritt **nach** dem Text auf, etwa im ersten Drittel der Szene: Erst
+ * Sie tritt **nach** dem Text auf, etwa im ersten Fuenftel der Szene: Erst
  * liest man, was behauptet wird, dann sieht man, wovon die Rede ist. Beides
  * gleichzeitig einzublenden liesse den Blick zwischen zwei Neuigkeiten
  * springen.
  *
- * Gibt `undefined` zurueck, wenn kein Geraet gesetzt ist — dann bleibt der
- * Text in der Buehne mittig stehen, statt oben zu kleben und darunter ein
- * Loch zu lassen.
+ * Nimmt beide Zeichenkategorien: `geraet` fuer Technik, die dem Datenblatt
+ * entsprechen muss, `symbol` fuer die Situation. Beide zugleich verbietet das
+ * Schema, hier gewinnt sonst das Geraet.
+ *
+ * Gibt `undefined` zurueck, wenn nichts gesetzt ist — dann bleibt der Text in
+ * der Buehne mittig stehen, statt oben zu kleben und darunter ein Loch zu
+ * lassen.
  */
 const Illustration = (
-  geraet: GeraeteArt | undefined,
+  szene: { geraet?: GeraeteArt; symbol?: KontextArt },
   frame: number,
   fps: number,
   dauer: number,
 ): React.ReactNode | undefined => {
-  if (!geraet) return undefined;
+  if (!szene.geraet && !szene.symbol) return undefined;
   return (
     <div
       style={{
@@ -141,7 +145,11 @@ const Illustration = (
         maxHeight: '100%',
       }}
     >
-      <Geraet art={geraet} groesse={ILLUSTRATION_GROESSE} einpassen />
+      {szene.geraet ? (
+        <Geraet art={szene.geraet} groesse={ILLUSTRATION_GROESSE} einpassen />
+      ) : (
+        <Symbol art={szene.symbol!} groesse={ILLUSTRATION_GROESSE} einpassen />
+      )}
     </div>
   );
 };
@@ -158,7 +166,7 @@ const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
     : [szene.text];
 
   return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       <p
         style={{
           ...grundtext,
@@ -199,7 +207,7 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
   const einheitGroesse = Math.round(wertGroesse * 0.38);
 
   return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       <div
         style={{
           ...auftritt(frame, fps, 0),
@@ -1181,7 +1189,7 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       {szene.ueberschrift && (
         <p
           style={{

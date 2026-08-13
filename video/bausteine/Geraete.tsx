@@ -1,5 +1,5 @@
 import { FARBEN } from '../../src/marke';
-import type { GeraeteArt } from '../../src/typen';
+import type { GeraeteArt, KontextArt } from '../../src/typen';
 
 /**
  * Geraete als Strichzeichnung im Bannerstil der Marke.
@@ -18,7 +18,7 @@ import type { GeraeteArt } from '../../src/typen';
  * Schema-Wert ohne Zeichnung waere nicht aufgefallen, bis Remotion beim
  * Rendern nichts zu zeichnen findet.
  */
-export type { GeraeteArt } from '../../src/typen';
+export type { GeraeteArt, KontextArt } from '../../src/typen';
 
 const strich = {
   fill: 'none',
@@ -116,8 +116,82 @@ const Zeichnungen: Record<GeraeteArt, React.ReactNode> = {
   ),
 };
 
-export const Geraet: React.FC<{
-  art: GeraeteArt;
+/**
+ * Symbole fuer die Situation, nicht fuer die Technik.
+ *
+ * Sie stehen dort, wo es kein Geraet zu zeigen gibt — beim Rechtsthema, beim
+ * Flug, an der fremden Steckdose. Derselbe Stil und dieselbe Zeichenflaeche,
+ * aber ein anderer Anspruch: Ein Geraet muss dem Datenblatt entsprechen, ein
+ * Symbol behauptet nichts, das falsch sein koennte. Ausfuehrlich begruendet
+ * bei `KontextArt` in `src/typen.ts`.
+ */
+const Symbole: Record<KontextArt, React.ReactNode> = {
+  /*
+   * Seitenansicht, Nase nach rechts — aus vier klaren Formen statt einer
+   * durchgehenden Kontur. Ein erster Versuch zeichnete die ganze Silhouette
+   * als einen Pfad; sie war als Flugzeug zu erkennen, aber Nase und Heck
+   * gerieten eckig. Vier Teile lassen sich einzeln sauber setzen.
+   */
+  flugzeug: (
+    <>
+      {/* Rumpf */}
+      <path {...koerper} d="M40 66h100c17 0 28 7 28 15s-11 15-28 15H40c-13 0-22-7-22-15s9-15 22-15Z" />
+      {/* Leitwerk */}
+      <path {...koerper} d="M42 66 32 32h17l21 34Z" />
+      {/* Tragflaeche, nach hinten unten gezogen */}
+      <path {...koerper} d="M94 96 68 128h21l26-32Z" />
+      {/* Fensterreihe */}
+      <path {...fein} d="M62 81h58" />
+    </>
+  ),
+  koffer: (
+    <>
+      <rect {...koerper} x="52" y="46" width="96" height="74" rx="10" />
+      <path {...strich} d="M82 46V30h36v16" />
+      <path {...fein} d="M74 62v42M126 62v42" />
+      <circle {...fein} cx="72" cy="128" r="7" />
+      <circle {...fein} cx="128" cy="128" r="7" />
+    </>
+  ),
+  /* Gesetzbuch statt Richterhammer — die Begruendung steht bei `KontextArt`. */
+  gesetzbuch: (
+    <>
+      {/* Deckel */}
+      <rect {...koerper} x="46" y="26" width="110" height="96" rx="8" />
+      {/* Ruecken links, Seitenschnitt rechts */}
+      <path {...strich} d="M66 26v96" />
+      <path {...fein} d="M146 44v60" />
+      <text
+        x="108"
+        y="90"
+        textAnchor="middle"
+        fontSize="52"
+        fontWeight="800"
+        fontFamily="Inter, system-ui, sans-serif"
+        fill={FARBEN.linie}
+      >
+        §
+      </text>
+    </>
+  ),
+  /* Der Bon traegt das Kaufdatum — den Tag, an dem die Fristen zu laufen beginnen. */
+  kassenbon: (
+    <>
+      <path {...koerper} d="M62 24h76v102l-9.5-8-9.5 8-9.5-8-9.5 8-9.5-8-9.5 8-9.5-8-9.5 8Z" />
+      <path {...fein} d="M78 50h44M78 68h44M78 86h28" />
+    </>
+  ),
+  steckdose: (
+    <>
+      <circle {...koerper} cx="100" cy="75" r="50" />
+      <circle {...fein} cx="83" cy="75" r="7" />
+      <circle {...fein} cx="117" cy="75" r="7" />
+      <path {...fein} d="M72 45h56M72 105h56" />
+    </>
+  ),
+};
+
+type ZeichnungProps = {
   groesse?: number;
   gedimmt?: boolean;
   /**
@@ -129,7 +203,14 @@ export const Geraet: React.FC<{
    * langem Text nach unten in den Untertitel hinein.
    */
   einpassen?: boolean;
-}> = ({ art, groesse = 200, gedimmt = false, einpassen = false }) => (
+};
+
+const Zeichenflaeche: React.FC<ZeichnungProps & { inhalt: React.ReactNode }> = ({
+  inhalt,
+  groesse = 200,
+  gedimmt = false,
+  einpassen = false,
+}) => (
   <svg
     width={groesse}
     height={groesse * 0.75}
@@ -143,6 +224,15 @@ export const Geraet: React.FC<{
   >
     {/* Standflaeche: gibt den Objekten Halt wie im Banner. */}
     <ellipse cx="100" cy="140" rx="62" ry="9" fill={FARBEN.flaeche} opacity={0.5} />
-    {Zeichnungen[art]}
+    {inhalt}
   </svg>
+);
+
+export const Geraet: React.FC<ZeichnungProps & { art: GeraeteArt }> = ({ art, ...rest }) => (
+  <Zeichenflaeche inhalt={Zeichnungen[art]} {...rest} />
+);
+
+/** Situationssymbol — gleiche Flaeche, anderer Anspruch. Siehe `Symbole`. */
+export const Symbol: React.FC<ZeichnungProps & { art: KontextArt }> = ({ art, ...rest }) => (
+  <Zeichenflaeche inhalt={Symbole[art]} {...rest} />
 );

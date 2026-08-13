@@ -44,6 +44,18 @@ export const garantieGewaehrleistung: Short[] = [
         text: 'Garantie ist freiwillig — Gewährleistung steht im Gesetz.',
         hervorhebung: 'freiwillig',
         quelleId: 'bgb-443-garantie',
+        /*
+         * Der erste Short dieses Kanals mit einem Situationssymbol statt einem
+         * Geraet. Bei einem Rechtsthema gibt es kein Geraet zu zeigen — bis
+         * zum 13.08.2026 lief er deshalb ganz ohne Bild, und genau dort fiel
+         * der leere Platz unter dem Text am meisten auf.
+         *
+         * Bewusst das Gesetzbuch und **kein Richterhammer**: Deutsche Gerichte
+         * benutzen keinen, das ist ein Bild aus amerikanischen Serien.
+         * Ausgerechnet beim Rechtsthema ein Requisit zu zeigen, das es
+         * hierzulande nicht gibt, waere der vermeidbarste aller Patzer.
+         */
+        symbol: 'gesetzbuch',
         sprechtext:
           'Nur sind das zwei verschiedene Dinge. Eine Garantie gibt der Verkäufer oder der Hersteller freiwillig ab — er entscheidet, was drinsteht. Das Gesetz sagt dazu: Sie kommt zusätzlich zur gesetzlichen Mängelhaftung. Zusätzlich. Sie ersetzt sie nicht.',
       },
@@ -69,6 +81,14 @@ export const garantieGewaehrleistung: Short[] = [
         einheit: 'Jahre',
         bedeutung: 'Gesetzliche Mängelhaftung beim normalen Kauf',
         quelleId: 'bgb-438-verjaehrung',
+        /*
+         * Der Bon traegt das Kaufdatum — den Tag, an dem diese zwei Jahre zu
+         * laufen beginnen. Er stand zuerst bei der Einschraenkung, dort blieb
+         * neben drei Textbloecken aber so wenig Platz, dass die Zeichnung auf
+         * Briefmarkengroesse schrumpfte. Eine Zahl-Szene traegt wenig Text und
+         * damit die Illustration.
+         */
+        symbol: 'kassenbon',
         sprechtext:
           'Denn die läuft beim normalen Kauf zwei Jahre. Das steht so im Bürgerlichen Gesetzbuch, und es gilt unabhängig davon, was auf der Garantiekarte steht.',
       },
