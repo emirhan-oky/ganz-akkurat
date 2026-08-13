@@ -113,7 +113,17 @@ const main = async () => {
   console.log('3  Qualität prüfen');
   const roh = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] };
   const quellen = roh.quellen.map((q) => Quelle.parse(q));
-  const verlauf = await verlaufLesen();
+  /*
+   * Der eigene Lauf zaehlt nicht als Vergangenheit.
+   *
+   * `verlaufSchreiben` ersetzt einen Eintrag mit derselben Kennung, ein
+   * zweiter Lauf am selben Tag ueberschreibt also sauber. Beim **Pruefen**
+   * lag der erste Durchgang aber noch im Verlauf — und meldete alle fuenf
+   * Themen als Wiederholung des Laufs, der gerade ersetzt wird. Jeder
+   * Korrekturlauf am selben Tag haette damit fuenf falsche Hinweise erzeugt,
+   * und Hinweise, die regelmaessig falsch sind, liest bald niemand mehr.
+   */
+  const verlauf = (await verlaufLesen()).filter((eintrag) => eintrag.lauf !== id);
   const ergebnis = laufPruefen(fertige, quellen, verlauf);
 
   for (const b of ergebnis.befunde) {
