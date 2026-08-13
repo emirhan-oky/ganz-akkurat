@@ -726,8 +726,25 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
  * bleibt — beim allerersten Lauf gibt es sie noch nicht, und die
  * Schemapruefung braucht sie ohnehin nicht.
  */
-export const laufPruefen = (shorts: Short[], quellen: Quelle[], verlauf: Verlaufslauf[] = []) => {
-  const befunde = [...shorts.flatMap((s) => shortPruefen(s, quellen)), ...laufweiteBefunde(shorts, verlauf)];
+export const laufPruefen = (
+  shorts: Short[],
+  quellen: Quelle[],
+  verlauf: Verlaufslauf[] = [],
+  /**
+   * Nur die Regeln je Short pruefen, die laufweiten auslassen.
+   *
+   * Fuer den Teillauf (`npm run lauf -- --nur=…`): Jede Rubrik genau einmal,
+   * Vertiefung in drei von fuenf, keine Haeufung von Titelmustern — das ist
+   * auf die Woche gemuenzt und schluege bei einem einzelnen Short
+   * zwangslaeufig an. Eine Pruefung, die dort immer rot ist, liest bald
+   * niemand mehr.
+   */
+  nurEinzeln = false,
+) => {
+  const befunde = [
+    ...shorts.flatMap((s) => shortPruefen(s, quellen)),
+    ...(nurEinzeln ? [] : laufweiteBefunde(shorts, verlauf)),
+  ];
   const fehler = befunde.filter((b) => b.stufe === 'fehler');
 
   return {

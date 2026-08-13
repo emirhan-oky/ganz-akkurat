@@ -29,6 +29,24 @@ const MIT_TON = process.argv.includes('--mit-ton');
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /**
+ * Teillauf: `--nur=skl-pbf-01` baut einen einzigen Short.
+ *
+ * Gedacht fuer die Ansicht einer Aenderung mit echter Stimme, ohne fuenf
+ * Vertonungen zu bezahlen — ein Short kostet rund 1.500 Zeichen statt 7.300.
+ *
+ * Zwei Dinge gelten deshalb im Teillauf **nicht**:
+ *
+ * - **Die laufweiten Regeln.** Jede Rubrik genau einmal, Vertiefung in drei
+ *   von fuenf, keine Haeufung von Titelmustern — das alles ist auf die Woche
+ *   gemuenzt und wuerde bei einem einzelnen Short zwangslaeufig anschlagen.
+ *   Eine Pruefung, die im Teillauf immer rot ist, liest bald niemand mehr.
+ * - **Das Fortschreiben des Verlaufs.** Ein Teillauf ist eine Ansicht, keine
+ *   Woche. Wer ihn mitschreibt, verbrennt ein Thema, das nie erschienen ist —
+ *   derselbe Denkfehler, aus dem der Trockenlauf schon ausgenommen ist.
+ */
+const NUR = process.argv.find((a) => a.startsWith('--nur='))?.slice('--nur='.length);
+
+/**
  * Die fuenf Shorts dieses Laufs — einer je Rubrik.
  *
  * Seit dem 13.08.2026 vollstaendig: fuenf Rubriken, fuenf Macharten, fuenf
@@ -41,7 +59,7 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
  * Die Liste steht in `daten/entwuerfe/index.ts` und nicht hier, damit die
  * Schemapruefung dieselbe sieht.
  */
-const ENTWUERFE: Short[] = WOCHENLAUF;
+const ENTWUERFE: Short[] = NUR ? WOCHENLAUF.filter((s) => s.id === NUR) : WOCHENLAUF;
 
 const laufId = () => {
   const d = new Date();
@@ -54,8 +72,17 @@ const main = async () => {
   const videoOrdner = path.join(wurzel, 'videos');
   await fs.mkdir(videoOrdner, { recursive: true });
 
-  console.log(`SetupKlar · Wochenlauf ${id}`);
-  console.log(MIT_TON ? 'Modus: mit Vertonung\n' : 'Modus: Trockenlauf (keine Vertonung, kein Verbrauch)\n');
+  console.log(`SetupKlar · ${NUR ? `Teillauf ${NUR}` : 'Wochenlauf'} ${id}`);
+  console.log(MIT_TON ? 'Modus: mit Vertonung' : 'Modus: Trockenlauf (keine Vertonung, kein Verbrauch)');
+  if (NUR) {
+    if (ENTWUERFE.length === 0) {
+      console.log(`\nKein Entwurf mit der Kennung „${NUR}". Bekannt sind:`);
+      for (const s of WOCHENLAUF) console.log(`  ${s.id}  ${s.rubrik}`);
+      process.exit(1);
+    }
+    console.log('Teillauf: laufweite Regeln aus, Verlauf wird nicht fortgeschrieben');
+  }
+  console.log();
 
   /* ── 1  Entwuerfe validieren ─────────────────────────────────────── */
 
@@ -124,7 +151,7 @@ const main = async () => {
    * und Hinweise, die regelmaessig falsch sind, liest bald niemand mehr.
    */
   const verlauf = (await verlaufLesen()).filter((eintrag) => eintrag.lauf !== id);
-  const ergebnis = laufPruefen(fertige, quellen, verlauf);
+  const ergebnis = laufPruefen(fertige, quellen, verlauf, Boolean(NUR));
 
   for (const b of ergebnis.befunde) {
     console.log(`   ${b.stufe === 'fehler' ? '✕' : '·'} ${b.shortId}  [${b.regel}] ${b.text}`);
@@ -231,11 +258,19 @@ const main = async () => {
    * gaelte es als schon gelaufen. Veroeffentlicht werden kann ohnehin nur ein
    * vertonter Lauf, das prueft `veroeffentlichen.ts`.
    */
-  if (MIT_TON && zuRendern.length > 0) {
+  if (MIT_TON && !NUR && zuRendern.length > 0) {
     await verlaufSchreiben(id, zuRendern);
     console.log(`6  Verlauf fortgeschrieben (${zuRendern.length} Shorts)\n`);
   } else if (zuRendern.length > 0) {
-    console.log('6  Verlauf unberührt – Trockenläufe zählen nicht als gelaufen\n');
+    /*
+     * Auch ein vertonter Teillauf bleibt draussen: Er ist eine Ansicht, keine
+     * Woche. Wuerde er mitschreiben, gaelte sein Thema als gelaufen und
+     * verschwaende einen Sendeplatz — derselbe Denkfehler wie beim
+     * Trockenlauf, nur teurer, weil hier schon Zeichen verbraucht sind.
+     */
+    console.log(
+      `6  Verlauf unberührt – ${NUR ? 'ein Teillauf ist eine Ansicht' : 'Trockenläufe zählen nicht als gelaufen'}\n`,
+    );
   }
 
   console.log(`   ${seitenPfad}\n`);
