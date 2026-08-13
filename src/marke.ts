@@ -26,20 +26,44 @@ export const SICHERE_ZONE = {
   /**
    * Reels blendet unten Beschreibung und Tonzeile ein und verdeckt damit
    * deutlich mehr als TikTok. Der Wert richtet sich nach der schlimmsten
-   * Plattform, nicht nach dem Mittel — darunter liegt nur noch der
-   * Untertitel, der als Letztes verdeckt werden darf.
+   * Plattform, nicht nach dem Mittel.
+   *
+   * **Auch der Untertitel liegt darueber**, seit dem 13.08.2026. Vorher stand
+   * hier, er duerfe „als Letztes verdeckt werden" — was ihn 380 Pixel tief in
+   * die verdeckte Zone setzte. Das war falsch herum: Wer ohne Ton schaut,
+   * liest den Untertitel statt zuzuhoeren; er ist damit nicht das
+   * verzichtbarste Element, sondern eines der wichtigsten.
    */
   unten: 580,
   links: 60,
   rechts: 200,
 } as const;
 
-/** Nutzbare Flaeche innerhalb der sicheren Zone. */
+/**
+ * Hoehe, die der Untertitel unten belegt.
+ *
+ * Zwei Zeilen à 66 Pixel plus Abstand. Der Wert ist eine Reservierung, kein
+ * Rahmen: Der Untertitel wird nicht auf diese Hoehe gesetzt, aber die Buehne
+ * rendert nicht hinein. Ohne die Reservierung liegen Szenentext und
+ * Untertitel uebereinander, sobald der Untertitel in die sichere Zone
+ * gewandert ist.
+ */
+export const UNTERTITEL_ZONE = 200;
+
+/**
+ * Nutzbare Flaeche fuer Szeneninhalt.
+ *
+ * Kleiner als die sichere Zone, weil der Untertitel unten mitwohnt. Der
+ * Zugewinn liegt trotzdem auf der Hand: Vorher endete die Buehne bei 1340,
+ * der Untertitel sass bei 1620, und die 280 Pixel dazwischen konnten von
+ * keiner Szene bespielt werden — sie waren per Konstruktion leer. Jetzt
+ * grenzen beide aneinander.
+ */
 export const BUEHNE = {
   x: SICHERE_ZONE.links,
   y: SICHERE_ZONE.oben,
   breite: FORMAT.breite - SICHERE_ZONE.links - SICHERE_ZONE.rechts,
-  hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten,
+  hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten - UNTERTITEL_ZONE,
 } as const;
 
 export const FARBEN = {

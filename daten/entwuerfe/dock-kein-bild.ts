@@ -74,6 +74,9 @@ export const dockKeinBild: Short[] = [
         text: 'Bild braucht DisplayPort Alt Mode.',
         hervorhebung: 'DisplayPort Alt Mode',
         quelleId: 'vesa-dp-altmode',
+        // Der Port sitzt am Notebook — dort entscheidet sich, ob ein Bild
+        // herauskommt, und genau davon spricht die Szene.
+        geraet: 'notebook',
         sprechtext:
           'Ein USB-C-Anschluss überträgt nämlich nur dann ein Videosignal, wenn er den DisplayPort Alt Mode beherrscht. Der Standard sagt das ganz klar: Erst dieser Modus bringt Bild und Ton über den Stecker.',
       },
@@ -108,6 +111,7 @@ export const dockKeinBild: Short[] = [
         bedingung: 'Manche Docks bringen trotzdem ein Bild',
         folge: 'Sie schicken es als Datenstrom über einen Treiber — das kostet Rechenleistung',
         quelleId: 'synaptics-displaylink-funktion',
+        geraet: 'dock',
         sprechtext:
           'Jetzt sagst du vielleicht: Bei mir geht es aber. Dann steckt eine andere Technik im Dock. Ein Treiber sammelt die Bildpunkte ein und schickt sie als Datenstrom hinüber — der Hersteller beschreibt es genau so. Es funktioniert. Nur macht die Arbeit dein Prozessor.',
       },
@@ -127,6 +131,7 @@ export const dockKeinBild: Short[] = [
         text: 'Bei zwei Monitoren zählt die Grafikkarte.',
         hervorhebung: 'Grafikkarte',
         quelleId: 'dell-mehrere-monitore',
+        geraet: 'monitor',
         sprechtext:
           'Und noch etwas, falls du gleich zwei Monitore anschließen willst. Dann ist meistens weder das Kabel die Grenze noch das Dock, sondern die Grafikkarte in deinem Notebook. Der Hersteller sagt es deutlich: Sie ist die eigentliche Decke, nicht die Verkabelung.',
       },

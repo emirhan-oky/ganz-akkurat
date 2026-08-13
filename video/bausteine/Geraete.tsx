@@ -1,4 +1,5 @@
 import { FARBEN } from '../../src/marke';
+import type { GeraeteArt } from '../../src/typen';
 
 /**
  * Geraete als Strichzeichnung im Bannerstil der Marke.
@@ -11,15 +12,13 @@ import { FARBEN } from '../../src/marke';
  * Strichstaerken, damit sie in einer Kette optisch gleich gross wirken.
  */
 
-export type GeraeteArt =
-  | 'notebook'
-  | 'dock'
-  | 'monitor'
-  | 'kabel'
-  | 'netzteil'
-  | 'telefon'
-  | 'powerbank'
-  | 'adapter';
+/*
+ * Der Typ kommt aus dem Datenvertrag, nicht aus dieser Datei. Vorher stand er
+ * an beiden Stellen — eine Zeichnung ohne Eintrag im Schema oder ein
+ * Schema-Wert ohne Zeichnung waere nicht aufgefallen, bis Remotion beim
+ * Rendern nichts zu zeichnen findet.
+ */
+export type { GeraeteArt } from '../../src/typen';
 
 const strich = {
   fill: 'none',
@@ -98,18 +97,49 @@ const Zeichnungen: Record<GeraeteArt, React.ReactNode> = {
       <path {...fein} d="M86 82h28M100 68v28" />
     </>
   ),
+  /*
+   * Der Router traegt die Rubrik Zuhause und fehlte bis zum 13.08.2026 als
+   * einziges Alltagsgeraet in dieser Liste. Zwei Antennen und drei
+   * Statuslichter reichen zur Wiedererkennung — mehr Details waeren Behauptung
+   * ueber ein Geraet, das es so nicht gibt.
+   */
+  router: (
+    <>
+      <rect {...koerper} x="34" y="72" width="132" height="42" rx="8" />
+      <path {...strich} d="M62 72V38M138 72V38" />
+      <circle {...fein} cx="60" cy="93" r="5" />
+      <circle {...fein} cx="80" cy="93" r="5" />
+      <circle {...fein} cx="100" cy="93" r="5" />
+      {/* Funkwellen ueber der rechten Antenne: das, was den Router ausmacht. */}
+      <path {...fein} d="M152 44a20 20 0 0 1 0 24M164 34a34 34 0 0 1 0 44" />
+    </>
+  ),
 };
 
-export const Geraet: React.FC<{ art: GeraeteArt; groesse?: number; gedimmt?: boolean }> = ({
-  art,
-  groesse = 200,
-  gedimmt = false,
-}) => (
+export const Geraet: React.FC<{
+  art: GeraeteArt;
+  groesse?: number;
+  gedimmt?: boolean;
+  /**
+   * Begrenzt die Zeichnung auf die Hoehe ihres Behaelters.
+   *
+   * Noetig, seit Textszenen eine Illustration tragen koennen: Dort steht
+   * zuerst der Text, und was uebrig bleibt, ist von Szene zu Szene
+   * verschieden. Ohne diese Grenze quoll ein Geraet aus einer Szene mit
+   * langem Text nach unten in den Untertitel hinein.
+   */
+  einpassen?: boolean;
+}> = ({ art, groesse = 200, gedimmt = false, einpassen = false }) => (
   <svg
     width={groesse}
     height={groesse * 0.75}
     viewBox="0 0 200 150"
-    style={{ display: 'block', opacity: gedimmt ? 0.35 : 1 }}
+    preserveAspectRatio="xMidYMid meet"
+    style={{
+      display: 'block',
+      opacity: gedimmt ? 0.35 : 1,
+      ...(einpassen ? { maxHeight: '100%', maxWidth: '100%', height: 'auto' } : {}),
+    }}
   >
     {/* Standflaeche: gibt den Objekten Halt wie im Banner. */}
     <ellipse cx="100" cy="140" rx="62" ry="9" fill={FARBEN.flaeche} opacity={0.5} />

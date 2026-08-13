@@ -1,9 +1,10 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
-import type { Szene } from '../../src/typen';
+import type { GeraeteArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Geraet } from '../bausteine/Geraete';
 import {
+  abschnitt,
   auftritt,
   auftrittGestaffelt,
   auftrittImSprechrhythmus,
@@ -96,6 +97,55 @@ const Hook: React.FC<SzenenProps<'hook'>> = ({ szene, dauer }) => {
   );
 };
 
+/* ─────────────────────────── Illustration ──────────────────────────── */
+
+/**
+ * Groesse der Zeichnung unter dem Text.
+ *
+ * Die Buehne ist 820 Pixel breit; bei 560 bleibt links und rechts Luft, und
+ * die Zeichnung wird nicht groesser als der Text darueber. Sie soll die
+ * Aussage zeigen, nicht sie uebertoenen.
+ */
+const ILLUSTRATION_GROESSE = 560;
+
+/**
+ * Die Zeichnung unter dem Text, sofern die Szene eine nennt.
+ *
+ * Sie tritt **nach** dem Text auf, etwa im ersten Drittel der Szene: Erst
+ * liest man, was behauptet wird, dann sieht man, wovon die Rede ist. Beides
+ * gleichzeitig einzublenden liesse den Blick zwischen zwei Neuigkeiten
+ * springen.
+ *
+ * Gibt `undefined` zurueck, wenn kein Geraet gesetzt ist — dann bleibt der
+ * Text in der Buehne mittig stehen, statt oben zu kleben und darunter ein
+ * Loch zu lassen.
+ */
+const Illustration = (
+  geraet: GeraeteArt | undefined,
+  frame: number,
+  fps: number,
+  dauer: number,
+): React.ReactNode | undefined => {
+  if (!geraet) return undefined;
+  return (
+    <div
+      style={{
+        ...auftritt(frame, fps, Math.round(dauer * 0.22)),
+        // Der Abstand nach oben haelt die Zeichnung vom Text weg; `minHeight`
+        // und `einpassen` sorgen dafuer, dass sie schrumpft statt zu quellen,
+        // wenn der Text viel Platz braucht.
+        marginTop: ABSTAND.l,
+        display: 'flex',
+        justifyContent: 'center',
+        minHeight: 0,
+        maxHeight: '100%',
+      }}
+    >
+      <Geraet art={geraet} groesse={ILLUSTRATION_GROESSE} einpassen />
+    </div>
+  );
+};
+
 /* ────────────────────────────── Aussage ────────────────────────────── */
 
 const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
@@ -108,7 +158,7 @@ const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
     : [szene.text];
 
   return (
-    <Buehne dauerBilder={dauer}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
       <p
         style={{
           ...grundtext,
@@ -149,7 +199,7 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
   const einheitGroesse = Math.round(wertGroesse * 0.38);
 
   return (
-    <Buehne dauerBilder={dauer}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
       <div
         style={{
           ...auftritt(frame, fps, 0),
@@ -889,8 +939,22 @@ const Fehlspur: React.FC<SzenenProps<'fehlspur'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  /** Bild, ab dem der Durchstrich einer Zeile laeuft. */
-  const durchstrichAb = (i: number) => Math.round(fps * (0.9 + i * 1.5));
+  /*
+   * Jeder Verdacht bekommt seinen eigenen Abschnitt der Szene, die Aufloesung
+   * den letzten. Vorher standen hier feste Sekunden — 0,9 und 2,4 — und damit
+   * war eine zwoelf Sekunden lange Fehlspur nach zweieinhalb Sekunden fertig
+   * animiert, waehrend die Stimme weitersprach.
+   *
+   * Der Durchstrich laeuft in der Mitte des Abschnitts, nicht an seinem
+   * Anfang: Der Verdacht muss erst gelesen und kurz fuer wahr gehalten
+   * werden, sonst faellt der Effekt weg.
+   */
+  const abschnitte = szene.spuren.length + (szene.aufloesung ? 1 : 0);
+  const spurAbschnitt = (i: number) => abschnitt(i, abschnitte, dauer);
+  const durchstrichAb = (i: number) => {
+    const { start, laenge } = spurAbschnitt(i);
+    return start + Math.round(laenge * 0.45);
+  };
 
   return (
     <Buehne dauerBilder={dauer}>
@@ -915,7 +979,7 @@ const Fehlspur: React.FC<SzenenProps<'fehlspur'>> = ({ szene, dauer }) => {
           const anteil = linienFortschritt(frame, ab, Math.round(fps * 0.42));
 
           return (
-            <div key={i} style={{ ...auftrittGestaffelt(frame, fps, i, 0) }}>
+            <div key={i} style={{ ...auftritt(frame, fps, spurAbschnitt(i).start) }}>
               {/*
                * Durchstrich ueber `text-decoration`, nicht ueber einen
                * absolut gesetzten Balken. Der lag bei einem zweizeiligen
@@ -959,7 +1023,10 @@ const Fehlspur: React.FC<SzenenProps<'fehlspur'>> = ({ szene, dauer }) => {
         <p
           style={{
             ...grundtext,
-            opacity: einblenden(frame, durchstrichAb(szene.spuren.length)),
+            // Die Aufloesung hat einen eigenen Abschnitt und tritt an dessen
+            // Anfang auf, nicht erst in seiner Mitte — sie wird nicht
+            // gestrichen, sondern gesagt.
+            opacity: einblenden(frame, spurAbschnitt(szene.spuren.length).start),
             fontWeight: SCHRIFT.fett,
             fontSize: GROESSEN.aussage,
             color: FARBEN.blau,
@@ -988,7 +1055,14 @@ const Herleitung: React.FC<SzenenProps<'herleitung'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const ergebnisAb = Math.round(fps * (0.8 + szene.schritte.length * 0.85));
+  /*
+   * Die Rechnung verteilt sich ueber die Szene: jeder Schritt ein Abschnitt,
+   * das Ergebnis der letzte. Vorher stand das Ergebnis nach 3,4 Sekunden fest
+   * — bei einer Szene, die mit Vertonung bis zu vierzehn Sekunden laeuft.
+   * Zehn Sekunden Stillstand, waehrend die Stimme die Rechnung noch erklaert.
+   */
+  const schritteUndErgebnis = szene.schritte.length + 1;
+  const ergebnisAb = abschnitt(szene.schritte.length, schritteUndErgebnis, dauer).start;
 
   /*
    * Schriftgroesse und Spaltenbreite richten sich nach dem laengsten Wert —
@@ -1022,7 +1096,7 @@ const Herleitung: React.FC<SzenenProps<'herleitung'>> = ({ szene, dauer }) => {
           <div
             key={i}
             style={{
-              ...auftrittGestaffelt(frame, fps, i, 0),
+              ...auftrittImSprechrhythmus(frame, fps, i, schritteUndErgebnis, dauer),
               display: 'flex',
               alignItems: 'baseline',
               gap: ABSTAND.m,
@@ -1107,7 +1181,7 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
   const { fps } = useVideoConfig();
 
   return (
-    <Buehne dauerBilder={dauer}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene.geraet, frame, fps, dauer)}>
       {szene.ueberschrift && (
         <p
           style={{
@@ -1123,9 +1197,15 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
         </p>
       )}
 
+      {/*
+       * Bedingung und Folge sind zwei Gedanken und bekommen je einen
+       * Abschnitt der Szene. Vorher standen beide nach 0,2 und 1,1 Sekunden
+       * fest — die Folge war da, bevor die Stimme die Bedingung zu Ende
+       * gesprochen hatte.
+       */}
       <div
         style={{
-          ...auftritt(frame, fps, Math.round(fps * 0.2)),
+          ...auftrittImSprechrhythmus(frame, fps, 0, 2, dauer),
           borderLeft: `10px solid ${FARBEN.blau}`,
           paddingLeft: ABSTAND.l,
         }}
@@ -1144,7 +1224,7 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
         <p
           style={{
             ...grundtext,
-            opacity: einblenden(frame, Math.round(fps * 1.1)),
+            opacity: einblenden(frame, abschnitt(1, 2, dauer).start),
             fontSize: GROESSEN.fliesstext,
             color: FARBEN.tinteWeich,
             lineHeight: 1.3,
@@ -1211,7 +1291,13 @@ const Merkmalskarte: React.FC<SzenenProps<'merkmalskarte'>> = ({ szene, dauer })
             <div
               key={i}
               style={{
-                ...auftrittGestaffelt(frame, fps, i, Math.round(fps * 0.8)),
+                /*
+                 * Das Geraet steht sofort, die Merkmale kommen im
+                 * Sprechrhythmus dazu — jedes ungefaehr dann, wenn die Stimme
+                 * es nennt. Der erste Abschnitt gehoert dem Geraet allein,
+                 * deshalb `i + 1` von `merkmale.length + 1`.
+                 */
+                ...auftrittImSprechrhythmus(frame, fps, i + 1, szene.merkmale.length + 1, dauer),
                 display: 'flex',
                 alignItems: 'center',
                 gap: ABSTAND.m,

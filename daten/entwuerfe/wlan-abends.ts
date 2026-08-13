@@ -54,6 +54,7 @@ export const wlanAbends: Short[] = [
         einheit: 'GHz',
         bedeutung: 'Ein Band für die ganze Nachbarschaft',
         quelleId: 'tplink-kapazitaet-abends',
+        geraet: 'router',
         sprechtext:
           'Der Grund steht in der Frequenz. Zwei Komma vier Gigahertz ist kein Kanal, der dir gehört, sondern ein Band, das sich alle teilen. Und der Hersteller sagt es selbst: Nachbarnetze auf demselben Kanal nehmen dir nutzbare Kapazität weg.',
       },

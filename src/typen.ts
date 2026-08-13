@@ -113,6 +113,39 @@ const SzeneBasis = z.object({
   sprechtext: z.string().min(1),
 });
 
+/**
+ * Die Geraete, die als Zeichnung vorliegen (`video/bausteine/Geraete.tsx`).
+ *
+ * Geschlossen wie die Rubriken, und aus demselben Grund: Jedes Geraet ist
+ * eine eigene Zeichnung im flaechigen Stil der Marke. Wer ein neues braucht,
+ * zeichnet es — es gibt keinen Rueckfall auf ein allgemeines Symbol, weil ein
+ * falsch gezeichnetes Geraet derselbe Fehler waere, den die Belegpflicht
+ * verhindern soll, nur an einer Stelle, die niemand prueft.
+ */
+export const GeraeteArt = z.enum([
+  'notebook',
+  'dock',
+  'monitor',
+  'kabel',
+  'netzteil',
+  'telefon',
+  'powerbank',
+  'adapter',
+  'router',
+]);
+export type GeraeteArt = z.infer<typeof GeraeteArt>;
+
+/**
+ * Zeichnung unter dem Text einer Textszene.
+ *
+ * Optional, und das ist die ganze Regel: Zwischen Text und Untertitel liegt
+ * Platz, aber ein Geraet, das nur diesen Platz fuellt, macht den Short nicht
+ * besser. Bei „Die Garantie ist abgelaufen" gibt es nichts zu zeichnen —
+ * dort bleibt der Text mittig stehen. Gesetzt wird das Feld nur, wenn die
+ * Zeichnung die Aussage **zeigt**, statt sie zu begleiten.
+ */
+const mitIllustration = { geraet: GeraeteArt.optional() };
+
 /** Aufhaenger. Die ersten drei Sekunden entscheiden ueber alles Weitere. */
 const SzeneHook = SzeneBasis.extend({
   art: z.literal('hook'),
@@ -137,6 +170,7 @@ const SzeneAussage = SzeneBasis.extend({
   hervorhebung: z.string().optional(),
   /** Muss in `quellenIds` des Shorts vorkommen — geprueft in `laufPruefen`. */
   quelleId: z.string(),
+  ...mitIllustration,
 });
 
 /** Grosse Zahl mit Einheit — Wattzahlen, Aufloesungen, Bildwiederholraten. */
@@ -147,6 +181,7 @@ const SzeneZahl = SzeneBasis.extend({
   bedeutung: z.string().max(90),
   /** Eine Zahl ohne Beleg ist eine Behauptung mit Nachkommastelle. */
   quelleId: z.string(),
+  ...mitIllustration,
 });
 
 /**
@@ -229,6 +264,7 @@ const SzeneEinschraenkung = SzeneBasis.extend({
   /** „Dann kommt Bild, kostet aber CPU" / „Zwei Stunden, dann ist Schluss" */
   folge: z.string().max(90),
   quelleId: z.string(),
+  ...mitIllustration,
 });
 
 /** Zwei Optionen gegenuebergestellt — der Kern der Kaufentscheidung. */
@@ -295,7 +331,7 @@ const SzeneAnschluss = SzeneBasis.extend({
   kette: z
     .array(
       z.object({
-        geraet: z.enum(['notebook', 'dock', 'monitor', 'kabel', 'netzteil', 'telefon', 'powerbank', 'adapter']),
+        geraet: GeraeteArt,
         beschriftung: z.string().max(24),
       }),
     )
@@ -378,7 +414,7 @@ const SzeneMerkmalskarte = SzeneBasis.extend({
   art: z.literal('merkmalskarte'),
   ueberschrift: z.string().max(50).optional(),
   /** Welches Geraet gezeichnet wird. Gleiche Auswahl wie in der Signalkette. */
-  geraet: z.enum(['notebook', 'dock', 'monitor', 'kabel', 'netzteil', 'telefon', 'powerbank', 'adapter']),
+  geraet: GeraeteArt,
   /** Woran man es erkennt — Merkmale, keine Modelle. */
   merkmale: z
     .array(

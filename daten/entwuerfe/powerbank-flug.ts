@@ -28,7 +28,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-01',
     themaId: 'powerbank-flug',
     rubrik: 'reise',
-    arbeitstitel: 'Auf der Powerbank steht die falsche Einheit',
+    arbeitstitel: 'Am Gate zählt eine andere Zahl',
     winkelart: 'umrechnung',
 
     system: 'ohne',
@@ -38,17 +38,35 @@ export const powerbankFlug: Short[] = [
 
     szenen: [
       {
+        /*
+         * Der Flug gehoert in den ersten Satz, nicht in den vierten.
+         *
+         * Bis zum 13.08.2026 hiess der Titel „Auf der Powerbank steht die
+         * falsche Einheit" und die Hook nannte nur „die Vorschrift". Wer das
+         * las, hielt den Short fuer Powerbank-Wissen mit zufaelligem
+         * Flugbeispiel — und lag damit nicht falsch, denn nichts im Bild sagte
+         * etwas anderes.
+         *
+         * Das ist keine Geschmacksfrage: Die Rubrik Reise ist definiert durch
+         * „eine Vorschrift oder Landesgrenze entscheidet mit". Ohne Flug ist
+         * die Umrechnung eine Rechenuebung ohne Anlass. Der Sendeplatz war
+         * formal richtig belegt und inhaltlich nicht eingeloest.
+         */
         art: 'hook',
-        kontext: 'Vor dem Abflug',
-        text: 'Auf deiner Powerbank steht mAh.',
+        kontext: 'Powerbank im Handgepäck',
+        text: 'Am Gate zählt eine andere Zahl.',
         sprechtext:
-          'Auf deiner Powerbank steht eine Zahl in Milliamperestunden. In der Vorschrift steht eine ganz andere Einheit.',
+          'Du fliegst nächste Woche und packst die Powerbank ins Handgepäck. Auf ihr steht eine Zahl in Milliamperestunden — am Gate zählt eine ganz andere Einheit.',
       },
       {
         art: 'aussage',
         text: 'Die Vorschrift rechnet in Wattstunden.',
         hervorhebung: 'Wattstunden',
         quelleId: 'lba-lithiumbatterien',
+        // Das Geraet, auf dem die falsche Einheit steht. Die spaeteren Szenen
+        // bleiben ohne Zeichnung: Die Herleitung ist die Rechnung selbst, und
+        // dieselbe Powerbank ein zweites Mal zu zeigen erklaert nichts.
+        geraet: 'powerbank',
         sprechtext:
           'Das Luftfahrt-Bundesamt nennt die Grenze in Wattstunden. Auf keiner Powerbank der Welt steht diese Zahl groß auf der Vorderseite. Also musst du sie selbst ausrechnen — und das geht in einem Schritt.',
       },
@@ -138,20 +156,26 @@ export const powerbankFlug: Short[] = [
     quellenIds: ['lba-lithiumbatterien', 'easa-lithium-handgepaeck', 'faa-lithium-grenzwerte'],
 
     texte: {
+      /*
+       * Alle drei Titel nennen jetzt den Flug. Vorher hiess es „die
+       * Vorschrift" — die schwaechste Stelle des Zweisatzes, weil sie offen
+       * laesst, welche. Das Muster verlangt ausdruecklich, dass der Titel den
+       * Kontext mittraegt: Im Bild sieht man die Situation, im Feed nicht.
+       */
       tiktok: {
-        titel: 'Auf der Powerbank steht die falsche Einheit',
+        titel: 'Powerbank im Handgepäck: die falsche Einheit',
         beschreibung:
-          'Die Vorschrift rechnet in Wattstunden, die Powerbank zeigt mAh. Die Umrechnung geht in einem Schritt.',
+          'Am Gate wird in Wattstunden gerechnet, auf der Powerbank stehen mAh. Die Umrechnung geht in einem Schritt.',
         hashtags: HASHTAGS,
       },
       instagram: {
-        titel: 'Auf deiner Powerbank steht mAh. Die Vorschrift will Wattstunden.',
+        titel: 'Auf deiner Powerbank steht mAh. Am Gate zählen Wattstunden.',
         beschreibung:
           'Milliamperestunden mal 3,7 Volt, geteilt durch 1000 – das sind die Wattstunden, nach denen im Handgepäck gefragt wird. Bis 100 Wh braucht es keine Genehmigung.',
         hashtags: HASHTAGS,
       },
       youtube: {
-        titel: 'Auf deiner Powerbank steht mAh. Die Vorschrift will Wattstunden.',
+        titel: 'Powerbank im Handgepäck: Am Gate zählt eine andere Zahl',
         beschreibung:
           'Die Grenze für Powerbanks im Handgepäck steht in Wattstunden, auf dem Gerät stehen Milliamperestunden. Die Umrechnung: mAh × 3,7 V ÷ 1000 = Wh. Bis 100 Wh braucht es keine Genehmigung – und jede Batterie muss einzeln gegen Kurzschluss gesichert sein.\n\nQuellen:\nLuftfahrt-Bundesamt, Elektronische Geräte mit Lithium-Batterien: https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html\nEASA, Dangerous Goods: https://www.easa.europa.eu/en/domains/air-operations/dangerous-goods\nFAA, Lithium Batteries: https://www.faa.gov/hazmat/packsafe/lithium-batteries',
         hashtags: ['#Shorts', '#Powerbank', '#Handgepäck'],

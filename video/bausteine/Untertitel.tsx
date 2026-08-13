@@ -1,5 +1,5 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT, SICHERE_ZONE } from '../../src/marke';
+import { ABSTAND, FARBEN, GROESSEN, SCHRIFT, SICHERE_ZONE } from '../../src/marke';
 import type { Untertitelwort } from '../../src/typen';
 
 /**
@@ -11,10 +11,17 @@ import type { Untertitelwort } from '../../src/typen';
  * also exakt statt geschaetzt.
  */
 
-/** Wie viele Zeichen eine Gruppe hoechstens umfasst. */
-const MAX_ZEICHEN_PRO_GRUPPE = 20;
+/**
+ * Wie viele Zeichen eine Gruppe hoechstens umfasst.
+ *
+ * Von 20 auf 28 erhoeht am 13.08.2026: Drei Woerter wechselten so schnell,
+ * dass die untere Bildhaelfte staendig flackerte. Vier Woerter stehen ruhiger,
+ * ohne dass man dem Text hinterherliest — bei 66 Pixel Schrift passen sie
+ * immer noch in eine Zeile.
+ */
+const MAX_ZEICHEN_PRO_GRUPPE = 28;
 /** Wie viele Woerter eine Gruppe hoechstens umfasst. */
-const MAX_WOERTER_PRO_GRUPPE = 3;
+const MAX_WOERTER_PRO_GRUPPE = 4;
 
 type Gruppe = {
   woerter: Untertitelwort[];
@@ -82,9 +89,20 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
         position: 'absolute',
         left: ABSTAND.l,
         right: SICHERE_ZONE.rechts - ABSTAND.m,
-        // Direkt unterhalb der Buehne: nah genug am Bildinhalt, aber noch
-        // ueber dem Bereich, den Reels mit eigener Oberflaeche zudeckt.
-        bottom: SICHERE_ZONE.unten - 380,
+        /*
+         * Innerhalb der sicheren Zone, nicht darunter.
+         *
+         * Bis zum 13.08.2026 sass der Untertitel 380 Pixel **unterhalb** der
+         * Zonengrenze, begruendet damit, er duerfe „als Letztes verdeckt
+         * werden". Das war falsch herum gedacht: Ein grosser Teil der
+         * Zuschauer sieht Shorts ohne Ton, damit ist der Untertitel der
+         * Haupttraeger — und ausgerechnet der lag in dem Bereich, den Reels
+         * mit Beschreibung und Tonzeile ueberdeckt.
+         *
+         * Jetzt schliesst er unten an die Buehne an, im selben Rahmen, in dem
+         * auch die Szenen rendern.
+         */
+        bottom: SICHERE_ZONE.unten + ABSTAND.m,
         display: 'flex',
         justifyContent: 'center',
       }}
@@ -95,10 +113,6 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
           flexWrap: 'wrap',
           justifyContent: 'center',
           gap: '0 14px',
-          backgroundColor: FARBEN.grundRein,
-          padding: `${ABSTAND.s}px ${ABSTAND.m}px`,
-          borderRadius: RADIUS.m,
-          boxShadow: '0 8px 28px rgba(17,24,32,0.10)',
           maxWidth: '100%',
         }}
       >
@@ -114,6 +128,22 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                 lineHeight: 1.18,
                 color: aktiv ? FARBEN.blau : FARBEN.tinte,
                 letterSpacing: -1,
+                /*
+                 * Kontrast am Text statt am Kasten.
+                 *
+                 * Der weisse Kasten ist gestrichen: Auf dem hellen Grund der
+                 * Marke brachte er kaum Kontrast, kostete aber Flaeche und sah
+                 * aus wie ein aufgeklebtes Etikett. Sein eigentlicher Zweck —
+                 * Lesbarkeit ueber unruhigem Untergrund — wird jetzt erst
+                 * gebraucht, weil unter dem Untertitel Zeichnungen stehen
+                 * koennen. Eine Aura in der Grundfarbe traegt ueber Linien und
+                 * Flaechen, ohne Platz zu belegen.
+                 */
+                textShadow: [
+                  '0 0 10px rgba(247,248,250,0.98)',
+                  '0 0 20px rgba(247,248,250,0.92)',
+                  '0 2px 4px rgba(247,248,250,1)',
+                ].join(', '),
               }}
             >
               {w.wort}

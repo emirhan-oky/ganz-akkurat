@@ -27,16 +27,44 @@ export const auftrittGestaffelt = (frame: number, fps: number, index: number, gr
   auftritt(frame, fps, grundVerzoegerung + index * TEMPO.versatzProElement);
 
 /**
+ * Anteil der Szene, der bespielt wird. Der Rest steht still, damit der
+ * vollstaendige Stand noch einen Moment ruhig zu sehen ist.
+ */
+const BESPIELT = 0.85;
+
+/**
+ * Das Zeitfenster eines Elements innerhalb der Szene, in Bildern.
+ *
+ * Die Grundlage aller Timings, die sich nach der Stimme richten sollen. Weil
+ * die Szenenlaenge aus der tatsaechlichen Sprechdauer stammt, faellt der
+ * Abschnitt eines Elements ungefaehr mit dem Moment zusammen, in dem die
+ * Stimme davon spricht.
+ *
+ * `start` ist der Auftritt, `laenge` der Platz bis zum naechsten Element —
+ * darin lassen sich Folgebewegungen unterbringen, etwa ein Durchstrich, der
+ * erst laufen darf, wenn die Zeile gelesen ist.
+ */
+export const abschnitt = (index: number, anzahl: number, dauerBilder: number) => {
+  const nutzbar = dauerBilder * BESPIELT;
+  const laenge = anzahl <= 1 ? nutzbar : nutzbar / anzahl;
+  return {
+    start: anzahl <= 1 ? 0 : Math.round(index * laenge),
+    laenge: Math.round(laenge),
+  };
+};
+
+/**
  * Auftritt im Sprechrhythmus.
  *
  * Der entscheidende Unterschied zu `auftrittGestaffelt`: Dort erscheinen alle
  * Elemente kurz nach Szenenbeginn in festem Abstand, danach passiert nichts
- * mehr. Hier verteilen sie sich ueber die **ganze** Szenenlaenge — und weil
- * sich die Szenenlaenge aus der tatsaechlichen Sprechdauer ergibt, erscheint
- * jedes Element ungefaehr dann, wenn die Stimme es erwaehnt.
+ * mehr. Hier verteilen sie sich ueber die **ganze** Szenenlaenge.
  *
- * Die letzten 15 Prozent bleiben frei, damit der vollstaendige Stand noch
- * einen Moment ruhig zu sehen ist, bevor die Szene wechselt.
+ * Wer feste Sekunden rechnet, baut einen Fehler ein, der erst nach der
+ * Vertonung sichtbar wird: Die Animation ist nach drei Sekunden durch, die
+ * Stimme redet noch neun weitere — und das Bild steht still. Genau das war
+ * am 13.08.2026 bei allen vier Vertiefungsszenen der Fall, also
+ * ausgerechnet bei den laengsten Szenen des Videos.
  */
 export const auftrittImSprechrhythmus = (
   frame: number,
@@ -44,10 +72,7 @@ export const auftrittImSprechrhythmus = (
   index: number,
   anzahl: number,
   dauerBilder: number,
-) => {
-  const anteil = anzahl <= 1 ? 0 : (index / anzahl) * 0.85;
-  return auftritt(frame, fps, Math.round(anteil * dauerBilder));
-};
+) => auftritt(frame, fps, abschnitt(index, anzahl, dauerBilder).start);
 
 /** Reines Einblenden ohne Versatz — fuer grossflaechige Elemente. */
 export const einblenden = (frame: number, verzoegerungBilder = 0, dauer: number = TEMPO.einblenden) =>
