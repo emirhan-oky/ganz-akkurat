@@ -874,6 +874,290 @@ const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer })
   );
 };
 
+/* ───────────────────────────── Fehlspur ────────────────────────────── */
+
+/**
+ * Die falsche Faehrte: Jeder Verdacht erscheint, wird gelesen und dann
+ * durchgestrichen.
+ *
+ * Der Durchstrich laeuft **nach** dem Auftritt der Zeile, nicht mit ihm —
+ * sonst liest der Zuschauer die Entkraeftung, bevor er den Verdacht
+ * aufgenommen hat, und der ganze Effekt faellt weg. Der Verdacht muss kurz
+ * fuer wahr gehalten werden.
+ */
+const Fehlspur: React.FC<SzenenProps<'fehlspur'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  /** Bild, ab dem der Durchstrich einer Zeile laeuft. */
+  const durchstrichAb = (i: number) => Math.round(fps * (0.9 + i * 1.5));
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      {szene.ueberschrift && (
+        <p
+          style={{
+            ...grundtext,
+            ...auftritt(frame, fps, 0),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            color: FARBEN.tinteWeich,
+            margin: `0 0 ${ABSTAND.l}px 0`,
+          }}
+        >
+          {szene.ueberschrift}
+        </p>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.l }}>
+        {szene.spuren.map((spur, i) => {
+          const ab = durchstrichAb(i);
+          const anteil = linienFortschritt(frame, ab, Math.round(fps * 0.42));
+
+          return (
+            <div key={i} style={{ ...auftrittGestaffelt(frame, fps, i, 0) }}>
+              {/*
+               * Durchstrich ueber `text-decoration`, nicht ueber einen
+               * absolut gesetzten Balken. Der lag bei einem zweizeiligen
+               * Verdacht zwischen den Zeilen statt auf dem Text — ein
+               * positionierter Balken kann nicht wissen, wo umbrochen wird.
+               * Preis dafuer: Der Strich blendet ein, statt gezeichnet zu
+               * werden. Korrektheit vor Effekt.
+               */}
+              <span
+                style={{
+                  ...grundtext,
+                  fontWeight: SCHRIFT.fett,
+                  fontSize: GROESSEN.aussage,
+                  lineHeight: 1.16,
+                  // Der Verdacht verblasst, sobald er gestrichen ist.
+                  color: anteil > 0.9 ? FARBEN.tinteWeich : FARBEN.tinte,
+                  textDecorationLine: 'line-through',
+                  textDecorationThickness: 7,
+                  textDecorationColor: `rgba(217, 75, 75, ${anteil})`,
+                }}
+              >
+                {spur.verdacht}
+              </span>
+              <p
+                style={{
+                  ...grundtext,
+                  opacity: einblenden(frame, ab + Math.round(fps * 0.3)),
+                  fontSize: GROESSEN.fliesstext,
+                  color: FARBEN.tinteWeich,
+                  margin: `${ABSTAND.s}px 0 0 0`,
+                }}
+              >
+                {spur.entkraeftung}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {szene.aufloesung && (
+        <p
+          style={{
+            ...grundtext,
+            opacity: einblenden(frame, durchstrichAb(szene.spuren.length)),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            color: FARBEN.blau,
+            margin: `${ABSTAND.xl}px 0 0 0`,
+          }}
+        >
+          {szene.aufloesung}
+        </p>
+      )}
+    </Buehne>
+  );
+};
+
+/* ──────────────────────────── Herleitung ───────────────────────────── */
+
+/**
+ * Die gerechnete Zahl. Schritte erscheinen nacheinander, das Ergebnis
+ * abgesetzt darunter.
+ *
+ * Die Schritte stehen bewusst rechtsbuendig auf einer gemeinsamen Kante wie
+ * eine Rechnung auf Papier — so liest man die Werte untereinander und nicht
+ * als Liste. Die Erlaeuterung steht daneben und nicht darunter, damit die
+ * Zahlenspalte zusammenhaengt.
+ */
+const Herleitung: React.FC<SzenenProps<'herleitung'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const ergebnisAb = Math.round(fps * (0.8 + szene.schritte.length * 0.85));
+
+  /*
+   * Schriftgroesse und Spaltenbreite richten sich nach dem laengsten Wert —
+   * dieselbe Loesung wie in der `Zahl`-Szene. Fest gesetzt lief „20.000 mAh"
+   * entweder in die Erlaeuterung hinein oder brach um und zerriss die
+   * Zahlenspalte, die den ganzen Sinn der Szene ausmacht.
+   */
+  const laengster = Math.max(...szene.schritte.map((s) => s.wert.length), szene.ergebnis.wert.length);
+  const wertGroesse = laengster <= 7 ? GROESSEN.ueberschrift : laengster <= 11 ? GROESSEN.aussage : 48;
+  const spalte = Math.round(wertGroesse * 5.6);
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      {szene.ueberschrift && (
+        <p
+          style={{
+            ...grundtext,
+            ...auftritt(frame, fps, 0),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            color: FARBEN.tinteWeich,
+            margin: `0 0 ${ABSTAND.l}px 0`,
+          }}
+        >
+          {szene.ueberschrift}
+        </p>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
+        {szene.schritte.map((schritt, i) => (
+          <div
+            key={i}
+            style={{
+              ...auftrittGestaffelt(frame, fps, i, 0),
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: ABSTAND.m,
+            }}
+          >
+            <span
+              style={{
+                ...grundtext,
+                fontWeight: SCHRIFT.fett,
+                fontSize: wertGroesse,
+                minWidth: spalte,
+                whiteSpace: 'nowrap',
+                textAlign: 'right',
+                fontVariantNumeric: 'tabular-nums',
+              }}
+            >
+              {schritt.wert}
+            </span>
+            <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, color: FARBEN.tinteWeich }}>
+              {schritt.erlaeuterung}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Der Strich unter der Rechnung — wie auf Papier. */}
+      <div
+        style={{
+          height: 5,
+          width: `${linienFortschritt(frame, ergebnisAb - Math.round(fps * 0.25), Math.round(fps * 0.35)) * 100}%`,
+          maxWidth: spalte,
+          background: FARBEN.linie,
+          borderRadius: RADIUS.s,
+          margin: `${ABSTAND.l}px 0 ${ABSTAND.l}px 0`,
+        }}
+      />
+
+      <div
+        style={{
+          ...auftritt(frame, fps, ergebnisAb),
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: ABSTAND.m,
+        }}
+      >
+        <span
+          style={{
+            ...grundtext,
+            transform: `scale(${impuls(frame, fps, ergebnisAb)})`,
+            transformOrigin: 'right center',
+            fontWeight: SCHRIFT.fett,
+            fontSize: Math.round(wertGroesse * 1.3),
+            color: FARBEN.blau,
+            minWidth: spalte,
+            whiteSpace: 'nowrap',
+            textAlign: 'right',
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
+          {szene.ergebnis.wert}
+        </span>
+        <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, color: FARBEN.tinteWeich }}>
+          {szene.ergebnis.bedeutung}
+        </span>
+      </div>
+    </Buehne>
+  );
+};
+
+/* ─────────────────────────── Einschraenkung ────────────────────────── */
+
+/**
+ * Die Kehrseite — Grenzfall oder Folgekosten.
+ *
+ * Bewusst ruhig gehalten und **nicht** in Warnrot: Das hier ist keine
+ * Warnung, sondern eine Praezisierung. Wer die Ausnahme in Alarmfarbe setzt,
+ * macht aus „so genau ist es" ein „Achtung, Gefahr" — und verschenkt genau
+ * die Souveraenitaet, wegen der die Szene ueberhaupt existiert.
+ */
+const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      {szene.ueberschrift && (
+        <p
+          style={{
+            ...grundtext,
+            ...auftritt(frame, fps, 0),
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.aussage,
+            color: FARBEN.tinteWeich,
+            margin: `0 0 ${ABSTAND.l}px 0`,
+          }}
+        >
+          {szene.ueberschrift}
+        </p>
+      )}
+
+      <div
+        style={{
+          ...auftritt(frame, fps, Math.round(fps * 0.2)),
+          borderLeft: `10px solid ${FARBEN.blau}`,
+          paddingLeft: ABSTAND.l,
+        }}
+      >
+        <p
+          style={{
+            ...grundtext,
+            fontWeight: SCHRIFT.fett,
+            fontSize: GROESSEN.ueberschrift,
+            lineHeight: 1.16,
+            margin: 0,
+          }}
+        >
+          {szene.bedingung}
+        </p>
+        <p
+          style={{
+            ...grundtext,
+            opacity: einblenden(frame, Math.round(fps * 1.1)),
+            fontSize: GROESSEN.fliesstext,
+            color: FARBEN.tinteWeich,
+            lineHeight: 1.3,
+            margin: `${ABSTAND.m}px 0 0 0`,
+          }}
+        >
+          {szene.folge}
+        </p>
+      </div>
+    </Buehne>
+  );
+};
+
 export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
     case 'hook':
@@ -890,6 +1174,12 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
       return <Warnung szene={szene} dauer={dauer} />;
     case 'anschluss':
       return <Anschluss szene={szene} dauer={dauer} />;
+    case 'fehlspur':
+      return <Fehlspur szene={szene} dauer={dauer} />;
+    case 'herleitung':
+      return <Herleitung szene={szene} dauer={dauer} />;
+    case 'einschraenkung':
+      return <Einschraenkung szene={szene} dauer={dauer} />;
     case 'cta':
       return <Cta szene={szene} dauer={dauer} />;
     case 'endkarte':
@@ -897,4 +1187,17 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
     case 'kaufkriterien':
       return <Kaufkriterien szene={szene} dauer={dauer} />;
   }
+
+  /*
+   * Vollstaendigkeitspruefung zur Uebersetzungszeit.
+   *
+   * Ohne sie faellt eine neu hinzugefuegte Szenenart hier still durch und
+   * rendert ein leeres Bild — sichtbar erst im fertigen Video. Mit ihr
+   * beschwert sich `tsc`, sobald eine Art im Vertrag steht, aber nicht im
+   * Verteiler. Genau der Fehler waere beim Umbau am 13.08.2026 fast
+   * passiert: Drei neue Szenenarten standen im Schema, bevor sie hier
+   * ankamen.
+   */
+  const unbehandelt: never = szene;
+  throw new Error(`Szenenart ohne Darstellung: ${(unbehandelt as Szene).art}`);
 };

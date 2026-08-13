@@ -8,6 +8,7 @@ import { laufPruefen } from '../src/pruefung';
 import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
+import { verlaufLesen, verlaufSchreiben } from '../src/verlauf';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
 
 const ausfuehren = promisify(execFile);
@@ -108,7 +109,8 @@ const main = async () => {
   console.log('3  Qualität prüfen');
   const roh = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] };
   const quellen = roh.quellen.map((q) => Quelle.parse(q));
-  const ergebnis = laufPruefen(fertige, quellen);
+  const verlauf = await verlaufLesen();
+  const ergebnis = laufPruefen(fertige, quellen, verlauf);
 
   for (const b of ergebnis.befunde) {
     console.log(`   ${b.stufe === 'fehler' ? '✕' : '·'} ${b.shortId}  [${b.regel}] ${b.text}`);
@@ -169,6 +171,18 @@ const main = async () => {
     path.join(wurzel, 'lauf.json'),
     JSON.stringify({ id, erstelltAm: new Date().toISOString(), mitTon: MIT_TON, shorts: zuRendern }, null, 2),
   );
+
+  /* ── 6  Verlauf fortschreiben ────────────────────────────────────── */
+
+  /*
+   * Erst hier, nicht frueher: Was an der Pruefung gescheitert ist, wurde nie
+   * gerendert und soll auch nicht im Gedaechtnis stehen. Sonst gaelte ein
+   * Thema als gelaufen, das nie erschienen ist.
+   */
+  if (zuRendern.length > 0) {
+    await verlaufSchreiben(id, zuRendern);
+    console.log(`6  Verlauf fortgeschrieben (${zuRendern.length} Shorts)\n`);
+  }
 
   console.log(`   ${seitenPfad}\n`);
   console.log(`Fertig. Öffnen mit:  open ${seitenPfad}`);

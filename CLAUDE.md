@@ -7,9 +7,10 @@ Ausgaben sind deutsch.
 ## Prüfen vor allem anderen
 
 ```
-npm run pruefen     # tsc --noEmit && Schemaprüfung der Daten
-npm run lauf        # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
-npm run lauf -- --mit-ton   # kostet ElevenLabs-Kontingent
+npm run pruefen           # tsc --noEmit && Schemaprüfung der Daten
+npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
+npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
+npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 ```
 
 `npm run pruefen` muss vor jedem Lauf grün sein. Die Schemaprüfung
@@ -105,6 +106,29 @@ Freigabe-Übersicht.
 tatsächlich abgerufen und der Inhalt gelesen wurde** — nie aus dem Gedächtnis
 und nie aus einem Suchtreffer-Ausschnitt. `geprueftAm` dokumentiert genau diesen
 Abruf.
+
+Seit dem 13.08.2026 ist diese Regel **nachprüfbar**: Jeder Beleg trägt ein
+`zitat`, wörtlich von der Seite, und `npm run quellen-pruefen` holt die Seite
+und sucht die Zeichenkette. `stuetzt` daneben ist die Folgerung in unseren
+Worten und wird nicht geprüft.
+
+**Die Prüfung fragt bewusst kein Sprachmodell**, sondern sucht stumpf. Beim
+Bau am 13.08.2026 hatte ein Modell zwei Zitate als „exakt vorhanden" gemeldet,
+die es nicht waren — es hatte Anführungszeichen weggeglättet. Ein Modell die
+Behauptung eines Modells prüfen zu lassen ist keine Prüfung, sondern eine
+zweite Meinung.
+
+Praktische Folgen aus demselben Tag:
+
+- **Zitate kurz halten**, 40–80 Zeichen, ohne Anführungszeichen im Zitat
+  selbst. Lange Zitate brechen an Umbrüchen und Sonderzeichen.
+- `abrufart: 'manuell'` ist für Seiten, die ihren Inhalt nachladen. Die beiden
+  Apple-Supportseiten sind deshalb **entfernt** worden statt als geprüft
+  geführt zu werden — sie liefern beim Abruf nur die Kopfzeile. Wer sie
+  zurückholen will, öffnet sie von Hand und schreibt das Zitat ab.
+- Jede `aussage`-, `zahl`-, `herleitung`- und `einschraenkung`-Szene trägt
+  eine `quelleId`. Vorher hing die Belegdecke als Liste am Short — bei drei
+  Quellen und sechs Aussagen konnte eine frei schweben.
 
 ## Werbemodell — Phase 1 (Stand 12.08.2026)
 

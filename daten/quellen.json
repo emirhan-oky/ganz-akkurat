@@ -1,40 +1,20 @@
 {
-  "_hinweis": "Belegdatenbank. Jede technische Kernaussage in einem Short verweist auf mindestens einen Eintrag. Neue Quellen werden nur aufgenommen, nachdem die URL tatsaechlich abgerufen und der Inhalt geprueft wurde - nie aus dem Gedaechtnis oder aus einem Suchtreffer-Ausschnitt. Das Feld geprueftAm dokumentiert diesen Abruf.",
+  "_hinweis": "Belegdatenbank. Jede technische Kernaussage verweist ueber quelleId auf einen Eintrag. Das Feld zitat ist WOERTLICH von der Seite abgeschrieben und wird von skripte/quellen-pruefen.ts per Zeichenkettensuche gegen die abgerufene Seite gehalten. stuetzt ist unsere Folgerung daraus und wird nicht geprueft. Neue Quellen kommen erst hinein, nachdem die URL tatsaechlich abgerufen und der Inhalt gelesen wurde - geprueftAm dokumentiert diesen Abruf.",
   "quellen": [
-    {
-      "id": "apple-displays-mba",
-      "titel": "Wie viele Displays können mit einem MacBook Air verbunden werden?",
-      "url": "https://support.apple.com/de-de/122212",
-      "herausgeber": "Apple",
-      "geprueftAm": "2026-08-08",
-      "art": "hersteller",
-      "belegt": [
-        "Die Zahl extern anschließbarer Displays hängt vom Chip des Notebooks ab, nicht vom Dock.",
-        "Ein Dock kann die native Display-Unterstützung des Notebooks nicht erweitern."
-      ]
-    },
-    {
-      "id": "apple-display-fehlerbehebung",
-      "titel": "Fehlerbehebung für externe Displays",
-      "url": "https://support.apple.com/de-de/102501",
-      "herausgeber": "Apple",
-      "geprueftAm": "2026-08-08",
-      "art": "hersteller",
-      "belegt": [
-        "Offizielle Prüfschritte, wenn ein externes Display schwarz bleibt.",
-        "Kabel und Anschlussart gehören zu den ersten Prüfpunkten."
-      ]
-    },
     {
       "id": "displaylink-macos-grenzen",
       "titel": "DisplayLink Manager App für macOS",
       "url": "https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in",
       "herausgeber": "DisplayLink",
-      "geprueftAm": "2026-08-08",
+      "geprueftAm": "2026-08-13",
       "art": "hersteller",
+      "system": "macos",
+      "abrufart": "automatisch",
       "belegt": [
-        "DisplayLink benötigt unter macOS zusätzliche Software, nicht nur Hardware.",
-        "DisplayLink umgeht die native Display-Begrenzung, bringt aber eigene Einschränkungen mit."
+        {
+          "zitat": "in order for DisplayLink devices to work properly",
+          "stuetzt": "DisplayLink braucht unter macOS zusätzliche Software und eine ausdrückliche Freigabe – Hardware allein genügt nicht."
+        }
       ]
     },
     {
@@ -42,11 +22,15 @@
       "titel": "Geschützte Videoinhalte werden auf dem Mac nicht abgespielt",
       "url": "https://support.displaylink.com/knowledgebase/articles/830301-content-protected-video-does-not-play-on-mac-while",
       "herausgeber": "DisplayLink",
-      "geprueftAm": "2026-08-08",
+      "geprueftAm": "2026-08-13",
       "art": "hersteller",
+      "system": "macos",
+      "abrufart": "automatisch",
       "belegt": [
-        "Kopiergeschützte Inhalte laufen über DisplayLink unter macOS nicht.",
-        "Streamingdienste sind eine konkrete Einschränkung von DisplayLink-Docks."
+        {
+          "zitat": "the video would remain black while audio is still playing",
+          "stuetzt": "Kopiergeschützte Inhalte laufen über DisplayLink unter macOS nicht – Streamingdienste sind eine konkrete Einschränkung solcher Docks."
+        }
       ]
     },
     {
@@ -54,15 +38,30 @@
       "titel": "Elektronische Geräte mit Lithium-Batterien im Passagiergepäck",
       "url": "https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html",
       "herausgeber": "Luftfahrt-Bundesamt",
-      "geprueftAm": "2026-08-11",
+      "geprueftAm": "2026-08-13",
       "art": "behoerde",
+      "abrufart": "automatisch",
       "belegt": [
-        "Geräte mit Lithium-Ionen-Batterie bis 100 Wh Nennenergie sind ohne Genehmigung zulässig.",
-        "Zwischen 100 Wh und 160 Wh ist eine Genehmigung der Fluggesellschaft erforderlich; über 160 Wh ist die Beförderung ausgeschlossen.",
-        "Ersatzbatterien und Powerbanks sind im aufgegebenen Gepäck verboten und gehören ausschließlich ins Handgepäck.",
-        "Wo eine Genehmigung nötig ist, sind höchstens zwei Ersatzbatterien pro Person zulässig.",
-        "Die Batteriepole müssen gegen Kurzschluss isoliert sein.",
-        "Fluggesellschaften dürfen strengere Anforderungen stellen; die Regeln der eigenen Airline sind vorab zu prüfen."
+        {
+          "zitat": "Bei Lithium-Ionen-Batterien eine Nennenergie von 100 Wh",
+          "stuetzt": "100 Wh ist die Grenze, bis zu der Geräte ohne Genehmigung mitgenommen werden dürfen."
+        },
+        {
+          "zitat": "jede Batterie 100 Wh übersteigen, jedoch höchstens 160 Wh haben",
+          "stuetzt": "Zwischen 100 und 160 Wh braucht es die Genehmigung der Fluggesellschaft."
+        },
+        {
+          "zitat": "Lose Lithiumersatzbatterien (power banks) sind im aufgegebenen Gepäck verboten und dürfen nur im Handgepäck mitgenommen werden.",
+          "stuetzt": "Powerbanks gehören ausschließlich ins Handgepäck."
+        },
+        {
+          "zitat": "beschränkt sich jedoch die Mitnahme von Ersatzbatterien auf maximal zwei Ersatzbatterien pro Person",
+          "stuetzt": "Wo eine Genehmigung nötig ist, sind höchstens zwei Ersatzbatterien pro Person zulässig."
+        },
+        {
+          "zitat": "Jede Ersatzbatterie muss durch Isolierung der Batteriepole gegen Kurzschluss gesichert sein.",
+          "stuetzt": "Die Pole müssen gegen Kurzschluss isoliert sein – lose in der Tasche genügt nicht."
+        }
       ]
     },
     {
@@ -70,11 +69,14 @@
       "titel": "VESA Brings DisplayPort to New USB Type-C Connector",
       "url": "https://vesa.org/featured-articles/vesa-brings-displayport-to-new-usb-type-c-connector/",
       "herausgeber": "VESA",
-      "geprueftAm": "2026-08-12",
+      "geprueftAm": "2026-08-13",
       "art": "standard",
+      "abrufart": "automatisch",
       "belegt": [
-        "Video über USB-C läuft über den DisplayPort Alt Mode: „Using the DisplayPort Alt Mode, a USB Type-C connector and cable can deliver full DisplayPort audio/video (A/V) performance.\"",
-        "Alt Mode ist eine zusätzliche Fähigkeit von Anschluss UND Kabel, keine Eigenschaft jeder USB-C-Buchse."
+        {
+          "zitat": "Using the DisplayPort Alt Mode, a USB Type-C connector and cable can deliver full DisplayPort audio/video (A/V) performance",
+          "stuetzt": "Video über USB-C läuft über den DisplayPort Alt Mode – er ist die Voraussetzung, nicht eine Zugabe."
+        }
       ]
     },
     {
@@ -82,12 +84,22 @@
       "titel": "Understanding USB-C Alt Mode",
       "url": "https://kb.plugable.com/understanding-usb-c-alt-mode",
       "herausgeber": "Plugable",
-      "geprueftAm": "2026-08-12",
+      "geprueftAm": "2026-08-13",
       "art": "hersteller",
+      "abrufart": "automatisch",
       "belegt": [
-        "Alt Mode ist optional: „Alt Mode is an optional feature that not all manufacturers include on their systems.\"",
-        "Reine Lade- und USB-2.0-Kabel übertragen kein Video: „USB-C cables that support USB 2.0 only or ‚charging only‘ cables are not built to support video.\"",
-        "Die Displaygrenze setzt der Chip des Rechners — Apple M1/M2/M3 Basis-Chips sind auf ein externes Display begrenzt."
+        {
+          "zitat": "Alt Mode is an optional feature that not all manufacturers include on their systems",
+          "stuetzt": "Alt Mode ist optional – gleiche Buchse heißt nicht gleiche Fähigkeit."
+        },
+        {
+          "zitat": "cables are not built to support video",
+          "stuetzt": "Reine Lade- und USB-2.0-Kabel übertragen kein Bild, auch wenn der Stecker passt."
+        },
+        {
+          "zitat": "which are limited to one external display",
+          "stuetzt": "Die Displaygrenze setzt der Chip des Rechners, nicht das Dock – Apples Basis-Chips schaffen ein externes Display."
+        }
       ]
     },
     {
@@ -95,11 +107,18 @@
       "titel": "How Does DisplayLink Work?",
       "url": "https://www.synaptics.com/products/displaylink-graphics/corporate/how",
       "herausgeber": "Synaptics",
-      "geprueftAm": "2026-08-12",
+      "geprueftAm": "2026-08-13",
       "art": "hersteller",
+      "abrufart": "automatisch",
       "belegt": [
-        "DisplayLink ist treiberbasiert, nicht rein hardwareseitig: „DisplayLink uses a driver-based host solution\".",
-        "Der Treiber greift die Pixel im Framebuffer ab, komprimiert sie und schickt sie an das Gerät — die Rechenarbeit passiert auf dem Host, nicht in der nativen Videoausgabe."
+        {
+          "zitat": "DisplayLink uses a driver-based host solution",
+          "stuetzt": "DisplayLink ist treiberbasiert, nicht rein hardwareseitig."
+        },
+        {
+          "zitat": "The DisplayLink driver then picks up the pixels in the frame-buffer, encodes them and send them to the DisplayLink device.",
+          "stuetzt": "Die Rechenarbeit passiert auf dem Host – das erklärt die CPU-Last, die native Videoausgabe nicht hat."
+        }
       ]
     },
     {
@@ -107,13 +126,21 @@
       "titel": "Advanced Multi-Monitor Setup: Connection Methods and Scaling Fixes",
       "url": "https://www.dell.com/support/kbdoc/en-us/000134286/how-to-setup-multiple-monitors",
       "herausgeber": "Dell",
-      "geprueftAm": "2026-08-12",
+      "geprueftAm": "2026-08-13",
       "art": "hersteller",
+      "abrufart": "automatisch",
       "belegt": [
-        "Die Grafikeinheit ist die eigentliche Grenze: „your graphics card is usually the real ceiling, not your cables\".",
-        "Docks unterscheiden sich nach Anschlussart: „Dell docks vary by connector type (Thunderbolt, USB-C, or USB with DisplayLink), and each type supports a different number of displays and resolutions\"."
+        {
+          "zitat": "your graphics card is usually the real ceiling, not your cables",
+          "stuetzt": "Die Grafikeinheit ist die eigentliche Grenze – ein besseres Kabel hebt sie nicht an."
+        },
+        {
+          "zitat": "Dell docks vary by connector type (Thunderbolt, USB-C, or USB with DisplayLink",
+          "stuetzt": "Docks unterscheiden sich nach Anschlussart, und jede Art trägt eine andere Zahl von Displays."
+        }
       ]
     }
   ],
-  "_luecke": "LadeKlar und NeuOderRefurbished haben weiterhin keine belegten Quellen. Offen sind unter anderem USB-Power-Delivery-Profile, Leistungsaufteilung bei Mehrfachanschluss sowie Gewaehrleistung und Zustandsklassen bei generalueberholter Ware."
+  "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",
+  "_luecke": "Ohne Belege sind weiterhin: die Rubriken Unterwegs, Zuhause und Kaufen. Offen sind unter anderem USB-Power-Delivery-Profile, Leistungsaufteilung bei Mehrfachanschluss, WLAN-Stoerquellen in der Wohnung sowie Gewaehrleistung und Zustandsklassen bei generalueberholter Ware."
 }

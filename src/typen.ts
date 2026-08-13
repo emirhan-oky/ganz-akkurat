@@ -7,7 +7,57 @@
  */
 import { z } from 'zod';
 
+/* ────────────────────────────── System ─────────────────────────────── */
+
+/**
+ * Das Betriebssystem, auf das ein Short sich bezieht.
+ *
+ * Sichtbar in der Hook-Pille; im Titel nur bei echter Systemspezifik. Der
+ * Grund fuer die Zurueckhaltung ist Reichweite: „macOS" im Titel schliesst
+ * die Haelfte des Publikums aus, wenn die Aussage gar nicht systemabhaengig
+ * ist. `beide` heisst geprueft und gleich, `ohne` heisst systemunabhaengig —
+ * das ist nicht dasselbe und darf nicht zusammenfallen.
+ */
+export const System = z.enum(['macos', 'windows', 'beide', 'ohne']);
+export type System = z.infer<typeof System>;
+
+export const SYSTEME: Record<System, { titel: string; imTitel: boolean }> = {
+  macos: { titel: 'macOS', imTitel: true },
+  windows: { titel: 'Windows', imTitel: true },
+  beide: { titel: 'macOS & Windows', imTitel: false },
+  ohne: { titel: '', imTitel: false },
+};
+
 /* ────────────────────────────── Quellen ────────────────────────────── */
+
+/**
+ * Ein einzelner Beleg: der woertliche Satz und was daraus folgt.
+ *
+ * Der Unterschied zwischen `zitat` und `stuetzt` traegt die ganze
+ * Vertrauenskette. `zitat` ist woertlich von der Seite abgeschrieben und
+ * damit **maschinell nachpruefbar** — `skripte/quellen-pruefen.ts` ruft die
+ * URL ab und sucht die Zeichenkette. `stuetzt` ist unsere Schlussfolgerung
+ * und wird nicht geprueft, weil sie sich nicht pruefen laesst.
+ *
+ * Vorher standen hier nur Paraphrasen. Ein Test am 13.08.2026 zeigte, warum
+ * das nicht genuegt: Die LBA-Quelle stuetzte inhaltlich alle sechs Punkte,
+ * aber keine einzige Formulierung stand woertlich so auf der Seite — eine
+ * Zeichenkettensuche haette nichts gefunden. Und einer der sechs Punkte war
+ * bei genauem Hinsehen gar keine Fundstelle, sondern eine Folgerung.
+ */
+export const Beleg = z.object({
+  /**
+   * Woertlich von der Seite, unveraendert.
+   *
+   * Kurz halten. Lange Zitate brechen an Zeilenumbruechen, geschuetzten
+   * Leerzeichen und typografischen Anfuehrungszeichen — der Dell-Eintrag
+   * riss beim Test genau daran.
+   */
+  zitat: z.string().min(15).max(180),
+  /** Was daraus folgt, in unseren Worten. Wird nicht maschinell geprueft. */
+  stuetzt: z.string().max(160),
+});
+export type Beleg = z.infer<typeof Beleg>;
 
 /**
  * Belegpflicht: Jede technische Kernaussage braucht eine Hersteller- oder
@@ -22,7 +72,34 @@ export const Quelle = z.object({
   /** Wann zuletzt geprueft. Preise und Spezifikationen altern. */
   geprueftAm: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   art: z.enum(['hersteller', 'standard', 'behoerde', 'plattform', 'messung', 'presse']),
-});
+  /**
+   * Nur gesetzt, wenn die Quelle **systemspezifisch** ist.
+   *
+   * Ein Short mit `system: 'macos'` braucht mindestens eine Quelle, die
+   * macOS auch wirklich behandelt. Ohne dieses Feld waere die Systemangabe
+   * eine Behauptung wie jede andere — nur eine, die im Bild steht.
+   */
+  system: z.enum(['macos', 'windows']).optional(),
+  /**
+   * Ob sich die Seite automatisch abrufen laesst.
+   *
+   * `manuell` ist die Ausnahme fuer Seiten, die ihren Inhalt nachladen oder
+   * automatische Abrufe sperren — beim Test am 13.08.2026 war das die
+   * Apple-Supportseite, die zweimal abgeschnitten zurueckkam. Solche
+   * Eintraege duerfen weder still durchrutschen noch alles blockieren: Sie
+   * werden gezaehlt und in der Freigabe ausgewiesen, damit sichtbar bleibt,
+   * welche Belege die Maschine nicht bestaetigen konnte.
+   */
+  abrufart: z.enum(['automatisch', 'manuell']).default('automatisch'),
+  /** Warum manuell. Pflicht, sobald `abrufart: 'manuell'` steht. */
+  abrufhinweis: z.string().max(160).optional(),
+  /** Die Fundstellen. Mindestens eine, sonst belegt die Quelle nichts. */
+  belegt: z.array(Beleg).min(1),
+})
+  .refine((q) => q.abrufart !== 'manuell' || Boolean(q.abrufhinweis), {
+    path: ['abrufhinweis'],
+    message: 'Eine manuell geprüfte Quelle muss begründen, warum sie sich nicht abrufen lässt.',
+  });
 export type Quelle = z.infer<typeof Quelle>;
 
 /* ────────────────────────────── Szenen ─────────────────────────────── */
@@ -45,12 +122,21 @@ const SzeneHook = SzeneBasis.extend({
   kontext: z.string().max(60).optional(),
 });
 
-/** Eine Behauptung mit optionaler Hervorhebung eines Schluesselworts. */
+/**
+ * Eine Behauptung mit optionaler Hervorhebung eines Schluesselworts.
+ *
+ * `quelleId` ist Pflicht, und das ist der Unterschied zu vorher: Die
+ * Belegdecke hing am Short als Liste am Ende — bei drei Quellen und sechs
+ * Aussagen konnte eine Aussage frei schweben, ohne dass es auffiel. Jetzt
+ * traegt jede Kernaussage ihren Beleg selbst.
+ */
 const SzeneAussage = SzeneBasis.extend({
   art: z.literal('aussage'),
   text: z.string().max(140),
   /** Teilstring aus text, der in Signalblau gesetzt wird. */
   hervorhebung: z.string().optional(),
+  /** Muss in `quellenIds` des Shorts vorkommen — geprueft in `laufPruefen`. */
+  quelleId: z.string(),
 });
 
 /** Grosse Zahl mit Einheit — Wattzahlen, Aufloesungen, Bildwiederholraten. */
@@ -59,6 +145,90 @@ const SzeneZahl = SzeneBasis.extend({
   wert: z.string().max(12),
   einheit: z.string().max(16).optional(),
   bedeutung: z.string().max(90),
+  /** Eine Zahl ohne Beleg ist eine Behauptung mit Nachkommastelle. */
+  quelleId: z.string(),
+});
+
+/**
+ * Die falsche Faehrte — Signaturszene der Vertiefung `fehlspur`.
+ *
+ * Erst nennen, was der Zuschauer selbst vermutet haette, dann ausschliessen.
+ * Der Zuschauer erlebt zwei Sackgassen, die er gehabt haette, bevor er die
+ * Antwort bekommt — derselbe Inhalt, aber eine offene Frage vor ihm statt
+ * hinter ihm.
+ *
+ * Die `aufloesung` ist absichtlich optional: Dramaturgisch gehoert sie in
+ * die **folgende** Szene, damit die Fehlspur offen endet. Sie steht nur
+ * hier, wenn danach keine Szene sie traegt.
+ */
+const SzeneFehlspur = SzeneBasis.extend({
+  art: z.literal('fehlspur'),
+  ueberschrift: z.string().max(50).optional(),
+  spuren: z
+    .array(
+      z.object({
+        /** Was naheliegt: „Kabel kaputt" */
+        verdacht: z.string().max(46),
+        /** Warum es das nicht ist: „Neues Kabel, immer noch schwarz" */
+        entkraeftung: z.string().max(56),
+      }),
+    )
+    .min(1)
+    .max(3),
+  aufloesung: z.string().max(70).optional(),
+});
+
+/**
+ * Die gerechnete Zahl — Signaturszene der Vertiefung `herleitung`.
+ *
+ * Behauptete Zahlen sind flach, hergeleitete sind tief: Wer die Rechnung
+ * gesehen hat, kann danach jede Powerbank selbst einschaetzen, statt sich
+ * eine Zahl zu merken. Das ist der Unterschied zwischen einer Information
+ * und einem Werkzeug.
+ */
+const SzeneHerleitung = SzeneBasis.extend({
+  art: z.literal('herleitung'),
+  ueberschrift: z.string().max(50).optional(),
+  schritte: z
+    .array(
+      z.object({
+        /** „100 Wh" oder „÷ 3,7 V" */
+        wert: z.string().max(14),
+        /** „ist die Grenze" oder „Nennspannung einer Lithium-Zelle" */
+        erlaeuterung: z.string().max(44),
+      }),
+    )
+    .min(2)
+    .max(4),
+  ergebnis: z.object({
+    wert: z.string().max(14),
+    /** „← die Zahl, die auf der Powerbank steht" */
+    bedeutung: z.string().max(60),
+  }),
+  quelleId: z.string(),
+});
+
+/**
+ * Die Kehrseite — Signaturszene der Vertiefungen `grenzfall` und
+ * `folgekosten`.
+ *
+ * Beide sagen „so einfach ist es nicht", nur aus verschiedener Richtung:
+ * Der Grenzfall nennt, wann die Regel **nicht** gilt, die Folgekosten, was
+ * sie **kostet**. Eine Regel, die ihre eigene Grenze nennt, wirkt kompetent
+ * — und ist ehrlicher.
+ *
+ * Warum eine eigene Szenenart und nicht `warnung` oder `aussage`: Die
+ * Vertiefung waere sonst nicht pruefbar. Fast jeder Short hat eine
+ * `aussage`, also haette eine Signatur darauf nichts ausgesagt.
+ */
+const SzeneEinschraenkung = SzeneBasis.extend({
+  art: z.literal('einschraenkung'),
+  ueberschrift: z.string().max(50).optional(),
+  /** „Ausser wenn ein DisplayLink-Treiber laeuft" / „Die Notloesung traegt" */
+  bedingung: z.string().max(70),
+  /** „Dann kommt Bild, kostet aber CPU" / „Zwei Stunden, dann ist Schluss" */
+  folge: z.string().max(90),
+  quelleId: z.string(),
 });
 
 /** Zwei Optionen gegenuebergestellt — der Kern der Kaufentscheidung. */
@@ -179,6 +349,9 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneCheckliste,
   SzeneWarnung,
   SzeneAnschluss,
+  SzeneFehlspur,
+  SzeneHerleitung,
+  SzeneEinschraenkung,
   SzeneCta,
   SzeneEndkarte,
   SzeneKaufkriterien,
@@ -274,6 +447,121 @@ export const WINKELARTEN: Record<
   notloesung: { titel: 'Notlösung', frage: 'Was tun, wenn du es jetzt brauchst.', signatur: ['checkliste'] },
 };
 
+/* ──────────────────────────── Titelmuster ──────────────────────────── */
+
+/**
+ * Der Bau von Hook und Titel. Je Video wird eines der drei gewaehlt.
+ *
+ * Der Hebel ist **Entwarnung, nicht Konfrontation**: „Dein Monitor ist nicht
+ * kaputt", nicht „Du machst es falsch". Der Ton darf zugespitzt und humorvoll
+ * sein — die Tatsache muss von den Quellen getragen sein.
+ *
+ * Nicht als harte Pruefung gebaut, und das mit Absicht: Alle harten Regeln in
+ * diesem Projekt sind rechtlich oder faktisch begruendet, nie geschmacklich.
+ * Geprueft wird nur die Wiederholung (drei gleiche Muster je Lauf klingen nach
+ * Schablone) — und das als Hinweis.
+ */
+export const Titelmuster = z.enum(['verdaechtiger', 'uhr', 'zweisatz']);
+export type Titelmuster = z.infer<typeof Titelmuster>;
+
+export const TITELMUSTER: Record<Titelmuster, { titel: string; bau: string; braucht: string }> = {
+  verdaechtiger: {
+    titel: 'Der falsche Verdächtige',
+    bau: 'Was der Zuschauer verdächtigt, ist unschuldig — also gibt es einen echten Täter.',
+    braucht: 'einen Täter',
+  },
+  uhr: {
+    titel: 'Die Ersparnis mit Uhr',
+    bau: 'Eine kurze Prüfung, an deren Ende eine Ausgabe wegfällt.',
+    braucht: 'eine Handlung',
+  },
+  zweisatz: {
+    titel: 'Die trockene Feststellung',
+    bau: 'Zwei Sätze, die sich widersprechen. Der Widerspruch ist die Pointe.',
+    braucht: 'einen Widerspruch',
+  },
+};
+
+/* ───────────────────────────── Vertiefung ──────────────────────────── */
+
+/**
+ * Wodurch ein Short Tiefe bekommt — die zweite Ebene neben der Machart.
+ *
+ * Die Machart sagt, **worauf** ein Video zugreift. Die Vertiefung sagt,
+ * **wodurch** es mehr wird als eine Information: durch eine ausgeschlossene
+ * Fehlannahme, eine gerechnete Zahl, eine genannte Ausnahme oder einen
+ * genannten Preis.
+ *
+ * Bewusst **nicht** an jedem Short Pflicht (siehe `laufweiteBefunde`): Ein
+ * Zwang zur Tiefe erzeugt erfundene Tiefe, und die riecht man. Drei von fuenf
+ * lassen Raum, sie ehrlich zu vergeben — die Rubrik `kaufen` ist die
+ * Ausnahme, weil der werbende Short die Glaubwuerdigkeit am dringendsten
+ * braucht.
+ */
+export const Vertiefung = z.enum(['fehlspur', 'herleitung', 'grenzfall', 'folgekosten']);
+export type Vertiefung = z.infer<typeof Vertiefung>;
+
+/**
+ * Was jede Vertiefung tut und welche Szene sie tragen muss.
+ *
+ * Wie bei `WINKELARTEN` ist die `signatur` kein Schmuck: Ohne sie koennte
+ * jemand `vertiefung: 'grenzfall'` setzen, ohne dass im Video je eine
+ * Einschraenkung vorkaeme.
+ */
+export const VERTIEFUNGEN: Record<
+  Vertiefung,
+  { titel: string; tut: string; moment: string; signatur: readonly SzenenArt[] }
+> = {
+  fehlspur: {
+    titel: 'Fehlspur',
+    tut: 'Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen.',
+    moment: 'Genau das dachte ich auch.',
+    signatur: ['fehlspur'],
+  },
+  herleitung: {
+    titel: 'Herleitung',
+    tut: 'Die Zahl wird vor seinen Augen gerechnet, nicht behauptet.',
+    moment: 'Das kann ich jetzt selbst ausrechnen.',
+    signatur: ['herleitung'],
+  },
+  grenzfall: {
+    titel: 'Grenzfall',
+    tut: 'Die Regel nennt ihre eigene Ausnahme.',
+    moment: 'Der weiß, wovon er redet.',
+    signatur: ['einschraenkung'],
+  },
+  folgekosten: {
+    titel: 'Folgekosten',
+    tut: 'Was du aufgibst, wenn du die Lösung nimmst.',
+    moment: 'Ah, es ist nicht umsonst.',
+    signatur: ['einschraenkung'],
+  },
+};
+
+/**
+ * Empfehlung, welche Vertiefung und welches Titelmuster zu einer Machart
+ * passen. **Kommentar in Tabellenform, keine Pruefung** — eine Diagnose ohne
+ * Fehlspur ist kein Fehler, sie ist nur die schwaechere Wahl.
+ *
+ * Ausgeschrieben in `produktionsmatrix.md`, dort auch mit Rubrikspalte.
+ */
+export const MATRIX: Record<Winkelart, { vertiefung: Vertiefung; titelmuster: Titelmuster }> = {
+  diagnose: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
+  verwechslung: { vertiefung: 'fehlspur', titelmuster: 'zweisatz' },
+  uebersehenerPunkt: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
+  haken: { vertiefung: 'grenzfall', titelmuster: 'zweisatz' },
+  entlarvung: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
+  mythos: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
+  grenzwert: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
+  umrechnung: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
+  vorschrift: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
+  reihenfolge: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
+  selbsttest: { vertiefung: 'grenzfall', titelmuster: 'uhr' },
+  kaufberatung: { vertiefung: 'grenzfall', titelmuster: 'uhr' },
+  kompromiss: { vertiefung: 'folgekosten', titelmuster: 'zweisatz' },
+  notloesung: { vertiefung: 'folgekosten', titelmuster: 'uhr' },
+};
+
 /* ────────────────────────────── Rubrik ─────────────────────────────── */
 
 /**
@@ -365,6 +653,38 @@ export const Short = z.object({
   /** Die Machart dieses Shorts. Je Lauf muessen alle fuenf verschieden sein. */
   winkelart: Winkelart,
 
+  /**
+   * Betriebssystembezug. `ohne` heisst systemunabhaengig und ist der
+   * Normalfall — nicht „noch nicht entschieden".
+   */
+  system: System,
+
+  /** Der Bau von Hook und Titel. Empfehlung je Machart siehe `MATRIX`. */
+  titelmuster: Titelmuster,
+
+  /**
+   * Wodurch dieser Short Tiefe bekommt — optional.
+   *
+   * Mindestens drei der fuenf Shorts eines Laufs tragen eine, `kaufen`
+   * immer. Das prueft `laufweiteBefunde`, nicht dieses Schema: Die Regel
+   * gilt fuer den Lauf, nicht fuer den einzelnen Short.
+   */
+  vertiefung: Vertiefung.optional(),
+
+  /**
+   * Der Satz, der ueber den Einzelfall hinaustraegt.
+   *
+   * „USB-C ist eine Steckerform, keine Faehigkeit." Das ist, was jemand
+   * naechste Woche noch weiss, wenn er das Dock laengst vergessen hat — und
+   * womit er beim naechsten USB-C-Problem selbst weiterkommt.
+   *
+   * Pflichtfeld, obwohl sich seine Guete nicht pruefen laesst. Der Zwang,
+   * ihn ueberhaupt zu formulieren, stellt bei der Themenwahl die Frage
+   * „was ist hier eigentlich das Prinzip?" — und ein Thema ohne Antwort
+   * darauf ist meistens kein Thema, sondern eine Fussnote.
+   */
+  merksatz: z.string().min(10).max(70),
+
   szenen: z.array(Szene).min(3).max(9),
 
   /**
@@ -436,6 +756,52 @@ export const Short = z.object({
           .join(' oder ')}.`,
       });
     }
+
+    /* ── Die Vertiefung muss ihre tragende Szene haben ──────────── */
+
+    if (short.vertiefung) {
+      const v = VERTIEFUNGEN[short.vertiefung];
+      if (!v.signatur.some((art) => arten.has(art))) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['vertiefung'],
+          message: `Vertiefung „${v.titel}" braucht mindestens eine Szene der Art ${v.signatur
+            .map((a) => `„${a}"`)
+            .join(' oder ')}.`,
+        });
+      }
+    }
+
+    /*
+     * Umgekehrt gilt die Regel auch: Wer die Szene baut, ohne die Vertiefung
+     * zu benennen, faellt aus der Zaehlung „drei von fuenf" heraus, obwohl
+     * die Tiefe im Video steht. Das waere eine stille Fehlbuchung.
+     */
+    const vertiefungsszenen: SzenenArt[] = ['fehlspur', 'herleitung', 'einschraenkung'];
+    const gebaut = vertiefungsszenen.filter((a) => arten.has(a));
+    if (gebaut.length > 0 && !short.vertiefung) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['vertiefung'],
+        message:
+          `Der Short baut ${gebaut.map((a) => `„${a}"`).join(' und ')}, benennt aber keine ` +
+          'Vertiefung. Dann zählt er nicht mit, obwohl die Tiefe im Video steht.',
+      });
+    }
+
+    /* ── Jede Aussage steht auf einer Quelle des Shorts ──────────── */
+
+    const belegdecke = new Set(short.quellenIds);
+    short.szenen.forEach((szene, i) => {
+      if (!('quelleId' in szene)) return;
+      if (!belegdecke.has(szene.quelleId)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen', i, 'quelleId'],
+          message: `Quelle „${szene.quelleId}" steht nicht in quellenIds dieses Shorts.`,
+        });
+      }
+    });
 
     /* ── Genau eine Schlusskarte, und die steht am Ende ──────────── */
 

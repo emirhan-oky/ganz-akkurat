@@ -14,6 +14,17 @@ export const beispielShort: Short = {
   arbeitstitel: 'Dock lädt, aber kein Bild',
   winkelart: 'diagnose',
 
+  /*
+   * Der Referenz-Short traegt bewusst **keine** Vertiefung. Er ist die
+   * Standard-Prop der Komposition und soll den Grundaufbau zeigen — Hook,
+   * Beweis, Konsequenz, Schlusskarte. Wie eine Vertiefung aussieht, steht
+   * in `daten/entwuerfe/dock-kein-bild.ts` (Fehlspur) und
+   * `powerbank-flug.ts` (Herleitung).
+   */
+  system: 'ohne',
+  titelmuster: 'verdaechtiger',
+  merksatz: 'USB-C ist eine Steckerform, keine Fähigkeit.',
+
   szenen: [
     {
       art: 'hook',
@@ -37,6 +48,7 @@ export const beispielShort: Short = {
       art: 'aussage',
       text: 'Ein USB-C-Port überträgt nur dann Bild, wenn er DisplayPort Alt Mode kann.',
       hervorhebung: 'DisplayPort Alt Mode',
+      quelleId: 'vesa-dp-altmode',
       sprechtext:
         'Denn ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode beherrscht. Und das sieht man dem Stecker nicht an.',
     },
@@ -93,7 +105,13 @@ export const beispielShort: Short = {
    * unerfuellten Promise stehen, statt abzubrechen: Der Render haengt dann
    * ohne Fehlermeldung.
    */
-  quellenIds: ['apple-displays-mba', 'vesa-dp-altmode', 'plugable-altmode', 'displaylink-macos-grenzen'],
+  /*
+   * Die beiden Apple-Supportseiten standen bis zum 13.08.2026 hier. Sie sind
+   * aus `quellen.json` entfernt, weil sie sich nicht abrufen lassen und
+   * deshalb kein woertliches Zitat tragen konnten. Die Aussage zur
+   * Displaygrenze belegt jetzt Plugable, pruefbar.
+   */
+  quellenIds: ['vesa-dp-altmode', 'plugable-altmode', 'displaylink-macos-grenzen'],
 
   texte: {
     tiktok: {
@@ -111,7 +129,7 @@ export const beispielShort: Short = {
     youtube: {
       titel: 'Dock lädt, aber kein Bild? Das ist der Grund',
       beschreibung:
-        'Ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode unterstützt. Sonst kommen nur Strom und Daten durch – das Dock funktioniert, der Monitor bleibt trotzdem schwarz.\n\nQuellen:\nApple: Wie viele Displays können mit einem MacBook Air verbunden werden? https://support.apple.com/de-de/122212\nDisplayLink Manager für macOS und Einschränkungen https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in',
+        'Ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode unterstützt. Sonst kommen nur Strom und Daten durch – das Dock funktioniert, der Monitor bleibt trotzdem schwarz.\n\nQuellen:\nVESA, DisplayPort über USB Type-C: https://vesa.org/featured-articles/vesa-brings-displayport-to-new-usb-type-c-connector/\nPlugable, Understanding USB-C Alt Mode: https://kb.plugable.com/understanding-usb-c-alt-mode\nDisplayLink Manager für macOS: https://support.displaylink.com/knowledgebase/articles/1932214-displaylink-manager-app-for-macos-introduction-in',
       hashtags: ['#Shorts', '#USBC', '#Homeoffice'],
     },
   },

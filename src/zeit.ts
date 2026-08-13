@@ -29,6 +29,18 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   checkliste: 4.0,
   warnung: 3.0,
   anschluss: 4.5,
+  /**
+   * Die Fehlspur braucht Zeit zum Wirken: Jeder Verdacht muss gelesen und
+   * dann durchgestrichen werden. Zu schnell gespielt ist sie keine Spur,
+   * sondern eine Aufzaehlung.
+   */
+  fehlspur: 5.0,
+  /**
+   * Die Herleitung steht am laengsten von den Vertiefungsszenen. Wer eine
+   * Rechnung mitdenken soll, braucht die Zeile davor noch im Kopf.
+   */
+  herleitung: 6.0,
+  einschraenkung: 3.5,
   cta: 2.2,
   /**
    * Die Endkarte steht bewusst lange. Sie soll gelesen und fotografiert
@@ -91,7 +103,30 @@ export const gesamtdauerBilder = (short: Short): number => {
 };
 
 /**
- * Plattformgrenzen. Shorts unter 15 Sekunden wirken abgehackt, ueber 60
- * Sekunden verlieren sie auf allen drei Plattformen deutlich an Reichweite.
+ * Laenge nach Vertiefung — zwei Stufen statt einer Grenze.
+ *
+ * Die alte Obergrenze von 59 Sekunden war das Shorts-Limit von frueher.
+ * YouTube Shorts nimmt seit Oktober 2024 bis drei Minuten, Reels ebenso,
+ * TikTok deutlich mehr; die Grenze kam also nicht mehr von aussen, sondern
+ * hielt sich nur noch selbst.
+ *
+ * Die Kopplung an die Vertiefung verhindert den eigentlichen Fehler. Der
+ * ist nicht, dass zwei Shorts je Woche ohne Vertiefung auskommen — sondern
+ * dass sie ohne Vertiefung **trotzdem neunzig Sekunden** dauern. Gedehnt ist
+ * schlimmer als kurz.
+ *
+ * `maximum` bleibt als harte Grenze fuer beide Stufen bestehen: Auch ein
+ * tiefer Short soll nicht ins Erklaervideo kippen.
  */
-export const LAENGE_SEK = { minimum: 15, ziel: [25, 45] as const, maximum: 59 } as const;
+export const LAENGE_SEK = {
+  minimum: 15,
+  /** Zielfenster ohne Vertiefung: eine Sache, sauber gesagt, fertig. */
+  knapp: [40, 60] as const,
+  /** Zielfenster mit Vertiefung: traegt eine Struktur, braucht den Platz. */
+  tief: [75, 90] as const,
+  maximum: 100,
+} as const;
+
+/** Das Zielfenster, das fuer diesen Short gilt. */
+export const zielfenster = (short: Short): readonly [number, number] =>
+  short.vertiefung ? LAENGE_SEK.tief : LAENGE_SEK.knapp;

@@ -1,5 +1,17 @@
-import { RUBRIKEN, Rubrik, WINKELARTEN, type Quelle, type Short, type Winkelart } from './typen';
-import { LAENGE_SEK } from './zeit';
+import {
+  RUBRIKEN,
+  Rubrik,
+  SYSTEME,
+  VERTIEFUNGEN,
+  WINKELARTEN,
+  type Quelle,
+  type Short,
+  type Titelmuster,
+  type Vertiefung,
+  type Winkelart,
+} from './typen';
+import { gelaufeneThemen, zuletztOhneVertiefung, type Verlaufslauf } from './verlauf';
+import { LAENGE_SEK, zielfenster } from './zeit';
 
 /**
  * Qualitaetspruefung vor der Freigabe.
@@ -79,6 +91,23 @@ const KENNZEICHNUNGSWORT = /\b(werbung|anzeige|werbepartner)\b/i;
  * darf einen Short ergaenzen — tragen darf er ihn nicht.
  */
 const OFFIZIELLE_ARTEN = new Set<Quelle['art']>(['hersteller', 'standard', 'behoerde', 'plattform', 'messung']);
+
+/**
+ * Technische Zahl mit Einheit.
+ *
+ * Grundregel seit dem 13.08.2026: Eine gesprochene Zahl ist eine Behauptung,
+ * eine gezeigte Zahl ist ein Beleg. „Hundert Wattstunden" hoert man und
+ * vergisst es — steht es da, hat der Zuschauer es.
+ *
+ * Bewusst **nur technische** Einheiten. Zeitangaben fehlen absichtlich:
+ * „In 20 Sekunden weisst du es" ist der Bau des Titelmusters `uhr` und keine
+ * technische Angabe, die ins Bild muesste.
+ */
+const ZAHL_MIT_EINHEIT =
+  /\b\d+(?:[.,]\d+)?\s?(wh|wattstunden?|w(?:att)?|v(?:olt)?|a(?:mpere)?|mah|gb|tb|mb|hz|khz|ghz|zoll|mbit|gbit|%|prozent|euro|€)\b/i;
+
+/** Szenenarten, die eine Zahl sichtbar machen. */
+const ZEIGT_ZAHLEN = new Set<string>(['zahl', 'herleitung']);
 
 /** Alle Zeichenketten einer Szene — Sprechtext wie sichtbarer Text. */
 const textwerte = (wert: unknown): string[] =>
@@ -179,22 +208,98 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   }
 
   /*
-   * Keine Produktnamen im Video. Das ist die Regel, die das Video als
-   * Information traegt und die Kennzeichnung in der Beschreibung genuegen
-   * laesst. Faellt hier ein Markenname, bewirbt das Video ein Produkt.
+   * Keine Produktnamen — ausser dort, wo gekennzeichnet wird.
+   *
+   * Die Regel traegt das Werbemodell: Nennt ein Video kein Produkt, sondern
+   * nur Merkmale, dann bewirbt es nichts und braucht kein Label. Sie gilt
+   * deshalb genau dort **nicht**, wo das Label ohnehin im Bild steht — der
+   * Kaufberatungs-Short darf benennen, weil er kennzeichnet. Vorher war die
+   * Pruefung unbedingt und haette Variante A blockiert.
+   *
+   * Zweite Korrektur: Geprueft werden jetzt auch die **Plattformtexte**.
+   * Vorher lief die Suche nur ueber die Szenen — Titel und Beschreibung
+   * waren blinder Fleck, und ausgerechnet dort steht ein Markenname am
+   * ehesten.
    */
-  for (const szene of short.szenen) {
-    for (const text of textwerte(szene)) {
-      const treffer = text.match(ZUBEHOERMARKEN);
-      if (treffer) {
-        melde(
-          'fehler',
-          'produktname',
-          `Im Video fällt der Markenname „${treffer[0]}". Videos nennen Merkmale, keine Produkte — ` +
-            'sonst bewirbt das Video selbst und braucht die Kennzeichnung im Bild.',
-        );
-        break;
+  if (short.kennzeichnung.werbung !== 'video') {
+    for (const szene of short.szenen) {
+      for (const text of textwerte(szene)) {
+        const treffer = text.match(ZUBEHOERMARKEN);
+        if (treffer) {
+          melde(
+            'fehler',
+            'produktname',
+            `Im Video fällt der Markenname „${treffer[0]}". Videos nennen Merkmale, keine Produkte — ` +
+              'sonst bewirbt das Video selbst und braucht die Kennzeichnung im Bild.',
+          );
+          break;
+        }
       }
+    }
+
+    for (const [plattform, text] of Object.entries(short.texte)) {
+      /*
+       * Quellenangaben sind ausgenommen. In der YouTube-Beschreibung stehen
+       * die Belege mit Herausgeber und URL — „Plugable: Understanding USB-C
+       * Alt Mode" ist eine Herkunftsangabe, keine Empfehlung. Erkennbar an
+       * der URL in derselben Zeile.
+       */
+      const zeilen = [text.titel, ...text.beschreibung.split('\n')].filter(
+        (zeile) => !/https?:\/\//i.test(zeile),
+      );
+
+      for (const zeile of zeilen) {
+        const treffer = zeile.match(ZUBEHOERMARKEN);
+        if (treffer) {
+          melde(
+            'fehler',
+            'produktname',
+            `Der ${plattform}-Text nennt den Markennamen „${treffer[0]}" außerhalb einer Quellenangabe. ` +
+              'Benennen ist der Rubrik „Kaufen" mit Label im Bild vorbehalten.',
+          );
+          break;
+        }
+      }
+    }
+  }
+
+  /* ── Technische Zahlen gehören ins Bild ──────────────────────────── */
+
+  /*
+   * Wenn im Sprechtext eine technische Zahl faellt, muss eine Szene sie
+   * zeigen. Mechanisch pruefbar und deshalb hart — kein Geschmacksurteil,
+   * sondern die Umsetzung der Grundregel „gesprochene Zahl ist Behauptung,
+   * gezeigte Zahl ist Beleg".
+   */
+  const gesprocheneZahlen = short.szenen
+    .map((szene) => szene.sprechtext.match(ZAHL_MIT_EINHEIT)?.[0])
+    .filter((treffer): treffer is string => Boolean(treffer));
+
+  if (gesprocheneZahlen.length > 0 && !short.szenen.some((s) => ZEIGT_ZAHLEN.has(s.art))) {
+    melde(
+      'fehler',
+      'zahlImBild',
+      `Der Sprechtext nennt „${gesprocheneZahlen[0]}", aber keine Szene zeigt die Zahl. ` +
+        'Technische Angaben brauchen eine „zahl"- oder „herleitung"-Szene.',
+    );
+  }
+
+  /* ── Systemangabe braucht eine systemspezifische Quelle ──────────── */
+
+  /*
+   * `macos` oder `windows` in der Hook-Pille ist eine Aussage ueber die
+   * Wirklichkeit wie jede andere — nur eine, die im Bild steht. Ohne eine
+   * Quelle, die das System tatsaechlich behandelt, waere sie geraten.
+   */
+  if (short.system === 'macos' || short.system === 'windows') {
+    const passend = short.quellenIds.some((id) => quellen.find((q) => q.id === id)?.system === short.system);
+    if (!passend) {
+      melde(
+        'fehler',
+        'system',
+        `Der Short ist auf ${SYSTEME[short.system].titel} festgelegt, aber keine seiner Quellen ist ` +
+          'als systemspezifisch ausgewiesen.',
+      );
     }
   }
 
@@ -305,12 +410,26 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   if (short.tonspur) {
     const d = short.tonspur.dauerSek;
+    const [von, bis] = zielfenster(short);
+    const stufe = short.vertiefung ? 'mit Vertiefung' : 'ohne Vertiefung';
+
     if (d > LAENGE_SEK.maximum) {
-      melde('fehler', 'laenge', `${d.toFixed(1)}s überschreitet das Plattformlimit von ${LAENGE_SEK.maximum}s.`);
+      melde('fehler', 'laenge', `${d.toFixed(1)}s überschreitet die Obergrenze von ${LAENGE_SEK.maximum}s.`);
     } else if (d < LAENGE_SEK.minimum) {
       melde('fehler', 'laenge', `${d.toFixed(1)}s ist zu kurz – unter ${LAENGE_SEK.minimum}s wirkt der Short abgehackt.`);
-    } else if (d > LAENGE_SEK.ziel[1]) {
-      melde('hinweis', 'laenge', `${d.toFixed(1)}s liegt über dem Zielfenster von ${LAENGE_SEK.ziel[0]}–${LAENGE_SEK.ziel[1]}s.`);
+    } else if (d < von || d > bis) {
+      /*
+       * Beide Richtungen sind ein Hinweis, und die untere ist die
+       * wichtigere: Ein Short mit Vertiefung, der bei 50 Sekunden endet,
+       * hat seine Struktur nicht ausgespielt. Ein Short ohne Vertiefung,
+       * der 85 Sekunden dauert, ist gedehnt — und gedehnt ist schlimmer
+       * als kurz.
+       */
+      melde(
+        'hinweis',
+        'laenge',
+        `${d.toFixed(1)}s liegt außerhalb des Zielfensters ${von}–${bis}s (${stufe}).`,
+      );
     }
 
     if (short.tonspur.woerter.length === 0) {
@@ -329,8 +448,40 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
  * beteiligten Shorts statt am Lauf — nur so erscheinen sie in der Freigabe
  * dort, wo die Entscheidung faellt.
  */
-const laufweiteBefunde = (shorts: Short[]): Befund[] => {
+const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund[] => {
   const befunde: Befund[] = [];
+
+  /* ── Was der Verlauf weiss ───────────────────────────────────────── */
+
+  /*
+   * Die einzigen zwei Regeln im ganzen System, die ueber die Woche
+   * hinausschauen. Beide nur Hinweise: Ein Lauf soll nicht daran scheitern,
+   * dass vor vier Monaten etwas Aehnliches lief.
+   */
+  const vorwoche = zuletztOhneVertiefung(verlauf);
+  for (const short of shorts) {
+    if (short.vertiefung || !vorwoche.has(short.rubrik)) continue;
+    befunde.push({
+      stufe: 'hinweis',
+      shortId: short.id,
+      regel: 'rotation',
+      text:
+        `Rubrik „${RUBRIKEN[short.rubrik].titel}" ist zum zweiten Mal in Folge ohne Vertiefung. ` +
+        'Die zwei freien Plätze sollen rotieren.',
+    });
+  }
+
+  const bekannteThemen = gelaufeneThemen(verlauf);
+  for (const short of shorts) {
+    const frueher = bekannteThemen.get(short.themaId);
+    if (!frueher) continue;
+    befunde.push({
+      stufe: 'hinweis',
+      shortId: short.id,
+      regel: 'wiederholung',
+      text: `Thema „${short.themaId}" lief schon im Lauf ${frueher}.`,
+    });
+  }
 
   /* ── Jede Rubrik genau einmal ────────────────────────────────────── */
 
@@ -403,6 +554,90 @@ const laufweiteBefunde = (shorts: Short[]): Befund[] => {
     }
   }
 
+  /* ── Drei von fuenf tragen eine Vertiefung, „Kaufen" immer ───────── */
+
+  /*
+   * Warum nicht alle fuenf: Ein Zwang zur Tiefe erzeugt erfundene Tiefe. Ein
+   * Video, das seine Fehlspur nicht wirklich hat, bekommt eine
+   * konstruierte — und die riecht man. Drei von fuenf lassen Raum, sie
+   * ehrlich zu vergeben.
+   *
+   * Warum „Kaufen" trotzdem gesetzt ist: Der Kaufberatungs-Short traegt als
+   * einziger das Werbelabel. Genau der braucht die meiste Glaubwuerdigkeit,
+   * weil beim Zuschauer sonst „der will mir was verkaufen" gewinnt.
+   */
+  const MINDESTENS_TIEF = 3;
+
+  const mitVertiefung = shorts.filter((s) => s.vertiefung);
+  if (shorts.length === 5 && mitVertiefung.length < MINDESTENS_TIEF) {
+    for (const short of shorts.filter((s) => !s.vertiefung)) {
+      befunde.push({
+        stufe: 'fehler',
+        shortId: short.id,
+        regel: 'vertiefung',
+        text:
+          `Nur ${mitVertiefung.length} von ${shorts.length} Shorts tragen eine Vertiefung, ` +
+          `mindestens ${MINDESTENS_TIEF} müssen es sein.`,
+      });
+    }
+  }
+
+  for (const short of shorts) {
+    if (short.rubrik === 'kaufen' && !short.vertiefung) {
+      befunde.push({
+        stufe: 'fehler',
+        shortId: short.id,
+        regel: 'vertiefung',
+        text:
+          'Die Rubrik „Kaufen" trägt immer eine Vertiefung. Sie ist der einzige werbende Short ' +
+          'und braucht die Glaubwürdigkeit am dringendsten.',
+      });
+    }
+  }
+
+  /* ── Abnutzung: gleiche Muster, gleiche Vertiefungen ─────────────── */
+
+  /*
+   * Beides nur ein Hinweis. Es gibt Wochen, in denen zwei Fehlspuren die
+   * richtige Wahl sind — aber ab der dritten merkt der Zuschauer, dass da
+   * immer erst eine falsche Antwort kommt. Die Fehlspur nutzt sich am
+   * schnellsten ab, weil sie am auffaelligsten ist.
+   */
+  const haeufung = <T extends string>(
+    schluessel: (s: Short) => T | undefined,
+    regel: string,
+    benenne: (wert: T) => string,
+  ) => {
+    const gruppen = new Map<T, Short[]>();
+    for (const short of shorts) {
+      const wert = schluessel(short);
+      if (!wert) continue;
+      gruppen.set(wert, [...(gruppen.get(wert) ?? []), short]);
+    }
+    for (const [wert, gruppe] of gruppen) {
+      if (gruppe.length < 3) continue;
+      for (const short of gruppe) {
+        befunde.push({
+          stufe: 'hinweis',
+          shortId: short.id,
+          regel,
+          text: `${benenne(wert)} kommt ${gruppe.length}× im Lauf vor. Ab drei klingt die Woche nach Schablone.`,
+        });
+      }
+    }
+  };
+
+  haeufung<Titelmuster>(
+    (s) => s.titelmuster,
+    'titelmuster',
+    (wert) => `Titelmuster „${wert}"`,
+  );
+  haeufung<Vertiefung>(
+    (s) => s.vertiefung,
+    'vertiefung',
+    (wert) => `Vertiefung „${VERTIEFUNGEN[wert].titel}"`,
+  );
+
   /* ── Kein Szenenbild im Uebermass ────────────────────────────────── */
 
   const HOECHSTZAHL = 3;
@@ -436,9 +671,15 @@ const laufweiteBefunde = (shorts: Short[]): Befund[] => {
   return befunde;
 };
 
-/** Prueft alle Shorts eines Laufs und fasst zusammen. */
-export const laufPruefen = (shorts: Short[], quellen: Quelle[]) => {
-  const befunde = [...shorts.flatMap((s) => shortPruefen(s, quellen)), ...laufweiteBefunde(shorts)];
+/**
+ * Prueft alle Shorts eines Laufs und fasst zusammen.
+ *
+ * `verlauf` ist optional, damit die Pruefung ohne Historie lauffaehig
+ * bleibt — beim allerersten Lauf gibt es sie noch nicht, und die
+ * Schemapruefung braucht sie ohnehin nicht.
+ */
+export const laufPruefen = (shorts: Short[], quellen: Quelle[], verlauf: Verlaufslauf[] = []) => {
+  const befunde = [...shorts.flatMap((s) => shortPruefen(s, quellen)), ...laufweiteBefunde(shorts, verlauf)];
   const fehler = befunde.filter((b) => b.stufe === 'fehler');
 
   return {
