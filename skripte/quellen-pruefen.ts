@@ -61,17 +61,45 @@ const seiteHolen = async (url: string): Promise<string> => {
 
   if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`);
 
-  const roh = await antwort.text();
-  return roh
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;|&apos;/gi, "'")
-    .replace(/&[a-z]+;/gi, ' ');
+  /*
+   * Zeichensatz aus dem Content-Type lesen statt UTF-8 anzunehmen.
+   *
+   * `gesetze-im-internet.de` liefert ISO-8859-1. Mit `response.text()` wird
+   * daraus „B�rgerliches" — und ein Zitat mit Umlauten waere damit nie
+   * auffindbar. Der Fehler saehe aus wie ein falsches Zitat, waere aber ein
+   * Abruffehler; genau die Verwechslung, die diese Pruefung vermeiden soll.
+   */
+  const zeichensatz = /charset=([\w-]+)/i.exec(antwort.headers.get('content-type') ?? '')?.[1] ?? 'utf-8';
+  const puffer = await antwort.arrayBuffer();
+  const roh = new TextDecoder(zeichensatz.toLowerCase()).decode(puffer);
+  return entschluesseln(
+    roh
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' '),
+  );
 };
+
+/**
+ * HTML-Entities aufloesen, numerische eingeschlossen.
+ *
+ * `gesetze-im-internet.de` schreibt Umlaute als `&#228;` statt als Zeichen.
+ * Ohne diese Umwandlung waere „Sachmaengeln" auf der Seite nie zu finden —
+ * und der Befund saehe aus wie ein erfundenes Zitat, obwohl er ein
+ * Abruffehler waere.
+ */
+const BENANNT: Record<string, string> = {
+  nbsp: ' ', amp: '&', quot: '"', apos: "'", lt: '<', gt: '>',
+  auml: 'ä', ouml: 'ö', uuml: 'ü', Auml: 'Ä', Ouml: 'Ö', Uuml: 'Ü',
+  szlig: 'ß', sect: '§', euro: '€', bdquo: '"', ldquo: '"', rdquo: '"',
+  laquo: '«', raquo: '»', ndash: '–', mdash: '—', shy: '',
+};
+
+const entschluesseln = (text: string): string =>
+  text
+    .replace(/&#(\d+);/g, (_, n: string) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&([a-zA-Z]+);/g, (ganz, name: string) => BENANNT[name] ?? ganz);
 
 const main = async () => {
   const roh = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] };

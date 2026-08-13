@@ -11,6 +11,7 @@ import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { verlaufLesen, verlaufSchreiben } from '../src/verlauf';
 import { dockKeinBild } from '../daten/entwuerfe/dock-kein-bild';
 import { wlanAbends } from '../daten/entwuerfe/wlan-abends';
+import { garantieGewaehrleistung } from '../daten/entwuerfe/garantie-gewaehrleistung';
 
 const ausfuehren = promisify(execFile);
 
@@ -32,16 +33,16 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 /**
  * Die fuenf Shorts dieses Laufs — einer je Rubrik.
  *
- * Stand 13.08.2026: **zwei von fuenf.** Schreibtisch und Zuhause stehen,
- * belegt und mit Vertiefung. Es fehlen Unterwegs und Kaufen; Reise liegt als
- * `powerbank-flug` bereit, haengt aber an einer einzigen Quelle und ist
- * deshalb geparkt.
+ * Stand 13.08.2026: **drei von fuenf.** Schreibtisch, Zuhause und Kaufen
+ * stehen, belegt und mit Vertiefung. Es fehlen Unterwegs und Reise — beide
+ * haengen an einer einzigen Quelle (USB-IF beziehungsweise das
+ * Luftfahrt-Bundesamt) und brauchen je zwei weitere.
  *
  * Der Lauf ist damit noch nicht gueltig — die Rubrikpruefung greift erst bei
  * fuenf Shorts, meldet dann aber sowohl Dopplung als auch Fehlen. Bis dahin
  * laesst sich die Kette ueben, ohne dass etwas veroeffentlicht werden koennte.
  */
-const ENTWUERFE: Short[] = [...dockKeinBild, ...wlanAbends];
+const ENTWUERFE: Short[] = [...dockKeinBild, ...wlanAbends, ...garantieGewaehrleistung];
 
 const laufId = () => {
   const d = new Date();

@@ -188,6 +188,78 @@
           "stuetzt": "Das Ausweichen auf 5 GHz ist die vorgesehene Antwort auf ein volles 2,4-GHz-Band, keine Bastellösung."
         }
       ]
+    },
+    {
+      "id": "bgb-443-garantie",
+      "titel": "§ 443 BGB – Garantie",
+      "url": "https://www.gesetze-im-internet.de/bgb/__443.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-08-13",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "zusätzlich zu der gesetzlichen Mängelhaftung",
+          "stuetzt": "Die Garantie tritt neben die gesetzlichen Rechte – sie ersetzt sie nicht und kann sie nicht verkürzen."
+        },
+        {
+          "zitat": "Geht der Verkäufer, der Hersteller oder ein sonstiger Dritter in einer Erklärung",
+          "stuetzt": "Die Garantie ist eine freiwillige Erklärung. Wer sie gibt und zu welchen Bedingungen, entscheidet der Geber."
+        }
+      ]
+    },
+    {
+      "id": "bgb-438-verjaehrung",
+      "titel": "§ 438 BGB – Verjährung der Mängelansprüche",
+      "url": "https://www.gesetze-im-internet.de/bgb/__438.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-08-13",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "im Übrigen in zwei Jahren",
+          "stuetzt": "Die gesetzliche Mängelhaftung läuft beim normalen Kauf zwei Jahre – unabhängig davon, was auf der Garantiekarte steht."
+        }
+      ]
+    },
+    {
+      "id": "bgb-477-beweislast",
+      "titel": "§ 477 BGB – Beweislastumkehr",
+      "url": "https://www.gesetze-im-internet.de/bgb/__477.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-08-13",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "Zeigt sich innerhalb eines Jahres seit Gefahrübergang",
+          "stuetzt": "Im ersten Jahr wird vermutet, dass der Mangel von Anfang an vorlag – der Käufer muss nichts beweisen."
+        },
+        {
+          "zitat": "so wird vermutet, dass die Ware bereits bei Gefahrübergang mangelhaft war",
+          "stuetzt": "Nach dem ersten Jahr dreht sich diese Vermutung um – dann liegt die Beweislast beim Käufer."
+        }
+      ]
+    },
+    {
+      "id": "usbif-power-delivery",
+      "titel": "USB Charger (USB Power Delivery)",
+      "url": "https://www.usb.org/usb-charger-pd",
+      "herausgeber": "USB Implementers Forum",
+      "geprueftAm": "2026-08-13",
+      "art": "standard",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "zitat": "USB PD was limited to 100W using a solution based on 20V using USB Type-C cables rated at 5A",
+          "stuetzt": "100 Watt entstehen aus 20 Volt mal 5 Ampere – die Stromstärke des Kabels ist Teil der Rechnung."
+        },
+        {
+          "zitat": "define 240W cable requirements",
+          "stuetzt": "Für mehr als 100 Watt gelten eigene Anforderungen an das Kabel, nicht nur an das Netzteil."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

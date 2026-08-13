@@ -1,0 +1,129 @@
+import type { Short } from '../../src/typen';
+
+/**
+ * Rubrik Kaufen — „Die Garantie ist abgelaufen. Deine Rechte nicht."
+ *
+ * Der Sendeplatz, auf dem später die Partnerlinks liegen sollen (Variante A).
+ * Genau deshalb trägt er **immer** eine Vertiefung: Beim werbenden Short
+ * gewinnt sonst der Gedanke „der will mir was verkaufen".
+ *
+ * Gewählt ist `grenzfall` statt der von der Matrix empfohlenen `fehlspur` —
+ * hier liegt die Tiefe wirklich in der Ausnahme. Die zwei Jahre gelten, aber
+ * nach dem ersten Jahr dreht sich die Beweislast um, und das ist der Punkt,
+ * an dem die meisten Auseinandersetzungen kippen. Wer das verschweigt,
+ * verspricht zu viel.
+ *
+ * Stand 13.08.2026 ohne Werbung und ohne Links — Phase 1.
+ */
+
+const HASHTAGS = ['#gewährleistung', '#garantie', '#verbraucherrechte', '#technikwissen', '#setupklar'];
+
+export const garantieGewaehrleistung: Short[] = [
+  {
+    id: 'skl-gwl-01',
+    themaId: 'garantie-gewaehrleistung',
+    rubrik: 'kaufen',
+    arbeitstitel: 'Die Garantie ist abgelaufen. Deine Rechte nicht.',
+    winkelart: 'verwechslung',
+
+    system: 'ohne',
+    titelmuster: 'zweisatz',
+    vertiefung: 'grenzfall',
+    merksatz: 'Garantie ist freiwillig. Gewährleistung ist Gesetz.',
+
+    szenen: [
+      {
+        art: 'hook',
+        kontext: 'Gerät kaputt, ein Jahr alt',
+        text: 'Die Garantie ist abgelaufen.',
+        sprechtext:
+          'Das Gerät geht kaputt, du rufst an, und am Telefon heißt es: Die Garantie ist leider abgelaufen. Da können wir nichts machen.',
+      },
+      {
+        art: 'aussage',
+        text: 'Garantie ist freiwillig — Gewährleistung steht im Gesetz.',
+        hervorhebung: 'freiwillig',
+        quelleId: 'bgb-443-garantie',
+        sprechtext:
+          'Nur sind das zwei verschiedene Dinge. Eine Garantie gibt der Verkäufer oder der Hersteller freiwillig ab — er entscheidet, was drinsteht. Das Gesetz sagt dazu: Sie kommt zusätzlich zur gesetzlichen Mängelhaftung. Zusätzlich. Sie ersetzt sie nicht.',
+      },
+      {
+        art: 'vergleich',
+        ueberschrift: 'Zwei Dinge, ein Wort',
+        links: {
+          titel: 'Gewährleistung',
+          zeilen: ['Steht im Gesetz', 'Immer der Verkäufer', 'Zwei Jahre'],
+          bewertung: 'ja',
+        },
+        rechts: {
+          titel: 'Garantie',
+          zeilen: ['Freiwillig gegeben', 'Oft der Hersteller', 'Dauer frei wählbar'],
+          bewertung: 'achtung',
+        },
+        sprechtext:
+          'Die Gewährleistung schuldet dir immer der Verkäufer, bei dem du gekauft hast. Die Garantie kommt meistens vom Hersteller und hat die Bedingungen, die er sich ausgesucht hat. Wenn also die Garantie ausläuft, sagt das über deine gesetzlichen Rechte erst mal gar nichts.',
+      },
+      {
+        art: 'zahl',
+        wert: '2',
+        einheit: 'Jahre',
+        bedeutung: 'Gesetzliche Mängelhaftung beim normalen Kauf',
+        quelleId: 'bgb-438-verjaehrung',
+        sprechtext:
+          'Denn die läuft beim normalen Kauf zwei Jahre. Das steht so im Bürgerlichen Gesetzbuch, und es gilt unabhängig davon, was auf der Garantiekarte steht.',
+      },
+      {
+        art: 'einschraenkung',
+        ueberschrift: 'Der Haken kommt nach zwölf Monaten',
+        bedingung: 'Im ersten Jahr musst du nichts beweisen',
+        folge: 'Danach musst du zeigen, dass der Mangel von Anfang an da war — und das ist schwer',
+        quelleId: 'bgb-477-beweislast',
+        sprechtext:
+          'Aber jetzt der Teil, den kaum jemand sagt. Zeigt sich der Fehler im ersten Jahr, wird vermutet, dass er von Anfang an da war. Du musst nichts beweisen. Danach dreht sich das um: Dann liegt es an dir zu zeigen, dass der Mangel schon beim Kauf angelegt war. Die zwei Jahre gelten weiter — nur werden sie schwerer durchzusetzen.',
+      },
+      {
+        art: 'endkarte',
+        ueberschrift: 'Am Telefon abgewimmelt?',
+        punkte: [
+          'Garantie und Gewährleistung sind nicht dasselbe',
+          'Gewährleistung schuldet immer der Verkäufer',
+          'Im ersten Jahr musst du nichts beweisen',
+        ],
+        abschluss: 'Technik, die zusammenpasst',
+        sprechtext:
+          'Wenn also jemand sagt, die Garantie sei abgelaufen: Das kann stimmen und trotzdem irrelevant sein. Frag nach der Gewährleistung, und frag beim Verkäufer, nicht beim Hersteller.',
+      },
+    ],
+
+    quellenIds: ['bgb-443-garantie', 'bgb-438-verjaehrung', 'bgb-477-beweislast'],
+
+    /*
+     * Phase 1: keine Werbung, keine Links, auch auf diesem Sendeplatz nicht.
+     * Affiliate setzt ein Kleingewerbe voraus. Sobald das Partnerkonto steht,
+     * wird hier `werbung: 'video'` gesetzt und das Label eingeblendet — erst
+     * dann duerfen die Texte auch Produktnamen tragen.
+     */
+    kennzeichnung: { werbung: 'keine', kiStimme: true },
+
+    texte: {
+      tiktok: {
+        titel: 'Garantie abgelaufen? Deine Rechte nicht',
+        beschreibung:
+          'Garantie ist freiwillig, Gewährleistung steht im Gesetz. Zwei Jahre, und im ersten musst du nichts beweisen.',
+        hashtags: HASHTAGS,
+      },
+      instagram: {
+        titel: 'Die Garantie ist abgelaufen. Deine Rechte nicht.',
+        beschreibung:
+          'Eine Garantie gibt der Hersteller freiwillig – sie kommt laut Gesetz zusätzlich zur Mängelhaftung. Die gesetzliche Gewährleistung schuldet dagegen immer der Verkäufer, zwei Jahre lang. Im ersten Jahr wird vermutet, dass der Mangel von Anfang an da war.',
+        hashtags: HASHTAGS,
+      },
+      youtube: {
+        titel: 'Die Garantie ist abgelaufen. Deine Rechte nicht.',
+        beschreibung:
+          'Garantie und Gewährleistung werden ständig verwechselt. Die Garantie ist freiwillig und kommt zusätzlich zur gesetzlichen Mängelhaftung (§ 443 BGB). Die Gewährleistung läuft beim normalen Kauf zwei Jahre (§ 438 BGB) und schuldet sie immer der Verkäufer. Im ersten Jahr gilt die Beweislastumkehr (§ 477 BGB).\n\nKeine Rechtsberatung – im Zweifel an die Verbraucherzentrale wenden.\n\nQuellen:\n§ 443 BGB Garantie: https://www.gesetze-im-internet.de/bgb/__443.html\n§ 438 BGB Verjährung: https://www.gesetze-im-internet.de/bgb/__438.html\n§ 477 BGB Beweislastumkehr: https://www.gesetze-im-internet.de/bgb/__477.html',
+        hashtags: ['#Shorts', '#Gewährleistung', '#Verbraucherrechte'],
+      },
+    },
+  },
+];
