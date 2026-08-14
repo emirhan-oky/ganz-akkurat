@@ -254,6 +254,48 @@ const SzeneHook = SzeneBasis.extend({
 });
 
 /**
+ * Wer behaupten kann, muss belegen koennen.
+ *
+ * Bis zum 14.08.2026 hatten vier Szenenarten ein Pflichtfeld, drei ein
+ * optionales und der Rest gar keins — gewachsen, nicht entschieden. Die
+ * Belegansicht hat die Folge sichtbar gemacht: Der Dock-Short sagt in einer
+ * `vergleich`-Szene „Alt Mode ist optional, nicht jedes System hat ihn". Das
+ * ist eine Tatsachenbehauptung, und im Datenvertrag gab es keine Stelle, an
+ * die sich ein Beleg haengen liess. Die passende Quelle stand derweil in
+ * `quellenIds` des Shorts, von keiner Szene benutzt, und zaehlte trotzdem auf
+ * die Drei-Quellen-Regel mit — dieselbe Form von Schlupfloch, die bei
+ * `presse` geschlossen wurde.
+ *
+ * Der Schnitt laeuft jetzt an einer Frage: **Sagt die Szene etwas ueber die
+ * Welt?**
+ *
+ * | | Arten | warum |
+ * |---|---|---|
+ * | Pflicht | `aussage`, `zahl`, `herleitung`, `einschraenkung`, `vergleich`, `warnung`, `merkmalskarte`, `anschluss`, `kaufkriterien` | jede von ihnen behauptet immer |
+ * | optional | `fehlspur`, `checkliste` | die Fehlspur erzaehlt, was der Zuschauer vermutet, die Checkliste sagt, was er tun soll — beides kann belegbeduerftig werden, muss es aber nicht |
+ * | ohne Feld | `hook`, `cta`, `endkarte` | Aufhaenger und Rueckblick, sie sagen nichts Neues |
+ *
+ * `anschluss` sieht harmlos aus und ist es nicht: `bruchNach` behauptet, an
+ * welcher Verbindung die Kette reisst.
+ */
+export const QUELLENPFLICHT = {
+  aussage: 'pflicht',
+  zahl: 'pflicht',
+  herleitung: 'pflicht',
+  einschraenkung: 'pflicht',
+  vergleich: 'pflicht',
+  warnung: 'pflicht',
+  merkmalskarte: 'pflicht',
+  anschluss: 'pflicht',
+  kaufkriterien: 'pflicht',
+  fehlspur: 'moeglich',
+  checkliste: 'moeglich',
+  hook: 'ohne',
+  cta: 'ohne',
+  endkarte: 'ohne',
+} as const satisfies Record<string, 'pflicht' | 'moeglich' | 'ohne'>;
+
+/**
  * Eine Behauptung mit optionaler Hervorhebung eines Schluesselworts.
  *
  * `quelleId` ist Pflicht, und das ist der Unterschied zu vorher: Die
@@ -297,6 +339,12 @@ const SzeneZahl = SzeneBasis.extend({
 const SzeneFehlspur = SzeneBasis.extend({
   art: z.literal('fehlspur'),
   ueberschrift: z.string().max(50).optional(),
+  /**
+   * Optional: Die Fehlspur erzaehlt zuerst, was der Zuschauer selbst vermutet
+   * haette — das ist eine Erzaehlung und keine Aussage ueber die Welt. Sobald
+   * die Entkraeftung eine Tatsache behauptet, gehoert hier eine Quelle hin.
+   */
+  quelleId: z.string().optional(),
   spuren: z
     .array(
       z.object({
@@ -369,6 +417,8 @@ const SzeneEinschraenkung = SzeneBasis.extend({
 const SzeneVergleich = SzeneBasis.extend({
   art: z.literal('vergleich'),
   ueberschrift: z.string().max(50).optional(),
+  /** Ein Vergleich behauptet ueber beide Seiten. Ohne Beleg ist er eine Meinung. */
+  quelleId: z.string(),
   links: z.object({
     titel: z.string().max(28),
     zeilen: z.array(z.string().max(40)).min(1).max(4),
@@ -419,7 +469,7 @@ const SzeneWarnung = SzeneBasis.extend({
    * Belegtafel — dass Powerbank-Pole gegen Kurzschluss gesichert sein
    * muessen, ist keine Meinung, sondern steht beim Luftfahrt-Bundesamt.
    */
-  quelleId: z.string().optional(),
+  quelleId: z.string(),
 });
 
 /** Signalweg zwischen Geraeten — die Signaturszene dieser Nische. */
@@ -437,6 +487,8 @@ const SzeneAnschluss = SzeneBasis.extend({
     .max(4),
   /** Verbindung, die scheitert — als Index in kette, zeigt den Bruch. */
   bruchNach: z.number().int().nonnegative().optional(),
+  /** `bruchNach` behauptet, an welcher Verbindung die Kette reisst. */
+  quelleId: z.string(),
 });
 
 /** Kurzer Abbinder ohne Inhalt. Nur, wenn es nichts zusammenzufassen gibt. */
@@ -491,6 +543,8 @@ const SzeneKaufkriterien = SzeneBasis.extend({
     .max(3),
   /** Hinweis auf die Beschreibung. Loest die Kennzeichnungspflicht aus. */
   verweis: z.string().max(52).optional(),
+  /** Kaufkriterien sind Tatsachen ueber Geraeteklassen, keine Meinungen. */
+  quelleId: z.string(),
 });
 
 /**
@@ -523,7 +577,7 @@ const SzeneMerkmalskarte = SzeneBasis.extend({
     )
     .min(2)
     .max(4),
-  quelleId: z.string().optional(),
+  quelleId: z.string(),
 });
 
 export const Szene = z.discriminatedUnion('art', [

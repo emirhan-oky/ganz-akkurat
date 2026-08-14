@@ -208,9 +208,26 @@ Praktische Folgen aus demselben Tag:
   Apple-Supportseiten sind deshalb **entfernt** worden statt als geprüft
   geführt zu werden — sie liefern beim Abruf nur die Kopfzeile. Wer sie
   zurückholen will, öffnet sie von Hand und schreibt das Zitat ab.
-- Jede `aussage`-, `zahl`-, `herleitung`- und `einschraenkung`-Szene trägt
-  eine `quelleId`. Vorher hing die Belegdecke als Liste am Short — bei drei
-  Quellen und sechs Aussagen konnte eine frei schweben.
+- **Wer behaupten kann, muss belegen können** (`QUELLENPFLICHT` in
+  `src/typen.ts`, seit 14.08.2026 die einzige Wahrheit darüber):
+
+  | | Arten |
+  |---|---|
+  | Pflicht | `aussage`, `zahl`, `herleitung`, `einschraenkung`, `vergleich`, `warnung`, `merkmalskarte`, `anschluss`, `kaufkriterien` |
+  | optional | `fehlspur`, `checkliste` |
+  | ohne Feld | `hook`, `cta`, `endkarte` |
+
+  Vorher hing die Belegdecke als Liste am Short — bei drei Quellen und sechs
+  Aussagen konnte eine frei schweben. Dann trugen vier Arten ein Pflichtfeld,
+  drei ein optionales, der Rest keins: gewachsen, nicht entschieden. Die Folge
+  fand `npm run belege` am ersten Tag: Der Dock-Short sagt in einer
+  `vergleich`-Szene „Alt Mode ist optional" — belegbedürftig, und im Vertrag
+  gab es keine Stelle dafür. Die passende Quelle stand derweil in
+  `quellenIds`, von keiner Szene benutzt, und zählte trotzdem auf die
+  Drei-Quellen-Regel. Dasselbe Schlupfloch wie bei `presse`.
+
+  `anschluss` sieht harmlos aus und ist es nicht: `bruchNach` behauptet, an
+  welcher Verbindung die Kette reißt.
 
 ## Werbemodell — Phase 1 (Stand 12.08.2026)
 

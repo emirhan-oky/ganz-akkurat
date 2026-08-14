@@ -1,4 +1,4 @@
-import { UNBETEILIGTE_ARTEN, type Quelle, type Short, type Szene } from './typen';
+import { QUELLENPFLICHT, UNBETEILIGTE_ARTEN, type Quelle, type Short, type Szene } from './typen';
 import { FARBEN } from './marke';
 
 /**
@@ -31,25 +31,17 @@ import { FARBEN } from './marke';
 const escape = (s: string): string =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
-/** Szenenarten, die eine Tatsachenbehauptung tragen und deshalb eine Quelle brauchen. */
-const BRAUCHT_QUELLE = new Set<Szene['art']>(['aussage', 'zahl', 'herleitung', 'einschraenkung']);
-
-/**
- * Szenenarten, die im Sprechtext behaupten koennen, ohne eine `quelleId`
- * tragen zu duerfen.
- *
- * Sie stehen hier, weil die Seite sie ausweisen soll statt sie zu verschweigen:
- * Der Vergleich im Dock-Short sagt „Alt Mode ist optional, nicht jedes System
- * hat ihn" — eine Tatsachenbehauptung in einer Szenenart, an die sich im
- * Datenvertrag keine Quelle haengen laesst.
+/*
+ * Welche Szenenart belegen muss, steht in `QUELLENPFLICHT` und nirgends
+ * sonst. Die erste Fassung dieser Datei fuehrte eine eigene Handliste — und
+ * sie war schon beim Schreiben falsch: `checkliste`, `warnung` und
+ * `merkmalskarte` standen darin als „kann keine Quelle tragen", obwohl sie
+ * das Feld laengst hatten. Die Ansicht meldete damit eine Luecke, die es
+ * nicht gab. Zwei Listen ueber dieselbe Sache laufen auseinander, und die
+ * falsche faellt nicht auf, weil sie fuer sich stimmig aussieht.
  */
-const BEHAUPTET_OHNE_FELD = new Set<Szene['art']>([
-  'vergleich',
-  'checkliste',
-  'warnung',
-  'fehlspur',
-  'merkmalskarte',
-]);
+const pflicht = (art: Szene['art']): 'pflicht' | 'moeglich' | 'ohne' =>
+  (QUELLENPFLICHT as Record<string, 'pflicht' | 'moeglich' | 'ohne'>)[art] ?? 'ohne';
 
 const istUnbeteiligt = (art: Quelle['art']): boolean =>
   (UNBETEILIGTE_ARTEN as readonly string[]).includes(art);
@@ -107,19 +99,21 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
           }
 
           /* Szene ohne Quelle: unterscheiden, ob das erlaubt ist. */
-          if (BRAUCHT_QUELLE.has(szene.art)) {
+          const stufe = pflicht(szene.art);
+
+          if (stufe === 'pflicht') {
             ohneQuelle += 1;
             return `<tr class="luecke"><td class="nr">${nummer}</td><td colspan="2">
               <b>${escape(szene.art)}</b> trägt keine Quelle, obwohl diese Szenenart eine braucht.
               <p>${escape(szene.sprechtext)}</p></td></tr>`;
           }
 
-          if (BEHAUPTET_OHNE_FELD.has(szene.art)) {
+          if (stufe === 'moeglich') {
             ohneFeld += 1;
             return `<tr class="offen"><td class="nr">${nummer}</td><td colspan="2">
-              <div class="art">${escape(szene.art)} · keine <code>quelleId</code> im Datenvertrag</div>
+              <div class="art">${escape(szene.art)} · Quelle möglich, nicht gesetzt</div>
               <p>${escape(szene.sprechtext)}</p>
-              <p class="frage">Steht hier eine Tatsachenbehauptung? Dann trägt sie im Moment nichts.</p></td></tr>`;
+              <p class="frage">Steht hier eine Tatsachenbehauptung? Dann gehört eine Quelle daran.</p></td></tr>`;
           }
 
           return '';
@@ -218,7 +212,7 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
     <span><b>${shorts.length}</b> Shorts</span>
     <span><b>${paare}</b> Zitat-Folgerung-Paare zu lesen</span>
     <span><b>${ohneQuelle}</b> Szenen ohne Quelle, obwohl nötig</span>
-    <span><b>${ohneFeld}</b> Szenen, die keine Quelle tragen können</span>
+    <span><b>${ohneFeld}</b> Szenen mit möglicher, nicht gesetzter Quelle</span>
   </div>
   ${abschnitte}
 </div></body></html>`;

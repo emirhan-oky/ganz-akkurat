@@ -60,6 +60,9 @@ export const dockKeinBild: Short[] = [
       {
         art: 'anschluss',
         ueberschrift: 'Wo das Signal hängen bleibt',
+        // `bruchNach` behauptet, an welcher Verbindung die Kette reisst — die
+        // Antwort steht im Standard: Ohne Alt Mode kommt gar kein Bild heraus.
+        quelleId: 'vesa-dp-altmode',
         kette: [
           { geraet: 'notebook', beschriftung: 'Notebook' },
           { geraet: 'dock', beschriftung: 'USB-C-Dock' },
@@ -83,6 +86,15 @@ export const dockKeinBild: Short[] = [
       {
         art: 'vergleich',
         ueberschrift: 'Zwei Ports, ein Aussehen',
+        /*
+         * `plugable-altmode` stand bis zum 14.08.2026 in `quellenIds` und
+         * wurde von keiner Szene benutzt — sie zaehlte auf die
+         * Drei-Quellen-Regel und stuetzte nichts. Der Grund war kein
+         * Versehen: `vergleich` hatte gar kein Quellenfeld. Genau diese
+         * Aussage — „Alt Mode ist optional, nicht jedes System hat ihn" —
+         * steht woertlich in der Quelle.
+         */
+        quelleId: 'plugable-altmode',
         links: {
           titel: 'Mit Alt Mode',
           zeilen: ['Bild, Ton und Strom', 'Meist der Thunderbolt-Port'],

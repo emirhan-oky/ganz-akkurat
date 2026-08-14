@@ -83,6 +83,16 @@ export const wlanAbends: Short[] = [
       {
         art: 'vergleich',
         ueberschrift: 'Warum ausgerechnet abends',
+        /*
+         * Diese Szene behauptet ein **Zeitmuster** — vormittags frei, abends
+         * voll. Als die zahl-Szene am 14.08.2026 von TP-Link auf die
+         * Bundesnetzagentur umgehaengt wurde, fiel `tplink-kapazitaet-abends`
+         * aus den `quellenIds`, und damit verlor der Vergleich still seinen
+         * Beleg: Die Behoerde sagt, dass das Band geteilt wird, aber nichts
+         * darueber, wann es voll ist. Aufgefallen ist es erst, als
+         * `vergleich` ein Quellenfeld bekam.
+         */
+        quelleId: 'tplink-kapazitaet-abends',
         links: {
           titel: 'Vormittags',
           zeilen: ['Die halbe Nachbarschaft ist weg', 'Das Band ist frei'],
@@ -151,7 +161,12 @@ export const wlanAbends: Short[] = [
       },
     ],
 
-    quellenIds: ['bnetza-wlan-24ghz-allgemeinzuteilung', 'tplink-stoerung-nachbarn', 'intel-funkumgebung'],
+    quellenIds: [
+      'bnetza-wlan-24ghz-allgemeinzuteilung',
+      'tplink-kapazitaet-abends',
+      'tplink-stoerung-nachbarn',
+      'intel-funkumgebung',
+    ],
 
     texte: {
       tiktok: {

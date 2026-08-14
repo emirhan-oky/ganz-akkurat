@@ -61,6 +61,9 @@ export const garantieGewaehrleistung: Short[] = [
       },
       {
         art: 'vergleich',
+        // Der Vergleich behauptet ueber beide Seiten: wer schuldet und wer
+        // sich die Bedingungen aussucht. Beides steht in § 443 BGB.
+        quelleId: 'bgb-443-garantie',
         ueberschrift: 'Zwei Dinge, ein Wort',
         links: {
           titel: 'Gewährleistung',

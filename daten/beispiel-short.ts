@@ -34,6 +34,7 @@ export const beispielShort: Short = {
     },
     {
       art: 'anschluss',
+    quelleId: 'vesa-dp-altmode',
       ueberschrift: 'Wo das Signal hängen bleibt',
       kette: [
         { geraet: 'notebook', beschriftung: 'Notebook' },
@@ -54,6 +55,7 @@ export const beispielShort: Short = {
     },
     {
       art: 'vergleich',
+    quelleId: 'plugable-altmode',
       ueberschrift: 'Gleiche Buchse, zwei Welten',
       links: {
         titel: 'Mit Alt Mode',
