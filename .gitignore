@@ -27,3 +27,6 @@ tmp/
 
 # Fremder Symlink aus Codex-Runtime
 /node_modules
+
+# Belegansicht (erzeugt)
+belege.html

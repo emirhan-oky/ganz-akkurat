@@ -56,16 +56,29 @@ export const wlanAbends: Short[] = [
         wert: '2,4',
         einheit: 'GHz',
         bedeutung: 'Ein Band für die ganze Nachbarschaft',
-        quelleId: 'tplink-kapazitaet-abends',
         /*
-         * Nachbarhaeuser statt Router, und der Unterschied ist der ganze
-         * Short: Diese Szene benennt die Ursache — „ein Band, das sich alle
-         * teilen", „Nachbarnetze nehmen dir Kapazitaet weg". Ein Router
-         * daneben zeigte ausgerechnet die Partei, die das Video entlastet.
+         * Bundesnetzagentur statt TP-Link, seit dem 14.08.2026.
+         *
+         * Der Short stand auf drei Herstellerquellen — TP-Link, TP-Link,
+         * Intel — und behauptete „dein Router ist nicht zu alt". Belegt vom
+         * Routerhersteller. Zur Frage, wie sich ein Funkband unter Nachbarn
+         * aufteilt, ist ein Anbieter nicht die zustaendige Instanz: Das Band
+         * ist per Allgemeinzuteilung vergeben, und dort steht ausdruecklich,
+         * dass gegenseitige Beeintraechtigungen vorgesehen und hinzunehmen
+         * sind. Genau das ist die Aussage der Szene.
+         *
+         * Der Sprechtext sagt es deshalb jetzt auch so: nicht „der Hersteller
+         * sagt es selbst", sondern die Behoerde, die das Band zuteilt.
+         */
+        quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+        /*
+         * Nachbarhaeuser statt Router: Diese Szene benennt die Ursache. Ein
+         * Router daneben zeigte ausgerechnet die Partei, die das Video
+         * entlastet.
          */
         symbol: 'nachbarhaeuser',
         sprechtext:
-          'Der Grund steht in der Frequenz. Zwei Komma vier Gigahertz ist kein Kanal, der dir gehört, sondern ein Band, das sich alle teilen. Und der Hersteller sagt es selbst: Nachbarnetze auf demselben Kanal nehmen dir nutzbare Kapazität weg.',
+          'Der Grund steht in der Frequenz. Zwei Komma vier Gigahertz ist kein Kanal, der dir gehört, sondern ein Band, das sich alle teilen. Und das ist keine Panne, sondern so vergeben: Die Bundesnetzagentur schreibt ausdrücklich, dass es keinen Schutz vor gegenseitigen Störungen gibt.',
       },
       {
         art: 'vergleich',
@@ -138,7 +151,7 @@ export const wlanAbends: Short[] = [
       },
     ],
 
-    quellenIds: ['tplink-kapazitaet-abends', 'tplink-stoerung-nachbarn', 'intel-funkumgebung'],
+    quellenIds: ['bnetza-wlan-24ghz-allgemeinzuteilung', 'tplink-stoerung-nachbarn', 'intel-funkumgebung'],
 
     texte: {
       tiktok: {

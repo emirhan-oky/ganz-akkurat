@@ -60,6 +60,54 @@ export const Beleg = z.object({
 export type Beleg = z.infer<typeof Beleg>;
 
 /**
+ * Was eine Quelle sein darf — und was ausdruecklich nicht.
+ *
+ * Die Liste ist am 14.08.2026 enger geworden, und zwar an beiden Enden:
+ *
+ * **`presse` ist raus.** Nicht heruntergestuft, sondern **nicht mehr
+ * eintragbar**. Vorher stand `presse` im Enum und war nur aus
+ * `OFFIZIELLE_ARTEN` ausgenommen — eine Pressequelle durfte also in
+ * `quellen.json` stehen und von einer Szene ueber `quelleId` als Beleg
+ * benutzt werden, solange drei offizielle Quellen daneben die Zaehlung
+ * erfuellten. Das war das Schlupfloch: Die Zahl stimmte, und die konkrete
+ * Aussage hing trotzdem an einem Fachartikel.
+ *
+ * Presse bleibt als **Wegweiser** erlaubt und ist es ausdruecklich: Ein
+ * Fachartikel ist oft der schnellste Weg zur Primaerquelle. Er wird gelesen,
+ * er fuehrt zur Spezifikation, und dann wird die Spezifikation zitiert. In
+ * `quellen.json` landet er nie. Dass die Regel nicht an Vorsatz haengt,
+ * sondern an diesem Enum, ist Absicht — eine Regel, die sich nicht
+ * ausdruecken laesst, laesst sich nicht brechen.
+ *
+ * **`messung` ist raus.** Sie war per Konstruktion unerreichbar: Die
+ * `produktionsregel` verbietet Aussagen aus eigener Produkterfahrung, wir
+ * benutzen also nie etwas selbst und koennen nie messen. Was wir sehr wohl
+ * messen — Sprechtempo, Bitrate, Dateigroesse — sind interne Kennzahlen und
+ * keine Aussagen im Video. Eine Art, die niemand je vergeben kann, sieht im
+ * Enum aus wie eine Option und ist keine.
+ *
+ * **`rechtsprechung` ist dazugekommen.** Ein Urteil gilt anders als eine
+ * Verordnung, und die Rubrik Kaufen braucht es regelmaessig — LG Erfurt und
+ * BGH standen bisher nur in Projektkommentaren, nicht als Beleg.
+ */
+export const QuellenArt = z.enum(['standard', 'behoerde', 'rechtsprechung', 'hersteller', 'plattform']);
+export type QuellenArt = z.infer<typeof QuellenArt>;
+
+/**
+ * Quellen, die **kein eigenes Interesse** am Inhalt der Aussage haben.
+ *
+ * Der Unterschied ist nicht Qualitaet, sondern Rolle. Ein Hersteller ist die
+ * beste Adresse fuer sein eigenes Datenblatt und eine schlechte fuer die
+ * Frage, woran es liegt, dass etwas nicht funktioniert. Am 14.08.2026 stand
+ * der WLAN-Short auf TP-Link, TP-Link und Intel: „Dein Router ist nicht zu
+ * alt" — belegt vom Routerhersteller und vom Funkmodulhersteller.
+ *
+ * Dieselbe Doppelrolle hat `plattform`: YouTube ist die Autoritaet fuer die
+ * eigenen Regeln und zugleich der Beteiligte.
+ */
+export const UNBETEILIGTE_ARTEN = ['standard', 'behoerde', 'rechtsprechung'] as const;
+
+/**
  * Belegpflicht: Jede technische Kernaussage braucht eine Hersteller- oder
  * Standardquelle. Das ist die Produktionsregel aus der Markenstrategie,
  * hier technisch erzwungen statt nur aufgeschrieben.
@@ -71,7 +119,7 @@ export const Quelle = z.object({
   herausgeber: z.string(),
   /** Wann zuletzt geprueft. Preise und Spezifikationen altern. */
   geprueftAm: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  art: z.enum(['hersteller', 'standard', 'behoerde', 'plattform', 'messung', 'presse']),
+  art: QuellenArt,
   /**
    * Nur gesetzt, wenn die Quelle **systemspezifisch** ist.
    *

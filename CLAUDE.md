@@ -9,6 +9,7 @@ Ausgaben sind deutsch.
 ```
 npm run pruefen           # tsc --noEmit && Schemaprüfung der Daten
 npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
+npm run belege            # stellt Sprechtext und Zitat nebeneinander
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
@@ -149,6 +150,55 @@ Bau am 13.08.2026 hatte ein Modell zwei Zitate als „exakt vorhanden" gemeldet,
 die es nicht waren — es hatte Anführungszeichen weggeglättet. Ein Modell die
 Behauptung eines Modells prüfen zu lassen ist keine Prüfung, sondern eine
 zweite Meinung.
+
+### Welche Quellen es gibt — und welche nicht (14.08.2026)
+
+`QuellenArt` ist auf fünf Arten geschnitten, in zwei Rängen:
+
+| Rang | Arten | Rolle |
+|---|---|---|
+| **unbeteiligt** | `standard`, `behoerde`, `rechtsprechung` | dürfen eine Aussage allein tragen |
+| **beteiligt** | `hersteller`, `plattform` | autoritativ fürs eigene Datenblatt, interessiert am Rest |
+
+**`presse` ist nicht mehr eintragbar**, nicht bloß heruntergestuft. Vorher
+stand sie im Enum und war nur aus `OFFIZIELLE_ARTEN` ausgenommen — eine
+Pressequelle durfte also in `quellen.json` stehen und über `quelleId` eine
+Szene belegen, solange drei offizielle daneben die Zählung erfüllten. Die Zahl
+stimmte, die konkrete Aussage hing am Fachartikel. Presse bleibt als
+**Wegweiser** ausdrücklich erlaubt: lesen, zur Primärquelle folgen, die
+Primärquelle zitieren. In `quellen.json` landet sie nie — und dass das nicht
+an Vorsatz hängt, sondern am Enum, ist die Absicherung. Eine Regel, die sich
+nicht ausdrücken lässt, lässt sich nicht brechen.
+
+**`messung` ist raus**, weil sie per Konstruktion unerreichbar war: Die
+`produktionsregel` verbietet Aussagen aus eigener Produkterfahrung, wir
+benutzen also nie etwas selbst. Was wir messen — Sprechtempo, Bitrate — sind
+interne Kennzahlen, keine Aussagen im Video.
+
+**`rechtsprechung` ist dazugekommen.** Ein Urteil gilt anders als eine
+Verordnung, und Kaufen braucht es regelmäßig.
+
+**Mindestens eine unbeteiligte Quelle je Short** (`beleg`, Fehler). Die
+Drei-Quellen-Regel zählte nur: Der WLAN-Short ging sauber durch und stand auf
+TP-Link, TP-Link und Intel — „dein Router ist nicht zu alt", belegt vom
+Routerhersteller. Er trägt jetzt die Allgemeinzuteilung der Bundesnetzagentur,
+in der die gemeinsame Nutzung des Bandes ausdrücklich steht.
+
+### `npm run belege` — die Prüfung, die kein Skript machen kann
+
+`quellen-pruefen` beantwortet eine Frage: Steht das Zitat auf der Seite? Die
+zweite beantwortet es ausdrücklich nicht — **trägt das Zitat den Satz, den wir
+darauf bauen?** Das Feld heißt `stuetzt` und wird nie geprüft.
+
+Dort sitzt der teuerste Fehler dieses Projekts: Am 14.08.2026 stand im
+Kabel-Short eine Aussage, deren Quelle existierte, deren Zitat wirklich auf der
+Seite stand — und die von keiner der drei Quellen getragen wurde. Falsch war
+die Folgerung dazwischen. Kein Schema, keine Zeichenkettensuche und kein
+zweites Modell hätte das gefunden.
+
+`belege.html` stellt links den Sprechtext und rechts das wörtliche Zitat samt
+Folgerung, mit Art und Herausgeber der Quelle. **Vor der Vertonung** — eine
+falsche Folgerung, die erst in der Freigabe auffällt, ist schon bezahlt.
 
 Praktische Folgen aus demselben Tag:
 

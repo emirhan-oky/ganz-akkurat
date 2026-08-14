@@ -332,6 +332,26 @@
           "stuetzt": "Der Unterschied zwischen 60 und 100 Watt liegt allein in der Stromstärke – die Spannung bleibt gleich."
         }
       ]
+    },
+    {
+      "id": "bnetza-wlan-24ghz-allgemeinzuteilung",
+      "titel": "Allgemeinzuteilung WLAN 2,4 GHz bis 2033 (Vfg. 128/2023)",
+      "url": "https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/Allgemeinzuteilungen/_DL/MobilfunkDectWlanCBFunk/2013_10_WLAN_2,4GHz_pdf.pdf?__blob=publicationFile&v=2",
+      "herausgeber": "Bundesnetzagentur",
+      "geprueftAm": "2026-08-14",
+      "art": "behoerde",
+      "abrufart": "manuell",
+      "abrufhinweis": "PDF: Der Text liegt in komprimierten Streams, ein Abruf liefert keine durchsuchbare Zeichenkette.",
+      "belegt": [
+        {
+          "zitat": "Es besteht kein Schutz vor Beeinträchtigungen durch andere",
+          "stuetzt": "Das 2,4-GHz-Band ist per Zuteilung ein geteiltes Band. Gegenseitige Störungen sind darin vorgesehen und hinzunehmen – sie sind kein Defekt."
+        },
+        {
+          "zitat": "Die Bundesnetzagentur übernimmt keine Gewähr für eine Mindestqualität",
+          "stuetzt": "Wer auf 2,4 GHz funkt, hat keinen Anspruch auf eine bestimmte Geschwindigkeit – auch nicht mit neuem Router."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

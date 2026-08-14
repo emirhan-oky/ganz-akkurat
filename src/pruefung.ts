@@ -1,5 +1,6 @@
 import {
   RUBRIKEN,
+  UNBETEILIGTE_ARTEN,
   Rubrik,
   SYSTEME,
   VERTIEFUNGEN,
@@ -87,11 +88,19 @@ const KENNZEICHNUNGSWORT = /\b(werbung|anzeige|werbepartner)\b/i;
 /**
  * Quellenarten, die auf die Drei-Quellen-Regel zaehlen.
  *
- * `presse` fehlt bewusst: Ein Fachartikel referiert bestenfalls das, was im
- * Datenblatt steht, und altert schneller als die Spezifikation selbst. Er
- * darf einen Short ergaenzen — tragen darf er ihn nicht.
+ * Seit dem 14.08.2026 sind das **alle** Arten, die es noch gibt: `presse` und
+ * `messung` stehen nicht mehr im Enum und lassen sich gar nicht erst
+ * eintragen (Begruendung bei `QuellenArt` in `src/typen.ts`). Diese Menge
+ * bleibt trotzdem stehen — sie ist der Ort, an dem eine kuenftige Art
+ * eingeordnet werden muss, statt still mitzuzaehlen.
  */
-const OFFIZIELLE_ARTEN = new Set<Quelle['art']>(['hersteller', 'standard', 'behoerde', 'plattform', 'messung']);
+const OFFIZIELLE_ARTEN = new Set<Quelle['art']>([
+  'standard',
+  'behoerde',
+  'rechtsprechung',
+  'hersteller',
+  'plattform',
+]);
 
 /**
  * Technische Zahl mit Einheit.
@@ -270,12 +279,40 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   });
 
   if (offizielle.length < 3) {
-    const presse = short.quellenIds.length - offizielle.length;
+    melde('fehler', 'beleg', `Nur ${offizielle.length} von 3 offiziellen Quellen.`);
+  }
+
+  /*
+   * Mindestens eine Quelle ohne eigenes Interesse an der Aussage.
+   *
+   * Die Drei-Quellen-Regel zaehlt nur. Am 14.08.2026 fiel auf, dass der
+   * WLAN-Short damit sauber durchging und trotzdem auf TP-Link, TP-Link und
+   * Intel stand: „Dein Router ist nicht zu alt", belegt vom Routerhersteller
+   * und vom Hersteller der Funkmodule. Zur Frage, wie sich ein Funkband
+   * unter Nachbarn aufteilt, ist ein Anbieter nicht die zustaendige Instanz —
+   * das ist der Standard oder die Bundesnetzagentur.
+   *
+   * Bewusst schwach formuliert: **eine** reicht. Der Hersteller bleibt die
+   * beste Adresse fuer sein eigenes Datenblatt, und ein Short, der ein
+   * konkretes Geraeteverhalten erklaert, soll ihn weiter tragen duerfen. Was
+   * die Regel verhindert, ist der Short, der **ausschliesslich** von
+   * Beteiligten getragen wird.
+   */
+  const unbeteiligte = short.quellenIds.filter((id) => {
+    const quelle = quellen.find((q) => q.id === id);
+    return quelle && (UNBETEILIGTE_ARTEN as readonly string[]).includes(quelle.art);
+  });
+
+  if (short.quellenIds.length > 0 && unbeteiligte.length === 0) {
+    const beteiligte = short.quellenIds
+      .map((id) => quellen.find((q) => q.id === id))
+      .filter((q): q is Quelle => Boolean(q))
+      .map((q) => `${q.herausgeber} (${q.art})`);
     melde(
       'fehler',
       'beleg',
-      `Nur ${offizielle.length} von 3 offiziellen Quellen` +
-        (presse > 0 ? ` (${presse}× Presse zählt nicht mit).` : '.'),
+      `Alle Quellen sind am Inhalt beteiligt: ${beteiligte.join(', ')}. ` +
+        'Mindestens eine muss aus Standard, Behörde oder Rechtsprechung kommen.',
     );
   }
 
