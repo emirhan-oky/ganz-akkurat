@@ -104,7 +104,7 @@ export const wlanAbends: Short[] = [
           bewertung: 'nein',
         },
         sprechtext:
-          'Vormittags ist das Haus leer und das Band gehört fast dir. Abends sind alle gleichzeitig online — und funken auf denselben Kanälen. Dein Router wird nicht langsamer. Er kommt nur seltener dran.',
+          'Vormittags ist das Haus leer und das Band gehört fast dir. Abends sind deine Nachbarn alle gleichzeitig online — und funken auf denselben Kanälen. Dein Router wird nicht langsamer. Er kommt nur seltener dran.',
       },
       {
         /*

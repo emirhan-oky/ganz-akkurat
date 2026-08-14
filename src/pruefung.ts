@@ -119,6 +119,22 @@ const ZAHL_MIT_EINHEIT =
 /** Szenenarten, die eine Zahl sichtbar machen. */
 const ZEIGT_ZAHLEN = new Set<string>(['zahl', 'herleitung']);
 
+/**
+ * Felder, die zwar Zeichenketten enthalten, aber nie gesprochen oder gezeigt
+ * werden.
+ *
+ * `quelleId` ist eine Kennung, kein Text. Am 14.08.2026 hielt die
+ * `produktname`-Regel den Dock-Short zurueck, weil in einer Szene
+ * `quelleId: 'plugable-altmode'` stand und „plugable" in `ZUBEHOERMARKEN`
+ * steht. Im Video faellt der Name nie — er zeigt auf die Quelle, und Quellen
+ * *sind* oft Hersteller. Die Regel prueft, was der Zuschauer hoert und sieht;
+ * eine Kennung gehoert nicht dazu.
+ *
+ * `geraet` und `symbol` sind aus demselben Grund ausgenommen: Sie waehlen
+ * eine Zeichnung aus, sie sind kein Text.
+ */
+const KEIN_SICHTBARER_TEXT = new Set(['quelleId', 'geraet', 'symbol', 'art']);
+
 /** Alle Zeichenketten einer Szene — Sprechtext wie sichtbarer Text. */
 const textwerte = (wert: unknown): string[] =>
   typeof wert === 'string'
@@ -126,7 +142,9 @@ const textwerte = (wert: unknown): string[] =>
     : Array.isArray(wert)
       ? wert.flatMap(textwerte)
       : wert && typeof wert === 'object'
-        ? Object.values(wert).flatMap(textwerte)
+        ? Object.entries(wert)
+            .filter(([schluessel]) => !KEIN_SICHTBARER_TEXT.has(schluessel))
+            .flatMap(([, v]) => textwerte(v))
         : [];
 
 /* ───────────────────────────── Titel ─────────────────────────────── */
