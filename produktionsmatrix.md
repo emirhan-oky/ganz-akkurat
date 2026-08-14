@@ -92,17 +92,53 @@ kaputt", nicht „Du machst es falsch". Der Ton darf zugespitzt und humorvoll
 sein — die Tatsache muss von den Quellen getragen sein. Wie der Humor
 aussieht, steht weiter unten.
 
-**Der Titel nennt die Sache, nicht nur die Entwarnung.** Das war am
-14.08.2026 der Befund über alle fünf Titel: Jeder sagte Situation und
-Entwarnung, keiner sagte, worum es geht.
+**Der Titel schließt die Lücke, die er selbst öffnet — und sonst nichts.**
+
+Das ist die zweite Fassung dieser Regel. Die erste hieß „der Titel nennt die
+Sache", und sie war zu grob: als Quote angewandt statt als Diagnose. Die Sache
+in jeden Titel zu zwingen macht ihn nicht besser, sondern nimmt ihm den Grund,
+angesehen zu werden.
+
+Die Lücke ist nicht immer dieselbe:
+
+| Lücke | Die Frage, die offen bleibt | Beispiel |
+|---|---|---|
+| **Kontext** | Wann betrifft mich das? | „Am Gate zählt eine andere Zahl" — Flug? Powerbank? |
+| **Auflösung** | Was denn stattdessen? | „Du brauchst kein neues Netzteil" — sondern? |
+| **keine** | — | „Dock lädt, aber kein Bild" — jeder weiß sofort, ob ihn das betrifft |
+
+Der Prüfstein: **Kann jemand, der nur den Titel sieht, sagen, wann ihn das
+betrifft?** Ja → die Entwarnung reicht, den Rest liefert das Video. Nein →
+das Fehlende gehört hinein.
 
 ```
-vorher   In 10 Sekunden: Du brauchst kein neues Netzteil
-nachher  Notebook lädt langsam? Das Netzteil kann 100 Watt, das Kabel 60.
+Kontext fehlt      vorher   Am Gate zählt eine andere Zahl
+                   nachher  Deine Powerbank rechnet in mAh. Die Luftfahrtbehörde nicht.
+
+Auflösung fehlt    vorher   In 10 Sekunden: Du brauchst kein neues Netzteil
+                   nachher  Das Netzteil kann 100 Watt. Das Kabel lässt 60 durch.
+
+nichts fehlt       vorher   Dock lädt, kein Bild: Dein Monitor ist unschuldig, der Anschluss nicht
+                   nachher  Dock lädt, aber kein Bild: Dein Monitor ist unschuldig
 ```
 
-Das war der schlimmste Fall: Der Titel nannte das Netzteil, das Video handelt
-vom Kabel.
+Das mittlere war der schlimmste Fall: Der Titel nannte das Netzteil, das Video
+handelt vom Kabel. Das untere ist der **umgekehrte** Fehler und der subtilere —
+„der Anschluss nicht" beantwortet die Frage schon im Titel und gibt damit den
+Grund aus, das Video anzusehen.
+
+**Wann welche Lücke auftritt, sagt die Rubrik.** Der Schnitt steht ohnehin
+schon im Datenvertrag: Sobald eine Vorschrift oder eine Landesgrenze
+mitentscheidet, ist es Reise. Genau dort muss der Ort in den Titel — bei
+Powerbanks entscheidet der Flughafen, und ohne ihn ist die Umrechnung eine
+Rechenübung ohne Anlass. Wo das Gerät auf dem Tisch steht, erschließt sich der
+Kontext von selbst.
+
+| Rubrik | Kontext im Titel? |
+|---|---|
+| `schreibtisch`, `zuhause`, `unterwegs` | meist nein — die Situation kennt jeder |
+| `reise` | **immer** — ein Ort oder eine Vorschrift entscheidet mit |
+| `kaufen` | nur wenn der Anlass nicht im Alltag liegt |
 
 ### Der Humor ist die Wendung, keine vierte Zutat
 
@@ -146,11 +182,11 @@ keine Witze, die er erfinden müsste.
 
 **Nachträglich gelernt:** „Dock lädt, aber kein Bild: Dein Monitor ist nicht
 kaputt" war angenehmer als die rein sachliche Fassung „nicht der Monitor, der
-USB-C-Anschluss" — obwohl die zweite mehr Information trug. Der Unterschied
-war die Wärme der Entwarnung, die die sachliche Fassung wegoptimiert hatte.
-Die jetzige Fassung hat beides: „Dock lädt, kein Bild: Dein Monitor ist
-unschuldig, der Anschluss nicht". *Unschuldig* trägt die Entwarnung, der
-Nachsatz die Sache, und der Freispruch ist die Wendung.
+USB-C-Anschluss" — obwohl die zweite mehr Information trug. Weggefallen war die
+Wärme der Entwarnung. Ein Nachsatz mit der Sache („…, der Anschluss nicht")
+holte sie nicht zurück, sondern machte es schlimmer: Er beantwortet die Frage
+im Titel. Geblieben ist „Dock lädt, aber kein Bild: Dein Monitor ist
+unschuldig" — *unschuldig* trägt Entwarnung und Wendung in einem Wort.
 
 **Prüfbar sind davon zwei Drittel** (`src/pruefung.ts`): kein Ausrufezeichen,
 kein Emoji, keine Konfrontation gegen den Zuschauer. Ob eine Wendung sitzt,

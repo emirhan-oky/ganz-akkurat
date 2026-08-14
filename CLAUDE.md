@@ -110,18 +110,27 @@ Freigabe-Übersicht.
 - Ein Verweis nach draußen (`VERWEIS_NACH_DRAUSSEN`) erzwingt
   `werbung: 'video'`. Die Regel gilt nur in diese Richtung — ein Label ohne
   Verweis ist die vorsichtige Wahl, kein Fehler.
-- **`titel`** — der Titel muss **die Sache nennen**, nicht nur die Entwarnung.
-  Geprüft an den drei veröffentlichten Titeln (`texte[dienst].titel`), nicht am
-  `arbeitstitel`: Er darf nicht der Hooktext sein, muss mindestens ein Sachwort
-  tragen, das die Hook nicht sagt, und darf **nichts nennen, was im Video nicht
-  vorkommt** — die Belegpflicht, auf den Titel angewandt. Dazu die Form des
-  Titelmusters am `arbeitstitel` (`zweisatz` zwei Sätze, `verdaechtiger` eine
-  Verneinung, `uhr` eine Zahl), sonst wäre `titelmuster` ein Feld ohne Wirkung.
-  Dazu die zwei prüfbaren Teile der Humor-Regel: kein Ausrufezeichen, kein
-  Emoji, keine Konfrontation gegen den Zuschauer.
-  Anlass war der 14.08.2026: Alle fünf Titel sagten Situation und Entwarnung,
-  keiner die Sache — und einer nannte die falsche („kein neues Netzteil" über
-  einem Video, das vom Kabel handelt). Einzelheiten in `produktionsmatrix.md`.
+- **`titel`** — der Titel **schließt die Lücke, die er selbst öffnet**, und
+  sonst nichts. Prüfstein: Kann jemand, der nur den Titel sieht, sagen, wann
+  ihn das betrifft? Ja → die Entwarnung reicht. Nein → das Fehlende gehört
+  hinein, und je nach Fall ist das der **Kontext** („Am Gate zählt eine andere
+  Zahl" — Flug? Powerbank?) oder die **Auflösung** („kein neues Netzteil" —
+  sondern?). Wann was fehlt, sagt die Rubrik: Bei `reise` entscheidet ein Ort
+  oder eine Vorschrift mit, der gehört immer in den Titel; wo das Gerät auf dem
+  Tisch steht, erschließt sich der Kontext von selbst.
+  Geprüft wird an den drei veröffentlichten Titeln (`texte[dienst].titel`),
+  nicht am `arbeitstitel`: Er darf nicht der Hooktext sein, muss mindestens ein
+  Sachwort tragen, das die Hook nicht sagt, und darf **nichts nennen, was im
+  Video nicht vorkommt** — die Belegpflicht, auf den Titel angewandt. Dazu die
+  Form des Titelmusters am `arbeitstitel` (`zweisatz` zwei Sätze,
+  `verdaechtiger` eine Entlastung, `uhr` eine Zahl), sonst wäre `titelmuster`
+  ein Feld ohne Wirkung, und die zwei prüfbaren Teile der Humor-Regel: kein
+  Ausrufezeichen, kein Emoji, keine Konfrontation gegen den Zuschauer.
+  **Die erste Fassung der Regel hieß „der Titel nennt die Sache" und war zu
+  grob** — als Quote angewandt statt als Diagnose. Die Sache in jeden Titel zu
+  zwingen nimmt ihm den Grund, angesehen zu werden: „Dein Monitor ist
+  unschuldig, der Anschluss nicht" beantwortet die Frage schon im Titel.
+  Einzelheiten in `produktionsmatrix.md`.
 
 ## Quellen
 

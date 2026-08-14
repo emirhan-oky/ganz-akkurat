@@ -224,9 +224,16 @@ const musterFormfehler = (muster: Titelmuster, titel: string): string | null => 
         : 'zwei Sätze, die sich widersprechen – hier steht nur einer.';
     }
     case 'verdaechtiger':
-      return /\b(nicht|kein|keine|keinen|keinem|keiner|nie|niemals)\b/i.test(titel)
+      /*
+       * Gesucht ist die **Entlastung**, nicht die Verneinung. Anfangs stand
+       * hier nur eine Liste von Verneinungswoertern, und „Dein Monitor ist
+       * unschuldig" waere durchgefallen — dabei ist das der Freispruch in
+       * Reinform. Ein Wort, das entlastet, erfuellt das Muster auch ohne
+       * „nicht".
+       */
+      return /\b(nicht|kein\w*|nie|niemals|unschuldig|entlastet|kann nichts dafür)\b/i.test(titel)
         ? null
-        : 'der Verdächtige wird entlastet – dafür fehlt die Verneinung.';
+        : 'der Verdächtige wird entlastet – dafür fehlt die Entlastung.';
     case 'uhr':
       return /\d/.test(titel)
         ? null
