@@ -1,17 +1,17 @@
 {
   "_hinweis": "Themenpool. Das Oberthema der Marke ist immer 'Setup'. Die 'rubrik' ist der Sendeplatz und eine GESCHLOSSENE Liste (siehe Rubrik in src/typen.ts): schreibtisch, unterwegs, reise, zuhause, kaufen. Ein Wochenlauf nimmt FUENF Themen - eines je Rubrik - und macht aus jedem EINEN Short. Die 'winkel' eines Themas sind damit keine fuenf Videos mehr, sondern Alternativen, aus denen einer gewaehlt wird; die uebrigen bleiben Vorrat. Ein Thema wird erst 'bereit', wenn jede seiner Kernaussagen durch einen Eintrag in quellen.json gedeckt ist.",
   "_rubrikwechsel": "powerbank-flug stand vorher unter 'Unterwegs' und ist jetzt 'reise': Sobald eine Vorschrift oder eine Landesgrenze mitentscheidet, ist es Reise. Das ist der Schnitt zwischen den beiden Rubriken.",
+  "_grenze": "Diese Datei wird von KEINEM Skript gelesen. Sie ist Vorrat und Notizbuch, keine Quelle der Wahrheit. Was laeuft, steht in daten/entwuerfe/index.ts; welche Quellen ein Short traegt, steht an seinen Szenen. Am 14.08.2026 aufgeraeumt: Zwei Verweise zeigten auf Apple-Supportseiten, die aus quellen.json entfernt wurden, weil sie ihren Inhalt nachladen und beim Abruf nur die Kopfzeile liefern. Nicht aufgeraeumt: kabel-watt, wlan-abends und garantie-gewaehrleistung laufen als Shorts, standen hier aber nie - die Liste ist unvollstaendig und war es immer.",
   "themen": [
     {
       "id": "dock-kein-bild",
       "rubrik": "schreibtisch",
-      "status": "bereit",
+      "status": "produziert",
+      "_produziert": "Der laufende Short steht in daten/entwuerfe/dock-kein-bild.ts. Dessen quellenIds sind die Wahrheit; die hier sind der Vorrat fuer die uebrigen Winkel.",
       "titel": "Dock lädt, aber kein Bild",
       "kernfrage": "Warum bleibt der Monitor schwarz, obwohl das Dock funktioniert?",
       "quellenIds": [
-        "apple-displays-mba",
         "displaylink-macos-grenzen",
-        "apple-display-fehlerbehebung",
         "displaylink-kopierschutz"
       ],
       "winkel": [
@@ -81,12 +81,11 @@
     {
       "id": "powerbank-flug",
       "rubrik": "reise",
-      "status": "bereit",
+      "status": "produziert",
+      "_produziert": "Der laufende Short steht in daten/entwuerfe/powerbank-flug.ts und traegt seit dem 13.08.2026 drei Behoerden aus drei Rechtsraeumen: lba-lithiumbatterien, easa-lithium-handgepaeck, faa-lithium-grenzwerte.",
       "titel": "Powerbank im Flugzeug",
       "kernfrage": "Welche Powerbank darf mit an Bord, und was muss man vorher tun?",
-      "quellenIds": [
-        "lba-lithiumbatterien"
-      ],
+      "quellenIds": [],
       "winkel": [
         {
           "id": "niemals-in-den-koffer",

@@ -301,10 +301,12 @@ auffallen:
   stehen — an der einen Stelle, die dafür da ist, nichts zurückzulassen.
 
 **Alle vier Punkte aus `offene-punkte.md` sind besprochen und entschieden
-(12.08.2026). Im Code steht davon bisher nur die Rubrik-Umstellung.** Die
-Aufgabenliste für den Rest steht am Ende von `offene-punkte.md` — dort
-nachlesen, bevor irgendetwas an Themen, Titeln oder Produktdarstellung
-geändert wird. Kurzfassung der Beschlüsse:
+(12.08.2026) und stehen seit dem 14.08.2026 im Code** — Rubriken, Titelmuster,
+`system`, Vertiefung, die gezeichneten Symbole. Offen sind nur noch zwei
+Zeichenbausteine (Anschlussleiste, Größenvergleich); die Aufgabenliste am Ende
+von `offene-punkte.md` führt sie und ist der Stand. Dort nachlesen, bevor
+irgendetwas an Themen, Titeln oder Produktdarstellung geändert wird.
+Kurzfassung der Beschlüsse:
 
 - **Titel und Hook** folgen einem von drei Mustern (`verdaechtiger`, `uhr`,
   `zweisatz`). Der Hebel ist **Entwarnung**, nicht Konfrontation — „Dein
