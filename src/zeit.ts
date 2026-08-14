@@ -44,13 +44,6 @@ const PAUSE_NACH_SZENE_SEK = 0.32;
 /** Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der Text ist. */
 const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   hook: 1.8,
-  /**
-   * Der Teaser ist bewusst die kuerzeste Szene des Videos. Er verspricht nur
-   * und liefert nichts — jede Sekunde darueber hinaus schiebt den Inhalt
-   * weiter nach hinten, und wer zu lange ankuendigt, verliert genau die
-   * Leute, die er halten will.
-   */
-  teaser: 2.6,
   aussage: 1.6,
   zahl: 2.2,
   vergleich: 4.0,
@@ -169,11 +162,10 @@ export const LAENGE_SEK = {
   /**
    * Zielfenster mit Vertiefung: traegt eine Struktur, braucht den Platz.
    *
-   * Die Obergrenze stand bis zum 13.08.2026 auf 90 und ist auf 95 gegangen,
-   * als der `teaser` dazukam — er kostet rund drei Sekunden, und danach lagen
-   * drei von fuenf Shorts nur noch zwei Sekunden unter der Grenze. Bei einer
-   * Vertonung, die zwischen Laeufen um sechs Prozent schwankt, haelt das
-   * nicht: Derselbe Text ergab einmal 75,3 und einmal 70,5 Sekunden.
+   * Die Obergrenze stand bis zum 13.08.2026 auf 90. Der Grund fuer die 95 ist
+   * die Streuung der Vertonung: Derselbe Text ergab bei zwei Laeufen 75,3 und
+   * 70,5 Sekunden, also rund sechs Prozent oder fuenf Sekunden. Wer bei 90
+   * baut, faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
    *
    * **95 ist Spielraum, nicht das neue Ziel.** Die Absicht ist ausdruecklich,
    * die Laenge ueber die Zeit wieder zu druecken — aber ueber Straffung, nie

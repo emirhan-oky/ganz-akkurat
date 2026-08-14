@@ -40,20 +40,6 @@ export const garantieGewaehrleistung: Short[] = [
           'Das Gerät geht kaputt, du rufst an, und am Telefon heißt es: Die Garantie ist leider abgelaufen. Da können wir nichts machen.',
       },
       {
-        /*
-         * Vertiefung `grenzfall`: Der Teaser kuendigt den Haken an, nicht die
-         * Regel. Genau darin liegt der Zug — wer hoert, dass es einen Haken
-         * gibt, will wissen, welchen, und die Regel davor bekommt er
-         * unterwegs mit.
-         */
-        art: 'teaser',
-        vorspann: 'Gleich im Video',
-        text: 'Der Haken nach zwölf Monaten',
-        nutzen: 'Den nennt am Telefon niemand von allein',
-        verweistAuf: 'einschraenkung',
-        sprechtext: 'Und am Ende der Haken, den kaum jemand nennt.',
-      },
-      {
         art: 'aussage',
         text: 'Garantie ist freiwillig — Gewährleistung steht im Gesetz.',
         hervorhebung: 'freiwillig',
@@ -87,9 +73,8 @@ export const garantieGewaehrleistung: Short[] = [
           bewertung: 'achtung',
         },
         sprechtext:
-          // Gestrafft am 13.08.2026: Der Teaser kostet drei Sekunden, und der
-          // Short lag danach ueber dem Fenster. Der letzte Satz stand als
-          // Aussage schon in der Szene davor.
+          // Gestrafft am 13.08.2026: Der letzte Satz („sagt das ueber deine
+          // Rechte gar nichts") stand als Aussage schon in der Szene davor.
           'Die Gewährleistung schuldet dir immer der Verkäufer, bei dem du gekauft hast. Die Garantie kommt meistens vom Hersteller und hat die Bedingungen, die er sich ausgesucht hat.',
       },
       {
@@ -116,9 +101,7 @@ export const garantieGewaehrleistung: Short[] = [
         folge: 'Danach musst du zeigen, dass der Mangel von Anfang an da war — und das ist schwer',
         quelleId: 'bgb-477-beweislast',
         sprechtext:
-          // Der Teaser hat den Haken bereits angekuendigt, die Szene muss ihn
-          // nicht noch einmal anmoderieren.
-          'Zeigt sich der Fehler im ersten Jahr, wird vermutet, dass er von Anfang an da war. Du musst nichts beweisen. Danach dreht sich das um: Dann liegt es an dir zu zeigen, dass der Mangel schon beim Kauf angelegt war. Die zwei Jahre gelten weiter — nur werden sie schwerer durchzusetzen.',
+          'Aber jetzt der Teil, den kaum jemand sagt. Zeigt sich der Fehler im ersten Jahr, wird vermutet, dass er von Anfang an da war. Du musst nichts beweisen. Danach dreht sich das um: Dann liegt es an dir zu zeigen, dass der Mangel schon beim Kauf angelegt war. Die zwei Jahre gelten weiter — nur werden sie schwerer durchzusetzen.',
       },
       {
         /*

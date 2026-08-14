@@ -128,30 +128,6 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const melde = (stufe: Befund['stufe'], regel: string, text: string) =>
     befunde.push({ stufe, shortId: short.id, regel, text });
 
-  /* ── Teaser, wo die Vertiefung ihn vorsieht ──────────────────────── */
-
-  /*
-   * Ein Hinweis, kein Fehler. Ob ein Video den Zuschauer haelt, ist eine
-   * handwerkliche Frage und keine rechtliche — hart sind in diesem Projekt
-   * nur Regeln, die rechtlich oder faktisch begruendet sind.
-   *
-   * Die Gegenrichtung wird bewusst **nicht** gemeldet: Ein Teaser bei einer
-   * Fehlspur ist ueberfluessig, aber nicht falsch. Wer ihn dort setzen will,
-   * soll es koennen.
-   */
-  if (short.vertiefung) {
-    const empfohlen = VERTIEFUNGEN[short.vertiefung].teaser;
-    const hatTeaser = short.szenen.some((s) => s.art === 'teaser');
-    if (empfohlen && !hatTeaser) {
-      melde(
-        'hinweis',
-        'teaser',
-        `Vertiefung „${VERTIEFUNGEN[short.vertiefung].titel}" trägt einen Teaser hinter der Hook — ` +
-          `im Muster „${empfohlen.muster}". Ohne ihn fehlt der Grund, die ersten Sekunden zu überstehen.`,
-      );
-    }
-  }
-
   /* ── Belegpflicht ────────────────────────────────────────────────── */
 
   const bekannteIds = new Set(quellen.map((q) => q.id));
@@ -688,13 +664,8 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
   /*
    * Hook und Schlusskarte schreibt das Schema jedem Short vor. Sie zu zaehlen
    * hiesse, den Pflichtaufbau als Einfallslosigkeit zu melden.
-   *
-   * `teaser` steht aus demselben Grund dabei: Welche Shorts einen tragen,
-   * entscheidet die Vertiefung ueber `VERTIEFUNGEN`, nicht der Einfall des
-   * Tages. Ihn zu zaehlen hiesse, eine Strukturvorgabe als Wiederholung zu
-   * melden — und der Hinweis waere jede Woche derselbe.
    */
-  const VORGESCHRIEBEN = new Set<string>(['hook', 'endkarte', 'kaufkriterien', 'teaser']);
+  const VORGESCHRIEBEN = new Set<string>(['hook', 'endkarte', 'kaufkriterien']);
 
   const proArt = new Map<string, Set<string>>();
   for (const short of shorts) {

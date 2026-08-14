@@ -59,14 +59,6 @@ export const kabelWatt: Short[] = [
           'Dein Notebook lädt unterwegs im Schneckentempo, obwohl das Netzteil hundert Watt kann. Also denkst du, das Netzteil ist hinüber oder zu schwach für dieses Gerät. Bevor du ein neues kaufst: zehn Sekunden, dann weißt du, woran es wirklich liegt.',
       },
       {
-        art: 'teaser',
-        vorspann: 'Gleich im Video',
-        text: 'Woraus 100 Watt entstehen',
-        nutzen: 'Danach weißt du, warum das Kabel entscheidet',
-        verweistAuf: 'herleitung',
-        sprechtext: 'Gleich rechnen wir nach, was dein Kabel wirklich kann.',
-      },
-      {
         /*
          * Die erste Merkmalskarte des Kanals: Das Kabel wird gezeigt, nicht
          * benannt. Genau die Trennung aus der Entscheidung vom 12.08.2026 —

@@ -93,41 +93,12 @@ sein — die Tatsache muss von den Quellen getragen sein.
 
 ### Die vier Vertiefungen
 
-| Vertiefung | Was sie tut | Der Moment beim Zuschauer | Teaser |
-|---|---|---|---|
-| **Fehlspur** | Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen | „Genau das dachte ich auch." | **keiner** |
-| **Herleitung** | Die Zahl wird vor seinen Augen gerechnet, nicht behauptet | „Das kann ich jetzt selbst ausrechnen." | „Eine Rechnung, dann kannst du es selbst." |
-| **Grenzfall** | Die Regel nennt ihre eigene Ausnahme | „Der weiß, wovon er redet." | „Am Ende der Haken, den kaum jemand nennt." |
-| **Folgekosten** | Was du aufgibst, wenn du die Lösung nimmst | „Ah, es ist nicht umsonst." | „Was es dich kostet, kommt zum Schluss." |
-
-### Der Teaser
-
-Eine kurze Szene direkt hinter der Hook, rund drei Sekunden, die ankündigt,
-was noch kommt. Der Zweck ist Verweildauer: Bei einem Short von achtzig
-Sekunden entscheidet nicht der Titel, ob jemand bleibt, sondern ob er nach
-fünf Sekunden einen Grund dazu hat.
-
-**Nur bei Shorts mit Vertiefung.** Ein Teaser kostet drei Sekunden — bei
-einem tiefen Short sind das vier Prozent, bei einem knappen ohne Vertiefung
-wären es acht, und zwar bei einem Video, dessen ganzer Zweck ist, *eine*
-Sache schnell zu sagen.
-
-**Die Fehlspur bekommt keinen**, und das ist kein Verzicht: Sie nennt zwei
-Verdächtige und streicht beide durch — danach steht die Frage „was denn dann?"
-von allein im Raum, stärker als ein Satz sie stellen könnte. Ein Versprechen
-davor wäre doppelt und nähme die Spannung vorweg.
-
-**`verweistAuf` bindet das Versprechen.** Der Teaser nennt die Szenenart, die
-ihn einlöst, und das Schema verlangt, dass diese Szene später wirklich kommt.
-Ohne diese Kopplung wäre der Teaser freier Text — also genau die Stelle, an
-der sich Clickbait einschleicht, nur an einem Ort, den keine Belegpflicht
-abdeckt. „Gleich zeige ich dir X" und dann kommt kein X ist derselbe Bruch
-wie eine Zahl ohne Quelle.
-
-Fehlt der Teaser, wo die Vertiefung ihn vorsieht, erscheint ein **Hinweis**,
-kein Fehler. Ob ein Video jemanden hält, ist eine handwerkliche Frage und
-keine rechtliche — hart sind in diesem Projekt nur Regeln, die rechtlich oder
-faktisch begründet sind.
+| Vertiefung | Was sie tut | Der Moment beim Zuschauer |
+|---|---|---|
+| **Fehlspur** | Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen | „Genau das dachte ich auch." |
+| **Herleitung** | Die Zahl wird vor seinen Augen gerechnet, nicht behauptet | „Das kann ich jetzt selbst ausrechnen." |
+| **Grenzfall** | Die Regel nennt ihre eigene Ausnahme | „Der weiß, wovon er redet." |
+| **Folgekosten** | Was du aufgibst, wenn du die Lösung nimmst | „Ah, es ist nicht umsonst." |
 
 ```
 Fehlspur      Erster Gedanke: Kabel kaputt.  → Neues Kabel, immer noch schwarz.
@@ -169,7 +140,7 @@ Folgekosten   Die Regel gilt — und sie kostet dich …
 | Produktname | Im Video fällt nie ein Markenname, nur Merkmale. |
 | Kennzeichnung | Partnerlink braucht „Werbung"/„Anzeige"/„Werbepartner" in derselben Zeile. |
 | Produktionsregel | Kein Sprechtext behauptet eigene Produkterfahrung. **„Test" ist ausgeschlossen.** |
-| Länge | Mit Vertiefung 75–90 s, ohne 40–60 s. |
+| Länge | Mit Vertiefung 75–95 s, ohne 40–60 s. Harte Grenze 100 s. |
 
 Alle harten Regeln sind rechtlich oder faktisch begründet, nie geschmacklich.
 Das soll so bleiben.
@@ -190,21 +161,33 @@ Der letzte Hinweis braucht Gedächtnis über die Woche hinaus — siehe unten.
 
 | | Länge | Sprechtext | Warum |
 |---|---|---|---|
-| mit Vertiefung | 75–90 s | ~1.400 Zeichen | trägt eine Struktur, braucht den Platz |
+| mit Vertiefung | 75–95 s | ~1.500 Zeichen | trägt eine Struktur, braucht den Platz |
 | ohne Vertiefung | 40–60 s | ~800 Zeichen | eine Sache, sauber gesagt, fertig |
+
+Darüber liegt eine harte Grenze bei **100 s**, die ausnahmslos gilt.
 
 Die Kopplung verhindert den eigentlichen Fehler: nicht, dass zwei Videos flach
 sind — sondern dass zwei Videos flach **und trotzdem 90 Sekunden lang** sind.
 
+**95 ist Spielraum, nicht das Ziel.** Die Obergrenze ging von 90 auf 95, weil
+die Vertonung schwankt: Derselbe Text ergab bei zwei Läufen 75,3 und 70,5
+Sekunden, rund sechs Prozent. Wer an der Kante baut, fällt beim nächsten Lauf
+heraus. Zielwert ist die Mitte. Die Absicht bleibt, die Länge über die Wochen
+wieder zu drücken — durch Straffung, nie durch Weglassen von Substanz. Sichtbar
+wird das am Wochenschnitt, den der Lauf neben dem der Vorwoche zeigt.
+
 ```
-3 × 90 s + 2 × 50 s  ≈  5.800 Zeichen/Woche  ≈  25.100/Monat
+3 × 90 s + 2 × 50 s  ≈  6.300 Zeichen/Woche  ≈  27.300/Monat
 ```
 
 ElevenLabs, `eleven_multilingual_v2`, ein Credit je Zeichen. **Der Free-Tarif
 scheidet aus** — nicht wegen des Kontingents, sondern weil ihm die kommerzielle
-Lizenz für Sprache fehlt. Starter (30.000) liefe bei 84 % Auslastung: Ein
-einziger Wiederholungslauf mit Ton kostet 5.800 Zeichen und reißt den Puffer.
-**Empfohlen: Creator (121.000).**
+Lizenz für Sprache fehlt. Starter (30.000) liefe bei über 90 % Auslastung: Ein
+einziger Wiederholungslauf mit Ton kostet einen ganzen Wochenbedarf und reißt
+den Puffer. **Gebucht: Creator (121.000), Stimme Lenny.**
+
+`npm run sprechprobe` misst die Länge vorab mit der Systemstimme und kostet
+kein Kontingent — sie gehört vor jeden Lauf mit Ton.
 
 Datei­größe ist kein Engpass — gemessen 3,4–3,65 Mbit/s, also ~41 MB bei 90 s.
 Cloudflare R2 nimmt das ohne Weiteres.

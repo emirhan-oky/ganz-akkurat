@@ -469,44 +469,8 @@ const SzeneMerkmalskarte = SzeneBasis.extend({
   quelleId: z.string().optional(),
 });
 
-/**
- * Das Versprechen auf spaeter — der offene Kreis in Textform.
- *
- * Sitzt direkt hinter der Hook und kuendigt an, was das Video noch bringt.
- * Der Zweck ist Verweildauer: Bei einem Short von rund achtzig Sekunden
- * entscheidet nicht der Titel, ob jemand bleibt, sondern ob er nach fuenf
- * Sekunden einen Grund dazu hat.
- *
- * **`verweistAuf` macht das Versprechen pruefbar.** Der Teaser nennt die
- * Szenenart, die es einloest, und `superRefine` verlangt, dass diese Szene
- * spaeter im Short wirklich vorkommt. Ohne diese Kopplung waere der Teaser
- * freier Text — also genau die Stelle, an der sich Clickbait einschleicht,
- * nur an einem Ort, den keine Belegpflicht abdeckt. „Gleich zeige ich dir X"
- * und dann kommt kein X ist derselbe Bruch wie eine Zahl ohne Quelle.
- *
- * **Nicht bei jeder Vertiefung sinnvoll.** Die Fehlspur erzeugt den offenen
- * Kreis selbst — sie nennt zwei Verdaechtige und streicht beide durch, die
- * Frage steht danach von allein im Raum. Ein Versprechen obendrauf waere
- * doppelt gemoppelt. Welche Vertiefung teasert, steht in `VERTIEFUNGEN`.
- */
-const SzeneTeaser = SzeneBasis.extend({
-  art: z.literal('teaser'),
-  /** Kleine Zeile darueber. Bewusst knapp und immer gleich gebaut. */
-  vorspann: z.string().max(28).default('Gleich im Video'),
-  /** Das Versprechen selbst, in einem Atemzug lesbar. */
-  text: z.string().max(60),
-  /** Was der Zuschauer danach kann — der Grund zu bleiben. */
-  nutzen: z.string().max(80).optional(),
-  /**
-   * Die Szenenart, die das Versprechen einloest. Muss im Short vorkommen und
-   * **nach** dem Teaser stehen — beides geprueft.
-   */
-  verweistAuf: z.string(),
-});
-
 export const Szene = z.discriminatedUnion('art', [
   SzeneHook,
-  SzeneTeaser,
   SzeneAussage,
   SzeneZahl,
   SzeneVergleich,
@@ -680,13 +644,6 @@ export const VERTIEFUNGEN: Record<
     tut: string;
     moment: string;
     signatur: readonly SzenenArt[];
-    /**
-     * Ob ein `teaser` hinter der Hook stehen soll — und worauf er verweist.
-     *
-     * `null` heisst: Diese Vertiefung braucht keinen. Das ist kein Verzicht,
-     * sondern die Einsicht, dass sie den offenen Kreis selbst erzeugt.
-     */
-    teaser: { verweistAuf: SzenenArt; muster: string } | null;
   }
 > = {
   fehlspur: {
@@ -694,39 +651,24 @@ export const VERTIEFUNGEN: Record<
     tut: 'Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen.',
     moment: 'Genau das dachte ich auch.',
     signatur: ['fehlspur'],
-    /*
-     * Kein Teaser. Die Fehlspur nennt zwei Verdaechtige und streicht beide
-     * durch — danach steht die Frage „was denn dann?" von allein im Raum,
-     * und zwar staerker, als ein Satz sie stellen koennte. Ein Versprechen
-     * davor waere doppelt und wuerde die Spannung vorwegnehmen.
-     */
-    teaser: null,
   },
   herleitung: {
     titel: 'Herleitung',
     tut: 'Die Zahl wird vor seinen Augen gerechnet, nicht behauptet.',
     moment: 'Das kann ich jetzt selbst ausrechnen.',
     signatur: ['herleitung'],
-    /*
-     * Hier ist der Teaser am staerksten: Eine Rechnung anzukuendigen kostet
-     * nichts an Spannung — man weiss ja noch nicht, wie sie geht — und
-     * verspricht etwas Konkretes zum Mitnehmen.
-     */
-    teaser: { verweistAuf: 'herleitung', muster: 'Eine Rechnung, dann kannst du es selbst.' },
   },
   grenzfall: {
     titel: 'Grenzfall',
     tut: 'Die Regel nennt ihre eigene Ausnahme.',
     moment: 'Der weiß, wovon er redet.',
     signatur: ['einschraenkung'],
-    teaser: { verweistAuf: 'einschraenkung', muster: 'Am Ende der Haken, den kaum jemand nennt.' },
   },
   folgekosten: {
     titel: 'Folgekosten',
     tut: 'Was du aufgibst, wenn du die Lösung nimmst.',
     moment: 'Ah, es ist nicht umsonst.',
     signatur: ['einschraenkung'],
-    teaser: { verweistAuf: 'einschraenkung', muster: 'Was es dich kostet, kommt zum Schluss.' },
   },
 };
 
@@ -950,29 +892,6 @@ export const Short = z.object({
           code: 'custom',
           path: ['szenen', i],
           message: `Szene ${i + 1} setzt „geraet" und „symbol" — beide teilen sich denselben Bildplatz.`,
-        });
-      }
-    });
-
-    /* ── Der Teaser muss einloesen, was er verspricht ────────────── */
-
-    /*
-     * Ein Versprechen, das im Video nicht vorkommt, ist Clickbait — nur an
-     * einer Stelle, die keine Belegpflicht abdeckt. Deshalb wird beides
-     * geprueft: dass die versprochene Szene existiert **und** dass sie
-     * danach kommt. Eine Szene, die vor dem Teaser lag, waere schon gesehen,
-     * wenn er sie ankuendigt.
-     */
-    short.szenen.forEach((szene, i) => {
-      if (szene.art !== 'teaser') return;
-      const spaeter = short.szenen.slice(i + 1);
-      if (!spaeter.some((s) => s.art === szene.verweistAuf)) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['szenen', i, 'verweistAuf'],
-          message:
-            `Der Teaser verspricht eine Szene der Art „${szene.verweistAuf}", ` +
-            'aber danach kommt keine solche Szene mehr.',
         });
       }
     });

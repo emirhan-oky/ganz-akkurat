@@ -63,27 +63,6 @@ export const powerbankFlug: Short[] = [
           'Du fliegst nächste Woche und packst die Powerbank ins Handgepäck. Auf ihr steht eine Zahl in Milliamperestunden — am Gate zählt eine ganz andere Einheit.',
       },
       {
-        /*
-         * Das Versprechen auf spaeter. Die Vertiefung `herleitung` traegt es
-         * laut `VERTIEFUNGEN` — eine Rechnung anzukuendigen kostet keine
-         * Spannung, weil man noch nicht weiss, wie sie geht, und verspricht
-         * etwas Konkretes zum Mitnehmen.
-         *
-         * `verweistAuf` bindet das Versprechen an die Szene, die es einloest:
-         * Faellt die Herleitung spaeter weg, faellt der Short durchs Schema.
-         *
-         * Der Sprechtext ist bewusst kurz. Was im Bild steht, muss nicht
-         * gesagt werden — die Nutzenzeile traegt sich selbst und kostet
-         * dadurch keine Sekunde Sprechzeit.
-         */
-        art: 'teaser',
-        vorspann: 'Gleich im Video',
-        text: 'Die Rechnung, in einem Schritt',
-        nutzen: 'Danach schätzt du jede Powerbank selbst ein',
-        verweistAuf: 'herleitung',
-        sprechtext: 'Gleich die Rechnung — dann kannst du es selbst.',
-      },
-      {
         art: 'aussage',
         text: 'Die Vorschrift rechnet in Wattstunden.',
         hervorhebung: 'Wattstunden',

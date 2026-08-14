@@ -392,8 +392,7 @@ mit einem grünen `npm run pruefen` belegt.
 
 **Entschieden am 13.08.2026, Abend**
 
-- **Anteasern ja, DM-Automatisierung nein.** Der Teaser ist gebaut (siehe
-  `produktionsmatrix.md`). Gegen das verbreitete Modell „schreib mir ein
+- **DM-Automatisierung nein.** Gegen das verbreitete Modell „schreib mir ein
   Stichwort, dann bekommst du die Infos automatisch" sprechen vier Dinge, das
   erste davon grundsätzlich: **Wir haben nichts, was nicht schon im Video
   steht** — und das ist Absicht. Etwas zurückzuhalten, damit jemand schreiben
@@ -404,6 +403,14 @@ mit einem grünen `npm run pruefen` belegt.
   Schritt. **Denkbar später:** die fünf Endkarten einer Woche als PDF. Das
   wäre ein Mehrwert zum Mitnehmen statt zurückgehaltener Inhalt, aber erst
   wenn Reichweite da ist.
+- **Anteasern: gebaut und am 14.08.2026 wieder verworfen.** Eine eigene
+  Teaser-Szene direkt nach der Hook stand einen Tag im Code und ist entfernt.
+  Der Grund ist kein technischer: „Vielleicht für irgendwann, aber mir
+  gefällt es einfach gar nicht. Ich finde, dieses direkte Teasern hat bei uns
+  nichts verloren." Es passt zu dem Punkt darüber — wer nichts zurückhält,
+  muss auch nichts ankündigen. Die Szene war rund 2,6 Sekunden lang und hatte
+  die Anhebung des Zielfensters auf 95 s mitbegründet; die 95 stehen jetzt
+  allein wegen der Streuung der Vertonung (siehe unten).
 - **Kein Ton außer der Stimme.** Flugzeuggeräusch, Gerichtshammer und
   Ähnliches sind verworfen: Ein großer Teil sieht Shorts stumm, für die
   verpufft jeder Atmosphäre-Effekt. Dazu Lizenzfragen bei fremden
@@ -418,18 +425,21 @@ mit einem grünen `npm run pruefen` belegt.
 
 **Arbeitsweise gerade: keine Vertonung.** Bis die Konzepte stehen, läuft nur
 `npm run lauf` ohne `--mit-ton` — das Kontingent soll nicht in Tests fließen.
-Stand 13.08.2026: 114.043 von 100.000 Zeichen im Monat frei.
+Stand 14.08.2026: rund 112.500 von 121.000 Zeichen im Monat frei.
+
+**Erledigt seit dem 13.08.2026**
+
+- **ElevenLabs-Tarif: Creator gebucht** (121.000 Zeichen). Damit auch die
+  kommerzielle Lizenz für Sprache, die dem Free-Tarif fehlte.
+- **Deutsche Stimme: Lenny** (`6IEvIqBOPOMUc5HwR9sQ`), in `.env` eingetragen.
+  Ausgewählt über `npm run stimmproben` aus vierzehn geprobten deutschen
+  Stimmen. Seine Sprechgeschwindigkeit steht als `ZEICHEN_PRO_SEKUNDE` in
+  `src/zeit.ts` — die Streuung zwischen Stimmen war groß (12,2 bis 20,1
+  Zeichen je Sekunde), der Wert gehört also an die Stimme und muss bei einem
+  Stimmwechsel mitwechseln.
 
 **Offen geblieben**
 
-- **Deutsche Stimme.** `skripte/wochenlauf.ts` fällt ohne
-  `ELEVENLABS_VOICE_ID` auf eine englische Standardstimme zurück. Der
-  Free-Tarif gibt über die API keine deutschen Stimmen her — das klärt sich
-  mit dem Tarifwechsel, aber die Stimme muss danach ausgewählt und in `.env`
-  eingetragen werden.
-- **ElevenLabs-Tarif.** Bedarf rund 27.800 Zeichen im Monat. Free scheidet
-  schon wegen der fehlenden kommerziellen Lizenz aus, Starter läge bei 93 %
-  Auslastung ohne Puffer. Empfohlen: Creator.
 - **Der Weg nach draußen ist rauchgetestet, aber nie im Ganzen gelaufen.**
   R2-Ablage und Buffer-Einplanung tragen (siehe oben). Was aussteht, ist
   `npm run veroeffentlichen` selbst — also der Schritt, der die

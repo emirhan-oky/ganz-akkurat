@@ -169,7 +169,8 @@ Zwei Zielfenster (`src/zeit.ts`), gekoppelt an die Vertiefung: **40–60 s ohne,
 gilt und einen Short zurückhält.
 
 Die Obergrenze des tiefen Fensters stand bis zum 13.08.2026 auf 90 und ging
-auf 95, als der `teaser` dazukam. Zwei Dinge sind dabei festgehalten worden:
+auf 95, weil die vertonte Länge stärker schwankt als angenommen. Zwei Dinge
+sind dabei festgehalten worden:
 
 **95 ist Spielraum, nicht das Ziel.** Die Absicht ist, die Länge über die
 Wochen wieder zu drücken — aber durch Straffung, nie durch Weglassen von

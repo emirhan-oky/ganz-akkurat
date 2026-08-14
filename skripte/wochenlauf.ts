@@ -9,6 +9,8 @@ import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { durchschnittsdauer, verlaufLesen, verlaufSchreiben } from '../src/verlauf';
+import { gesamtdauerBilder } from '../src/zeit';
+import { FORMAT } from '../src/marke';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 
 const ausfuehren = promisify(execFile);
@@ -222,7 +224,15 @@ const main = async () => {
     }
 
     const anmerkung = technisch.length > 0 ? `  ← ${technisch.map((b) => b.text).join(' ')}` : '';
-    console.log(`   ${short.id}  ${mb.toFixed(1)} MB  (${((Date.now() - beginn) / 1000).toFixed(0)}s)${anmerkung}`);
+    // Videolaenge zuerst, Renderzeit danach und beschriftet: Ohne Beschriftung
+    // liest sich die Renderzeit wie eine Laenge — und ein Wert, der aussieht
+    // wie die Zahl, um die es geht, wird auch dafuer gehalten.
+    const laengeSek = gesamtdauerBilder(short) / FORMAT.bilderProSekunde;
+    const renderSek = (Date.now() - beginn) / 1000;
+    console.log(
+      `   ${short.id}  ${laengeSek.toFixed(1)}s Video  ${mb.toFixed(1)} MB  ` +
+        `(Render ${renderSek.toFixed(0)}s)${anmerkung}`,
+    );
   }
   console.log('');
 
