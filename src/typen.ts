@@ -887,7 +887,8 @@ export const Short = z.object({
    * Die Rubrik — der Sendeplatz dieses Shorts.
    *
    * Steht bewusst am Short und nicht nur am Thema: Der Renderer holte die
-   * Kopfzeilen-Pille frueher ueber die themaId aus `themen.json` und fiel
+   * Kopfzeilen-Pille frueher ueber die themaId aus dem damaligen `themen.json`
+   * und fiel
    * still auf „Setup" zurueck, wenn er nichts fand. Ein stiller Rueckfall
    * ist genau die Sorte Fehler, die dieses Projekt sonst hart prueft.
    */
@@ -1112,53 +1113,17 @@ export type Short = z.infer<typeof Short>;
 
 /* ────────────────────────────── Lauf ───────────────────────────────── */
 
-/**
- * Ein Thema: eine Alltagsfrage, aus der **ein** Short entsteht.
+/*
+ * Hier standen bis zum 14.08.2026 `Thema` und eine erste, schwaechere Fassung
+ * von `Idee`. Beide Typen wurden von keinem Skript je geparst und gehoerten
+ * zu `daten/themen.json`, das mit ihnen abgeloest ist. `Idee` steht jetzt am
+ * Ende dieser Datei — mit Winkelart, Titelmuster und erzwungenem Belegpfad.
  *
- * Frueher lieferte ein Thema fuenf Shorts. Das war die Ursache der
- * Oberflaechlichkeit: Wer aus einer Frage fuenf Videos ziehen muss, schneidet
- * sie in fuenf duenne Scheiben. Jetzt traegt jedes Thema ein Video, und die
- * Woche besteht aus fuenf Themen — eines je Rubrik.
- *
- * Der frueher freie `kontext` ist damit die feste `rubrik` geworden. Der alte
- * Kommentar hier warnte davor, die Liste zu schliessen, weil dann jedes Thema
- * in eine Rubrik passen muesste. Genau das ist jetzt gewollt.
+ * Der alte `Thema`-Typ verlangte drei `quellenIds` am Thema. Diese Belegdecke
+ * am Thema ist genau das Schlupfloch, das am 14.08.2026 zugemacht wurde: Die
+ * Quellen haengen seither an den Szenen, die behaupten (`QUELLENPFLICHT`),
+ * nicht an der Ueberschrift darueber.
  */
-export const Thema = z.object({
-  id: z.string(),
-  /** Sendeplatz des Themas. Erscheint als Pille in der Kopfzeile. */
-  rubrik: Rubrik,
-  titel: z.string(),
-  kernfrage: z.string(),
-  /** Belegdecke des Themas — drei offizielle Quellen, einmal recherchiert. */
-  quellenIds: z.array(z.string()).min(3),
-});
-export type Thema = z.infer<typeof Thema>;
-
-/**
- * Eine rohe Videoidee — die Vorstufe zum Thema.
- *
- * Hier landet, was in einer Ideensession entsteht: eine Frage, ein Kontext,
- * eine Spur, wo der Beleg zu finden waere. Bewusst **ohne** Quellenpflicht,
- * sonst bremst die Belegarbeit das Sammeln aus. Eine Idee wandert erst dann
- * nach `themen.json`, wenn drei offizielle Quellen stehen und fuenf Winkel
- * formuliert sind. So bleibt der Themenpool sauber und der Vorrat trotzdem
- * gross.
- */
-export const Idee = z.object({
-  id: z.string(),
-  /** Sendeplatz, auf den die Idee zielt. Gleiche Liste wie beim Thema. */
-  rubrik: Rubrik,
-  /** Die Alltagsfrage, um die das Video kreist. */
-  kernfrage: z.string().min(1),
-  /** Optionale Notiz: warum das traegt, welcher Winkel denkbar ist. */
-  notiz: z.string().optional(),
-  /** Wo der Beleg vermutlich steht — Hersteller, Norm, Behoerde. */
-  quellenspur: z.array(z.string()).default([]),
-  erfasstAm: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  status: z.enum(['roh', 'inArbeit', 'uebernommen', 'verworfen']).default('roh'),
-});
-export type Idee = z.infer<typeof Idee>;
 
 /**
  * Ein Wochenlauf: fuenf Shorts, einer je Rubrik.
@@ -1180,3 +1145,102 @@ export const Lauf = z.object({
   status: z.enum(['entwurf', 'vertont', 'gerendert', 'freigegeben', 'veroeffentlicht']),
 });
 export type Lauf = z.infer<typeof Lauf>;
+
+/* ────────────────────────────── Ideen ──────────────────────────────── */
+
+/**
+ * Wie weit eine Idee ist. Der Sprung von `skizze` nach `belegt` ist der
+ * teure — er kostet je Idee drei abgerufene Seiten mit woertlichem Zitat.
+ */
+export const Reifegrad = z.enum(['skizze', 'belegt', 'produziert']);
+export type Reifegrad = z.infer<typeof Reifegrad>;
+
+/**
+ * Eine Instanz, die eine Aussage tragen koennte — noch nicht abgerufen.
+ *
+ * Das ist der Unterschied zu `Quelle`: Dort steht eine URL mit woertlichem
+ * Zitat und Abrufdatum. Hier steht nur die Vermutung, wo es stehen muesste.
+ * Kein Zitat, keine URL-Pflicht, nichts Nachpruefbares — und genau deshalb
+ * darf daraus nie direkt ein Short werden.
+ */
+export const Belegpfad = z.object({
+  /** Wer. „Bundesnetzagentur", „USB Implementers Forum", „§ 477 BGB". */
+  instanz: z.string(),
+  art: QuellenArt,
+  /** Was dort stehen muesste, damit die Aussage traegt. */
+  findet: z.string(),
+});
+export type Belegpfad = z.infer<typeof Belegpfad>;
+
+/**
+ * Eine Videoidee im Vorrat.
+ *
+ * Angelegt am 14.08.2026, weil der Takt von 5 auf 10 Shorts je Woche
+ * steigen soll und der Engpass dabei nicht das Schreiben ist, sondern der
+ * Beleg. Eine Idee ohne benennbare unbeteiligte Instanz ist keine Idee,
+ * sondern eine Sackgasse, die man erst nach drei abgerufenen Seiten als
+ * solche erkennt. Deswegen erzwingt das Schema den Belegpfad **vorher**.
+ *
+ * Der Vorrat ist bewusst keine JSON-Datei: `themen.json` war eine, wurde
+ * von keinem Skript gelesen und behauptete am Ende Dinge, die seit einem
+ * Tag nicht mehr stimmten. Als TypeScript prueft `tsc` bei jedem Lauf mit.
+ */
+export const Idee = z
+  .object({
+    id: z.string(),
+    rubrik: Rubrik,
+    winkelart: Winkelart,
+    reifegrad: Reifegrad,
+
+    /** Die Frage des Zuschauers, in seinen Worten — nicht in unseren. */
+    kernfrage: z.string(),
+    /**
+     * Der Hebel: die Entwarnung. „Dein Monitor ist nicht kaputt."
+     * Nie die Konfrontation („Du machst es falsch").
+     */
+    entwarnung: z.string(),
+    /**
+     * Die Tatsache, die die Entwarnung traegt. Ein Satz, pruefbar.
+     * Traegt der Belegpfad diesen Satz nicht, faellt die Idee — nicht der
+     * Satz wird weichgespuelt.
+     */
+    sache: z.string(),
+
+    titelmuster: Titelmuster,
+    vertiefung: Vertiefung.optional(),
+    system: System,
+
+    /** Mindestens eine Instanz je Idee, mindestens eine davon unbeteiligt. */
+    belegpfad: z.array(Belegpfad).min(1),
+    /** Gefuellt, sobald die Quellen wirklich abgerufen und zitiert sind. */
+    quellenIds: z.array(z.string()).default([]),
+    /** Warum die Idee traegt, woran sie haengt, was sie nicht darf. */
+    notiz: z.string().optional(),
+  })
+  .superRefine((i, ctx) => {
+    const unbeteiligt = i.belegpfad.filter((b) =>
+      (UNBETEILIGTE_ARTEN as readonly string[]).includes(b.art),
+    );
+    if (unbeteiligt.length === 0) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['belegpfad'],
+        message:
+          `Idee „${i.id}" nennt nur beteiligte Instanzen. Eine Aussage, die ` +
+          `nur der Hersteller bestaetigt, traegt keinen Short — dieselbe Regel ` +
+          `wie in beleg(). Wer hier keine unbeteiligte Instanz benennen kann, ` +
+          `hat kein Thema, sondern eine Vermutung.`,
+      });
+    }
+    if (i.reifegrad === 'belegt' && i.quellenIds.length < 3) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['quellenIds'],
+        message:
+          `Idee „${i.id}" steht auf „belegt", nennt aber nur ` +
+          `${i.quellenIds.length} Quellen. Belegt heisst: drei abgerufene ` +
+          `Seiten mit woertlichem Zitat, sofort produzierbar.`,
+      });
+    }
+  });
+export type Idee = z.infer<typeof Idee>;

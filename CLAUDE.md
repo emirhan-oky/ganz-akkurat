@@ -50,7 +50,8 @@ mitentscheidet, ist es Reise** — sonst der Alltagsweg. `kaufen` ist der einzig
 Sendeplatz, auf dem Partnerlinks vorgesehen sind (Variante A, siehe unten).
 
 Die Rubrik steht am **Short**, nicht nur am Thema. Vorher holte der Renderer
-die Kopfzeilen-Pille über die `themaId` aus `themen.json` und fiel still auf
+die Kopfzeilen-Pille über die `themaId` aus dem damaligen `themen.json` und
+fiel still auf
 „Setup" zurück, wenn er nichts fand — ein stiller Rückfall an einer Stelle, die
 im fertigen Video sichtbar ist.
 
@@ -73,9 +74,15 @@ Sendeplätzen.
 **`Lauf`** ist 5 Shorts, einer je Rubrik. Ein `Thema` liefert seit dem
 12.08.2026 **einen** Short, nicht fünf — das alte „ein Thema, fünf Zugriffe"
 war die Ursache der Oberflächlichkeit: Wer aus einer Frage fünf Videos ziehen
-muss, schneidet sie in fünf dünne Scheiben. Die `winkel` in `themen.json` sind
-dadurch keine fünf Videos mehr, sondern Alternativen, aus denen eine gewählt
-wird.
+muss, schneidet sie in fünf dünne Scheiben.
+
+Seit dem 14.08.2026 steht der Vorrat in `daten/ideen/` — eine Datei je Rubrik,
+`index.ts` als einzige Liste. `daten/themen.json` und `daten/ideen.json` sind
+damit abgelöst und gelöscht. Jede Idee trägt einen **Belegpfad**: welche
+Instanz die Aussage tragen könnte und ob sie unbeteiligt ist. Das Schema
+erzwingt mindestens eine unbeteiligte Instanz je Idee — wer schon beim
+Skizzieren keine benennen kann, hat kein Thema, sondern eine Vermutung.
+`npm run pruefen` zählt den Vorrat mit und nennt seine Reichweite in Wochen.
 
 Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln gehören
 deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein `superRefine`

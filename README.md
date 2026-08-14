@@ -84,7 +84,7 @@ src/verlauf.ts      Gedächtnis über die Woche hinaus (daten/verlauf.json)
 video/              Remotion: Szenenvokabular und Komposition
 daten/entwuerfe/    Die Shorts. index.ts sagt, was läuft – und nur dort
 daten/quellen.json  Quellen mit wörtlichen Zitaten und Abrufdatum
-daten/themen.json   Vorrat und Notizbuch, von keinem Skript gelesen
+daten/ideen/        Ideenvorrat je Rubrik. index.ts ist die einzige Liste
 laeufe/             Produktionsergebnisse (nicht in Git)
 public/ton/         Vertonungen je Lauf (nicht in Git)
 SetupKlar/Branding/ Logo und Profilbild

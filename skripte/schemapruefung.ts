@@ -1,6 +1,7 @@
-import { Short } from '../src/typen';
+import { Idee, Short } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
+import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 
 /**
  * Schemapruefung der Daten — die Luecke, die `tsc` nicht schliesst.
@@ -53,11 +54,37 @@ const pruefen = ({ name, daten, blockierend }: Pruefling): number => {
 };
 
 const gesamt = PRUEFLINGE.reduce((n, p) => n + p.daten.length, 0);
-const fehler = PRUEFLINGE.reduce((n, p) => n + pruefen(p), 0);
+let fehler = PRUEFLINGE.reduce((n, p) => n + pruefen(p), 0);
+
+/*
+ * Der Ideenvorrat wird mitgeprueft, blockierend.
+ *
+ * `tsc` sieht an einer Idee nur die Form, nicht die Regel: dass mindestens
+ * eine der genannten Instanzen unbeteiligt sein muss und dass `belegt` drei
+ * Quellen verlangt, steht in `Idee.superRefine` — und ein superRefine laeuft
+ * nur, wenn jemand parst. Ohne diese Schleife waere es eine tote Regel,
+ * derselbe Fall wie beim `Lauf`-Schema.
+ */
+for (const idee of IDEEN) {
+  const ergebnis = Idee.safeParse(idee);
+  if (ergebnis.success) continue;
+  fehler++;
+  console.error(`✕ Ideenvorrat · ${idee.id}`);
+  for (const problem of ergebnis.error.issues) {
+    console.error(`    ${problem.path.join('.') || '(wurzel)'}: ${problem.message}`);
+  }
+}
 
 if (fehler > 0) {
   console.error(`\n${fehler === 1 ? 'Ein Short entspricht' : `${fehler} Shorts entsprechen`} dem Schema nicht.`);
   process.exit(1);
 }
 
+const belegt = IDEEN.filter((i) => i.reifegrad === 'belegt').length;
+const produziert = IDEEN.filter((i) => i.reifegrad === 'produziert').length;
+
 console.log(`✓ Schema: ${gesamt} Shorts geprüft, keine blockierenden Verstöße`);
+console.log(
+  `✓ Ideen:  ${IDEEN.length} im Vorrat (${belegt} belegt, ${produziert} produziert), ` +
+    `Reichweite ${reichweiteInWochen(2)} Wochen bei 2 je Rubrik`,
+);

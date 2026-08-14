@@ -17,7 +17,7 @@ import { Rubrik, Titelmuster, Vertiefung, Winkelart, type Short } from './typen'
  * **Bewusst nicht unter `laeufe/`.** Der Ordner steht in `.gitignore` mit der
  * Begruendung „gross, reproduzierbar" — fuer Videos richtig, fuer ein
  * Gedaechtnis fatal: Es laege nur auf einem Rechner und waere beim ersten
- * Aufraeumen weg. Deshalb `daten/verlauf.json`, neben `themen.json`.
+ * Aufraeumen weg. Deshalb `daten/verlauf.json`, neben dem Ideenvorrat.
  *
  * Der Eintrag ist absichtlich schmal, rund 550 Byte je Lauf. Wer beim
  * Entwerfen die Historie braucht, soll nicht fuenf komplette Laeufe mit allen
