@@ -117,6 +117,8 @@ Freigabe-Übersicht.
   vorkommt** — die Belegpflicht, auf den Titel angewandt. Dazu die Form des
   Titelmusters am `arbeitstitel` (`zweisatz` zwei Sätze, `verdaechtiger` eine
   Verneinung, `uhr` eine Zahl), sonst wäre `titelmuster` ein Feld ohne Wirkung.
+  Dazu die zwei prüfbaren Teile der Humor-Regel: kein Ausrufezeichen, kein
+  Emoji, keine Konfrontation gegen den Zuschauer.
   Anlass war der 14.08.2026: Alle fünf Titel sagten Situation und Entwarnung,
   keiner die Sache — und einer nannte die falsche („kein neues Netzteil" über
   einem Video, das vom Kabel handelt). Einzelheiten in `produktionsmatrix.md`.
@@ -233,6 +235,15 @@ geändert wird. Kurzfassung der Beschlüsse:
   Monitor ist nicht kaputt", nicht „Du machst es falsch". Die Hook ist die
   kurze Hälfte, der Titel trägt den Kontext mit. Der Ton darf zugespitzt sein,
   die Tatsache muss von den Quellen getragen sein.
+- **Humor ist keine vierte Zutat, sondern die Wendung** zwischen den zwei
+  Hälften des Titels — und sie hängt am Titelmuster: `verdaechtiger` ist der
+  Freispruch, `zweisatz` sind zwei Parteien, die verschieden rechnen, `uhr`
+  ist die Deflation der großen Zahl durch die kleine. Drei Regeln: Die Pointe
+  trifft nie den Zuschauer; trocken statt laut; und **der Witz muss belegt
+  sein wie alles andere** — „Der Verkäufer hofft, dass du das glaubst" wäre
+  lustig und eine unbelegte Behauptung über Absichten. Die Folge davon ist
+  angenehm: Das Lustigste ist meistens die Tatsache, nüchtern hingestellt.
+  Ausführlich in `produktionsmatrix.md`.
 - **Systemangabe** über ein Feld `system` (`macos`, `windows`, `beide`,
   `ohne`), sichtbar in der Hook-Pille, im Titel nur bei echter
   Systemspezifik — und nur belegbar, wenn eine Quelle systemspezifisch ist.

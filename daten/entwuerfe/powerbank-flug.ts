@@ -28,7 +28,7 @@ export const powerbankFlug: Short[] = [
     id: 'skl-pbf-01',
     themaId: 'powerbank-flug',
     rubrik: 'reise',
-    arbeitstitel: 'Auf der Powerbank stehen mAh. Am Gate zählen Wattstunden.',
+    arbeitstitel: 'Deine Powerbank rechnet in mAh. Die Luftfahrtbehörde nicht.',
     winkelart: 'umrechnung',
 
     system: 'ohne',
@@ -168,19 +168,19 @@ export const powerbankFlug: Short[] = [
        * Kontext mittraegt: Im Bild sieht man die Situation, im Feed nicht.
        */
       tiktok: {
-        titel: 'Powerbank im Handgepäck: mAh zählt nicht, Wattstunden schon',
+        titel: 'Deine Powerbank rechnet in mAh. Die Behörde nicht.',
         beschreibung:
           'Am Gate wird in Wattstunden gerechnet, auf der Powerbank stehen mAh. Die Umrechnung geht in einem Schritt.',
         hashtags: HASHTAGS,
       },
       instagram: {
-        titel: 'Auf deiner Powerbank steht mAh. Am Gate zählen Wattstunden.',
+        titel: 'Deine Powerbank rechnet in mAh. Die Luftfahrtbehörde nicht.',
         beschreibung:
           'Milliamperestunden mal 3,7 Volt, geteilt durch 1000 – das sind die Wattstunden, nach denen im Handgepäck gefragt wird. Bis 100 Wh braucht es keine Genehmigung.',
         hashtags: HASHTAGS,
       },
       youtube: {
-        titel: 'Powerbank im Handgepäck: Es zählen Wattstunden, die Grenze ist 100',
+        titel: 'Powerbank im Handgepäck: Die Behörde rechnet nicht in mAh',
         beschreibung:
           'Die Grenze für Powerbanks im Handgepäck steht in Wattstunden, auf dem Gerät stehen Milliamperestunden. Die Umrechnung: mAh × 3,7 V ÷ 1000 = Wh. Bis 100 Wh braucht es keine Genehmigung – und jede Batterie muss einzeln gegen Kurzschluss gesichert sein.\n\nQuellen:\nLuftfahrt-Bundesamt, Elektronische Geräte mit Lithium-Batterien: https://www.lba.de/DE/Luftfahrtunternehmen/Gefahrgut/Passagierinformation/Passagiergepaeck/Elektronische_Geraete.html\nEASA, Dangerous Goods: https://www.easa.europa.eu/en/domains/air-operations/dangerous-goods\nFAA, Lithium Batteries: https://www.faa.gov/hazmat/packsafe/lithium-batteries',
         hashtags: ['#Shorts', '#Powerbank', '#Handgepäck'],

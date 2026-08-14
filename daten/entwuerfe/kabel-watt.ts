@@ -20,7 +20,7 @@ export const kabelWatt: Short[] = [
     id: 'skl-kbw-01',
     themaId: 'kabel-watt',
     rubrik: 'unterwegs',
-    arbeitstitel: 'Schau 10 Sekunden aufs Kabel, bevor du ein Netzteil kaufst',
+    arbeitstitel: 'Das Netzteil kann 100 Watt. Das Kabel lässt 60 durch.',
     winkelart: 'grenzwert',
 
     system: 'ohne',
@@ -127,19 +127,19 @@ export const kabelWatt: Short[] = [
 
     texte: {
       tiktok: {
-        titel: 'Lädt langsam? Schau aufs Kabel, nicht aufs Netzteil',
+        titel: 'Das Netzteil kann 100 Watt. Das Kabel lässt 60 durch.',
         beschreibung:
           '100 Watt sind 20 Volt mal 5 Ampere. Die 5 Ampere müssen durchs Kabel passen – und das ist gekennzeichnet.',
         hashtags: HASHTAGS,
       },
       instagram: {
-        titel: 'Notebook lädt langsam? Nicht das Netzteil – das Kabel kann nur 60 Watt',
+        titel: 'Notebook lädt langsam? Das Netzteil kann 100 Watt, das Kabel 60.',
         beschreibung:
           'Die Spannung ist bei beiden Klassen gleich, der Unterschied liegt in der Stromstärke: 20 V × 3 A sind 60 Watt, 20 V × 5 A sind 100. Und die Stromstärke trägt das Kabel. Jedes USB-C-Kabel muss mit 60 W oder 240 W gekennzeichnet sein.',
         hashtags: HASHTAGS,
       },
       youtube: {
-        titel: 'Notebook lädt langsam? Nicht das Netzteil – das Kabel kann nur 60 Watt',
+        titel: 'Notebook lädt langsam? Das Netzteil kann 100 Watt, das Kabel 60.',
         beschreibung:
           'Ein starkes Netzteil nützt nichts, wenn das Kabel die Stromstärke nicht trägt. 100 W entstehen aus 20 V und 5 A – bei nur 3 A bleiben 60 W. Der Standard verlangt, dass jedes USB-C-Kabel mit 60 W oder 240 W gekennzeichnet ist.\n\nQuellen:\nUSB-IF, USB Power Delivery: https://www.usb.org/usb-charger-pd\nUSB-IF, Cable Logo Requirements: https://www.usb.org/cable_connector\nHP, What is USB-C: https://www.hp.com/us-en/tech-takes/connectivity/explainer/what-is-usb-c.html',
         hashtags: ['#Shorts', '#USBC', '#Laden'],

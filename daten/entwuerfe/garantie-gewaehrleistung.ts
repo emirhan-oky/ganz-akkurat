@@ -159,19 +159,19 @@ export const garantieGewaehrleistung: Short[] = [
 
     texte: {
       tiktok: {
-        titel: 'Garantie abgelaufen? Frag nach der Gewährleistung',
+        titel: 'Garantie abgelaufen? Frag nach der Gewährleistung.',
         beschreibung:
           'Garantie ist freiwillig, Gewährleistung steht im Gesetz. Zwei Jahre, und im ersten musst du nichts beweisen.',
         hashtags: HASHTAGS,
       },
       instagram: {
-        titel: 'Garantie abgelaufen? Gewährleistung gilt 2 Jahre beim Verkäufer',
+        titel: 'Garantie abgelaufen? Die Gewährleistung läuft zwei Jahre weiter',
         beschreibung:
           'Eine Garantie gibt der Hersteller freiwillig – sie kommt laut Gesetz zusätzlich zur Mängelhaftung. Die gesetzliche Gewährleistung schuldet dagegen immer der Verkäufer, zwei Jahre lang. Im ersten Jahr wird vermutet, dass der Mangel von Anfang an da war.',
         hashtags: HASHTAGS,
       },
       youtube: {
-        titel: 'Garantie abgelaufen? Gewährleistung gilt 2 Jahre beim Verkäufer',
+        titel: 'Garantie abgelaufen? Die Gewährleistung läuft zwei Jahre weiter',
         beschreibung:
           'Garantie und Gewährleistung werden ständig verwechselt. Die Garantie ist freiwillig und kommt zusätzlich zur gesetzlichen Mängelhaftung (§ 443 BGB). Die Gewährleistung läuft beim normalen Kauf zwei Jahre (§ 438 BGB) und schuldet sie immer der Verkäufer. Im ersten Jahr gilt die Beweislastumkehr (§ 477 BGB).\n\nKeine Rechtsberatung – im Zweifel an die Verbraucherzentrale wenden.\n\nQuellen:\n§ 443 BGB Garantie: https://www.gesetze-im-internet.de/bgb/__443.html\n§ 438 BGB Verjährung: https://www.gesetze-im-internet.de/bgb/__438.html\n§ 477 BGB Beweislastumkehr: https://www.gesetze-im-internet.de/bgb/__477.html',
         hashtags: ['#Shorts', '#Gewährleistung', '#Verbraucherrechte'],

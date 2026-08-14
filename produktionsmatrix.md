@@ -89,22 +89,73 @@ sieht der Zuschauer die Situation ohnehin, im Feed nicht.
 
 **Der Hebel ist Entwarnung, nicht Konfrontation.** „Dein Monitor ist nicht
 kaputt", nicht „Du machst es falsch". Der Ton darf zugespitzt und humorvoll
-sein — die Tatsache muss von den Quellen getragen sein.
+sein — die Tatsache muss von den Quellen getragen sein. Wie der Humor
+aussieht, steht weiter unten.
 
 **Der Titel nennt die Sache, nicht nur die Entwarnung.** Das war am
 14.08.2026 der Befund über alle fünf Titel: Jeder sagte Situation und
 Entwarnung, keiner sagte, worum es geht.
 
 ```
-vorher   Dock lädt, aber kein Bild: Dein Monitor ist nicht kaputt
-nachher  Dock lädt, aber kein Bild: nicht der Monitor, der USB-C-Anschluss
-
 vorher   In 10 Sekunden: Du brauchst kein neues Netzteil
-nachher  Notebook lädt langsam? Nicht das Netzteil – das Kabel kann nur 60 Watt
-
-vorher   Die Garantie ist abgelaufen. Deine Rechte nicht.
-nachher  Garantie abgelaufen? Gewährleistung gilt 2 Jahre beim Verkäufer
+nachher  Notebook lädt langsam? Das Netzteil kann 100 Watt, das Kabel 60.
 ```
+
+Das war der schlimmste Fall: Der Titel nannte das Netzteil, das Video handelt
+vom Kabel.
+
+### Der Humor ist die Wendung, keine vierte Zutat
+
+Der Titel hat vier Aufgaben — **Situation, Entwarnung, Sache, Humor** — und
+ungefähr sechzig Zeichen. Vier Zutaten passen dort nicht hinein. Eine
+**Wendung zwischen zwei Hälften** kostet dagegen nichts: Sie ist die Naht, an
+der die anderen drei zusammenkommen.
+
+Deshalb ist Humor keine neue Spalte in der Matrix, sondern eine Spalte der
+**Titelmuster**, die es längst gibt:
+
+| Muster | Die Wendung | Beispiel |
+|---|---|---|
+| **`verdaechtiger`** | **Der Freispruch** — der Verdächtige wird entlastet, der Täter beiläufig genannt | Dein Router ist nicht zu alt. Deine Nachbarn sind nur alle online. |
+| **`zweisatz`** | **Die zwei Rechner** — zwei Parteien rechnen verschieden, nur eine darf | Deine Powerbank rechnet in mAh. Die Luftfahrtbehörde nicht. |
+| **`uhr`** | **Die Deflation** — die große Zahl wird von der kleinen kassiert | Das Netzteil kann 100 Watt. Das Kabel lässt 60 durch. |
+
+Drei Regeln, damit das ohne Geschmacksdiskussion funktioniert:
+
+**1. Die Pointe trifft nie den Zuschauer.** Sie trifft die Sache, die
+Situation oder eine Institution — nie den, der es nicht wusste. Das ist
+dieselbe Regel wie „Entwarnung statt Konfrontation", nur für den Witz. Ein
+Kanal, der jemandem erklärt, was er nicht wusste, darf ihn dafür nicht
+auslachen.
+
+**2. Trocken, nicht laut.** Keine Ausrufezeichen, keine Emojis, keine
+Wortspiele. Glaubwürdigkeit ist das Einzige, was dieser Kanal zu verkaufen
+hat; ein Titel, der schreit, gibt davon etwas aus, bevor das Video etwas
+verdient hat. Und Untertreibung mit Ausrufezeichen gibt es nicht.
+
+**3. Der Witz muss belegt sein wie alles andere.** Das ist die Regel, die den
+Ton eigentlich macht. „Die Garantie ist abgelaufen. Der Verkäufer hofft, dass
+du das glaubst." wäre lustig und wäre eine **unbelegte Behauptung über
+Absichten** — also raus. Was bleibt, ist der Witz, der aus der Tatsache selbst
+kommt: „Das Netzteil kann 100 Watt. Das Kabel lässt 60 durch." Die Pointe ist
+das Datenblatt.
+
+Regel 3 hat eine angenehme Folge: Das Lustigste, was zur Verfügung steht, ist
+meistens die Tatsache, nüchtern hingestellt. Deshalb braucht dieser Kanal
+keine Witze, die er erfinden müsste.
+
+**Nachträglich gelernt:** „Dock lädt, aber kein Bild: Dein Monitor ist nicht
+kaputt" war angenehmer als die rein sachliche Fassung „nicht der Monitor, der
+USB-C-Anschluss" — obwohl die zweite mehr Information trug. Der Unterschied
+war die Wärme der Entwarnung, die die sachliche Fassung wegoptimiert hatte.
+Die jetzige Fassung hat beides: „Dock lädt, kein Bild: Dein Monitor ist
+unschuldig, der Anschluss nicht". *Unschuldig* trägt die Entwarnung, der
+Nachsatz die Sache, und der Freispruch ist die Wendung.
+
+**Prüfbar sind davon zwei Drittel** (`src/pruefung.ts`): kein Ausrufezeichen,
+kein Emoji, keine Konfrontation gegen den Zuschauer. Ob eine Wendung sitzt,
+entscheidet weiter ein Mensch — und ob der Witz belegt ist, entscheidet der
+Blick in die Quelle.
 
 Die Entwarnung ist im Video schon die Aufgabe der Hook. Steht sie auch im
 Titel, sagen beide dasselbe und die Sache kommt nirgends vor — dabei ist sie

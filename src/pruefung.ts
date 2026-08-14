@@ -123,6 +123,30 @@ const textwerte = (wert: unknown): string[] =>
 /* ───────────────────────────── Titel ─────────────────────────────── */
 
 /**
+ * Der Witz darf den Zuschauer nicht treffen.
+ *
+ * Das ist keine Geschmacksregel, sondern dieselbe wie „Entwarnung statt
+ * Konfrontation" — nur fuer die Pointe. Ein Kanal, der jemandem erklaert, was
+ * er nicht wusste, darf ihn dafuer nicht auslachen. Die Pointe trifft die
+ * Sache, die Situation oder eine Institution; nie den, der es nicht wusste.
+ *
+ * Gefangen werden nur die eindeutigen Faelle. Wer den Zuschauer beilaeufig
+ * herabsetzt, kommt hier durch — dagegen hilft nur Lesen.
+ */
+const KONFRONTATION =
+  /\b(du machst (es )?(alles )?falsch|dein fehler|falsch gemacht|machst du falsch|du bist schuld|selbst schuld|jeder macht diesen fehler)\b/i;
+
+/**
+ * Lauter Titel: Ausrufezeichen und Emojis.
+ *
+ * Der Kanal lebt von der belegten Aussage, und Glaubwuerdigkeit ist das
+ * Einzige, was er zu verkaufen hat. Ein Titel, der schreit, gibt davon etwas
+ * aus, bevor das Video etwas verdient hat. Der Witz dieses Kanals ist die
+ * Untertreibung — und Untertreibung mit Ausrufezeichen gibt es nicht.
+ */
+const LAUT = /[!\p{Extended_Pictographic}]/u;
+
+/**
  * Grossgeschriebene Woerter, die trotzdem keine Sache benennen.
  *
  * Deutsch schreibt Substantive gross — damit lassen sich die Sachwoerter
@@ -585,6 +609,27 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
         'fehler',
         'titel',
         `${plattform}: „${unbelegt.join(', ')}" kommt im Video nicht vor.`,
+      );
+    }
+
+    /*
+     * Die zwei pruefbaren Haelften der Humor-Regel. Ob ein Titel witzig ist,
+     * entscheidet niemand hier — ob er laut ist oder auf den Zuschauer zielt,
+     * schon.
+     */
+    if (LAUT.test(text.titel)) {
+      melde(
+        'fehler',
+        'titel',
+        `${plattform}: Ausrufezeichen oder Emoji im Titel. Der Ton dieses Kanals ist trocken.`,
+      );
+    }
+
+    if (KONFRONTATION.test(text.titel)) {
+      melde(
+        'fehler',
+        'titel',
+        `${plattform}: Der Titel zielt auf den Zuschauer. Die Pointe trifft die Sache, nicht ihn.`,
       );
     }
 
