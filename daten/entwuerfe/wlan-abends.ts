@@ -22,7 +22,7 @@ export const wlanAbends: Short[] = [
     id: 'skl-wla-01',
     themaId: 'wlan-abends',
     rubrik: 'zuhause',
-    arbeitstitel: 'Dein Router ist nicht zu alt',
+    arbeitstitel: 'Dein Router ist nicht zu alt — abends ist das 2,4-GHz-Band voll',
     winkelart: 'mythos',
 
     system: 'ohne',
@@ -133,19 +133,19 @@ export const wlanAbends: Short[] = [
 
     texte: {
       tiktok: {
-        titel: 'WLAN abends langsam: Dein Router ist nicht zu alt',
+        titel: 'WLAN abends zäh? Nicht der Router, das 2,4-GHz-Band',
         beschreibung:
           'Das 2,4-GHz-Band teilst du dir mit der ganzen Nachbarschaft. Abends sind alle gleichzeitig drauf.',
         hashtags: HASHTAGS,
       },
       instagram: {
-        titel: 'WLAN wird abends langsamer: Dein Router ist nicht zu alt',
+        titel: 'WLAN wird abends langsamer: nicht der Router, das 2,4-GHz-Band',
         beschreibung:
           'Ein neuer Router ändert daran wenig: 2,4 GHz ist ein geteiltes Band, kein eigener Kanal. Abends sind alle Haushalte gleichzeitig online und funken auf denselben Kanälen. Wer kann, weicht auf 5 GHz aus.',
         hashtags: HASHTAGS,
       },
       youtube: {
-        titel: 'WLAN wird abends langsamer: Dein Router ist nicht zu alt',
+        titel: 'WLAN wird abends langsamer: nicht der Router, das 2,4-GHz-Band',
         beschreibung:
           'Das 2,4-GHz-Band ist ein Gemeinschaftsband. Nachbarnetze auf denselben Kanälen nehmen nutzbare Kapazität weg, und abends sind alle gleichzeitig online. Der Router ist deshalb nicht langsamer – er kommt seltener dran.\n\nQuellen:\nTP-Link, Why Is My Wi-Fi So Slow: https://www.tp-link.com/us/blog/2670/why-is-my-wi-fi-so-slow-a-guide-for-multi-device-households/\nTP-Link, How to Fix Slow Internet: https://www.tp-link.com/us/support/faq/2170/\nIntel, Advanced Wireless Adapter Settings: https://www.intel.com/content/www/us/en/support/articles/000005585/wireless.html',
         hashtags: ['#Shorts', '#WLAN', '#Heimnetz'],

@@ -91,6 +91,55 @@ sieht der Zuschauer die Situation ohnehin, im Feed nicht.
 kaputt", nicht „Du machst es falsch". Der Ton darf zugespitzt und humorvoll
 sein — die Tatsache muss von den Quellen getragen sein.
 
+**Der Titel nennt die Sache, nicht nur die Entwarnung.** Das war am
+14.08.2026 der Befund über alle fünf Titel: Jeder sagte Situation und
+Entwarnung, keiner sagte, worum es geht.
+
+```
+vorher   Dock lädt, aber kein Bild: Dein Monitor ist nicht kaputt
+nachher  Dock lädt, aber kein Bild: nicht der Monitor, der USB-C-Anschluss
+
+vorher   In 10 Sekunden: Du brauchst kein neues Netzteil
+nachher  Notebook lädt langsam? Nicht das Netzteil – das Kabel kann nur 60 Watt
+
+vorher   Die Garantie ist abgelaufen. Deine Rechte nicht.
+nachher  Garantie abgelaufen? Gewährleistung gilt 2 Jahre beim Verkäufer
+```
+
+Die Entwarnung ist im Video schon die Aufgabe der Hook. Steht sie auch im
+Titel, sagen beide dasselbe und die Sache kommt nirgends vor — dabei ist sie
+das, wonach gesucht wird und woran jemand erkennt, ob das Video ihm etwas
+sagt, das er noch nicht weiß. Wo der Platz nicht für beides reicht, weicht
+die Entwarnung.
+
+Das mittlere Beispiel war der schlimmste Fall: Der Titel nannte das Netzteil,
+das Video handelt vom Kabel.
+
+**Geprüft wird das** (`src/pruefung.ts`, Regel `titel`), und zwar an den drei
+**veröffentlichten** Titeln — `arbeitstitel` steht nur in der Freigabe. Drei
+Fehler:
+
+| Fehler | Warum |
+|---|---|
+| Titel ist wörtlich der Hooktext | Eine Zeile, die zweimal dasselbe tut |
+| Titel nennt nur Sachwörter, die schon in der Hook stehen | Dasselbe, nur anders formuliert |
+| Titel nennt eine Sache, die im Video nicht vorkommt | Die Belegpflicht, auf den Titel angewandt |
+
+Der letzte hat sofort etwas gefunden, ausgerechnet am besten Titel: „Die
+Garantie ist abgelaufen. **Deine Rechte** nicht." — das Wort *Rechte* fällt im
+Video kein einziges Mal. Es sagt Gewährleistung, Mängelhaftung, BGB.
+
+Sachwörter findet die Prüfung an der deutschen Großschreibung, ein kurzer
+Stoppwortsatz fängt Satzanfänge und Aufforderungen ab. Zusammensetzungen
+zählen über ihre Bestandteile: „USB-C-Anschluss" im Titel gilt als gedeckt,
+wenn das Video „Anschluss" sagt. Bewusst großzügig — die Regel soll erfundene
+Titel fangen, nicht ungeschickte.
+
+Zusätzlich prüft sie die **Form** des Titelmusters am `arbeitstitel`:
+`zweisatz` braucht zwei Sätze, `verdaechtiger` eine Verneinung, `uhr` eine
+Zahl. Ohne das wäre `titelmuster` ein Feld, das nichts bewirkt — der
+Reise-Short stand auf `zweisatz` und hatte einen einzigen Satz.
+
 ### Die vier Vertiefungen
 
 | Vertiefung | Was sie tut | Der Moment beim Zuschauer |

@@ -110,6 +110,16 @@ Freigabe-Übersicht.
 - Ein Verweis nach draußen (`VERWEIS_NACH_DRAUSSEN`) erzwingt
   `werbung: 'video'`. Die Regel gilt nur in diese Richtung — ein Label ohne
   Verweis ist die vorsichtige Wahl, kein Fehler.
+- **`titel`** — der Titel muss **die Sache nennen**, nicht nur die Entwarnung.
+  Geprüft an den drei veröffentlichten Titeln (`texte[dienst].titel`), nicht am
+  `arbeitstitel`: Er darf nicht der Hooktext sein, muss mindestens ein Sachwort
+  tragen, das die Hook nicht sagt, und darf **nichts nennen, was im Video nicht
+  vorkommt** — die Belegpflicht, auf den Titel angewandt. Dazu die Form des
+  Titelmusters am `arbeitstitel` (`zweisatz` zwei Sätze, `verdaechtiger` eine
+  Verneinung, `uhr` eine Zahl), sonst wäre `titelmuster` ein Feld ohne Wirkung.
+  Anlass war der 14.08.2026: Alle fünf Titel sagten Situation und Entwarnung,
+  keiner die Sache — und einer nannte die falsche („kein neues Netzteil" über
+  einem Video, das vom Kabel handelt). Einzelheiten in `produktionsmatrix.md`.
 
 ## Quellen
 

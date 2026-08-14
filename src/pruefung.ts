@@ -119,6 +119,96 @@ const textwerte = (wert: unknown): string[] =>
         ? Object.values(wert).flatMap(textwerte)
         : [];
 
+/* ───────────────────────────── Titel ─────────────────────────────── */
+
+/**
+ * Grossgeschriebene Woerter, die trotzdem keine Sache benennen.
+ *
+ * Deutsch schreibt Substantive gross — damit lassen sich die Sachwoerter
+ * eines Titels ohne Woerterbuch herausziehen. Zwei Faelle stoeren dabei:
+ * Satzanfaenge und die Anredefuerwoerter. Beide stehen hier.
+ *
+ * Die Liste darf kurz bleiben. Sie muss nicht jedes Funktionswort kennen,
+ * sondern nur die, die am Satzanfang eines Titels vorkommen — und Titel
+ * fangen fast immer gleich an.
+ */
+const KEINE_SACHWOERTER = new Set([
+  'der', 'die', 'das', 'den', 'dem', 'des', 'ein', 'eine', 'einen', 'einem', 'einer', 'eines',
+  'dein', 'deine', 'deinen', 'deinem', 'deiner', 'du', 'dir', 'dich', 'ihr', 'ihre', 'sie', 'es',
+  'und', 'oder', 'aber', 'denn', 'nur', 'auch', 'noch', 'schon', 'nicht', 'kein', 'keine', 'keinen',
+  'am', 'an', 'auf', 'aus', 'bei', 'bis', 'durch', 'fuer', 'für', 'in', 'im', 'mit', 'nach', 'ohne',
+  'seit', 'um', 'von', 'vor', 'zu', 'zum', 'zur', 'ueber', 'über', 'unter', 'gegen', 'ins',
+  'also', 'dann', 'jetzt', 'hier', 'so', 'wenn', 'weil', 'bevor', 'obwohl', 'was', 'wie', 'warum',
+  'ist', 'sind', 'war', 'hat', 'haben', 'wird', 'werden', 'kann', 'koennen', 'können', 'muss',
+  // Verben am Satzanfang — Titel beginnen oft mit einer Aufforderung.
+  'schau', 'nimm', 'merk', 'rechne', 'frag', 'hol', 'pack', 'prüf', 'pruef', 'sag', 'denk',
+  'kauf', 'spar', 'vergiss', 'geh', 'gilt', 'liegt', 'lädt', 'laedt', 'steht', 'stehen', 'zählt',
+  'zaehlt', 'zählen', 'zaehlen', 'brauchst', 'weißt', 'weisst',
+  // Fuellwoerter, die eine Sache vortaeuschen, ohne eine zu benennen.
+  'sache', 'ding', 'dinge', 'grund', 'sachen', 'trick', 'fehler', 'problem', 'tipp', 'tipps',
+]);
+
+/** Titeltext ohne Satzzeichen und Kleinschreibung — fuer den Vergleich mit der Hook. */
+const ohneSatzzeichen = (text: string): string =>
+  text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
+
+/**
+ * Die Sachwoerter eines Textes — was er tatsaechlich benennt.
+ *
+ * Grossschreibung ist das Sieb, `KEINE_SACHWOERTER` faengt die Ausreisser.
+ * Zusammensetzungen mit Bindestrich zaehlen als ein Wort: „USB-C-Anschluss"
+ * ist eine Sache und nicht drei. Rueckgabe kleingeschrieben und ohne
+ * Dubletten, damit sich zwei Texte vergleichen lassen.
+ */
+const sachwoerter = (text: string): string[] => {
+  const treffer = text.match(/\b\p{Lu}[\p{L}\d]*(?:-[\p{L}\d]+)*/gu) ?? [];
+  const gefunden = treffer
+    .map((w) => w.toLowerCase())
+    .filter((w) => w.length >= 3 && !KEINE_SACHWOERTER.has(w));
+  return [...new Set(gefunden)];
+};
+
+/**
+ * Ob ein Sachwort im Video vorkommt.
+ *
+ * Deutsche Zusammensetzungen machen den direkten Vergleich unbrauchbar: Der
+ * Titel sagt „USB-C-Anschluss", das Video sagt „Anschluss"; der Titel sagt
+ * „2,4-GHz-Band", das Video sagt „Band". Deshalb genuegt ein Bestandteil ab
+ * vier Zeichen. Das ist grosszuegig und soll es sein — die Regel faengt
+ * erfundene Titel, nicht ungeschickte.
+ */
+const kommtImVideoVor = (wort: string, videotext: string): boolean =>
+  [wort, ...wort.split('-')]
+    .filter((teil) => teil.length >= 4)
+    .some((teil) => videotext.includes(teil));
+
+/**
+ * Ob ein Titel die Form seines Musters hat — nicht, ob er gut ist.
+ *
+ * Geprueft wird das eine, was sich pruefen laesst: `zweisatz` braucht zwei
+ * Saetze, `verdaechtiger` eine Verneinung (die Entwarnung ist der Hebel des
+ * Musters), `uhr` eine Zahl (die Ersparnis hat eine Uhr). Ob der Widerspruch
+ * traegt oder die Verneinung sitzt, entscheidet weiter ein Mensch.
+ */
+const musterFormfehler = (muster: Titelmuster, titel: string): string | null => {
+  switch (muster) {
+    case 'zweisatz': {
+      const saetze = titel.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
+      return saetze.length >= 2
+        ? null
+        : 'zwei Sätze, die sich widersprechen – hier steht nur einer.';
+    }
+    case 'verdaechtiger':
+      return /\b(nicht|kein|keine|keinen|keinem|keiner|nie|niemals)\b/i.test(titel)
+        ? null
+        : 'der Verdächtige wird entlastet – dafür fehlt die Verneinung.';
+    case 'uhr':
+      return /\d/.test(titel)
+        ? null
+        : 'die Ersparnis hat eine Uhr – dafür fehlt die Zeit- oder Zahlangabe.';
+  }
+};
+
 /**
  * Prueft einen Short gegen alle Regeln, die ohne die fertige Videodatei
  * beantwortbar sind. Laufzeit- und Lautheitspruefung folgen nach dem Render.
@@ -404,6 +494,104 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     if (text.hashtags.length === 0) {
       melde('hinweis', 'texte', `Für ${plattform} sind keine Hashtags gesetzt.`);
     }
+  }
+
+  /* ── Titel ───────────────────────────────────────────────────────── */
+
+  /*
+   * Der Titel hat eine andere Aufgabe als die Hook, und bis zum 14.08.2026
+   * hat er sie in vier von fuenf Faellen nicht erfuellt.
+   *
+   * Drei Titel waren **woertlich der Hooktext**, ein vierter nannte die
+   * falsche Sache: „Du brauchst kein neues Netzteil" ueber einem Video, in
+   * dem es um das Kabel geht. Genau ein Titel funktionierte — „Die Garantie
+   * ist abgelaufen. Deine Rechte nicht." —, und der Unterschied ist
+   * benennbar: Er traegt ein Sachwort, das die Hook nicht sagt.
+   *
+   * Damit ist die Regel aus der Konzeption pruefbar geworden: Die Hook ist
+   * die kurze Haelfte, der Titel traegt den Kontext mit. Wer im Titel nur
+   * die Hook wiederholt, hat eine Zeile, die zweimal dasselbe tut — und die
+   * Situation, in der jemand das Video braucht, kommt nirgends vor. In der
+   * Suche entscheidet aber genau sie.
+   */
+  const hookSzene = short.szenen.find((s) => s.art === 'hook');
+  const hookText = hookSzene?.art === 'hook' ? hookSzene.text : '';
+  const hookWoerter = new Set(sachwoerter(hookText));
+  const videotext = short.szenen
+    .flatMap((s) => textwerte(s))
+    .join(' ')
+    .toLowerCase();
+
+  /*
+   * Geprueft werden die **veroeffentlichten** Titel, nicht der
+   * `arbeitstitel` — der steht nur in der Freigabe-Uebersicht. Draussen
+   * gelesen wird `texte[dienst].titel`, und dort muss die Regel greifen.
+   */
+  for (const [plattform, text] of Object.entries(short.texte)) {
+    const woerter = sachwoerter(text.titel);
+
+    if (ohneSatzzeichen(text.titel) === ohneSatzzeichen(hookText)) {
+      melde(
+        'fehler',
+        'titel',
+        `${plattform}: Titel und Hooktext sind derselbe Satz. Der Titel soll die Sache benennen, ` +
+          'die Hook macht die Entwarnung.',
+      );
+      continue;
+    }
+
+    if (woerter.length === 0) {
+      melde('fehler', 'titel', `${plattform}: Der Titel nennt keine Sache, nur Allgemeinplätze.`);
+      continue;
+    }
+
+    if (woerter.every((w) => hookWoerter.has(w))) {
+      melde(
+        'fehler',
+        'titel',
+        `${plattform}: Der Titel nennt nur, was die Hook schon sagt (${woerter.join(', ')}).`,
+      );
+    }
+
+    /*
+     * Ein Titel darf nichts benennen, was im Video nicht vorkommt. Das ist
+     * die Belegpflicht auf den Titel angewandt: Wer im Titel eine Sache
+     * verspricht, ueber die das Video nicht spricht, hat einen Koeder
+     * geschrieben und keinen Titel.
+     */
+    const unbelegt = woerter.filter((w) => !kommtImVideoVor(w, videotext));
+    if (unbelegt.length > 0) {
+      melde(
+        'fehler',
+        'titel',
+        `${plattform}: „${unbelegt.join(', ')}" kommt im Video nicht vor.`,
+      );
+    }
+
+    // Laenge nur als Hinweis: TikTok schneidet frueher ab als YouTube.
+    const obergrenze = plattform === 'tiktok' ? 60 : 70;
+    if (text.titel.length > obergrenze) {
+      melde(
+        'hinweis',
+        'titel',
+        `${plattform}: Titel ist ${text.titel.length} Zeichen lang – abgeschnitten wird ab etwa ${obergrenze}.`,
+      );
+    }
+  }
+
+  /*
+   * Das Titelmuster steht als Feld am Short und sagt, was der Titel tun
+   * soll. Ungeprueft waere es eine tote Regel — man koennte `zweisatz`
+   * setzen und einen einzelnen Satz schreiben, was genau passiert war.
+   *
+   * Geprueft wird es am `arbeitstitel`: Er ist der Titel in Reinform, die
+   * drei Plattformtitel sind seine Anpassungen und duerfen kuerzen. Und
+   * geprueft wird nur die Form, nicht die Qualitaet — dass zwei Saetze da
+   * stehen, nicht ob sie sich widersprechen.
+   */
+  const formfehler = musterFormfehler(short.titelmuster, short.arbeitstitel);
+  if (formfehler) {
+    melde('fehler', 'titel', `Arbeitstitel, Muster „${short.titelmuster}": ${formfehler}`);
   }
 
   /* ── Sprechdauer ─────────────────────────────────────────────────── */
