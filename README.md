@@ -100,7 +100,11 @@ Alle Schlüssel stehen in `.env` (nicht in Git, Vorlage in `.env.example`).
 | Stimme | ElevenLabs | Tarif Creator, 121.000 Zeichen im Monat, kommerzielle Lizenz |
 | Dateiablage | Cloudflare R2 | läuft, mit einem echten Video durchgetestet |
 | Verteilung | Buffer | läuft, alle drei Kanäle verbunden |
-| Akzentmaterial | Pexels | Zugang steht, wird von der Pipeline nicht abgerufen |
+
+Drei Dienste, mehr nicht. Stock-Material (Pexels) ist am 14.08.2026 entfallen:
+Alles Sichtbare ist Eigenbau-Vektorgrafik, und daran ändert auch ein
+Werbepartner nichts – der liefert Marketingmaterial, das Technisches behauptet,
+ohne dass eine Quelle daran hängt.
 
 Bei der Ablage werden **Schreibrecht und öffentlicher Zugriff getrennt**
 geprüft – ein Bucket kann beschreibbar sein und trotzdem keine öffentliche URL

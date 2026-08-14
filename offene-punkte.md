@@ -423,6 +423,38 @@ mit einem grünen `npm run pruefen` belegt.
   sinken, durch Straffung und nie durch Weglassen von Substanz. Messbar über
   den Wochenschnitt im Lauf.
 
+**Entschieden am 14.08.2026**
+
+- **Stock-Material ist raus.** Der Pexels-Zugang stand seit dem ersten Tag in
+  `.env` und wurde von keinem Schritt der Pipeline je abgerufen; die README
+  führte ihn als „Akzent möglich, nicht als Fundament". Beides ist entfallen,
+  Schlüssel und Prüfung mit.
+
+  Der Anlass war die Frage, ob wir Stock brauchen, sobald es Werbepartner
+  gibt. Es ist umgekehrt: Stock zeigt nie *das* Produkt, sondern *ein*
+  Notebook — für einen Partner also wertlos. Und ein Partner liefert
+  Material, was das eigentliche Problem ist: **Herstellerfootage ist
+  Marketingmaterial und behauptet Technisches, ohne dass eine `quelleId`
+  daran hängt.** Dasselbe Argument wie gegen KI-Bilder, nur sitzt diesmal
+  eine Marketingabteilung an der Quelle statt eines Bildmodells. Seit dem
+  14.08.2026 kommt dazu, dass `hersteller` als **beteiligt** eingestuft ist:
+  autoritativ fürs eigene Datenblatt, interessiert am Rest. Ein Werbefilm ist
+  nicht das Datenblatt.
+
+  Die Lizenz hätte es ohnehin verengt. Pexels erlaubt Werbung ausdrücklich,
+  verbietet aber: „Setze niemals voraus, dass dein Produkt von den Personen
+  oder Marken auf den Bildern unterstützt wird." Ein Stock-Clip mit
+  erkennbarer Marke neben einem Partnerlink ist genau dieser Fall.
+
+- **Affiliate und Sponsoring sind zwei Sachen** und wurden bisher als eine
+  behandelt. Affiliate (Amazon PartnerNet) heißt: Provision pro Verkauf,
+  niemand liefert Material, Produktbilder nur über die Amazon-Schnittstelle
+  und an Amazon gebunden. Sponsoring heißt: Festbetrag, und die Marke liefert
+  Footage, meist mit der Auflage, es zu verwenden. **Beschlossen ist nur
+  Affiliate** (Variante A, nur der Kaufen-Short). Sponsoring ist nie
+  besprochen worden und berührt die Regel, die das ganze Modell trägt — das
+  gehört durchgesprochen, bevor es aktuell wird, nicht wenn.
+
 **Arbeitsweise gerade: keine Vertonung.** Bis die Konzepte stehen, läuft nur
 `npm run lauf` ohne `--mit-ton` — das Kontingent soll nicht in Tests fließen.
 Stand 14.08.2026: rund 112.500 von 121.000 Zeichen im Monat frei.

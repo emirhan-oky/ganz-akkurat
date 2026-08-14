@@ -41,12 +41,20 @@ const elevenlabs = async () => {
   }
 };
 
-const pexels = async () => {
-  const s = process.env.PEXELS_API_KEY;
-  if (!s) return offen('Pexels', 'PEXELS_API_KEY fehlt (nur für Akzentmaterial nötig)');
-  const a = await fetch('https://api.pexels.com/videos/search?query=desk&per_page=1', { headers: { Authorization: s } });
-  a.ok ? gut('Pexels', 'erreichbar') : schlecht('Pexels', `HTTP ${a.status}`);
-};
+/*
+ * Hier stand bis zum 14.08.2026 eine Pexels-Pruefung, fuer Stock-Aufnahmen als
+ * Akzentmaterial. Sie ist raus, weil kein Schritt der Pipeline sie je abgerufen
+ * hat und keiner sie abrufen wird: Alles Sichtbare ist Eigenbau-Vektorgrafik.
+ *
+ * Der Anlass war die Frage, ob wir Stock brauchen, sobald es Werbepartner gibt.
+ * Umgekehrt — ein Partner liefert Material, und genau das wollen wir nicht:
+ * Herstellerfootage ist Marketingmaterial und behauptet Technisches, ohne dass
+ * eine `quelleId` daran haengt. Dasselbe Argument wie gegen KI-Bilder.
+ *
+ * Die Pexels-Lizenz haette es ohnehin verengt: „Setze niemals voraus, dass dein
+ * Produkt von den Personen oder Marken auf den Bildern unterstuetzt wird" —
+ * ein Stock-Clip mit erkennbarer Marke neben einem Partnerlink ist genau das.
+ */
 
 const buffer = async () => {
   const s = process.env.BUFFER_ACCESS_TOKEN;
@@ -114,7 +122,6 @@ const ablage = async () => {
 const main = async () => {
   console.log('SetupKlar · Zugänge\n');
   await elevenlabs();
-  await pexels();
   await buffer();
   await ablage();
 
