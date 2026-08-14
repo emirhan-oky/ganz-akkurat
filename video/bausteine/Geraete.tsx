@@ -181,12 +181,96 @@ const Symbole: Record<KontextArt, React.ReactNode> = {
       <path {...fein} d="M78 50h44M78 68h44M78 86h28" />
     </>
   ),
+  /*
+   * Wandplatte mit rundem Einsatz, nicht nur der Kreis.
+   *
+   * Die erste Fassung war ein Kreis mit zwei runden Loechern und zwei
+   * durchgehenden Querstrichen — und sah im gerenderten Bild aus wie ein
+   * Gesicht mit zwei Augen und einem Strichmund. An einem Kanal, der ernst
+   * erklaert, ist das kein kleiner Schoenheitsfehler: Das Auge sieht das
+   * Gesicht zuerst und die Steckdose gar nicht.
+   *
+   * Die Platte drumherum nimmt dem Kreis die Gesichtswirkung, und die
+   * Schutzkontakte sitzen jetzt als kurze Marken am Rand statt als Striche
+   * quer durchs Bild.
+   */
   steckdose: (
     <>
+      <rect {...koerper} x="36" y="18" width="128" height="114" rx="16" />
+      <circle {...fein} cx="100" cy="75" r="42" />
+      <circle {...koerper} cx="83" cy="75" r="8" />
+      <circle {...koerper} cx="117" cy="75" r="8" />
+      {/* Schutzkontakte oben und unten am Rand des Einsatzes */}
+      <path {...strich} d="M88 36h24M88 114h24" />
+    </>
+  ),
+  /*
+   * Zwei Haeuser, nicht eines: Beim WLAN-Thema ist der Taeter die Nachbarschaft
+   * — „die halbe Strasse sitzt auf demselben Kanal". Ein einzelnes Haus zeigte
+   * die Wohnung und damit die falsche Haelfte der Aussage.
+   *
+   * Die beleuchteten Fenster sind der Abend. Sie stehen nicht vollstaendig:
+   * Ein Raster aus lauter gleichen Quadraten sah nach Tabelle aus, ein paar
+   * dunkle Fenster machen daraus ein Haus.
+   */
+  nachbarhaeuser: (
+    <>
+      {/*
+       * Satteldaecher und quadratische Fenster. Ein erster Versuch waren zwei
+       * abgerundete Rechtecke mit Strichen darin — die lasen sich als zwei
+       * Karten oder zwei Geraete, nicht als Haeuser. Was ein Haus zum Haus
+       * macht, ist das Dach; was ein Fenster zum Fenster macht, ist die
+       * Flaeche und nicht der Strich.
+       */}
+      {/* Hinteres Haus, hoeher und nach rechts versetzt */}
+      <path {...koerper} d="M110 62h58v62h-58z" />
+      <path {...koerper} d="m106 62 33-26 33 26z" />
+      <rect {...fein} x="122" y="76" width="15" height="15" rx="2" />
+      <rect {...fein} x="145" y="76" width="15" height="15" rx="2" />
+      <rect {...fein} x="122" y="100" width="15" height="15" rx="2" />
+      {/* Vorderes Haus */}
+      <path {...koerper} d="M38 78h60v46H38z" />
+      <path {...koerper} d="m34 78 34-25 34 25z" />
+      <rect {...fein} x="50" y="92" width="15" height="15" rx="2" />
+      <rect {...fein} x="72" y="92" width="15" height="15" rx="2" />
+    </>
+  ),
+  /*
+   * Zifferblatt fuer die Tageszeit, nicht fuer eine Dauer. Die Zeiger stehen
+   * bewusst auf acht — die Uhrzeit, an der im WLAN-Short das Band vollaeuft.
+   * Eine Sanduhr waere die Dauer gewesen und damit das falsche Bild.
+   */
+  uhr: (
+    <>
       <circle {...koerper} cx="100" cy="75" r="50" />
-      <circle {...fein} cx="83" cy="75" r="7" />
-      <circle {...fein} cx="117" cy="75" r="7" />
-      <path {...fein} d="M72 45h56M72 105h56" />
+      <path {...fein} d="M100 33v6M142 75h-6M100 117v-6M58 75h6" />
+      {/* Grosser Zeiger auf 12, kleiner auf 8 */}
+      <path {...strich} d="M100 75V42" />
+      <path {...strich} d="m100 75-20 12" />
+      <circle cx="100" cy="75" r="5" fill={FARBEN.linie} />
+    </>
+  ),
+  /*
+   * Fuer Fristen: die zwei Jahre Gewaehrleistung, das erste Jahr mit der
+   * Beweislast beim Verkaeufer. Ein Kalenderblatt sagt „ab wann und wie
+   * lange", was der Kassenbon allein nicht sagt — der nennt nur den Tag null.
+   */
+  /*
+   * Die Kopfleiste ist **gefuellt**, nicht nur eine Linie. In Szenen mit viel
+   * Text schrumpft die Zeichnung auf ihre Behaelterhoehe, und die erste
+   * Fassung — Umriss, duenne Leiste, ein paar Striche — war dann keine
+   * Kalenderform mehr, sondern eine Karte mit Streifen. Eine gefuellte Flaeche
+   * traegt auch klein.
+   */
+  kalender: (
+    <>
+      {/* Die zwei Ringe, hinter dem Blatt beginnend */}
+      <path {...strich} d="M72 40V22M128 40V22" />
+      <rect {...koerper} x="40" y="34" width="120" height="94" rx="10" />
+      {/* Gefuellte Kopfleiste */}
+      <path fill={FARBEN.linie} d="M40 44a10 10 0 0 1 10-10h100a10 10 0 0 1 10 10v22H40Z" />
+      {/* Tagesraster: drei Spalten, zwei Zeilen — angedeutet, nicht ausgezaehlt */}
+      <path {...fein} d="M62 84h18M91 84h18M120 84h18M62 108h18M91 108h18" />
     </>
   ),
 };

@@ -96,6 +96,9 @@ export const garantieGewaehrleistung: Short[] = [
       },
       {
         art: 'einschraenkung',
+        // Abgeleitet aus „im ersten Jahr" und „die zwei Jahre": Es geht um
+        // Fristen, nicht um den Kaufvorgang — deshalb Kalender, nicht Bon.
+        symbol: 'kalender',
         ueberschrift: 'Der Haken kommt nach zwölf Monaten',
         bedingung: 'Im ersten Jahr musst du nichts beweisen',
         folge: 'Danach musst du zeigen, dass der Mangel von Anfang an da war — und das ist schwer',

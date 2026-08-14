@@ -172,6 +172,63 @@ Grenzfall     Die Regel gilt — aber nicht für dich, wenn …
 Folgekosten   Die Regel gilt — und sie kostet dich …
 ```
 
+### Die zwei Zeichenkategorien
+
+Eine Szene trägt entweder ein **Gerät** oder ein **Symbol**, nie beides. Der
+Unterschied ist der Anspruch:
+
+| | zeigt | muss stimmen? |
+|---|---|---|
+| **`geraet`** | Dock, Kabel, Router, Powerbank | **ja** — gezeichnet wird nur, was im Datenblatt steht |
+| **`symbol`** | Flugzeug, Gesetzbuch, Uhr, Nachbarhäuser | nein — es behauptet nichts Technisches, es setzt den Ort |
+
+Tragen können sie nur `hook`, `aussage`, `zahl` und `einschraenkung` — die
+übrigen Szenenarten haben ihr eigenes Bild.
+
+**Das Symbol gehört auf die Ursache, nicht auf den Entlasteten.** Beim
+WLAN-Short stand auf der Szene, die „Nachbarnetze nehmen dir Kapazität weg"
+sagt, ein gezeichneter Router — also ausgerechnet die Partei, die der Short
+entlastet. Jetzt stehen dort zwei Nachbarhäuser. Es ist derselbe Fehler wie
+bei den Titeln, eine Ebene tiefer.
+
+**Vorgeschlagen wird automatisch** (`src/illustration.ts`): Die Ableitung
+liest den Text einer Szene und meldet als Hinweis, welches Symbol passt.
+Anlass war, dass die Symbole gut aussahen und trotzdem nur auf zwei von fünf
+Shorts standen — weil sie von Hand kamen und Handarbeit nach drei Wochen
+ausläuft.
+
+Zwei Treffer im Wortfeld sind das Mindeste, bei Gleichstand zwischen zwei
+Symbolen wird nichts vorgeschlagen: Ein zweideutiges Bild ist schlechter als
+keins. Übersprungen wird, was schon ein `geraet` trägt — das ist immer die
+stärkere Wahl, weil es die Sache selbst zeigt statt ihren Ort.
+
+**Vorschlag, keine Zuweisung.** Das Symbol wird nicht still gesetzt, sondern
+im Entwurf entschieden. Ein Bild, das niemand entschieden hat, steht trotzdem
+im fertigen Video.
+
+Symbole werden **nur für Symbole vorgeschlagen, nie für Geräte.** Ein
+automatisch gesetztes Dock wäre eine technische Aussage ohne Beleg.
+
+### Was beim Zeichnen dreimal schiefging
+
+Alle drei am 14.08.2026, alle drei erst im gerenderten Standbild sichtbar —
+im Code sah jede Zeichnung plausibel aus:
+
+- **Die Steckdose war ein Gesicht.** Kreis, zwei runde Löcher, zwei
+  Querstriche: zwei Augen und ein Strichmund. Behoben durch die Wandplatte
+  drumherum und Schutzkontakte am Rand statt Strichen quer durchs Bild.
+- **Der Kalender verschwand.** In Szenen mit viel Text schrumpft die Zeichnung
+  auf ihre Behälterhöhe, und aus Umriss plus dünnen Strichen wurde eine Karte
+  mit Streifen. Eine **gefüllte** Kopfleiste trägt auch klein.
+- **Die Nachbarhäuser waren keine Häuser.** Zwei abgerundete Rechtecke mit
+  Strichen darin lasen sich als zwei Geräte. Was ein Haus zum Haus macht, ist
+  das Dach; was ein Fenster zum Fenster macht, ist die Fläche statt des
+  Strichs.
+
+Die Lehre ist bei allen dieselbe: **Eine Zeichnung ist erst geprüft, wenn sie
+gerendert danebensteht** — in der Szene, in der sie stehen soll, mit deren
+Text und deren Größe.
+
 ---
 
 ## Die Regeln des Laufs

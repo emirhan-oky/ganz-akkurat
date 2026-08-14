@@ -10,6 +10,7 @@ import {
   type Vertiefung,
   type Winkelart,
 } from './typen';
+import { fehlendeSymbole } from './illustration';
 import { gelaufeneThemen, zuletztOhneVertiefung, type Verlaufslauf } from './verlauf';
 import { geschaetzteDauerSek, LAENGE_SEK, zielfenster } from './zeit';
 
@@ -494,6 +495,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     if (text.hashtags.length === 0) {
       melde('hinweis', 'texte', `Für ${plattform} sind keine Hashtags gesetzt.`);
     }
+  }
+
+  /* ── Illustration ────────────────────────────────────────────────── */
+
+  /*
+   * Situationssymbole waren gut und wurden trotzdem selten gesetzt: zwei von
+   * fuenf Shorts, weil sie von Hand kamen. Die Ableitung schlaegt vor, wo
+   * eine Szene eine Situation beschreibt, fuer die es ein Symbol gibt.
+   *
+   * **Hinweis, nicht Zuweisung.** Vorgeschlagen wird nur, gesetzt wird im
+   * Entwurf. Ein still gesetztes Bild waere ein Bild, das niemand entschieden
+   * hat — und es steht im fertigen Video.
+   */
+  for (const { index, art, symbol } of fehlendeSymbole(short.szenen)) {
+    melde(
+      'hinweis',
+      'illustration',
+      `Szene ${index + 1} (${art}) beschreibt eine Situation ohne Bild – „symbol: '${symbol}'" passt.`,
+    );
   }
 
   /* ── Titel ───────────────────────────────────────────────────────── */

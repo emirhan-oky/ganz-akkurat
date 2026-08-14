@@ -244,6 +244,19 @@ geändert wird. Kurzfassung der Beschlüsse:
   Es wird nie etwas selbst benutzt, also bleibt `produktionsregel` dauerhaft
   und **„Test" ist für diesen Kanal endgültig ausgeschlossen**.
 
+Die Zeichnungen stehen in zwei Kategorien (`video/bausteine/Geraete.tsx`):
+`geraet` **muss dem Datenblatt entsprechen**, `symbol` setzt nur den Ort und
+behauptet nichts. Welches Symbol zu einer Szene passt, schlägt
+`src/illustration.ts` aus deren Text vor — als **Hinweis**, gesetzt wird im
+Entwurf. Vorgeschlagen werden nur Symbole, nie Geräte: Ein automatisch
+gesetztes Dock wäre eine technische Aussage ohne Beleg.
+
+**Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Am
+14.08.2026 sahen drei neue Symbole im Code plausibel aus und im Standbild
+nicht: Die Steckdose las sich als Gesicht, der Kalender schrumpfte in einer
+textreichen Szene zur Karte mit Streifen, die Nachbarhäuser hatten keine
+Dächer und waren damit keine Häuser. Einzelheiten in `produktionsmatrix.md`.
+
 **Arbeitsweise bei diesen Themen: erst zu Ende besprechen, dann bauen.** Nach
 einem bestätigten Einzelpunkt sofort loszubauen hat sich als falsch erwiesen —
 die Umsetzung kommt gesammelt.

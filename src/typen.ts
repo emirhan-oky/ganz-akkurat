@@ -160,7 +160,16 @@ export type GeraeteArt = z.infer<typeof GeraeteArt>;
  * belegte Aussage ist, ausgerechnet beim Rechtsthema ein Requisit zu zeigen,
  * das es hierzulande nicht gibt, waere ein vermeidbarer Patzer.
  */
-export const KontextArt = z.enum(['flugzeug', 'koffer', 'gesetzbuch', 'kassenbon', 'steckdose']);
+export const KontextArt = z.enum([
+  'flugzeug',
+  'koffer',
+  'gesetzbuch',
+  'kassenbon',
+  'steckdose',
+  'nachbarhaeuser',
+  'uhr',
+  'kalender',
+]);
 export type KontextArt = z.infer<typeof KontextArt>;
 
 /**

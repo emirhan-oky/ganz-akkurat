@@ -54,6 +54,13 @@ export const kabelWatt: Short[] = [
          */
         art: 'hook',
         kontext: 'Laden unterwegs',
+        /*
+         * Steckdose und nicht Netzteil, obwohl das Netzteil im Satz steht:
+         * Das Symbol setzt den Ort — laden, unterwegs. Ein gezeichnetes
+         * Netzteil waere ein `geraet` und haette auf genau die Sache gezeigt,
+         * die der Short als unschuldig entlastet.
+         */
+        symbol: 'steckdose',
         text: '10 Sekunden. Dann weißt du es.',
         sprechtext:
           'Dein Notebook lädt unterwegs im Schneckentempo, obwohl das Netzteil hundert Watt kann. Also denkst du, das Netzteil ist hinüber oder zu schwach für dieses Gerät. Bevor du ein neues kaufst: zehn Sekunden, dann weißt du, woran es wirklich liegt.',

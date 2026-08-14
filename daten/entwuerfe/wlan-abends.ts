@@ -34,6 +34,9 @@ export const wlanAbends: Short[] = [
       {
         art: 'hook',
         kontext: 'WLAN in der Wohnung',
+        // Abgeleitet aus „jeden Abend gegen acht" — die Tageszeit ist hier
+        // die halbe Aussage, und ohne Bild steht sie nur im Sprechtext.
+        symbol: 'uhr',
         text: 'Dein Router ist nicht zu alt.',
         sprechtext:
           'Jeden Abend gegen acht wird das WLAN zäh. Und jedes Mal denkst du, der Router hat es hinter sich.',
@@ -54,7 +57,13 @@ export const wlanAbends: Short[] = [
         einheit: 'GHz',
         bedeutung: 'Ein Band für die ganze Nachbarschaft',
         quelleId: 'tplink-kapazitaet-abends',
-        geraet: 'router',
+        /*
+         * Nachbarhaeuser statt Router, und der Unterschied ist der ganze
+         * Short: Diese Szene benennt die Ursache — „ein Band, das sich alle
+         * teilen", „Nachbarnetze nehmen dir Kapazitaet weg". Ein Router
+         * daneben zeigte ausgerechnet die Partei, die das Video entlastet.
+         */
+        symbol: 'nachbarhaeuser',
         sprechtext:
           'Der Grund steht in der Frequenz. Zwei Komma vier Gigahertz ist kein Kanal, der dir gehört, sondern ein Band, das sich alle teilen. Und der Hersteller sagt es selbst: Nachbarnetze auf demselben Kanal nehmen dir nutzbare Kapazität weg.',
       },
