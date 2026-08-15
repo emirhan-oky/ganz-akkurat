@@ -119,13 +119,43 @@ const textFuerDienst = (short: Short, dienst: string) => {
 };
 
 /**
+ * Dienste **ohne eigenes Titelfeld**.
+ *
+ * Instagram Reels und TikTok kennen nur einen einzigen Text am Beitrag, die
+ * Bildunterschrift. Ein `title` laesst sich zwar in den `metadata` mitgeben,
+ * wird dem Zuschauer aber nirgends angezeigt — auf beiden Plattformen sieht
+ * er ausschliesslich diese eine Zeile.
+ *
+ * YouTube steht bewusst nicht in dieser Liste: Dort gibt es ein echtes
+ * Titelfeld, und die Beschreibung traegt darunter die Quellenangaben.
+ */
+const OHNE_TITELFELD = ['instagram', 'tiktok'];
+
+/**
  * Baut den Beitragstext. Nur die erste Zeile ist ueber dem Video sichtbar —
  * sie traegt deshalb die Aussage, die Hashtags stehen hinten.
+ *
+ * ## Warum der Titel auf Instagram und TikTok vorne steht (15.08.2026)
+ *
+ * Bis heute stand dort die Beschreibung. Am ersten veroeffentlichten Beitrag
+ * fiel auf, was das bedeutet: Der Titel — der einzige Text, der die
+ * Titelregeln durchlaufen hat, mit Muster, Entwarnung und der Pflicht, nichts
+ * zu nennen, was im Video nicht vorkommt — wurde auf beiden Plattformen
+ * **nie angezeigt**. Sichtbar war nur die Erklaerung, und die ist der
+ * schwaechere Haken.
+ *
+ * Auf diesen beiden Diensten ist die Bildunterschrift also der Ort des
+ * Titels. Die Beschreibung entfaellt dort; sie geht nicht verloren, weil auf
+ * Instagram und TikTok ohnehin nur die erste Zeile ungekuerzt zu sehen ist.
+ *
+ * Bei YouTube bleibt es umgekehrt: Der Titel steht im Titelfeld, und die
+ * Beschreibung bleibt der Beschreibung — dort haengen die Quellen daran.
  */
 export const beitragstext = (short: Short, dienst: string): string | null => {
   const texte = textFuerDienst(short, dienst);
   if (!texte) return null;
-  return `${texte.beschreibung}\n\n${texte.hashtags.join(' ')}`.trim();
+  const vorne = OHNE_TITELFELD.includes(dienst.toLowerCase()) ? texte.titel : texte.beschreibung;
+  return `${vorne}\n\n${texte.hashtags.join(' ')}`.trim();
 };
 
 /**
