@@ -100,14 +100,43 @@ const main = async () => {
    * ist ein veraltetes Video, das oeffentlich steht.
    */
   /*
-   * `daten/verlauf.json` ist ausgenommen, und das ist kein Schlupfloch: Der
-   * Wochenlauf schreibt es **nach** dem Rendern (Schritt 6). Ohne die
-   * Ausnahme waere jedes frisch gerenderte Video sofort veraltet und die
-   * Pruefung dauerhaft rot — und eine Pruefung, die immer rot ist, liest bald
-   * niemand mehr. Der Verlauf ist Buchhaltung ueber den Lauf, kein Eingang
-   * in das Video.
+   * Ausgenommen ist, was **nachweislich nicht in das Video eingeht**.
+   *
+   * Die Liste ist eine Ausnahmeliste und keine Einschlussliste, und das ist
+   * Absicht: Wer eine neue Datei anlegt, ist damit ueberwacht, bis jemand
+   * ausdruecklich das Gegenteil begruendet. Vergisst man einen Eintrag, gibt
+   * es einen Fehlalarm und einen unnoetigen Neurender. Vergaesse man einen
+   * Eintrag in einer Einschlussliste, ginge ein veraltetes Video online.
+   *
+   * `daten/verlauf.json` — der Wochenlauf schreibt es **nach** dem Rendern
+   * (Schritt 6). Ohne die Ausnahme waere jedes frisch gerenderte Video sofort
+   * veraltet und die Pruefung dauerhaft rot.
+   *
+   * Die vier Module der Veroeffentlichungskette — hinzugekommen am
+   * 15.08.2026, nach einem Zirkelschluss im laufenden Betrieb: Buffer
+   * antwortete mit 504, die Fehlermeldung dazu war unbrauchbar, also wurde
+   * `src/buffer.ts` verbessert — und **genau diese Verbesserung** erklaerte
+   * das fertige Video fuer veraltet. Um zu veroeffentlichen, musste die Kette
+   * repariert werden; wer die Kette reparierte, durfte nicht mehr
+   * veroeffentlichen.
+   *
+   * Keines der vier Module laeuft im Browser-Kontext von Remotion. Sie
+   * kommen erst zum Zug, wenn die Datei fertig auf der Platte liegt: hochladen
+   * (`ablage`), einplanen (`buffer`), Buchfuehrung (`verlauf`), und die
+   * Uebersicht, aus der die Freigabe entsteht (`freigabeseite`).
+   *
+   * **Nicht ausgenommen und niemals auszunehmen** sind `marke`, `zeit`,
+   * `typen`, `illustration`, `pruefung`, `stimme` und `medien`: Die ersten
+   * vier bestimmen das Bild, die letzten beiden Ton und Lautheit — und die
+   * stecken in derselben Datei.
    */
-  const NICHT_UEBERWACHT = new Set([path.join('daten', 'verlauf.json')]);
+  const NICHT_UEBERWACHT = new Set([
+    path.join('daten', 'verlauf.json'),
+    path.join('src', 'ablage.ts'),
+    path.join('src', 'buffer.ts'),
+    path.join('src', 'verlauf.ts'),
+    path.join('src', 'freigabeseite.ts'),
+  ]);
 
   const neuesteAenderung = async (ordner: string): Promise<number> => {
     const eintraege = await fs.readdir(ordner, { withFileTypes: true });
