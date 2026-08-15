@@ -53,7 +53,7 @@ export const SICHERE_ZONE = {
    * Muss unter `KOPFZEILE_OBEN` plus deren Hoehe liegen — die Kopfzeile sitzt
    * ausserhalb der Buehne und darf nicht in sie hineinragen.
    */
-  oben: 230,
+  oben: 360,
   /**
    * Reels blendet unten Beschreibung und Tonzeile ein und verdeckt damit
    * deutlich mehr als TikTok. Der Wert richtet sich nach der schlimmsten
@@ -84,15 +84,19 @@ export const SICHERE_ZONE = {
    * auch aus: Die Ueberschrift klebte am Displayrand, und am Desktop, wo
    * nichts beschnitten wird, war davon nichts zu sehen.
    *
-   * 115 = 52 Beschnitt + rund 60 echter Rand.
+   * 170 = 52 Beschnitt + rund 120 echter Rand. Der Rand ist bewusst groesser
+   * als noetig: Mit `rechts: 200` liegt die Mitte des nutzbaren Bereichs bei
+   * 535 statt bei 540 — der Inhalt steht also praktisch zentriert. Vorher
+   * (115/240) lag sie bei 477 und alles wirkte sichtbar nach links geschoben.
    */
-  links: 115,
+  links: 170,
   /**
-   * 240 = 56 Beschnitt + rund 180 fuer die Aktionsleiste, die TikTok rechts
-   * einblendet. Von den alten 200 blieben nach dem Beschnitt nur 144 — zu
-   * wenig fuer die Leiste, auch wenn es am Desktop nie auffiel.
+   * 200 = 56 Beschnitt + rund 145 fuer die Aktionsleiste rechts. Am
+   * YouTube-Screenshot nachgemessen: Die Leiste beginnt bei 87 % der Breite
+   * und braucht damit rund 128 sichtbare Pixel, nicht die zuvor
+   * angenommenen 180.
    */
-  rechts: 240,
+  rechts: 200,
 } as const;
 
 /**
@@ -109,10 +113,33 @@ export const SICHERE_ZONE = {
  * Am Schreibtisch war das unsichtbar, weil ein Browserfenster keine
  * Statusleiste ueber das Video legt. Aufgefallen ist es erst am Telefon.
  *
- * 150 liegt unter der Statusleiste auch der Geraete mit Dynamic Island (dort
- * rund 120 Pixel, auf die Videohoehe gerechnet).
+ * ## Nachgemessen am 15.08.2026, zweiter Anlauf
+ *
+ * 150 war immer noch zu hoch. Die Statusleiste war nicht das einzige, was
+ * dort liegt — jede der drei Apps blendet oben eigene Bedienelemente ein,
+ * und die reichen deutlich tiefer:
+ *
+ * | | reicht bis |
+ * |---|---|
+ * | YouTube — Suche, drei Punkte | y ≈ 213 |
+ * | Instagram Vollbild — Zurück, „Beiträge", Folgen | y ≈ 248 |
+ * | Instagram Profilansicht — Profilkopf mit Namenszeile | y ≈ 352 |
+ *
+ * Gemessen an den Screenshots des ersten veroeffentlichten Beitrags, auf
+ * 1080x1920 hochgerechnet. Der schlechteste Fall ist die Profilansicht mit
+ * 352 — dort lag unsere Kopfzeile komplett unter dem Profilkopf.
+ *
+ * 280 liegt unter den beiden Faellen, die zaehlen: YouTube und Instagram im
+ * Vollbild. Die **Profilansicht** mit ihren 352 ist bewusst ausgenommen —
+ * dort ueberlappt der Profilkopf die Kopfzeile weiterhin leicht.
+ *
+ * Das ist eine Abwaegung, keine Nachlaessigkeit: 370 haetten die Buehne auf
+ * 770 Pixel gedrueckt, und die Endkarte braucht 1132. Sie waere unter die
+ * Untergrenze von 0,7 gefallen und damit unlesbar klein geworden. Die
+ * Profilansicht ist ausserdem die seltenere: Gesehen wird ein Short im Feed,
+ * das Profil oeffnet, wer schon ueberzeugt ist.
  */
-export const KOPFZEILE_OBEN = 150;
+export const KOPFZEILE_OBEN = 280;
 
 /**
  * Hoehe, die der Untertitel unten belegt.

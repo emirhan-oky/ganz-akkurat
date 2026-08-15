@@ -184,11 +184,61 @@ const main = async () => {
             `mit Ton am selben Tag voraus — sonst gibt es keine Vertonung zu behalten.`,
         );
       }
-      const vertont = Short.parse((JSON.parse(roh) as { daten: unknown }).daten);
-      if (!vertont.tonspur) {
+      const alt = Short.parse((JSON.parse(roh) as { daten: unknown }).daten);
+      if (!alt.tonspur) {
         throw new Error(`--ton-behalten: ${short.id} hat in den Props keine Tonspur.`);
       }
-      console.log(`   ${short.id}  ${vertont.tonspur.dauerSek.toFixed(1)}s  unverändert`);
+
+      /*
+       * **Nur die Tonspur wird uebernommen, alles andere kommt aus dem
+       * aktuellen Entwurf.**
+       *
+       * Die erste Fassung dieses Schalters nahm den Short komplett aus den
+       * Props — und damit auch jeden Text von damals. Am 15.08.2026 fiel das
+       * teuer auf: Die Beschreibungen waren in den Entwuerfen geleert, der
+       * Lauf uebernahm trotzdem die alten, und im veroeffentlichten Beitrag
+       * stand die Beschreibung samt einer zweiten, veralteten Quellenliste.
+       * Sichtbar wurde es erst auf Instagram.
+       *
+       * Der Schalter heisst `--ton-behalten` und nicht `--alles-behalten`.
+       * Uebernommen wird deshalb genau das, was er verspricht: die Tonspur
+       * und die daran haengenden Wort-Zeitstempel, weil beide Geld gekostet
+       * haben. Titel, Texte, Szenen und Quellen kommen aus dem Entwurf —
+       * sonst waere jede Textkorrektur nur mit neuer Vertonung zu bezahlen.
+       */
+      const szenenMitZeit = short.szenen.map((szene, i) => {
+        const frueher = alt.szenen[i] as { untertitel?: unknown } | undefined;
+        return frueher?.untertitel ? { ...szene, untertitel: frueher.untertitel } : szene;
+      });
+
+      if (short.szenen.length !== alt.szenen.length) {
+        throw new Error(
+          `--ton-behalten: ${short.id} hat jetzt ${short.szenen.length} Szenen, ` +
+            `die vorhandene Vertonung ${alt.szenen.length}. Wer Szenen hinzufügt oder ` +
+            `entfernt, ändert den Sprechtext — das braucht einen Lauf mit --mit-ton.`,
+        );
+      }
+
+      /*
+       * Der Sprechtext muss derselbe sein. Sonst gehoeren die uebernommenen
+       * Wort-Zeitstempel zu anderen Worten — die Untertitel liefen dann
+       * sichtbar am Ton vorbei, und zwar ohne dass irgendeine Pruefung
+       * anschlaegt. Texte am Bildschirm darf dieser Schalter aendern, den
+       * gesprochenen Satz nicht.
+       */
+      const geaendert = short.szenen
+        .map((s, i) => (s.sprechtext !== alt.szenen[i]?.sprechtext ? i + 1 : 0))
+        .filter(Boolean);
+      if (geaendert.length > 0) {
+        throw new Error(
+          `--ton-behalten: In ${short.id} weicht der Sprechtext von Szene ` +
+            `${geaendert.join(', ')} von der vorhandenen Vertonung ab. Die Zeitstempel ` +
+            `gehörten dann zu anderen Worten — das braucht einen Lauf mit --mit-ton.`,
+        );
+      }
+
+      const vertont = Short.parse({ ...short, szenen: szenenMitZeit, tonspur: alt.tonspur });
+      console.log(`   ${short.id}  ${alt.tonspur.dauerSek.toFixed(1)}s  Ton unverändert, Texte aktuell`);
       fertige.push(vertont);
     }
     console.log('');
