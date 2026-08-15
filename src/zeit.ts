@@ -140,49 +140,56 @@ export const gesamtdauerBilder = (short: Short): number => {
 };
 
 /**
- * Laenge nach Vertiefung — zwei Stufen statt einer Grenze.
+ * Laengenvorgaben.
  *
- * Die alte Obergrenze von 59 Sekunden war das Shorts-Limit von frueher.
- * YouTube Shorts nimmt seit Oktober 2024 bis drei Minuten, Reels ebenso,
- * TikTok deutlich mehr; die Grenze kam also nicht mehr von aussen, sondern
- * hielt sich nur noch selbst.
- *
- * Die Kopplung an die Vertiefung verhindert den eigentlichen Fehler. Der
- * ist nicht, dass zwei Shorts je Woche ohne Vertiefung auskommen — sondern
- * dass sie ohne Vertiefung **trotzdem neunzig Sekunden** dauern. Gedehnt ist
- * schlimmer als kurz.
- *
- * `maximum` bleibt als harte Grenze fuer beide Stufen bestehen: Auch ein
- * tiefer Short soll nicht ins Erklaervideo kippen.
+ * Hier stand bis zum 15.08.2026 ein zweistufiges Modell: ein knappes Fenster
+ * ohne Vertiefung, ein tiefes mit. Es ist ersatzlos entfallen — die Begruendung
+ * steht an `ziel`.
  */
 export const LAENGE_SEK = {
   minimum: 15,
-  /** Zielfenster ohne Vertiefung: eine Sache, sauber gesagt, fertig. */
-  knapp: [40, 60] as const,
   /**
-   * Zielfenster mit Vertiefung: traegt eine Struktur, braucht den Platz.
+   * Das Zielfenster. **Seit dem 15.08.2026 gibt es nur noch eines.**
    *
-   * Die Obergrenze stand bis zum 13.08.2026 auf 90. Der Grund fuer die 95 ist
-   * die Streuung der Vertonung: Derselbe Text ergab bei zwei Laeufen 75,3 und
-   * 70,5 Sekunden, also rund sechs Prozent oder fuenf Sekunden. Wer bei 90
-   * baut, faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
+   * Vorher standen hier zwei: 40–60 ohne Vertiefung, 75–95 mit. Der Kanal
+   * baute auf Tiefe, und die Videos wurden 85 Sekunden lang. Das erste
+   * Zuschauerfeedback zu den ersten veroeffentlichten Shorts war einhellig:
+   * **zu lang.** Nicht zu kompliziert, nicht zu trocken — zu lang. Das
+   * Design, die Untertitel und die Machart kamen an, die Laenge nicht.
    *
-   * **95 ist Spielraum, nicht das neue Ziel.** Die Absicht ist ausdruecklich,
-   * die Laenge ueber die Zeit wieder zu druecken — aber ueber Straffung, nie
-   * ueber Weglassen von Substanz. Wo das gelingt, zeigt der Wochenschnitt im
-   * Lauf; deshalb steht er dort neben dem der Vorwoche.
+   * Damit faellt die Annahme, auf der das alte Modell stand. Ein tiefes
+   * Video, das niemand zu Ende sieht, hat keine Tiefe, sondern nur Laenge.
+   *
+   * Gezielt wird auf **35 Sekunden**, nicht auf 40. Der Grund ist derselbe
+   * wie frueher an der oberen Kante: Die vertonte Laenge streut um rund sechs
+   * Prozent, wer bei 40 baut, landet beim naechsten Lauf bei 42.
    */
-  tief: [75, 95] as const,
+  ziel: [28, 40] as const,
   /**
-   * Harte Grenze, in beiden Stufen und ohne Ausnahme. Darueber ist es kein
-   * Short mehr, sondern ein Erklaervideo im Hochformat.
+   * Harte Grenze, ohne Ausnahme.
+   *
+   * 45 statt der frueheren 100. Die alten 100 waren die Grenze zum
+   * Erklaervideo im Hochformat; die neuen 45 sind die Grenze zu dem, was
+   * gerade nachweislich nicht funktioniert hat.
    */
-  maximum: 100,
+  maximum: 45,
+  /**
+   * Hoechstdauer der Hook — der ersten Szene.
+   *
+   * „Die ersten drei Sekunden entscheiden" ist als Merksatz wohlfeil und als
+   * Regel pruefbar. Am 15.08.2026 dauerte die Hook des Gewaehrleistungs-Shorts
+   * **7,5 Sekunden** und war damit laenger als das Fenster, in dem sich
+   * jemand fuers Bleiben entscheidet. Bei 17,4 Zeichen je Sekunde sind drei
+   * Sekunden rund 52 Zeichen: ein Satz, kein Absatz.
+   */
+  hookMaximum: 3.5,
 } as const;
 
-/** Das Zielfenster, das fuer diesen Short gilt. */
-export const zielfenster = (short: Short): readonly [number, number] =>
-  short.vertiefung ? LAENGE_SEK.tief : LAENGE_SEK.knapp;
+/**
+ * Das Zielfenster. Nimmt weiter einen Short entgegen, damit die Aufrufer
+ * unveraendert bleiben — es gibt seit dem 15.08.2026 aber nur noch eines.
+ */
+export const zielfenster = (_short: Short): readonly [number, number] => LAENGE_SEK.ziel;
 
 /**
  * Geschaetzte Gesamtlaenge in Sekunden, ohne Tonspur.

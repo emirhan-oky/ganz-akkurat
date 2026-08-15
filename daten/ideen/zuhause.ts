@@ -58,7 +58,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Ein einfacher Repeater empfängt und sendet auf demselben Kanal, überträgt jedes Paket also zweimal.',
     titelmuster: 'zweisatz',
-    vertiefung: 'folgekosten',
     system: 'ohne',
     belegpfad: [
       { instanz: 'IEEE 802.11', art: 'standard', findet: 'Funktionsweise der Weiterleitung, Halbduplex-Betrieb des Mediums' },
@@ -77,7 +76,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Die Kategorien sind für Übertragungsraten weit oberhalb üblicher Hausanschlüsse ausgelegt; die begrenzende Stelle ist der Anschluss, nicht das Kabel.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'ISO/IEC 11801 bzw. EN 50173', art: 'standard', findet: 'Kategorien und die zugehörigen Übertragungsraten' },
@@ -112,7 +110,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Das Energielabel nennt den Verbrauch für 1000 Betriebsstunden; wer weniger fernsieht, kommt entsprechend niedriger heraus.',
     titelmuster: 'uhr',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'EU-Energiekennzeichnungsverordnung', art: 'behoerde', findet: 'Bezugsgröße der Verbrauchsangabe auf dem Label' },
@@ -130,7 +127,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Die Ökodesign-Verordnung begrenzt die Leistungsaufnahme im Bereitschaftsbetrieb auf einen festen Höchstwert.',
     titelmuster: 'uhr',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'EU-Ökodesign-Verordnung', art: 'behoerde', findet: 'Höchstwerte für Bereitschafts- und Aus-Zustand' },
@@ -149,7 +145,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Die Bundesnetzagentur unterscheidet die vertraglich zugesicherte von der tatsächlich verfügbaren Rate und misst die Abweichung regelmäßig.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Bundesnetzagentur', art: 'behoerde', findet: 'Messverfahren, zugesicherte gegenüber tatsächlicher Rate' },
@@ -185,7 +180,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Höhere Frequenzen werden von Wänden stärker gedämpft; zusätzlich ist die zulässige Sendeleistung im 5-GHz-Bereich teilweise auf Innenräume beschränkt.',
     titelmuster: 'zweisatz',
-    vertiefung: 'folgekosten',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Bundesnetzagentur', art: 'behoerde', findet: 'Allgemeinzuteilung 5 GHz mit Leistungsgrenzen und Innenraumbeschränkung' },
@@ -236,7 +230,6 @@ export const zuhauseIdeen: Idee[] = [
     sache:
       'Für Waren mit digitalen Elementen besteht eine gesetzliche Aktualisierungspflicht über einen Zeitraum, den der Käufer erwarten darf.',
     titelmuster: 'zweisatz',
-    vertiefung: 'folgekosten',
     system: 'ohne',
     belegpfad: [
       { instanz: '§ 475b BGB (Waren mit digitalen Elementen)', art: 'behoerde', findet: 'Aktualisierungspflicht und deren Dauer' },

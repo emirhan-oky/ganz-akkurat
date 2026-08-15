@@ -33,7 +33,6 @@ export const powerbankFlug: Short[] = [
 
     system: 'ohne',
     titelmuster: 'zweisatz',
-    vertiefung: 'herleitung',
     merksatz: 'Wattstunden sind mAh mal Spannung, geteilt durch 1000.',
 
     szenen: [

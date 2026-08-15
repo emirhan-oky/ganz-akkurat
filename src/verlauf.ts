@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { Rubrik, Titelmuster, Vertiefung, Winkelart, type Short } from './typen';
+import { Rubrik, Titelmuster, Winkelart, type Short } from './typen';
 
 /**
  * Das Gedaechtnis ueber die Woche hinaus.
@@ -31,7 +31,6 @@ export const Verlaufseintrag = z.object({
   themaId: z.string(),
   winkelart: Winkelart,
   titelmuster: Titelmuster,
-  vertiefung: Vertiefung.optional(),
   /**
    * Die vertonte Laenge in Sekunden — die einzige Zahl hier, die nicht der
    * Wiederholungspruefung dient.
@@ -88,7 +87,6 @@ export const verlaufSchreiben = async (
       themaId: s.themaId,
       winkelart: s.winkelart,
       titelmuster: s.titelmuster,
-      ...(s.vertiefung ? { vertiefung: s.vertiefung } : {}),
       // Nur die echte Laenge, nie die geschaetzte: Ein Trockenlauf schreibt
       // ohnehin keinen Verlauf, und eine Schaetzung als Messwert zu fuehren
       // waere schlimmer als gar keiner.
@@ -112,19 +110,13 @@ export const verlaufSchreiben = async (
   );
 };
 
-/**
- * Rubriken, die im zuletzt eingetragenen Lauf ohne Vertiefung waren.
- *
- * Grundlage des Rotationshinweises: Die zwei freien Plaetze sollen wandern,
- * damit nicht immer dieselben Rubriken flach bleiben — und das waeren
- * erfahrungsgemaess die schwierigsten Themen, also die, bei denen Tiefe am
- * meisten brauecht wird.
+/*
+ * Hier stand `zuletztOhneVertiefung`: Sie sagte, welche Rubriken im letzten
+ * Lauf ohne Vertiefung liefen, damit die beiden freien Plaetze rotieren.
+ * Mit der Vertiefung ist sie am 15.08.2026 entfallen — jetzt ist jeder Short
+ * knapp, und es gibt keine freien Plaetze mehr zu verteilen.
  */
-export const zuletztOhneVertiefung = (verlauf: Verlaufslauf[]): Set<Rubrik> => {
-  const letzter = verlauf[verlauf.length - 1];
-  if (!letzter) return new Set();
-  return new Set(letzter.shorts.filter((s) => !s.vertiefung).map((s) => s.rubrik));
-};
+
 
 /**
  * Durchschnittliche Laenge eines Laufs in Sekunden, oder `null`.

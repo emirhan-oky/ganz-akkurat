@@ -24,7 +24,6 @@ export const unterwegsIdeen: Idee[] = [
     sache:
       'Ein Mehrfachnetzteil handelt die Leistung je Anschluss aus und verteilt eine feste Gesamtleistung; steckt das zweite Gerät dazu, sinkt die Leistung am ersten auf eine niedrigere Stufe.',
     titelmuster: 'uhr',
-    vertiefung: 'herleitung',
     system: 'beide',
     belegpfad: [
       { instanz: 'USB Implementers Forum', art: 'standard', findet: 'feste Spannungsstufen und Aushandlung je Anschluss' },
@@ -78,7 +77,6 @@ export const unterwegsIdeen: Idee[] = [
     sache:
       'Der Verkehr zu Websites ist heute überwiegend transportverschlüsselt; das BSI benennt, was ein offenes Netz noch preisgibt und was nicht.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Bundesamt für Sicherheit in der Informationstechnik', art: 'behoerde', findet: 'aktuelle Einschätzung zu öffentlichen WLANs' },
@@ -130,7 +128,6 @@ export const unterwegsIdeen: Idee[] = [
     sache:
       'Die Leistung wird zwischen Gerät und Netzteil ausgehandelt; das Gerät nimmt, was es anfordert, nicht was das Netzteil hergibt.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'USB Implementers Forum', art: 'standard', findet: 'Aushandlung durch das angeschlossene Gerät' },
@@ -183,7 +180,6 @@ export const unterwegsIdeen: Idee[] = [
     sache:
       'Induktives Laden erreicht geringere Leistungen als die Kabelverbindung und setzt einen Teil der Energie in Wärme um.',
     titelmuster: 'zweisatz',
-    vertiefung: 'folgekosten',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Wireless Power Consortium (Qi)', art: 'standard', findet: 'Leistungsklassen der Qi-Spezifikation' },
@@ -236,7 +232,6 @@ export const unterwegsIdeen: Idee[] = [
     sache:
       'Die Alterung hängt an Ladezyklen, Ladezustand und Temperatur; die Ladeleistung wird vom Gerät begrenzt, sobald die Zelle warm wird.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Umweltbundesamt', art: 'behoerde', findet: 'Lebensdauer und Alterungsfaktoren von Lithium-Ionen-Akkus' },

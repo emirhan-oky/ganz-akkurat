@@ -724,87 +724,39 @@ export const TITELMUSTER: Record<Titelmuster, { titel: string; bau: string; brau
 
 /* ───────────────────────────── Vertiefung ──────────────────────────── */
 
-/**
- * Wodurch ein Short Tiefe bekommt — die zweite Ebene neben der Machart.
+/*
+ * Hier standen bis zum 15.08.2026 `Vertiefung` und `VERTIEFUNGEN`: vier
+ * Bauformen — `fehlspur`, `herleitung`, `grenzfall`, `folgekosten` —, deren
+ * einziger Zweck es war, eine Sache auszubauen.
  *
- * Die Machart sagt, **worauf** ein Video zugreift. Die Vertiefung sagt,
- * **wodurch** es mehr wird als eine Information: durch eine ausgeschlossene
- * Fehlannahme, eine gerechnete Zahl, eine genannte Ausnahme oder einen
- * genannten Preis.
+ * Sie sind ersatzlos entfallen. Das erste Zuschauerfeedback zu den
+ * veroeffentlichten Shorts war einhellig: zu lang. Nicht zu kompliziert,
+ * nicht zu trocken — zu lang. Bei einem Zielfenster von 28 bis 40 Sekunden
+ * passt keine der vier Formen mehr hinein; die `einschraenkung`-Szene des
+ * Gewaehrleistungs-Shorts allein dauerte 19 Sekunden.
  *
- * Bewusst **nicht** an jedem Short Pflicht (siehe `laufweiteBefunde`): Ein
- * Zwang zur Tiefe erzeugt erfundene Tiefe, und die riecht man. Drei von fuenf
- * lassen Raum, sie ehrlich zu vergeben — die Rubrik `kaufen` ist die
- * Ausnahme, weil der werbende Short die Glaubwuerdigkeit am dringendsten
- * braucht.
+ * Die Szenenarten `fehlspur`, `herleitung` und `einschraenkung` bleiben im
+ * Vertrag. Sie sind weiterhin brauchbar — als **eine** Szene unter fuenf,
+ * nicht als Bauform, die ein halbes Video traegt. Was faellt, ist die
+ * Verpflichtung, sie einzusetzen, und das zweite Zielfenster, das sie
+ * bezahlte.
  */
-export const Vertiefung = z.enum(['fehlspur', 'herleitung', 'grenzfall', 'folgekosten']);
-export type Vertiefung = z.infer<typeof Vertiefung>;
 
-/**
- * Was jede Vertiefung tut und welche Szene sie tragen muss.
- *
- * Wie bei `WINKELARTEN` ist die `signatur` kein Schmuck: Ohne sie koennte
- * jemand `vertiefung: 'grenzfall'` setzen, ohne dass im Video je eine
- * Einschraenkung vorkaeme.
- */
-export const VERTIEFUNGEN: Record<
-  Vertiefung,
-  {
-    titel: string;
-    tut: string;
-    moment: string;
-    signatur: readonly SzenenArt[];
-  }
-> = {
-  fehlspur: {
-    titel: 'Fehlspur',
-    tut: 'Die naheliegende Erklärung wird erst genannt, dann ausgeschlossen.',
-    moment: 'Genau das dachte ich auch.',
-    signatur: ['fehlspur'],
-  },
-  herleitung: {
-    titel: 'Herleitung',
-    tut: 'Die Zahl wird vor seinen Augen gerechnet, nicht behauptet.',
-    moment: 'Das kann ich jetzt selbst ausrechnen.',
-    signatur: ['herleitung'],
-  },
-  grenzfall: {
-    titel: 'Grenzfall',
-    tut: 'Die Regel nennt ihre eigene Ausnahme.',
-    moment: 'Der weiß, wovon er redet.',
-    signatur: ['einschraenkung'],
-  },
-  folgekosten: {
-    titel: 'Folgekosten',
-    tut: 'Was du aufgibst, wenn du die Lösung nimmst.',
-    moment: 'Ah, es ist nicht umsonst.',
-    signatur: ['einschraenkung'],
-  },
-};
-
-/**
- * Empfehlung, welche Vertiefung und welches Titelmuster zu einer Machart
- * passen. **Kommentar in Tabellenform, keine Pruefung** — eine Diagnose ohne
- * Fehlspur ist kein Fehler, sie ist nur die schwaechere Wahl.
- *
- * Ausgeschrieben in `produktionsmatrix.md`, dort auch mit Rubrikspalte.
- */
-export const MATRIX: Record<Winkelart, { vertiefung: Vertiefung; titelmuster: Titelmuster }> = {
-  diagnose: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
-  verwechslung: { vertiefung: 'fehlspur', titelmuster: 'zweisatz' },
-  uebersehenerPunkt: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
-  haken: { vertiefung: 'grenzfall', titelmuster: 'zweisatz' },
-  entlarvung: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
-  mythos: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
-  grenzwert: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
-  umrechnung: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
-  vorschrift: { vertiefung: 'herleitung', titelmuster: 'zweisatz' },
-  reihenfolge: { vertiefung: 'fehlspur', titelmuster: 'verdaechtiger' },
-  selbsttest: { vertiefung: 'grenzfall', titelmuster: 'uhr' },
-  kaufberatung: { vertiefung: 'grenzfall', titelmuster: 'uhr' },
-  kompromiss: { vertiefung: 'folgekosten', titelmuster: 'zweisatz' },
-  notloesung: { vertiefung: 'folgekosten', titelmuster: 'uhr' },
+export const MATRIX: Record<Winkelart, { titelmuster: Titelmuster }> = {
+  diagnose: { titelmuster: 'verdaechtiger' },
+  verwechslung: { titelmuster: 'zweisatz' },
+  uebersehenerPunkt: { titelmuster: 'verdaechtiger' },
+  haken: { titelmuster: 'zweisatz' },
+  entlarvung: { titelmuster: 'zweisatz' },
+  mythos: { titelmuster: 'verdaechtiger' },
+  grenzwert: { titelmuster: 'zweisatz' },
+  umrechnung: { titelmuster: 'zweisatz' },
+  vorschrift: { titelmuster: 'zweisatz' },
+  reihenfolge: { titelmuster: 'verdaechtiger' },
+  selbsttest: { titelmuster: 'uhr' },
+  kaufberatung: { titelmuster: 'uhr' },
+  kompromiss: { titelmuster: 'zweisatz' },
+  notloesung: { titelmuster: 'uhr' },
 };
 
 /* ────────────────────────────── Rubrik ─────────────────────────────── */
@@ -925,14 +877,6 @@ export const Short = z.object({
   /** Der Bau von Hook und Titel. Empfehlung je Machart siehe `MATRIX`. */
   titelmuster: Titelmuster,
 
-  /**
-   * Wodurch dieser Short Tiefe bekommt — optional.
-   *
-   * Mindestens drei der fuenf Shorts eines Laufs tragen eine, `kaufen`
-   * immer. Das prueft `laufweiteBefunde`, nicht dieses Schema: Die Regel
-   * gilt fuer den Lauf, nicht fuer den einzelnen Short.
-   */
-  vertiefung: Vertiefung.optional(),
 
   /**
    * Der Satz, der ueber den Einzelfall hinaustraegt.
@@ -1035,38 +979,6 @@ export const Short = z.object({
         message: `Machart „${titel}" braucht mindestens eine Szene der Art ${signatur
           .map((a) => `„${a}"`)
           .join(' oder ')}.`,
-      });
-    }
-
-    /* ── Die Vertiefung muss ihre tragende Szene haben ──────────── */
-
-    if (short.vertiefung) {
-      const v = VERTIEFUNGEN[short.vertiefung];
-      if (!v.signatur.some((art) => arten.has(art))) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['vertiefung'],
-          message: `Vertiefung „${v.titel}" braucht mindestens eine Szene der Art ${v.signatur
-            .map((a) => `„${a}"`)
-            .join(' oder ')}.`,
-        });
-      }
-    }
-
-    /*
-     * Umgekehrt gilt die Regel auch: Wer die Szene baut, ohne die Vertiefung
-     * zu benennen, faellt aus der Zaehlung „drei von fuenf" heraus, obwohl
-     * die Tiefe im Video steht. Das waere eine stille Fehlbuchung.
-     */
-    const vertiefungsszenen: SzenenArt[] = ['fehlspur', 'herleitung', 'einschraenkung'];
-    const gebaut = vertiefungsszenen.filter((a) => arten.has(a));
-    if (gebaut.length > 0 && !short.vertiefung) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['vertiefung'],
-        message:
-          `Der Short baut ${gebaut.map((a) => `„${a}"`).join(' und ')}, benennt aber keine ` +
-          'Vertiefung. Dann zählt er nicht mit, obwohl die Tiefe im Video steht.',
       });
     }
 
@@ -1224,7 +1136,6 @@ export const Idee = z
     sache: z.string(),
 
     titelmuster: Titelmuster,
-    vertiefung: Vertiefung.optional(),
     system: System,
 
     /** Mindestens eine Instanz je Idee, mindestens eine davon unbeteiligt. */

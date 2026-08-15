@@ -32,7 +32,6 @@ export const kabelWatt: Short[] = [
      * gegen den Preis eines neuen Netzteils.
      */
     titelmuster: 'uhr',
-    vertiefung: 'herleitung',
     merksatz: 'Die Wattzahl steht am Kabel, nicht am Netzteil.',
 
     szenen: [

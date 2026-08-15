@@ -1,5 +1,5 @@
 import type { Befund } from './pruefung';
-import { RUBRIKEN, SYSTEME, VERTIEFUNGEN, WINKELARTEN, type Quelle, type Short, type Szene } from './typen';
+import { RUBRIKEN, SYSTEME, WINKELARTEN, type Quelle, type Short, type Szene } from './typen';
 
 /**
  * Erzeugt die Freigabe-Uebersicht als eigenstaendige HTML-Datei.
@@ -142,11 +142,6 @@ export const freigabeseiteBauen = (opts: {
             <div class="marken">
               <span class="marke rubrik">${escape(RUBRIKEN[short.rubrik].titel)}</span>
               <span class="marke machart">${escape(WINKELARTEN[short.winkelart].titel)}</span>
-              ${
-                short.vertiefung
-                  ? `<span class="marke tiefe">${escape(VERTIEFUNGEN[short.vertiefung].titel)}</span>`
-                  : '<span class="marke flach">ohne Vertiefung</span>'
-              }
               <span class="marke muster">${escape(short.titelmuster)}</span>
               ${short.system !== 'ohne' ? `<span class="marke system">${escape(SYSTEME[short.system].titel)}</span>` : ''}
               ${short.kennzeichnung.werbung === 'video' ? '<span class="marke werbung">Werbung im Bild</span>' : ''}

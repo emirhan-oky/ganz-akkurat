@@ -28,7 +28,6 @@ export const garantieGewaehrleistung: Short[] = [
 
     system: 'ohne',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     merksatz: 'Garantie ist freiwillig. Gewährleistung ist Gesetz.',
 
     szenen: [

@@ -3,17 +3,15 @@ import {
   UNBETEILIGTE_ARTEN,
   Rubrik,
   SYSTEME,
-  VERTIEFUNGEN,
   WINKELARTEN,
   type Quelle,
   type Short,
   type Titelmuster,
-  type Vertiefung,
   type Winkelart,
 } from './typen';
 import { fehlendeSymbole } from './illustration';
-import { gelaufeneThemen, zuletztOhneVertiefung, type Verlaufslauf } from './verlauf';
-import { geschaetzteDauerSek, LAENGE_SEK, zielfenster } from './zeit';
+import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
+import { geschaetzteDauerSek, LAENGE_SEK, ZEICHEN_PRO_SEKUNDE, zielfenster } from './zeit';
 
 /**
  * Qualitaetspruefung vor der Freigabe.
@@ -721,12 +719,39 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     melde('fehler', 'titel', `Arbeitstitel, Muster „${short.titelmuster}": ${formfehler}`);
   }
 
+  /* ── Die ersten Sekunden ─────────────────────────────────────────── */
+
+  /*
+   * Die Hook ist die erste Szene, und sie entscheidet, ob es eine zweite
+   * gibt. Am 15.08.2026 dauerte die Hook des Gewaehrleistungs-Shorts 7,5
+   * Sekunden — sie war damit laenger als das Fenster, in dem sich jemand
+   * fuers Bleiben entscheidet, und der Short verlor sein Publikum, bevor die
+   * Sache ueberhaupt gesagt war.
+   *
+   * Gemessen wird die **Sprechdauer** der ersten Szene, nicht ihre Standzeit:
+   * Die Mindestdauer im Bild darf laenger sein, gesprochen wird trotzdem nur
+   * ein Satz. Fehler statt Hinweis, weil es der teuerste Fehler ist, den ein
+   * Short machen kann — alles Weitere daran haengt.
+   */
+  const ersteSzene = short.szenen[0];
+  if (ersteSzene) {
+    const hookSek = ersteSzene.sprechtext.length / ZEICHEN_PRO_SEKUNDE;
+    if (hookSek > LAENGE_SEK.hookMaximum) {
+      melde(
+        'fehler',
+        'hook',
+        `Die Hook spricht ${hookSek.toFixed(1)}s (${ersteSzene.sprechtext.length} Zeichen). ` +
+          `Höchstens ${LAENGE_SEK.hookMaximum}s — das sind rund ` +
+          `${Math.floor(LAENGE_SEK.hookMaximum * ZEICHEN_PRO_SEKUNDE)} Zeichen, ein Satz.`,
+      );
+    }
+  }
+
   /* ── Sprechdauer ─────────────────────────────────────────────────── */
 
   if (short.tonspur) {
     const d = short.tonspur.dauerSek;
     const [von, bis] = zielfenster(short);
-    const stufe = short.vertiefung ? 'mit Vertiefung' : 'ohne Vertiefung';
 
     if (d > LAENGE_SEK.maximum) {
       melde('fehler', 'laenge', `${d.toFixed(1)}s überschreitet die Obergrenze von ${LAENGE_SEK.maximum}s.`);
@@ -734,17 +759,13 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
       melde('fehler', 'laenge', `${d.toFixed(1)}s ist zu kurz – unter ${LAENGE_SEK.minimum}s wirkt der Short abgehackt.`);
     } else if (d < von || d > bis) {
       /*
-       * Beide Richtungen sind ein Hinweis, und die untere ist die
-       * wichtigere: Ein Short mit Vertiefung, der bei 50 Sekunden endet,
-       * hat seine Struktur nicht ausgespielt. Ein Short ohne Vertiefung,
-       * der 85 Sekunden dauert, ist gedehnt — und gedehnt ist schlimmer
-       * als kurz.
+       * Beide Richtungen sind ein Hinweis, und seit dem 15.08.2026 ist die
+       * obere die wichtigere: Zu lang war der einzige Kritikpunkt, den das
+       * Zuschauerfeedback zu den ersten Beitraegen hatte. Nach unten bleibt
+       * es ein Hinweis, weil ein knapper Short kein Fehler ist, solange er
+       * seine Sache sagt.
        */
-      melde(
-        'hinweis',
-        'laenge',
-        `${d.toFixed(1)}s liegt außerhalb des Zielfensters ${von}–${bis}s (${stufe}).`,
-      );
+      melde('hinweis', 'laenge', `${d.toFixed(1)}s liegt außerhalb des Zielfensters ${von}–${bis}s.`);
     }
 
     if (short.tonspur.woerter.length === 0) {
@@ -764,9 +785,8 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
       melde(
         'hinweis',
         'laenge',
-        `Geschätzt ${geschaetzt.toFixed(0)}s, Zielfenster ${von}–${bis}s (${
-          short.vertiefung ? 'mit' : 'ohne'
-        } Vertiefung). Vor der Vertonung anpassen – danach kostet es Kontingent.`,
+        `Geschätzt ${geschaetzt.toFixed(0)}s, Zielfenster ${von}–${bis}s. ` +
+          'Vor der Vertonung anpassen – danach kostet es Kontingent.',
       );
     }
   }
@@ -792,18 +812,11 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    * hinausschauen. Beide nur Hinweise: Ein Lauf soll nicht daran scheitern,
    * dass vor vier Monaten etwas Aehnliches lief.
    */
-  const vorwoche = zuletztOhneVertiefung(verlauf);
-  for (const short of shorts) {
-    if (short.vertiefung || !vorwoche.has(short.rubrik)) continue;
-    befunde.push({
-      stufe: 'hinweis',
-      shortId: short.id,
-      regel: 'rotation',
-      text:
-        `Rubrik „${RUBRIKEN[short.rubrik].titel}" ist zum zweiten Mal in Folge ohne Vertiefung. ` +
-        'Die zwei freien Plätze sollen rotieren.',
-    });
-  }
+  /*
+   * Hier stand bis zum 15.08.2026 eine Rotationsregel: Welche Rubrik zweimal
+   * in Folge ohne Vertiefung lief, bekam einen Hinweis. Mit der Vertiefung
+   * ist sie gegenstandslos — jetzt ist jeder Short knapp.
+   */
 
   const bekannteThemen = gelaufeneThemen(verlauf);
   for (const short of shorts) {
@@ -900,34 +913,17 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    * einziger das Werbelabel. Genau der braucht die meiste Glaubwuerdigkeit,
    * weil beim Zuschauer sonst „der will mir was verkaufen" gewinnt.
    */
-  const MINDESTENS_TIEF = 3;
-
-  const mitVertiefung = shorts.filter((s) => s.vertiefung);
-  if (shorts.length === 5 && mitVertiefung.length < MINDESTENS_TIEF) {
-    for (const short of shorts.filter((s) => !s.vertiefung)) {
-      befunde.push({
-        stufe: 'fehler',
-        shortId: short.id,
-        regel: 'vertiefung',
-        text:
-          `Nur ${mitVertiefung.length} von ${shorts.length} Shorts tragen eine Vertiefung, ` +
-          `mindestens ${MINDESTENS_TIEF} müssen es sein.`,
-      });
-    }
-  }
-
-  for (const short of shorts) {
-    if (short.rubrik === 'kaufen' && !short.vertiefung) {
-      befunde.push({
-        stufe: 'fehler',
-        shortId: short.id,
-        regel: 'vertiefung',
-        text:
-          'Die Rubrik „Kaufen" trägt immer eine Vertiefung. Sie ist der einzige werbende Short ' +
-          'und braucht die Glaubwürdigkeit am dringendsten.',
-      });
-    }
-  }
+  /*
+   * Hier standen zwei Vertiefungsregeln: mindestens drei von fuenf Shorts
+   * mit Vertiefung, und „Kaufen traegt immer eine". Beide sind mit der
+   * Vertiefung entfallen (15.08.2026).
+   *
+   * Der Gedanke hinter der Kaufen-Regel bleibt richtig und braucht eine neue
+   * Form: Der Kaufberatungs-Short traegt als einziger das Werbelabel und
+   * braucht die meiste Glaubwuerdigkeit. In 40 Sekunden leistet das nicht
+   * eine Bauform, sondern der Beleg — und den verlangt `beleg` ohnehin von
+   * jedem Short.
+   */
 
   /* ── Abnutzung: gleiche Muster, gleiche Vertiefungen ─────────────── */
 
@@ -965,11 +961,6 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     (s) => s.titelmuster,
     'titelmuster',
     (wert) => `Titelmuster „${wert}"`,
-  );
-  haeufung<Vertiefung>(
-    (s) => s.vertiefung,
-    'vertiefung',
-    (wert) => `Vertiefung „${VERTIEFUNGEN[wert].titel}"`,
   );
 
   /* ── Kein Szenenbild im Uebermass ────────────────────────────────── */

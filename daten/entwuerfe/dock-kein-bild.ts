@@ -32,7 +32,6 @@ export const dockKeinBild: Short[] = [
      */
     system: 'ohne',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     merksatz: 'USB-C ist eine Steckerform, keine Fähigkeit.',
 
     szenen: [

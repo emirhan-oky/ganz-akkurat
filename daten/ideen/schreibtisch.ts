@@ -20,7 +20,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er den DisplayPort Alt Mode unterstützt — und der ist im Standard optional.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     system: 'beide',
     belegpfad: [
       { instanz: 'VESA', art: 'standard', findet: 'Alt Mode als optionaler Bestandteil der Spezifikation' },
@@ -40,7 +39,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Die Bildwiederholrate hängt an der Bandbreite der Verbindung. HDMI 1.4 trägt bei 1080p keine 144 Hz, DisplayPort 1.2 schon.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     system: 'beide',
     belegpfad: [
       { instanz: 'VESA', art: 'standard', findet: 'Bandbreite je DisplayPort-Version, Datenrate pro Lane' },
@@ -112,7 +110,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Die Aufteilung eines DisplayPort-Signals auf mehrere Monitore heißt Multi-Stream Transport. Der Standard beschreibt sie, aber sie muss auf beiden Seiten unterstützt werden.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'macos',
     belegpfad: [
       { instanz: 'VESA DisplayPort', art: 'standard', findet: 'MST als optionaler Bestandteil, nicht als Pflicht' },
@@ -132,7 +129,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Passive USB-C-Kabel sind ab einer bestimmten Datenrate in der Länge begrenzt; darüber verlangt die Spezifikation aktive Kabel.',
     titelmuster: 'uhr',
-    vertiefung: 'grenzfall',
     system: 'beide',
     belegpfad: [
       { instanz: 'USB Implementers Forum', art: 'standard', findet: 'Längenbegrenzung passiver Kabel je Datenrate' },
@@ -203,7 +199,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Überspannungsschutz ist nach Normenreihe in Stufen aufgebaut; eine Steckdosenleiste allein ersetzt den Schutz an der Hauptverteilung nicht.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'DIN VDE 0100-443 / -534', art: 'standard', findet: 'Stufenkonzept des Überspannungsschutzes, Einbauort' },
@@ -241,7 +236,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Der Ton läuft über dieselbe Leitung wie das Bild, wird aber als eigenes Ausgabegerät geführt und muss dort ausgewählt werden.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     system: 'beide',
     belegpfad: [
       { instanz: 'VESA DisplayPort', art: 'standard', findet: 'Audiotransport als Bestandteil der Verbindung' },
@@ -311,7 +305,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Unkomprimiertes Video braucht mehr Bandbreite, als eine USB-2.0-Verbindung bereitstellt; die Kamera muss dann komprimieren oder die Auflösung senken.',
     titelmuster: 'zweisatz',
-    vertiefung: 'herleitung',
     system: 'beide',
     belegpfad: [
       { instanz: 'USB Implementers Forum', art: 'standard', findet: 'Bruttodatenrate USB 2.0 gegenüber USB 3.2' },
@@ -382,7 +375,6 @@ export const schreibtischIdeen: Idee[] = [
     sache:
       'Ein Anschluss gibt ohne Aushandlung nur einen festgelegten Grundstrom ab; teilen sich mehrere Geräte einen Hub ohne eigene Stromversorgung, reicht das nicht.',
     titelmuster: 'uhr',
-    vertiefung: 'herleitung',
     system: 'beide',
     belegpfad: [
       { instanz: 'USB Implementers Forum', art: 'standard', findet: 'Grundstrom je Anschluss ohne Power Delivery, Verhalten am Hub' },

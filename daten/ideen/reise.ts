@@ -23,7 +23,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Die Vorschrift nennt die Grenze in Wattstunden, auf dem Gerät stehen Milliamperestunden; die Umrechnung geht in einem Schritt.',
     titelmuster: 'zweisatz',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Luftfahrt-Bundesamt', art: 'behoerde', findet: 'Grenze in Wattstunden' },
@@ -44,7 +43,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Unterhalb der Wattstundengrenze ist die Zahl nicht begrenzt; erst darüber gilt eine ausdrückliche Höchstzahl an Ersatzbatterien und die Zustimmung der Fluggesellschaft.',
     titelmuster: 'uhr',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Luftfahrt-Bundesamt', art: 'behoerde', findet: 'Grenzwerte und Stückzahlen für Lithiumbatterien im Handgepäck' },
@@ -81,7 +79,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Für fest eingebaute Batterien in Geräten gelten andere Bestimmungen als für lose Ersatzbatterien; die Grenzwerte unterscheiden sich entsprechend.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Luftfahrt-Bundesamt', art: 'behoerde', findet: 'Unterscheidung Gerät mit eingebauter Batterie / lose Ersatzbatterie' },
@@ -99,7 +96,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Ein Reiseadapter ändert nur die Steckerform. Ob das Gerät die fremde Spannung verträgt, steht auf dem Netzteil — moderne Schaltnetzteile decken meist den gesamten Bereich ab.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'IEC 60038 (Normspannungen)', art: 'standard', findet: 'weltweite Normspannungen und Toleranzen' },
@@ -136,7 +132,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Die Roaming-Verordnung erlaubt dem Anbieter eine Begrenzung nur bei dauerhaftem Aufenthalt im Ausland, nicht bei einer Reise.',
     titelmuster: 'uhr',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'EU-Roaming-Verordnung', art: 'behoerde', findet: 'Regelung zur angemessenen Nutzung und deren Voraussetzungen' },
@@ -171,7 +166,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Für die Rückreise aus einem Drittland gelten Reisefreimengen mit festen Wertgrenzen; mitgeführte eigene Geräte fallen nicht darunter.',
     titelmuster: 'uhr',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Generalzolldirektion / Zoll online', art: 'behoerde', findet: 'Reisefreimengen, Wertgrenzen, Behandlung mitgeführter Geräte' },
@@ -189,7 +183,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Eine Datenverbindung über USB verlangt am Gerät eine ausdrückliche Bestätigung; ohne sie bleibt es beim Laden.',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'grenzfall',
     system: 'beide',
     belegpfad: [
       { instanz: 'Bundesamt für Sicherheit in der Informationstechnik', art: 'behoerde', findet: 'Einschätzung zu öffentlichen Ladepunkten' },
@@ -245,7 +238,6 @@ export const reiseIdeen: Idee[] = [
     sache:
       'Die Umrechnung von Milliamperestunden in Wattstunden geht über die Zellspannung und ist ein einziger Rechenschritt.',
     titelmuster: 'zweisatz',
-    vertiefung: 'herleitung',
     system: 'ohne',
     belegpfad: [
       { instanz: 'Luftfahrt-Bundesamt', art: 'behoerde', findet: 'Grenze in Wattstunden' },

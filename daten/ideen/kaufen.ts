@@ -98,7 +98,6 @@ export const kaufenIdeen: Idee[] = [
     sache:
       'Bei der Nacherfüllung trägt der Verkäufer die erforderlichen Aufwendungen; das ist etwas anderes als der Widerruf, bei dem andere Regeln gelten.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: '§ 439 BGB', art: 'behoerde', findet: 'Aufwendungen bei der Nacherfüllung' },
@@ -117,7 +116,6 @@ export const kaufenIdeen: Idee[] = [
     sache:
       'Ein Privatverkäufer darf die Gewährleistung ausschließen; bei arglistigem Verschweigen eines Mangels greift der Ausschluss nicht.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: '§ 444 BGB', art: 'behoerde', findet: 'Grenzen des Haftungsausschlusses bei Arglist' },
@@ -173,7 +171,6 @@ export const kaufenIdeen: Idee[] = [
     sache:
       'Die EU-Richtlinie zum Recht auf Reparatur verpflichtet Hersteller bestimmter Produktgruppen zur Reparatur und zur Bereitstellung von Ersatzteilen.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: 'EU-Richtlinie zum Recht auf Reparatur (2024/1799)', art: 'behoerde', findet: 'betroffene Produktgruppen, Pflichten, Umsetzungsfrist' },
@@ -226,7 +223,6 @@ export const kaufenIdeen: Idee[] = [
     sache:
       'Die Ökodesign-Verordnungen legen für einzelne Produktgruppen fest, wie lange Ersatzteile verfügbar sein müssen und in welcher Frist sie zu liefern sind.',
     titelmuster: 'uhr',
-    vertiefung: 'folgekosten',
     system: 'ohne',
     belegpfad: [
       { instanz: 'EU-Ökodesign-Verordnungen (produktgruppenweise)', art: 'behoerde', findet: 'Mindestzeiträume für Ersatzteilverfügbarkeit und Lieferfristen' },
@@ -243,7 +239,6 @@ export const kaufenIdeen: Idee[] = [
     sache:
       'Zulässig ist die Prüfung, die auch im Ladengeschäft möglich wäre; für einen darüber hinausgehenden Wertverlust kann Ersatz verlangt werden.',
     titelmuster: 'zweisatz',
-    vertiefung: 'grenzfall',
     system: 'ohne',
     belegpfad: [
       { instanz: '§ 357a BGB', art: 'behoerde', findet: 'Wertersatz bei über die Prüfung hinausgehender Nutzung' },

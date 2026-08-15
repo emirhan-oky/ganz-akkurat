@@ -27,7 +27,6 @@ export const wlanAbends: Short[] = [
 
     system: 'ohne',
     titelmuster: 'verdaechtiger',
-    vertiefung: 'fehlspur',
     merksatz: '2,4 GHz ist ein geteiltes Band, kein eigener Kanal.',
 
     szenen: [
