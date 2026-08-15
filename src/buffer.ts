@@ -1,4 +1,4 @@
-import type { Short } from './typen';
+import type { Quelle, Short } from './typen';
 
 /**
  * Anbindung an Buffer.
@@ -118,44 +118,68 @@ const textFuerDienst = (short: Short, dienst: string) => {
   }
 };
 
-/**
- * Dienste **ohne eigenes Titelfeld**.
- *
- * Instagram Reels und TikTok kennen nur einen einzigen Text am Beitrag, die
- * Bildunterschrift. Ein `title` laesst sich zwar in den `metadata` mitgeben,
- * wird dem Zuschauer aber nirgends angezeigt — auf beiden Plattformen sieht
- * er ausschliesslich diese eine Zeile.
- *
- * YouTube steht bewusst nicht in dieser Liste: Dort gibt es ein echtes
- * Titelfeld, und die Beschreibung traegt darunter die Quellenangaben.
- */
-const OHNE_TITELFELD = ['instagram', 'tiktok'];
+/** Trennstrich zwischen Titel und Quellenblock. */
+const TRENNSTRICH = '—————';
 
 /**
- * Baut den Beitragstext. Nur die erste Zeile ist ueber dem Video sichtbar —
- * sie traegt deshalb die Aussage, die Hashtags stehen hinten.
+ * Baut den Beitragstext — auf allen drei Diensten nach demselben Muster.
  *
- * ## Warum der Titel auf Instagram und TikTok vorne steht (15.08.2026)
+ * ```
+ * Dock lädt, aber kein Bild: Dein Monitor ist unschuldig
  *
- * Bis heute stand dort die Beschreibung. Am ersten veroeffentlichten Beitrag
- * fiel auf, was das bedeutet: Der Titel — der einzige Text, der die
- * Titelregeln durchlaufen hat, mit Muster, Entwarnung und der Pflicht, nichts
- * zu nennen, was im Video nicht vorkommt — wurde auf beiden Plattformen
- * **nie angezeigt**. Sichtbar war nur die Erklaerung, und die ist der
- * schwaechere Haken.
+ * —————
+ * Quellen:
+ * - VESA, DisplayPort über USB Type-C: https://…
+ * - Plugable, Understanding USB-C Alt Mode: https://…
  *
- * Auf diesen beiden Diensten ist die Bildunterschrift also der Ort des
- * Titels. Die Beschreibung entfaellt dort; sie geht nicht verloren, weil auf
- * Instagram und TikTok ohnehin nur die erste Zeile ungekuerzt zu sehen ist.
+ * #usbc #homeoffice #schreibtischsetup
+ * ```
  *
- * Bei YouTube bleibt es umgekehrt: Der Titel steht im Titelfeld, und die
- * Beschreibung bleibt der Beschreibung — dort haengen die Quellen daran.
+ * ## Zwei Entscheidungen vom 15.08.2026
+ *
+ * **Die Beschreibung entfaellt, ueberall.** Bis dahin stand vorne auf
+ * Instagram und TikTok die Beschreibung und der Titel wurde nie angezeigt —
+ * ausgerechnet der Text, der die Titelregeln durchlaufen hat. Bei YouTube
+ * standen Titel und Beschreibung doppelt untereinander. Jetzt traegt die
+ * erste Zeile ueberall den Titel; bei YouTube steht er zusaetzlich im
+ * Titelfeld, weil es dort eines gibt. Die Begruendung fuer das Weglassen ist
+ * die Gattung: Ein Short erklaert sich im Video, nicht im Text darunter.
+ *
+ * **Die Quellen werden erzeugt, nicht abgeschrieben.** Vorher standen sie als
+ * fester Text in `texte.youtube.beschreibung` — eine zweite Liste neben den
+ * `quelleId`s an den Szenen, und damit genau die Sorte Doppelung, die in
+ * diesem Projekt schon dreimal auseinandergelaufen ist. Sie kommen jetzt aus
+ * den Szenen selbst: Was keine Szene belegt, steht auch nicht darunter, und
+ * was eine Szene belegt, steht zwangslaeufig da.
+ *
+ * Nebenwirkung, und eine erwuenschte: Instagram und TikTok tragen damit
+ * ueberhaupt zum ersten Mal Quellenangaben. Vorher hingen die nur bei
+ * YouTube.
  */
-export const beitragstext = (short: Short, dienst: string): string | null => {
+export const beitragstext = (
+  short: Short,
+  dienst: string,
+  quellen: readonly Quelle[] = [],
+): string | null => {
   const texte = textFuerDienst(short, dienst);
   if (!texte) return null;
-  const vorne = OHNE_TITELFELD.includes(dienst.toLowerCase()) ? texte.titel : texte.beschreibung;
-  return `${vorne}\n\n${texte.hashtags.join(' ')}`.trim();
+
+  /*
+   * Reihenfolge der Szenen, ohne Doppelte: So steht die Quelle zur ersten
+   * Aussage auch als erste unter dem Video.
+   */
+  const benutzte = [...new Set(short.szenen.flatMap((s) => ('quelleId' in s && s.quelleId ? [s.quelleId] : [])))];
+
+  const zeilen = benutzte
+    .map((id) => quellen.find((q) => q.id === id))
+    .filter((q): q is Quelle => Boolean(q))
+    .map((q) => `- ${q.herausgeber}, ${q.titel}: ${q.url}`);
+
+  const bloecke = [texte.titel];
+  if (zeilen.length > 0) bloecke.push(`${TRENNSTRICH}\nQuellen:\n${zeilen.join('\n')}`);
+  bloecke.push(texte.hashtags.join(' '));
+
+  return bloecke.join('\n\n').trim();
 };
 
 /**

@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { Short } from '../src/typen';
+import { Quelle, Short } from '../src/typen';
 import { hochladen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
 import {
   beitragPlanen,
@@ -38,6 +38,15 @@ const main = async () => {
   if (!schluessel) throw new Error('BUFFER_ACCESS_TOKEN fehlt in .env');
 
   const wurzel = path.join('laeufe', LAUF_ID);
+  /*
+   * Die Quellen fuer den Beitragstext. Sie stehen unter jedem Video und
+   * werden aus den `quelleId`s der Szenen erzeugt — nicht aus einer zweiten
+   * Liste im Beschreibungstext, wie bis zum 15.08.2026.
+   */
+  const quellen = (
+    JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] }
+  ).quellen.map((q) => Quelle.parse(q));
+
   console.log(`SetupKlar · Veröffentlichung ${LAUF_ID}`);
   console.log(WIRKLICH ? 'Modus: Beiträge werden wirklich angelegt\n' : 'Modus: Probelauf, es wird nichts angelegt\n');
 
@@ -228,7 +237,7 @@ const main = async () => {
     const videoUrl = urls.get(short.id)!;
 
     for (const kanal of kanaele) {
-      const text = beitragstext(short, kanal.service);
+      const text = beitragstext(short, kanal.service, quellen);
       if (!text) {
         console.log(`   ${short.id}  ${kanal.service}: kein Text hinterlegt, übersprungen`);
         continue;

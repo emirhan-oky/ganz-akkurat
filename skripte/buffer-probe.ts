@@ -93,7 +93,7 @@ const main = async () => {
     /* 3 — Beitrag je Kanal */
     console.log(`2  Beiträge anlegen (Termin ${TERMIN.toLocaleDateString('de-DE')})`);
     for (const kanal of kanaele) {
-      const text = beitragstext(short, kanal.service);
+      const text = beitragstext(short, kanal.service);  // Rauchtest: Quellenblock nicht noetig
       if (!text) {
         console.log(`   · ${kanal.service.padEnd(11)} kein Text hinterlegt`);
         continue;
