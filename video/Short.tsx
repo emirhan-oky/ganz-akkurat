@@ -1,5 +1,5 @@
 import { AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, KENNZEICHNUNG, RADIUS, SCHRIFT, SICHERE_ZONE } from '../src/marke';
+import { ABSTAND, FARBEN, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE } from '../src/marke';
 import type { Short as ShortDaten } from '../src/typen';
 import { szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
@@ -101,7 +101,7 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
         <div
           style={{
             position: 'absolute',
-            top: SICHERE_ZONE.oben - 130,
+            top: KOPFZEILE_OBEN,
             left: SICHERE_ZONE.links,
             right: SICHERE_ZONE.rechts,
             display: 'flex',

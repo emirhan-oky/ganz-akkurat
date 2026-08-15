@@ -50,10 +50,10 @@ export const FORMAT = {
  */
 export const SICHERE_ZONE = {
   /**
-   * 180 statt 240. Die Kopfzeile sitzt bei 110 und endet bei rund 160; die
-   * 80 Pixel darunter waren per Konstruktion leer.
+   * Muss unter `KOPFZEILE_OBEN` plus deren Hoehe liegen — die Kopfzeile sitzt
+   * ausserhalb der Buehne und darf nicht in sie hineinragen.
    */
-  oben: 180,
+  oben: 230,
   /**
    * Reels blendet unten Beschreibung und Tonzeile ein und verdeckt damit
    * deutlich mehr als TikTok. Der Wert richtet sich nach der schlimmsten
@@ -66,9 +66,53 @@ export const SICHERE_ZONE = {
    * verzichtbarste Element, sondern eines der wichtigsten.
    */
   unten: 500,
-  links: 60,
-  rechts: 200,
+  /**
+   * ## Warum links so viel mehr als die 60 von frueher (15.08.2026)
+   *
+   * Am Handy nachgemessen, am ersten wirklich veroeffentlichten Beitrag:
+   * Instagram, TikTok und YouTube zeigen ein 9:16-Video auf den heute
+   * ueblichen langen Displays (rund 19,5:9) **formatfuellend** — sie
+   * skalieren auf die Hoehe und schneiden seitlich ab. Sichtbar bleiben rund
+   * **90 % der Breite**, je gut 5 % fallen links und rechts weg.
+   *
+   * Gemessen an einem bekannten Element: Der blaue Balken unter der Hook
+   * beginnt im Render bei x=60 und endet bei x=400. Im Handybild lag er bei
+   * 0,9 % bis 36 % der Breite — daraus folgen 52 Pixel Beschnitt links und
+   * 56 rechts.
+   *
+   * Von den alten 60 Pixeln Rand blieben damit **8 uebrig**. Genau so sah es
+   * auch aus: Die Ueberschrift klebte am Displayrand, und am Desktop, wo
+   * nichts beschnitten wird, war davon nichts zu sehen.
+   *
+   * 115 = 52 Beschnitt + rund 60 echter Rand.
+   */
+  links: 115,
+  /**
+   * 240 = 56 Beschnitt + rund 180 fuer die Aktionsleiste, die TikTok rechts
+   * einblendet. Von den alten 200 blieben nach dem Beschnitt nur 144 — zu
+   * wenig fuer die Leiste, auch wenn es am Desktop nie auffiel.
+   */
+  rechts: 240,
 } as const;
+
+/**
+ * Hoehe, auf der die Kopfzeile sitzt — Wortmarke, Rubrik-Pille,
+ * KI-Kennzeichnung.
+ *
+ * **Eine eigene Konstante, und das ist der Punkt.** Vorher stand im Renderer
+ * `top: SICHERE_ZONE.oben - 130`. Die Kopfzeile hing damit an einem Wert, mit
+ * dem sie nichts zu tun hat: Als `oben` am 15.08.2026 von 240 auf 180 sank,
+ * um der Buehne Platz zu geben, rutschte die Kopfzeile von 110 auf 50 mit —
+ * und damit unter die Statusleiste des Telefons. Im veroeffentlichten Beitrag
+ * lag die Uhrzeit ueber der Wortmarke.
+ *
+ * Am Schreibtisch war das unsichtbar, weil ein Browserfenster keine
+ * Statusleiste ueber das Video legt. Aufgefallen ist es erst am Telefon.
+ *
+ * 150 liegt unter der Statusleiste auch der Geraete mit Dynamic Island (dort
+ * rund 120 Pixel, auf die Videohoehe gerechnet).
+ */
+export const KOPFZEILE_OBEN = 150;
 
 /**
  * Hoehe, die der Untertitel unten belegt.
