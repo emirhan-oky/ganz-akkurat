@@ -176,6 +176,25 @@ export const beitragstext = (
     .map((q) => `- ${q.herausgeber}, ${q.titel}: ${q.url}`);
 
   const bloecke = [texte.titel];
+
+  /*
+   * Die Beschreibung steht zwischen Titel und Quellen — **wenn sie etwas
+   * enthaelt**. Zurzeit ist sie ueberall leer, und genau so ist das Format
+   * gemeint: Titel, Strich, Quellen, Hashtags.
+   *
+   * Das Feld ganz zu streichen waere falsch gewesen. An ihm haengt die
+   * `kennzeichnung`-Regel in `src/pruefung.ts`: Sie sucht Partnerlinks und
+   * verlangt „Werbung" oder „Anzeige" **in derselben Zeile** (LG Erfurt,
+   * 23.11.2020). Wuerde die Beschreibung nicht mehr veroeffentlicht, pruefte
+   * diese Regel einen Text, den niemand je zu sehen bekommt — eine tote
+   * Regel an der Stelle, an der es teuer wird.
+   *
+   * Sobald Variante A greift, ist dies also der Ort des Partnerlinks: im
+   * veroeffentlichten Text, geprueft, und im Kaufen-Short zusammen mit dem
+   * Label im Bild.
+   */
+  if (texte.beschreibung.trim()) bloecke.push(texte.beschreibung.trim());
+
   if (zeilen.length > 0) bloecke.push(`${TRENNSTRICH}\nQuellen:\n${zeilen.join('\n')}`);
   bloecke.push(texte.hashtags.join(' '));
 

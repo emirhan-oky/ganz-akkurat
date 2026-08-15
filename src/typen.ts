@@ -875,6 +875,23 @@ export type Untertitelwort = z.infer<typeof Untertitelwort>;
 
 export const Plattformtext = z.object({
   titel: z.string().max(100),
+  /**
+   * Zusatztext zwischen Titel und Quellenblock — **zurzeit ueberall leer**.
+   *
+   * Seit dem 15.08.2026 traegt der veroeffentlichte Text auf allen drei
+   * Diensten dasselbe Muster: Titel, Trennstrich, Quellen, Hashtags. Ein
+   * Short erklaert sich im Video, nicht im Text darunter; die frueheren
+   * Erklaerabsaetze sind deshalb entfallen. Die Quellen stehen nicht mehr
+   * hier drin, sondern werden in `beitragstext` aus den `quelleId`s der
+   * Szenen erzeugt — die abgeschriebene Liste war unvollstaendig.
+   *
+   * **Das Feld bleibt trotzdem, und zwar mit Absicht.** An ihm haengt die
+   * `kennzeichnung`-Regel in `src/pruefung.ts`: Sie sucht Partnerlinks und
+   * verlangt „Werbung" oder „Anzeige" in derselben Zeile. Ohne ein Feld, das
+   * wirklich veroeffentlicht wird, waere das eine tote Regel an der einen
+   * Stelle, an der ein Fehler Geld kostet. Sobald Variante A greift, steht
+   * der Partnerlink hier.
+   */
   beschreibung: z.string().max(2200),
   hashtags: z.array(z.string()).max(12),
 });

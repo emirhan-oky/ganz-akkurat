@@ -169,20 +169,17 @@ export const dockKeinBild: Short[] = [
     texte: {
       tiktok: {
         titel: 'Dock lädt, aber kein Bild? Dein Monitor ist unschuldig',
-        beschreibung:
-          'Nicht jeder USB-C-Port überträgt Bild. Ohne DisplayPort Alt Mode kommt nur Strom durch.',
+        beschreibung: '',
         hashtags: HASHTAGS,
       },
       instagram: {
         titel: 'Dock lädt, aber kein Bild: Dein Monitor ist unschuldig',
-        beschreibung:
-          'Gleiche Buchse, völlig andere Technik: Nur ein USB-C-Port mit DisplayPort Alt Mode überträgt ein Videosignal. Fehlt der, lädt dein Notebook zwar, der Monitor bleibt aber schwarz. Weder Kabel noch Dock sind schuld.',
+        beschreibung: '',
         hashtags: HASHTAGS,
       },
       youtube: {
         titel: 'Dock lädt, aber kein Bild: Dein Monitor ist unschuldig',
-        beschreibung:
-          'Ein USB-C-Anschluss überträgt nur dann ein Bild, wenn er DisplayPort Alt Mode unterstützt. Sonst kommen nur Strom und Daten durch – das Dock funktioniert, der Monitor bleibt trotzdem schwarz.\n\nQuellen:\nVESA, DisplayPort über USB Type-C: https://vesa.org/featured-articles/vesa-brings-displayport-to-new-usb-type-c-connector/\nPlugable, Understanding USB-C Alt Mode: https://kb.plugable.com/understanding-usb-c-alt-mode\nDell, Advanced Multi-Monitor Setup: https://www.dell.com/support/kbdoc/en-us/000134286/how-to-setup-multiple-monitors',
+        beschreibung: '',
         hashtags: ['#Shorts', '#USBC', '#Homeoffice'],
       },
     },

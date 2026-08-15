@@ -171,20 +171,17 @@ export const wlanAbends: Short[] = [
     texte: {
       tiktok: {
         titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung:
-          'Das 2,4-GHz-Band teilst du dir mit der ganzen Nachbarschaft. Abends sind alle gleichzeitig drauf.',
+        beschreibung: '',
         hashtags: HASHTAGS,
       },
       instagram: {
         titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung:
-          'Ein neuer Router ändert daran wenig: 2,4 GHz ist ein geteiltes Band, kein eigener Kanal. Abends sind alle Haushalte gleichzeitig online und funken auf denselben Kanälen. Wer kann, weicht auf 5 GHz aus.',
+        beschreibung: '',
         hashtags: HASHTAGS,
       },
       youtube: {
         titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung:
-          'Das 2,4-GHz-Band ist ein Gemeinschaftsband. Nachbarnetze auf denselben Kanälen nehmen nutzbare Kapazität weg, und abends sind alle gleichzeitig online. Der Router ist deshalb nicht langsamer – er kommt seltener dran.\n\nQuellen:\nTP-Link, Why Is My Wi-Fi So Slow: https://www.tp-link.com/us/blog/2670/why-is-my-wi-fi-so-slow-a-guide-for-multi-device-households/\nTP-Link, How to Fix Slow Internet: https://www.tp-link.com/us/support/faq/2170/\nIntel, Advanced Wireless Adapter Settings: https://www.intel.com/content/www/us/en/support/articles/000005585/wireless.html',
+        beschreibung: '',
         hashtags: ['#Shorts', '#WLAN', '#Heimnetz'],
       },
     },
