@@ -58,7 +58,7 @@ und KI-Kennzeichnung sowie die Belegpflicht sind persönliche Haftung.
 | `npm run belege` | Stellt Sprechtext und Zitat nebeneinander (`belege.html`) |
 | `npm run sprechprobe` | Misst die Sprechdauer mit der macOS-Systemstimme, kostet nichts |
 | `npm run lauf` | Wochenlauf als **Trockenlauf** – kostet nichts |
-| `npm run lauf -- --mit-ton` | Wochenlauf mit echter Vertonung, rund 6.300 Zeichen |
+| `npm run lauf -- --mit-ton` | Wochenlauf mit echter Vertonung – der Trockenlauf nennt den genauen Bedarf |
 | `npm run vorschau` | Remotion-Studio, Szenen live bearbeiten |
 | `npm run zugaenge` | Alle Dienste prüfen und sagen, was fehlt |
 | `npm run stimmproben` | Hörproben mehrerer Stimmen erzeugen |

@@ -21,8 +21,11 @@ derselben Funktion aus wie der Renderer — gemessen wird nur die Sprechdauer.
 Der Anlass: `ZEICHEN_PRO_SEKUNDE` in `src/zeit.ts` stand auf 15,0 und war nie
 nachgemessen; real sind es 15,9. Der Reise-Short galt damit als 78,7 Sekunden
 lang und war 70,4, also unter dem Zielfenster — sichtbar geworden wäre das
-erst nach der Abrechnung bei ElevenLabs, und ein Wochenlauf kostet rund 6.300
-Zeichen. Die Systemstimme klingt nicht wie ElevenLabs und soll es nicht; für
+erst nach der Abrechnung bei ElevenLabs, und ein Wochenlauf kostet mehrere
+tausend Zeichen — am 15.08.2026 waren es 7.390. Die Zahl steht hier bewusst
+nur als Größenordnung: Sie hängt an den Entwürfen und wandert mit jedem Lauf.
+Den genauen Bedarf nennt der Trockenlauf in Schritt 1, bevor irgendetwas
+verbraucht ist. Die Systemstimme klingt nicht wie ElevenLabs und soll es nicht; für
 die Endabnahme bleibt die echte Tonspur zuständig.
 
 `npm run pruefen` muss vor jedem Lauf grün sein. Die Schemaprüfung
