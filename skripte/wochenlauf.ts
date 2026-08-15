@@ -23,11 +23,42 @@ const ausfuehren = promisify(execFile);
  * verbrauchen. Erst `--mit-ton` ruft die Sprachsynthese auf und kostet Geld.
  *
  * Aufruf:
- *   npm run lauf              Trockenlauf, geschaetzte Szenenlaengen
- *   npm run lauf -- --mit-ton echte Vertonung und Zeitstempel
+ *   npm run lauf                 Trockenlauf, geschaetzte Szenenlaengen
+ *   npm run lauf -- --mit-ton    echte Vertonung und Zeitstempel
+ *   npm run lauf -- --ton-behalten  rendert neu, vertont nicht noch einmal
  */
 
 const MIT_TON = process.argv.includes('--mit-ton');
+
+/**
+ * Neu rendern mit der Vertonung, die schon da ist.
+ *
+ * Der Anlass am 15.08.2026: Im Lauf desselben Tages lag die Endkarte ueber
+ * der Kopfzeile und unter dem Untertitel — ein Fehler der Buehne, nicht des
+ * Textes. Die Korrektur betraf ausschliesslich das Bild, und ohne diesen
+ * Schalter haette der neue Render **noch einmal 7.390 Zeichen** gekostet,
+ * fuer exakt dieselben Saetze in derselben Stimme.
+ *
+ * Gelesen werden die Shorts aus `laeufe/<id>/props/*.json`. Dort steht der
+ * **vertonte** Stand mit Tonspur und Wort-Zeitstempeln, den Schritt 2
+ * hinterlassen hat — also alles, was der Renderer braucht.
+ *
+ * Der Verlauf wird dabei **nicht** fortgeschrieben: Das hat der Lauf mit Ton
+ * bereits getan. Ein zweiter Eintrag fuer dieselbe Woche waere doppelt
+ * gezaehlt, und der Wochenschnitt der Laenge stimmte nicht mehr.
+ */
+const TON_BEHALTEN = process.argv.includes('--ton-behalten');
+
+/**
+ * Ob die fertigen Videos Sprache tragen — unabhaengig davon, ob sie in
+ * diesem Lauf entstanden ist.
+ *
+ * Der Unterschied zu `MIT_TON` ist nicht kosmetisch: `mitTon: false` in
+ * `lauf.json` und in der Freigabe-Uebersicht hiesse, die Videos seien stumm.
+ * Sie sind es nicht. Nur der **Verlauf** haengt weiter an `MIT_TON`, denn
+ * fortgeschrieben wird eine Woche genau einmal.
+ */
+const HAT_TON = MIT_TON || TON_BEHALTEN;
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /**
@@ -75,7 +106,13 @@ const main = async () => {
   await fs.mkdir(videoOrdner, { recursive: true });
 
   console.log(`SetupKlar · ${NUR ? `Teillauf ${NUR}` : 'Wochenlauf'} ${id}`);
-  console.log(MIT_TON ? 'Modus: mit Vertonung' : 'Modus: Trockenlauf (keine Vertonung, kein Verbrauch)');
+  console.log(
+    MIT_TON
+      ? 'Modus: mit Vertonung'
+      : TON_BEHALTEN
+        ? 'Modus: neu rendern, Vertonung bleibt (kein Verbrauch)'
+        : 'Modus: Trockenlauf (keine Vertonung, kein Verbrauch)',
+  );
   if (NUR) {
     if (ENTWUERFE.length === 0) {
       console.log(`\nKein Entwurf mit der Kennung „${NUR}". Bekannt sind:`);
@@ -133,6 +170,28 @@ const main = async () => {
       fertige.push(vertont);
     }
     console.log('');
+  } else if (TON_BEHALTEN) {
+    console.log('2  Vertonung aus dem vorhandenen Lauf übernommen');
+    fertige = [];
+    for (const short of shorts) {
+      const propsDatei = path.join(wurzel, 'props', `${short.id}.json`);
+      let roh: string;
+      try {
+        roh = await fs.readFile(propsDatei, 'utf8');
+      } catch {
+        throw new Error(
+          `--ton-behalten: ${propsDatei} fehlt. Der Schalter setzt einen Lauf ` +
+            `mit Ton am selben Tag voraus — sonst gibt es keine Vertonung zu behalten.`,
+        );
+      }
+      const vertont = Short.parse((JSON.parse(roh) as { daten: unknown }).daten);
+      if (!vertont.tonspur) {
+        throw new Error(`--ton-behalten: ${short.id} hat in den Props keine Tonspur.`);
+      }
+      console.log(`   ${short.id}  ${vertont.tonspur.dauerSek.toFixed(1)}s  unverändert`);
+      fertige.push(vertont);
+    }
+    console.log('');
   } else {
     console.log('2  Vertonen übersprungen – Szenenlängen werden geschätzt\n');
   }
@@ -173,7 +232,7 @@ const main = async () => {
    * ist die Zahl neben der Zahl der Vorwoche. Erkennen muss man es selbst —
    * aber ohne den Messwert kann man es gar nicht.
    */
-  if (MIT_TON) {
+  if (HAT_TON) {
     const jetzt = durchschnittsdauer({ lauf: id, shorts: fertige.map((s) => ({
       rubrik: s.rubrik,
       themaId: s.themaId,
@@ -245,14 +304,14 @@ const main = async () => {
     quellen,
     befunde: ergebnis.befunde,
     videopfad: (s) => `videos/${s.id}.mp4`,
-    mitTon: MIT_TON,
+    mitTon: HAT_TON,
   });
   const seitenPfad = path.join(wurzel, 'freigabe.html');
   await fs.writeFile(seitenPfad, seite);
 
   await fs.writeFile(
     path.join(wurzel, 'lauf.json'),
-    JSON.stringify({ id, erstelltAm: new Date().toISOString(), mitTon: MIT_TON, shorts: zuRendern }, null, 2),
+    JSON.stringify({ id, erstelltAm: new Date().toISOString(), mitTon: HAT_TON, shorts: zuRendern }, null, 2),
   );
 
   /* ── 6  Verlauf fortschreiben ────────────────────────────────────── */
@@ -279,7 +338,13 @@ const main = async () => {
      * Trockenlauf, nur teurer, weil hier schon Zeichen verbraucht sind.
      */
     console.log(
-      `6  Verlauf unberührt – ${NUR ? 'ein Teillauf ist eine Ansicht' : 'Trockenläufe zählen nicht als gelaufen'}\n`,
+      `6  Verlauf unberührt – ${
+        NUR
+          ? 'ein Teillauf ist eine Ansicht'
+          : TON_BEHALTEN
+            ? 'diese Woche steht schon im Verlauf'
+            : 'Trockenläufe zählen nicht als gelaufen'
+      }\n`,
     );
   }
 

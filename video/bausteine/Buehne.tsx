@@ -1,4 +1,5 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { AbsoluteFill, continueRender, delayRender, interpolate, useCurrentFrame } from 'remotion';
 import { BUEHNE, SICHERE_ZONE, UNTERTITEL_ZONE } from '../../src/marke';
 
 /**
@@ -14,6 +15,37 @@ import { BUEHNE, SICHERE_ZONE, UNTERTITEL_ZONE } from '../../src/marke';
  * dem Einblenden mehrere Sekunden voellig still, und genau das laesst einen
  * Short wie eine Diashow wirken. Die Bewegung ist zu langsam, um bewusst
  * aufzufallen, aber schnell genug, dass das Auge nicht abschaltet.
+ *
+ * ## Warum hier gemessen wird (15.08.2026)
+ *
+ * Bis heute stand hier `justifyContent: 'center'` und sonst nichts. Ein
+ * zentrierter Flex-Container, dessen Inhalt hoeher ist als der Platz, laeuft
+ * **symmetrisch nach beiden Seiten ueber** — und zwar ueber das Padding
+ * hinaus, das die sichere Zone erst herstellt. Genau das war im Lauf
+ * 2026-08-15 zu sehen: In der Endkarte lag die Karte ueber der Kopfzeile und
+ * gleichzeitig ueber dem Untertitel, in einer Checkliste stand die
+ * Ueberschrift ueber der Rubrik-Pille.
+ *
+ * Der Fehler sah aus wie ein Fehler der beiden Szenen und war keiner. Keine
+ * der vierzehn Szenenarten begrenzt ihre Hoehe, weil keine es kann: Wie hoch
+ * drei Punkte werden, haengt an ihrem Text. Die Buehne ist die einzige
+ * Stelle, die den verfuegbaren Platz kennt.
+ *
+ * Deshalb zwei Sicherungen statt einer:
+ *
+ * 1. **`safe center`** — CSS zentriert weiter, faellt bei Ueberlauf aber auf
+ *    `flex-start` zurueck. Damit kann nichts mehr nach **oben** in die
+ *    Kopfzeile laufen, auch wenn die Messung einmal danebenliegt.
+ * 2. **Messen und herunterskalieren** — passt der Inhalt nicht, wird er
+ *    verkleinert, statt unten in den Untertitel zu laufen.
+ *
+ * Die Messung laeuft ueber `delayRender`, nicht ueber einen blossen Effect:
+ * Sonst schoesse Remotion das Standbild, bevor die Skalierung steht, und der
+ * erste Frame jeder Szene waere der ueberlaufende. Sie ist stabil, weil
+ * `scrollHeight` die **unskalierte** Layouthoehe liefert — die Skalierung
+ * veraendert also nicht, was sie misst, und es gibt keine Rueckkopplung.
+ * Aus demselben Grund stoert die Einlaufanimation nicht: Sie arbeitet mit
+ * `opacity` und `transform`, und beide aendern das Layout nicht.
  */
 export const Buehne: React.FC<{
   children: React.ReactNode;
@@ -36,6 +68,70 @@ export const Buehne: React.FC<{
 }> = ({ children, ausrichtung = 'mitte', dauerBilder, illustration }) => {
   const frame = useCurrentFrame();
 
+  const inhaltRef = useRef<HTMLDivElement>(null);
+  const [passung, setPassung] = useState(1);
+  const [gemessen, setGemessen] = useState(false);
+  const [messung] = useState(() => delayRender('Bühne misst die Inhaltshöhe'));
+
+  /*
+   * Zwei Effekte, und das ist der Kern: Der erste misst und setzt die
+   * Passung, der zweite gibt den Render **erst frei, wenn die neue Passung
+   * im DOM steht**.
+   *
+   * Beim dritten Anlauf am 15.08.2026 stand `continueRender` direkt hinter
+   * `setPassung` im selben Effekt. React verarbeitet ein `setState` aber
+   * nicht sofort, also gab die Buehne den Render frei, bevor die Skalierung
+   * angewandt war — und Remotion schoss exakt das ungeschrumpfte Bild. Die
+   * Messung stimmte die ganze Zeit; nur sah sie nie jemand.
+   */
+  useLayoutEffect(() => {
+    if (gemessen) return;
+    const inhalt = inhaltRef.current;
+    if (!inhalt) {
+      setGemessen(true);
+      return;
+    }
+    /*
+     * Zwei Knoten, zwei klare Groessen: Der Rahmen hat den Platz
+     * (`clientHeight`), der Inhalt braucht ihn (`offsetHeight`).
+     *
+     * Der Umweg ueber zwei Elemente ist der zweite Anlauf. Der erste mass
+     * `scrollHeight` am Rahmen selbst — und `scrollHeight` meldet bei
+     * `overflow: visible` nicht verlaesslich, was ueberlaeuft. Das Standbild
+     * zeigte die Endkarte danach zwar an der richtigen Stelle, aber
+     * ungeschrumpft und weiterhin unter dem Untertitel.
+     *
+     * `offsetHeight` ist dagegen die Layouthoehe des Inhalts und von der
+     * Skalierung unberuehrt — die Messung veraendert also nicht, was sie
+     * misst, und es gibt keine Rueckkopplung. Aus demselben Grund stoert die
+     * Einlaufanimation nicht: Sie arbeitet mit `opacity` und `transform`, und
+     * beide aendern das Layout nicht.
+     *
+     * Die Wache gegen `0` ist ebenfalls Erfahrung: Die allererste Fassung
+     * rechnete ohne sie `passung = 0`, und **jede Szene war leer**. Ein
+     * Layoutfehler, der Text verschiebt, ist unangenehm; einer, der ihn
+     * verschwinden laesst, ist schlimmer als das Problem, das er loesen soll.
+     */
+    const vorhanden = BUEHNE.hoehe;
+    const gebraucht = inhalt.offsetHeight;
+    if (gebraucht <= 0 || gebraucht <= vorhanden) {
+      setGemessen(true);
+      return;
+    }
+    /*
+     * Untergrenze 0,7: Wer mehr schrumpfen muesste, hat nicht zu wenig Platz,
+     * sondern zu viel Text. Das gehoert im Bild sichtbar zu bleiben statt in
+     * unlesbarer Groesse zu verschwinden — kleiner als 0,7 faellt beim
+     * Durchsehen auf, und genau das ist die Absicht.
+     */
+    setPassung(Math.max(0.7, vorhanden / gebraucht));
+    setGemessen(true);
+  }, [gemessen]);
+
+  useLayoutEffect(() => {
+    if (gemessen) continueRender(messung);
+  }, [gemessen, messung]);
+
   const zoom = dauerBilder
     ? interpolate(frame, [0, dauerBilder], [1, 1.045], { extrapolateRight: 'clamp' })
     : 1;
@@ -49,33 +145,86 @@ export const Buehne: React.FC<{
         paddingBottom: SICHERE_ZONE.unten + UNTERTITEL_ZONE,
         paddingLeft: SICHERE_ZONE.links,
         paddingRight: SICHERE_ZONE.rechts,
+        width: BUEHNE.breite + SICHERE_ZONE.links + SICHERE_ZONE.rechts,
+        // Ohne border-box zaehlt das Padding zur Hoehe hinzu statt hinein,
+        // und der Messrahmen darunter waere um die sichere Zone zu gross.
+        boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
-        // Mit Illustration steht der Text oben und die Zeichnung fuellt den
-        // Rest — sonst schoebe die Zentrierung beide in die Bildmitte und
-        // liesse oben und unten je ein Loch.
-        justifyContent: illustration || ausrichtung === 'oben' ? 'flex-start' : 'center',
-        alignItems: 'stretch',
-        width: BUEHNE.breite + SICHERE_ZONE.links + SICHERE_ZONE.rechts,
-        transform: `scale(${zoom})`,
-        transformOrigin: 'center center',
       }}
     >
-      {children}
-
-      {illustration && (
+      {/* Rahmen: hat den Platz — und zwar ausdruecklich `BUEHNE.hoehe`.
+          Weder `flex: 1` noch `height: 100%` funktionierten hier: Beide
+          ergaben eine `clientHeight` von 0, weil der AbsoluteFill darueber
+          seine Hoehe aus `inset` bezieht und nicht aus einem Wert, den ein
+          Kind erben koennte. Die Folge war sichtbar: Der Inhalt wurde zwar
+          richtig verkleinert, aber um seine eigene Mitte statt um die der
+          Buehne — die Karte sass danach zu tief und lag weiter unter dem
+          Untertitel. Die Konstante ist ohnehin die Wahrheit ueber den
+          verfuegbaren Platz; sie hier zu wiederholen ist keine Doppelung,
+          sondern dieselbe Quelle. */}
+      <div
+        style={{
+          height: BUEHNE.hoehe,
+          display: 'flex',
+          flexDirection: 'column',
+          // Mit Illustration steht der Text oben und die Zeichnung fuellt den
+          // Rest — sonst schoebe die Zentrierung beide in die Bildmitte und
+          // liesse oben und unten je ein Loch.
+          //
+          // `safe` ist der Unterschied zu vorher: Bei Ueberlauf verhaelt sich
+          // die Zentrierung wie `flex-start`, statt den Inhalt oben aus der
+          // sicheren Zone zu schieben. Zweiter Guertel neben der Skalierung.
+          justifyContent: illustration || ausrichtung === 'oben' ? 'flex-start' : 'safe center',
+          alignItems: 'stretch',
+        }}
+      >
+        {/* Inhalt: braucht den Platz. Wird gemessen und notfalls skaliert.
+            `flexShrink: 0`, damit Flexbox ihn nicht staucht — gestaucht waere
+            `offsetHeight` nicht mehr die gewuenschte Hoehe, und die Messung
+            haette nichts zu messen. */}
         <div
+          ref={inhaltRef}
           style={{
-            flex: 1,
+            flexShrink: 0,
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: 0,
+            flexDirection: 'column',
+            // Nur mit Illustration: Der Inhalt fuellt den Rahmen, damit das
+            // `flex: 1` der Zeichnung darunter etwas zu verteilen hat.
+            ...(illustration ? { height: '100%' } : {}),
+            transform: `scale(${zoom * passung})`,
+            /*
+             * Der Ankerpunkt haengt daran, ob geschrumpft wird.
+             *
+             * Passt der Inhalt, sitzt er zentriert, und die Dauerbewegung
+             * soll symmetrisch aus der Mitte wachsen. Passt er nicht, hat
+             * `safe center` ihn oben angesetzt — dann muss auch von oben
+             * skaliert werden, sonst zieht die Verkleinerung ihn um seine
+             * **eigene** Mitte zusammen statt um die der Buehne. Genau das
+             * war im vorletzten Standbild zu sehen: Die Karte war richtig
+             * verkleinert und sass trotzdem 100 Pixel zu tief, weiter unter
+             * dem Untertitel.
+             */
+            transformOrigin: passung < 1 ? 'top center' : 'center center',
           }}
         >
-          {illustration}
+          {children}
+
+          {illustration && (
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: 0,
+              }}
+            >
+              {illustration}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </AbsoluteFill>
   );
 };

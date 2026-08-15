@@ -40,6 +40,51 @@
           "vertiefung": "grenzfall"
         }
       ]
+    },
+    {
+      "lauf": "2026-08-15",
+      "shorts": [
+        {
+          "rubrik": "schreibtisch",
+          "themaId": "dock-kein-bild",
+          "winkelart": "diagnose",
+          "titelmuster": "verdaechtiger",
+          "vertiefung": "fehlspur",
+          "dauerSek": 83.7
+        },
+        {
+          "rubrik": "unterwegs",
+          "themaId": "kabel-watt",
+          "winkelart": "grenzwert",
+          "titelmuster": "uhr",
+          "vertiefung": "herleitung",
+          "dauerSek": 86.3
+        },
+        {
+          "rubrik": "reise",
+          "themaId": "powerbank-flug",
+          "winkelart": "umrechnung",
+          "titelmuster": "zweisatz",
+          "vertiefung": "herleitung",
+          "dauerSek": 81.4
+        },
+        {
+          "rubrik": "zuhause",
+          "themaId": "wlan-abends",
+          "winkelart": "mythos",
+          "titelmuster": "verdaechtiger",
+          "vertiefung": "fehlspur",
+          "dauerSek": 84.3
+        },
+        {
+          "rubrik": "kaufen",
+          "themaId": "garantie-gewaehrleistung",
+          "winkelart": "verwechslung",
+          "titelmuster": "zweisatz",
+          "vertiefung": "grenzfall",
+          "dauerSek": 84.6
+        }
+      ]
     }
   ]
 }
