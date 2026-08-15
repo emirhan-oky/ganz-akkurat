@@ -52,8 +52,13 @@ export const SICHERE_ZONE = {
   /**
    * Muss unter `KOPFZEILE_OBEN` plus deren Hoehe liegen — die Kopfzeile sitzt
    * ausserhalb der Buehne und darf nicht in sie hineinragen.
+   *
+   * 420 statt 360 seit dem 15.08.2026: Bei 360 blieben zwischen Kopfzeile und
+   * dem ersten Szenenelement nur 80 Pixel, und im fertigen Beitrag klebte die
+   * Hook-Pille direkt unter der Rubrik-Pille — zwei aehnlich aussehende
+   * Pillen ohne Luft dazwischen. Jetzt sind es 140.
    */
-  oben: 360,
+  oben: 420,
   /**
    * Reels blendet unten Beschreibung und Tonzeile ein und verdeckt damit
    * deutlich mehr als TikTok. Der Wert richtet sich nach der schlimmsten
@@ -149,8 +154,14 @@ export const KOPFZEILE_OBEN = 280;
  * rendert nicht hinein. Ohne die Reservierung liegen Szenentext und
  * Untertitel uebereinander, sobald der Untertitel in die sichere Zone
  * gewandert ist.
+ *
+ * 270 statt 200 seit dem 15.08.2026. Die reine Zwei-Zeilen-Rechnung ging auf,
+ * liess aber keinen Zwischenraum: Im fertigen Beitrag stand der Untertitel
+ * direkt an der Unterkante der Checkliste und beruehrte in einer anderen
+ * Szene das Kontextsymbol. Die zusaetzlichen 70 Pixel sind kein Platz fuer
+ * mehr Untertitel, sondern Luft davor.
  */
-export const UNTERTITEL_ZONE = 200;
+export const UNTERTITEL_ZONE = 270;
 
 /**
  * Nutzbare Flaeche fuer Szeneninhalt.

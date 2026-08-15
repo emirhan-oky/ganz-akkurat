@@ -689,7 +689,14 @@ const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
           backgroundColor: FARBEN.grundRein,
           border: `4px solid ${FARBEN.tinte}`,
           borderRadius: RADIUS.l,
-          padding: ABSTAND.xl,
+          /*
+           * `l` statt `xl` seit dem 15.08.2026. Die Karte braucht ungefaehr
+           * 1130 Pixel Hoehe, die Buehne hat 730 — mit dem alten Innenabstand
+           * haette sie auf 0,64 schrumpfen muessen und waere unter die
+           * Lesbarkeitsgrenze gefallen. Kompakter bauen ist besser als
+           * kleiner skalieren: Der Text bleibt gross, nur die Luft geht weg.
+           */
+          padding: ABSTAND.l,
           boxShadow: '0 18px 48px rgba(17,24,32,0.10)',
         }}
       >
@@ -699,13 +706,13 @@ const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
             fontWeight: SCHRIFT.schwarz,
             fontSize: GROESSEN.ueberschrift,
             lineHeight: 1.12,
-            margin: `0 0 ${ABSTAND.l}px`,
+            margin: `0 0 ${ABSTAND.m}px`,
           }}
         >
           {szene.ueberschrift}
         </h2>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.s }}>
           {szene.punkte.map((punkt, i) => (
             <div
               key={i}
@@ -752,8 +759,8 @@ const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
         {/* Markenzeile im Fuss: bleibt auf jedem weitergeschickten Screenshot. */}
         <div
           style={{
-            marginTop: ABSTAND.xl,
-            paddingTop: ABSTAND.m,
+            marginTop: ABSTAND.m,
+            paddingTop: ABSTAND.s,
             borderTop: `2px solid ${FARBEN.gitter}`,
             display: 'flex',
             alignItems: 'center',

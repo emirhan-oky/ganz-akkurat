@@ -118,8 +118,32 @@ const textFuerDienst = (short: Short, dienst: string) => {
   }
 };
 
-/** Trennstrich zwischen Titel und Quellenblock. */
-const TRENNSTRICH = '—————';
+/**
+ * Trennstrich zwischen Titel und Quellenblock.
+ *
+ * Drei Geviertstriche, bewusst **kuerzer als das Wort „Quellen:"** darunter.
+ * Fuenf waren es zuerst, und der Strich wirkte dann wie eine Ueberschrift
+ * statt wie eine Trennung — er zog mehr Aufmerksamkeit als das, was er
+ * abtrennt.
+ */
+const TRENNSTRICH = '———';
+
+/**
+ * Dienste, die aufeinanderfolgende Zeilenumbrueche zusammenfalten.
+ *
+ * TikTok zeigt die Bildunterschrift ohne Leerzeilen an: Aus Titel, Absatz,
+ * Quellenblock, Absatz, Hashtags wird ein einziger Block ohne Luft — genau
+ * so am 15.08.2026 im veroeffentlichten Beitrag zu sehen, waehrend Instagram
+ * und YouTube dieselbe Zeichenkette korrekt umbrachen.
+ *
+ * Der Ausweg ist ein Zeichen, das TikTok als Inhalt zaehlt und nicht als
+ * Leerraum: U+2800, das leere Braille-Muster. Es ist unsichtbar, aber kein
+ * Whitespace — die Zeile bleibt damit stehen.
+ */
+const FALTET_LEERZEILEN = ['tiktok'];
+
+/** Leerzeile, die auch dort ueberlebt, wo Leerraum zusammengefaltet wird. */
+const LEERZEILE_HART = '\u2800';
 
 /**
  * Baut den Beitragstext — auf allen drei Diensten nach demselben Muster.
@@ -198,7 +222,11 @@ export const beitragstext = (
   if (zeilen.length > 0) bloecke.push(`${TRENNSTRICH}\nQuellen:\n${zeilen.join('\n')}`);
   bloecke.push(texte.hashtags.join(' '));
 
-  return bloecke.join('\n\n').trim();
+  const trenner = FALTET_LEERZEILEN.includes(dienst.toLowerCase())
+    ? `\n${LEERZEILE_HART}\n`
+    : '\n\n';
+
+  return bloecke.join(trenner).trim();
 };
 
 /**
