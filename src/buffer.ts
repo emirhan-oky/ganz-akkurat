@@ -31,7 +31,47 @@ const abfragen = async <T>(schluessel: string, query: string, variables?: unknow
     body: JSON.stringify({ query, variables }),
   });
 
-  const daten = (await antwort.json()) as { data?: T; errors?: { message: string }[] };
+  /*
+   * Erst den Statuscode ansehen, dann erst parsen.
+   *
+   * Vorher stand hier direkt `antwort.json()`. Als Buffer am 15.08.2026
+   * mitten in einer Veroeffentlichung mit **504 Gateway Timeout** und einer
+   * HTML-Fehlerseite antwortete, kam als Meldung nur an:
+   *
+   *   Unexpected token '<', "<html> <h"... is not valid JSON
+   *
+   * Das liest sich wie ein Fehler im eigenen Code — und die Suche begann an
+   * der falschen Stelle. Eine Stoerung beim Dienst muss als Stoerung beim
+   * Dienst erkennbar sein, sonst kostet sie eine halbe Stunde.
+   */
+  if (!antwort.ok) {
+    const art = antwort.status >= 500 ? 'Störung bei Buffer' : 'Buffer lehnt die Anfrage ab';
+    const rat =
+      antwort.status >= 500
+        ? 'Nichts am eigenen Zugang ändern — später erneut versuchen.'
+        : antwort.status === 401 || antwort.status === 403
+          ? 'BUFFER_ACCESS_TOKEN prüfen (npm run zugaenge).'
+          : '';
+    throw new Error(`${art}: HTTP ${antwort.status} ${antwort.statusText}. ${rat}`.trim());
+  }
+
+  /*
+   * Auch mit 200 kann HTML kommen — etwa von einem Zwischenserver, der eine
+   * Wartungsseite ausliefert. Deshalb den Rohtext holen und selbst parsen,
+   * statt `json()` an einer Fehlerseite scheitern zu lassen.
+   */
+  const roh = await antwort.text();
+  let daten: { data?: T; errors?: { message: string }[] };
+  try {
+    daten = JSON.parse(roh) as { data?: T; errors?: { message: string }[] };
+  } catch {
+    throw new Error(
+      `Buffer antwortete mit ${antwort.status}, aber nicht mit JSON ` +
+        `(${antwort.headers.get('content-type') ?? 'ohne Content-Type'}). ` +
+        `Anfang der Antwort: ${roh.slice(0, 80).replace(/\s+/g, ' ')}`,
+    );
+  }
+
   if (daten.errors?.length) {
     throw new Error(`Buffer: ${daten.errors.map((f) => f.message).join('; ')}`);
   }
