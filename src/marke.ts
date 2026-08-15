@@ -19,10 +19,41 @@ export const FORMAT = {
 /**
  * Bereiche, die die Plattformen mit eigener Oberflaeche ueberdecken.
  * Nichts Sinntragendes darf hier liegen — weder Text noch Kernillustration.
- * Werte bewusst konservativ: TikTok deckt rechts am meisten ab, Reels unten.
+ * Die Werte richten sich nach der **schlimmsten** Plattform je Seite, nicht
+ * nach dem Mittel: TikTok deckt rechts und oben am meisten ab, Reels unten.
+ *
+ * ## Nachgemessen am 15.08.2026
+ *
+ * Anlass war eine Beobachtung an den fertigen Videos: Die Endkarte musste
+ * verkleinert werden, obwohl im Bild sichtbar Platz frei war. Der Platz war
+ * da — er war nur reserviert, und zwar grosszuegiger als noetig. `oben` stand
+ * auf 240 und `unten` auf 580; beide Zahlen stammten aus der Anfangszeit und
+ * waren nie an veroeffentlichten Angaben geprueft.
+ *
+ * Verbreitete Angaben fuer 1080×1920 (Stand 2026):
+ *
+ * | | oben | unten | links | rechts |
+ * |---|---|---|---|---|
+ * | Instagram Reels | 108 | 400–500 | 60 | 120 |
+ * | TikTok | 140 | 400 | 60 | 180 |
+ * | YouTube Shorts | — | ~320 | — | — |
+ *
+ * Uebernommen ist jeweils der schlechteste Wert plus Reserve. Unten steht
+ * bewusst die pessimistischere der beiden Reels-Angaben (500), weil dort der
+ * Untertitel sitzt und ein verdeckter Untertitel den Short fuer alle
+ * wertlos macht, die ohne Ton schauen.
+ *
+ * **Das bleibt eine Schaetzung.** Die Oberflaechen aendern sich mit den
+ * App-Versionen, und keine der drei Plattformen veroeffentlicht die Masse
+ * verbindlich. Wer hier weiter geht, prueft es an einem echten Beitrag —
+ * nicht an einer Tabelle.
  */
 export const SICHERE_ZONE = {
-  oben: 240,
+  /**
+   * 180 statt 240. Die Kopfzeile sitzt bei 110 und endet bei rund 160; die
+   * 80 Pixel darunter waren per Konstruktion leer.
+   */
+  oben: 180,
   /**
    * Reels blendet unten Beschreibung und Tonzeile ein und verdeckt damit
    * deutlich mehr als TikTok. Der Wert richtet sich nach der schlimmsten
@@ -34,7 +65,7 @@ export const SICHERE_ZONE = {
    * liest den Untertitel statt zuzuhoeren; er ist damit nicht das
    * verzichtbarste Element, sondern eines der wichtigsten.
    */
-  unten: 580,
+  unten: 500,
   links: 60,
   rechts: 200,
 } as const;
