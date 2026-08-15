@@ -455,6 +455,63 @@ mit einem grünen `npm run pruefen` belegt.
   besprochen worden und berührt die Regel, die das ganze Modell trägt — das
   gehört durchgesprochen, bevor es aktuell wird, nicht wenn.
 
+## Der Umbau auf 30 Sekunden — **offen, Entscheidung steht aus (15.08.2026)**
+
+Am 15.08.2026 gingen die ersten Shorts wirklich online. Das Feedback war
+einhellig und betraf genau einen Punkt: **zu lang.** Nicht zu kompliziert,
+nicht zu trocken — zu lang. Design, Untertitel und Machart kamen ausdruecklich
+gut an; die Laenge nicht.
+
+Damit faellt die Annahme, auf der das ganze Inhaltsmodell stand. Ein tiefes
+Video, das niemand zu Ende sieht, hat keine Tiefe, sondern nur Laenge.
+
+**Schon umgesetzt** (Commit `eb39367`):
+
+- Ein Zielfenster statt zwei: **28–40 s**, harte Grenze 45 statt 100
+- **Vertiefung ersatzlos entfallen** samt der fuenf Regeln, die sie erzwangen
+- Neue Regel `hook`: die erste Szene spricht hoechstens **3,5 s** — Fehler,
+  nicht Hinweis. Die Hook des Kabel-Shorts dauerte 14,0 s.
+- Belegregel gesenkt: **mindestens eine unbeteiligte Quelle** je Short. Aus
+  zwei Regeln (Anzahl + Rang) ist eine geworden; die Anzahl war die
+  schwaechere Haelfte, der Rang ist die, die schuetzt.
+
+**Noch offen: die Grundstruktur.** Drei Bauformen sind durchgerechnet und an
+je zwei echten Themen durchgespielt — eines mit Verdaechtigem, eines ohne.
+Die Vorlage dazu liegt als Artifact vor.
+
+| | Laenge | Bildwechsel | Macharten | Wiedererkennung |
+|---|---|---|---|---|
+| **A** Die Klammer | 28,2 s | 1,8 s | 14/14 | dieselbe Form, immer |
+| **B** Die Sendeformate | 20,4 s | 1,2 s | 14/14 | vier Formate im Wechsel |
+| **C** Die Mikro-Dosen | 24,6 s | 1,4 s | 14/14 | nur Rhythmus |
+
+**Empfohlen ist B.** Vier feste Formate — Der Freispruch, Die zwei Zahlen,
+Zehn Sekunden, Das Kleingedruckte — die zusammen alle 14 Macharten abdecken.
+Der Grund ist strukturell: Bei A und C muss der Humor jedes Mal neu im Text
+erfunden werden, bei B steckt er in der Form. Eine Gerichtsverhandlung gegen
+ein Netzteil ist komisch, bevor ein Wort davon handelt.
+
+Der Aufwand dafuer ist kleiner, als es klingt: Es braucht keine dreizehn neuen
+Szenenarten, sondern **ein Feld** `format` am Short. Die Szenen bleiben, was
+sie sind; das Format bestimmt nur ihre Anmutung.
+
+Drei Befunde aus der Recherche, die das Modell tragen:
+
+- **Alle 1,5 bis 2 Sekunden muss sich im Bild etwas aendern.** Unsere Szenen
+  standen fuenf bis sieben Sekunden still. Nicht nur die Gesamtlaenge war das
+  Problem, sondern die Standzeit je Bild.
+- **Wiedererkennung entsteht durch wiederkehrende Abschnitte**, nicht durch
+  Logo und Farbe. Ein fester Teil, den man erwartet.
+- **15–30 s hat die hoechste Abschlussrate.** Erklaerendes darf 35–45, aber
+  nur wenn der Nutzen frueh sichtbar ist.
+
+Der 10er-Takt traegt die Formatstruktur: fuenf Rubriken mal zwei Videos, kein
+Format oefter als dreimal je Woche, zehn Videos kosten 3.000 Zeichen und damit
+**11 % des Monatskontingents** — heute sind es 26 % fuer den halben Takt.
+
+**Die fuenf bestehenden Shorts sind verworfen.** Sie tragen alle eine zu lange
+Hook und liegen bei 82–88 s. Sie werden nicht umgeschrieben.
+
 **Arbeitsweise gerade: keine Vertonung.** Bis die Konzepte stehen, läuft nur
 `npm run lauf` ohne `--mit-ton` — das Kontingent soll nicht in Tests fließen.
 Stand 14.08.2026: rund 112.500 von 121.000 Zeichen im Monat frei.
