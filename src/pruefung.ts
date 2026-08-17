@@ -1,15 +1,13 @@
 import {
-  RUBRIKEN,
   UNBETEILIGTE_ARTEN,
-  Rubrik,
-  SYSTEME,
-  WINKELARTEN,
+  Format,
+  FORMATE,
+  Sachgebiet,
+  SACHGEBIETE,
   type Quelle,
   type Short,
-  type Titelmuster,
-  type Winkelart,
+  type Szene,
 } from './typen';
-import { fehlendeSymbole } from './illustration';
 import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
 import { geschaetzteDauerSek, LAENGE_SEK, ZEICHEN_PRO_SEKUNDE, zielfenster } from './zeit';
 
@@ -185,9 +183,30 @@ const LAUT = /[!\p{Extended_Pictographic}]/u;
 const KEINE_SACHWOERTER = new Set([
   'der', 'die', 'das', 'den', 'dem', 'des', 'ein', 'eine', 'einen', 'einem', 'einer', 'eines',
   'dein', 'deine', 'deinen', 'deinem', 'deiner', 'du', 'dir', 'dich', 'ihr', 'ihre', 'sie', 'es',
+  /*
+   * Am 16.08.2026 dazugekommen: Konjunktionen und Adverbien, die am
+   * Titelanfang stehen und dort grossgeschrieben werden. „Weder Leitung noch
+   * Router sind schuld" meldete „weder" als Sachwort, das im Video fehle —
+   * ein Fehlalarm, der den Short zurueckhielt. Die Regel selbst bleibt
+   * richtig: Was der Titel nennt, muss im Video vorkommen.
+   */
+  'weder', 'wenn', 'wann', 'warum', 'wieso', 'wie', 'was', 'wer', 'wo', 'wohin', 'welche',
+  'welcher', 'welches', 'ohne', 'mit', 'nach', 'vor', 'bei', 'seit', 'trotz', 'statt',
+  'und', 'oder', 'aber', 'doch', 'denn', 'also', 'nur', 'noch', 'schon', 'kein', 'keine',
+  'keinen', 'nicht', 'jeder', 'jede', 'alle', 'mein', 'meine', 'so', 'dann', 'darum',
   'und', 'oder', 'aber', 'denn', 'nur', 'auch', 'noch', 'schon', 'nicht', 'kein', 'keine', 'keinen',
   'am', 'an', 'auf', 'aus', 'bei', 'bis', 'durch', 'fuer', 'für', 'in', 'im', 'mit', 'nach', 'ohne',
   'seit', 'um', 'von', 'vor', 'zu', 'zum', 'zur', 'ueber', 'über', 'unter', 'gegen', 'ins',
+  /*
+   * Am 17.08.2026 nachgetragen: verschmolzene Praepositionen. „Vom Wohnzimmer
+   * auf den Cloud-Server" meldete „vom" als fehlendes Sachwort — derselbe
+   * Fehlalarm wie „weder" tags zuvor und aus demselben Grund: Am Titelanfang
+   * steht das Funktionswort gross da und sieht fuer die Regex aus wie ein
+   * Substantiv. Die Liste waechst an genau dieser Kante weiter, und das ist
+   * in Ordnung — die Alternative waere eine Wortartenerkennung fuer einen
+   * Titel von acht Woertern.
+   */
+  'vom', 'beim', 'ans', 'aufs', 'fuers', 'fürs', 'uebers', 'übers', 'unterm', 'hinter', 'neben',
   'also', 'dann', 'jetzt', 'hier', 'so', 'wenn', 'weil', 'bevor', 'obwohl', 'was', 'wie', 'warum',
   'ist', 'sind', 'war', 'hat', 'haben', 'wird', 'werden', 'kann', 'koennen', 'können', 'muss',
   // Verben am Satzanfang — Titel beginnen oft mit einer Aufforderung.
@@ -232,44 +251,6 @@ const kommtImVideoVor = (wort: string, videotext: string): boolean =>
     .filter((teil) => teil.length >= 4)
     .some((teil) => videotext.includes(teil));
 
-/**
- * Ob ein Titel die Form seines Musters hat — nicht, ob er gut ist.
- *
- * Geprueft wird das eine, was sich pruefen laesst: `zweisatz` braucht zwei
- * Saetze, `verdaechtiger` eine Verneinung (die Entwarnung ist der Hebel des
- * Musters), `uhr` eine Zahl (die Ersparnis hat eine Uhr). Ob der Widerspruch
- * traegt oder die Verneinung sitzt, entscheidet weiter ein Mensch.
- */
-const musterFormfehler = (muster: Titelmuster, titel: string): string | null => {
-  switch (muster) {
-    case 'zweisatz': {
-      const saetze = titel.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
-      return saetze.length >= 2
-        ? null
-        : 'zwei Sätze, die sich widersprechen – hier steht nur einer.';
-    }
-    case 'verdaechtiger':
-      /*
-       * Gesucht ist die **Entlastung**, nicht die Verneinung. Anfangs stand
-       * hier nur eine Liste von Verneinungswoertern, und „Dein Monitor ist
-       * unschuldig" waere durchgefallen — dabei ist das der Freispruch in
-       * Reinform. Ein Wort, das entlastet, erfuellt das Muster auch ohne
-       * „nicht".
-       */
-      return /\b(nicht|kein\w*|nie|niemals|unschuldig|entlastet|kann nichts dafür)\b/i.test(titel)
-        ? null
-        : 'der Verdächtige wird entlastet – dafür fehlt die Entlastung.';
-    case 'uhr':
-      return /\d/.test(titel)
-        ? null
-        : 'die Ersparnis hat eine Uhr – dafür fehlt die Zeit- oder Zahlangabe.';
-  }
-};
-
-/**
- * Prueft einen Short gegen alle Regeln, die ohne die fertige Videodatei
- * beantwortbar sind. Laufzeit- und Lautheitspruefung folgen nach dem Render.
- */
 export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const befunde: Befund[] = [];
   const melde = (stufe: Befund['stufe'], regel: string, text: string) =>
@@ -285,18 +266,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   }
 
   /*
-   * Drei Belege muessen es sein, und zwar drei **offizielle**. Das Schema
-   * zaehlt nur die Eintraege; ob sie tragen, weiss erst diese Stelle, weil
-   * hier die Quellenarten vorliegen.
+   * Hier stand bis zum 16.08.2026: **drei** offizielle Quellen je Short.
+   *
+   * Die Zahl ist entfallen, der Rang geblieben (gleich darunter). Aus zwei
+   * Regeln ist eine geworden, und zwar die staerkere — die Anzahl war immer
+   * die schwaechere Haelfte: Drei Herstellerseiten belegen nichts, eine
+   * Behoerdenseite belegt alles. Genau dieser Fall stand am 14.08.2026 im
+   * WLAN-Short, der mit drei Quellen sauber durchging und trotzdem nur
+   * Beteiligte nannte.
+   *
+   * Dazu kommt der Formatwechsel: **Ein Fakt je Video** braucht keine drei
+   * Quellen, er braucht die eine, die ihn traegt. Drei zu verlangen hiesse,
+   * zwei dekorative dazuzuschreiben — und Dekoration im Belegapparat ist
+   * schlimmer als keine, weil sie die Zahl stimmen laesst.
+   *
+   * Was die Zahl wirklich absicherte, sichert seit dem 16.08.2026 die
+   * Belegszene: Jeder Short zeigt im Bild, wer die Aussage traegt. Eine
+   * Quelle, die niemand nennt, faellt damit auf.
    */
-  const offizielle = short.quellenIds.filter((id) => {
-    const quelle = quellen.find((q) => q.id === id);
-    return quelle && OFFIZIELLE_ARTEN.has(quelle.art);
-  });
-
-  if (offizielle.length < 3) {
-    melde('fehler', 'beleg', `Nur ${offizielle.length} von 3 offiziellen Quellen.`);
-  }
+  void OFFIZIELLE_ARTEN;
 
   /*
    * Mindestens eine Quelle ohne eigenes Interesse an der Aussage.
@@ -347,12 +335,12 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   const erste = short.szenen[0];
 
-  if (erste?.art !== 'hook') {
-    melde('fehler', 'aufbau', 'Der Short beginnt nicht mit einer Hook-Szene.');
+  if (erste !== undefined && erste.position !== 'aufschlag') {
+    melde('fehler', 'aufbau', `Die erste Szene steht auf „${erste.position}" statt auf dem Aufschlag.`);
   }
 
-  // Den Abschluss prueft bereits das Schema: letzte Szene ist Endkarte oder
-  // Kaufkriterien, und nie beides im selben Short.
+  // Den Rest des Baus prueft bereits das Schema: jede Position kommt vor,
+  // Aufschlag und Nachschlag genau einmal, und die Folge laeuft nur vorwaerts.
 
   /*
    * Ein Verweis aus dem Video heraus ist nicht nur schlechte Bindung — er
@@ -459,21 +447,82 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     );
   }
 
-  /* ── Systemangabe braucht eine systemspezifische Quelle ──────────── */
+  /* ── Der eingeblendete Herausgeber muss der echte sein ───────────── */
 
   /*
-   * `macos` oder `windows` in der Hook-Pille ist eine Aussage ueber die
-   * Wirklichkeit wie jede andere — nur eine, die im Bild steht. Ohne eine
-   * Quelle, die das System tatsaechlich behandelt, waere sie geraten.
+   * Die Nachfolgerin der Belegszenen-Pruefung. `herausgeber` steht in der
+   * Szene **und** in `quellen.json`, weil der Renderer nur den Short bekommt.
+   * Genau die Sorte stiller Abweichung, die dieses Projekt sonst teuer bezahlt
+   * hat: Im Bild stuende dann ein Absender, den die Quelle nie hatte.
    */
-  if (short.system === 'macos' || short.system === 'windows') {
-    const passend = short.quellenIds.some((id) => quellen.find((q) => q.id === id)?.system === short.system);
-    if (!passend) {
+  for (const [i, szene] of short.szenen.entries()) {
+    if (!('herausgeber' in szene) || szene.herausgeber === undefined) continue;
+    const quelleId = 'quelleId' in szene ? szene.quelleId : undefined;
+    const quelle = quellen.find((q) => q.id === quelleId);
+    if (quelle && quelle.herausgeber !== szene.herausgeber) {
       melde(
         'fehler',
-        'system',
-        `Der Short ist auf ${SYSTEME[short.system].titel} festgelegt, aber keine seiner Quellen ist ` +
-          'als systemspezifisch ausgewiesen.',
+        'beleg',
+        `Szene ${i + 1} blendet „${szene.herausgeber}" ein, in quellen.json steht ` +
+          `„${quelle.herausgeber}". Im Video stünde ein Absender, den die Quelle nicht hat.`,
+      );
+    }
+  }
+
+  /* ── Die Fundstelle steht wirklich in dieser Quelle ──────────────── */
+
+  /*
+   * Die zweite Haelfte der Regel, deren erste im Schema steht: Dort wird
+   * verlangt, dass eine Szene mit Quelle auch eine `belegId` nennt; hier wird
+   * nachgesehen, ob es sie gibt. Getrennt sind die beiden, weil das Schema
+   * auch im Browser laeuft (Remotion parst `daten/beispiel-short.ts`) und dort
+   * `quellen.json` nicht vorliegt.
+   *
+   * Ohne diese Haelfte waere die Regel eine Formalie: Man koennte irgendeine
+   * Zeichenkette eintragen und haette dieselbe Blankovollmacht wie vorher, nur
+   * mit einem Feld mehr.
+   */
+  const belegtVonSzenen = new Map<string, number[]>();
+
+  for (const [i, szene] of short.szenen.entries()) {
+    const belegId = 'belegId' in szene ? szene.belegId : undefined;
+    const quelleId = 'quelleId' in szene ? szene.quelleId : undefined;
+    if (belegId === undefined || quelleId === undefined) continue;
+
+    const quelle = quellen.find((q) => q.id === quelleId);
+    if (!quelle) continue; // schon oben als fehlende Quelle gemeldet
+
+    const beleg = quelle.belegt.find((b) => b.id === belegId);
+    if (!beleg) {
+      melde(
+        'fehler',
+        'beleg',
+        `Szene ${i + 1} beruft sich auf die Fundstelle „${belegId}", die es in „${quelleId}" nicht ` +
+          `gibt. Vorhanden: ${quelle.belegt.map((b) => b.id).join(', ')}.`,
+      );
+      continue;
+    }
+
+    const schluessel = `${quelleId}#${belegId}`;
+    belegtVonSzenen.set(schluessel, [...(belegtVonSzenen.get(schluessel) ?? []), i + 1]);
+  }
+
+  /*
+   * Ein Zitat, das drei Szenen tragen soll, traegt meistens eine.
+   *
+   * Das ist das Muster, an dem beide Fehler vom 17.08.2026 hingen: Eine Quelle
+   * wurde ueber den ganzen Short verteilt, und irgendwo dazwischen stand ein
+   * Satz, den sie nicht hergibt. Zwei Szenen aus einem Zitat sind normal — die
+   * Zuspitzung und der Kipppunkt kommen oft aus demselben Absatz. Ab der
+   * dritten lohnt der Blick, deshalb Hinweis und nicht Fehler.
+   */
+  for (const [schluessel, szenen] of belegtVonSzenen) {
+    if (szenen.length > 2) {
+      melde(
+        'hinweis',
+        'beleg',
+        `Ein Zitat trägt ${szenen.length} Szenen (${szenen.join(', ')}): „${schluessel}". ` +
+          'Trägt es wirklich jeden dieser Sätze?',
       );
     }
   }
@@ -568,9 +617,8 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   /* ── Lesbarkeit im Feed ──────────────────────────────────────────── */
 
-  const hook = erste?.art === 'hook' ? erste : null;
-  if (hook && hook.text.split(/\s+/).length > 9) {
-    melde('hinweis', 'lesbarkeit', 'Die Hook hat mehr als neun Wörter – im Feed wird sie kaum zu Ende gelesen.');
+  if (erste !== undefined && erste.sprechtext.split(/\s+/).length > 9) {
+    melde('hinweis', 'lesbarkeit', 'Der Aufschlag hat mehr als neun Wörter – im Feed greift er dann nicht mehr zu.');
   }
 
   /* ── Plattformtexte ──────────────────────────────────────────────── */
@@ -581,22 +629,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
   }
 
-  /* ── Illustration ────────────────────────────────────────────────── */
+  /* ── Bilder sind die Ausnahme, nicht die Regel ───────────────────── */
 
   /*
-   * Situationssymbole waren gut und wurden trotzdem selten gesetzt: zwei von
-   * fuenf Shorts, weil sie von Hand kamen. Die Ableitung schlaegt vor, wo
-   * eine Szene eine Situation beschreibt, fuer die es ein Symbol gibt.
+   * Hier stand bis zum 17.08.2026 das Gegenteil: ein Hinweis, wo noch ein
+   * Symbol **fehlt**, erzeugt aus `src/illustration.ts`. Die Ableitung hat
+   * getan, was sie sollte, und deshalb bekam jede Szene ein Bildchen — der
+   * mechanische Erklaervideo-Reflex in Codeform.
    *
-   * **Hinweis, nicht Zuweisung.** Vorgeschlagen wird nur, gesetzt wird im
-   * Entwurf. Ein still gesetztes Bild waere ein Bild, das niemand entschieden
-   * hat — und es steht im fertigen Video.
+   * Gezaehlt wird jetzt in die andere Richtung. Traegt mehr als die Haelfte
+   * der Szenen eine Zeichnung, ist die Ausnahme zur Gewohnheit geworden und
+   * das Bild sagt nichts mehr, weil es immer da ist.
    */
-  for (const { index, art, symbol } of fehlendeSymbole(short.szenen)) {
+  const mitBild = short.szenen.filter((s) => 'symbol' in s && s.symbol !== undefined).length;
+  if (mitBild * 2 > short.szenen.length) {
     melde(
       'hinweis',
       'illustration',
-      `Szene ${index + 1} (${art}) beschreibt eine Situation ohne Bild – „symbol: '${symbol}'" passt.`,
+      `${mitBild} von ${short.szenen.length} Szenen tragen eine Zeichnung. Gesetzt wird nur, wo die ` +
+        'Zeichnung selbst der Witz ist – sonst trägt die Typografie.',
     );
   }
 
@@ -618,8 +669,8 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * Situation, in der jemand das Video braucht, kommt nirgends vor. In der
    * Suche entscheidet aber genau sie.
    */
-  const hookSzene = short.szenen.find((s) => s.art === 'hook');
-  const hookText = hookSzene?.art === 'hook' ? hookSzene.text : '';
+  const aufschlagSzene = short.szenen.find((s) => s.position === 'aufschlag');
+  const hookText = aufschlagSzene?.sprechtext ?? '';
   const hookWoerter = new Set(sachwoerter(hookText));
   const videotext = short.szenen
     .flatMap((s) => textwerte(s))
@@ -705,19 +756,18 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   }
 
   /*
-   * Das Titelmuster steht als Feld am Short und sagt, was der Titel tun
-   * soll. Ungeprueft waere es eine tote Regel — man koennte `zweisatz`
-   * setzen und einen einzelnen Satz schreiben, was genau passiert war.
+   * Hier stand bis zum 16.08.2026 die Formpruefung des Titelmusters: ob ein
+   * `zweisatz` wirklich zwei Saetze hat, ob eine `uhr` eine Zahl nennt.
    *
-   * Geprueft wird es am `arbeitstitel`: Er ist der Titel in Reinform, die
-   * drei Plattformtitel sind seine Anpassungen und duerfen kuerzen. Und
-   * geprueft wird nur die Form, nicht die Qualitaet — dass zwei Saetze da
-   * stehen, nicht ob sie sich widersprechen.
+   * Das Feld ist mit den Formaten entfallen. Hook und Titel folgen jetzt dem
+   * Opener des Formats (`FORMATE[...].opener`), und der ist ausdruecklich ein
+   * **Muster und kein fester Wortlaut**: Derselbe Einstieg siebenmal die
+   * Woche klingt nach Schablone, und nach drei Wochen ueberspringt man ihn.
+   *
+   * Damit ist die Wiedererkennung ans Bild gewandert — die Formatpille in der
+   * Kopfzeile steht ab Sekunde null. Eine Formpruefung am Text waere jetzt
+   * genau die Fessel, die der variable Opener vermeiden soll.
    */
-  const formfehler = musterFormfehler(short.titelmuster, short.arbeitstitel);
-  if (formfehler) {
-    melde('fehler', 'titel', `Arbeitstitel, Muster „${short.titelmuster}": ${formfehler}`);
-  }
 
   /* ── Die ersten Sekunden ─────────────────────────────────────────── */
 
@@ -733,14 +783,42 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * ein Satz. Fehler statt Hinweis, weil es der teuerste Fehler ist, den ein
    * Short machen kann — alles Weitere daran haengt.
    */
+  /*
+   * Liegt eine Tonspur vor, gilt sie — auch hier.
+   *
+   * Bis zum 16.08.2026 rechnete diese Regel immer mit der Formel, obwohl der
+   * Short die echten Zeitstempel schon dabeihatte. Im ersten vertonten
+   * Wochenlauf sprachen deshalb **vier von sieben** Hooks laenger als erlaubt,
+   * bis zu 4,7 s, und die Pruefung meldete nichts: Die Formel stand auf 17,4
+   * Zeichen/s, gesprochen wurden 15,4. Eine harte Regel an geschaetzten Daten
+   * zu pruefen, waehrend gemessene daneben liegen, ist keine Pruefung.
+   */
   const ersteSzene = short.szenen[0];
   if (ersteSzene) {
-    const hookSek = ersteSzene.sprechtext.length / ZEICHEN_PRO_SEKUNDE;
+    /*
+     * Aus den Wortstempeln, nicht aus dem Szenenabstand.
+     *
+     * Zwischen dem letzten Wort der Hook und dem ersten der zweiten Szene
+     * liegen 0,3 bis 0,7 Sekunden Atempause. Wer den Abstand misst, misst sie
+     * mit — und prueft damit etwas anderes als die Schaetzformel darunter, die
+     * nur Zeichen zaehlt. Dieselbe Regel darf nicht zweierlei bedeuten, je
+     * nachdem ob schon vertont wurde.
+     */
+    const grenze = short.tonspur?.szenenStartSek[1];
+    const hookWoerter =
+      grenze === undefined ? [] : (short.tonspur?.woerter ?? []).filter((w) => w.startSek < grenze);
+    const erstes = hookWoerter[0];
+    const letztes = hookWoerter[hookWoerter.length - 1];
+    const gemessen = erstes !== undefined && letztes !== undefined;
+    const hookSek = gemessen
+      ? letztes.endeSek - erstes.startSek
+      : ersteSzene.sprechtext.length / ZEICHEN_PRO_SEKUNDE;
     if (hookSek > LAENGE_SEK.hookMaximum) {
       melde(
         'fehler',
         'hook',
-        `Die Hook spricht ${hookSek.toFixed(1)}s (${ersteSzene.sprechtext.length} Zeichen). ` +
+        `Die Hook spricht ${hookSek.toFixed(1)}s ` +
+          `(${gemessen ? 'gemessen' : `${ersteSzene.sprechtext.length} Zeichen`}). ` +
           `Höchstens ${LAENGE_SEK.hookMaximum}s — das sind rund ` +
           `${Math.floor(LAENGE_SEK.hookMaximum * ZEICHEN_PRO_SEKUNDE)} Zeichen, ein Satz.`,
       );
@@ -751,21 +829,31 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   if (short.tonspur) {
     const d = short.tonspur.dauerSek;
-    const [von, bis] = zielfenster(short);
+    const [von, bis] = zielfenster();
 
-    if (d > LAENGE_SEK.maximum) {
-      melde('fehler', 'laenge', `${d.toFixed(1)}s überschreitet die Obergrenze von ${LAENGE_SEK.maximum}s.`);
-    } else if (d < LAENGE_SEK.minimum) {
-      melde('fehler', 'laenge', `${d.toFixed(1)}s ist zu kurz – unter ${LAENGE_SEK.minimum}s wirkt der Short abgehackt.`);
-    } else if (d < von || d > bis) {
-      /*
-       * Beide Richtungen sind ein Hinweis, und seit dem 15.08.2026 ist die
-       * obere die wichtigere: Zu lang war der einzige Kritikpunkt, den das
-       * Zuschauerfeedback zu den ersten Beitraegen hatte. Nach unten bleibt
-       * es ein Hinweis, weil ein knapper Short kein Fehler ist, solange er
-       * seine Sache sagt.
-       */
-      melde('hinweis', 'laenge', `${d.toFixed(1)}s liegt außerhalb des Zielfensters ${von}–${bis}s.`);
+    /*
+     * Seit dem 16.08.2026 ist das Fenster selbst die harte Grenze. Vorher lag
+     * darueber noch eine zweite Stufe („ausnahmslos 45 s") — ein Rest aus der
+     * Zeit mit zwei Fenstern. Mit einem Fenster hat sie keine Aufgabe mehr.
+     *
+     * Beide Richtungen sind Fehler, und die obere ist die wichtigere: Zu lang
+     * war der einzige Kritikpunkt am ersten veroeffentlichten Lauf. Nach unten
+     * ist es ebenfalls ein Fehler, weil ein Fakt unter 18 Sekunden seinen
+     * Beleg nicht mehr unterbringt — und ohne Beleg ist er eine Behauptung.
+     */
+    if (d > bis) {
+      melde(
+        'fehler',
+        'laenge',
+        `${d.toFixed(1)}s überschreitet das Zielfenster ${von}–${bis}s. ` +
+          `Zielwert ist die Mitte bei ${((von + bis) / 2).toFixed(0)}s, nicht der Rand.`,
+      );
+    } else if (d < von) {
+      melde(
+        'fehler',
+        'laenge',
+        `${d.toFixed(1)}s unterschreitet das Zielfenster ${von}–${bis}s – für Fakt, Beleg und Merksatz zu knapp.`,
+      );
     }
 
     if (short.tonspur.woerter.length === 0) {
@@ -780,7 +868,7 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
      * den Trockenlauf blockieren.
      */
     const geschaetzt = geschaetzteDauerSek(short);
-    const [von, bis] = zielfenster(short);
+    const [von, bis] = zielfenster();
     if (geschaetzt < von || geschaetzt > bis) {
       melde(
         'hinweis',
@@ -830,100 +918,102 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     });
   }
 
-  /* ── Jede Rubrik genau einmal ────────────────────────────────────── */
+  /* ── Jedes Format genau einmal ───────────────────────────────────── */
 
   /*
-   * Der Sendeplatz ist das Versprechen an den Zuschauer: montags bis
-   * freitags je eine Rubrik. Zwei Shorts derselben Rubrik in einer Woche
-   * heissen, dass eine andere ausfaellt — und genau das war das alte
-   * Modell, in dem fuenf Videos aus einem einzigen Thema kamen.
+   * Das Format ist der Sendeplatz und zugleich das Versprechen an den
+   * Zuschauer: montags die Skala, dienstags das Maerchen, freitags die Wut
+   * auf die Industrie. Zwei Shorts desselben Formats in einer Woche heissen,
+   * dass ein Wochentag ausfaellt — und der Zuschauer, der dienstags kommt,
+   * findet nichts.
+   *
+   * Die Empfehlung zaehlt nicht mit: Sie hat keinen festen Tag und laeuft
+   * zusaetzlich, sobald es Affiliate-Links gibt.
    */
-  const proRubrik = new Map<Rubrik, Short[]>();
+  const proFormat = new Map<Format, Short[]>();
   for (const short of shorts) {
-    proRubrik.set(short.rubrik, [...(proRubrik.get(short.rubrik) ?? []), short]);
+    proFormat.set(short.format, [...(proFormat.get(short.format) ?? []), short]);
   }
 
-  for (const [rubrik, gruppe] of proRubrik) {
+  for (const [format, gruppe] of proFormat) {
     if (gruppe.length < 2) continue;
     for (const short of gruppe) {
       befunde.push({
         stufe: 'fehler',
         shortId: short.id,
-        regel: 'rubrik',
+        regel: 'format',
         text:
-          `Rubrik „${RUBRIKEN[rubrik].titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
+          `Format „${FORMATE[format].titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
             .map((s) => s.id)
-            .join(', ')}). Jede Woche trägt jede Rubrik genau einen Short.`,
+            .join(', ')}). Jeder Wochentag trägt genau ein Format.`,
       });
     }
   }
 
   /*
-   * Die Gegenprobe. Ohne sie faellt ein Lauf mit vier Shorts nicht auf —
-   * die Dopplungspruefung oben schweigt, weil nichts doppelt ist.
+   * Die Gegenprobe. Ohne sie faellt ein Lauf mit sechs Shorts nicht auf — die
+   * Dopplungspruefung oben schweigt, weil nichts doppelt ist.
+   *
+   * **Sie stand bis zum 17.08.2026 hinter `if (shorts.length ===
+   * wochenformate.length)` und war damit genau dann still, wenn sie gebraucht
+   * wurde.** Aufgefallen ist das beim achten Sendeplatz: Der Lauf hatte sieben
+   * Shorts, es gab acht Formate, und die Pruefung meldete gruen — die Bedingung
+   * war nicht erfuellt, also lief die Regel gar nicht erst an. Eine Wache, die
+   * sich bei Abweichung selbst abschaltet, ist keine Wache.
+   *
+   * Der Grund fuer die Bedingung war vermutlich, Trockenlaeufe mit einem
+   * einzelnen Short (`--nur`) nicht mit sechs Fehlern zu ueberschuetten. Das
+   * loest jetzt `nurEiner` sauber, statt es an einer Zahlengleichheit
+   * aufzuhaengen.
    */
-  if (shorts.length === 5) {
-    const fehlend = Rubrik.options.filter((r) => !proRubrik.has(r));
+  const wochenformate = (Object.keys(FORMATE) as Format[]).filter((f) => FORMATE[f].tag !== null);
+  const nurEiner = shorts.length <= 1;
+  if (!nurEiner) {
+    const fehlend = wochenformate.filter((f) => !proFormat.has(f));
     if (fehlend.length > 0) {
       for (const short of shorts) {
         befunde.push({
           stufe: 'fehler',
           shortId: short.id,
-          regel: 'rubrik',
-          text: `Im Lauf fehlt die Rubrik ${fehlend.map((r) => `„${RUBRIKEN[r].titel}"`).join(', ')}.`,
+          regel: 'format',
+          text:
+            `Im Lauf fehlt das Format ${fehlend.map((f) => `„${FORMATE[f].titel}"`).join(', ')}. ` +
+            `${shorts.length} von ${wochenformate.length} Sendeplätzen besetzt.`,
         });
       }
     }
   }
 
-  /* ── Fuenf verschiedene Macharten ────────────────────────────────── */
+  /* ── Kein Sachgebiet öfter als zweimal ───────────────────────────── */
 
-  const proMachart = new Map<string, Short[]>();
+  /*
+   * Die zweite, viel lockerere Achse. Sieben Formate garantieren sieben
+   * verschiedene **Zugriffe**, aber nicht sieben verschiedene **Gegenstaende**
+   * — eine Woche aus sieben Kabelvideos waere formal tadellos und trotzdem
+   * eine Kabelwoche.
+   *
+   * Zwei sind erlaubt, weil sieben Videos auf fuenf Sachgebiete nicht
+   * gleichmaessig aufgehen. Drei sind zu viel: Dann handelt fast die halbe
+   * Woche vom selben Gegenstand.
+   */
+  const proSachgebiet = new Map<Sachgebiet, Short[]>();
   for (const short of shorts) {
-    const liste = proMachart.get(short.winkelart) ?? [];
-    liste.push(short);
-    proMachart.set(short.winkelart, liste);
+    proSachgebiet.set(short.sachgebiet, [...(proSachgebiet.get(short.sachgebiet) ?? []), short]);
   }
 
-  for (const [winkelart, gruppe] of proMachart) {
-    if (gruppe.length < 2) continue;
-    const titel = WINKELARTEN[winkelart as Winkelart].titel;
+  for (const [sachgebiet, gruppe] of proSachgebiet) {
+    if (gruppe.length <= 2) continue;
     for (const short of gruppe) {
       befunde.push({
         stufe: 'fehler',
         shortId: short.id,
-        regel: 'machart',
+        regel: 'sachgebiet',
         text:
-          `Machart „${titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
-            .map((s) => s.id)
-            .join(', ')}). Die fünf Videos einer Woche brauchen fünf verschiedene Zugriffe.`,
+          `Sachgebiet „${SACHGEBIETE[sachgebiet].titel}" trägt ${gruppe.length} der ` +
+          `${shorts.length} Shorts (${gruppe.map((s) => s.id).join(', ')}). Höchstens zwei je Woche.`,
       });
     }
   }
-
-  /* ── Drei von fuenf tragen eine Vertiefung, „Kaufen" immer ───────── */
-
-  /*
-   * Warum nicht alle fuenf: Ein Zwang zur Tiefe erzeugt erfundene Tiefe. Ein
-   * Video, das seine Fehlspur nicht wirklich hat, bekommt eine
-   * konstruierte — und die riecht man. Drei von fuenf lassen Raum, sie
-   * ehrlich zu vergeben.
-   *
-   * Warum „Kaufen" trotzdem gesetzt ist: Der Kaufberatungs-Short traegt als
-   * einziger das Werbelabel. Genau der braucht die meiste Glaubwuerdigkeit,
-   * weil beim Zuschauer sonst „der will mir was verkaufen" gewinnt.
-   */
-  /*
-   * Hier standen zwei Vertiefungsregeln: mindestens drei von fuenf Shorts
-   * mit Vertiefung, und „Kaufen traegt immer eine". Beide sind mit der
-   * Vertiefung entfallen (15.08.2026).
-   *
-   * Der Gedanke hinter der Kaufen-Regel bleibt richtig und braucht eine neue
-   * Form: Der Kaufberatungs-Short traegt als einziger das Werbelabel und
-   * braucht die meiste Glaubwuerdigkeit. In 40 Sekunden leistet das nicht
-   * eine Bauform, sondern der Beleg — und den verlangt `beleg` ohnehin von
-   * jedem Short.
-   */
 
   /* ── Abnutzung: gleiche Muster, gleiche Vertiefungen ─────────────── */
 
@@ -957,21 +1047,37 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     }
   };
 
-  haeufung<Titelmuster>(
-    (s) => s.titelmuster,
-    'titelmuster',
-    (wert) => `Titelmuster „${wert}"`,
-  );
+  /*
+   * Die Haeufungspruefung sucht seit dem 16.08.2026 nichts mehr: Sie zaehlte
+   * gleiche Titelmuster, und die gibt es nicht mehr. Was sie ersetzt hat, ist
+   * strenger — jedes Format genau einmal je Lauf, geprueft als Fehler.
+   *
+   * Die Funktion bleibt stehen, weil die naechste Achse kommt, sobald es zehn
+   * Videos je Woche sind: Dann laufen Formate doppelt, und „kein Format
+   * oefter als dreimal" wird wieder eine echte Frage.
+   */
+  void haeufung;
 
   /* ── Kein Szenenbild im Uebermass ────────────────────────────────── */
 
   const HOECHSTZAHL = 3;
 
   /*
-   * Hook und Schlusskarte schreibt das Schema jedem Short vor. Sie zu zaehlen
-   * hiesse, den Pflichtaufbau als Einfallslosigkeit zu melden.
+   * Was das Schema ohnehin vorschreibt, darf hier nicht als Einfallslosigkeit
+   * gemeldet werden — „schluss kommt in 7 von 7 Shorts vor" ist kein Befund,
+   * sondern die Regel.
+   *
+   * **`text` ist am 17.08.2026 dazugekommen, und das war eine Korrektur.**
+   * Beim ersten Lauf nach dem Umbau meldete die Regel „Szenenart „text" kommt
+   * in 7 von 7 Shorts vor" — vierzehn Hinweise, alle falsch. `text` ist seit
+   * der Zusammenlegung von `hook` und `aussage` die Grundform jeder
+   * gesprochenen Zeile; sie kommt zwangslaeufig ueberall vor.
+   *
+   * Der Fehler ist derselbe wie bei der Sprechprobe, die monatelang „weicht
+   * deutlich ab" meldete: Eine Regel, die bei jedem Lauf anschlaegt, wird
+   * ueberlesen — und dann uebersieht man auch den Lauf, bei dem sie recht hat.
    */
-  const VORGESCHRIEBEN = new Set<string>(['hook', 'endkarte', 'kaufkriterien']);
+  const VORGESCHRIEBEN = new Set<string>(['text', 'schluss', 'kaufkriterien']);
 
   const proArt = new Map<string, Set<string>>();
   for (const short of shorts) {

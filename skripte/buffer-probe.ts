@@ -77,7 +77,7 @@ const main = async () => {
   const lokal = await neuestesVideo(short.id);
   const angelegt: string[] = [];
 
-  console.log('SetupKlar · Rauchtest der Veröffentlichung\n');
+  console.log('Ganz akkurat · Rauchtest der Veröffentlichung\n');
 
   try {
     /* 1 — Video ablegen */

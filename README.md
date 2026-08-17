@@ -1,9 +1,10 @@
-# SetupKlar
+# Ganz akkurat
 
 Automatisierte Shortvideo-Produktion für die deutschsprachige Medienmarke
-**SetupKlar** – Technik-Setups für Schreibtisch, unterwegs, Reise, zuhause und
-Kaufen. Ein Lauf erzeugt **fünf Shorts, einen je Rubrik** – ein Video pro
-Werktag.
+**Ganz akkurat** – Tech-Unterhaltung, die nebenbei hilft. Ein Lauf erzeugt
+**sieben Shorts, einen je Format** – ein Video pro Tag, Montag bis Sonntag.
+
+*Ganz akkurat. Wir haben nachgelesen.*
 
 Deutschsprachig auch im Code: Bezeichner, Kommentare und Ausgaben sind deutsch.
 
@@ -15,8 +16,7 @@ zwar jede an genau einer Stelle:
 | Datei | Inhalt |
 |---|---|
 | `CLAUDE.md` | Der Arbeitsvertrag: Datenvertrag, harte Regeln, Quellenpolitik, warum jede Regel existiert |
-| `produktionsmatrix.md` | Rubriken, Titelmuster, Humor, Vertiefungen, Zeichenkategorien – die inhaltliche Matrix |
-| `offene-punkte.md` | Das Entscheidungsprotokoll: was besprochen, was beschlossen, was noch offen ist |
+| `AUFGABEN.md` | Was gerade läuft und was offen ist |
 | `src/typen.ts` | Der einzige Datenvertrag. Alles andere richtet sich danach |
 | `src/pruefung.ts` | Alle Regeln als Code. Fehler halten zurück, Hinweise erscheinen nur in der Freigabe |
 
@@ -31,7 +31,7 @@ Prompt "Wir entwerfen neue Shortvideos"
   │
   1  Themenwahl        nach Nutzen und Belegbarkeit
   2  Quellenarbeit     URL abrufen, lesen, wörtliches Zitat eintragen
-  3  Skript            Hook → Beweis → Konsequenz → CTA, jede Aussage belegt
+  3  Skript            Hook → Behauptung → Auflösung → Beleg → Merksatz
   4  BELEGANSICHT      npm run belege – trägt das Zitat den Satz wirklich?
   5  Sprechprobe       Länge messen, ohne Kontingent zu verbrauchen
   6  Vertonung         ElevenLabs, deutsche Männerstimme
@@ -39,7 +39,7 @@ Prompt "Wir entwerfen neue Shortvideos"
   8  Render            Remotion → 1080×1920, reine Motion Graphics
   9  Qualitätsprüfung  Länge, Lautheit, sichere Zonen, Kennzeichnung
   │
- 10  FREIGABE          du siehst alle 5 Videos und gibst frei
+ 10  FREIGABE          du siehst alle 7 Videos und gibst frei
   │
  11  Veröffentlichung  Cloudflare R2 → Buffer → TikTok, Reels, Shorts
 ```
@@ -84,10 +84,10 @@ src/verlauf.ts      Gedächtnis über die Woche hinaus (daten/verlauf.json)
 video/              Remotion: Szenenvokabular und Komposition
 daten/entwuerfe/    Die Shorts. index.ts sagt, was läuft – und nur dort
 daten/quellen.json  Quellen mit wörtlichen Zitaten und Abrufdatum
-daten/ideen/        Ideenvorrat je Rubrik. index.ts ist die einzige Liste
+daten/ideen/        Ideenvorrat je Sachgebiet. index.ts ist die einzige Liste
+AUFGABEN.md         Was läuft, was offen ist
 laeufe/             Produktionsergebnisse (nicht in Git)
 public/ton/         Vertonungen je Lauf (nicht in Git)
-SetupKlar/Branding/ Logo und Profilbild
 ```
 
 ## Zugänge

@@ -1,8 +1,8 @@
 {
-  "name": "setupklar",
+  "name": "ganzakkurat",
   "version": "1.0.0",
   "private": true,
-  "description": "Automatisierte Shortvideo-Produktion fuer die Medienmarke SetupKlar",
+  "description": "Automatisierte Shortvideo-Produktion fuer die Medienmarke Ganz akkurat",
   "type": "module",
   "scripts": {
     "lauf": "tsx skripte/wochenlauf.ts",
@@ -11,6 +11,7 @@
     "quellen-pruefen": "tsx skripte/quellen-pruefen.ts",
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",
+    "pausenprobe": "tsx skripte/pausenprobe.ts",
     "sprechprobe": "tsx skripte/sprechprobe.ts",
     "belege": "tsx skripte/belege.ts",
     "zugaenge": "tsx skripte/zugaenge.ts",

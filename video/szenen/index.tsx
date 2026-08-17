@@ -1,8 +1,9 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, TEMPO } from '../../src/marke';
-import type { GeraeteArt, KontextArt, Szene } from '../../src/typen';
+import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
+import type { KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
-import { Geraet, Symbol } from '../bausteine/Geraete';
+import { Symbol } from '../bausteine/Geraete';
+import { Wortmarke } from '../bausteine/Wortmarke';
 import {
   abschnitt,
   auftritt,
@@ -14,7 +15,7 @@ import {
 } from '../bausteine/bewegung';
 
 /**
- * Das Szenenvokabular von SetupKlar.
+ * Das Szenenvokabular von Ganz akkurat.
  *
  * Jede Szenenart loest genau eine erzaehlerische Aufgabe. Neue Szenenarten
  * kommen nur dazu, wenn sich eine Aussage mit den vorhandenen nicht sauber
@@ -41,70 +42,13 @@ const bewertungsfarben = (b?: 'ja' | 'nein' | 'achtung' | 'neutral') => {
   }
 };
 
-/* ─────────────────────────────── Hook ──────────────────────────────── */
-
-type SzenenProps<A extends Szene['art']> = { szene: Extract<Szene, { art: A }>; dauer: number };
-
-const Hook: React.FC<SzenenProps<'hook'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
-      {szene.kontext && (
-        <div style={{ ...auftritt(frame, fps, 0), marginBottom: ABSTAND.m }}>
-          <span
-            style={{
-              ...grundtext,
-              fontWeight: SCHRIFT.halbfett,
-              fontSize: GROESSEN.detail,
-              color: FARBEN.blau,
-              backgroundColor: FARBEN.blauHell,
-              padding: '10px 22px',
-              borderRadius: RADIUS.rund,
-              letterSpacing: 0,
-            }}
-          >
-            {szene.kontext}
-          </span>
-        </div>
-      )}
-
-      <h1
-        style={{
-          ...grundtext,
-          ...auftritt(frame, fps, 4),
-          fontWeight: SCHRIFT.schwarz,
-          fontSize: GROESSEN.hook,
-          lineHeight: 1.04,
-          margin: 0,
-        }}
-      >
-        {szene.text}
-      </h1>
-
-      {/* Blauer Balken als Marken-Akzent, faehrt unter dem Text aus. */}
-      <div
-        style={{
-          marginTop: ABSTAND.l,
-          height: 12,
-          borderRadius: RADIUS.rund,
-          backgroundColor: FARBEN.blau,
-          width: `${einblenden(frame, 12, 14) * 42}%`,
-        }}
-      />
-    </Buehne>
-  );
-};
-
 /* ─────────────────────────── Illustration ──────────────────────────── */
 
 /**
  * Groesse der Zeichnung unter dem Text.
  *
  * Die Buehne ist 820 Pixel breit; bei 560 bleibt links und rechts Luft, und
- * die Zeichnung wird nicht groesser als der Text darueber. Sie soll die
- * Aussage zeigen, nicht sie uebertoenen.
+ * die Zeichnung wird nicht groesser als der Text darueber.
  */
 const ILLUSTRATION_GROESSE = 560;
 
@@ -116,28 +60,25 @@ const ILLUSTRATION_GROESSE = 560;
  * gleichzeitig einzublenden liesse den Blick zwischen zwei Neuigkeiten
  * springen.
  *
- * Nimmt beide Zeichenkategorien: `geraet` fuer Technik, die dem Datenblatt
- * entsprechen muss, `symbol` fuer die Situation. Beide zugleich verbietet das
- * Schema, hier gewinnt sonst das Geraet.
+ * Seit dem 17.08.2026 gibt es nur noch **eine** Zeichenkategorie. `geraet`
+ * ist weg — wir zeichnen keine Buchsen mehr, und die Regel „muss dem
+ * Datenblatt entsprechen" ist damit gegenstandslos statt gelockert. Was
+ * bleibt, ist das Situationssymbol, das nichts Technisches behauptet.
  *
- * Gibt `undefined` zurueck, wenn nichts gesetzt ist — dann bleibt der Text in
- * der Buehne mittig stehen, statt oben zu kleben und darunter ein Loch zu
- * lassen.
+ * Gibt `undefined` zurueck, wenn nichts gesetzt ist — und das ist jetzt der
+ * Normalfall: Die Typografie traegt, die Zeichnung ist die Ausnahme.
  */
 const Illustration = (
-  szene: { geraet?: GeraeteArt; symbol?: KontextArt },
+  szene: { symbol?: KontextArt },
   frame: number,
   fps: number,
   dauer: number,
 ): React.ReactNode | undefined => {
-  if (!szene.geraet && !szene.symbol) return undefined;
+  if (!szene.symbol) return undefined;
   return (
     <div
       style={{
         ...auftritt(frame, fps, Math.round(dauer * 0.22)),
-        // Der Abstand nach oben haelt die Zeichnung vom Text weg; `minHeight`
-        // und `einpassen` sorgen dafuer, dass sie schrumpft statt zu quellen,
-        // wenn der Text viel Platz braucht.
         marginTop: ABSTAND.l,
         display: 'flex',
         justifyContent: 'center',
@@ -145,20 +86,57 @@ const Illustration = (
         maxHeight: '100%',
       }}
     >
-      {szene.geraet ? (
-        <Geraet art={szene.geraet} groesse={ILLUSTRATION_GROESSE} einpassen />
-      ) : (
-        <Symbol art={szene.symbol!} groesse={ILLUSTRATION_GROESSE} einpassen />
-      )}
+      <Symbol art={szene.symbol} groesse={ILLUSTRATION_GROESSE} einpassen />
     </div>
   );
 };
 
-/* ────────────────────────────── Aussage ────────────────────────────── */
+/* ─────────────────────────────── Text ──────────────────────────────── */
 
-const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
+type SzenenProps<A extends Szene['art']> = { szene: Extract<Szene, { art: A }>; dauer: number };
+
+/**
+ * Der gesprochene Satz im Bild — das Arbeitspferd, in zwei Groessen.
+ *
+ * Hier standen bis zum 17.08.2026 **zwei** Komponenten: `Hook` und `Aussage`.
+ * Sie unterschieden sich in der Schriftgroesse, im blauen Balken darunter und
+ * in einer Kontextpille, die zweimal in fuenf Shorts benutzt wurde. Der Rest
+ * war derselbe Absatz.
+ *
+ * Was sie wirklich unterschied, war nicht die Art, sondern die **Position**:
+ * Der Aufschlag steht gross, die Mitte steht normal. Genau das entscheidet
+ * jetzt `szene.position`, und die zweite Komponente ist entfallen.
+ *
+ * Der blaue Balken bleibt dem Aufschlag vorbehalten. Er ist die einzige
+ * Bewegung in der Szene und markiert den Anfang des Videos — unter jedem Satz
+ * waere er Dekoration.
+ */
+const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
+  const aufschlag = szene.position === 'aufschlag';
+
+  /*
+   * Die Schriftgroesse richtet sich nach dem **laengsten Wort**, nicht nach
+   * der Gesamtlaenge: Ein langer Satz bricht um, ein langes Wort nicht.
+   * „Zwanzigtausend." lief bei der festen Groesse von 104 Pixeln ueber den
+   * rechten Rand der Buehne — genau dorthin, wo TikTok seine Bedienleiste
+   * einblendet. Deutsche Komposita sind lang, und die Buehne ist 1100 Pixel
+   * breit.
+   */
+  const laengstesWort = Math.max(...szene.text.split(/\s+/).map((w) => w.length));
+  const groesse = aufschlag
+    ? laengstesWort <= 11
+      ? GROESSEN.hook
+      : laengstesWort <= 14
+        ? 86
+        : laengstesWort <= 17
+          ? 72
+          : 62
+    : laengstesWort <= 15
+      ? GROESSEN.ueberschrift
+      : 62;
 
   // Das hervorgehobene Wort bekommt Signalblau — der Rest bleibt ruhig.
   const teile = szene.hervorhebung
@@ -171,9 +149,9 @@ const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
         style={{
           ...grundtext,
           ...auftritt(frame, fps, 0),
-          fontWeight: SCHRIFT.fett,
-          fontSize: GROESSEN.ueberschrift,
-          lineHeight: 1.16,
+          fontWeight: aufschlag ? SCHRIFT.schwarz : SCHRIFT.fett,
+          fontSize: groesse,
+          lineHeight: aufschlag ? 1.04 : 1.16,
           margin: 0,
         }}
       >
@@ -187,10 +165,97 @@ const Aussage: React.FC<SzenenProps<'aussage'>> = ({ szene, dauer }) => {
           ),
         )}
       </p>
+
+      {aufschlag && (
+        <div
+          style={{
+            marginTop: ABSTAND.l,
+            height: 12,
+            borderRadius: RADIUS.rund,
+            backgroundColor: FARBEN.blau,
+            width: `${einblenden(frame, 12, 14) * 42}%`,
+          }}
+        />
+      )}
     </Buehne>
   );
 };
 
+/* ─────────────────────────────── Frage ─────────────────────────────── */
+
+/**
+ * Die Frage, die stehen bleibt — der Montag.
+ *
+ * Die einzige Szene ohne Bewegung nach dem Einlaufen und die einzige, in der
+ * laenger geschwiegen als gesprochen wird. „Schätz mal." dauert eine dreiviertel
+ * Sekunde, die Szene vier — der Rest ist Stille mit der Frage im Bild.
+ *
+ * Das Fragezeichen steht bewusst gross und blau daneben statt am Satzende: Es
+ * ist das Signal, dass hier etwas vom Zuschauer erwartet wird, und es muss auf
+ * einen Blick lesbar sein, auch ohne Ton. Der Laufbalken darunter zeigt, dass
+ * die Zeit ablaeuft — ohne ihn sieht ein stehendes Bild nach Fehler aus.
+ */
+const Frage: React.FC<SzenenProps<'frage'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  const laengstesWort = Math.max(...szene.frage.split(/\s+/).map((w) => w.length));
+  const groesse = laengstesWort <= 12 ? 82 : laengstesWort <= 16 ? 70 : 60;
+
+  return (
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
+      <div style={{ ...auftritt(frame, fps, 0), display: 'flex', alignItems: 'flex-start', gap: ABSTAND.m }}>
+        <span
+          style={{
+            ...grundtext,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: Math.round(groesse * 1.6),
+            lineHeight: 0.86,
+            color: FARBEN.blau,
+            flexShrink: 0,
+          }}
+        >
+          ?
+        </span>
+        <p
+          style={{
+            ...grundtext,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: groesse,
+            lineHeight: 1.08,
+            margin: 0,
+          }}
+        >
+          {szene.frage}
+        </p>
+      </div>
+
+      {/*
+        Der Balken laeuft ueber die volle Szenenlaenge leer. Er ist die
+        Denkzeit, sichtbar gemacht — und der Grund, warum vier Sekunden
+        Standbild nicht nach eingefrorenem Video aussehen.
+      */}
+      <div
+        style={{
+          marginTop: ABSTAND.xl,
+          height: 10,
+          borderRadius: RADIUS.rund,
+          backgroundColor: FARBEN.gitter,
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            borderRadius: RADIUS.rund,
+            backgroundColor: FARBEN.blau,
+            width: `${(1 - linienFortschritt(frame, fps, dauer)) * 100}%`,
+          }}
+        />
+      </div>
+    </Buehne>
+  );
+};
 /* ─────────────────────────────── Zahl ──────────────────────────────── */
 
 const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
@@ -353,452 +418,169 @@ const Vergleich: React.FC<SzenenProps<'vergleich'>> = ({ szene, dauer }) => {
   );
 };
 
-/* ──────────────────────────── Checkliste ───────────────────────────── */
-
-const Checkliste: React.FC<SzenenProps<'checkliste'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      <h2
-        style={{
-          ...grundtext,
-          ...auftritt(frame, fps, 0),
-          fontWeight: SCHRIFT.schwarz,
-          fontSize: GROESSEN.ueberschrift,
-          lineHeight: 1.15,
-          margin: `0 0 ${ABSTAND.xl}px`,
-        }}
-      >
-        {szene.ueberschrift}
-      </h2>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
-        {szene.punkte.map((punkt, i) => {
-          const farben = bewertungsfarben(punkt.bewertung);
-          return (
-            <div
-              key={i}
-              style={{
-                ...auftrittImSprechrhythmus(frame, fps, i, szene.punkte.length, dauer),
-                display: 'flex',
-                alignItems: 'center',
-                gap: ABSTAND.m,
-                backgroundColor: FARBEN.grundRein,
-                border: `2px solid ${FARBEN.flaeche}`,
-                borderLeft: `10px solid ${farben.vorne}`,
-                borderRadius: RADIUS.m,
-                padding: `${ABSTAND.m}px ${ABSTAND.l}px`,
-              }}
-            >
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.schwarz,
-                  fontSize: 34,
-                  color: farben.vorne,
-                  flexShrink: 0,
-                  width: 40,
-                }}
-              >
-                {farben.zeichen}
-              </span>
-              <span style={{ ...grundtext, fontWeight: SCHRIFT.halbfett, fontSize: GROESSEN.fliesstext, lineHeight: 1.3 }}>
-                {punkt.text}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </Buehne>
-  );
-};
-
-/* ───────────────────────────── Warnung ─────────────────────────────── */
-
-const Warnung: React.FC<SzenenProps<'warnung'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      <div
-        style={{
-          ...auftritt(frame, fps, 0),
-          backgroundColor: FARBEN.neinRotHell,
-          border: `3px solid ${FARBEN.neinRot}`,
-          borderRadius: RADIUS.l,
-          padding: ABSTAND.l,
-          transform: `${auftritt(frame, fps, 0).transform} scale(${impuls(frame, fps, 6)})`,
-        }}
-      >
-        <div
-          style={{
-            ...grundtext,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: GROESSEN.detail,
-            color: FARBEN.neinRot,
-            letterSpacing: 1.5,
-            marginBottom: ABSTAND.s,
-          }}
-        >
-          DAS GEHT SCHIEF
-        </div>
-        <p style={{ ...grundtext, fontWeight: SCHRIFT.fett, fontSize: GROESSEN.aussage, lineHeight: 1.22, margin: 0 }}>
-          {szene.text}
-        </p>
-      </div>
-
-      {szene.loesung && (
-        <div
-          style={{
-            ...auftritt(frame, fps, 16),
-            marginTop: ABSTAND.m,
-            backgroundColor: FARBEN.jaGruenHell,
-            border: `3px solid ${FARBEN.jaGruen}`,
-            borderRadius: RADIUS.l,
-            padding: ABSTAND.l,
-          }}
-        >
-          <div
-            style={{
-              ...grundtext,
-              fontWeight: SCHRIFT.schwarz,
-              fontSize: GROESSEN.detail,
-              color: FARBEN.jaGruen,
-              letterSpacing: 1.5,
-              marginBottom: ABSTAND.s,
-            }}
-          >
-            SO GEHT ES
-          </div>
-          <p style={{ ...grundtext, fontWeight: SCHRIFT.fett, fontSize: GROESSEN.aussage, lineHeight: 1.22, margin: 0 }}>
-            {szene.loesung}
-          </p>
-        </div>
-      )}
-    </Buehne>
-  );
-};
-
-/* ──────────────────────────── Anschluss ────────────────────────────── */
+/* ─────────────────────────── Einschraenkung ────────────────────────── */
 
 /**
- * Der Signalweg zwischen Geraeten — die Signaturszene dieser Nische.
- * Die Kette laeuft senkrecht: das nutzt das Hochformat und liest sich als
- * Weg von oben nach unten. Ein Bruch wird als rotes Kreuz auf der
- * Verbindungslinie gezeigt, genau dort wo es in der Realitaet scheitert.
+ * Die Kehrseite — Grenzfall oder Folgekosten.
  *
- * Die Gliedmasse stehen als Konstanten fest, damit sich die Gesamthoehe der
- * Kette vorab ausrechnen laesst — sie entscheidet darueber, wie gross die
- * Glieder gezeichnet werden duerfen (siehe Passung unten).
+ * Bewusst ruhig gehalten und **nicht** in Warnrot: Das hier ist keine
+ * Warnung, sondern eine Praezisierung. Wer die Ausnahme in Alarmfarbe setzt,
+ * macht aus „so genau ist es" ein „Achtung, Gefahr" — und verschenkt genau
+ * die Souveraenitaet, wegen der die Szene ueberhaupt existiert.
  */
-const GERAET_GROESSE = 240;
-const GLIED_HOEHE = GERAET_GROESSE + ABSTAND.xs + 46; // Geraet + Abstand + eine Zeile Beschriftung
-const VERBINDUNG_HOEHE = ABSTAND.s + 110;
-
-const Anschluss: React.FC<SzenenProps<'anschluss'>> = ({ szene, dauer }) => {
+const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  /*
-   * Passung an die Buehnenhoehe.
-   *
-   * Drei Glieder brauchen 1134 Pixel, die Buehne ist 1100 hoch — die Kette
-   * ragte damit unten aus der sicheren Zone heraus, genau dorthin, wo Reels
-   * Beschreibung und Tonzeile einblendet. Ohne Schnittkante faellt das nicht
-   * auf: Die Beschriftung des letzten Geraets lief einfach unbemerkt in den
-   * verdeckten Bereich.
-   *
-   * Statt die Gliedmasse fest zu verkleinern — was bei zwei Gliedern unnoetig
-   * klein waere — richtet sich die Groesse nach dem, was uebrig bleibt.
-   */
-  const ueberschriftPlatz = szene.ueberschrift ? Math.round(GROESSEN.aussage * 1.2) + ABSTAND.l : 0;
-  const glieder = szene.kette.length;
-  const rohHoehe = glieder * GLIED_HOEHE + (glieder - 1) * VERBINDUNG_HOEHE;
-  const passung = Math.min(1, (BUEHNE.hoehe - ueberschriftPlatz) / rohHoehe);
-  const gliedHoehe = GLIED_HOEHE * passung;
-
-  const kette = (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      {szene.kette.map((glied, i) => {
-          // Verzoegerung ueber die ganze Szene verteilt statt in festem
-          // Abstand am Anfang: das Diagramm baut sich im Sprechtempo auf.
-          const verzoegerung = Math.round((i / szene.kette.length) * 0.85 * dauer);
-          const bruchHier = szene.bruchNach === i;
-          const istLetztes = i === szene.kette.length - 1;
-
-          return (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div style={{ ...auftritt(frame, fps, verzoegerung), textAlign: 'center', height: gliedHoehe }}>
-                <Geraet art={glied.geraet} groesse={GERAET_GROESSE * passung} />
-                <div
-                  style={{
-                    ...grundtext,
-                    fontWeight: SCHRIFT.halbfett,
-                    fontSize: GROESSEN.detail * passung,
-                    lineHeight: 1.2,
-                    marginTop: ABSTAND.xs * passung,
-                  }}
-                >
-                  {glied.beschriftung}
-                </div>
-              </div>
-
-              {!istLetztes && (
-                // Die Verbindung braucht eigene Hoehe, sonst sitzt das
-                // Bruchzeichen auf der Beschriftung darueber.
-                <div
-                  style={{
-                    position: 'relative',
-                    height: 110 * passung,
-                    marginTop: ABSTAND.s * passung,
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <svg width={80 * passung} height={110 * passung} viewBox="0 0 80 110">
-                    <line
-                      x1="40"
-                      y1="0"
-                      x2="40"
-                      y2={110 * linienFortschritt(frame, verzoegerung + 6, 10)}
-                      stroke={bruchHier ? FARBEN.neinRot : FARBEN.blau}
-                      strokeWidth={7}
-                      strokeLinecap="round"
-                      strokeDasharray={bruchHier ? '14 12' : undefined}
-                    />
-                  </svg>
-
-                  {bruchHier && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 23 * passung,
-                        opacity: einblenden(frame, verzoegerung + 14, 8),
-                        transform: `scale(${impuls(frame, fps, verzoegerung + 14)})`,
-                        width: 64 * passung,
-                        height: 64 * passung,
-                        borderRadius: RADIUS.rund,
-                        backgroundColor: FARBEN.neinRot,
-                        color: FARBEN.grundRein,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontFamily: SCHRIFT.familie,
-                        fontWeight: SCHRIFT.schwarz,
-                        fontSize: 38 * passung,
-                      }}
-                    >
-                      ✕
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-    </div>
-  );
-
   return (
-    <Buehne dauerBilder={dauer}>
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       {szene.ueberschrift && (
-        <h2
+        <p
           style={{
             ...grundtext,
             ...auftritt(frame, fps, 0),
             fontWeight: SCHRIFT.fett,
             fontSize: GROESSEN.aussage,
-            margin: `0 0 ${ABSTAND.l}px`,
+            color: FARBEN.tinteWeich,
+            margin: `0 0 ${ABSTAND.l}px 0`,
           }}
         >
           {szene.ueberschrift}
-        </h2>
+        </p>
       )}
 
-      {kette}
-    </Buehne>
-  );
-};
-
-/* ─────────────────────────────── CTA ───────────────────────────────── */
-
-const Cta: React.FC<SzenenProps<'cta'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      <div style={{ ...auftritt(frame, fps, 0), textAlign: 'center' }}>
+      {/*
+       * Bedingung und Folge sind zwei Gedanken und bekommen je einen
+       * Abschnitt der Szene. Vorher standen beide nach 0,2 und 1,1 Sekunden
+       * fest — die Folge war da, bevor die Stimme die Bedingung zu Ende
+       * gesprochen hatte.
+       */}
+      <div
+        style={{
+          ...auftrittImSprechrhythmus(frame, fps, 0, 2, dauer),
+          borderLeft: `10px solid ${FARBEN.blau}`,
+          paddingLeft: ABSTAND.l,
+        }}
+      >
         <p
           style={{
             ...grundtext,
-            fontWeight: SCHRIFT.schwarz,
+            fontWeight: SCHRIFT.fett,
             fontSize: GROESSEN.ueberschrift,
-            lineHeight: 1.15,
-            margin: `0 0 ${ABSTAND.xl}px`,
+            lineHeight: 1.16,
+            margin: 0,
           }}
         >
-          {szene.text}
+          {szene.bedingung}
         </p>
-
-        <div
+        <p
           style={{
-            ...auftritt(frame, fps, 10),
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: ABSTAND.s,
-            backgroundColor: FARBEN.blau,
-            borderRadius: RADIUS.rund,
-            padding: `${ABSTAND.m}px ${ABSTAND.xl}px`,
+            ...grundtext,
+            opacity: einblenden(frame, abschnitt(1, 2, dauer).start),
+            fontSize: GROESSEN.fliesstext,
+            color: FARBEN.tinteWeich,
+            lineHeight: 1.3,
+            margin: `${ABSTAND.m}px 0 0 0`,
           }}
         >
-          <span style={{ fontFamily: SCHRIFT.familie, fontSize: 46, color: FARBEN.grundRein }}>
-            <span style={{ fontWeight: SCHRIFT.duenn }}>Setup</span>
-            <span style={{ fontWeight: SCHRIFT.fett }}>Klar</span>
-          </span>
-          <span style={{ fontSize: 40, color: FARBEN.grundRein }}>›</span>
-        </div>
+          {szene.folge}
+        </p>
       </div>
     </Buehne>
   );
 };
 
-/* ───────────────────────────── Endkarte ────────────────────────────── */
+/* ───────────────────────────── Schluss ─────────────────────────────── */
 
 /**
- * Die Schlusskarte muss als **Standbild** funktionieren: Sie wird pausiert,
- * fotografiert und weitergeschickt. Deshalb bekommt sie keine Dauerbewegung
- * — die Punkte laufen einmal ein und stehen dann ruhig. Alles, was hier
- * noch wandert, macht den Screenshot unbrauchbar.
+ * Der Nachschlag: **ein** Satz, darunter Wortmarke und Spruch.
+ *
+ * Hier stand bis zum 17.08.2026 die Endkarte — eine gerahmte Liste aus zwei
+ * bis vier nummerierten Punkten, gebaut als Standbild „zum Fotografieren und
+ * Weiterschicken". Fotografiert wurde nie etwas. Was sie tatsaechlich war:
+ * Lernkontrolle, und Lernkontrolle ist das Gegenteil von Unterhaltung.
+ *
+ * Der Rahmen ist mit ihr gegangen. Eine Karte mit Rand sagt „hier ist das
+ * Ergebnis zum Mitnehmen"; ein freistehender Satz sagt nichts und laesst die
+ * Pointe wirken. Geblieben ist die Markenzeile, und die steht jetzt allein —
+ * nach einem frechen Video ist „Wir haben nachgelesen." selbst die Pointe.
+ *
+ * Keine Dauerbewegung: Der letzte Frame eines Shorts ist der, den die
+ * Plattform als Vorschaubild nimmt, wenn er wiederholt wird. Der soll stehen.
  */
-const Endkarte: React.FC<SzenenProps<'endkarte'>> = ({ szene, dauer }) => {
+const Schluss: React.FC<SzenenProps<'schluss'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Punkte laufen im ersten Drittel ein, danach steht die Karte still.
-  const einlaufzeit = Math.round(dauer * 0.34);
+  const laengstesWort = Math.max(...szene.satz.split(/\s+/).map((w) => w.length));
+  const groesse = laengstesWort <= 13 ? GROESSEN.ueberschrift : 62;
 
   return (
     <Buehne>
-      <div
+      <p
         style={{
+          ...grundtext,
           ...auftritt(frame, fps, 0),
-          backgroundColor: FARBEN.grundRein,
-          border: `4px solid ${FARBEN.tinte}`,
-          borderRadius: RADIUS.l,
-          /*
-           * `l` statt `xl` seit dem 15.08.2026. Die Karte braucht ungefaehr
-           * 1130 Pixel Hoehe, die Buehne hat 730 — mit dem alten Innenabstand
-           * haette sie auf 0,64 schrumpfen muessen und waere unter die
-           * Lesbarkeitsgrenze gefallen. Kompakter bauen ist besser als
-           * kleiner skalieren: Der Text bleibt gross, nur die Luft geht weg.
-           */
-          padding: ABSTAND.l,
-          boxShadow: '0 18px 48px rgba(17,24,32,0.10)',
+          fontWeight: SCHRIFT.schwarz,
+          fontSize: groesse,
+          lineHeight: 1.1,
+          margin: 0,
         }}
       >
-        <h2
+        {szene.satz}
+      </p>
+
+      {/* Der blaue Strich trennt die Pointe vom Absender. */}
+      <div
+        style={{
+          height: 8,
+          borderRadius: RADIUS.s,
+          backgroundColor: FARBEN.blau,
+          width: `${linienFortschritt(frame, fps, Math.round(dauer * 0.45)) * 100}%`,
+          maxWidth: 260,
+          margin: `${ABSTAND.xl}px 0 ${ABSTAND.l}px`,
+        }}
+      />
+
+      <div
+        style={{
+          ...auftritt(frame, fps, 8),
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: ABSTAND.m,
+          flexWrap: 'wrap',
+        }}
+      >
+        {/*
+         * Die Wortmarke kommt aus der Komponente, nicht aus zwei Spans hier.
+         * Bis zum 16.08.2026 stand der Name an dieser Stelle ein zweites Mal
+         * im Code — die Kopfzeile war beim Namenswechsel umgestellt, der Fuss
+         * nicht, und im fertigen Video sagte oben „Ganz akkurat" und unten
+         * „SetupKlar". Aufgefallen ist das erst im Standbild.
+         */}
+        <Wortmarke groesse={40} />
+        <span
           style={{
             ...grundtext,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: GROESSEN.ueberschrift,
-            lineHeight: 1.12,
-            margin: `0 0 ${ABSTAND.m}px`,
+            fontWeight: SCHRIFT.halbfett,
+            /*
+             * Nie umbrechend. „Ganz akkurat" ist breiter als der alte Name,
+             * und der Spruch daneben rutschte damit auf zwei Zeilen — zwei
+             * gestapelte Zeilen neben einer einzeiligen Wortmarke lesen sich
+             * als Fehler, nicht als Signatur.
+             */
+            fontSize: 30,
+            whiteSpace: 'nowrap',
+            color: FARBEN.tinteWeich,
+            letterSpacing: 0,
           }}
         >
-          {szene.ueberschrift}
-        </h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.s }}>
-          {szene.punkte.map((punkt, i) => (
-            <div
-              key={i}
-              style={{
-                ...auftrittImSprechrhythmus(frame, fps, i, szene.punkte.length, einlaufzeit),
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: ABSTAND.m,
-              }}
-            >
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.schwarz,
-                  fontSize: 34,
-                  color: FARBEN.grundRein,
-                  backgroundColor: FARBEN.blau,
-                  minWidth: 52,
-                  height: 52,
-                  borderRadius: RADIUS.rund,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {i + 1}
-              </span>
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.halbfett,
-                  fontSize: GROESSEN.fliesstext,
-                  lineHeight: 1.32,
-                  paddingTop: 2,
-                }}
-              >
-                {punkt}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Markenzeile im Fuss: bleibt auf jedem weitergeschickten Screenshot. */}
-        <div
-          style={{
-            marginTop: ABSTAND.m,
-            paddingTop: ABSTAND.s,
-            borderTop: `2px solid ${FARBEN.gitter}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: ABSTAND.m,
-          }}
-        >
-          <span style={{ fontFamily: SCHRIFT.familie, fontSize: 36, color: FARBEN.tinte }}>
-            <span style={{ fontWeight: SCHRIFT.duenn }}>Setup</span>
-            <span style={{ fontWeight: SCHRIFT.fett }}>Klar</span>
-          </span>
-          {szene.abschluss && (
-            <span
-              style={{
-                ...grundtext,
-                fontWeight: SCHRIFT.halbfett,
-                fontSize: GROESSEN.fussnote,
-                color: FARBEN.tinteWeich,
-                letterSpacing: 0,
-                textAlign: 'right',
-              }}
-            >
-              {szene.abschluss}
-            </span>
-          )}
-        </div>
+          {SPRUCH}
+        </span>
       </div>
     </Buehne>
   );
 };
-
-/* ──────────────────────────── Verteiler ────────────────────────────── */
-
-/**
- * `dauer` ist die Laenge dieser Szene in Bildern. Sie stammt aus den echten
- * Sprech-Zeitstempeln und ist deshalb der Taktgeber fuer alles, was sich im
- * Bild aufbaut — nicht eine geschaetzte Sekundenzahl.
- */
 /* ──────────────────────────── Kaufkriterien ─────────────────────────── */
 
 /**
@@ -939,442 +721,22 @@ const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer })
   );
 };
 
-/* ───────────────────────────── Fehlspur ────────────────────────────── */
-
-/**
- * Die falsche Faehrte: Jeder Verdacht erscheint, wird gelesen und dann
- * durchgestrichen.
- *
- * Der Durchstrich laeuft **nach** dem Auftritt der Zeile, nicht mit ihm —
- * sonst liest der Zuschauer die Entkraeftung, bevor er den Verdacht
- * aufgenommen hat, und der ganze Effekt faellt weg. Der Verdacht muss kurz
- * fuer wahr gehalten werden.
- */
-const Fehlspur: React.FC<SzenenProps<'fehlspur'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  /*
-   * Jeder Verdacht bekommt seinen eigenen Abschnitt der Szene, die Aufloesung
-   * den letzten. Vorher standen hier feste Sekunden — 0,9 und 2,4 — und damit
-   * war eine zwoelf Sekunden lange Fehlspur nach zweieinhalb Sekunden fertig
-   * animiert, waehrend die Stimme weitersprach.
-   *
-   * Der Durchstrich laeuft in der Mitte des Abschnitts, nicht an seinem
-   * Anfang: Der Verdacht muss erst gelesen und kurz fuer wahr gehalten
-   * werden, sonst faellt der Effekt weg.
-   */
-  const abschnitte = szene.spuren.length + (szene.aufloesung ? 1 : 0);
-  const spurAbschnitt = (i: number) => abschnitt(i, abschnitte, dauer);
-  const durchstrichAb = (i: number) => {
-    const { start, laenge } = spurAbschnitt(i);
-    return start + Math.round(laenge * 0.45);
-  };
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      {szene.ueberschrift && (
-        <p
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.tinteWeich,
-            margin: `0 0 ${ABSTAND.l}px 0`,
-          }}
-        >
-          {szene.ueberschrift}
-        </p>
-      )}
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.l }}>
-        {szene.spuren.map((spur, i) => {
-          const ab = durchstrichAb(i);
-          const anteil = linienFortschritt(frame, ab, Math.round(fps * 0.42));
-
-          return (
-            <div key={i} style={{ ...auftritt(frame, fps, spurAbschnitt(i).start) }}>
-              {/*
-               * Durchstrich ueber `text-decoration`, nicht ueber einen
-               * absolut gesetzten Balken. Der lag bei einem zweizeiligen
-               * Verdacht zwischen den Zeilen statt auf dem Text — ein
-               * positionierter Balken kann nicht wissen, wo umbrochen wird.
-               * Preis dafuer: Der Strich blendet ein, statt gezeichnet zu
-               * werden. Korrektheit vor Effekt.
-               */}
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.fett,
-                  fontSize: GROESSEN.aussage,
-                  lineHeight: 1.16,
-                  // Der Verdacht verblasst, sobald er gestrichen ist.
-                  color: anteil > 0.9 ? FARBEN.tinteWeich : FARBEN.tinte,
-                  textDecorationLine: 'line-through',
-                  textDecorationThickness: 7,
-                  textDecorationColor: `rgba(217, 75, 75, ${anteil})`,
-                }}
-              >
-                {spur.verdacht}
-              </span>
-              <p
-                style={{
-                  ...grundtext,
-                  opacity: einblenden(frame, ab + Math.round(fps * 0.3)),
-                  fontSize: GROESSEN.fliesstext,
-                  color: FARBEN.tinteWeich,
-                  margin: `${ABSTAND.s}px 0 0 0`,
-                }}
-              >
-                {spur.entkraeftung}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      {szene.aufloesung && (
-        <p
-          style={{
-            ...grundtext,
-            // Die Aufloesung hat einen eigenen Abschnitt und tritt an dessen
-            // Anfang auf, nicht erst in seiner Mitte — sie wird nicht
-            // gestrichen, sondern gesagt.
-            opacity: einblenden(frame, spurAbschnitt(szene.spuren.length).start),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.blau,
-            margin: `${ABSTAND.xl}px 0 0 0`,
-          }}
-        >
-          {szene.aufloesung}
-        </p>
-      )}
-    </Buehne>
-  );
-};
-
-/* ──────────────────────────── Herleitung ───────────────────────────── */
-
-/**
- * Die gerechnete Zahl. Schritte erscheinen nacheinander, das Ergebnis
- * abgesetzt darunter.
- *
- * Die Schritte stehen bewusst rechtsbuendig auf einer gemeinsamen Kante wie
- * eine Rechnung auf Papier — so liest man die Werte untereinander und nicht
- * als Liste. Die Erlaeuterung steht daneben und nicht darunter, damit die
- * Zahlenspalte zusammenhaengt.
- */
-const Herleitung: React.FC<SzenenProps<'herleitung'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  /*
-   * Die Rechnung verteilt sich ueber die Szene: jeder Schritt ein Abschnitt,
-   * das Ergebnis der letzte. Vorher stand das Ergebnis nach 3,4 Sekunden fest
-   * — bei einer Szene, die mit Vertonung bis zu vierzehn Sekunden laeuft.
-   * Zehn Sekunden Stillstand, waehrend die Stimme die Rechnung noch erklaert.
-   */
-  const schritteUndErgebnis = szene.schritte.length + 1;
-  const ergebnisAb = abschnitt(szene.schritte.length, schritteUndErgebnis, dauer).start;
-
-  /*
-   * Schriftgroesse und Spaltenbreite richten sich nach dem laengsten Wert —
-   * dieselbe Loesung wie in der `Zahl`-Szene. Fest gesetzt lief „20.000 mAh"
-   * entweder in die Erlaeuterung hinein oder brach um und zerriss die
-   * Zahlenspalte, die den ganzen Sinn der Szene ausmacht.
-   */
-  const laengster = Math.max(...szene.schritte.map((s) => s.wert.length), szene.ergebnis.wert.length);
-  const wertGroesse = laengster <= 7 ? GROESSEN.ueberschrift : laengster <= 11 ? GROESSEN.aussage : 48;
-  const spalte = Math.round(wertGroesse * 5.6);
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      {szene.ueberschrift && (
-        <p
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.tinteWeich,
-            margin: `0 0 ${ABSTAND.l}px 0`,
-          }}
-        >
-          {szene.ueberschrift}
-        </p>
-      )}
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
-        {szene.schritte.map((schritt, i) => (
-          <div
-            key={i}
-            style={{
-              ...auftrittImSprechrhythmus(frame, fps, i, schritteUndErgebnis, dauer),
-              display: 'flex',
-              alignItems: 'baseline',
-              gap: ABSTAND.m,
-            }}
-          >
-            <span
-              style={{
-                ...grundtext,
-                fontWeight: SCHRIFT.fett,
-                fontSize: wertGroesse,
-                minWidth: spalte,
-                whiteSpace: 'nowrap',
-                textAlign: 'right',
-                fontVariantNumeric: 'tabular-nums',
-              }}
-            >
-              {schritt.wert}
-            </span>
-            <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, color: FARBEN.tinteWeich }}>
-              {schritt.erlaeuterung}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Der Strich unter der Rechnung — wie auf Papier. */}
-      <div
-        style={{
-          height: 5,
-          width: `${linienFortschritt(frame, ergebnisAb - Math.round(fps * 0.25), Math.round(fps * 0.35)) * 100}%`,
-          maxWidth: spalte,
-          background: FARBEN.linie,
-          borderRadius: RADIUS.s,
-          margin: `${ABSTAND.l}px 0 ${ABSTAND.l}px 0`,
-        }}
-      />
-
-      <div
-        style={{
-          ...auftritt(frame, fps, ergebnisAb),
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: ABSTAND.m,
-        }}
-      >
-        <span
-          style={{
-            ...grundtext,
-            transform: `scale(${impuls(frame, fps, ergebnisAb)})`,
-            transformOrigin: 'right center',
-            fontWeight: SCHRIFT.fett,
-            fontSize: Math.round(wertGroesse * 1.3),
-            color: FARBEN.blau,
-            minWidth: spalte,
-            whiteSpace: 'nowrap',
-            textAlign: 'right',
-            fontVariantNumeric: 'tabular-nums',
-          }}
-        >
-          {szene.ergebnis.wert}
-        </span>
-        <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, color: FARBEN.tinteWeich }}>
-          {szene.ergebnis.bedeutung}
-        </span>
-      </div>
-    </Buehne>
-  );
-};
-
-/* ─────────────────────────── Einschraenkung ────────────────────────── */
-
-/**
- * Die Kehrseite — Grenzfall oder Folgekosten.
- *
- * Bewusst ruhig gehalten und **nicht** in Warnrot: Das hier ist keine
- * Warnung, sondern eine Praezisierung. Wer die Ausnahme in Alarmfarbe setzt,
- * macht aus „so genau ist es" ein „Achtung, Gefahr" — und verschenkt genau
- * die Souveraenitaet, wegen der die Szene ueberhaupt existiert.
- */
-const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
-      {szene.ueberschrift && (
-        <p
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.tinteWeich,
-            margin: `0 0 ${ABSTAND.l}px 0`,
-          }}
-        >
-          {szene.ueberschrift}
-        </p>
-      )}
-
-      {/*
-       * Bedingung und Folge sind zwei Gedanken und bekommen je einen
-       * Abschnitt der Szene. Vorher standen beide nach 0,2 und 1,1 Sekunden
-       * fest — die Folge war da, bevor die Stimme die Bedingung zu Ende
-       * gesprochen hatte.
-       */}
-      <div
-        style={{
-          ...auftrittImSprechrhythmus(frame, fps, 0, 2, dauer),
-          borderLeft: `10px solid ${FARBEN.blau}`,
-          paddingLeft: ABSTAND.l,
-        }}
-      >
-        <p
-          style={{
-            ...grundtext,
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.ueberschrift,
-            lineHeight: 1.16,
-            margin: 0,
-          }}
-        >
-          {szene.bedingung}
-        </p>
-        <p
-          style={{
-            ...grundtext,
-            opacity: einblenden(frame, abschnitt(1, 2, dauer).start),
-            fontSize: GROESSEN.fliesstext,
-            color: FARBEN.tinteWeich,
-            lineHeight: 1.3,
-            margin: `${ABSTAND.m}px 0 0 0`,
-          }}
-        >
-          {szene.folge}
-        </p>
-      </div>
-    </Buehne>
-  );
-};
-
-/* ─────────────────────────── Merkmalskarte ─────────────────────────── */
-
-/**
- * Das Produkt im Bild — gezeigt, nicht benannt.
- *
- * Das Geraet steht gross und mittig, die Merkmale erscheinen nacheinander
- * darunter. Bewusst **keine** Karte um das Geraet und kein Schatten: Der
- * flaechige Stil der Marke lebt davon, dass Objekte auf ihrer Standflaeche
- * stehen und sonst nichts.
- *
- * Was hier nie steht, ist ein Markenname. Die Merkmale sind das, woran man
- * das Richtige erkennt — und das bleibt richtig, wenn das Modell laengst
- * abgeloest ist.
- */
-const Merkmalskarte: React.FC<SzenenProps<'merkmalskarte'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      {szene.ueberschrift && (
-        <p
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.tinteWeich,
-            margin: `0 0 ${ABSTAND.m}px 0`,
-          }}
-        >
-          {szene.ueberschrift}
-        </p>
-      )}
-
-      <div
-        style={{
-          ...auftritt(frame, fps, Math.round(fps * 0.15)),
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: ABSTAND.l,
-        }}
-      >
-        <Geraet art={szene.geraet} groesse={420} />
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
-        {szene.merkmale.map((merkmal, i) => {
-          const farben = bewertungsfarben(merkmal.bewertung);
-          return (
-            <div
-              key={i}
-              style={{
-                /*
-                 * Das Geraet steht sofort, die Merkmale kommen im
-                 * Sprechrhythmus dazu — jedes ungefaehr dann, wenn die Stimme
-                 * es nennt. Der erste Abschnitt gehoert dem Geraet allein,
-                 * deshalb `i + 1` von `merkmale.length + 1`.
-                 */
-                ...auftrittImSprechrhythmus(frame, fps, i + 1, szene.merkmale.length + 1, dauer),
-                display: 'flex',
-                alignItems: 'center',
-                gap: ABSTAND.m,
-              }}
-            >
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.schwarz,
-                  fontSize: 32,
-                  color: FARBEN.grundRein,
-                  backgroundColor: farben.vorne,
-                  width: 48,
-                  height: 48,
-                  borderRadius: RADIUS.rund,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {farben.zeichen}
-              </span>
-              <span style={{ ...grundtext, fontSize: GROESSEN.fliesstext, lineHeight: 1.25 }}>
-                {merkmal.text}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </Buehne>
-  );
-};
+/* ──────────────────────────── Verteiler ────────────────────────────── */
 
 export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
-    case 'hook':
-      return <Hook szene={szene} dauer={dauer} />;
-    case 'aussage':
-      return <Aussage szene={szene} dauer={dauer} />;
+    case 'text':
+      return <Text szene={szene} dauer={dauer} />;
     case 'zahl':
       return <Zahl szene={szene} dauer={dauer} />;
+    case 'frage':
+      return <Frage szene={szene} dauer={dauer} />;
     case 'vergleich':
       return <Vergleich szene={szene} dauer={dauer} />;
-    case 'checkliste':
-      return <Checkliste szene={szene} dauer={dauer} />;
-    case 'warnung':
-      return <Warnung szene={szene} dauer={dauer} />;
-    case 'anschluss':
-      return <Anschluss szene={szene} dauer={dauer} />;
-    case 'fehlspur':
-      return <Fehlspur szene={szene} dauer={dauer} />;
-    case 'herleitung':
-      return <Herleitung szene={szene} dauer={dauer} />;
     case 'einschraenkung':
       return <Einschraenkung szene={szene} dauer={dauer} />;
-    case 'merkmalskarte':
-      return <Merkmalskarte szene={szene} dauer={dauer} />;
-    case 'cta':
-      return <Cta szene={szene} dauer={dauer} />;
-    case 'endkarte':
-      return <Endkarte szene={szene} dauer={dauer} />;
+    case 'schluss':
+      return <Schluss szene={szene} dauer={dauer} />;
     case 'kaufkriterien':
       return <Kaufkriterien szene={szene} dauer={dauer} />;
   }
@@ -1385,9 +747,8 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
    * Ohne sie faellt eine neu hinzugefuegte Szenenart hier still durch und
    * rendert ein leeres Bild — sichtbar erst im fertigen Video. Mit ihr
    * beschwert sich `tsc`, sobald eine Art im Vertrag steht, aber nicht im
-   * Verteiler. Genau der Fehler waere beim Umbau am 13.08.2026 fast
-   * passiert: Drei neue Szenenarten standen im Schema, bevor sie hier
-   * ankamen.
+   * Verteiler. Beim Umbau am 17.08.2026 hat sie genau das geleistet: `frage`
+   * und `schluss` standen im Schema, bevor sie hier ankamen.
    */
   const unbehandelt: never = szene;
   throw new Error(`Szenenart ohne Darstellung: ${(unbehandelt as Szene).art}`);

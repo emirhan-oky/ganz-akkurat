@@ -1,10 +1,16 @@
+import { interpolate, useCurrentFrame } from 'remotion';
 import { FARBEN, SCHRIFT } from '../../src/marke';
-import { RUBRIKEN, SYSTEME, type Rubrik, type System } from '../../src/typen';
+import { FORMATE, type Format } from '../../src/typen';
 
 /**
- * Die Wortmarke lebt vom Staerkekontrast: "Setup" duenn, "Klar" fett.
- * Das ist das eigentliche Erkennungsmerkmal der Marke und wird deshalb
- * nirgends anders gesetzt als hier.
+ * Die Wortmarke lebt vom Staerkekontrast: „Ganz" duenn, „akkurat" fett.
+ *
+ * Hiess bis zum 16.08.2026 „SetupKlar". Der Name war selbst ein
+ * Hilfe-Versprechen — wer ihn liest, erwartet Unterstuetzung beim Einrichten,
+ * nicht Tech-Maerchen und Wut auf die Industrie. „Akkurat" traegt drei
+ * Bedeutungen auf einmal: den **Akku** vorn, die **Genauigkeit** als Haltung
+ * und den **Rat** hinten. Das Bauprinzip der Marke bleibt unveraendert, nur
+ * der Text darin ist ausgetauscht.
  */
 export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
   groesse = 38,
@@ -20,66 +26,136 @@ export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
       lineHeight: 1,
     }}
   >
-    <span style={{ fontWeight: SCHRIFT.duenn }}>Setup</span>
-    <span style={{ fontWeight: SCHRIFT.fett }}>Klar</span>
+    <span style={{ fontWeight: SCHRIFT.duenn }}>Ganz&#8202;</span>
+    <span style={{ fontWeight: SCHRIFT.fett }}>akkurat</span>
   </span>
 );
 
 /**
- * Das Logozeichen: dunkles Rechteck mit blauem Winkel, abstrahiert aus dem
- * Bildlogo. Als Vektor nachgebaut, damit es in jeder Groesse scharf bleibt
- * und keine PNG-Datei in den Renderprozess muss.
+ * Das Logozeichen: ein Akku, flaechig, mit blauer Ladung.
+ *
+ * Das alte Zeichen war ein abstrahiertes „K" fuer „Klar" — ein Buchstabe aus
+ * einem Namen, den es nicht mehr gibt. Der Akku steckt dagegen im neuen Namen
+ * selbst und ist das bekannteste Symbol, das dieser Kanal haben kann: Jeder
+ * hat es oben rechts auf dem Display.
+ *
+ * Farben, Rundungen und die flaechige Machart sind unveraendert aus dem alten
+ * Zeichen uebernommen — gewechselt hat die Form, nicht der Stil. Als Vektor
+ * gebaut, damit es in jeder Groesse scharf bleibt und keine PNG-Datei in den
+ * Renderprozess muss.
  */
 export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) => (
   <svg width={groesse} height={groesse} viewBox="0 0 100 100" style={{ display: 'block' }}>
-    <rect x="4" y="10" width="34" height="80" rx="11" fill={FARBEN.tinte} />
-    <path d="M46 12 L84 12 L52 52 L46 52 Z" fill={FARBEN.blau} />
-    <path d="M52 56 L62 56 L92 90 L52 90 Z" fill={FARBEN.tinte} />
+    {/*
+      * Hochkant statt quer. Die erste Fassung lag waagerecht wie das
+      * Batteriesymbol im Display und nutzte damit nur die halbe Hoehe des
+      * Quadrats — im gerenderten Standbild las sie sich als dunkler Fleck
+      * neben der Wortmarke, nicht als Akku. Aufrecht fuellt das Zeichen
+      * seinen Platz und bleibt bei 40 Pixeln erkennbar.
+      */}
+    {/* Pluspol */}
+    <rect x="38" y="4" width="24" height="12" rx="4" fill={FARBEN.tinte} />
+    {/* Gehaeuse */}
+    <rect x="16" y="16" width="68" height="80" rx="14" fill={FARBEN.tinte} />
+    {/* Ladung — der einzige blaue Fleck, wie beim Winkel zuvor */}
+    <rect x="28" y="52" width="44" height="34" rx="7" fill={FARBEN.blau} />
   </svg>
 );
 
 /**
- * Kopfzeile: Logozeichen, Wortmarke und die Rubrik des Shorts.
+ * Kopfzeile: Logozeichen, Wortmarke und das Format des Shorts.
  *
- * Die Rubrik steht bewusst ohne "Klar"-Endung neben der Wortmarke: sonst
- * liest die Zeile "SetupKlar SchreibtischKlar". Dass die Pille wie ein
- * Sendeplatz wirkt, ist seit der Umstellung auf feste Rubriken gewollt —
- * der Zuschauer soll den Wochentag daran wiedererkennen.
+ * Die Formatpille traegt die Wiedererkennung, und seit dem 16.08.2026 traegt
+ * sie sie **allein**: Der gesprochene Opener variiert bewusst von Video zu
+ * Video, weil derselbe Einstieg siebenmal die Woche nach Schablone klingt.
+ * Damit muss das Bild leisten, was der Text nicht mehr leistet — der
+ * Zuschauer sieht ab Sekunde null „Tech-Märchen" und weiss, welche Sorte
+ * Video laeuft.
+ *
+ * Das war lange die offene Frage: eine eingeblendete Rubrik sieht nach
+ * Fernsehen aus statt nach Feed. Mit variablem Opener ist sie entschieden.
  */
-export const Kopfzeile: React.FC<{ rubrik: Rubrik; system: System }> = ({ rubrik, system }) => {
-  const pille = {
-    fontFamily: SCHRIFT.familie,
-    fontWeight: SCHRIFT.halbfett,
-    fontSize: 24,
-    padding: '8px 18px',
-    borderRadius: 999,
-    letterSpacing: 0.2,
-  } as const;
+export const Kopfzeile: React.FC<{ format: Format }> = ({ format }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+    <Logozeichen groesse={40} />
+    <Wortmarke groesse={34} />
+    <span
+      style={{
+        fontFamily: SCHRIFT.familie,
+        fontWeight: SCHRIFT.halbfett,
+        fontSize: 24,
+        padding: '8px 18px',
+        borderRadius: 999,
+        letterSpacing: 0.2,
+        color: FARBEN.blau,
+        backgroundColor: FARBEN.blauHell,
+        /*
+         * Nie umbrechen. „Hallo 21. Jahrhundert" brach auf zwei Zeilen und zog
+         * die ganze Kopfzeile in die Hoehe — die Pille sah damit aus wie ein
+         * Kasten, nicht wie ein Sendeplatz. Die Kurznamen in
+         * `FORMATE[...].pille` sind auf eine Zeile hin geschnitten; das hier
+         * ist die Absicherung. Der laengste liegt bei 17 Zeichen
+         * („Das ist Absicht"), die gemessene Bruchgrenze bei 21.
+         */
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {FORMATE[format].pille}
+    </span>
+  </div>
+);
+
+/**
+ * Der Beleg im Bild — die Zeile, die den ganzen Kanal rechtfertigt.
+ *
+ * Bis zum 17.08.2026 war das eine **eigene Szene** auf Position 4 des Baus:
+ * zweieinhalb Sekunden Standbild mit einem Behoerdennamen, und zwar genau
+ * dort, wo die Pointe hingehoert. Das war der teuerste Platz im Video fuer
+ * etwas, das niemanden unterhaelt.
+ *
+ * Jetzt laeuft der Beleg **unter** der Kopfzeile mit, waehrend die tragende
+ * Behauptung gesprochen wird. Zwei Gruende fuer oben statt unten:
+ *
+ * 1. Unten sitzt der Untertitel in seiner 270-Pixel-Zone, und darunter beginnt
+ *    TikToks Bedienleiste. Es ist schlicht kein Platz.
+ * 2. Oben steht der Beleg bei Wortmarke und Formatpille — und das ist die
+ *    richtige Nachbarschaft. Er ist ein Markenelement, kein Inhalt.
+ *
+ * Das Einblenden ist bewusst schnell (sechs Bilder) und das Ausblenden gibt es
+ * nicht: Die Zeile verschwindet mit ihrer Szene. Ein Element, das sich
+ * hereinschiebt und wieder hinaus, zieht mehr Aufmerksamkeit als der Satz, den
+ * es belegt.
+ */
+export const Belegzeile: React.FC<{ herausgeber: string }> = ({ herausgeber }) => {
+  const frame = useCurrentFrame();
+  const auf = interpolate(frame, [0, 6], [0, 1], { extrapolateRight: 'clamp' });
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-      <Logozeichen groesse={40} />
-      <Wortmarke groesse={34} />
-      <span style={{ ...pille, color: FARBEN.blau, backgroundColor: FARBEN.blauHell }}>
-        {RUBRIKEN[rubrik].titel}
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        opacity: auf,
+        transform: `translateY(${(1 - auf) * -8}px)`,
+      }}
+    >
+      {/* Der blaue Punkt ersetzt das Wort „Quelle" — er kostet keine Zeile. */}
+      <span style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: FARBEN.blau, flex: 'none' }} />
+      <span
+        style={{
+          fontFamily: SCHRIFT.familie,
+          fontWeight: SCHRIFT.halbfett,
+          fontSize: 26,
+          color: FARBEN.tinteWeich,
+          letterSpacing: 0.2,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {herausgeber}
       </span>
-
-      {/*
-       * Die Systemangabe erscheint nur bei echter Systemspezifik.
-       *
-       * `beide` und `ohne` bleiben absichtlich unsichtbar: „gilt fuer beide"
-       * ist im Bild keine Information, sondern Rauschen — und `ohne` heisst,
-       * dass es gar keinen Systembezug gibt. Sichtbar wird die Angabe nur,
-       * wenn sie den Zuschauer aussortiert oder einschliesst.
-       *
-       * Dunkel statt blau gesetzt, damit die Rubrik die Leitfarbe behaelt.
-       * Zwei blaue Pillen nebeneinander lesen sich als eine.
-       */}
-      {SYSTEME[system].imTitel && (
-        <span style={{ ...pille, color: FARBEN.grundRein, backgroundColor: FARBEN.tinte }}>
-          {SYSTEME[system].titel}
-        </span>
-      )}
     </div>
   );
 };

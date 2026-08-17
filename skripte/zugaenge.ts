@@ -92,7 +92,7 @@ const ablage = async () => {
 
   const probe = 'verbindungstest.txt';
   const datei = path.join(os.tmpdir(), probe);
-  await fs.writeFile(datei, `SetupKlar Verbindungstest\n`);
+  await fs.writeFile(datei, `Ganz akkurat Verbindungstest\n`);
 
   try {
     await hochladen(z, datei, probe);
@@ -120,7 +120,7 @@ const ablage = async () => {
 };
 
 const main = async () => {
-  console.log('SetupKlar · Zugänge\n');
+  console.log('Ganz akkurat · Zugänge\n');
   await elevenlabs();
   await buffer();
   await ablage();
@@ -138,10 +138,10 @@ const main = async () => {
   const letzte = zeiten[zeiten.length - 1]!;
   const f = (d: Date) =>
     d.toLocaleString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-  console.log(`  ${WOCHENLAUF.length} Videos, eines je Werktag`);
+  console.log(`  ${WOCHENLAUF.length} Videos, eines je Tag`);
   console.log(`  von ${f(erste)} bis ${f(letzte)}`);
   for (const [i, short] of WOCHENLAUF.entries()) {
-    console.log(`  ${f(zeiten[i]!)}  ${short.rubrik.padEnd(13)} ${short.arbeitstitel}`);
+    console.log(`  ${f(zeiten[i]!)}  ${short.format.padEnd(20)} ${short.arbeitstitel}`);
   }
 };
 

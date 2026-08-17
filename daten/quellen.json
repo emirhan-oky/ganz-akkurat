@@ -12,6 +12,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "in-order-for-displaylink",
           "zitat": "in order for DisplayLink devices to work properly",
           "stuetzt": "DisplayLink braucht unter macOS zusätzliche Software und eine ausdrückliche Freigabe – Hardware allein genügt nicht."
         }
@@ -28,6 +29,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "the-video-would-remain",
           "zitat": "the video would remain black while audio is still playing",
           "stuetzt": "Kopiergeschützte Inhalte laufen über DisplayLink unter macOS nicht – Streamingdienste sind eine konkrete Einschränkung solcher Docks."
         }
@@ -43,22 +45,27 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "bei-lithium-ionen-batterien",
           "zitat": "Bei Lithium-Ionen-Batterien eine Nennenergie von 100 Wh",
           "stuetzt": "100 Wh ist die Grenze, bis zu der Geräte ohne Genehmigung mitgenommen werden dürfen."
         },
         {
+          "id": "jede-batterie-100-wh",
           "zitat": "jede Batterie 100 Wh übersteigen, jedoch höchstens 160 Wh haben",
           "stuetzt": "Zwischen 100 und 160 Wh braucht es die Genehmigung der Fluggesellschaft."
         },
         {
+          "id": "lose-lithiumersatzbatterien-power-ba",
           "zitat": "Lose Lithiumersatzbatterien (power banks) sind im aufgegebenen Gepäck verboten und dürfen nur im Handgepäck mitgenommen werden.",
           "stuetzt": "Powerbanks gehören ausschließlich ins Handgepäck."
         },
         {
+          "id": "beschra-nkt-sich-jedoch",
           "zitat": "beschränkt sich jedoch die Mitnahme von Ersatzbatterien auf maximal zwei Ersatzbatterien pro Person",
           "stuetzt": "Wo eine Genehmigung nötig ist, sind höchstens zwei Ersatzbatterien pro Person zulässig."
         },
         {
+          "id": "jede-ersatzbatterie-muss-durch",
           "zitat": "Jede Ersatzbatterie muss durch Isolierung der Batteriepole gegen Kurzschluss gesichert sein.",
           "stuetzt": "Die Pole müssen gegen Kurzschluss isoliert sein – lose in der Tasche genügt nicht."
         }
@@ -74,6 +81,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "using-the-displayport-alt",
           "zitat": "Using the DisplayPort Alt Mode, a USB Type-C connector and cable can deliver full DisplayPort audio/video (A/V) performance",
           "stuetzt": "Video über USB-C läuft über den DisplayPort Alt Mode – er ist die Voraussetzung, nicht eine Zugabe."
         }
@@ -89,14 +97,17 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "alt-mode-is-an",
           "zitat": "Alt Mode is an optional feature that not all manufacturers include on their systems",
           "stuetzt": "Alt Mode ist optional – gleiche Buchse heißt nicht gleiche Fähigkeit."
         },
         {
+          "id": "cables-are-not-built",
           "zitat": "cables are not built to support video",
           "stuetzt": "Reine Lade- und USB-2.0-Kabel übertragen kein Bild, auch wenn der Stecker passt."
         },
         {
+          "id": "which-are-limited-to",
           "zitat": "which are limited to one external display",
           "stuetzt": "Die Displaygrenze setzt der Chip des Rechners, nicht das Dock – Apples Basis-Chips schaffen ein externes Display."
         }
@@ -112,10 +123,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "displaylink-uses-a-driver",
           "zitat": "DisplayLink uses a driver-based host solution",
           "stuetzt": "DisplayLink ist treiberbasiert, nicht rein hardwareseitig."
         },
         {
+          "id": "the-displaylink-driver-then",
           "zitat": "The DisplayLink driver then picks up the pixels in the frame-buffer, encodes them and send them to the DisplayLink device.",
           "stuetzt": "Die Rechenarbeit passiert auf dem Host – das erklärt die CPU-Last, die native Videoausgabe nicht hat."
         }
@@ -131,10 +144,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "your-graphics-card-is",
           "zitat": "your graphics card is usually the real ceiling, not your cables",
           "stuetzt": "Die Grafikeinheit ist die eigentliche Grenze – ein besseres Kabel hebt sie nicht an."
         },
         {
+          "id": "dell-docks-vary-by",
           "zitat": "Dell docks vary by connector type (Thunderbolt, USB-C, or USB with DisplayLink",
           "stuetzt": "Docks unterscheiden sich nach Anschlussart, und jede Art trägt eine andere Zahl von Displays."
         }
@@ -150,6 +165,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "interference-from-neighboring-networ",
           "zitat": "Interference from neighboring networks can slow down your Wi-Fi",
           "stuetzt": "Nachbarnetze bremsen das eigene WLAN – das ist der Normalfall im Mehrfamilienhaus, kein Defekt."
         }
@@ -165,10 +181,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "neighboring-wi-fi-networks",
           "zitat": "neighboring Wi-Fi networks crowding the same channels have a similar effect: less usable capacity",
           "stuetzt": "Nachbarnetze auf demselben Kanal nehmen nutzbare Kapazität weg – geteilt wird das Funkband, nicht die Leitung."
         },
         {
+          "id": "that-s-when-most",
           "zitat": "that's when most households are online at the same time",
           "stuetzt": "Die Abendspitze entsteht daraus, dass alle gleichzeitig funken – deshalb ist es abends und nicht morgens."
         }
@@ -184,6 +202,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "in-order-to-reduce",
           "zitat": "in order to reduce interference, you may prefer the 5GHz band over the 2.4GHz band",
           "stuetzt": "Das Ausweichen auf 5 GHz ist die vorgesehene Antwort auf ein volles 2,4-GHz-Band, keine Bastellösung."
         }
@@ -199,10 +218,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "zusa-tzlich-zu-der",
           "zitat": "zusätzlich zu der gesetzlichen Mängelhaftung",
           "stuetzt": "Die Garantie tritt neben die gesetzlichen Rechte – sie ersetzt sie nicht und kann sie nicht verkürzen."
         },
         {
+          "id": "geht-der-verka-ufer",
           "zitat": "Geht der Verkäufer, der Hersteller oder ein sonstiger Dritter in einer Erklärung",
           "stuetzt": "Die Garantie ist eine freiwillige Erklärung. Wer sie gibt und zu welchen Bedingungen, entscheidet der Geber."
         }
@@ -218,6 +239,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "im-u-brigen-in",
           "zitat": "im Übrigen in zwei Jahren",
           "stuetzt": "Die gesetzliche Mängelhaftung läuft beim normalen Kauf zwei Jahre – unabhängig davon, was auf der Garantiekarte steht."
         }
@@ -233,10 +255,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "zeigt-sich-innerhalb-eines",
           "zitat": "Zeigt sich innerhalb eines Jahres seit Gefahrübergang",
           "stuetzt": "Im ersten Jahr wird vermutet, dass der Mangel von Anfang an vorlag – der Käufer muss nichts beweisen."
         },
         {
+          "id": "so-wird-vermutet-dass",
           "zitat": "so wird vermutet, dass die Ware bereits bei Gefahrübergang mangelhaft war",
           "stuetzt": "Nach dem ersten Jahr dreht sich diese Vermutung um – dann liegt die Beweislast beim Käufer."
         }
@@ -252,10 +276,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "usb-pd-was-limited",
           "zitat": "USB PD was limited to 100W using a solution based on 20V using USB Type-C cables rated at 5A",
           "stuetzt": "100 Watt entstehen aus 20 Volt mal 5 Ampere – die Stromstärke des Kabels ist Teil der Rechnung."
         },
         {
+          "id": "define-240w-cable-requirements",
           "zitat": "define 240W cable requirements",
           "stuetzt": "Für mehr als 100 Watt gelten eigene Anforderungen an das Kabel, nicht nur an das Netzteil."
         }
@@ -271,10 +297,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "spare-batteries-and-power",
           "zitat": "Spare batteries and power banks, however, always have to be transported in your carry-on baggage",
           "stuetzt": "Die europäische Luftsicherheitsbehörde verlangt dasselbe wie das LBA – Powerbanks gehören nie ins aufgegebene Gepäck."
         },
         {
+          "id": "they-must-be-individually",
           "zitat": "they must be individually protected to prevent short-circuits",
           "stuetzt": "Jede Ersatzbatterie einzeln gegen Kurzschluss sichern – lose in der Tasche genügt nicht."
         }
@@ -290,10 +318,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "batteries-are-limited-to",
           "zitat": "batteries are limited to a rating of 100 watt hours (Wh) per battery",
           "stuetzt": "Die 100-Wh-Grenze gilt auch in den USA – sie ist keine deutsche Besonderheit, sondern internationaler Standard."
         },
         {
+          "id": "passengers-may-also-carry",
           "zitat": "passengers may also carry up to two spare larger lithium ion batteries",
           "stuetzt": "Über 100 Wh sind höchstens zwei Ersatzbatterien zulässig, und nur mit Zustimmung der Airline."
         }
@@ -309,10 +339,12 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "must-be-labelled-with",
           "zitat": "must be labelled with either a power capability of 60W or 240W",
           "stuetzt": "Es gibt nur zwei Kabelklassen: 60 W oder 240 W. Dazwischen gibt es nichts – und ohne Logo weiß man es nicht."
         },
         {
+          "id": "the-policy-now-extends",
           "zitat": "The policy now extends to all USB-C to USB-C cables",
           "stuetzt": "Die Kennzeichnungspflicht gilt für alle USB-C-Kabel, nicht nur für besonders leistungsfähige."
         }
@@ -328,6 +360,7 @@
       "abrufart": "automatisch",
       "belegt": [
         {
+          "id": "60w-20v-3a-100w",
           "zitat": "60W (20V/3A) 100W (20V/5A)",
           "stuetzt": "Der Unterschied zwischen 60 und 100 Watt liegt allein in der Stromstärke – die Spannung bleibt gleich."
         }
@@ -344,12 +377,187 @@
       "abrufhinweis": "PDF: Der Text liegt in komprimierten Streams, ein Abruf liefert keine durchsuchbare Zeichenkette.",
       "belegt": [
         {
+          "id": "es-besteht-kein-schutz",
           "zitat": "Es besteht kein Schutz vor Beeinträchtigungen durch andere",
           "stuetzt": "Das 2,4-GHz-Band ist per Zuteilung ein geteiltes Band. Gegenseitige Störungen sind darin vorgesehen und hinzunehmen – sie sind kein Defekt."
         },
         {
+          "id": "die-bundesnetzagentur-u-bernimmt",
           "zitat": "Die Bundesnetzagentur übernimmt keine Gewähr für eine Mindestqualität",
           "stuetzt": "Wer auf 2,4 GHz funkt, hat keinen Anspruch auf eine bestimmte Geschwindigkeit – auch nicht mit neuem Router."
+        }
+      ]
+    },
+    {
+      "id": "eu-einheitlicher-ladeanschluss",
+      "titel": "Richtlinie (EU) 2022/2380 — einheitliche Ladeschnittstelle",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32022L2380",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-16",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "seit-2009-werden-auf",
+          "zitat": "Seit 2009 werden auf Unionsebene Anstrengungen unternommen",
+          "stuetzt": "Die EU arbeitet seit 2009 daran, die Zahl der Ladeanschlüsse zu verringern — dreizehn Jahre bis zur Pflicht."
+        },
+        {
+          "id": "usb-typ-c-als",
+          "zitat": "USB Typ C als einheitlichen Ladeanschluss",
+          "stuetzt": "Erst ein Gesetz legt USB-C als einheitlichen Anschluss fest; freiwillig kam die Industrie nicht dorthin."
+        },
+        {
+          "id": "mit-den-ju-ngsten",
+          "zitat": "Mit den jüngsten freiwilligen Initiativen konnte zwar eine stärkere Standardisierung",
+          "stuetzt": "Die freiwilligen Initiativen der Hersteller haben ausdrücklich nicht gereicht — das steht in der Begründung der Richtlinie."
+        }
+      ]
+    },
+    {
+      "id": "uba-akku-laden",
+      "titel": "Von Kauf bis Entsorgung: Smartphones und Tablets nachhaltig nutzen",
+      "url": "https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/smartphones-tablets",
+      "herausgeber": "Umweltbundesamt",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "wenn-sie-nicht-warten",
+          "zitat": "Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist",
+          "stuetzt": "Das Tiefentladen ist keine Pflege, sondern das Gegenteil davon — eine Behörde sagt es, kein Hersteller."
+        },
+        {
+          "id": "u-berma-ssige-erwa",
+          "zitat": "Übermäßige Erwärmung des Akkus lässt ihn schneller altern",
+          "stuetzt": "Die Wärme ist der eigentliche Feind, nicht der Ladestand. Das trägt die Auflösung des Märchens."
+        },
+        {
+          "id": "der-memory-effekt-tritt",
+          "zitat": "Der Memory-Effekt tritt bei Lithium-Ionen-Akkus nicht auf",
+          "stuetzt": "Der Grund, aus dem die alte Regel einmal richtig war, existiert in heutigen Geräten nicht mehr."
+        },
+        {
+          "id": "eine-vollstaendige-entleerung",
+          "zitat": "Eine vollständige Entleerung schadet dem Akku",
+          "stuetzt": "Leer laufen lassen ist nicht bloß überflüssig, sondern schädlich — die Umkehr der alten Regel, wörtlich."
+        }
+      ]
+    },
+    {
+      "id": "bsi-loeschen-verweise",
+      "titel": "Daten endgültig löschen",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Daten-sichern-verschluesseln-und-loeschen/Daten-endgueltig-loeschen/daten-endgueltig-loeschen_node.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "lediglich-die-verweise-auf",
+          "zitat": "lediglich die Verweise auf die Daten im Index",
+          "stuetzt": "Gelöscht wird der Eintrag im Inhaltsverzeichnis, nicht die Datei. Das ist der ganze Witz des Videos."
+        },
+        {
+          "id": "der-bereich-wird-zum",
+          "zitat": "der Bereich wird zum Überschreiben mit neuen Daten freigegeben",
+          "stuetzt": "Die Daten liegen weiter da, bis zufällig etwas darüber geschrieben wird — freigegeben ist nicht entfernt."
+        }
+      ]
+    },
+    {
+      "id": "bsi-smarttv-sprachbefehle",
+      "titel": "Smart TV: So nutzen Sie Apps, Streaming & Co. sicher",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Internet-der-Dinge-Smart-leben/Smart-Home/Smart-TV/smart-tv.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "diese-ko-nnen-sprachbefehle",
+          "zitat": "Diese können Sprachbefehle aufzeichnen",
+          "stuetzt": "Der Fernseher hört nicht nur zu, er nimmt auf. Eine Behörde schreibt das, es ist keine Vermutung."
+        },
+        {
+          "id": "an-einen-cloud-server",
+          "zitat": "an einen Cloud-Server weitergeleitet werden",
+          "stuetzt": "Das Aufgenommene bleibt nicht im Gerät. Das ist der Kipppunkt des Freitags."
+        },
+        {
+          "id": "ist-bereits-eine-webcam",
+          "zitat": "ist bereits eine Webcam mit Mikrofon integriert",
+          "stuetzt": "Die Hardware dafür ist ab Werk verbaut, ohne dass jemand sie bestellt hätte."
+        }
+      ]
+    },
+    {
+      "id": "eu-ereignisdatenspeicher",
+      "titel": "Verordnung (EU) 2019/2144 über die Typgenehmigung von Kraftfahrzeugen",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32019R2144",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "kritische-unfallbezogene-parameter-u",
+          "zitat": "kritische unfallbezogene Parameter und Informationen kurz vor, während und unmittelbar nach einem Aufprall",
+          "stuetzt": "Das Auto schreibt nicht dauerhaft mit, sondern um den Aufprall herum. Genauigkeit vor Empörung."
+        },
+        {
+          "id": "ereignisbezogene-datenaufzeichnung",
+          "zitat": "Ereignisbezogene Datenaufzeichnung",
+          "stuetzt": "Der amtliche Name der Blackbox. Er steht im Definitionsartikel der Verordnung."
+        }
+      ]
+    },
+    {
+      "id": "bsi-yellow-dots",
+      "titel": "Umsetzungshinweise zum Baustein SYS.4.1 Drucker, Kopierer und Multifunktionsgeräte",
+      "url": "https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/Umsetzungshinweise/Umsetzungshinweise_2022/Umsetzungshinweis_zum_Baustein_SYS_4_1_Drucker_Kopierer_und_Multifunktionsgeraete.pdf?__blob=publicationFile&v=2",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "manuell",
+      "abrufhinweis": "PDF mit komprimierten Textströmen und zeichenweiser Positionierung. Am 17.08.2026 von Hand entpackt und gelesen; eine Zeichenkettensuche findet nichts.",
+      "belegt": [
+        {
+          "id": "wasserzeichen-mit-denen-ein",
+          "zitat": "Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann",
+          "stuetzt": "Der Ausdruck trägt eine Kennung, die auf das Gerät zurückführt. Eine Behörde schreibt das, nicht ein Blog."
+        },
+        {
+          "id": "diese-funktion-ist-oft",
+          "zitat": "Diese Funktion ist oft von dem Hersteller nicht dokumentiert und kann nicht abgeschaltet werden",
+          "stuetzt": "Der Kipppunkt des Videos: nicht dokumentiert und nicht abschaltbar. Beides steht wörtlich da."
+        }
+      ]
+    },
+    {
+      "id": "eu-recht-auf-reparatur",
+      "titel": "Richtlinie (EU) 2024/1799 über gemeinsame Regeln zur Förderung der Reparatur von Waren",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32024L1799",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-17",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "die-mitgliedstaaten-wenden-diese",
+          "zitat": "Die Mitgliedstaaten wenden diese Vorschriften ab dem 31. Juli 2026 an",
+          "stuetzt": "Der Stichtag. Er liegt drei Wochen zurück und ist damit der aktuellste belegbare Fakt im Vorrat."
+        },
+        {
+          "id": "setzen-keine-hardware-oder",
+          "zitat": "setzen keine Hardware- oder Softwaretechniken ein, die die Reparatur von Waren",
+          "stuetzt": "Das Verbot, Reparaturen per Software zu blockieren — das Ende des Parts Pairing, im Rechtstext."
+        },
+        {
+          "id": "gilt-nicht-fu-r",
+          "zitat": "gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden",
+          "stuetzt": "Der Kipppunkt: Das Gerät, das der Zuschauer gerade in der Hand hält, ist nicht dabei."
         }
       ]
     }

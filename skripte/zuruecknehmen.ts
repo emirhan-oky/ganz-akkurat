@@ -58,7 +58,7 @@ const main = async () => {
     throw new Error(`${datei} fehlt — für diesen Lauf wurde nichts eingeplant.`);
   }
 
-  console.log(`SetupKlar · Beiträge zurücknehmen ${laufId}`);
+  console.log(`Ganz akkurat · Beiträge zurücknehmen ${laufId}`);
   console.log(WIRKLICH ? 'Modus: es wird wirklich gelöscht\n' : 'Modus: Probelauf, es wird nichts gelöscht\n');
   console.log(`${eintraege.length} Beitrag/Beiträge in ${datei}\n`);
 

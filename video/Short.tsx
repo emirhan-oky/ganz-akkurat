@@ -3,7 +3,7 @@ import { ABSTAND, FARBEN, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHER
 import type { Short as ShortDaten } from '../src/typen';
 import { szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
-import { Kopfzeile } from './bausteine/Wortmarke';
+import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { SzeneRendern } from './szenen';
 
@@ -75,8 +75,31 @@ const Kennzeichnung: React.FC<{ werbung: ShortDaten['kennzeichnung']['werbung'];
   );
 };
 
+/**
+ * Wie lange der Beleg oben stehen bleibt.
+ *
+ * Er erscheint mit der Szene, die die tragende Behauptung macht, und
+ * verschwindet mit ihr — laengstens nach drei Sekunden. Die Obergrenze gibt es
+ * fuer den Fall, dass jemand die Einblendung an eine lange Szene haengt:
+ * „Umweltbundesamt" ist ein Name, kein Satz, und laenger stehen zu lassen
+ * waere Andacht statt Beleg.
+ */
+const BELEG_MAXBILDER = 90;
+
 export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
   const plan = szenenZeitplan(daten);
+
+  /*
+   * Die Belegszene sass frueher im Szenenstrom und brauchte deshalb keine
+   * Suche. Als Einblendung haengt sie an irgendeiner Szene — welcher, weiss
+   * nur die Szene selbst. Genau eine traegt `herausgeber`, das erzwingt das
+   * Schema.
+   */
+  const belegIndex = daten.szenen.findIndex((s) => 'herausgeber' in s && s.herausgeber !== undefined);
+  const belegSzene = belegIndex >= 0 ? daten.szenen[belegIndex] : undefined;
+  const belegZeit = belegIndex >= 0 ? plan[belegIndex] : undefined;
+  const herausgeber =
+    belegSzene !== undefined && 'herausgeber' in belegSzene ? belegSzene.herausgeber : undefined;
 
   return (
     <AbsoluteFill>
@@ -104,14 +127,37 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
             top: KOPFZEILE_OBEN,
             left: SICHERE_ZONE.links,
             right: SICHERE_ZONE.rechts,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: ABSTAND.m,
           }}
         >
-          <Kopfzeile rubrik={daten.rubrik} system={daten.system} />
-          <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: ABSTAND.m,
+            }}
+          >
+            <Kopfzeile format={daten.format} />
+            <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
+          </div>
+
+          {/*
+            Der Beleg haengt unter der Kopfzeile, nicht in ihr: Er kommt und
+            geht, sie steht. Die feste Hoehe haelt die Buehne darunter ruhig —
+            ohne sie ruckte das ganze Bild, sobald die Zeile erscheint.
+          */}
+          <div style={{ height: 46, display: 'flex', alignItems: 'center' }}>
+            {herausgeber !== undefined && belegZeit !== undefined && (
+              <Sequence
+                from={belegZeit.startBild}
+                durationInFrames={Math.min(belegZeit.dauerBilder, BELEG_MAXBILDER)}
+                layout="none"
+                name="Beleg"
+              >
+                <Belegzeile herausgeber={herausgeber} />
+              </Sequence>
+            )}
+          </div>
         </div>
 
         {daten.tonspur && <Untertitel woerter={daten.tonspur.woerter} />}

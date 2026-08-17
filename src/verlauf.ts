@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { Rubrik, Titelmuster, Winkelart, type Short } from './typen';
+import { Format,  Sachgebiet, type Short } from './typen';
 
 /**
  * Das Gedaechtnis ueber die Woche hinaus.
@@ -27,20 +27,19 @@ import { Rubrik, Titelmuster, Winkelart, type Short } from './typen';
 export const VERLAUFSDATEI = 'daten/verlauf.json';
 
 export const Verlaufseintrag = z.object({
-  rubrik: Rubrik,
+  format: Format,
+  sachgebiet: Sachgebiet,
   themaId: z.string(),
-  winkelart: Winkelart,
-  titelmuster: Titelmuster,
   /**
    * Die vertonte Laenge in Sekunden — die einzige Zahl hier, die nicht der
    * Wiederholungspruefung dient.
    *
    * Sie steht wegen einer Absicht, die sich sonst nicht halten liesse: Das
-   * Zielfenster geht seit dem 13.08.2026 bis 95 Sekunden, aber die 95 sind
-   * Spielraum und nicht das Ziel — die Laenge soll ueber die Wochen wieder
-   * sinken, durch Straffung und nicht durch Weglassen. Eine solche Absicht
-   * ohne Messwert verliert sich nach drei Wochen. Mit ihr steht im Lauf, wie
-   * die Woche gegen die Vorwoche liegt.
+   * Zielfenster geht bis 28 Sekunden, aber der Zielwert ist die Mitte bei 23
+   * und nicht der Rand — die Vertonung streut rund sechs Prozent, wer an der
+   * Kante baut, faellt beim naechsten Lauf heraus. Eine solche Absicht ohne
+   * Messwert verliert sich nach drei Wochen. Mit ihr steht im Lauf, wie die
+   * Woche gegen die Vorwoche liegt.
    */
   dauerSek: z.number().optional(),
 });
@@ -83,10 +82,9 @@ export const verlaufSchreiben = async (
   const eintrag: Verlaufslauf = {
     lauf: laufId,
     shorts: shorts.map((s) => ({
-      rubrik: s.rubrik,
+      format: s.format,
+      sachgebiet: s.sachgebiet,
       themaId: s.themaId,
-      winkelart: s.winkelart,
-      titelmuster: s.titelmuster,
       // Nur die echte Laenge, nie die geschaetzte: Ein Trockenlauf schreibt
       // ohnehin keinen Verlauf, und eine Schaetzung als Messwert zu fuehren
       // waere schlimmer als gar keiner.

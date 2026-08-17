@@ -86,5 +86,5 @@ const produziert = IDEEN.filter((i) => i.reifegrad === 'produziert').length;
 console.log(`✓ Schema: ${gesamt} Shorts geprüft, keine blockierenden Verstöße`);
 console.log(
   `✓ Ideen:  ${IDEEN.length} im Vorrat (${belegt} belegt, ${produziert} produziert), ` +
-    `Reichweite ${reichweiteInWochen(2)} Wochen bei 2 je Rubrik`,
+    `Reichweite ${reichweiteInWochen()} Wochen bei einem Video je Format`,
 );

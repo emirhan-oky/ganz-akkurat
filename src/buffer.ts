@@ -1,4 +1,4 @@
-import type { Quelle, Short } from './typen';
+import { FORMATE, WOCHENTAGE, type Quelle, type Short } from './typen';
 
 /**
  * Anbindung an Buffer.
@@ -400,29 +400,42 @@ export const beitragLoeschen = async (schluessel: string, beitragId: string): Pr
 /**
  * Verteilt Shorts auf Veroeffentlichungszeitpunkte.
  *
- * Zwei Beitraege taeglich an fuenf Tagen. Die Uhrzeiten liegen morgens und
- * abends: Das sind die Zeitfenster, in denen im deutschsprachigen Raum am
- * meisten gescrollt wird — ohne dass beide Beitraege eines Tages
- * miteinander um dieselbe Aufmerksamkeit konkurrieren.
+ * Seit dem 16.08.2026 **sieben Tage statt fuenf**, und der Tag kommt nicht
+ * mehr aus der Reihenfolge im Array, sondern aus dem Format:
+ * `FORMATE[...].tag` sagt, an welchem Wochentag ein Format laeuft. Montags
+ * die Skala, dienstags das Maerchen, sonntags der Streit.
+ *
+ * Das ist mehr als Kosmetik. Vorher hing der Termin daran, an welcher Stelle
+ * ein Short in der Liste stand — wer zwei Eintraege vertauschte, verschob
+ * stillschweigend zwei Sendetermine. Der Wochentag ist beim Formatmodell
+ * aber ein Versprechen an den Zuschauer, und ein Versprechen gehoert nicht
+ * an eine Array-Position.
+ *
+ * Die Uhrzeit ist eine Annahme, kein Messergebnis: abends laeuft Kurzvideo
+ * im Schnitt besser als frueh morgens.
  */
-export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] => {
-  /**
-   * Ein Video je Werktag, nicht zwei je Tag.
-   *
-   * Der Lauf erzeugt fuenf Shorts aus einem Thema. Zwei Beitraege taeglich
-   * haetten sie auf zweieinhalb Tage gedraengt — die fuenf Videos eines
-   * Themas haetten sich dann gegenseitig im Feed Konkurrenz gemacht, statt
-   * die Woche zu trage. Die Uhrzeit ist eine Annahme, kein Messergebnis:
-   * abends laeuft Kurzvideo im Schnitt besser als frueh morgens.
-   */
-  const UHRZEIT = 18;
-  return shorts.map((_, i) => {
+export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
+  shorts.map((short, i) => {
+    const { tag, uhrzeit } = FORMATE[short.format];
+    /*
+     * Die Empfehlung hat keinen festen Wochentag (`tag === null`). Sie laeuft
+     * zusaetzlich und wird deshalb hinten angehaengt, statt einen der festen
+     * Plaetze zu verdraengen.
+     */
+    const versatz = tag ? WOCHENTAGE.indexOf(tag) : 7 + i;
     const zeitpunkt = new Date(beginn);
-    zeitpunkt.setDate(zeitpunkt.getDate() + i);
-    zeitpunkt.setHours(UHRZEIT, 0, 0, 0);
+    zeitpunkt.setDate(zeitpunkt.getDate() + versatz);
+    /*
+     * Die Uhrzeit kommt seit dem 17.08.2026 aus dem Format und nicht mehr aus
+     * einer Konstanten hier. Der Anlass ist der geteilte Mittwoch: „Das ist
+     * Absicht" um 18 Uhr, „Neu und keiner sagt es dir" um 12. Mit einer
+     * gemeinsamen Konstanten waeren beide auf dieselbe Minute gefallen und
+     * haetten sich die Reichweite genommen — ein Fehler, den kein Schema
+     * bemerkt, weil der Plan formal richtig bleibt.
+     */
+    zeitpunkt.setHours(uhrzeit, 0, 0, 0);
     return zeitpunkt;
   });
-};
 
 /** Naechster Montag ab einem Stichtag — der Wochenlauf beginnt montags. */
 export const naechsterMontag = (ab: Date): Date => {

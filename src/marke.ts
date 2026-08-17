@@ -1,12 +1,12 @@
 /**
- * SetupKlar Design-Tokens.
+ * Design-Tokens von Ganz akkurat.
  *
  * Einzige Quelle fuer Farbe, Schrift, Rhythmus und Geometrie. Jede Szene liest
  * hier — nirgends sonst stehen Hexwerte oder Pixelgroessen fest verdrahtet.
  *
- * Abgeleitet aus SetupKlar/Branding: heller Grund, isometrisches Gitter,
- * Outline-Illustrationen in Grau, Signalblau als einziger echter Akzent, und
- * die Wortmarke lebt vom Kontrast "Setup" duenn / "Klar" fett.
+ * Heller Grund, isometrisches Gitter, Outline-Illustrationen in Grau,
+ * Signalblau als einziger echter Akzent — und die Wortmarke lebt vom Kontrast
+ * „Ganz" duenn / „akkurat" fett.
  */
 
 /** Hochformat fuer TikTok, Reels und Shorts. */
@@ -105,7 +105,7 @@ export const SICHERE_ZONE = {
 } as const;
 
 /**
- * Hoehe, auf der die Kopfzeile sitzt — Wortmarke, Rubrik-Pille,
+ * Hoehe, auf der die Kopfzeile sitzt — Wortmarke, Formatpille,
  * KI-Kennzeichnung.
  *
  * **Eine eigene Konstante, und das ist der Punkt.** Vorher stand im Renderer
@@ -278,3 +278,17 @@ export const KENNZEICHNUNG = {
   werbung: 'Werbung',
   kiStimme: 'KI-Stimme',
 } as const;
+
+/**
+ * Der Kanalspruch. Steht im Nachschlag jedes Shorts.
+ *
+ * Er ist mehr als eine Signatur: „Wir haben nachgelesen." ist die
+ * Rechtfertigung dafuer, dass dieser Kanal sich Frechheiten erlaubt. Wer
+ * nachgelesen hat, darf behaupten, der Zuschauer sei zu bloed fuer die Zahl.
+ * Wer nicht nachgelesen hat, ist einfach unhoeflich.
+ *
+ * Hier und nicht im Szenenrenderer, weil der Name genau diesen Fehler schon
+ * einmal gemacht hat: „SetupKlar" stand an zwei Stellen im Code, eine wurde
+ * beim Wechsel umgestellt, die andere nicht.
+ */
+export const SPRUCH = 'Wir haben nachgelesen.';

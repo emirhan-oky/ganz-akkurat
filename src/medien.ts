@@ -126,9 +126,10 @@ export const videoPruefen = async (datei: string): Promise<Videobefund[]> => {
     }
   }
 
-  if (dauer > LAENGE_SEK.maximum) {
+  const [minimum, maximum] = LAENGE_SEK.ziel;
+  if (dauer > maximum) {
     befunde.push({ stufe: 'fehler', text: `${dauer.toFixed(1)}s überschreitet das Plattformlimit.` });
-  } else if (dauer < LAENGE_SEK.minimum) {
+  } else if (dauer < minimum) {
     befunde.push({ stufe: 'fehler', text: `${dauer.toFixed(1)}s ist zu kurz.` });
   }
 

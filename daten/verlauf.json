@@ -2,87 +2,55 @@
   "_hinweis": "Gedaechtnis ueber die Woche hinaus: welche Rubrik zuletzt ohne Vertiefung lief, welches Thema schon da war, welches Titelmuster sich abnutzt. Wird von skripte/wochenlauf.ts fortgeschrieben. Bewusst ausserhalb von laeufe/, weil das in .gitignore steht.",
   "laeufe": [
     {
-      "lauf": "2026-08-13",
+      "lauf": "2026-08-17",
       "shorts": [
         {
-          "rubrik": "schreibtisch",
-          "themaId": "dock-kein-bild",
-          "winkelart": "diagnose",
-          "titelmuster": "verdaechtiger",
-          "vertiefung": "fehlspur"
+          "format": "dubistdumm",
+          "sachgebiet": "handy",
+          "themaId": "ladeanschluss-eu",
+          "dauerSek": 20.4
         },
         {
-          "rubrik": "unterwegs",
-          "themaId": "kabel-watt",
-          "winkelart": "grenzwert",
-          "titelmuster": "uhr",
-          "vertiefung": "herleitung"
+          "format": "eswareinmal",
+          "sachgebiet": "laden",
+          "themaId": "akku-tiefentladung",
+          "dauerSek": 18.7
         },
         {
-          "rubrik": "reise",
-          "themaId": "powerbank-flug",
-          "winkelart": "umrechnung",
-          "titelmuster": "zweisatz",
-          "vertiefung": "herleitung"
+          "format": "absicht",
+          "sachgebiet": "laden",
+          "themaId": "usb-kabelklassen",
+          "dauerSek": 20.8
         },
         {
-          "rubrik": "zuhause",
-          "themaId": "wlan-abends",
-          "winkelart": "mythos",
-          "titelmuster": "verdaechtiger",
-          "vertiefung": "fehlspur"
+          "format": "neu",
+          "sachgebiet": "recht",
+          "themaId": "recht-auf-reparatur-gilt",
+          "dauerSek": 19.9
         },
         {
-          "rubrik": "kaufen",
-          "themaId": "garantie-gewaehrleistung",
-          "winkelart": "verwechslung",
-          "titelmuster": "zweisatz",
-          "vertiefung": "grenzfall"
-        }
-      ]
-    },
-    {
-      "lauf": "2026-08-15",
-      "shorts": [
-        {
-          "rubrik": "schreibtisch",
-          "themaId": "dock-kein-bild",
-          "winkelart": "diagnose",
-          "titelmuster": "verdaechtiger",
-          "vertiefung": "fehlspur",
-          "dauerSek": 83.7
+          "format": "auchgekauft",
+          "sachgebiet": "recht",
+          "themaId": "garantieverlaengerung",
+          "dauerSek": 19.5
         },
         {
-          "rubrik": "unterwegs",
-          "themaId": "kabel-watt",
-          "winkelart": "grenzwert",
-          "titelmuster": "uhr",
-          "vertiefung": "herleitung",
-          "dauerSek": 86.3
+          "format": "heimlich",
+          "sachgebiet": "bildschirm",
+          "themaId": "smarttv-sprache",
+          "dauerSek": 19.6
         },
         {
-          "rubrik": "reise",
-          "themaId": "powerbank-flug",
-          "winkelart": "umrechnung",
-          "titelmuster": "zweisatz",
-          "vertiefung": "herleitung",
-          "dauerSek": 81.4
+          "format": "gibtswirklich",
+          "sachgebiet": "rechner",
+          "themaId": "dateien-loeschen",
+          "dauerSek": 20.5
         },
         {
-          "rubrik": "zuhause",
-          "themaId": "wlan-abends",
-          "winkelart": "mythos",
-          "titelmuster": "verdaechtiger",
-          "vertiefung": "fehlspur",
-          "dauerSek": 84.3
-        },
-        {
-          "rubrik": "kaufen",
-          "themaId": "garantie-gewaehrleistung",
-          "winkelart": "verwechslung",
-          "titelmuster": "zweisatz",
-          "vertiefung": "grenzfall",
-          "dauerSek": 84.6
+          "format": "werhatrecht",
+          "sachgebiet": "netz",
+          "themaId": "wlan-abendliche-verlangsamung",
+          "dauerSek": 21.7
         }
       ]
     }

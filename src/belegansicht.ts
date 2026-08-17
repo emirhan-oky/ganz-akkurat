@@ -1,4 +1,4 @@
-import { QUELLENPFLICHT, UNBETEILIGTE_ARTEN, type Quelle, type Short, type Szene } from './typen';
+import { FORMATE, POSITIONEN, QUELLENPFLICHT, UNBETEILIGTE_ARTEN, type Quelle, type Short, type Szene } from './typen';
 import { FARBEN } from './marke';
 
 /**
@@ -40,8 +40,16 @@ const escape = (s: string): string =>
  * nicht gab. Zwei Listen ueber dieselbe Sache laufen auseinander, und die
  * falsche faellt nicht auf, weil sie fuer sich stimmig aussieht.
  */
-const pflicht = (art: Szene['art']): 'pflicht' | 'moeglich' | 'ohne' =>
-  (QUELLENPFLICHT as Record<string, 'pflicht' | 'moeglich' | 'ohne'>)[art] ?? 'ohne';
+const pflicht = (szene: Szene): 'pflicht' | 'ohne' => {
+  const nachArt = (QUELLENPFLICHT as Record<string, string>)[szene.art] ?? 'ohne';
+  // Seit dem 17.08.2026 haengt die halbe Belegpflicht an der Position statt
+  // an der Art: Alles auf `zuspitzung` und `kipppunkt` behauptet, egal in
+  // welcher Darstellung.
+  if (nachArt === 'nachPosition') {
+    return szene.position === 'zuspitzung' || szene.position === 'kipppunkt' ? 'pflicht' : 'ohne';
+  }
+  return nachArt === 'pflicht' ? 'pflicht' : 'ohne';
+};
 
 const istUnbeteiligt = (art: Quelle['art']): boolean =>
   (UNBETEILIGTE_ARTEN as readonly string[]).includes(art);
@@ -50,7 +58,6 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
   const finde = (id: string) => quellen.find((q) => q.id === id);
 
   let ohneQuelle = 0;
-  let ohneFeld = 0;
   let paare = 0;
 
   const abschnitte = shorts
@@ -58,9 +65,10 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
       const zeilen = short.szenen
         .map((szene, i) => {
           const quelleId = (szene as { quelleId?: string }).quelleId;
+          const belegId = (szene as { belegId?: string }).belegId;
           const nummer = `${i + 1}`;
 
-          /* Szene mit Quelle: Sprechtext gegen Zitate stellen. */
+          /* Szene mit Quelle: Sprechtext gegen das gebundene Zitat stellen. */
           if (quelleId) {
             const q = finde(quelleId);
             if (!q) {
@@ -68,17 +76,31 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
                 <b>${escape(szene.art)}</b> verweist auf „${escape(quelleId)}“ – die Quelle steht nicht in quellen.json.</td></tr>`;
             }
 
-            paare += q.belegt.length;
+            /*
+             * Hier standen bis zum 17.08.2026 **alle** Zitate der Quelle
+             * nebeneinander, und das war der Fehler dieser Seite: Wer drei
+             * Zitate neben einen Satz gestellt bekommt, liest, ob irgendeines
+             * passt — nicht, ob dieses eine traegt. Genau so ist „Ein Gremium
+             * hat das so festgelegt" zweimal durch die Durchsicht gekommen.
+             *
+             * Jetzt steht neben dem Satz das Zitat, an das die Szene sich
+             * gebunden hat, und sonst keines.
+             */
+            const gebunden = q.belegt.find((b) => b.id === belegId);
+            if (!gebunden) {
+              return `<tr class="luecke"><td class="nr">${nummer}</td><td colspan="2">
+                <b>${escape(szene.art)}</b> nennt keine Fundstelle in „${escape(quelleId)}“ –
+                es ist also offen, welcher Satz der Quelle diesen Satz trägt.
+                <p>${escape(szene.sprechtext)}</p></td></tr>`;
+            }
+
+            paare += 1;
             const unbeteiligt = istUnbeteiligt(q.art);
 
-            const belege = q.belegt
-              .map(
-                (b) => `<div class="beleg">
-                  <blockquote>${escape(b.zitat)}</blockquote>
-                  <p class="folgerung"><span>daraus folgern wir</span>${escape(b.stuetzt)}</p>
-                </div>`,
-              )
-              .join('');
+            const belege = `<div class="beleg">
+                  <blockquote>${escape(gebunden.zitat)}</blockquote>
+                  <p class="folgerung"><span>daraus folgern wir</span>${escape(gebunden.stuetzt)}</p>
+                </div>`;
 
             return `<tr>
               <td class="nr">${nummer}</td>
@@ -99,23 +121,24 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
           }
 
           /* Szene ohne Quelle: unterscheiden, ob das erlaubt ist. */
-          const stufe = pflicht(szene.art);
+          const stufe = pflicht(szene);
 
           if (stufe === 'pflicht') {
             ohneQuelle += 1;
             return `<tr class="luecke"><td class="nr">${nummer}</td><td colspan="2">
-              <b>${escape(szene.art)}</b> trägt keine Quelle, obwohl diese Szenenart eine braucht.
+              <b>${escape(szene.art)}</b> auf „${escape(POSITIONEN[szene.position].titel)}" trägt keine
+              Quelle, obwohl dort die Substanz des Videos liegt.
               <p>${escape(szene.sprechtext)}</p></td></tr>`;
           }
 
-          if (stufe === 'moeglich') {
-            ohneFeld += 1;
-            return `<tr class="offen"><td class="nr">${nummer}</td><td colspan="2">
-              <div class="art">${escape(szene.art)} · Quelle möglich, nicht gesetzt</div>
-              <p>${escape(szene.sprechtext)}</p>
-              <p class="frage">Steht hier eine Tatsachenbehauptung? Dann gehört eine Quelle daran.</p></td></tr>`;
-          }
-
+          /*
+           * Die dritte Stufe `moeglich` gab es bis zum 17.08.2026 und ist
+           * ersatzlos weg. Sie war fuer `fehlspur` und `checkliste` gedacht —
+           * Arten, die belegbeduerftig werden **konnten**. Beide sind
+           * gestrichen, und die verbleibende Unschaerfe hat die Position
+           * uebernommen: Aufschlag und Nachschlag sind frei, die Mitte ist
+           * Pflicht. Eine Stufe „vielleicht" braucht es dafuer nicht mehr.
+           */
           return '';
         })
         .filter(Boolean)
@@ -130,7 +153,7 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
         <header class="shortkopf">
           <div>
             <h2>${escape(short.arbeitstitel)}</h2>
-            <p class="meta">${escape(short.rubrik)} · ${escape(short.winkelart)} · ${short.szenen.length} Szenen</p>
+            <p class="meta">${escape(FORMATE[short.format].titel)} · ${escape(short.sachgebiet)} · ${short.szenen.length} Szenen</p>
           </div>
           <div class="bilanz">
             <span class="marke ${unbeteiligte > 0 ? 'unbeteiligt' : 'beteiligt'}">${unbeteiligte} unbeteiligt</span>
@@ -148,7 +171,7 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Belege · SetupKlar</title>
+<title>Belege · Ganz akkurat</title>
 <style>
   :root {
     --grund: ${FARBEN.grund}; --flaeche: ${FARBEN.grundRein}; --linie: ${FARBEN.linieFein};
@@ -210,9 +233,8 @@ export const belegansichtBauen = (shorts: Short[], quellen: Quelle[]): string =>
   </p>
   <div class="zaehler">
     <span><b>${shorts.length}</b> Shorts</span>
-    <span><b>${paare}</b> Zitat-Folgerung-Paare zu lesen</span>
+    <span><b>${paare}</b> Behauptung-Zitat-Paare zu lesen</span>
     <span><b>${ohneQuelle}</b> Szenen ohne Quelle, obwohl nötig</span>
-    <span><b>${ohneFeld}</b> Szenen mit möglicher, nicht gesetzter Quelle</span>
   </div>
   ${abschnitte}
 </div></body></html>`;

@@ -1,190 +1,109 @@
 import type { Short } from '../../src/typen';
 
 /**
- * Rubrik Zuhause — „WLAN wird abends langsamer".
+ * Sonntag · Wer hat recht? · das WLAN, das abends langsam wird.
  *
- * Der Zuschnitt hat sich bei der Recherche verschoben, und das ist wichtig
- * festzuhalten: Der ursprüngliche Titel war „Deine Leitung ist nicht schuld".
- * Das ließ sich **nicht belegen** — ob abends das Funkband oder der
- * Anschluss überlastet ist, hängt am Einzelfall, und keine Quelle sagt,
- * welches häufiger ist. Eine Häufigkeitsbehauptung wäre genau die Sorte
- * Zuspitzung, die von den Quellen nicht getragen wird.
+ * Der einzige Sendeplatz, der **nicht** auf einer Pointe endet. Er endet auf
+ * einer Restfrage, weil es sonst nichts zu kommentieren gibt — und Kommentare
+ * sind bei Shorts ein Verteilungssignal.
  *
- * Belegbar ist dagegen: Das 2,4-GHz-Band wird geteilt, Nachbarnetze nehmen
- * nutzbare Kapazität weg, und abends sind alle gleichzeitig online. Daraus
- * wird die Entwarnung „Dein Router ist nicht zu alt" — die trägt.
+ * Die Bedingung des Formats ist streng und wird hier erfuellt: **Beide** Lager
+ * uebersehen etwas. Wer den Router beschuldigt, uebersieht die Nachbarn; wer
+ * den Anbieter beschuldigt, uebersieht, dass die Leitung im Haus endet.
+ * Uebersehen haben es beide, weil das Dritte in einer Amtsblattverfuegung
+ * steht und nicht im Werbeprospekt: Das Band ist rechtlich schutzlos.
+ *
+ * Waere die Aufloesung „Lager A hat recht", waere es ein Dienstag. Genau diese
+ * Abgrenzung steht in `MATRIX`.
+ *
+ * Die Praemisse des Shorts — **abends** — hing bis zum 17.08.2026 an nichts.
+ * Die Bundesnetzagentur schreibt ueber das Band, nicht ueber die Uhrzeit; erst
+ * beim Eintragen der Fundstellen fiel auf, dass fuer den einzigen Zeitbezug
+ * kein Satz da war. Er steht jetzt bei TP-Link, und das ist die zulaessige
+ * Rollenteilung: Ein Anbieter ist eine gute Adresse fuer die Beobachtung, dass
+ * abends alle gleichzeitig funken, und eine schlechte fuer die Frage, wer
+ * daran schuld ist. Die traegt weiter die Behoerde.
  */
+export const wlanAbends: Short = {
+  id: 'wlan-abends',
+  themaId: 'wlan-abendliche-verlangsamung',
+  format: 'werhatrecht',
+  sachgebiet: 'netz',
+  arbeitstitel: 'Wer schuld ist, wenn das WLAN abends einbricht',
+  weitererzaehlt: 'Das WLAN-Band ist rechtlich schutzlos — niemand garantiert dir dort irgendetwas.',
 
-const HASHTAGS = ['#wlan', '#router', '#heimnetz', '#technikwissen', '#setupklar'];
-
-export const wlanAbends: Short[] = [
-  {
-    id: 'skl-wla-01',
-    themaId: 'wlan-abends',
-    rubrik: 'zuhause',
-    arbeitstitel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-    winkelart: 'mythos',
-
-    system: 'ohne',
-    titelmuster: 'verdaechtiger',
-    merksatz: '2,4 GHz ist ein geteiltes Band, kein eigener Kanal.',
-
-    szenen: [
-      {
-        art: 'hook',
-        kontext: 'WLAN in der Wohnung',
-        // Abgeleitet aus „jeden Abend gegen acht" — die Tageszeit ist hier
-        // die halbe Aussage, und ohne Bild steht sie nur im Sprechtext.
-        symbol: 'uhr',
-        text: 'Dein Router ist nicht zu alt.',
-        sprechtext:
-          'Jeden Abend gegen acht wird das WLAN zäh. Und jedes Mal denkst du, der Router hat es hinter sich.',
-      },
-      {
-        art: 'fehlspur',
-        ueberschrift: 'Was es nicht ist',
-        spuren: [
-          { verdacht: 'Der Router ist zu alt', entkraeftung: 'Neues Gerät, abends dasselbe Bild' },
-          { verdacht: 'Der Anschluss ist zu klein', entkraeftung: 'Am Kabel läuft die volle Rate' },
-        ],
-        sprechtext:
-          'Also kommt ein neuer her. Abends wird es trotzdem zäh. Dann ist es eben der Tarif, denkst du. Aber am Netzwerkkabel läuft die volle Geschwindigkeit, auch um acht. Beides ist es also nicht.',
-      },
-      {
-        art: 'zahl',
-        wert: '2,4',
-        einheit: 'GHz',
-        bedeutung: 'Ein Band für die ganze Nachbarschaft',
-        /*
-         * Bundesnetzagentur statt TP-Link, seit dem 14.08.2026.
-         *
-         * Der Short stand auf drei Herstellerquellen — TP-Link, TP-Link,
-         * Intel — und behauptete „dein Router ist nicht zu alt". Belegt vom
-         * Routerhersteller. Zur Frage, wie sich ein Funkband unter Nachbarn
-         * aufteilt, ist ein Anbieter nicht die zustaendige Instanz: Das Band
-         * ist per Allgemeinzuteilung vergeben, und dort steht ausdruecklich,
-         * dass gegenseitige Beeintraechtigungen vorgesehen und hinzunehmen
-         * sind. Genau das ist die Aussage der Szene.
-         *
-         * Der Sprechtext sagt es deshalb jetzt auch so: nicht „der Hersteller
-         * sagt es selbst", sondern die Behoerde, die das Band zuteilt.
-         */
-        quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
-        /*
-         * Nachbarhaeuser statt Router: Diese Szene benennt die Ursache. Ein
-         * Router daneben zeigte ausgerechnet die Partei, die das Video
-         * entlastet.
-         */
-        symbol: 'nachbarhaeuser',
-        sprechtext:
-          'Der Grund steht in der Frequenz. Zwei Komma vier Gigahertz ist kein Kanal, der dir gehört, sondern ein Band, das sich alle teilen. Und das ist keine Panne, sondern so vergeben: Die Bundesnetzagentur schreibt ausdrücklich, dass es keinen Schutz vor gegenseitigen Störungen gibt.',
-      },
-      {
-        art: 'vergleich',
-        ueberschrift: 'Warum ausgerechnet abends',
-        /*
-         * Diese Szene behauptet ein **Zeitmuster** — vormittags frei, abends
-         * voll. Als die zahl-Szene am 14.08.2026 von TP-Link auf die
-         * Bundesnetzagentur umgehaengt wurde, fiel `tplink-kapazitaet-abends`
-         * aus den `quellenIds`, und damit verlor der Vergleich still seinen
-         * Beleg: Die Behoerde sagt, dass das Band geteilt wird, aber nichts
-         * darueber, wann es voll ist. Aufgefallen ist es erst, als
-         * `vergleich` ein Quellenfeld bekam.
-         */
-        quelleId: 'tplink-kapazitaet-abends',
-        links: {
-          titel: 'Vormittags',
-          zeilen: ['Die halbe Nachbarschaft ist weg', 'Das Band ist frei'],
-          bewertung: 'ja',
-        },
-        rechts: {
-          titel: 'Abends um acht',
-          zeilen: ['Alle sind gleichzeitig online', 'Dieselben drei Kanäle'],
-          bewertung: 'nein',
-        },
-        sprechtext:
-          'Vormittags ist das Haus leer und das Band gehört fast dir. Abends sind deine Nachbarn alle gleichzeitig online — und funken auf denselben Kanälen. Dein Router wird nicht langsamer. Er kommt nur seltener dran.',
-      },
-      {
-        /*
-         * Die Handlungsszene traegt den zweiten Beleg und zugleich die
-         * Laenge. Ein Short mit Vertiefung soll 75 bis 90 Sekunden haben —
-         * die kommen aus einer zusaetzlichen Sache, die der Zuschauer
-         * mitnimmt, nicht aus laengeren Saetzen ueber dieselbe Sache.
-         */
-        art: 'checkliste',
-        ueberschrift: 'In zwei Minuten geprüft',
-        punkte: [
-          { text: 'Am Netzwerkkabel gegenprüfen', bewertung: 'ja' },
-          { text: 'Geräte auf das 5-GHz-Netz umhängen', bewertung: 'ja' },
-          { text: 'Im Router den Funkkanal wechseln', bewertung: 'ja' },
-          { text: 'Nicht sofort einen neuen Router kaufen', bewertung: 'nein' },
-        ],
-        quelleId: 'tplink-stoerung-nachbarn',
-        sprechtext:
-          'Bevor du Geld ausgibst, drei Handgriffe. Erstens: Häng ein Gerät ans Netzwerkkabel und miss noch mal. Läuft es dort schnell, ist die Leitung sauber und es liegt am Funk. Zweitens: Häng alles, was fünf Gigahertz kann, auf das zweite Netz um. Und drittens sagt der Hersteller selbst, was dann hilft — im Router den Funkkanal wechseln, weg von dem, auf dem die halbe Straße sitzt.',
-      },
-      {
-        /*
-         * Kam am 13.08.2026 dazu, weil der vertonte Short bei 73,9 Sekunden
-         * lag und das Fenster bei 75 beginnt.
-         *
-         * `intel-funkumgebung` stand bis dahin nur in `quellenIds`, ohne dass
-         * eine Szene sie trug. Der Ratschlag „nimm 5 GHz" steht zwar schon in
-         * der Checkliste — was fehlte, war, dass er nicht von uns kommt.
-         * Genau darin liegt der Unterschied zwischen einem Forentipp und
-         * einer belegten Aussage, und dieser Kanal lebt von dem Unterschied.
-         *
-         * Bewusst **nicht** ergaenzt: dass 5 GHz schlechter durch Waende
-         * kommt. Das stimmt, aber keine der drei Quellen sagt es — also steht
-         * es nicht im Video.
-         */
-        art: 'aussage',
-        text: 'Auch der Chiphersteller rät zu 5 GHz.',
-        hervorhebung: 'Chiphersteller',
-        quelleId: 'intel-funkumgebung',
-        sprechtext:
-          'Das ist übrigens kein Forentipp. Der Hersteller der Funkmodule, die in den meisten Notebooks stecken, empfiehlt genau das: Wer Störungen loswerden will, geht auf fünf Gigahertz.',
-      },
-      {
-        art: 'endkarte',
-        ueberschrift: 'WLAN abends zäh?',
-        punkte: [
-          'Nicht der Router, das geteilte Band',
-          'Auf 5 GHz ausweichen, wenn Geräte es können',
-          'Am Kabel gegenprüfen: läuft es dort, ist es Funk',
-        ],
-        abschluss: 'Technik, die zusammenpasst',
-        sprechtext:
-          'Wenn deine Geräte fünf Gigahertz können, nimm das Band — genau dafür ist es da. Und prüf einmal am Kabel gegen: Läuft es dort, liegt es nie an der Leitung.',
-      },
-    ],
-
-    quellenIds: [
-      'bnetza-wlan-24ghz-allgemeinzuteilung',
-      'tplink-kapazitaet-abends',
-      'tplink-stoerung-nachbarn',
-      'intel-funkumgebung',
-    ],
-
-    texte: {
-      tiktok: {
-        titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung: '',
-        hashtags: HASHTAGS,
-      },
-      instagram: {
-        titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung: '',
-        hashtags: HASHTAGS,
-      },
-      youtube: {
-        titel: 'Nicht der Router ist verdächtig, sondern deine Nachbarn',
-        beschreibung: '',
-        hashtags: ['#Shorts', '#WLAN', '#Heimnetz'],
-      },
+  szenen: [
+    {
+      art: 'text',
+      position: 'aufschlag',
+      sprechtext: 'Abends bricht das WLAN ein. Beide irren.',
+      text: 'Abends bricht das WLAN ein.',
     },
+    {
+      art: 'vergleich',
+      position: 'zuspitzung',
+      sprechtext: 'Die einen sagen, der Router ist zu alt. Die anderen sagen, der Anbieter drosselt.',
+      ueberschrift: 'Zwei Lager',
+      quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+      belegId: 'es-besteht-kein-schutz',
+      links: { titel: 'Der Router', zeilen: ['zu alt', 'zu billig'], bewertung: 'achtung' },
+      rechts: { titel: 'Der Anbieter', zeilen: ['drosselt abends', 'überbucht'], bewertung: 'achtung' },
+    },
+    {
+      art: 'text',
+      position: 'zuspitzung',
+      sprechtext: 'Beide reden über Geräte. Abends sind aber alle gleichzeitig online.',
+      text: 'Abends sind alle gleichzeitig online.',
+      quelleId: 'tplink-kapazitaet-abends',
+      belegId: 'that-s-when-most',
+    },
+    {
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext: 'Bei der Bundesnetzagentur steht: kein Schutz vor Beeinträchtigungen.',
+      text: 'Kein Schutz vor anderen.',
+      hervorhebung: 'Kein Schutz',
+      quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+      belegId: 'es-besteht-kein-schutz',
+      herausgeber: 'Bundesnetzagentur',
+    },
+    {
+      art: 'einschraenkung',
+      position: 'kipppunkt',
+      sprechtext: 'Und weiter: keine Gewähr für eine Mindestqualität.',
+      ueberschrift: 'Derselbe Text, zwei Zeilen weiter',
+      bedingung: 'Keine Gewähr für eine Mindestqualität',
+      folge: 'Abends senden im selben Band alle Nachbarn mit',
+      quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+      belegId: 'die-bundesnetzagentur-u-bernimmt',
+    },
+    {
+      art: 'schluss',
+      position: 'nachschlag',
+      sprechtext: 'Wen verklagst du also? Schreib es in die Kommentare.',
+      satz: 'Wen verklagst du also?',
+    },
+  ],
 
-    kennzeichnung: { werbung: 'keine', kiStimme: true },
+  quellenIds: ['bnetza-wlan-24ghz-allgemeinzuteilung', 'tplink-kapazitaet-abends'],
+
+  texte: {
+    tiktok: {
+      titel: 'Weder Router noch Anbieter sind schuld',
+      beschreibung: '',
+      hashtags: ['#wlan', '#internet', '#technik', '#ganzakkurat'],
+    },
+    instagram: {
+      titel: 'Weder Router noch Anbieter sind schuld',
+      beschreibung: '',
+      hashtags: ['#wlan', '#internet', '#technik', '#ganzakkurat'],
+    },
+    youtube: {
+      titel: 'Weder Router noch Anbieter sind schuld',
+      beschreibung: '',
+      hashtags: ['#wlan', '#internet', '#technik', '#ganzakkurat'],
+    },
   },
-];
+
+  kennzeichnung: { werbung: 'keine', kiStimme: true },
+};

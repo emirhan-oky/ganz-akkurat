@@ -47,7 +47,7 @@ const main = async () => {
     JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] }
   ).quellen.map((q) => Quelle.parse(q));
 
-  console.log(`SetupKlar · Veröffentlichung ${LAUF_ID}`);
+  console.log(`Ganz akkurat · Veröffentlichung ${LAUF_ID}`);
   console.log(WIRKLICH ? 'Modus: Beiträge werden wirklich angelegt\n' : 'Modus: Probelauf, es wird nichts angelegt\n');
 
   /* ── 1  Freigabe einlesen ────────────────────────────────────────── */

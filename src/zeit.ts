@@ -31,54 +31,68 @@ import type { Short, Szene } from './typen';
  * Das entscheidet darueber, ob derselbe Text 76 oder 117 Sekunden dauert —
  * wer die Stimme wechselt, muss diesen Wert mitwechseln.
  *
- * Die Zahl stammt aus einer Probe von 289 Zeichen. Sie ist eine gute
- * Schaetzung und keine Messung des fertigen Shorts: Sobald ein Lauf
- * `--mit-ton` gelaufen ist, gelten dessen echte Zeitstempel und diese Formel
- * spielt keine Rolle mehr.
+ * **Seit dem 16.08.2026 steht hier eine Messung statt einer Probe.** Der Wert
+ * war 17,4 und stammte aus 289 Zeichen einer Stimmprobe — eine Ansage in
+ * Vorlesetonfall, nicht ein Short. Der erste vollstaendig vertonte Wochenlauf
+ * liefert die belastbare Zahl: **2.479 Zeichen in 160,6 Sekunden, also 15,4**.
+ * Dieselben Zeitstempel, aus denen der Renderer die Szenenlaengen nimmt.
+ *
+ * Der Fehler ging in die gefaehrliche Richtung. Zu hohe Zeichen/s heisst zu
+ * kurz geschaetzt: Sieben Shorts galten als 20,8–23,3 s und lagen bei
+ * 21,7–26,3 s. Alle noch im Fenster, aber die Zielmitte war rechnerisch
+ * verfehlt — und wer bei 26,3 s landet, faellt beim naechsten Lauf durch die
+ * Streuung heraus, ohne ein Wort geaendert zu haben.
+ *
+ * Bemerkenswert daneben: Die Systemstimme Anna misst ebenfalls 15,4. Die
+ * kostenlose Probe traf die Produktionsstimme auf die erste Nachkommastelle,
+ * und die teure Konstante lag daneben.
+ *
+ * Auch die neue Zahl bleibt eine Schaetzung fuer *ungesprochene* Entwuerfe:
+ * Sobald ein Lauf `--mit-ton` gelaufen ist, gelten dessen echte Zeitstempel
+ * und diese Formel spielt fuer den Short keine Rolle mehr.
  */
-export const ZEICHEN_PRO_SEKUNDE = 17.4;
+export const ZEICHEN_PRO_SEKUNDE = 15.4;
 
 /** Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen. */
 const PAUSE_NACH_SZENE_SEK = 0.32;
 
-/** Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der Text ist. */
+/**
+ * Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der
+ * Text ist.
+ *
+ * Die Werte sind am 17.08.2026 gesunken, und zwar aus einem dramaturgischen
+ * Grund, nicht aus einem rechnerischen: Der Bau hat jetzt sechs bis acht
+ * Szenen statt vier bis sechs, weil ein Schnitt alle drei Sekunden im Feed
+ * traegt und ein Textblock von fuenf Sekunden nicht. Untergrenzen, die aus der
+ * Zeit der fuenf langen Karten stammen, wuerden diesen Takt verhindern.
+ */
 const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
-  hook: 1.8,
-  aussage: 1.6,
-  zahl: 2.2,
-  vergleich: 4.0,
-  checkliste: 4.0,
-  warnung: 3.0,
-  anschluss: 4.5,
+  text: 1.4,
+  zahl: 2.0,
   /**
-   * Die Fehlspur braucht Zeit zum Wirken: Jeder Verdacht muss gelesen und
-   * dann durchgestrichen werden. Zu schnell gespielt ist sie keine Spur,
-   * sondern eine Aufzaehlung.
+   * Die Frage steht, waehrend nichts gesprochen wird.
+   *
+   * Die Untergrenze stand kurz auf 4,0 Sekunden und war damit ein **Platzhalter
+   * fuer die Denkpause**, die es im Datenvertrag noch nicht gab. Seit `pauseSek`
+   * existiert, bestellt die Szene ihre Stille selbst, und die Untergrenze darf
+   * wieder das sein, was sie ueberall sonst ist: die Zeit zum Lesen.
+   *
+   * „Wie viele Jahre für einen Stecker?" ist in anderthalb Sekunden erfasst.
+   * Die Denkzeit kommt danach.
    */
-  fehlspur: 5.0,
+  frage: 1.5,
+  vergleich: 2.6,
+  einschraenkung: 2.2,
   /**
-   * Die Herleitung steht am laengsten von den Vertiefungsszenen. Wer eine
-   * Rechnung mitdenken soll, braucht die Zeile davor noch im Kopf.
+   * Der Nachschlag traegt einen Satz, die Wortmarke und den Spruch.
+   *
+   * Hier stand die Endkarte mit 3,2 Sekunden, davor mit fuenf, „damit man sie
+   * fotografieren kann". Fotografiert wurde nie etwas. Ein Satz plus Absender
+   * ist in zweieinhalb Sekunden gelesen.
    */
-  herleitung: 6.0,
-  einschraenkung: 3.5,
-  /**
-   * Die Merkmalskarte steht laenger als eine Aussage: Erst das Geraet
-   * erfassen, dann die Merkmale lesen — beides nacheinander, nicht parallel.
-   */
-  merkmalskarte: 5.0,
-  cta: 2.2,
-  /**
-   * Die Endkarte steht bewusst lange. Sie soll gelesen und fotografiert
-   * werden koennen — dafuer reicht die Sprechdauer allein nicht aus.
-   */
-  endkarte: 5.0,
-  /**
-   * Die Kaufkriterien stehen noch laenger als die Endkarte: Sie tragen zu
-   * jedem Kriterium ein Pruefdetail und darunter den Verweis. Wer danach
-   * einkaufen gehen soll, muss die Liste zu Ende lesen koennen.
-   */
-  kaufkriterien: 6.5,
+  schluss: 2.5,
+  /** Nur im Format `empfehlung`, das erst mit Affiliate-Links kommt. */
+  kaufkriterien: 4.5,
 };
 
 /**
@@ -91,12 +105,24 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
  * steht auch dann fuenf Sekunden, wenn der Satz darueber in dreien
  * gesprochen ist.
  */
-export const szenendauerAus = (art: Szene['art'], sprechdauerSek: number): number =>
-  Math.max(MINDESTDAUER_SEK[art], sprechdauerSek) + PAUSE_NACH_SZENE_SEK;
+export const szenendauerAus = (
+  art: Szene['art'],
+  sprechdauerSek: number,
+  /**
+   * Bestellte Pause nach dieser Szene. Ohne Angabe die Atempause.
+   *
+   * Am 17.08.2026 dazugekommen. Vorher rechnete die Schaetzung immer mit 0,32
+   * Sekunden, waehrend die Vertonung bei `pauseSek` das Mehrfache einlegt —
+   * die Vorschau lief also genau an der Stelle von der Wirklichkeit weg, an
+   * der bewusst Zeit verbraucht wird. Bei der Denkpause des Montags sind das
+   * mehr als zwei Sekunden auf ein Video von zwanzig.
+   */
+  pauseSek?: number,
+): number => Math.max(MINDESTDAUER_SEK[art], sprechdauerSek) + (pauseSek ?? PAUSE_NACH_SZENE_SEK);
 
 /** Geschaetzte Sprechdauer einer einzelnen Szene in Sekunden. */
 export const geschaetzteSzenendauer = (szene: Szene): number =>
-  szenendauerAus(szene.art, szene.sprechtext.length / ZEICHEN_PRO_SEKUNDE);
+  szenendauerAus(szene.art, szene.sprechtext.length / ZEICHEN_PRO_SEKUNDE, szene.pauseSek);
 
 /**
  * Startzeit und Dauer jeder Szene in Bildern.
@@ -147,49 +173,44 @@ export const gesamtdauerBilder = (short: Short): number => {
  * steht an `ziel`.
  */
 export const LAENGE_SEK = {
-  minimum: 15,
   /**
-   * Das Zielfenster. **Seit dem 15.08.2026 gibt es nur noch eines.**
+   * Das Zielfenster. **Seit dem 16.08.2026 eine Stufe statt dreier.**
    *
-   * Vorher standen hier zwei: 40–60 ohne Vertiefung, 75–95 mit. Der Kanal
-   * baute auf Tiefe, und die Videos wurden 85 Sekunden lang. Das erste
-   * Zuschauerfeedback zu den ersten veroeffentlichten Shorts war einhellig:
-   * **zu lang.** Nicht zu kompliziert, nicht zu trocken — zu lang. Das
-   * Design, die Untertitel und die Machart kamen an, die Laenge nicht.
+   * Hier standen bis dahin drei Zahlen fuer eine Frage: ein Fenster von 28
+   * bis 40 Sekunden, eine „ausnahmslose" Grenze bei 45 und ein Minimum bei
+   * 15. Die zweite Stufe war ein Rest aus der Zeit mit zwei Fenstern (mit und
+   * ohne Vertiefung) — mit nur einem Fenster ist sie eine Regel ohne Aufgabe.
    *
-   * Damit faellt die Annahme, auf der das alte Modell stand. Ein tiefes
-   * Video, das niemand zu Ende sieht, hat keine Tiefe, sondern nur Laenge.
+   * Die Zahlen kommen aus zwei Messungen und einer Rechnung:
    *
-   * Gezielt wird auf **35 Sekunden**, nicht auf 40. Der Grund ist derselbe
-   * wie frueher an der oberen Kante: Die vertonte Laenge streut um rund sechs
-   * Prozent, wer bei 40 baut, landet beim naechsten Lauf bei 42.
+   * - **15 bis 30 Sekunden** haben die hoechste Abschlussrate. Erklaerendes
+   *   darf 35 bis 45, aber nur wenn der Nutzen frueh sichtbar ist — und
+   *   „frueh sichtbar" ist bei einem Fakt je Video ohnehin die ganze Anlage.
+   * - **Die Vertonung streut rund sechs Prozent.** Derselbe Text ergab bei
+   *   zwei Laeufen 75,3 und 70,5 Sekunden; ElevenLabs liefert nicht zweimal
+   *   dieselbe Aufnahme. Bei 23 Sekunden sind das ±1,4 s.
+   * - Fuenf Szenen mit rund 370 Zeichen ergeben bei 17,4 Zeichen je Sekunde
+   *   21,4 s Sprechzeit plus 1,6 s Pausen — also 23 s.
+   *
+   * Daraus folgt die Regel, die wichtiger ist als die Grenzen selbst:
+   * **Zielwert ist die Mitte, nicht der Rand.** Wer bei 27,5 s baut, faellt
+   * beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
    */
-  ziel: [28, 40] as const,
+  ziel: [18, 28] as const,
   /**
-   * Harte Grenze, ohne Ausnahme.
+   * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *
-   * 45 statt der frueheren 100. Die alten 100 waren die Grenze zum
-   * Erklaervideo im Hochformat; die neuen 45 sind die Grenze zu dem, was
-   * gerade nachweislich nicht funktioniert hat.
-   */
-  maximum: 45,
-  /**
-   * Hoechstdauer der Hook — der ersten Szene.
+   * Eingefuehrt am 15.08.2026, nachdem die Hook des Kabel-Shorts 14,0 s
+   * dauerte. 71 Prozent der Zuschauer entscheiden in den ersten Sekunden, ob
+   * sie bleiben — eine Hook, die laenger braucht als diese Entscheidung, ist
+   * keine Hook, sondern der Anfang des Videos.
    *
-   * „Die ersten drei Sekunden entscheiden" ist als Merksatz wohlfeil und als
-   * Regel pruefbar. Am 15.08.2026 dauerte die Hook des Gewaehrleistungs-Shorts
-   * **7,5 Sekunden** und war damit laenger als das Fenster, in dem sich
-   * jemand fuers Bleiben entscheidet. Bei 17,4 Zeichen je Sekunde sind drei
-   * Sekunden rund 52 Zeichen: ein Satz, kein Absatz.
+   * 3,5 s sind bei 17,4 Zeichen je Sekunde rund 60 Zeichen. Ein Satz.
    */
   hookMaximum: 3.5,
 } as const;
 
-/**
- * Das Zielfenster. Nimmt weiter einen Short entgegen, damit die Aufrufer
- * unveraendert bleiben — es gibt seit dem 15.08.2026 aber nur noch eines.
- */
-export const zielfenster = (_short: Short): readonly [number, number] => LAENGE_SEK.ziel;
+export const zielfenster = (): readonly [number, number] => LAENGE_SEK.ziel;
 
 /**
  * Geschaetzte Gesamtlaenge in Sekunden, ohne Tonspur.

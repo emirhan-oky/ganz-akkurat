@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { SETUPKLAR_STIMME, synthetisieren } from '../src/stimme';
+import { KANAL_STIMME, synthetisieren } from '../src/stimme';
 import { ZEICHEN_PRO_SEKUNDE } from '../src/zeit';
 
 /**
@@ -69,7 +69,7 @@ const main = async () => {
     try {
       const synthese = await synthetisieren(
         PROBETEXT,
-        { stimmeId: kandidat.id, ...SETUPKLAR_STIMME },
+        { stimmeId: kandidat.id, ...KANAL_STIMME },
         schluessel,
       );
       const datei = path.join(ZIEL, `${kandidat.name}.mp3`);

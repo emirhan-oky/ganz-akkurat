@@ -64,13 +64,13 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 /**
  * Teillauf: `--nur=skl-pbf-01` baut einen einzigen Short.
  *
- * Gedacht fuer die Ansicht einer Aenderung mit echter Stimme, ohne fuenf
+ * Gedacht fuer die Ansicht einer Aenderung mit echter Stimme, ohne sieben
  * Vertonungen zu bezahlen — ein Short kostet rund 1.500 Zeichen statt 7.300.
  *
  * Zwei Dinge gelten deshalb im Teillauf **nicht**:
  *
- * - **Die laufweiten Regeln.** Jede Rubrik genau einmal, Vertiefung in drei
- *   von fuenf, keine Haeufung von Titelmustern — das alles ist auf die Woche
+ * - **Die laufweiten Regeln.** Jedes Format genau einmal, kein Sachgebiet
+ *   oefter als zweimal — das alles ist auf die Woche
  *   gemuenzt und wuerde bei einem einzelnen Short zwangslaeufig anschlagen.
  *   Eine Pruefung, die im Teillauf immer rot ist, liest bald niemand mehr.
  * - **Das Fortschreiben des Verlaufs.** Ein Teillauf ist eine Ansicht, keine
@@ -80,14 +80,15 @@ const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 const NUR = process.argv.find((a) => a.startsWith('--nur='))?.slice('--nur='.length);
 
 /**
- * Die fuenf Shorts dieses Laufs — einer je Rubrik.
+ * Die sieben Shorts dieses Laufs — einer je Format und Wochentag.
  *
- * Seit dem 13.08.2026 vollstaendig: fuenf Rubriken, fuenf Macharten, fuenf
- * Themen mit je drei woertlich geprueften Quellen.
+ * Seit dem 16.08.2026 sieben statt fuenf: ein Format je Wochentag, jedes
+ * mit einem eigenen Fakt und einer woertlich geprueften Quelle.
  *
- * Die Reihenfolge in `WOCHENLAUF` ist die Sendereihenfolge der Woche, Montag
- * bis Freitag. `zeitplanBauen` in `src/buffer.ts` verteilt sie auf die
- * Werktage um 18:00.
+ * Die Reihenfolge in `WOCHENLAUF` ist nur noch Lesereihenfolge — welchen Tag
+ * ein Short bekommt, steht am Format (`FORMATE[...].tag`), und
+ * `zeitplanBauen` in `src/buffer.ts` liest es dort. Vorher haette das
+ * Vertauschen zweier Eintraege stillschweigend zwei Sendetermine verschoben.
  *
  * Die Liste steht in `daten/entwuerfe/index.ts` und nicht hier, damit die
  * Schemapruefung dieselbe sieht.
@@ -105,7 +106,7 @@ const main = async () => {
   const videoOrdner = path.join(wurzel, 'videos');
   await fs.mkdir(videoOrdner, { recursive: true });
 
-  console.log(`SetupKlar · ${NUR ? `Teillauf ${NUR}` : 'Wochenlauf'} ${id}`);
+  console.log(`Ganz akkurat · ${NUR ? `Teillauf ${NUR}` : 'Wochenlauf'} ${id}`);
   console.log(
     MIT_TON
       ? 'Modus: mit Vertonung'
@@ -116,7 +117,7 @@ const main = async () => {
   if (NUR) {
     if (ENTWUERFE.length === 0) {
       console.log(`\nKein Entwurf mit der Kennung „${NUR}". Bekannt sind:`);
-      for (const s of WOCHENLAUF) console.log(`  ${s.id}  ${s.rubrik}`);
+      for (const s of WOCHENLAUF) console.log(`  ${s.id}  ${s.format}`);
       process.exit(1);
     }
     console.log('Teillauf: laufweite Regeln aus, Verlauf wird nicht fortgeschrieben');
@@ -256,9 +257,9 @@ const main = async () => {
    *
    * `verlaufSchreiben` ersetzt einen Eintrag mit derselben Kennung, ein
    * zweiter Lauf am selben Tag ueberschreibt also sauber. Beim **Pruefen**
-   * lag der erste Durchgang aber noch im Verlauf — und meldete alle fuenf
+   * lag der erste Durchgang aber noch im Verlauf — und meldete alle sieben
    * Themen als Wiederholung des Laufs, der gerade ersetzt wird. Jeder
-   * Korrekturlauf am selben Tag haette damit fuenf falsche Hinweise erzeugt,
+   * Korrekturlauf am selben Tag haette damit sieben falsche Hinweise erzeugt,
    * und Hinweise, die regelmaessig falsch sind, liest bald niemand mehr.
    */
   const verlauf = (await verlaufLesen()).filter((eintrag) => eintrag.lauf !== id);
@@ -284,10 +285,9 @@ const main = async () => {
    */
   if (HAT_TON) {
     const jetzt = durchschnittsdauer({ lauf: id, shorts: fertige.map((s) => ({
-      rubrik: s.rubrik,
+      format: s.format,
+      sachgebiet: s.sachgebiet,
       themaId: s.themaId,
-      winkelart: s.winkelart,
-      titelmuster: s.titelmuster,
       ...(s.tonspur ? { dauerSek: s.tonspur.dauerSek } : {}),
     })) });
     const vorher = durchschnittsdauer(verlauf[verlauf.length - 1]);

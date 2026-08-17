@@ -34,10 +34,10 @@ export type Sprecheinstellung = {
 };
 
 /**
- * Voreinstellung fuer SetupKlar: maennlich, locker, erklaerend.
+ * Voreinstellung fuer Ganz akkurat: maennlich, locker, erklaerend.
  * Etwas unter Normaltempo, weil technische Begriffe sonst untergehen.
  */
-export const SETUPKLAR_STIMME: Omit<Sprecheinstellung, 'stimmeId'> = {
+export const KANAL_STIMME: Omit<Sprecheinstellung, 'stimmeId'> = {
   stabilitaet: 0.45,
   aehnlichkeit: 0.75,
   ausdruck: 0.35,
@@ -58,8 +58,27 @@ export type Synthese = {
   ausrichtung: Ausrichtung;
 };
 
-/** Trennt zwei Szenen im Sprechtext. Erzeugt zugleich eine hoerbare Pause. */
+/**
+ * Trennt zwei Szenen im Sprechtext. Erzeugt zugleich eine hoerbare Pause.
+ *
+ * Die Voreinstellung sind drei Auslassungspunkte — gemessene 0,86 Sekunden,
+ * gerade genug, dass ein Schnitt nicht auf dem Wort sitzt.
+ */
 const SZENENTRENNER = ' ... ';
+
+/**
+ * Eine bestellte Pause. Nur wo eine Szene ausdruecklich `pauseSek` setzt.
+ *
+ * ElevenLabs haelt die Zeit auf ein Zehntel genau ein (2,5 s bestellt, 2,60 s
+ * gemessen, `npm run pausenprobe`). Auslassungspunkte taten das nicht: Sie
+ * skalieren schwach und unvorhersehbar, und die erste Fassung der Denkpause
+ * kam damit im fertigen Short auf eine einzige Sekunde.
+ *
+ * Der Tag wird **nicht vorgelesen**, taucht aber in der Zeichenausrichtung
+ * auf — `woerterAusAusrichtung` filtert alles zwischen `<` und `>` heraus,
+ * sonst stuende „time=2.5s" im Untertitel.
+ */
+const pause = (sek: number): string => ` <break time="${sek.toFixed(1)}s" /> `;
 
 /**
  * Fuegt die Sprechtexte aller Szenen zu einem Text zusammen und merkt sich,
@@ -70,7 +89,11 @@ export const sprechtextZusammenfuegen = (short: Short): { text: string; szenenOf
   let text = '';
 
   short.szenen.forEach((szene, i) => {
-    if (i > 0) text += SZENENTRENNER;
+    // Die Pause gehoert zur Szene **davor** — sie hat sie bestellt.
+    const vorherige = short.szenen[i - 1];
+    if (vorherige !== undefined) {
+      text += vorherige.pauseSek === undefined ? SZENENTRENNER : pause(vorherige.pauseSek);
+    }
     szenenOffsets.push(text.length);
     text += szene.sprechtext.trim();
   });
@@ -96,10 +119,28 @@ export const woerterAusAusrichtung = (a: Ausrichtung): Untertitelwort[] => {
     aktuell = '';
   };
 
+  /*
+   * Alles zwischen `<` und `>` gehoert zu einem Break-Tag und ist kein
+   * gesprochenes Wort. Ohne diesen Filter stuende „<break", „time=1.8s" und
+   * „/>" als drei Woerter im Untertitel — die Zeichenausrichtung liefert sie
+   * mit, obwohl die Stimme sie nicht spricht.
+   */
+  let imTag = false;
+
   for (let i = 0; i < a.characters.length; i += 1) {
     const zeichen = a.characters[i]!;
     const von = a.character_start_times_seconds[i] ?? 0;
     const bis = a.character_end_times_seconds[i] ?? von;
+
+    if (zeichen === '<') {
+      abschliessen(a.character_end_times_seconds[i - 1] ?? bis);
+      imTag = true;
+      continue;
+    }
+    if (imTag) {
+      if (zeichen === '>') imTag = false;
+      continue;
+    }
 
     if (/\s/.test(zeichen)) {
       abschliessen(a.character_end_times_seconds[i - 1] ?? bis);
@@ -172,7 +213,7 @@ export const shortVertonen = async (
   tondateiname: string,
 ): Promise<{ short: Short; ton: Buffer }> => {
   const { text, szenenOffsets } = sprechtextZusammenfuegen(short);
-  const synthese = await synthetisieren(text, { stimmeId, ...SETUPKLAR_STIMME }, schluessel);
+  const synthese = await synthetisieren(text, { stimmeId, ...KANAL_STIMME }, schluessel);
 
   return {
     ton: synthese.ton,

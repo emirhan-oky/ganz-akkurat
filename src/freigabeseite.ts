@@ -1,5 +1,5 @@
 import type { Befund } from './pruefung';
-import { RUBRIKEN, SYSTEME, WINKELARTEN, type Quelle, type Short, type Szene } from './typen';
+import { FORMATE, POSITIONEN, SACHGEBIETE, type Quelle, type Short, type Szene } from './typen';
 
 /**
  * Erzeugt die Freigabe-Uebersicht als eigenstaendige HTML-Datei.
@@ -20,12 +20,14 @@ const escape = (s: string) =>
  */
 const behauptung = (szene: Szene): string => {
   switch (szene.art) {
-    case 'aussage':
+    case 'text':
       return szene.text;
     case 'zahl':
       return `${szene.wert}${szene.einheit ? ' ' + szene.einheit : ''} — ${szene.bedeutung}`;
-    case 'herleitung':
-      return `${szene.schritte.map((s) => s.wert).join('  ')}  =  ${szene.ergebnis.wert}`;
+    case 'frage':
+      return szene.frage;
+    case 'schluss':
+      return szene.satz;
     case 'einschraenkung':
       return `${szene.bedingung} — ${szene.folge}`;
     default:
@@ -140,10 +142,9 @@ export const freigabeseiteBauen = (opts: {
             <span class="nummer">${i + 1} von ${shorts.length}</span>
             <h3>${escape(short.arbeitstitel)}</h3>
             <div class="marken">
-              <span class="marke rubrik">${escape(RUBRIKEN[short.rubrik].titel)}</span>
-              <span class="marke machart">${escape(WINKELARTEN[short.winkelart].titel)}</span>
-              <span class="marke muster">${escape(short.titelmuster)}</span>
-              ${short.system !== 'ohne' ? `<span class="marke system">${escape(SYSTEME[short.system].titel)}</span>` : ''}
+              <span class="marke rubrik">${escape(FORMATE[short.format].titel)}</span>
+              <span class="marke machart">${escape(SACHGEBIETE[short.sachgebiet].titel)}</span>
+              ${FORMATE[short.format].tag ? `<span class="marke muster">${FORMATE[short.format].tag}</span>` : ''}
               ${short.kennzeichnung.werbung === 'video' ? '<span class="marke werbung">Werbung im Bild</span>' : ''}
               ${short.kennzeichnung.werbung === 'beschreibung' ? '<span class="marke werbung">Werbung in der Beschreibung</span>' : ''}
               ${short.kennzeichnung.kiStimme ? '<span class="marke ki">KI-Stimme</span>' : ''}
@@ -151,7 +152,7 @@ export const freigabeseiteBauen = (opts: {
             </div>
           </div>
 
-          <p class="merksatz">${escape(short.merksatz)}</p>
+          <p class="merksatz">${escape(short.weitererzaehlt)}</p>
 
           ${befundListe}
 
@@ -184,7 +185,7 @@ export const freigabeseiteBauen = (opts: {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SetupKlar · Freigabe ${escape(laufId)}</title>
+<title>Ganz akkurat · Freigabe ${escape(laufId)}</title>
 <style>
   :root {
     --grund: #F7F8FA; --karte: #fff; --tinte: #111820; --weich: #5E6877;
@@ -298,7 +299,7 @@ export const freigabeseiteBauen = (opts: {
 </head>
 <body>
 <header>
-  <h1><span class="duenn">Setup</span><span class="fett">Klar</span> · Freigabe</h1>
+  <h1><span class="duenn">Ganz&#8202;</span><span class="fett">akkurat</span> · Freigabe</h1>
   <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}</p>
   <div class="bilanz">
     <div class="zahl"><b>${shorts.length}</b>Videos</div>

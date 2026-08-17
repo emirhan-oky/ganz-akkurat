@@ -47,14 +47,51 @@ const normalisieren = (text: string): string =>
     .toLowerCase()
     .trim();
 
+/**
+ * EUR-Lex ueber die Cellar-Schnittstelle statt ueber die Weboberflaeche.
+ *
+ * Am 17.08.2026 hat `eur-lex.europa.eu` angefangen, **jeden** automatischen
+ * Abruf mit HTTP 202 und leerem Rumpf zu beantworten — die Weboberflaeche,
+ * die PDF-Variante und die ELI-Adresse gleichermassen. Die EU-Quellen dieses
+ * Projekts waeren damit dauerhaft `manuell` gewesen, also ungeprueft.
+ *
+ * Cellar ist das Dokumentenarchiv **hinter** EUR-Lex und liefert denselben
+ * amtlichen Text ohne Botabwehr. Zwei Bedingungen, beide gemessen:
+ *
+ * - `Accept: application/xhtml+xml` — mit `text/html` antwortet es 404, ohne
+ *   Accept-Header 202 mit der Meldung „Invalid content type CONTENT_STREAM
+ *   for WORK without language".
+ * - `Accept-Language: deu` — dreibuchstabig, **nicht** `de`. Die Sprache ist
+ *   Pflicht, weil ein Rechtsakt in 24 Fassungen vorliegt.
+ *
+ * Die CELEX-Nummer steht in der EUR-Lex-Adresse und wird hier herausgezogen,
+ * damit in `quellen.json` weiter die lesbare, zitierfaehige URL steht. Wer die
+ * Quelle nachschlaegt, soll bei EUR-Lex landen und nicht bei einer
+ * Archivkennung.
+ */
+const CELEX = /eur-lex\.europa\.eu\/.*CELEX(?::|%3A)([0-9][0-9A-Z]+)/i;
+
+const abrufziel = (url: string): { url: string; kopf: Record<string, string> } => {
+  const treffer = CELEX.exec(url);
+  if (treffer?.[1]) {
+    return {
+      url: `http://publications.europa.eu/resource/celex/${treffer[1]}`,
+      kopf: { Accept: 'application/xhtml+xml', 'Accept-Language': 'deu' },
+    };
+  }
+  return { url, kopf: {} };
+};
+
 /** Holt eine Seite als Text. HTML wird grob von Auszeichnung befreit. */
 const seiteHolen = async (url: string): Promise<string> => {
-  const antwort = await fetch(url, {
+  const ziel = abrufziel(url);
+  const antwort = await fetch(ziel.url, {
     headers: {
       // Ohne erkennbaren Browser antworten manche Anbieter mit einer Sperrseite.
       'User-Agent':
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
       'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
+      ...ziel.kopf,
     },
     redirect: 'follow',
   });

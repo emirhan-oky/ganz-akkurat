@@ -32,10 +32,20 @@ const main = async () => {
 
   await fs.writeFile(ZIEL, belegansichtBauen(shorts, quellen));
 
-  const belege = shorts.reduce((n, s) => {
-    const ids = s.szenen.map((z) => (z as { quelleId?: string }).quelleId).filter(Boolean);
-    return n + ids.reduce((m, id) => m + (quellen.find((q) => q.id === id)?.belegt.length ?? 0), 0);
-  }, 0);
+  /*
+   * Gezaehlt wird, was **zu lesen** ist: ein Paar je Szene, die sich an eine
+   * Fundstelle gebunden hat.
+   *
+   * Bis zum 17.08.2026 zaehlte diese Stelle alle Zitate der genannten Quelle,
+   * und zwar je Szene erneut — acht Shorts ergaben 82 Paare, obwohl es nur
+   * dreissig Behauptungen gab. Die Zahl war nicht bloss falsch, sie war das
+   * Symptom: Eine Szene hing an einer Quelle und damit an allem, was darin
+   * stand.
+   */
+  const belege = shorts.reduce(
+    (n, s) => n + s.szenen.filter((z) => (z as { belegId?: string }).belegId).length,
+    0,
+  );
 
   const beteiligt = shorts.filter((s) =>
     s.quellenIds
@@ -43,8 +53,8 @@ const main = async () => {
       .every((q) => q && (q.art === 'hersteller' || q.art === 'plattform')),
   );
 
-  console.log(`SetupKlar · Belegansicht`);
-  console.log(`   ${shorts.length} Shorts, ${belege} Zitat-Folgerung-Paare zu lesen`);
+  console.log(`Ganz akkurat · Belegansicht`);
+  console.log(`   ${shorts.length} Shorts, ${belege} Behauptung-Zitat-Paare zu lesen`);
   if (beteiligt.length > 0) {
     console.log(`   ✕ ${beteiligt.length} Short(s) nur von beteiligten Quellen getragen`);
   }

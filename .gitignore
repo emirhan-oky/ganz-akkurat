@@ -10,6 +10,7 @@ node_modules/
 # Produktionsergebnisse (gross, reproduzierbar)
 laeufe/
 out/
+output/
 outputs/
 .artifacts/
 tmp/
