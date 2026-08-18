@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Taeglicher Nachlege-Dienst fuer „Ganz akkurat".
+
+  Warum 19:15: Der Sendeplatz ist 18:00. Ist der Beitrag raus, wird in Buffer
+  je Kanal ein Platz frei — und genau dann kann der naechste offene Short
+  nachruecken. Eine Viertelstunde Puffer, damit Buffer den Versand verbucht
+  hat.
+
+  Der Dienst ist absichtlich geschwaetzig in der Logdatei und still, wenn
+  nichts zu tun ist: An Tagen ohne freien Platz oder ohne offene Shorts
+  schreibt er zwei Zeilen und beendet sich.
+
+  Einschalten:
+    launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.nachlegen.plist
+  Ausschalten:
+    launchctl bootout gui/$UID/de.ganzakkurat.nachlegen
+  Sofort ausloesen (zum Testen):
+    launchctl kickstart -p gui/$UID/de.ganzakkurat.nachlegen
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>de.ganzakkurat.nachlegen</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd ~/Documents/Youtube &amp;&amp; npm run nachlegen -- --wirklich --ab=2026-08-24</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>19</integer>
+    <key>Minute</key><integer>15</integer>
+  </dict>
+
+  <!--
+    Kein RunAtLoad: Der Dienst soll zur Sendezeit laufen, nicht bei jedem
+    Anmelden. Sonst legt ein Neustart am Vormittag etwas ein, obwohl der
+    Platz erst abends frei wird.
+  -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/ganzakkurat-nachlegen.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/ganzakkurat-nachlegen.log</string>
+</dict>
+</plist>

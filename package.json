@@ -20,7 +20,8 @@
     "markenbilder": "tsx skripte/markenbilder.ts",
     "neuigkeiten": "tsx skripte/neuigkeiten.ts",
     "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",
-    "rueckblick": "tsx skripte/rueckblick.ts"
+    "rueckblick": "tsx skripte/rueckblick.ts",
+    "nachlegen": "tsx skripte/nachlegen.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",

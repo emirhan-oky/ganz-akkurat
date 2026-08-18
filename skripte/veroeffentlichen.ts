@@ -266,27 +266,49 @@ const main = async () => {
     console.log(`   ${nachgezogen} Termin(e) lagen in der Vergangenheit und gehen gleich raus.\n`);
   }
   /*
-   * Erst zaehlen, dann senden. Siehe `geplanteJeKanal`: Das Kontolimit meldet
-   * sich sonst mitten im Versand, und die Haelfte steht schon draussen.
+   * Was schon eingeplant ist, wird uebersprungen — und es wird nur so viel
+   * eingeplant, wie Buffer noch annimmt.
+   *
+   * Beides kommt vom 18.08.2026. Buffers kostenloser Tarif erlaubt zehn
+   * geplante Beitraege **je Kanal**; bei acht Shorts auf drei Kanaelen passt
+   * eine zweite Woche nicht daneben, solange die erste noch aussteht. Der
+   * Lauf brach damals mitten im Versand ab.
+   *
+   * Abbrechen waere die falsche Antwort gewesen. Der Lauf legt jetzt an, was
+   * hineinpasst, merkt sich in `veroeffentlicht.json`, was schon draussen
+   * ist, und beim naechsten Aufruf geht der Rest raus — ohne Doppelung, weil
+   * bereits eingeplante Shorts erkannt und uebersprungen werden.
+   *
+   * Damit ist der Lauf **wiederholbar**: Man kann ihn taeglich aufrufen, und
+   * er tut jedes Mal genau so viel, wie moeglich ist. Das ist die Grundlage
+   * fuer `npm run nachlegen`.
    */
+  const bereitsGeplant = await fs
+    .readFile(path.join(wurzel, 'veroeffentlicht.json'), 'utf8')
+    .then((t) => JSON.parse(t) as Veroeffentlichung[])
+    .catch(() => [] as Veroeffentlichung[]);
+  const schonDraussen = new Set(bereitsGeplant.map((e) => `${e.shortId}\u0000${e.kanalId}`));
+
+  let platzJeKanal = new Map<string, number>();
   if (WIRKLICH) {
     const belegt = await geplanteJeKanal(schluessel, organisation);
-    const brauchen = shorts.length;
-    const eng = kanaele.filter((k) => (belegt.get(k.id) ?? 0) + brauchen > GEPLANT_MAXIMUM);
-    if (eng.length > 0) {
-      console.error('\nBuffer nimmt nicht alle Beiträge an:\n');
-      for (const k of eng) {
-        const frei = GEPLANT_MAXIMUM - (belegt.get(k.id) ?? 0);
-        console.error(
-          `  ${k.service.padEnd(10)} ${belegt.get(k.id) ?? 0} von ${GEPLANT_MAXIMUM} belegt, ` +
-            `${frei} frei — gebraucht werden ${brauchen}`,
+    platzJeKanal = new Map(
+      kanaele.map((k) => [k.id, Math.max(0, GEPLANT_MAXIMUM - (belegt.get(k.id) ?? 0))]),
+    );
+
+    const offen = shorts.filter((sh) =>
+      kanaele.some((k) => !schonDraussen.has(`${sh.id}\u0000${k.id}`)),
+    );
+    const knapp = kanaele.filter((k) => (platzJeKanal.get(k.id) ?? 0) < offen.length);
+    if (knapp.length > 0) {
+      console.log('   Buffer hat begrenzt Platz — es geht raus, was hineinpasst:');
+      for (const k of knapp) {
+        console.log(
+          `   ${k.service.padEnd(10)} ${platzJeKanal.get(k.id)} frei von ${GEPLANT_MAXIMUM}, ` +
+            `${offen.length} Short(s) offen`,
         );
       }
-      console.error(
-        '\nDie laufende Woche belegt die Plätze. Entweder abwarten, bis sie gesendet ist,\n' +
-          'oder mit --nur=<id> einzelne Shorts einplanen, sobald Plätze frei werden.',
-      );
-      process.exit(1);
+      console.log('   Der Rest geht beim nächsten Lauf raus (npm run nachlegen).\n');
     }
   }
 
@@ -330,6 +352,16 @@ const main = async () => {
         continue;
       }
 
+      if (schonDraussen.has(`${short.id}\u0000${kanal.id}`)) {
+        console.log(`   · ${short.id}  ${kanal.service.padEnd(10)} steht schon in Buffer`);
+        continue;
+      }
+
+      if (WIRKLICH && (platzJeKanal.get(kanal.id) ?? 0) <= 0) {
+        console.log(`   ⏸ ${short.id}  ${kanal.service.padEnd(10)} kein Platz mehr, bleibt offen`);
+        continue;
+      }
+
       const titel = beitragstitel(short, kanal.service) ?? short.texte.youtube.titel;
       const wann = faellig.toLocaleString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 
@@ -345,6 +377,7 @@ const main = async () => {
         });
         geplant.push({ shortId: short.id, kanalId: kanal.id, dienst: kanal.service, faelligAm: faellig.toISOString(), beitragId });
         await fortschreiben();
+        platzJeKanal.set(kanal.id, (platzJeKanal.get(kanal.id) ?? 1) - 1);
         console.log(`   ✓ ${short.id}  ${kanal.service.padEnd(10)} ${wann}`);
       } else {
         console.log(`   · ${short.id}  ${kanal.service.padEnd(10)} ${wann}`);

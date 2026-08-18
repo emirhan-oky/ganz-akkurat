@@ -512,8 +512,23 @@ steht die Hälfte schon draußen: Am 18.08.2026 brach ein Lauf nach dem
 und bricht ab, bevor der erste Beitrag rausgeht.
 
 **Zwei Wochen lassen sich nicht auf Vorrat einplanen.** Die nächste Woche geht
-erst raus, wenn die laufende gesendet ist — praktisch also am Wochenende. Das
-ist keine Einschränkung der Produktion, nur der Terminierung.
+erst raus, wenn die laufende gesendet ist. Das ist keine Einschränkung der
+Produktion, nur der Terminierung — und sie kostet niemanden Aufmerksamkeit,
+weil sie sich selbst auflöst:
+
+**`npm run nachlegen` legt nach, was hineinpasst.** Der Kern steckt nicht in
+diesem Skript, sondern darin, dass `veroeffentlichen.ts` **wiederholbar**
+geworden ist: Es überspringt, was schon in `veroeffentlicht.json` steht, und
+legt nur an, was Buffer noch annimmt. Man kann es beliebig oft aufrufen.
+
+`skripte/nachlegen.plist` macht daraus einen Dienst, der täglich um **19:15**
+läuft — eine Viertelstunde nach dem Sendeplatz, wenn Buffer den Versand
+verbucht und je Kanal einen Platz frei gemacht hat. An Tagen ohne freien Platz
+schreibt er zwei Zeilen ins Log und beendet sich. Ein- und ausschalten steht
+im Kopf der Datei; das Log liegt unter `/tmp/ganzakkurat-nachlegen.log`.
+
+Der Dienst läuft nur, wenn der Rechner an ist. Das genügt: Verpasst er einen
+Tag, holt er am nächsten zwei Plätze auf einmal.
 
 ### Ein angelegter Beitrag wird sofort vermerkt
 
