@@ -25,7 +25,7 @@ export const powerbankHandgepaeck: Short = {
       art: 'frage',
       position: 'aufschlag',
       sprechtext: 'Schätz mal.',
-      frage: 'Wie groß darf die Powerbank ins Flugzeug?',
+      frage: 'Wie stark darf deine Powerbank im Flugzeug sein?',
       pauseSek: 2.5,
       symbol: 'koffer',
     },

@@ -126,8 +126,20 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                 fontWeight: SCHRIFT.fett,
                 fontSize: GROESSEN.untertitel,
                 lineHeight: 1.18,
-                color: aktiv ? FARBEN.blau : FARBEN.tinte,
+                color: aktiv ? '#FFFFFF' : FARBEN.tinte,
                 letterSpacing: -1,
+                /*
+                 * Das aktive Wort steht auf einem blauen Balken, nicht nur in
+                 * Blau. Am 18.08.2026 im fertigen Video gesehen: „#2C5EFF" auf
+                 * dem hellen Markengrund traegt zu wenig, und die helle Aura
+                 * darunter — gegen Zeichnungen gebaut — frisst den Rest des
+                 * Kontrasts weg. Weiss auf Blau kehrt das Verhaeltnis um und
+                 * macht zugleich sichtbarer, welches Wort gerade faellt.
+                 */
+                backgroundColor: aktiv ? FARBEN.blau : 'transparent',
+                padding: aktiv ? '0 10px' : 0,
+                margin: aktiv ? '0 -10px' : 0,
+                borderRadius: 8,
                 /*
                  * Kontrast am Text statt am Kasten.
                  *
@@ -139,11 +151,13 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                  * koennen. Eine Aura in der Grundfarbe traegt ueber Linien und
                  * Flaechen, ohne Platz zu belegen.
                  */
-                textShadow: [
-                  '0 0 10px rgba(247,248,250,0.98)',
-                  '0 0 20px rgba(247,248,250,0.92)',
-                  '0 2px 4px rgba(247,248,250,1)',
-                ].join(', '),
+                textShadow: aktiv
+                  ? 'none'
+                  : [
+                      '0 0 10px rgba(247,248,250,0.98)',
+                      '0 0 20px rgba(247,248,250,0.92)',
+                      '0 2px 4px rgba(247,248,250,1)',
+                    ].join(', '),
               }}
             >
               {w.wort}
