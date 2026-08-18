@@ -298,8 +298,42 @@ const main = async () => {
   }
 
   if (WIRKLICH) {
-    await fs.writeFile(path.join(wurzel, 'veroeffentlicht.json'), JSON.stringify(geplant, null, 2));
-    console.log(`\n${geplant.length} Beiträge geplant. Übersicht in ${wurzel}/veroeffentlicht.json`);
+    /*
+     * Angehaengt, nicht ersetzt.
+     *
+     * Diese Datei ist die einzige Bruecke zwischen einem Entwurf auf der
+     * Platte und dem Video draussen: `npm run rueckblick` liest hier
+     * `shortId` und `beitragId` und holt sich darueber bei Buffer den
+     * `externalLink`. Wird sie ueberschrieben, verliert der Rueckblick alle
+     * frueher veroeffentlichten Videos — und zwar lautlos, denn die neue
+     * Datei sieht vollstaendig aus.
+     *
+     * Der Fall ist nicht hypothetisch: Am 18.08.2026 liefen **zwei** Wochen
+     * durch denselben Tagesordner, weil beide am selben Tag fertig wurden.
+     * Ohne dieses Anhaengen haette die zweite Veroeffentlichung die
+     * Zuordnung der ersten mitgenommen.
+     *
+     * Ein Eintrag wird ersetzt, wenn dieselbe `shortId` auf demselben Kanal
+     * erneut geplant wird — dann gilt der neue Beitrag. Alles andere bleibt
+     * stehen.
+     */
+    const ablage = path.join(wurzel, 'veroeffentlicht.json');
+    const bisher = await fs
+      .readFile(ablage, 'utf8')
+      .then((t) => JSON.parse(t) as typeof geplant)
+      .catch(() => [] as typeof geplant);
+
+    const schluessel = (e: (typeof geplant)[number]) => `${e.shortId}\u0000${e.kanalId}`;
+    const neuKeys = new Set(geplant.map(schluessel));
+    const zusammen = [...bisher.filter((e) => !neuKeys.has(schluessel(e))), ...geplant];
+
+    await fs.writeFile(ablage, JSON.stringify(zusammen, null, 2));
+    console.log(
+      `\n${geplant.length} Beiträge geplant. Übersicht in ${ablage}` +
+        (zusammen.length > geplant.length
+          ? ` (${zusammen.length - geplant.length} frühere Einträge bleiben stehen)`
+          : ''),
+    );
   } else {
     console.log(`\nProbelauf beendet. Mit --wirklich würden ${shorts.length * kanaele.length} Beiträge angelegt.`);
   }

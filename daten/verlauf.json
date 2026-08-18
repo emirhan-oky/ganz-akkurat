@@ -61,49 +61,49 @@
           "format": "dubistdumm",
           "sachgebiet": "laden",
           "themaId": "powerbank-handgepaeck",
-          "dauerSek": 20.5
+          "dauerSek": 20.7
         },
         {
           "format": "eswareinmal",
           "sachgebiet": "fahren",
           "themaId": "flugmodus-herkunft",
-          "dauerSek": 19.1
+          "dauerSek": 19.6
         },
         {
           "format": "neu",
           "sachgebiet": "recht",
           "themaId": "digitaler-produktpass",
-          "dauerSek": 19.9
+          "dauerSek": 19.5
         },
         {
           "format": "absicht",
           "sachgebiet": "handy",
           "themaId": "akku-wechselbar-2027",
-          "dauerSek": 18.1
+          "dauerSek": 19
         },
         {
           "format": "auchgekauft",
           "sachgebiet": "recht",
           "themaId": "garantie-siegel",
-          "dauerSek": 19.5
+          "dauerSek": 19.6
         },
         {
           "format": "heimlich",
           "sachgebiet": "drucken",
           "themaId": "drucker-gelbe-punkte",
-          "dauerSek": 20
+          "dauerSek": 20.5
         },
         {
           "format": "gibtswirklich",
           "sachgebiet": "netz",
           "themaId": "schaltsekunde",
-          "dauerSek": 18.7
+          "dauerSek": 19.5
         },
         {
           "format": "werhatrecht",
           "sachgebiet": "netz",
           "themaId": "privater-modus-browser",
-          "dauerSek": 20.2
+          "dauerSek": 18.5
         }
       ]
     }

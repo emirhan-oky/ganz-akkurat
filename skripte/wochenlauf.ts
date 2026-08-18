@@ -59,6 +59,27 @@ const TON_BEHALTEN = process.argv.includes('--ton-behalten');
  * fortgeschrieben wird eine Woche genau einmal.
  */
 const HAT_TON = MIT_TON || TON_BEHALTEN;
+
+/*
+ * Beide Schalter zusammen sind ein Widerspruch, und er kostet Geld.
+ *
+ * Die Verzweigung unten lautet `if (MIT_TON) … else if (TON_BEHALTEN)`. Wer
+ * beide setzt, bekommt also stillschweigend die **teure** Variante: Am
+ * 18.08.2026 sind dadurch dieselben acht Texte dreimal vertont worden, jedes
+ * Mal 2.690 Zeichen. Nichts sah falsch aus — der Lauf war grün, die Videos
+ * waren richtig, nur das Kontingent war weg.
+ *
+ * Kein Vorrang, sondern Abbruch: Welche der beiden Absichten gemeint war,
+ * weiss nur der Aufrufende. Ein stiller Vorrang waere wieder ein Raten, nur
+ * in die andere Richtung.
+ */
+if (MIT_TON && TON_BEHALTEN) {
+  console.error('--mit-ton und --ton-behalten schließen sich aus.\n');
+  console.error('  --mit-ton        vertont neu und verbraucht Kontingent');
+  console.error('  --ton-behalten   rendert neu, übernimmt die vorhandene Vertonung');
+  console.error('\nFür eine Bildkorrektur an fertigen Shorts: nur --ton-behalten.');
+  process.exit(1);
+}
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /**
