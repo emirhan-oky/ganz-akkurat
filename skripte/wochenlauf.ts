@@ -100,6 +100,44 @@ const laufId = () => {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
+/**
+ * Wirft Remotions Bundler-Cache weg, wenn sich der Modulbestand geaendert hat.
+ *
+ * Am 18.08.2026 hing der Render **eine halbe Stunde bei „Bundling code 6 %"**
+ * — kein Chrome, 0 % CPU, keine Fehlermeldung, kein Abbruch. Am Tag zuvor sah
+ * dasselbe Bild nach einem Browser-Timeout aus und wurde als „intermittierend"
+ * abgelegt; in Wahrheit war es zweimal dieselbe Ursache.
+ *
+ * Sie ist erklaerbar und reproduzierbar: Webpack legt seinen Cache unter
+ * `node_modules/.cache/webpack` ab und invalidiert ihn ueber Zeitstempel der
+ * Dateien, die er kennt. **Geloeschte** Module bemerkt er dabei nicht — er
+ * versucht weiter, sie aufzuloesen, und bleibt stehen. Genau das war passiert:
+ * Die acht Entwuerfe der Vorwoche waren weg, der Cache von 00:59 kannte sie
+ * noch.
+ *
+ * Gegenprobe: `esbuild` bundelte denselben Entry-Point in 1,5 Sekunden
+ * fehlerfrei, der Speicher war zu 59 % frei. Nach dem Entfernen des Caches
+ * lief Remotion in 43 Sekunden durch.
+ *
+ * Der Wecker dafuer ist die **mtime des Verzeichnisses** `daten/entwuerfe`.
+ * Sie aendert sich, wenn eine Datei darin entsteht oder verschwindet — also
+ * genau in dem Fall, den Webpack uebersieht. Aenderungen *innerhalb* einer
+ * Datei beruehren sie nicht; die bekommt Webpack von allein mit.
+ */
+const bundlerCachePruefen = async (): Promise<void> => {
+  const cache = path.join('node_modules', '.cache', 'webpack');
+  const [cacheStat, entwuerfeStat] = await Promise.all([
+    fs.stat(cache).catch(() => null),
+    fs.stat(path.join('daten', 'entwuerfe')).catch(() => null),
+  ]);
+  if (!cacheStat || !entwuerfeStat) return;
+
+  if (entwuerfeStat.mtimeMs > cacheStat.mtimeMs) {
+    await fs.rm(cache, { recursive: true, force: true });
+    console.log('   Bundler-Cache verworfen (Entwürfe kamen dazu oder fielen weg)');
+  }
+};
+
 const main = async () => {
   const id = laufId();
   const wurzel = path.join('laeufe', id);
@@ -370,6 +408,8 @@ const main = async () => {
   if (zuRendern.length < fertige.length) {
     console.log(`   ${fertige.length - zuRendern.length} Short(s) wegen Fehlern übersprungen`);
   }
+
+  await bundlerCachePruefen();
 
   const propsOrdner = path.join(wurzel, 'props');
   await fs.mkdir(propsOrdner, { recursive: true });
