@@ -1,12 +1,12 @@
 import type { Short } from '../../src/typen';
-import { einStecker } from './ein-stecker';
-import { akkuLeerlaufen } from './akku-leerlaufen';
-import { kabelGleich } from './kabel-gleich';
-import { reparaturGilt } from './reparatur-gilt';
-import { garantieGekauft } from './garantie-gekauft';
-import { fernseherHoert } from './fernseher-hoert';
-import { loeschenLoeschtNicht } from './loeschen-loescht-nicht';
-import { wlanAbends } from './wlan-abends';
+import { powerbankHandgepaeck } from './powerbank-handgepaeck';
+import { flugmodusMaerchen } from './flugmodus-maerchen';
+import { produktpassRegister } from './produktpass-register';
+import { akkuLoesungsmittel } from './akku-loesungsmittel';
+import { aufkleberGarantie } from './aufkleber-garantie';
+import { druckerKennung } from './drucker-kennung';
+import { schaltsekundeEndet } from './schaltsekunde-endet';
+import { privaterModus } from './privater-modus';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -23,10 +23,15 @@ import { wlanAbends } from './wlan-abends';
  * Was in dieser Woche laeuft — einer je Sendeplatz, **acht seit dem
  * 17.08.2026**.
  *
- * Der Satz vom 17.08.2026 ist der erste nach dem Umbau auf Unterhaltung. Die
- * sieben Vorgaenger sind geloescht: Sie waren Erklaervideos, und zwar nicht
- * wegen des Tons, sondern wegen der Themen. Die Quellen sind geblieben — der
- * Beleg ist der einzige Teil der Produktion, den keine Struktur verkuerzt.
+ * Der Satz vom 18.08.2026 ist der erste mit **Rundlauf**: Jede Schlussszene
+ * traegt jetzt ein Feld, das sagt, warum der erste Satz danach wieder passt,
+ * und der Vorhang am Ende — Strich, zweite Wortmarke, Spruch — ist weg.
+ *
+ * Der Satz vom 17.08. ist geloescht; er laeuft draussen und steht in
+ * `laeufe/2026-08-18/props/` als Abzug seines Datenstands. Die Quellen sind
+ * geblieben — der Beleg ist der einzige Teil der Produktion, den keine
+ * Struktur verkuerzt, und drei dieser acht Shorts leben davon, dass er
+ * schon da war.
  *
  * Die Reihenfolge hier ist die des Wochentags, entscheidet aber nichts:
  * `zeitplanBauen` liest den Tag aus `FORMATE[...].tag` und nicht aus der
@@ -34,14 +39,14 @@ import { wlanAbends } from './wlan-abends';
  * nicht an eine Array-Position.
  */
 export const WOCHENLAUF: Short[] = [
-  einStecker,
-  akkuLeerlaufen,
-  kabelGleich,
-  reparaturGilt,
-  garantieGekauft,
-  fernseherHoert,
-  loeschenLoeschtNicht,
-  wlanAbends,
+  powerbankHandgepaeck,
+  flugmodusMaerchen,
+  produktpassRegister,
+  akkuLoesungsmittel,
+  aufkleberGarantie,
+  druckerKennung,
+  schaltsekundeEndet,
+  privaterModus,
 ];
 
 /**

@@ -560,6 +560,162 @@
           "stuetzt": "Der Kipppunkt: Das Gerät, das der Zuschauer gerade in der Hand hält, ist nicht dabei."
         }
       ]
+    },
+    {
+      "id": "eu-mca-5g-an-bord",
+      "titel": "Durchführungsbeschluss (EU) 2022/2324 — Mobilfunkdienste an Bord von Luftfahrzeugen",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32022D2324",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-18",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "terrestrischen-umts-mobilfunknetzen",
+          "zitat": "versuchen, sich bei terrestrischen UMTS-Mobilfunknetzen anzumelden",
+          "stuetzt": "Der Grund für die Abschaltung war nie das Flugzeug, sondern das Netz am Boden — Geräte in der Höhe sehen zu viele Funkzellen auf einmal."
+        },
+        {
+          "id": "hinzufuegen-der-5g-netzanbindung",
+          "zitat": "Durch das Hinzufügen der 5G-Netzanbindung in Luftfahrzeugen",
+          "stuetzt": "Seit 2022 ist 5G an Bord ausdrücklich vorgesehen. Aus dem Verbot ist eine Ausstattung geworden."
+        },
+        {
+          "id": "bis-zum-1-januar-2026",
+          "zitat": "Bis zum 1. Januar 2026 muss folgendermaßen verhindert werden",
+          "stuetzt": "Die Pflicht zur Abschirmung war befristet — seit Anfang 2026 gilt sie in dieser Form nicht mehr."
+        }
+      ]
+    },
+    {
+      "id": "eu-produktpassregister",
+      "titel": "Durchführungsverordnung (EU) 2026/1778 — digitales Produktpassregister",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32026R1778",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-18",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "digitales-register-produktpass",
+          "zitat": "ein digitales Register für den digitalen Produktpass",
+          "stuetzt": "Das Register gibt es wirklich, und die Kommission war verpflichtet, es einzurichten."
+        },
+        {
+          "id": "eindeutige-produktkennung-gespeichert",
+          "zitat": "mindestens die eindeutigen Produktkennungen gespeichert werden",
+          "stuetzt": "Was drinsteht: eine Kennung je Produkt. Der Ausweis hängt an der einzelnen Sache, nicht am Modell."
+        }
+      ]
+    },
+    {
+      "id": "eu-batterie-entnehmbar",
+      "titel": "Verordnung (EU) 2023/1542 über Batterien und Altbatterien",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32023R1542",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-18",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "handelsueblichen-werkzeugen-entfernt",
+          "zitat": "mit handelsüblichen Werkzeugen aus dem Produkt entfernt werden kann",
+          "stuetzt": "Der Maßstab ist das Werkzeug, das jeder hat — nicht das, was der Hersteller vorschreibt."
+        },
+        {
+          "id": "waermeenergie-oder-loesungsmittel",
+          "zitat": "Wärmeenergie oder Lösungsmittel für die Demontage",
+          "stuetzt": "Beides musste ausdrücklich ausgeschlossen werden. Man kommt nur darauf, es hinzuschreiben, wenn es gemacht wird."
+        },
+        {
+          "id": "ab-dem-18-februar-2027",
+          "zitat": "Ab dem 18. Februar 2027 werden alle Batterien",
+          "stuetzt": "Der Termin steht, und er ist nah genug, dass heute gebaute Geräte ihn betreffen."
+        },
+        {
+          "id": "ueber-den-qr-code-zugriff",
+          "zitat": "Über den QR-Code sollte Zugriff auf den Produktpass einer Batterie bestehen",
+          "stuetzt": "Der Zugang zum Pass ist der Code auf der Batterie — jeder kann ihn scannen, kein Konto nötig."
+        }
+      ]
+    },
+    {
+      "id": "bipm-schaltsekunde",
+      "titel": "Resolution 4 der 27. Generalkonferenz für Maß und Gewicht (2022)",
+      "url": "https://www.bipm.org/en/cgpm-2022/resolution-4",
+      "herausgeber": "Internationales Büro für Maß und Gewicht",
+      "geprueftAm": "2026-08-18",
+      "art": "standard",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "a-leap-second-is-applied",
+          "zitat": "a leap second is applied according to the procedure described in",
+          "stuetzt": "Es gibt Schaltsekunden, und sie werden nach einem festen Verfahren eingefügt."
+        },
+        {
+          "id": "maximum-value-will-be-increased",
+          "zitat": "the maximum value for the difference (UT1-UTC) will be increased",
+          "stuetzt": "Beschlossen ist die Abschaffung schon — nur der neue Grenzwert steht noch nicht fest."
+        },
+        {
+          "id": "serious-malfunctions-critical",
+          "zitat": "risk causing serious malfunctions in critical digital infrastructure",
+          "stuetzt": "Der Grund ist nicht Bequemlichkeit: Die eingeschobene Sekunde bringt Rechner durcheinander."
+        },
+        {
+          "id": "increased-in-or-before-2035",
+          "zitat": "will be increased in, or before, 2035",
+          "stuetzt": "Der Termin: spätestens 2035 ist Schluss mit der Schaltsekunde."
+        }
+      ]
+    },
+    {
+      "id": "bsi-fingerprints",
+      "titel": "Cookies und Fingerprints verhindern",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Updates-Browser-Open-Source-Software/Der-Browser/JavaScript-Cookies-Fingerprints/javascript-cookies-fingerprints.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-18",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "fingerprints-mehr-daten-als-cookies",
+          "zitat": "Da Fingerprints auf deutlich mehr Daten zurückgreifen als Cookies",
+          "stuetzt": "Der Fingerabdruck arbeitet mit anderem Material als Cookies — an ihm ändert das Löschen von Cookies nichts."
+        },
+        {
+          "id": "deutlich-schwieriger-zu-verhindern",
+          "zitat": "ist es deutlich schwieriger, ihre Erstellung zu verhindern",
+          "stuetzt": "Das Dritte, das beide Lager übersehen: Gegen Fingerprinting hilft der private Modus nicht."
+        },
+        {
+          "id": "protokollieren-des-nutzungsverhaltens",
+          "zitat": "ermöglichen so das Protokollieren des Nutzungsverhaltens im Netz",
+          "stuetzt": "Cookies sind das, worüber beide Seiten streiten — und nur die halbe Miete."
+        }
+      ]
+    },
+    {
+      "id": "bgb-476-abweichende",
+      "titel": "§ 476 BGB — Abweichende Vereinbarungen",
+      "url": "https://www.gesetze-im-internet.de/bgb/__476.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-08-18",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "kann-der-unternehmer-sich-nicht",
+          "zitat": "kann der Unternehmer sich nicht berufen",
+          "stuetzt": "Eine Abrede zum Nachteil des Käufers wirkt nicht — auch dann nicht, wenn sie auf einem Aufkleber steht."
+        },
+        {
+          "id": "auf-eine-vor-mitteilung",
+          "zitat": "Auf eine vor Mitteilung eines Mangels an den Unternehmer getroffene Vereinbarung",
+          "stuetzt": "Gemeint ist alles, was vor der Mängelanzeige vereinbart wurde — der Aufkleber gehört dazu."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

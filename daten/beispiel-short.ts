@@ -1,5 +1,5 @@
 import type { Short } from '../src/typen';
-import { einStecker } from './entwuerfe/ein-stecker';
+import { powerbankHandgepaeck } from './entwuerfe/powerbank-handgepaeck';
 
 /**
  * Referenz-Short — die Standard-Prop der Remotion-Komposition.
@@ -23,4 +23,4 @@ import { einStecker } from './entwuerfe/ein-stecker';
  * jemand abbricht. `skripte/schemapruefung.ts` prueft sie deshalb
  * ausdruecklich und blockierend.
  */
-export const beispielShort: Short = einStecker;
+export const beispielShort: Short = powerbankHandgepaeck;

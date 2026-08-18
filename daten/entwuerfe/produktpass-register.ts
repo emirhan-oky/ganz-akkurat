@@ -1,0 +1,100 @@
+import type { Short } from '../../src/typen';
+
+/**
+ * Mittwoch, 12 Uhr · Neu und keiner sagt es dir · das Produktpassregister.
+ *
+ * Gefunden hat es `npm run neuigkeiten`: aus 614 in Kraft getretenen
+ * Rechtsakten wurden 316 Verordnungen, daraus 120 gelesene Volltexte, daraus
+ * elf Kandidaten — und dieser ist zwoelf Tage alt.
+ *
+ * Der Rechtsakt selbst ist Verwaltungstechnik und traegt kein Video. Was ihn
+ * erzaehlbar macht, steht in der Batterieverordnung, auf die er verweist: Der
+ * Zugang zu diesem Pass ist ein **QR-Code auf der Batterie**. Kein Konto,
+ * keine Behoerde, kein Antrag — abfotografieren genuegt.
+ */
+export const produktpassRegister: Short = {
+  id: 'produktpass-register',
+  themaId: 'digitaler-produktpass',
+  format: 'neu',
+  sachgebiet: 'recht',
+  arbeitstitel: 'Seit dem 6. August gibt es das Register',
+  weitererzaehlt: 'Der Zugang ist ein Code auf der Batterie. Du hältst die Kamera drauf.',
+
+  szenen: [
+    {
+      art: 'text',
+      position: 'aufschlag',
+      sprechtext: 'Seit zwölf Tagen hat dein Akku einen Ausweis.',
+      text: 'Dein Akku hat einen Ausweis.',
+      symbol: 'batterie',
+    },
+    {
+      art: 'text',
+      position: 'zuspitzung',
+      sprechtext: 'Die Kommission musste ein Register für digitale Produktpässe bauen.',
+      text: 'Ein Register für Produktpässe.',
+      symbol: 'ordner',
+      quelleId: 'eu-produktpassregister',
+      belegId: 'digitales-register-produktpass',
+      herausgeber: 'Europäische Union',
+    },
+    {
+      art: 'text',
+      position: 'zuspitzung',
+      sprechtext: 'Darin steht eine Kennung. Je Produkt, nicht je Modell.',
+      text: 'Eine Kennung. Je Produkt.',
+      symbol: 'stempel',
+      hervorhebung: 'Je Produkt',
+      quelleId: 'eu-produktpassregister',
+      belegId: 'eindeutige-produktkennung-gespeichert',
+    },
+    {
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext: 'Der Zugang ist ein Code auf der Batterie. Du hältst die Kamera drauf.',
+      text: 'Ein Code auf der Batterie.',
+      symbol: 'lupe',
+      quelleId: 'eu-batterie-entnehmbar',
+      belegId: 'ueber-den-qr-code-zugriff',
+    },
+    {
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext: 'Ab Februar zweitausendsiebenundzwanzig für alle Batterien.',
+      text: 'Ab Februar 2027 für alle.',
+      symbol: 'kalender',
+      quelleId: 'eu-batterie-entnehmbar',
+      belegId: 'ab-dem-18-februar-2027',
+    },
+    {
+      art: 'schluss',
+      position: 'nachschlag',
+      sprechtext: 'Erfahren hast du es hier.',
+      satz: 'Erfahren hast du es hier.',
+      rundlauf:
+        '„Erfahren hast du es hier." trifft auf „Seit zwölf Tagen hat dein Akku einen Ausweis." — die Zeitangabe wird beim zweiten Mal zum Vorwurf an alle anderen.',
+    },
+  ],
+
+  quellenIds: ['eu-produktpassregister', 'eu-batterie-entnehmbar'],
+
+  texte: {
+    tiktok: {
+      titel: 'Das Register für Produktpässe steht',
+      beschreibung: '',
+      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+    },
+    instagram: {
+      titel: 'Das Register für Produktpässe steht',
+      beschreibung: '',
+      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+    },
+    youtube: {
+      titel: 'Das Register für Produktpässe steht',
+      beschreibung: '',
+      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+    },
+  },
+
+  kennzeichnung: { werbung: 'keine', kiStimme: true },
+};
