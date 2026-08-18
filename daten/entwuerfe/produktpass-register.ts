@@ -24,15 +24,15 @@ export const produktpassRegister: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Seit dem sechsten August hat dein Akku einen Ausweis.',
+      sprechtext: 'Dein Akku hat jetzt einen Ausweis.',
       text: 'Dein Akku hat einen Ausweis.',
       symbol: 'batterie',
     },
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Die Kommission musste ein Register für digitale Produktpässe bauen.',
-      text: 'Ein Register für Produktpässe.',
+      sprechtext: 'Seit August zweitausendsechsundzwanzig gibt es ein Register dafür.',
+      text: 'Seit August 2026: ein Register.',
       symbol: 'ordner',
       quelleId: 'eu-produktpassregister',
       belegId: 'digitales-register-produktpass',
@@ -72,7 +72,7 @@ export const produktpassRegister: Short = {
       sprechtext: 'Erfahren hast du es hier.',
       satz: 'Erfahren hast du es hier.',
       rundlauf:
-        '„Erfahren hast du es hier." trifft auf „Seit dem sechsten August." — das Datum wird beim zweiten Mal zum Vorwurf an alle anderen.',
+        '„Erfahren hast du es hier." trifft auf „Seit August zweitausendsechsundzwanzig." — das Datum wird beim zweiten Mal zum Vorwurf an alle anderen.',
     },
   ],
 
@@ -80,17 +80,17 @@ export const produktpassRegister: Short = {
 
   texte: {
     tiktok: {
-      titel: 'Das Register für Produktpässe steht',
+      titel: 'Der Code auf der Batterie führt zum Register',
       beschreibung: '',
       hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
     },
     instagram: {
-      titel: 'Das Register für Produktpässe steht',
+      titel: 'Der Code auf der Batterie führt zum Register',
       beschreibung: '',
       hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Das Register für Produktpässe steht',
+      titel: 'Der Code auf der Batterie führt zum Register',
       beschreibung: '',
       hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
     },

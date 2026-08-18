@@ -43,8 +43,8 @@ export const flugmodusMaerchen: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Und selbst diese Pflicht galt nur bis zum ersten Januar.',
-      text: 'Und die galt nur bis Januar.',
+      sprechtext: 'Und selbst die galt nur bis Anfang zweitausendsechsundzwanzig.',
+      text: 'Und die galt nur bis 2026.',
       symbol: 'kalender',
       hervorhebung: 'nur bis',
       quelleId: 'eu-mca-5g-an-bord',

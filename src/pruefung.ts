@@ -894,10 +894,36 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const ZEITSPANNE =
     /\b(seit|vor)\s+(einer|einem|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+)\s+(tag|tagen|woche|wochen|monat|monaten)\b/i;
 
+  /*
+   * Die zweite Haelfte derselben Falle: ein Datum **ohne Jahr**.
+   *
+   * „Und die galt nur bis zum ersten Januar" — bis zum ersten Januar welchen
+   * Jahres? Im Kopf des Schreibenden stand 2026, im Video steht es nicht. Der
+   * Zuschauer hat keine Chance, und anders als bei „seit zwoelf Tagen" faellt
+   * es nicht einmal spaeter auf: Der Satz bleibt fuer immer unvollstaendig.
+   *
+   * Gesucht wird ein Monatsname ohne Jahreszahl in der Naehe. Jahreszahlen
+   * werden hier ausgeschrieben („zweitausendsechsundzwanzig"), weil die
+   * Vertonung sie sonst falsch liest — beide Schreibweisen zaehlen.
+   */
+  const MONATE =
+    /\b(januar|februar|märz|maerz|april|mai|juni|juli|august|september|oktober|november|dezember)\b/i;
+  const JAHR = /\b(19|20)\d{2}\b|zweitausend\w*|neunzehnhundert\w*/i;
+
   for (const szene of short.szenen) {
     const text = ohneSatzzeichen(szene.sprechtext);
     const woerter = HEUTEBEZUG.filter((w) => text.includes(w));
     const spanne = ZEITSPANNE.exec(szene.sprechtext);
+
+    const monat = MONATE.exec(szene.sprechtext);
+    if (monat && !JAHR.test(szene.sprechtext)) {
+      melde(
+        'fehler',
+        'zeitbezug',
+        `„${monat[0]}" steht ohne Jahr. Welcher ${monat[0]}? Der Zuschauer kann es nicht wissen, ` +
+          'und der Satz wird auch später nicht klarer.',
+      );
+    }
 
     if (woerter.length > 0 || spanne) {
       melde(
