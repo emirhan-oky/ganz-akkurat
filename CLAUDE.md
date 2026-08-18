@@ -530,6 +530,23 @@ im Kopf der Datei; das Log liegt unter `/tmp/ganzakkurat-nachlegen.log`.
 Der Dienst läuft nur, wenn der Rechner an ist. Das genügt: Verpasst er einen
 Tag, holt er am nächsten zwei Plätze auf einmal.
 
+## Was ohne Zutun läuft
+
+| | wo | wann |
+|---|---|---|
+| **Senden** | Buffers Server | zu den geplanten Terminen, Rechner darf aus sein |
+| **Nachlegen** | `de.ganzakkurat.nachlegen` | täglich 19:15, wenn ein Platz frei wird |
+| **Messen** | `de.ganzakkurat.rueckblick` | täglich 9:30 |
+
+Alles andere braucht eine Sitzung: Themen wählen, Quellen abrufen, Entwürfe
+schreiben, vertonen, rendern, freigeben.
+
+**Warum der Rückblick täglich läuft und nicht wöchentlich:** Er schreibt
+nachtragend, eine Messung je Tag und Short. Wer einmal die Woche misst, sieht
+den letzten Stand; wer täglich misst, sieht die Kurve — und die beantwortet
+die eigentliche Frage. Nicht „wie viele Aufrufe hat es", sondern „wann sind
+sie gekommen". Kostet nichts, die YouTube-APIs sind kostenlos.
+
 ### Ein angelegter Beitrag wird sofort vermerkt
 
 Derselbe Abbruch hat die zwölf angelegten Beiträge fast verloren:

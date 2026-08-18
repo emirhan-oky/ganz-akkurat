@@ -11,7 +11,27 @@
       "messungen": [
         {
           "gemessenAm": "2026-08-18",
-          "aufrufe": 112,
+          "aufrufe": 115,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "akku-leerlaufen": {
+      "shortId": "akku-leerlaufen",
+      "titel": "Wärme altert den Akku, nicht der Ladestand",
+      "online": "2026-08-18T16:01:49Z",
+      "laengeSek": 20,
+      "videoId": "XBlGlAWy_iY",
+      "link": "https://www.youtube.com/shorts/XBlGlAWy_iY",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-18",
+          "aufrufe": 1,
           "likes": 1,
           "kommentare": 0,
           "durchsicht": null,

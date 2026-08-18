@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Taeglicher Rueckblick fuer „Ganz akkurat".
+
+  Holt bei Buffer die Adressen der veroeffentlichten Videos und bei YouTube
+  die Zahlen, und traegt sie in daten/rueckblick.json nach — eine Messung je
+  Tag und Short.
+
+  Warum taeglich und warum morgens: YouTube verbucht Analytics mit ein bis
+  drei Tagen Verzug, und der Rueckblick schreibt **nachtragend**. Wer nur
+  einmal die Woche misst, sieht den letzten Stand; wer taeglich misst, sieht
+  die Kurve — und die beantwortet die eigentliche Frage: nicht „wie viele
+  Aufrufe hat es", sondern „wann sind sie gekommen".
+
+  Er kostet nichts: Die YouTube-APIs sind kostenlos, und acht Videos am Tag
+  liegen weit unter jedem Kontingent.
+
+  Einschalten:
+    launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.rueckblick.plist
+  Ausschalten:
+    launchctl bootout gui/$UID/de.ganzakkurat.rueckblick
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>de.ganzakkurat.rueckblick</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd ~/Documents/Youtube &amp;&amp; npm run rueckblick</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>30</integer>
+  </dict>
+
+  <!--
+    Kein RunAtLoad: Der Dienst soll zur Sendezeit laufen, nicht bei jedem
+    Anmelden. Sonst legt ein Neustart am Vormittag etwas ein, obwohl der
+    Platz erst abends frei wird.
+  -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/ganzakkurat-rueckblick.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/ganzakkurat-rueckblick.log</string>
+</dict>
+</plist>
