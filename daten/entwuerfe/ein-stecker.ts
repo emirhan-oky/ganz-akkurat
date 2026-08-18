@@ -26,7 +26,7 @@ export const einStecker: Short = {
   format: 'dubistdumm',
   sachgebiet: 'handy',
   arbeitstitel: 'Dreizehn Jahre für einen Stecker',
-  weitererzaehlt: 'Die EU hat dreizehn Jahre gebraucht, bis alle Handys denselben Stecker haben.',
+  weitererzaehlt: 'Dreizehn Jahre. Für die Frage, welches Loch vorne im Telefon ist.',
 
   szenen: [
     {
@@ -86,6 +86,8 @@ export const einStecker: Short = {
       position: 'nachschlag',
       sprechtext: 'Du hast auf drei getippt. Wie alle.',
       satz: 'Du hast auf drei getippt. Wie alle.',
+      rundlauf:
+        '„Wie alle." trifft auf „Schätz mal." — beim zweiten Mal weiß man, dass die Frage eine Falle war.',
     },
   ],
 

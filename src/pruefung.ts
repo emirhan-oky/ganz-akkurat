@@ -629,27 +629,27 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
   }
 
-  /* ── Bilder sind die Ausnahme, nicht die Regel ───────────────────── */
+  /* ── Bilder ────────────────────────────────────────────────────────── */
 
   /*
-   * Hier stand bis zum 17.08.2026 das Gegenteil: ein Hinweis, wo noch ein
-   * Symbol **fehlt**, erzeugt aus `src/illustration.ts`. Die Ableitung hat
-   * getan, was sie sollte, und deshalb bekam jede Szene ein Bildchen — der
-   * mechanische Erklaervideo-Reflex in Codeform.
+   * Hier stand bis zum 18.08.2026 eine Obergrenze: ein Hinweis, sobald **mehr
+   * als die Haelfte** der Szenen eine Zeichnung traegt. Sie war die Antwort
+   * auf `src/illustration.ts`, das aus dem Szenentext Symbole ableitete und
+   * deshalb jede Szene bebilderte — der Erklaervideo-Reflex in Codeform.
    *
-   * Gezaehlt wird jetzt in die andere Richtung. Traegt mehr als die Haelfte
-   * der Szenen eine Zeichnung, ist die Ausnahme zur Gewohnheit geworden und
-   * das Bild sagt nichts mehr, weil es immer da ist.
+   * Am 18.08.2026 hat die Doktrin sich umgedreht: **Jede Szene, die eine
+   * Zeichnung tragen kann, traegt eine.** Die Regel blieb trotzdem stehen und
+   * meldete von da an den Sollzustand als Mangel — mit einem Begruendungstext
+   * („sonst traegt die Typografie"), der das Gegenteil dessen sagte, was
+   * inzwischen galt.
+   *
+   * Aufgefallen ist sie erst, als `npm run pruefen` am selben Tag anfing,
+   * `shortPruefen` mitlaufen zu lassen. Vorher lief sie nur im Wochenlauf und
+   * ging dort zwischen echten Hinweisen unter. Die gueltige Regel ist die
+   * **Untergrenze** in `bildvielfalt` (laufweite Befunde): gemeldet wird jede
+   * bebilderbare Szene **ohne** Zeichnung.
    */
-  const mitBild = short.szenen.filter((s) => 'symbol' in s && s.symbol !== undefined).length;
-  if (mitBild * 2 > short.szenen.length) {
-    melde(
-      'hinweis',
-      'illustration',
-      `${mitBild} von ${short.szenen.length} Szenen tragen eine Zeichnung. Gesetzt wird nur, wo die ` +
-        'Zeichnung selbst der Witz ist – sonst trägt die Typografie.',
-    );
-  }
+
 
   /* ── Titel ───────────────────────────────────────────────────────── */
 
@@ -821,6 +821,78 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
           `(${gemessen ? 'gemessen' : `${ersteSzene.sprechtext.length} Zeichen`}). ` +
           `Höchstens ${LAENGE_SEK.hookMaximum}s — das sind rund ` +
           `${Math.floor(LAENGE_SEK.hookMaximum * ZEICHEN_PRO_SEKUNDE)} Zeichen, ein Satz.`,
+      );
+    }
+  }
+
+  /* ── Der weitererzaehlbare Satz ───────────────────────────────────── */
+
+  /*
+   * `weitererzaehlt` muss im Video **vorkommen**.
+   *
+   * Das Feld stellt seit dem 17.08.2026 beim Entwerfen die richtige Frage:
+   * Was erzaehlt jemand am Tisch weiter? Am 18.08.2026 fiel auf, dass die
+   * Antwort den Zuschauer nie erreicht. In **keinem** der acht fertigen
+   * Shorts kam der Satz vor — bei `wlan-abends` nicht einmal eines seiner
+   * sechs Sachwoerter. Er existierte ausschliesslich als Notiz auf der
+   * Platte.
+   *
+   * Damit war das Feld eine Denkhilfe fuer den Autor und kein Bestandteil des
+   * Videos. Ein Satz, den niemand hoert, wird nicht weitererzaehlt.
+   *
+   * Geprueft wird gegen den **verketteten** Sprechtext, nicht gegen einzelne
+   * Szenen: Zwischen zwei Szenen liegt nur eine Atempause, der Satz bleibt
+   * hoerbar zusammenhaengend. Er darf also ueber eine Szenengrenze laufen,
+   * aber nicht ueber das ganze Video verstreut sein.
+   */
+  const gesprochen = ohneSatzzeichen(short.szenen.map((s) => s.sprechtext).join(' '));
+  if (!gesprochen.includes(ohneSatzzeichen(short.weitererzaehlt))) {
+    melde(
+      'fehler',
+      'weitererzaehlt',
+      `„${short.weitererzaehlt}" wird im Video nicht gesagt. Der Satz, den jemand ` +
+        'weitererzählen soll, muss zusammenhängend im Sprechtext vorkommen – sonst ist ' +
+        'er eine Notiz für den Autor und kein Teil des Videos.',
+    );
+  }
+
+  /* ── Der Rundlauf ─────────────────────────────────────────────────── */
+
+  /*
+   * Ob der erste Satz nach dem letzten wieder traegt, beurteilt das Feld
+   * `rundlauf` im Schema — kein Skript kann das lesen. Pruefbar ist die
+   * andere Haelfte: ob der Schlusssatz **abbindet**.
+   *
+   * Diese Woerter tun genau das, was der Vorhang tat, den wir gerade
+   * abgehaengt haben: Sie sagen dem Zuschauer, dass Schluss ist. Ein Short,
+   * der von selbst wieder anlaeuft, darf das nicht ansagen.
+   */
+  const ABBINDER = [
+    'fazit',
+    'zusammengefasst',
+    'kurz gesagt',
+    'unterm strich',
+    'am ende bleibt',
+    'merke',
+    'das wars',
+    'das war es',
+    'bis zum naechsten',
+    'schreib es in die kommentare',
+    'schreibt es in die kommentare',
+    'lass ein abo',
+    'folg mir',
+    'folgt mir',
+  ];
+  const schlussSzene = short.szenen.find((s) => s.art === 'schluss');
+  if (schlussSzene) {
+    const text = ohneSatzzeichen(`${schlussSzene.satz} ${schlussSzene.sprechtext}`);
+    const treffer = ABBINDER.filter((w) => text.includes(w));
+    if (treffer.length > 0) {
+      melde(
+        'fehler',
+        'rundlauf',
+        `Der Schluss bindet ab („${treffer.join('", „')}"). Ein Short läuft von selbst ` +
+          'wieder an – der letzte Satz soll auf den ersten passen, nicht das Ende ansagen.',
       );
     }
   }

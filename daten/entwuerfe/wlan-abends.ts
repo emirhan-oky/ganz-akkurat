@@ -30,7 +30,7 @@ export const wlanAbends: Short = {
   format: 'werhatrecht',
   sachgebiet: 'netz',
   arbeitstitel: 'Wer schuld ist, wenn das WLAN abends einbricht',
-  weitererzaehlt: 'Das WLAN-Band ist rechtlich schutzlos — niemand garantiert dir dort irgendetwas.',
+  weitererzaehlt: 'Beide reden über Geräte. Abends sind aber alle gleichzeitig online.',
 
   szenen: [
     {
@@ -84,8 +84,18 @@ export const wlanAbends: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Wen verklagst du also? Schreib es in die Kommentare.',
+      // „Schreib es in die Kommentare." ist am 18.08.2026 gestrichen worden,
+      // und zwar von der Regel, nicht von Hand: Ein Short laeuft von selbst
+      // wieder an, und eine Aufforderung sagt dem Zuschauer, dass er jetzt
+      // etwas tun soll statt weiterzuschauen. Sie war ausserdem eine Handlung
+      // — genau das, was kein Format verlangen darf.
+      //
+      // Die offene Frage allein ist der bessere Kommentaranlass: Wer sie
+      // beantworten will, tut es, ohne dass man ihn schickt.
+      sprechtext: 'Wen verklagst du also?',
       satz: 'Wen verklagst du also?',
+      rundlauf:
+        '„Wen verklagst du also?" trifft auf „Beide irren." — die offene Frage schickt zurück zu den zwei Lagern.',
     },
   ],
 

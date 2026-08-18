@@ -366,6 +366,57 @@ Freigabe-Übersicht.
   Funktionswörter, die am Titelanfang großgeschrieben stehen — „Weder Leitung
   noch Router sind schuld" meldete sonst „weder" als fehlendes Sachwort.
 
+## Der Rundlauf — das Video endet nicht
+
+**Ein Short läuft von selbst wieder an, und ein Rewatch zählt als eigene
+Ansicht.** Bis zum 18.08.2026 arbeitete der Schluss dagegen: ein Satz, ein
+blauer Strich, eine zweite Wortmarke, der Spruch. Gemessen an den acht
+fertigen Shorts dauerte das **1,5 bis 3,1 Sekunden**, im Schnitt 2,2 — bei
+zwanzig Sekunden Laufzeit elf Prozent, in denen nichts Neues kommt.
+
+Der Strich war dabei das eigentliche Signal. Er trennte die Pointe vom
+Absender und sagte optisch: fertig. Er ist weg, und mit ihm die zweite
+Wortmarke. Der Spruch läuft jetzt **oben unter der Kopfzeile** mit, an der
+Stelle, an der sonst der Beleg steht — der Platz ist frei, weil die
+Schlussszene als einzige nichts behauptet. Die Wortmarke selbst wird dadurch
+nicht seltener: Sie stand ohnehin in jedem Bild.
+
+**`rundlauf` ist ein Pflichtfeld an der Schlussszene:** warum der erste Satz
+danach wieder passt. Ob er das tut, kann kein Skript beurteilen — deshalb ein
+Feld und keine Prüfung, dieselbe Logik wie bei `position` und `belegId`.
+Bemerkenswert: Bei zweien der acht lief es schon rund, ohne dass jemand darauf
+geachtet hätte („Gefragt hat dich niemand." → „Dein Fernseher hat ein
+Mikrofon.").
+
+Prüfbar ist die andere Hälfte: **Der Schlusssatz darf nicht abbinden.**
+„Fazit", „kurz gesagt", „schreib es in die Kommentare" — die Liste steht in
+`src/pruefung.ts`. Sie hat beim ersten Lauf sofort einen Treffer gehabt.
+
+### `weitererzaehlt` muss gesprochen werden
+
+Das Feld stellte beim Entwerfen die richtige Frage und gab die Antwort nie
+weiter: **In keinem der acht Shorts kam der Satz vor**, bei `wlan-abends` nicht
+einmal eines seiner sechs Sachwörter. Er existierte nur auf der Platte.
+
+Jetzt prüft `shortPruefen` hart, dass er im **verketteten** Sprechtext steht.
+Über eine Szenengrenze darf er laufen — dazwischen liegt nur eine Atempause —,
+über das ganze Video verstreut nicht.
+
+### Die Prüfung läuft jetzt vor der Vertonung
+
+`npm run pruefen` prüfte bis zum 18.08.2026 nur das Zod-Schema. Die harten
+Regeln aus `src/pruefung.ts` liefen erst im Wochenlauf — also **nachdem** die
+Vertonung bezahlt war. Aufgefallen ist der Unterschied an einem Schlusssatz mit
+„Schreib es in die Kommentare": Die Regel dagegen meldete ihn zuverlässig,
+`npm run pruefen` sagte grün.
+
+Der erste Lauf mit den harten Regeln in der Vorprüfung hat sofort eine **tote,
+widersprüchliche Regel** zutage gefördert: eine Obergrenze für Zeichnungen
+(„mehr als die Hälfte ist zu viel"), die am 18.08. durch die Untergrenze
+ersetzt worden war, aber stehenblieb — und von da an den Sollzustand als Mangel
+meldete, mit einem Begründungstext, der das Gegenteil der geltenden Doktrin
+sagte. Sie ist gestrichen.
+
 ## Der Humor
 
 Er ist keine vierte Zutat, sondern die **Wendung** — und er hängt am Format:

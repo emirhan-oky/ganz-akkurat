@@ -17,7 +17,7 @@ export const loeschenLoeschtNicht: Short = {
   format: 'gibtswirklich',
   sachgebiet: 'rechner',
   arbeitstitel: 'Löschen löscht nichts',
-  weitererzaehlt: 'Wenn du eine Datei löschst, wird die Datei nicht gelöscht — nur ihr Eintrag.',
+  weitererzaehlt: 'Gelöscht wird lediglich der Verweis im Inhaltsverzeichnis.',
 
   szenen: [
     {
@@ -70,6 +70,8 @@ export const loeschenLoeschtNicht: Short = {
       position: 'nachschlag',
       sprechtext: 'Weg ist es, wenn Zufall darüberliegt.',
       satz: 'Weg ist es, wenn Zufall drüberliegt.',
+      rundlauf:
+        '„Weg ist es, wenn Zufall darüberliegt." trifft auf „Du hast das gelöscht." — der Satz wird zur Frage.',
     },
   ],
 

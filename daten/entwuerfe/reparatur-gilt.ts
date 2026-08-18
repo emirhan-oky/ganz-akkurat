@@ -19,7 +19,7 @@ export const reparaturGilt: Short = {
   format: 'neu',
   sachgebiet: 'recht',
   arbeitstitel: 'Das Recht auf Reparatur gilt seit drei Wochen',
-  weitererzaehlt: 'Das Recht auf Reparatur gilt — aber nur für Geräte, die du danach gekauft hast.',
+  weitererzaehlt: 'Sie gilt nicht für Käufe vor dem Stichtag. Dein Gerät ist nicht dabei.',
 
   szenen: [
     {
@@ -76,6 +76,8 @@ export const reparaturGilt: Short = {
       position: 'nachschlag',
       sprechtext: 'Dein Recht auf Reparatur musst du erst kaufen.',
       satz: 'Erst kaufen, dann reparieren dürfen.',
+      rundlauf:
+        '„Musst du erst kaufen." trifft auf „Seit drei Wochen hast du ein neues Recht." — das „hast du" wird höhnisch.',
     },
   ],
 

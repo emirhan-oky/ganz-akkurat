@@ -28,7 +28,7 @@ export const kabelGleich: Short = {
   format: 'absicht',
   sachgebiet: 'laden',
   arbeitstitel: 'Zwei Kabel, ein Stecker, kein Unterschied zu sehen',
-  weitererzaehlt: 'Alle USB-C-Kabel sehen gleich aus, und das war eine Entscheidung.',
+  weitererzaehlt: 'Das eine trägt sechzig Watt, das andere zweihundertvierzig.',
 
   szenen: [
     {
@@ -86,6 +86,8 @@ export const kabelGleich: Short = {
       position: 'nachschlag',
       sprechtext: 'Ein Strich auf dem Stecker. So schwer war das.',
       satz: 'Ein Strich auf dem Stecker.',
+      rundlauf:
+        '„Ein Strich auf dem Stecker." trifft auf „Zwei Kabel." — man sucht beim zweiten Mal den fehlenden Strich.',
     },
   ],
 

@@ -26,7 +26,7 @@ export const garantieGekauft: Short = {
   format: 'auchgekauft',
   sachgebiet: 'recht',
   arbeitstitel: 'Die Garantieverlängerung an der Kasse',
-  weitererzaehlt: 'Die Garantieverlängerung verkauft dir zwei Jahre, die du gesetzlich schon hast.',
+  weitererzaehlt: 'Von den drei bezahlten Jahren hattest du zwei schon.',
 
   szenen: [
     {
@@ -84,6 +84,8 @@ export const garantieGekauft: Short = {
       position: 'nachschlag',
       sprechtext: 'Gekauft haben wir das alle mal.',
       satz: 'Gekauft haben wir das alle mal.',
+      rundlauf:
+        '„Gekauft haben wir das alle mal." trifft auf „Na, an der Kasse dazugekauft?" — die Frage klingt danach kollegial.',
     },
   ],
 

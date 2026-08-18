@@ -52,7 +52,7 @@ export const akkuLeerlaufen: Short = {
   format: 'eswareinmal',
   sachgebiet: 'laden',
   arbeitstitel: 'Der Akku, den man leer laufen lassen musste',
-  weitererzaehlt: 'Dein Akku merkt sich nichts. Ihn ganz leer zu machen schadet ihm sogar.',
+  weitererzaehlt: 'Ihn ganz leer zu machen schadet ihm sogar.',
 
   szenen: [
     {
@@ -116,6 +116,8 @@ export const akkuLeerlaufen: Short = {
       // „Damals." macht dieselbe Bewegung in einem Wort, das jeder sofort hat.
       sprechtext: 'Dein Vater hatte recht. Damals.',
       satz: 'Dein Vater hatte recht. Damals.',
+      rundlauf:
+        '„Damals." trifft auf „Dein Vater sagt: erst ganz leer" — beim zweiten Hören ist der Vater von Anfang an im Gestern.',
     },
   ],
 

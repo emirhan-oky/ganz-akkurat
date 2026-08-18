@@ -1,7 +1,9 @@
-import { Idee, Short } from '../src/typen';
+import { readFileSync } from 'node:fs';
+import { Idee, Short, type Quelle } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
+import { shortPruefen } from '../src/pruefung';
 
 /**
  * Schemapruefung der Daten — die Luecke, die `tsc` nicht schliesst.
@@ -75,15 +77,51 @@ for (const idee of IDEEN) {
   }
 }
 
+/*
+ * Die harten Regeln laufen hier mit — nicht erst im Wochenlauf.
+ *
+ * Bis zum 18.08.2026 prueften `npm run pruefen` und `shortPruefen` zwei
+ * verschiedene Dinge: hier das Zod-Schema, dort die Regeln aus
+ * `src/pruefung.ts`. Aufgefallen ist der Unterschied an einem Schlusssatz
+ * mit „Schreib es in die Kommentare" — die Regel dagegen meldete ihn
+ * zuverlaessig, aber `npm run pruefen` sagte gruen.
+ *
+ * Das ist derselbe Fehler wie bei `npm run belege`, nur eine Stufe frueher:
+ * **Was erst in der Freigabe auffaellt, ist schon vertont und schon
+ * gerendert.** Die Regeln kosten hier nichts und finden dort alles, was
+ * keine Tonspur braucht; die tonspurabhaengigen Bloecke in `shortPruefen`
+ * ueberspringen sich von selbst, solange keine vorliegt.
+ */
+const quellen = (
+  JSON.parse(readFileSync('daten/quellen.json', 'utf8')) as { quellen?: Quelle[] } | Quelle[]
+);
+const quellenliste = Array.isArray(quellen) ? quellen : (quellen.quellen ?? []);
+
+let hinweise = 0;
+for (const eintrag of WOCHENLAUF) {
+  for (const befund of shortPruefen(eintrag, quellenliste)) {
+    if (befund.stufe === 'fehler') {
+      fehler++;
+      console.error(`✕ Regel · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
+    } else {
+      hinweise++;
+      console.warn(`· Hinweis · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
+    }
+  }
+}
+
 if (fehler > 0) {
-  console.error(`\n${fehler === 1 ? 'Ein Short entspricht' : `${fehler} Shorts entsprechen`} dem Schema nicht.`);
+  console.error(`\n${fehler === 1 ? 'Ein Befund haelt' : `${fehler} Befunde halten`} den Lauf zurück.`);
   process.exit(1);
 }
 
 const belegt = IDEEN.filter((i) => i.reifegrad === 'belegt').length;
 const produziert = IDEEN.filter((i) => i.reifegrad === 'produziert').length;
 
-console.log(`✓ Schema: ${gesamt} Shorts geprüft, keine blockierenden Verstöße`);
+console.log(
+  `✓ Schema: ${gesamt} Shorts geprüft, keine blockierenden Verstöße` +
+    (hinweise > 0 ? ` (${hinweise} Hinweis${hinweise === 1 ? '' : 'e'})` : ''),
+);
 console.log(
   `✓ Ideen:  ${IDEEN.length} im Vorrat (${belegt} belegt, ${produziert} produziert), ` +
     `Reichweite ${reichweiteInWochen()} Wochen bei einem Video je Format`,

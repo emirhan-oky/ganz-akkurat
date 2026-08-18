@@ -601,6 +601,26 @@ const SzeneEinschraenkung = SzeneBasis.extend({
 const SzeneSchluss = SzeneBasis.extend({
   art: z.literal('schluss'),
   satz: z.string().max(80),
+  /**
+   * Warum der **erste** Satz des Videos danach wieder passt.
+   *
+   * Ein Short laeuft von selbst wieder an, und ein Rewatch zaehlt als eigene
+   * Ansicht. Bis zum 18.08.2026 arbeitete der Schluss dagegen: blauer Strich,
+   * zweite Wortmarke, Spruch — ein Vorhang, der 1,5 bis 3,1 Sekunden dauerte
+   * und optisch sagte, dass man nicht abwarten muss. Der Vorhang ist weg.
+   *
+   * Das allein reicht nicht. Ob der Anfang nach dem Ende wieder traegt, kann
+   * kein Skript beurteilen — es ist eine Frage an den Text. Deshalb steht sie
+   * hier als **Feld** und nicht als Pruefung: dieselbe Logik wie bei
+   * `position`, `weitererzaehlt` und `belegId`. Eine Regel, nach der nichts
+   * fragt, wird nicht befolgt.
+   *
+   * Bemerkenswert: Bei zweien der acht Shorts vom 18.08. lief es schon rund,
+   * ohne dass jemand darauf geachtet haette. „Gefragt hat dich niemand." →
+   * „Dein Fernseher hat ein Mikrofon." Das Feld haelt fest, was sonst Zufall
+   * bleibt.
+   */
+  rundlauf: z.string().min(15).max(160),
 });
 
 /**

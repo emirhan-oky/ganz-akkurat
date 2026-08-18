@@ -511,22 +511,33 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
 /* ───────────────────────────── Schluss ─────────────────────────────── */
 
 /**
- * Der Nachschlag: **ein** Satz, darunter Wortmarke und Spruch.
+ * Der Nachschlag: **ein** Satz. Sonst nichts.
  *
  * Hier stand bis zum 17.08.2026 die Endkarte — eine gerahmte Liste aus zwei
  * bis vier nummerierten Punkten, gebaut als Standbild „zum Fotografieren und
  * Weiterschicken". Fotografiert wurde nie etwas. Was sie tatsaechlich war:
  * Lernkontrolle, und Lernkontrolle ist das Gegenteil von Unterhaltung.
  *
- * Der Rahmen ist mit ihr gegangen. Eine Karte mit Rand sagt „hier ist das
- * Ergebnis zum Mitnehmen"; ein freistehender Satz sagt nichts und laesst die
- * Pointe wirken. Geblieben ist die Markenzeile, und die steht jetzt allein —
- * nach einem frechen Video ist „Wir haben nachgelesen." selbst die Pointe.
+ * Bis zum 18.08.2026 folgten auf den Satz dann ein blauer Strich, eine zweite
+ * Wortmarke und der Spruch. Auch das ist gegangen, und zwar aus einem
+ * gemessenen Grund: **Der Abspann dauerte 1,5 bis 3,1 Sekunden**, im Schnitt
+ * 2,2 — bei zwanzig Sekunden Laufzeit elf Prozent der Zeit, in denen nichts
+ * Neues mehr kommt. Ein Short laeuft von selbst wieder an; ein Vorhang sagt
+ * dem Zuschauer, dass er das nicht abwarten muss.
  *
- * Keine Dauerbewegung: Der letzte Frame eines Shorts ist der, den die
- * Plattform als Vorschaubild nimmt, wenn er wiederholt wird. Der soll stehen.
+ * Der Strich war dabei das eigentliche Signal. Er trennte „die Pointe" von
+ * „dem Absender" und damit den Inhalt vom Ende. Ohne ihn sieht die letzte
+ * Szene aus wie jede andere — und genau das soll sie, damit der erste Satz
+ * danach wieder passt.
+ *
+ * Der Spruch ist nicht verschwunden, er ist umgezogen: Er laeuft oben unter
+ * der Kopfzeile mit, an der Stelle, an der sonst der Beleg steht (siehe
+ * `Spruchzeile`). Die Wortmarke stand ohnehin die ganze Zeit oben.
+ *
+ * Keine Dauerbewegung: Der letzte Frame ist der, den die Plattform als
+ * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
  */
-const Schluss: React.FC<SzenenProps<'schluss'>> = ({ szene, dauer }) => {
+const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -547,58 +558,10 @@ const Schluss: React.FC<SzenenProps<'schluss'>> = ({ szene, dauer }) => {
       >
         {szene.satz}
       </p>
-
-      {/* Der blaue Strich trennt die Pointe vom Absender. */}
-      <div
-        style={{
-          height: 8,
-          borderRadius: RADIUS.s,
-          backgroundColor: FARBEN.blau,
-          width: `${linienFortschritt(frame, fps, Math.round(dauer * 0.45)) * 100}%`,
-          maxWidth: 260,
-          margin: `${ABSTAND.xl}px 0 ${ABSTAND.l}px`,
-        }}
-      />
-
-      <div
-        style={{
-          ...auftritt(frame, fps, 8),
-          display: 'flex',
-          alignItems: 'baseline',
-          gap: ABSTAND.m,
-          flexWrap: 'wrap',
-        }}
-      >
-        {/*
-         * Die Wortmarke kommt aus der Komponente, nicht aus zwei Spans hier.
-         * Bis zum 16.08.2026 stand der Name an dieser Stelle ein zweites Mal
-         * im Code — die Kopfzeile war beim Namenswechsel umgestellt, der Fuss
-         * nicht, und im fertigen Video sagte oben „Ganz akkurat" und unten
-         * „SetupKlar". Aufgefallen ist das erst im Standbild.
-         */}
-        <Wortmarke groesse={40} />
-        <span
-          style={{
-            ...grundtext,
-            fontWeight: SCHRIFT.halbfett,
-            /*
-             * Nie umbrechend. „Ganz akkurat" ist breiter als der alte Name,
-             * und der Spruch daneben rutschte damit auf zwei Zeilen — zwei
-             * gestapelte Zeilen neben einer einzeiligen Wortmarke lesen sich
-             * als Fehler, nicht als Signatur.
-             */
-            fontSize: 30,
-            whiteSpace: 'nowrap',
-            color: FARBEN.tinteWeich,
-            letterSpacing: 0,
-          }}
-        >
-          {SPRUCH}
-        </span>
-      </div>
     </Buehne>
   );
 };
+
 /* ──────────────────────────── Kaufkriterien ─────────────────────────── */
 
 /**
@@ -754,7 +717,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
     case 'einschraenkung':
       return <Einschraenkung szene={szene} dauer={dauer} />;
     case 'schluss':
-      return <Schluss szene={szene} dauer={dauer} />;
+      return <Schluss szene={szene} />;
     case 'kaufkriterien':
       return <Kaufkriterien szene={szene} dauer={dauer} />;
   }

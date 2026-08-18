@@ -19,7 +19,7 @@ export const fernseherHoert: Short = {
   format: 'heimlich',
   sachgebiet: 'bildschirm',
   arbeitstitel: 'Der Fernseher nimmt auf und schickt es weg',
-  weitererzaehlt: 'Dein Fernseher zeichnet Sprachbefehle auf und schickt sie an einen fremden Server.',
+  weitererzaehlt: 'Es bleibt nicht im Wohnzimmer. Nicht einmal im Gerät.',
 
   szenen: [
     {
@@ -73,6 +73,8 @@ export const fernseherHoert: Short = {
       position: 'nachschlag',
       sprechtext: 'Gefragt hat dich niemand.',
       satz: 'Gefragt hat dich niemand.',
+      rundlauf:
+        '„Gefragt hat dich niemand." trifft auf „Dein Fernseher hat ein Mikrofon." — die Empörung wird zur Feststellung.',
     },
   ],
 

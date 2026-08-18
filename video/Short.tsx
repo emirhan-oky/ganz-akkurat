@@ -3,7 +3,7 @@ import { ABSTAND, FARBEN, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHER
 import type { Short as ShortDaten } from '../src/typen';
 import { szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
-import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
+import { Belegzeile, Kopfzeile, Spruchzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { SzeneRendern } from './szenen';
 
@@ -101,6 +101,14 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
   const herausgeber =
     belegSzene !== undefined && 'herausgeber' in belegSzene ? belegSzene.herausgeber : undefined;
 
+  /*
+   * Der Spruch laeuft in der Schlussszene an der Belegstelle mit. Die beiden
+   * koennen sich nicht ins Gehege kommen: `schluss` traegt nie eine
+   * `quelleId` und damit nie einen `herausgeber` — sie behauptet nichts.
+   */
+  const schlussIndex = daten.szenen.findIndex((s) => s.art === 'schluss');
+  const schlussZeit = schlussIndex >= 0 ? plan[schlussIndex] : undefined;
+
   return (
     <AbsoluteFill>
       <Hintergrund />
@@ -155,6 +163,17 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
                 name="Beleg"
               >
                 <Belegzeile herausgeber={herausgeber} />
+              </Sequence>
+            )}
+
+            {schlussZeit !== undefined && (
+              <Sequence
+                from={schlussZeit.startBild}
+                durationInFrames={schlussZeit.dauerBilder}
+                layout="none"
+                name="Spruch"
+              >
+                <Spruchzeile />
               </Sequence>
             )}
           </div>
