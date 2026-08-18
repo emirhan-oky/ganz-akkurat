@@ -125,6 +125,12 @@ const main = async () => {
    * (Schritt 6). Ohne die Ausnahme waere jedes frisch gerenderte Video sofort
    * veraltet und die Pruefung dauerhaft rot.
    *
+   * `daten/rueckblick.json` und `src/youtube.ts` — derselbe Denkfehler, nur
+   * eine Woche spaeter: Der Rueckblick misst, was aus den **veroeffentlichten**
+   * Videos geworden ist, und schreibt das nach `daten/`. Ohne die Ausnahme
+   * haette ein Blick auf die Zahlen vom Montag jedes fertige Video des
+   * Dienstags fuer veraltet erklaert.
+   *
    * Die vier Module der Veroeffentlichungskette — hinzugekommen am
    * 15.08.2026, nach einem Zirkelschluss im laufenden Betrieb: Buffer
    * antwortete mit 504, die Fehlermeldung dazu war unbrauchbar, also wurde
@@ -145,7 +151,9 @@ const main = async () => {
    */
   const NICHT_UEBERWACHT = new Set([
     path.join('daten', 'verlauf.json'),
+    path.join('daten', 'rueckblick.json'),
     path.join('src', 'ablage.ts'),
+    path.join('src', 'youtube.ts'),
     path.join('src', 'buffer.ts'),
     path.join('src', 'verlauf.ts'),
     path.join('src', 'freigabeseite.ts'),

@@ -439,6 +439,68 @@ export const beitragLoeschen = async (schluessel: string, beitragId: string): Pr
  * Die Uhrzeit ist eine Annahme, kein Messergebnis: abends laeuft Kurzvideo
  * im Schnitt besser als frueh morgens.
  */
+export type GesendeterBeitrag = {
+  id: string;
+  dienst: string;
+  gesendetAm: string | null;
+  link: string | null;
+};
+
+/**
+ * Alle gesendeten Beitraege der Organisation, mit ihrer Adresse draussen.
+ *
+ * Das ist die einzige Bruecke zwischen einem Entwurf auf der Platte und dem
+ * Video auf einer Plattform: `veroeffentlicht.json` haelt `shortId` und
+ * `beitragId`, und hier kommt zur `beitragId` der `externalLink` dazu.
+ *
+ * Die Zahlen selbst holt Buffer **nicht** — siehe `src/youtube.ts`. Das
+ * `metrics`-Feld existiert, bleibt aber auf Null stehen.
+ */
+export const gesendeteBeitraege = async (
+  schluessel: string,
+  organisationId: string,
+): Promise<GesendeterBeitrag[]> => {
+  const alle: GesendeterBeitrag[] = [];
+  let cursor: string | null = null;
+
+  // Seitenweise, weil die Liste mit jeder Woche um zwei Dutzend waechst.
+  for (;;) {
+    type Seite = {
+      posts: {
+        edges: {
+          cursor: string;
+          node: { id: string; channelService: string; sentAt: string | null; externalLink: string | null };
+        }[];
+        pageInfo: { hasNextPage: boolean };
+      };
+    };
+    const seite: Seite = await abfragen<Seite>(
+      schluessel,
+      `query($i: PostsInput!, $after: String) {
+         posts(input: $i, first: 100, after: $after) {
+           edges { cursor node { id channelService sentAt externalLink } }
+           pageInfo { hasNextPage }
+         }
+       }`,
+      { i: { organizationId: organisationId, filter: { status: 'sent' } }, after: cursor },
+    );
+
+    for (const e of seite.posts.edges) {
+      alle.push({
+        id: e.node.id,
+        dienst: e.node.channelService,
+        gesendetAm: e.node.sentAt,
+        link: e.node.externalLink,
+      });
+    }
+
+    if (!seite.posts.pageInfo.hasNextPage || seite.posts.edges.length === 0) break;
+    cursor = seite.posts.edges[seite.posts.edges.length - 1]!.cursor;
+  }
+
+  return alle;
+};
+
 export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
   shorts.map((short, i) => {
     const { tag, uhrzeit } = FORMATE[short.format];

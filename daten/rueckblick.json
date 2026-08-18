@@ -1,0 +1,25 @@
+{
+  "_hinweis": "Was aus den Videos geworden ist. Wird von skripte/rueckblick.ts nachgetragen, nicht angehängt: eine Messung je Tag und Short. Bewusst getrennt von verlauf.json — der Verlauf wird beim Lauf einmal geschrieben und danach nie wieder angefasst, dieser hier wächst weiter.",
+  "shorts": {
+    "ein-stecker": {
+      "shortId": "ein-stecker",
+      "titel": "Dreizehn Jahre für einen Stecker",
+      "online": "2026-08-17T18:41:12Z",
+      "laengeSek": 22,
+      "videoId": "3OSRGmEWa-0",
+      "link": "https://www.youtube.com/shorts/3OSRGmEWa-0",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-18",
+          "aufrufe": 112,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    }
+  }
+}

@@ -20,6 +20,8 @@ npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt (~60 Zeichen)
 npm run neuigkeiten       # neue EU-Rechtsakte für den Mittwoch, siebt auf ~10
 npm run markenbilder      # Profilbild, Banner, Wortmarke aus video/Marke.tsx
+npm run rueckblick        # holt, was aus den Videos geworden ist
+npm run youtube-anmelden  # einmalig, danach nie wieder
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 ```
@@ -446,6 +448,68 @@ Praktische Folgen:
   `src/typen.ts`): Pflicht bei `aussage`, `zahl`, `einschraenkung`,
   `vergleich`, `warnung`, `merkmalskarte`, `kaufkriterien`, `beleg`; ohne Feld
   bei `hook` und `endkarte`.
+
+## Rücklauf — was aus den Videos wird
+
+Bis zum 18.08.2026 war die Pipeline eine **Einbahnstraße**. `verlauf.json`
+schrieb mit, was hinausging — Format, Sachgebiet, Thema, Dauer —, aber nie,
+was ankam. Woche 3 wusste nichts von Woche 1. Jede Regel über Reichweite wäre
+damit geraten gewesen, und geratene Größen haben hier schon zweimal Geld
+gekostet.
+
+`npm run rueckblick` schließt den Kreis: `veroeffentlicht.json` hält `shortId`
+und `beitragId`, Buffer liefert dazu den `externalLink`, YouTube die Zahlen.
+Sie landen in `daten/rueckblick.json` — **nachtragend**, eine Messung je Tag
+und Short, damit man die Entwicklung sieht und nicht nur den letzten Stand.
+
+### Warum nicht Buffer
+
+Die Buffer-Schnittstelle **hat** ein `metrics`-Feld mit sechzehn Metriktypen.
+Sie füllt es nur nicht. Gemessen am ersten Video des Kanals: YouTube meldete
+112 Aufrufe, Buffer meldete 0 — und `metricsUpdatedAt` lag **vor** `sentAt`.
+Buffer fasst die Zahlen einmal beim Senden an und danach nie wieder; eine
+Mutation zum Nachladen gibt es nicht.
+
+Das ist die gefährlichste Sorte Fund, weil nichts kaputt aussieht. Wäre es
+nicht aufgefallen, schriebe der Rückblick jede Woche Nullen mit, und niemandem
+fiele es auf — es steht ja eine Zahl da. Dieselbe Sorte Fehler wie die drei
+Zitate, die formal grün waren.
+
+Buffer bleibt trotzdem in der Kette: `externalLink` ist die einzige Brücke
+zwischen einem Entwurf auf der Platte und dem Video draußen.
+
+### Warum nur YouTube
+
+TikTok lädt seine Zahlen per JavaScript nach, Instagram gibt ohne Anmeldung
+gar nichts heraus. Beide verlangten ein Geschäftskonto, eine
+Entwickleranmeldung und ein Freigabeverfahren — für Zahlen zu **demselben**
+Video mit **demselben** Aufschlag. Was an Sekunde 3,5 bei YouTube hält, hält
+auch dort. Die Zahl muss an einer Stelle sauber sein, nicht an dreien.
+
+### Welche Zahl zählt
+
+**Die Aufrufe sind die unwichtigste.** Sie sagen, was der Algorithmus getan
+hat. Was der Zuschauer getan hat, steht in der **Haltequote** — und die wird
+an der Stelle gelesen, an der es hier schon eine Regel gibt: **Sekunde 3,5**,
+das Ende des Aufschlags. Dazu die Durchsichtsrate und das Teilen.
+
+Zwei Dinge, die man wissen muss, bevor man sich wundert:
+
+- **Analytics kommt mit ein bis drei Tagen Verzug.** Für ein Video von gestern
+  Abend gibt es noch nichts. Das Skript sagt das ausdrücklich, weil es sonst
+  wie ein Fehler aussieht.
+- **Die OAuth-App muss auf „In Produktion" stehen.** Auf „Testing" verfällt
+  die Anmeldung nach sieben Tagen, und die Meldung dazu (`invalid_grant`)
+  sieht nach einem kaputten Token aus statt nach einer Einstellung.
+
+### Was der Rücklauf noch nicht kann
+
+Bei acht Videos die Woche sind vier Wochen **32 Datenpunkte über acht
+Formate** — vier je Format. Damit lässt sich kein Format bewerten, und wer es
+trotzdem tut, hat wieder geraten, nur mit Zahlen daneben. Was schon nach zwei
+Wochen sichtbar wird, sind **Ausreißer nach oben**: das eine Video, das
+dreimal so gut lief. Das ist ohnehin die interessantere Frage — nicht „welches
+Format ist gut", sondern „was hatte dieses eine".
 
 ## Werbemodell — Phase 1
 

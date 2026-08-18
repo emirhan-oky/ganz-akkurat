@@ -18,7 +18,9 @@
     "buffer-probe": "tsx skripte/buffer-probe.ts",
     "zuruecknehmen": "tsx skripte/zuruecknehmen.ts",
     "markenbilder": "tsx skripte/markenbilder.ts",
-    "neuigkeiten": "tsx skripte/neuigkeiten.ts"
+    "neuigkeiten": "tsx skripte/neuigkeiten.ts",
+    "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",
+    "rueckblick": "tsx skripte/rueckblick.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",
