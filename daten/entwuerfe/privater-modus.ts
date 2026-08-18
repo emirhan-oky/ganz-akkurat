@@ -22,8 +22,8 @@ export const privaterModus: Short = {
   themaId: 'privater-modus-browser',
   format: 'werhatrecht',
   sachgebiet: 'netz',
-  arbeitstitel: 'Beide streiten über Cookies',
-  weitererzaehlt: 'Beide reden über Cookies. Der Fingerabdruck bleibt davon unberührt.',
+  arbeitstitel: 'Der Browser wird dadurch einzigartiger',
+  weitererzaehlt: 'Je mehr du dagegen tust, desto einzigartiger wird er.',
 
   szenen: [
     {
@@ -36,7 +36,7 @@ export const privaterModus: Short = {
     {
       art: 'vergleich',
       position: 'zuspitzung',
-      sprechtext: 'Cookies protokollieren dein Nutzungsverhalten. Darum geht der Streit.',
+      sprechtext: 'Die einen halten sich für unsichtbar. Die anderen lachen darüber.',
       links: { titel: 'Unsichtbar', zeilen: ['Niemand sieht mich'] },
       rechts: { titel: 'Bringt nichts', zeilen: ['Reine Kosmetik'] },
       quelleId: 'bsi-fingerprints',
@@ -46,39 +46,39 @@ export const privaterModus: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Beide reden über Cookies. Der Fingerabdruck bleibt davon unberührt.',
-      text: 'Beide reden über Cookies.',
-      symbol: 'karteikarte',
-      hervorhebung: 'Cookies',
-      quelleId: 'bsi-fingerprints',
-      belegId: 'protokollieren-des-nutzungsverhaltens',
-    },
-    {
-      art: 'text',
-      position: 'kipppunkt',
-      sprechtext: 'Fingerprints greifen auf deutlich mehr Daten zurück als Cookies.',
-      text: 'Fingerprints nutzen mehr Daten.',
-      symbol: 'lupe',
+      sprechtext: 'Beide reden über Cookies. Erkannt wirst du an deinem Browser.',
+      text: 'Erkannt wirst du am Browser.',
+      symbol: 'browserfenster',
+      hervorhebung: 'Browser',
       quelleId: 'bsi-fingerprints',
       belegId: 'fingerprints-mehr-daten-als-cookies',
     },
     {
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext: 'Und je mehr du dagegen tust, desto einzigartiger wird er.',
+      text: 'Je mehr du tust, desto einzigartiger.',
+      symbol: 'lupe',
+      quelleId: 'bsi-fingerprints',
+      belegId: 'browser-individueller-werden',
+    },
+    {
       art: 'einschraenkung',
       position: 'kipppunkt',
-      sprechtext: 'Ihre Erstellung zu verhindern ist deutlich schwieriger.',
-      bedingung: 'Cookies gelöscht, Verlauf leer',
-      folge: 'der Fingerabdruck bleibt',
+      sprechtext: 'Und damit besser zu identifizieren. Schreibt das Bundesamt.',
+      bedingung: 'Du rüstest auf',
+      folge: 'du wirst erkennbarer',
       symbol: 'warndreieck',
       quelleId: 'bsi-fingerprints',
-      belegId: 'deutlich-schwieriger-zu-verhindern',
+      belegId: 'besser-zu-identifizieren-sein',
     },
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Gegen was genau war der Modus noch mal?',
-      satz: 'Gegen was war der Modus noch mal?',
+      sprechtext: 'Unsichtbar wird man so nicht.',
+      satz: 'Unsichtbar wird man so nicht.',
       rundlauf:
-        '„Gegen was war der Modus noch mal?" trifft auf „Tarnkappe oder Placebo?" — die Streitfrage steht nach der Antwort offener als vorher.',
+        '„Unsichtbar wird man so nicht." trifft auf „Tarnkappe oder Placebo?" — beim zweiten Mal weiß man, dass beide Antworten daneben lagen.',
     },
   ],
 
@@ -86,17 +86,17 @@ export const privaterModus: Short = {
 
   texte: {
     tiktok: {
-      titel: 'Der Streit dreht sich um Cookies',
+      titel: 'Der Browser wird dadurch einzigartiger',
       beschreibung: '',
       hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
     },
     instagram: {
-      titel: 'Der Streit dreht sich um Cookies',
+      titel: 'Der Browser wird dadurch einzigartiger',
       beschreibung: '',
       hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Der Streit dreht sich um Cookies',
+      titel: 'Der Browser wird dadurch einzigartiger',
       beschreibung: '',
       hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
     },

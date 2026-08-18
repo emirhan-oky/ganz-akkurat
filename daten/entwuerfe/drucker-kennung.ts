@@ -27,7 +27,7 @@ export const druckerKennung: Short = {
       position: 'aufschlag',
       sprechtext: 'Dein Drucker unterschreibt jede Seite.',
       text: 'Dein Drucker unterschreibt.',
-      symbol: 'stempel',
+      symbol: 'drucker',
     },
     {
       art: 'text',
@@ -63,7 +63,7 @@ export const druckerKennung: Short = {
       position: 'kipppunkt',
       sprechtext: 'Oft nicht einmal vom Hersteller dokumentiert.',
       text: 'Nicht einmal vom Hersteller.',
-      symbol: 'ordner',
+      symbol: 'fabrik',
       quelleId: 'bsi-yellow-dots',
       belegId: 'diese-funktion-ist-oft',
     },

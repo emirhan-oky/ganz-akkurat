@@ -83,6 +83,23 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
   if (index === -1) return null;
   const gruppe = gruppen[index]!;
 
+  /*
+   * Die Schriftgroesse richtet sich nach dem **laengsten Wort**, nicht nach
+   * der Gesamtlaenge — dieselbe Rechnung wie bei der Hook, und aus demselben
+   * Grund: Ein langer Satz bricht um, ein langes Wort nicht.
+   *
+   * Der Anlass war „zweitausendzweiundzwanzig", 25 Zeichen am Stueck. Bei 66
+   * Pixeln lief das Wort ueber die Buehne hinaus, und der blaue Balken des
+   * aktiven Wortes machte den Ueberlauf erst richtig sichtbar. Ausgeschriebene
+   * Jahreszahlen sind hier keine Ausnahme, sondern die Regel: Die Vertonung
+   * braucht sie, damit die Stimme sie richtig liest.
+   *
+   * 960 Pixel nutzbare Breite bei rund 0,62 Pixel Laufweite je Punkt
+   * Schriftgroesse und Zeichen.
+   */
+  const laengstesWort = Math.max(...gruppe.woerter.map((w) => w.wort.length));
+  const groesse = Math.min(GROESSEN.untertitel, Math.floor(960 / (laengstesWort * 0.62)));
+
   return (
     <div
       style={{
@@ -124,7 +141,7 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
               style={{
                 fontFamily: SCHRIFT.familie,
                 fontWeight: SCHRIFT.fett,
-                fontSize: GROESSEN.untertitel,
+                fontSize: groesse,
                 lineHeight: 1.18,
                 color: aktiv ? '#FFFFFF' : FARBEN.tinte,
                 letterSpacing: -1,

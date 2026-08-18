@@ -368,6 +368,24 @@ export const KontextArt = z.enum([
   'stecker',
   'einkaufskorb',
   'kreuz',
+
+  /*
+   * Nachgetragen am 18.08.2026, nach der Sichtung der zweiten Woche. Alle vier
+   * schliessen dieselbe Luecke: **Der Satz nannte einen Gegenstand, und im
+   * Vorrat stand keiner** — also wich die Zuordnung auf eine Assoziation aus.
+   *
+   * „Dein Drucker unterschreibt" bekam einen Stempel, „Ein Code auf der
+   * Batterie" eine Lupe, „Fingerprints nutzen mehr Daten" ebenfalls eine Lupe,
+   * „Die Erde dreht ungleichmaessig" einen Mond. Genau das Muster, das am
+   * 18.08. schon einmal zehn von 26 Zuordnungen verdorben hat.
+   *
+   * Bemerkenswert ist der Drucker: `drucken` ist eines von acht Sachgebieten,
+   * und das Geraet dazu fehlte im Symbolvorrat.
+   */
+  'drucker',
+  'browserfenster',
+  'erde',
+  'qrcode',
 ]);
 export type KontextArt = z.infer<typeof KontextArt>;
 

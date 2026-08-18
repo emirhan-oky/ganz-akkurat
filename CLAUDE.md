@@ -678,6 +678,39 @@ Situationssymbol — Kalender für eine Frist, Fabrik für „ab Werk", Menschen
 „alle gleichzeitig". „Licht braucht 67 Millisekunden um die Erde" hat keinen
 Gegenstand, und dort trägt die Zahl das Bild.
 
+### Die Bühne ist 200 × 150, nicht quadratisch
+
+`viewBox="0 0 200 150"`, Standfläche bei `y = 140`. Wer für 200 × 200 zeichnet,
+verliert alles unter 150 — **lautlos**: Das Symbol erscheint, nur ohne
+Unterkante. Am 18.08.2026 traf das drei von vier neuen Zeichnungen. Beim
+QR-Code fehlte dadurch die dritte Eckmarke, und ohne die sind es drei
+Quadrate. Faustregel: nichts unter **y = 146**.
+
+### Was der Satz nennt, nicht was das Thema ist
+
+Der Sonntags-Short handelt vom Fingerabdruck im Browser. Zweimal wurde
+deshalb ein **Fingerabdruck** gezeichnet, und zweimal hat das Standbild ihn
+verworfen: konzentrische Kreise lasen sich als Radar, offene Bögen als
+Regenbogen. Ein Abdruck lebt von zwei Dutzend dicht liegenden Linien — bei
+4 px Strichstärke auf 200 Einheiten wird daraus ein grauer Fleck oder etwas
+anderes.
+
+Der Fehler lag aber davor: Der Satz lautet „Erkannt wirst du am **Browser**."
+Er nennt keinen Abdruck. **Gezeichnet wird, was der Satz nennt — nicht, worum
+es im Video geht.** Ein Browserfenster ist mit vier Linien eindeutig.
+
+## Zeitangaben altern — der Short nicht
+
+Zwischen Entwurf und Ausstrahlung liegen hier ein bis zwei Wochen, und danach
+bleibt der Short im Feed. „Seit zwölf Tagen" stimmte am Schreibtag und ist am
+Sendetag falsch, ohne dass jemand etwas geändert hätte.
+
+Das ist die unangenehmste Sorte Fehler, weil sie durch jede Prüfung geht: Die
+Quelle stimmt, das Zitat steht auf der Seite, die Rechnung war korrekt — nur
+der Bezugspunkt wandert. **Absolute Daten altern nicht:** „Seit dem 6. August"
+ist in einem Jahr noch richtig. `src/pruefung.ts` lehnt „seit heute",
+„gestern", „diese Woche" und „seit N Tagen/Wochen/Monaten" hart ab.
+
 ### Die Prüfung hat die Richtung zweimal gewechselt
 
 `src/illustration.ts` schlug aus dem Szenentext ein Symbol vor, und das

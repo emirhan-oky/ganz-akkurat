@@ -55,7 +55,7 @@ export const flugmodusMaerchen: Short = {
       position: 'kipppunkt',
       sprechtext: 'Nicht das Flugzeug war das Problem. Das Netz am Boden war es.',
       text: 'Nicht das Flugzeug. Das Netz.',
-      symbol: 'schallwellen',
+      symbol: 'nachbarhaeuser',
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'terrestrischen-umts-mobilfunknetzen',
     },

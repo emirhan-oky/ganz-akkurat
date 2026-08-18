@@ -549,6 +549,90 @@ const Symbole: Record<KontextArt, React.ReactNode> = {
       <path {...fein} d="M64 80l7 34M100 80v34M136 80l-7 34" />
     </>
   ),
+  /*
+   * Drucker — flacher Kasten, Papier oben hinein, Blatt unten heraus.
+   *
+   * Er hat bis zum 18.08.2026 gefehlt, obwohl `drucken` eines von acht
+   * Sachgebieten ist. „Dein Drucker unterschreibt" bekam deshalb einen
+   * Stempel: wieder eine Assoziation statt des Gegenstands, den der Satz
+   * nennt. Gezeichnet ist nur die Silhouette — keine Schaechte, keine
+   * Bedienfelder, nichts, was ein Datenblatt behaupten wuerde.
+   */
+  drucker: (
+    <>
+      <path {...koerper} d="M62 40h76v26H62Z" />
+      <path {...koerper} d="M34 66h132v46H34Z" />
+      <path {...koerper} d="M62 96h76v42H62Z" />
+      <path {...fein} d="M74 112h52M74 124h38" />
+      <circle cx="150" cy="80" r="5" fill={FARBEN.blau} />
+    </>
+  ),
+  /*
+   * Browserfenster — Rahmen, Titelleiste, Adresszeile.
+   *
+   * Hier stand zweimal ein **Fingerabdruck**, und beide Male hat das Standbild
+   * ihn verworfen: konzentrische Kreise lasen sich als Radar, offene Boegen
+   * als Regenbogen. Ein Abdruck lebt von zwei Dutzend dicht liegenden Linien
+   * — bei 4 Pixeln Strichstaerke auf 200 Einheiten wird daraus entweder ein
+   * grauer Fleck oder etwas anderes.
+   *
+   * Der eigentliche Fehler lag aber davor, im Zuordnen: Der Satz lautet
+   * „Erkannt wirst du am **Browser**." Er nennt kein Fingerabdruckbild. Die
+   * Doktrin sagt, gezeichnet wird, was der Satz nennt — und ein Browserfenster
+   * ist mit vier Linien eindeutig.
+   */
+  browserfenster: (
+    <>
+      <path {...koerper} d="M28 28h144v114H28Z" />
+      <path {...fein} d="M28 58h144" />
+      <circle cx="46" cy="43" r="5" fill={FARBEN.linieFein} />
+      <circle cx="64" cy="43" r="5" fill={FARBEN.linieFein} />
+      <circle cx="82" cy="43" r="5" fill={FARBEN.blau} />
+      <path {...fein} d="M48 80h104M48 100h78M48 120h58" />
+    </>
+  ),
+  /*
+   * Erde — Kugel mit Aequator und zwei Meridianen.
+   *
+   * Fuer „Die Erde dreht ungleichmaessig" stand vorher ein Mond da. Der Mond
+   * ist ein anderer Himmelskoerper, und genau darum geht es beim Zeichnen:
+   * Der Satz nennt die Erde.
+   */
+  erde: (
+    <>
+      <circle {...koerper} cx="100" cy="82" r="54" />
+      <path {...fein} d="M46 82h108" />
+      <path {...fein} d="M100 28c-19 21-19 87 0 108" />
+      {/*
+        * Der blaue Akzent liegt auf einem **Meridian**, nicht als Bogen quer
+        * ueber die Kugel. Der erste Anlauf hatte ihn dort, und im Standbild
+        * las sich die Erde damit als Smiley — zwei Meridiane als Augen, der
+        * blaue Bogen als Mund. Dasselbe war am 14.08.2026 schon der Steckdose
+        * passiert.
+        */}
+      <path {...strich} stroke={FARBEN.blau} strokeWidth={5} d="M100 28c19 21 19 87 0 108" />
+    </>
+  ),
+  /*
+   * QR-Code — drei Ecken und ein paar Felder.
+   *
+   * Kein lesbarer Code: Er wuerde beim Rendern zu einem Raster verschwimmen
+   * und waere obendrein eine Behauptung ueber einen Inhalt, den niemand
+   * geprueft hat. Die drei Eckmarken machen ihn eindeutig erkennbar.
+   */
+  qrcode: (
+    <>
+      {/*
+        * Auf y = 48…152 gestaucht. Der erste Anlauf lief bis y = 160, und im
+        * Standbild fehlte die Unterkante der linken unteren Ecke: Die Buehne
+        * begrenzt die Zeichnung, und ein QR-Code ohne dritte Ecke ist kein
+        * QR-Code mehr, sondern drei Quadrate.
+        */}
+      <path {...koerper} d="M48 26h42v42H48ZM110 26h42v42h-42ZM48 104h42v42H48Z" />
+      <path {...koerper} fill={FARBEN.blau} stroke="none" d="M60 38h18v18H60ZM122 38h18v18h-18ZM60 116h18v18H60Z" />
+      <path {...fein} d="M110 104h14v14h-14M138 104h14M110 132h14M138 132h14v14" />
+    </>
+  ),
   /* Kreuz im Kreis — gibt es nicht. */
   kreuz: (
     <>
@@ -589,6 +673,15 @@ const Zeichenflaeche: React.FC<ZeichnungProps & { inhalt: React.ReactNode }> = (
       ...(einpassen ? { maxHeight: '100%', maxWidth: '100%', height: 'auto' } : {}),
     }}
   >
+    {/*
+      * **Die Buehne ist 200 x 150, nicht quadratisch.** Wer fuer 200 x 200
+      * zeichnet, verliert alles unter y = 150 — und zwar lautlos: Das Symbol
+      * erscheint, nur ohne Unterkante. Am 18.08.2026 traf das drei von vier
+      * neuen Zeichnungen; beim QR-Code fehlte dadurch die dritte Eckmarke, und
+      * ohne die ist es kein QR-Code mehr, sondern sind es drei Quadrate.
+      *
+      * Faustregel: nichts unter y = 146, und die Standflaeche liegt bei 140.
+      */}
     {/* Standflaeche: gibt den Objekten Halt wie im Banner. */}
     <ellipse cx="100" cy="140" rx="62" ry="9" fill={FARBEN.flaeche} opacity={0.5} />
     {inhalt}

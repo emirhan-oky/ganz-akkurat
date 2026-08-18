@@ -24,7 +24,7 @@ export const produktpassRegister: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Seit zwölf Tagen hat dein Akku einen Ausweis.',
+      sprechtext: 'Seit dem sechsten August hat dein Akku einen Ausweis.',
       text: 'Dein Akku hat einen Ausweis.',
       symbol: 'batterie',
     },
@@ -53,7 +53,7 @@ export const produktpassRegister: Short = {
       position: 'kipppunkt',
       sprechtext: 'Der Zugang ist ein Code auf der Batterie. Du hältst die Kamera drauf.',
       text: 'Ein Code auf der Batterie.',
-      symbol: 'lupe',
+      symbol: 'qrcode',
       quelleId: 'eu-batterie-entnehmbar',
       belegId: 'ueber-den-qr-code-zugriff',
     },
@@ -72,7 +72,7 @@ export const produktpassRegister: Short = {
       sprechtext: 'Erfahren hast du es hier.',
       satz: 'Erfahren hast du es hier.',
       rundlauf:
-        '„Erfahren hast du es hier." trifft auf „Seit zwölf Tagen hat dein Akku einen Ausweis." — die Zeitangabe wird beim zweiten Mal zum Vorwurf an alle anderen.',
+        '„Erfahren hast du es hier." trifft auf „Seit dem sechsten August." — das Datum wird beim zweiten Mal zum Vorwurf an alle anderen.',
     },
   ],
 

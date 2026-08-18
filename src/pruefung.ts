@@ -856,6 +856,60 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     );
   }
 
+  /* ── Zeitangaben altern ───────────────────────────────────────────── */
+
+  /*
+   * Kein Sprechtext enthaelt eine Zeitangabe, die sich auf **heute** bezieht.
+   *
+   * Am 18.08.2026 stand im Mittwochs-Short „Seit zwoelf Tagen hat dein Akku
+   * einen Ausweis". Am Tag des Schreibens stimmte das. Gesendet wird der Short
+   * aber am **26.08.**, und dann sind es zwanzig Tage. Der Satz war nicht
+   * falsch, als er entstand — er wird es beim Liegen.
+   *
+   * Das ist eine besonders unangenehme Sorte Fehler, weil sie durch jede
+   * Pruefung geht: Die Quelle stimmt, das Zitat steht auf der Seite, die
+   * Rechnung war korrekt. Nur der Bezugspunkt wandert.
+   *
+   * Zwischen Entwurf und Ausstrahlung liegen hier regelmaessig ein bis zwei
+   * Wochen, und ein Short bleibt danach im Feed. Absolute Daten altern nicht:
+   * „Seit dem 6. August" ist in einem Jahr noch richtig.
+   */
+  const HEUTEBEZUG = [
+    'seit heute',
+    'seit gestern',
+    'seit vorgestern',
+    'heute vor',
+    'diese woche',
+    'letzte woche',
+    'vorige woche',
+    'diesen monat',
+    'letzten monat',
+    'gestern',
+    'vorgestern',
+    'morgen',
+    'uebermorgen',
+    'übermorgen',
+  ];
+  /** „seit drei Wochen", „vor zwoelf Tagen" — Zahl plus Zeiteinheit. */
+  const ZEITSPANNE =
+    /\b(seit|vor)\s+(einer|einem|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+)\s+(tag|tagen|woche|wochen|monat|monaten)\b/i;
+
+  for (const szene of short.szenen) {
+    const text = ohneSatzzeichen(szene.sprechtext);
+    const woerter = HEUTEBEZUG.filter((w) => text.includes(w));
+    const spanne = ZEITSPANNE.exec(szene.sprechtext);
+
+    if (woerter.length > 0 || spanne) {
+      melde(
+        'fehler',
+        'zeitbezug',
+        `„${spanne ? spanne[0] : woerter.join('", „')}" rechnet ab heute. Zwischen Entwurf und ` +
+          'Ausstrahlung liegen hier ein bis zwei Wochen, und der Short bleibt danach im Feed – ' +
+          'die Angabe wird falsch, ohne dass jemand etwas ändert. Absolutes Datum nehmen.',
+      );
+    }
+  }
+
   /* ── Der Rundlauf ─────────────────────────────────────────────────── */
 
   /*

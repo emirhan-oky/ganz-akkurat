@@ -33,7 +33,7 @@ export const schaltsekundeEndet: Short = {
       position: 'zuspitzung',
       sprechtext: 'Die Erde dreht ungleichmäßig. Also schiebt man eine Sekunde ein.',
       text: 'Eine Sekunde wird eingeschoben.',
-      symbol: 'mond',
+      symbol: 'erde',
       quelleId: 'bipm-schaltsekunde',
       belegId: 'a-leap-second-is-applied',
       herausgeber: 'Internationales Büro für Maß und Gewicht',
