@@ -1099,6 +1099,63 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     }
   }
 
+  /* ── Jede symbolfähige Szene trägt eine Zeichnung ────────────────── */
+
+  /*
+   * Die Regel ist am 18.08.2026 zum zweiten Mal in zwei Tagen gekippt, und
+   * beide Male aus demselben Grund: Sie stand auf der falschen Seite.
+   *
+   * Zuerst prüfte sie nur nach **oben** — mehr als die Hälfte der Szenen mit
+   * Zeichnung sei zu viel. Ergebnis: gar keine, weil nichts nach unten fragte.
+   * Dann verlangte sie **genau eine** je Short. Ergebnis: eine, und die
+   * restlichen vier Szenen blieben leer.
+   *
+   * Jetzt ist die Doktrin eine andere, und sie kommt vom Zuschauer, nicht aus
+   * der Systematik: **Jede Szene, die eine Zeichnung tragen kann, trägt
+   * eine.** Die reine Typografie hält den Inhalt, aber sie lässt die Fläche
+   * leer, und das fällt im Feed auf.
+   *
+   * Drei Arten können konstruktionsbedingt keine tragen und stehen deshalb
+   * nicht in der Zählung: `vergleich` hat zwei Spalten, `kaufkriterien` eine
+   * Liste, `schluss` zeigt Wortmarke und Spruch. Alle drei sind voll.
+   */
+  const TRAEGT_ZEICHNUNG = new Set(['text', 'zahl', 'frage', 'einschraenkung']);
+
+  for (const short of shorts) {
+    const faehig = short.szenen.filter((s) => TRAEGT_ZEICHNUNG.has(s.art));
+    const ohne = faehig.filter((s) => !('symbol' in s) || s.symbol === undefined);
+
+    if (ohne.length > 0) {
+      befunde.push({
+        stufe: 'hinweis',
+        shortId: short.id,
+        regel: 'bildvielfalt',
+        text:
+          `${ohne.length} von ${faehig.length} bebilderbaren Szenen ohne Zeichnung. ` +
+          'Dort bleibt die Fläche unter dem Text leer.',
+      });
+    }
+
+    /*
+     * Dieselbe Zeichnung zweimal in einem Video liest sich nicht als Motiv,
+     * sondern als Verlegenheit — beim zweiten Mal fragt der Zuschauer, ob er
+     * dieselbe Szene noch einmal sieht. Ueber verschiedene Shorts hinweg ist
+     * Wiederholung dagegen erwuenscht: Das Gesetzbuch soll bei jedem
+     * Rechtsthema dasselbe sein.
+     */
+    const benutzt = short.szenen
+      .flatMap((s) => ('symbol' in s && s.symbol ? [s.symbol] : []));
+    const doppelt = benutzt.filter((s, i) => benutzt.indexOf(s) !== i);
+    if (doppelt.length > 0) {
+      befunde.push({
+        stufe: 'hinweis',
+        shortId: short.id,
+        regel: 'bildvielfalt',
+        text: `Zeichnung „${[...new Set(doppelt)].join(', ')}" kommt mehrfach vor.`,
+      });
+    }
+  }
+
   return befunde;
 };
 

@@ -82,7 +82,25 @@ const Illustration = (
         marginTop: ABSTAND.l,
         display: 'flex',
         justifyContent: 'center',
-        minHeight: 0,
+        /*
+         * Eine Untergrenze, seit dem 17.08.2026.
+         *
+         * Vorher stand hier `minHeight: 0` neben `maxHeight: '100%'`, und das
+         * bedeutet in einer Flex-Spalte: Der Text nimmt sich, was er braucht,
+         * die Zeichnung bekommt den Rest. In einer textreichen Szene ist der
+         * Rest fast nichts — im gerenderten Sonntag kamen von 560 Pixeln
+         * Sollgroesse rund 60 an. Das Symbol war da, aber es las sich als
+         * graues Kritzelchen und nicht als Bild.
+         *
+         * Genau die Sorte Fehler, gegen die die Hausregel steht: Eine
+         * Zeichnung ist erst geprueft, wenn sie gerendert danebensteht. Im
+         * Code sah `einpassen` vernuenftig aus.
+         *
+         * 300 Pixel sind gemessen und nicht geraten: Die Buehne ueber der
+         * 270-Pixel-Untertitelzone ist rund 1.400 Pixel hoch, die Zeichnung
+         * nimmt davon gut ein Fuenftel.
+         */
+        minHeight: 300,
         maxHeight: '100%',
       }}
     >

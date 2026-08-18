@@ -347,6 +347,31 @@ export const beitragPlanen = async (
      * Veroeffentlichen. Die Dokumentation nennt an dieser Stelle
      * SCHEDULED und AUTOMATIC - beides existiert nicht.
      */
+    /*
+     * Zum Vorschaubild, damit es niemand ein zweites Mal recherchiert.
+     *
+     * `thumbnailOffset` waehlt es als **Zeitpunkt im Video**, nicht als Datei.
+     * Eine eigene Bilddatei ist nicht bloss nicht vorgesehen, sondern
+     * ausgeschlossen: Buffers Schema schreibt zum Feld `thumbnailUrl`
+     * woertlich, dass soziale Netze keine eigenen Vorschaubilder annehmen und
+     * die Programmierschnittstelle jedes Video ablehnt, das eines mitschickt.
+     *
+     * 1000 ms ist Absicht: Die erste Sekunde liegt im Aufschlag, und der ist
+     * die Szene, die zum Antippen bringen soll. Spaeter waere es eine Szene
+     * aus der Mitte, die nichts verspricht.
+     *
+     * Am 17.08.2026 hat sich Instagram daran gehalten und **TikTok nicht** —
+     * dort stand ein Bild aus Szene 3. Laut Schema ist TikTok unterstuetzt;
+     * die Auswahl passiert also auf deren Seite und laesst sich von hier nicht
+     * erzwingen.
+     *
+     * Zuletzt eine Warnung an den naechsten, der hier etwas erklaeren will:
+     * Dieser Kommentar stand zuerst **in** der Abfrage. Dort beenden die
+     * Backticks um Feldnamen das Template-Literal, und selbst ohne das waere er
+     * an Buffer mitgeschickt worden — GraphQL kennt die geschweiften
+     * Sternchen-Kommentare von JavaScript nicht, sondern nur die Raute.
+     * Kommentare gehoeren ueber eine Abfrage, nie hinein.
+     */
     `mutation($channelId: ChannelId!, $text: String!, $dueAt: DateTime!, $url: String!, $titel: String!, $metadata: PostInputMetaData!) {
        createPost(input: {
          channelId: $channelId
@@ -436,6 +461,37 @@ export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
     zeitpunkt.setHours(uhrzeit, 0, 0, 0);
     return zeitpunkt;
   });
+
+/**
+ * Vorlauf fuer einen Termin, der eigentlich schon vorbei ist.
+ *
+ * Buffer plant in die Zukunft. Ein Termin in der Vergangenheit wird entweder
+ * abgelehnt oder sofort veroeffentlicht — beides ohne Vorwarnung, und beides
+ * will man nicht als Ueberraschung.
+ */
+export const VORLAUF_MIN = 8;
+
+/**
+ * Schiebt vergangene Termine nach vorn, gestaffelt.
+ *
+ * Gebraucht am 17.08.2026: Die erste Woche sollte am selben Montag starten,
+ * an dem sie gebaut wurde, und der 18-Uhr-Platz war um 20:22 laengst vorbei.
+ *
+ * **Gestaffelt** deshalb, weil sonst mehrere nachgezogene Shorts auf dieselbe
+ * Minute fielen. Genau dagegen steht die Uhrzeit am Format: Zwei Videos zur
+ * selben Zeit nehmen sich die Reichweite. Ein Fehler, den kein Schema
+ * bemerkt, weil der Plan formal richtig bleibt — er darf hier nicht durch die
+ * Hintertuer zurueckkommen.
+ */
+export const nichtInDerVergangenheit = (zeiten: Date[], jetzt: Date): Date[] => {
+  let nachgezogen = 0;
+  return zeiten.map((zeitpunkt) => {
+    if (zeitpunkt.getTime() > jetzt.getTime()) return zeitpunkt;
+    const versatz = (VORLAUF_MIN + nachgezogen * 3) * 60_000;
+    nachgezogen += 1;
+    return new Date(jetzt.getTime() + versatz);
+  });
+};
 
 /** Naechster Montag ab einem Stichtag — der Wochenlauf beginnt montags. */
 export const naechsterMontag = (ab: Date): Date => {

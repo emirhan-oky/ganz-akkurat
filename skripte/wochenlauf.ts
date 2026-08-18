@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { Quelle, Short } from '../src/typen';
+import { Quelle, Short, Tonspur } from '../src/typen';
 import { laufPruefen } from '../src/pruefung';
 import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
@@ -62,10 +62,10 @@ const HAT_TON = MIT_TON || TON_BEHALTEN;
 const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
 
 /**
- * Teillauf: `--nur=skl-pbf-01` baut einen einzigen Short.
+ * Teillauf: `--nur=ein-stecker` baut einen einzigen Short.
  *
- * Gedacht fuer die Ansicht einer Aenderung mit echter Stimme, ohne sieben
- * Vertonungen zu bezahlen — ein Short kostet rund 1.500 Zeichen statt 7.300.
+ * Gedacht fuer die Ansicht einer Aenderung mit echter Stimme, ohne acht
+ * Vertonungen zu bezahlen — ein Short kostet rund 350 Zeichen statt 2.850.
  *
  * Zwei Dinge gelten deshalb im Teillauf **nicht**:
  *
@@ -172,23 +172,85 @@ const main = async () => {
     }
     console.log('');
   } else if (TON_BEHALTEN) {
+    /*
+     * Der Ton darf aus einem **frueheren** Lauf kommen, nicht nur aus dem von
+     * heute.
+     *
+     * Die erste Fassung suchte ausschliesslich in `laeufe/<heute>/props/` und
+     * brach sonst ab. Das ging gut, bis in der Nacht zum 18.08.2026 mitten in
+     * der Arbeit der Tag wechselte: Die Tonspuren lagen unter dem 17., der
+     * Lauf suchte unter dem 18., und die Meldung lautete „setzt einen Lauf mit
+     * Ton am selben Tag voraus" — richtig beschrieben und trotzdem die falsche
+     * Grenze. Der Schalter will vorhandenen Ton wiederverwenden; das Datum ist
+     * dabei keine Eigenschaft des Tons, sondern des Ordners.
+     *
+     * Gesucht wird deshalb der **juengste** Lauf, der eine Tonspur zu diesem
+     * Short hat. Gefaehrlich ist das nicht: Unmittelbar danach wird Szene fuer
+     * Szene verglichen, ob der Sprechtext noch derselbe ist, und bei der
+     * kleinsten Abweichung bricht der Lauf ab. Ein alter Ton unter neuem Text
+     * kommt hier nicht durch.
+     */
+    const laufOrdner = (await fs.readdir('laeufe').catch(() => [] as string[]))
+      .filter((n) => /^\d{4}-\d{2}-\d{2}$/.test(n))
+      .sort()
+      .reverse();
+
+    const propsSuchen = async (shortId: string): Promise<{ pfad: string; roh: string } | null> => {
+      for (const ordner of laufOrdner) {
+        const pfad = path.join('laeufe', ordner, 'props', `${shortId}.json`);
+        const roh = await fs.readFile(pfad, 'utf8').catch(() => null);
+        if (roh) return { pfad, roh };
+      }
+      return null;
+    };
+
     console.log('2  Vertonung aus dem vorhandenen Lauf übernommen');
     fertige = [];
     for (const short of shorts) {
-      const propsDatei = path.join(wurzel, 'props', `${short.id}.json`);
-      let roh: string;
-      try {
-        roh = await fs.readFile(propsDatei, 'utf8');
-      } catch {
+      const gefunden = await propsSuchen(short.id);
+      if (!gefunden) {
         throw new Error(
-          `--ton-behalten: ${propsDatei} fehlt. Der Schalter setzt einen Lauf ` +
-            `mit Ton am selben Tag voraus — sonst gibt es keine Vertonung zu behalten.`,
+          `--ton-behalten: Zu ${short.id} gibt es in keinem Lauf unter laeufe/ eine ` +
+            `Vertonung. Einmal mit --mit-ton laufen lassen.`,
         );
       }
-      const alt = Short.parse((JSON.parse(roh) as { daten: unknown }).daten);
-      if (!alt.tonspur) {
-        throw new Error(`--ton-behalten: ${short.id} hat in den Props keine Tonspur.`);
+      const { pfad: propsDatei, roh } = gefunden;
+      if (!propsDatei.includes(id)) {
+        console.log(`   ${short.id}  Ton aus ${propsDatei.split(path.sep)[1]}`);
       }
+      /*
+       * Aus den alten Renderdaten wird **nur die Tonspur** gelesen, und zwar
+       * ohne den ganzen Short zu validieren.
+       *
+       * Vorher stand hier `Short.parse(...)` auf der kompletten Datei, und das
+       * war ein Konstruktionsfehler: Renderdaten sind eine Momentaufnahme
+       * eines aelteren Datenvertrags. Am 18.08.2026 kam dadurch ein
+       * ZodError — in den Props stand `symbol: 'kasse'`, ein Wert, den das
+       * Schema eine Minute zuvor verloren hatte. Der Schalter blockierte sich
+       * damit **selbst**: Wer das Schema aendert, muss neu rendern, und genau
+       * das liess er nicht mehr zu.
+       *
+       * Die Tonspur ist von solchen Aenderungen nie betroffen. Sie wird
+       * deshalb einzeln geprueft, und alles andere kommt ohnehin aus dem
+       * aktuellen Entwurf.
+       */
+      const altDaten = (JSON.parse(roh) as {
+        daten?: { tonspur?: unknown; szenen?: { sprechtext?: string; untertitel?: unknown }[] };
+      }).daten;
+      const tonspur = Tonspur.safeParse(altDaten?.tonspur);
+      if (!tonspur.success) {
+        throw new Error(
+          `--ton-behalten: ${short.id} hat in ${propsDatei} keine brauchbare Tonspur.`,
+        );
+      }
+      /*
+       * Die alten Szenen werden **roh** gelesen, nicht validiert. Gebraucht
+       * werden aus ihnen nur zwei Dinge: die Anzahl und der Sprechtext, beides
+       * fuer die Sicherheitspruefung gleich darunter. Beides ist von
+       * Schemaaenderungen nie betroffen — ein weggefallener Symbolwert macht
+       * einen Sprechtext nicht ungueltig.
+       */
+      const alt = { tonspur: tonspur.data, szenen: altDaten?.szenen ?? [] };
 
       /*
        * **Nur die Tonspur wird uebernommen, alles andere kommt aus dem
@@ -317,10 +379,30 @@ const main = async () => {
     const ziel = path.join(videoOrdner, `${short.id}.mp4`);
     await fs.writeFile(propsDatei, JSON.stringify({ daten: short }));
 
+    /*
+     * `--timeout` steht hier wegen des 17.08.2026.
+     *
+     * Drei Laeufe hintereinander brachen ab, und zwar mit drei verschiedenen
+     * Meldungen: „Timed out after 25000 ms while trying to connect to the
+     * browser", danach zweimal ein SIGKILL auf `ffprobe` bzw. `ffmpeg` aus
+     * Remotions eigenem Compositor. Das sah nach drei Fehlern aus und war
+     * einer: Laeuft der Browserstart in die Voreinstellung von 25 Sekunden,
+     * raeumt Remotion auf und schiesst dabei seine Kindprozesse ab. Der
+     * SIGKILL ist die Folge, nicht die Ursache.
+     *
+     * Nachgemessen war die Maschine dabei unauffaellig — 61 % Speicher frei,
+     * Last 1,5, kein Swap —, und `ffprobe` las von Hand genau die Datei
+     * einwandfrei, an der es gescheitert war. Der Direktlauf mit erhoehter
+     * Wartezeit lief durch.
+     *
+     * 25 Sekunden sind fuer einen kalten Chrome-Start knapp bemessen, sobald
+     * nebenher irgendetwas laeuft. Zwei Minuten kosten nichts: Der Wert ist
+     * eine Obergrenze, kein Warten.
+     */
     const beginn = Date.now();
     await ausfuehren('npx', [
       'remotion', 'render', 'video/index.ts', 'Short', ziel,
-      `--props=${propsDatei}`, '--log=error',
+      `--props=${propsDatei}`, '--log=error', '--timeout=120000',
     ], { maxBuffer: 32 * 1024 * 1024 });
 
     const mb = (await fs.stat(ziel)).size / 1_048_576;

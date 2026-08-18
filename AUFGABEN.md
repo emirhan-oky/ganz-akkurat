@@ -73,48 +73,128 @@ und erbte damit den Belegstatus von allem, was in der Quelle stand.
       Resilience Act (Meldefrist ab September), gedrosselte Telefone,
       Schaltsekunde, Bluetooth-Königsname~~
 
+## Der Kanal läuft · 17.08.2026, 20:40
+
+- [x] ~~Alle acht Shorts abgenommen. Der Dienstag ging dreimal zurück: erst
+      klang der Übergang abgehackt, dann fehlte der Pointe ihr Aufbau (den
+      hatte der Beleg-Umbau weggeschnitten), dann war „Achtundneunzig" als
+      Jahreszahl weder verständlich noch belegt. Jetzt: „Damals."~~
+- [x] ~~**`npm run veroeffentlichen` erstmals komplett gelaufen** — 24 Beiträge
+      auf drei Kanälen, Mo 17.08. bis So 23.08. Kein Fehlschlag~~
+- [x] ~~`--ab=<datum>` gebaut: Die Woche beginnt am Tag, an dem sie fertig
+      wurde, nicht sieben Tage später~~
+- [x] ~~Vergangene Termine gehen gleich raus statt still zu scheitern,
+      gestaffelt, damit nicht zwei auf dieselbe Minute fallen~~
+- [x] ~~ElevenLabs bekommt drei Versuche; ein leerer Rumpf mit HTTP 200 heißt
+      jetzt auch so und nicht „Unexpected end of JSON input"~~
+- [x] ~~Render-Wartezeit auf zwei Minuten — 25 Sekunden reichen für einen
+      kalten Chrome-Start nicht, wenn nebenher etwas läuft~~
+- [x] ~~Markenbilder aus dem Code erzeugt (`npm run markenbilder`): Profilbild
+      hell und dunkel, YouTube-Banner, freigestellte Wortmarke~~
+- [x] ~~Kanaltexte in `marke-texte.md`, ohne Taktzusage~~
+
+## Entschieden und erledigt · 17.08.2026, spät
+
+- [x] ~~Bilder hochgeladen, Bios eingetragen, Kanäle stehen auf allen drei
+      Plattformen~~
+- [x] ~~Die Videos sehen auf den Plattformen richtig aus — geprüft am
+      Montagsvideo~~
+- [x] ~~Rechner neu gestartet~~
+- [x] ~~`emirhanokyay@hotmail.com` im GitHub-Konto eingetragen~~
+- [x] ~~**Kleinschreibung des YouTube-Handles bleibt, wie sie ist.** `@Ganzakkurat`
+      dort, `ganzakkurat` bei Instagram und TikTok. Handles sind bei YouTube
+      nicht groß-klein-empfindlich; es ist kein Fehler, sondern eine
+      Uneinheitlichkeit, die niemanden stört~~
+- [x] ~~**Der Sendeplan kommt nicht aufs Banner zurück.** Entschieden, nicht
+      vertagt: Ein angeschlagener Takt bindet, und der Kanal soll frei bleiben,
+      Wochen auch mal ausfallen zu lassen. Die Wochentage bleiben im
+      Formatmodell — dort sind sie Produktionsplan, kein Versprechen nach
+      außen~~
+- [x] ~~**Kein Anwaltstermin.** Die drei Fragen — Werbekennzeichnung im Video,
+      Impressumspflicht, DPMAregister — hingen alle am gewerblichen Start. Es
+      gibt keine Werbung, keine Partnerlinks und keine Monetarisierung, also
+      steht nichts an. Käme das zurück, käme die Liste mit~~
+
+## Bebilderung · 18.08.2026
+
+Aus „eine Zeichnung als Ausnahme" ist „jede Szene, die eine tragen kann"
+geworden. Der Anstoß kam von dir: Die reine Typografie hält den Inhalt, aber
+sie lässt die Fläche leer.
+
+- [x] ~~Symbolvorrat von 8 auf **38**; 34 von 38 Szenen bebildert~~
+- [x] ~~Untergrenze für die Zeichnung: Sie bekam nur den Rest der Bühne und kam
+      in textreichen Szenen mit 60 statt 560 Pixeln an~~
+- [x] ~~**Doktrin korrigiert.** „Keine Gerätezeichnungen" war als „keine
+      Buchsen" gemeint und wurde als „keine Gegenstände" gebaut. Zehn von 26
+      Zuordnungen waren dadurch Assoziationen statt Gegenstände — ein Sofa für
+      „Dein Fernseher hat ein Mikrofon". Jetzt gilt: gezeichnet wird, was der
+      Satz nennt~~
+- [x] ~~Drei Zeichnungen im Standbild verworfen: Ladenkasse (las sich wie der
+      Fernseher), zwei gespiegelte Kabel (lasen sich als Ohrhörer), Waage für
+      „zwei Kabel"~~
+- [x] ~~`--ton-behalten` parste die alten Renderdaten gegen das **aktuelle**
+      Schema und war damit nach jeder Vertragsänderung unbenutzbar — genau
+      dann, wenn man es braucht. Liest jetzt nur Tonspur und Sprechtext~~
+- [x] ~~`--ton-behalten` findet den Ton auch in einem früheren Lauf. Vorher
+      brach es um Mitternacht ab, weil der Tagesordner wechselte~~
+
 ## Offen
 
-- ▸ **Die acht Shorts abnehmen** — `laeufe/2026-08-17/freigabe.html`.
-      Danach `npm run veroeffentlichen`, das nie im Ganzen gelaufen ist.
-- [ ] Namen bestätigen. Ich habe meinen eigenen Vorschlag genommen, weil du
-      beim Tag weitergegangen bist — „Das gilt jetzt" wäre die Alternative.
-- [ ] Der neue Sendeplatz hat **keinen haltbaren Vorrat**. Acht Beobachtungs-
-      posten stehen jetzt in `daten/ideen/neu.ts`; nachschauen bleibt
-      Wochenarbeit. Der nächste Termin: Meldepflichten des Cyber Resilience
-      Act im September
-- [ ] Sechs Themen hängen an Spezifikationen, die kostenpflichtig sein
-      könnten (JEDEC, ISO/IEC Cat, HDMI, DVD-Regionalcode, Festplatten-
-      Parken, POSIX-Epochenzeit). Vor dem Bauen je einmal nachsehen —
-      danach entweder produzieren oder ganz streichen
+- [x] ~~**Vorschaubild bei TikTok: nichts zu machen.** Buffer schreibt es ins
+      eigene Schema — die Netze nehmen keine hochgeladenen Titelbilder an und
+      lehnen jedes Video ab, das eines mitschickt. Was geht, tun wir schon:
+      `thumbnailOffset: 1000` wählt das Bild bei Sekunde 1, also im Aufschlag.
+      Instagram hält sich daran, TikTok sucht sich trotzdem sein eigenes. Der
+      Befund steht an der Codestelle~~
 
-## Achter Sendeplatz · 17.08.2026
+- ▸ Den Tagesstand pushen — seit dem letzten Push sind Markenbilder,
+      Kanaltexte und die drei Werkzeugkorrekturen dazugekommen
+- [ ] Nächste Woche bauen. Der Vorrat trägt acht Wochen
 
-- [x] ~~`Format` auf acht, `Lauf` auf acht Shorts, MATRIX-Prüffrage davor~~
-- [x] ~~Sendezeit gehört jetzt ans Format (`FORMATE[...].uhrzeit`) — zwei
-      Mittwochsvideos wären sonst auf dieselbe Minute gefallen~~
-- [x] ~~Loch in der Formatprüfung geschlossen: Die Gegenprobe lief nur, wenn
-      Shortzahl und Formatzahl gleich waren, und schwieg genau dann, wenn sie
-      gebraucht wurde~~
-- [x] ~~Reparaturrichtlinie 2024/1799 abgerufen, drei Zitate bestätigt~~
-- [x] ~~`ein-stecker` von `recht` auf `handy`, sonst wäre `recht` dreimal drin~~
+## Der Mittwoch ist automatisiert · 17.08.2026, nachts
 
-## Erledigt am 17.08.2026 · Nachmittag
+`npm run neuigkeiten` fragt bei Cellar ab, welche EU-Rechtsakte in den
+letzten sechs Wochen **in Kraft getreten** sind, holt die Volltexte und siebt
+sie. Aus 400 Rechtsakten werden zehn Kandidaten.
 
-- [x] ~~Vertonung: sieben Shorts, 2.508 Zeichen, 0 Fehler~~
-- [x] ~~Denkpause gemessen statt geraten (`npm run pausenprobe`): Auslassungs-
-      punkte geben 0,38 / 0,86 / 1,69 s, der `<break>`-Tag trifft auf ein
-      Zehntel. `pauseNach` ist zu `pauseSek` geworden~~
-- [x] ~~**EUR-Lex wieder maschinell prüfbar** — nicht über die Weboberfläche,
-      sondern über Cellar. `quellen-pruefen` leitet CELEX-Adressen selbst um~~
-- [x] ~~**Gelbe Punkte belegt**: BSI IT-Grundschutz SYS.4.1 schreibt wörtlich
-      „nicht dokumentiert und kann nicht abgeschaltet werden"~~
-- [x] ~~Streitfälle von 5 auf 10 aufgefüllt, Montag von 5 auf 9~~
-- [x] ~~45 Zitate geprüft, 0 Beanstandungen~~
+- [x] ~~SPARQL-Abfrage auf `resource_legal_date_entry-into-force`, Volltexte
+      über denselben Cellar-Weg wie `quellen-pruefen`~~
+- [x] ~~**Gegenprobe bestanden:** Der erste scharfe Lauf setzte die
+      KI-Verordnung (32024R1689, in Kraft seit 2. August) auf Platz eins —
+      dasselbe Thema, das nachmittags von Hand recherchiert worden war~~
+- [x] ~~Drei Anläufe, zwei Befunde im Skript festgehalten: 83 Kandidaten waren
+      zu viele (häufige Wörter qualifizieren nicht mehr, sie ordnen nur), und
+      30 waren die falschen — **„usb" steckt in „Ausbruch"**, deshalb lauter
+      Beschlüsse zur Schweinepest. Gesucht wird jetzt am Wortanfang~~
+
+**Was der Wächter nicht kann, bleibt der Engpass:** Ob jemand es freiwillig
+weitererzählt. Er legt zehn vor, ein Mensch nimmt zwei.
+
+## Umzug auf „Ganz akkurat" · 17.08.2026 · Abend
+
+- [x] ~~Buffer auf die drei neuen Kanäle umgestellt — alle drei verbunden,
+      keiner getrennt~~
+- [x] ~~Cloudflare: `ganzakkuratvideos` angelegt und öffentlich freigegeben,
+      `.env` umgestellt, alle Zugänge mit echtem Hin-und-Rück geprüft~~
+- [x] ~~Die zwei letzten SetupKlar-Videos gelöscht, `setupklarvideos` entfernt~~
+- [x] ~~Aufräumregel: Objekte verschwinden nach 90 Tagen von selbst~~
+- [x] ~~GitHub angelegt und gepusht. Historie vorher vereinheitlicht: ein
+      Autor statt zwei, acht alte Banner raus, 35 MB → 6,3 MB~~
+- [x] ~~`.gitignore` deckt jetzt alle `.env`-Varianten ab. Eine Sicherungskopie
+      lag daneben, die keine Einzelregel traf — eine Aufzählung kann man
+      vergessen, ein Muster nicht~~
+- [x] ~~Letzte SetupKlar-Spuren im Code: veraltetes Beispielkürzel im
+      Wochenlauf. Die historischen Kommentare bleiben stehen, sie erklären,
+      warum etwas so ist~~
 
 ## Danach
 
-- [ ] Instagram-Handle `@ganzakkurat` bestätigen, dann alle drei sichern
-- [ ] R2-Bucket heißt noch `setupklarvideos` — Cloudflare kann nicht
-      umbenennen, also neu anlegen und umziehen
-- [ ] Vor dem gewerblichen Start: DPMAregister auf „Akkurat" in Klasse 41
+- [x] ~~`@ganzakkurat` auf allen drei Plattformen gesichert und umbenannt~~
+- [x] ~~`ganzakkurat.de` bei STRATO als Kontodomain hinterlegt~~
+- [x] ~~**Keine eigene Domain für die Videoablage.** Die `pub-…r2.dev`-Adresse
+      bleibt. Sie sieht kein Zuschauer — nur Buffer und die Plattformen holen
+      darüber die Datei ab, danach liegt das Video bei ihnen. Der einzige
+      Vorteil wäre, einen Bucketwechsel zu überleben; dafür müssten die
+      Namensserver von STRATO zu Cloudflare umziehen. Steht in keinem
+      Verhältnis~~
+- [x] ~~`kontakt@ganzakkurat.de` bei STRATO angelegt~~

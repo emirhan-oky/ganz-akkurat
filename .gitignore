@@ -1,6 +1,13 @@
 # Zugangsschluessel - NIEMALS committen
+#
+# Die Regel deckt bewusst *alle* .env-Varianten ab und nimmt nur die Vorlage
+# aus. Vorher standen hier `.env` und `.env.local` einzeln, und am 17.08.2026
+# lag eine Sicherungskopie `.env.sicherung-vor-umzug` daneben, die keine der
+# beiden Regeln traf — unverfolgt, aber ein `git add -A` haette sie
+# mitgenommen. Eine Aufzaehlung kann man vergessen, ein Muster nicht.
 .env
-.env.local
+.env.*
+!.env.example
 *.key
 
 # Abhaengigkeiten
@@ -28,3 +35,9 @@ tmp/
 
 # Belegansicht (erzeugt)
 belege.html
+
+# Markenbilder (erzeugt aus video/Marke.tsx)
+marke/
+
+# Kandidatenliste des Mittwochswaechters (erzeugt, veraltet woechentlich)
+daten/neuigkeiten.json

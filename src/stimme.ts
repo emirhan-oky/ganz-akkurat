@@ -162,8 +162,62 @@ export const szenenStartzeiten = (a: Ausrichtung, szenenOffsets: number[]): numb
     return a.character_start_times_seconds[index] ?? 0;
   });
 
-/** Ruft die Sprachsynthese auf und liefert Ton samt Zeitstempeln. */
+/**
+ * Wie oft ein Aufruf wiederholt wird, und wie lange dazwischen gewartet wird.
+ *
+ * Am 17.08.2026 ist die Vertonung desselben Shorts zweimal an ElevenLabs
+ * gescheitert, mit zwei verschiedenen Gesichtern: einmal HTTP 200 mit leerem
+ * Rumpf („Unexpected end of JSON input"), einmal `fetch failed`, also gar
+ * keine Verbindung. Beide Male lief der naechste Versuch von Hand sauber
+ * durch; Netz und Dienst waren nachweislich in Ordnung (api.elevenlabs.io
+ * antwortete in 0,47 s).
+ *
+ * Ohne Wiederholung ist das im Wochenlauf teuer und nicht bloss laestig: Der
+ * Lauf bricht beim vierten von acht Shorts ab, drei Vertonungen sind bezahlt,
+ * und beim naechsten Anlauf werden sie noch einmal bezahlt. Ein Aussetzer im
+ * Netz darf keinen Lauf kosten.
+ *
+ * Drei Versuche, dazwischen 2 und 4 Sekunden. Wer haeufiger scheitert, hat
+ * kein Zuckeln, sondern eine Stoerung — und die soll sichtbar werden.
+ */
+const VERSUCHE = 3;
+const WARTEN_MS = [2000, 4000];
+
+const warte = (ms: number) => new Promise((fertig) => setTimeout(fertig, ms));
+
+/**
+ * Ruft die Sprachsynthese auf und liefert Ton samt Zeitstempeln.
+ *
+ * Wiederholt bei Netz- und Serverfehlern, **nicht** bei 4xx: Ein abgelehnter
+ * Schluessel, ein aufgebrauchtes Kontingent oder eine unbekannte Stimme
+ * werden beim dritten Mal genauso abgelehnt. Wiederholen wuerde die
+ * Fehlermeldung nur um sechs Sekunden verzoegern.
+ */
 export const synthetisieren = async (
+  text: string,
+  einstellung: Sprecheinstellung,
+  schluessel: string,
+): Promise<Synthese> => {
+  let letzter: Error | undefined;
+
+  for (let versuch = 1; versuch <= VERSUCHE; versuch++) {
+    try {
+      return await einmalSynthetisieren(text, einstellung, schluessel);
+    } catch (fehler) {
+      const f = fehler as Error & { endgueltig?: boolean };
+      if (f.endgueltig) throw f;
+      letzter = f;
+      if (versuch < VERSUCHE) {
+        console.log(`   ↻ Versuch ${versuch} fehlgeschlagen (${f.message}) – neuer Versuch`);
+        await warte(WARTEN_MS[versuch - 1] ?? 4000);
+      }
+    }
+  }
+
+  throw new Error(`Sprachsynthese nach ${VERSUCHE} Versuchen fehlgeschlagen: ${letzter?.message}`);
+};
+
+const einmalSynthetisieren = async (
   text: string,
   einstellung: Sprecheinstellung,
   schluessel: string,
@@ -186,10 +240,35 @@ export const synthetisieren = async (
 
   if (!antwort.ok) {
     const rohtext = await antwort.text();
-    throw new Error(`Sprachsynthese fehlgeschlagen (HTTP ${antwort.status}): ${rohtext.slice(0, 300)}`);
+    const fehler = new Error(
+      `Sprachsynthese fehlgeschlagen (HTTP ${antwort.status}): ${rohtext.slice(0, 300)}`,
+    ) as Error & { endgueltig?: boolean };
+    /*
+     * 4xx heisst: Der Aufruf war falsch, nicht der Zeitpunkt. Abgelehnter
+     * Schluessel, aufgebrauchtes Kontingent, unbekannte Stimme — alles davon
+     * scheitert beim dritten Mal genauso. Nur 429 ist die Ausnahme, das ist
+     * ausdruecklich eine Bitte, spaeter wiederzukommen.
+     */
+    fehler.endgueltig = antwort.status >= 400 && antwort.status < 500 && antwort.status !== 429;
+    throw fehler;
   }
 
-  const daten = (await antwort.json()) as { audio_base64: string; alignment: Ausrichtung };
+  /*
+   * Der leere Rumpf mit HTTP 200.
+   *
+   * Genau das kam am 17.08.2026 zurueck, und weil die Antwort direkt in
+   * `JSON.parse` lief, hiess die Meldung „Unexpected end of JSON input". Das
+   * schickt einen zum eigenen Text — man sucht den Fehler im Sprechtext, im
+   * Break-Tag, im Schema —, waehrend der Dienst gehustet hat. Eine
+   * Fehlermeldung, die in die falsche Richtung zeigt, kostet mehr Zeit als
+   * gar keine.
+   */
+  const rohtext = await antwort.text();
+  if (rohtext.trim() === '') {
+    throw new Error('ElevenLabs antwortete mit HTTP 200, aber ohne Inhalt.');
+  }
+
+  const daten = JSON.parse(rohtext) as { audio_base64: string; alignment: Ausrichtung };
   const ausrichtung = daten.alignment;
   const woerter = woerterAusAusrichtung(ausrichtung);
   const enden = ausrichtung.character_end_times_seconds;

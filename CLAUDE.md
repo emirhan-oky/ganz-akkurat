@@ -18,6 +18,8 @@ npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
 npm run belege            # stellt Sprechtext und Zitat nebeneinander
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt (~60 Zeichen)
+npm run neuigkeiten       # neue EU-Rechtsakte für den Mittwoch, siebt auf ~10
+npm run markenbilder      # Profilbild, Banner, Wortmarke aus video/Marke.tsx
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 ```
@@ -464,8 +466,15 @@ Kanal, der ein halbes Jahr lang sagt, was man *nicht* kaufen soll, wird
 geglaubt, wenn er einmal etwas empfiehlt.
 
 Ob Kennzeichnung allein in der Beschreibung für ein *Video* genügt, ist
-ungeklärt. Anwaltliche Auskunft ist vorgesehen; sie sollte das DPMAregister
-auf „Akkurat" in Klasse 41 mit abdecken.
+ungeklärt und bleibt es vorerst. Der Anwaltstermin, der hier bis zum
+17.08.2026 vorgesehen war, ist gestrichen — nicht aufgeschoben, sondern
+gegenstandslos: Alle drei Fragen (Werbekennzeichnung, Impressumspflicht nach
+§ 5 DDG, DPMAregister auf „Akkurat" in Klasse 41) hängen am gewerblichen
+Start, und es gibt weder Werbung noch Partnerlinks noch Monetarisierung.
+
+**Der Auslöser ist damit benannt, nicht der Termin.** Wer Phase 2 beginnt,
+holt die drei Fragen zurück — sie stehen hier, damit sie beim Kleingewerbe
+nicht neu gefunden werden müssen.
 
 ## Takt
 
@@ -521,25 +530,61 @@ Marketingabteilung an der Quelle statt eines Bildmodells. Folge: Es wird nie
 etwas selbst benutzt, also bleibt `produktionsregel` dauerhaft und **„Test"
 ist für diesen Kanal endgültig ausgeschlossen**.
 
-**Die Typografie trägt, die Zeichnung ist die Ausnahme.** Seit dem 17.08.2026
-gibt es nur noch **eine** Zeichenkategorie: `symbol`, das die Situation setzt
-und nichts Technisches behauptet. Die neun Gerätezeichnungen sind weg, und die
-Regel „`geraet` muss dem Datenblatt entsprechen" ist damit nicht gelockert,
-sondern gegenstandslos — wer keine Buchsen zeichnet, kann darin nichts
-Falsches behaupten.
+**Jede Szene, die eine Zeichnung tragen kann, trägt eine.** Das ist seit dem
+18.08.2026 so und war zwei Tage lang das Gegenteil. Die Kehrtwende kommt vom
+Zuschauer, nicht aus der Systematik: Die reine Typografie hält den Inhalt, aber
+sie lässt die Fläche leer, und im Feed fällt das auf.
 
-Der Grund ist das Material, nicht der Aufräumdrang: „Licht braucht 67
-Millisekunden um die Erde" hat keinen Gegenstand, „ein Rechenzentrum wie eine
-Kleinstadt" ist ein Größenverhältnis. Von 45 Themen im Vorrat haben vielleicht
-zwölf ein Objekt, das selbst der Witz ist. **Die Zahl ist jetzt das Bild.**
+Drei Szenenarten können konstruktionsbedingt keine tragen und sind deshalb aus
+der Zählung: `vergleich` hat zwei Spalten, `kaufkriterien` eine Liste,
+`schluss` zeigt Wortmarke und Spruch. Alle drei sind voll.
 
-`src/illustration.ts` ist ersatzlos gestrichen. Es schlug aus dem Szenentext
-ein Symbol vor, und das Ergebnis war, dass jede Szene eins bekam. Die Prüfung
-zählt seither in die **andere** Richtung: Trägt mehr als die Hälfte der Szenen
-eine Zeichnung, ist die Ausnahme zur Gewohnheit geworden.
+### Was gezeichnet wird — und was nicht
+
+**Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein
+Datenblatt behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben,
+Herstellermerkmale.
+
+Diese Fassung ist eine **Korrektur**, keine Lockerung. Hier stand „keine
+Gerätezeichnungen", und der Grund dafür war immer nur die falsch gezeichnete
+Buchse: Sie behauptet etwas über ein Datenblatt, und dafür steht keine Quelle
+ein. Aus „keine Buchsen" wurde beim Bauen „keine Gegenstände", und an ihre
+Stelle traten Assoziationen — ein **Sofa** für „Dein Fernseher hat ein
+Mikrofon", eine **Waage** für „zwei Kabel", eine **Uhr** für „dreizehn Jahre".
+
+Von 26 Zuordnungen waren zehn falsch, alle aus diesem einen Grund. **Eine
+Assoziation, die nicht trifft, ist schlechter als der schlichte Gegenstand** —
+sie sieht aus wie ein Versehen, und beim Zuschauer ist sie genau das. Ein
+Fernseher als Rechteck auf einem Fuß behauptet dagegen nichts, was falsch sein
+könnte.
+
+Was bleibt: Wo der Satz **keinen** Gegenstand nennt, steht weiter ein
+Situationssymbol — Kalender für eine Frist, Fabrik für „ab Werk", Menschen für
+„alle gleichzeitig". „Licht braucht 67 Millisekunden um die Erde" hat keinen
+Gegenstand, und dort trägt die Zahl das Bild.
+
+### Die Prüfung hat die Richtung zweimal gewechselt
+
+`src/illustration.ts` schlug aus dem Szenentext ein Symbol vor, und das
+Ergebnis war, dass **jede** Szene eins bekam — der Erklärvideo-Reflex in
+Codeform. Es ist ersatzlos gestrichen; welche Szene ein Bild trägt, ist eine
+Entscheidung und kein Automatismus.
+
+Die Regel dazu hat danach zweimal auf der falschen Seite gestanden:
+
+1. Sie prüfte nur nach **oben** (mehr als die Hälfte der Szenen ist zu viel).
+   Ergebnis: gar keine Zeichnungen in acht Shorts, weil nichts nach unten
+   fragte.
+2. Sie verlangte **genau eine** je Short. Ergebnis: eine, und vier Szenen
+   blieben leer.
+
+Heute meldet sie jede bebilderbare Szene **ohne** Zeichnung — und zusätzlich,
+wenn dieselbe Zeichnung in einem Video zweimal vorkommt. Über verschiedene
+Shorts hinweg ist Wiederholung erwünscht: Das Gesetzbuch soll bei jedem
+Rechtsthema dasselbe sein.
 
 **Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
-Regel hat sich viermal bewährt:
+Regel hat sich inzwischen siebenmal bewährt:
 
 - Am 14.08.2026 sahen drei neue Symbole im Code plausibel aus und im Standbild
   nicht: Die Steckdose las sich als Gesicht, der Kalender schrumpfte in einer
@@ -556,6 +601,14 @@ Regel hat sich viermal bewährt:
 - Und das erste Akku-Logo lag waagerecht wie das Batteriesymbol im Display —
   es nutzte damit nur die halbe Höhe des Quadrats und las sich als dunkler
   Fleck. Aufrecht füllt es seinen Platz.
+- Am 18.08.2026 gleich dreifach: Die **Ladenkasse** las sich als Bildschirm auf
+  einem Kasten und damit fast wie das Symbol `fernseher` zwei Videos weiter —
+  zwei ähnliche Zeichnungen sind schlimmer als eine zu wenig, weil der
+  Zuschauer einen Zusammenhang sucht, den es nicht gibt. Die **zwei Kabel**
+  waren gespiegelt gezeichnet und damit Ohrhörer; gleichgerichtet lesen sie
+  sich als das, was sie sind, nämlich zweimal dasselbe. Und die Symbole
+  erschienen zwar, aber **60 Pixel groß statt 560**: In einer Flex-Spalte nahm
+  der Text sich, was er brauchte, und die Zeichnung bekam den Rest.
 
 Die Kopfzeile trägt Wortmarke, Formatpille und bei echter Systemspezifik die
 Systemangabe. **Die Formatpille trägt die Wiedererkennung allein**, weil der

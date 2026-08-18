@@ -9,6 +9,7 @@ import {
   beitragstitel,
   kanaeleLesen,
   naechsterMontag,
+  nichtInDerVergangenheit,
   organisationErmitteln,
   zeitplanBauen,
   type Veroeffentlichung,
@@ -23,6 +24,7 @@ import {
  * Aufruf:
  *   npm run veroeffentlichen -- <lauf-id>            Probelauf, plant nichts
  *   npm run veroeffentlichen -- <lauf-id> --wirklich Legt Beitraege wirklich an
+ *   npm run veroeffentlichen -- <lauf-id> --ab=2026-08-17  Wochenbeginn setzen
  *
  * Der Probelauf ist Standard. Geplante Beitraege lassen sich nur einzeln von
  * Hand wieder entfernen — ein versehentlicher Durchlauf waere teuer an Zeit.
@@ -30,6 +32,8 @@ import {
 
 const WIRKLICH = process.argv.includes('--wirklich');
 const LAUF_ID = process.argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
+/** Wochenbeginn, falls nicht der naechste Montag gemeint ist. */
+const AB = process.argv.find((a) => a.startsWith('--ab='))?.slice('--ab='.length);
 
 const main = async () => {
   if (!LAUF_ID) throw new Error('Lauf-Kennung fehlt. Beispiel: npm run veroeffentlichen -- 2026-08-11');
@@ -229,7 +233,28 @@ const main = async () => {
   /* ── 4  Zeitplan und Beitraege ───────────────────────────────────── */
 
   console.log('4  Zeitplan');
-  const zeiten = zeitplanBauen(shorts, naechsterMontag(new Date()));
+  /*
+   * `--ab=<datum>` bestimmt den Wochenbeginn, sonst der naechste Montag.
+   *
+   * Gebraucht am 17.08.2026 fuer die allererste Woche: Sie sollte an dem
+   * Montag starten, an dem sie fertig wurde, und nicht sieben Tage spaeter.
+   * `naechsterMontag` liefert bewusst immer den **naechsten** — von einem
+   * Montag aus also den in einer Woche. Das ist als Voreinstellung richtig
+   * (wer montags baut, sendet die Woche darauf), taugt aber nicht als einzige
+   * Moeglichkeit.
+   */
+  const jetzt = new Date();
+  const beginn = AB ? new Date(`${AB}T00:00:00`) : naechsterMontag(jetzt);
+  if (AB && beginn.getDay() !== 1) {
+    console.log(`   ⚠ ${AB} ist kein Montag – die Wochentage verschieben sich entsprechend.`);
+  }
+
+  const geplanteZeiten = zeitplanBauen(shorts, beginn);
+  const zeiten = nichtInDerVergangenheit(geplanteZeiten, jetzt);
+  const nachgezogen = zeiten.filter((z, i) => z.getTime() !== geplanteZeiten[i]!.getTime()).length;
+  if (nachgezogen > 0) {
+    console.log(`   ${nachgezogen} Termin(e) lagen in der Vergangenheit und gehen gleich raus.\n`);
+  }
   const geplant: Veroeffentlichung[] = [];
 
   for (const [i, short] of shorts.entries()) {

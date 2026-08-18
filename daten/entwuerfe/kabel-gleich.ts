@@ -36,6 +36,7 @@ export const kabelGleich: Short = {
       position: 'aufschlag',
       sprechtext: 'Zwei Kabel. Eins lädt dein Notebook, eins nicht.',
       text: 'Zwei Kabel. Eins lädt, eins nicht.',
+      symbol: 'kabel',
     },
     {
       art: 'text',
@@ -44,6 +45,7 @@ export const kabelGleich: Short = {
       // Zitat nicht — es sagt, dass man es ohne Aufdruck nicht weiss.
       sprechtext: 'Gleicher Stecker. Was drinsteckt, siehst du am Regal nicht.',
       text: 'Am Regal siehst du es nicht.',
+      symbol: 'stecker',
       quelleId: 'usbif-kabel-kennzeichnung',
       belegId: 'must-be-labelled-with',
     },
@@ -53,6 +55,7 @@ export const kabelGleich: Short = {
       sprechtext: 'Ein Gremium hat festgelegt, was so ein Kabel können muss.',
       text: 'Ein Gremium legt fest, was es können muss.',
       hervorhebung: 'können',
+      symbol: 'stempel',
       quelleId: 'usbif-power-delivery',
       belegId: 'define-240w-cable-requirements',
     },
@@ -74,6 +77,7 @@ export const kabelGleich: Short = {
       // die Pflicht **ausgeweitet** wurde — also nachtraeglich, nicht von Anfang an.
       sprechtext: 'Ein Aufdruck klärt das. Pflicht wurde er erst nachträglich.',
       text: 'Der Aufdruck kam nachträglich.',
+      symbol: 'anhaenger',
       quelleId: 'usbif-kabel-kennzeichnung',
       belegId: 'the-policy-now-extends',
     },

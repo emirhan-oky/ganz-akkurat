@@ -16,7 +16,9 @@
     "belege": "tsx skripte/belege.ts",
     "zugaenge": "tsx skripte/zugaenge.ts",
     "buffer-probe": "tsx skripte/buffer-probe.ts",
-    "zuruecknehmen": "tsx skripte/zuruecknehmen.ts"
+    "zuruecknehmen": "tsx skripte/zuruecknehmen.ts",
+    "markenbilder": "tsx skripte/markenbilder.ts",
+    "neuigkeiten": "tsx skripte/neuigkeiten.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",

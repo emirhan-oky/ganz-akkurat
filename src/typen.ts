@@ -284,6 +284,90 @@ export const KontextArt = z.enum([
   'nachbarhaeuser',
   'uhr',
   'kalender',
+  /*
+   * Vier dazu am 17.08.2026, aus einem Befund am fertigen Video: Der Vorrat
+   * deckte genau die Haelfte der acht Sendeplaetze ab, und die andere Haelfte
+   * lief deshalb ganz ohne Bild.
+   *
+   * Alle vier setzen die **Situation**, keine Technik. Das Mikrofon ist nicht
+   * das Mikrofon eines bestimmten Fernsehers, das Regal keine Speicherzelle,
+   * das Thermometer misst nichts. Der Anhaenger ist der Aufdruck, der bei den
+   * Kabeln fehlte — ein Etikett, kein Stecker.
+   */
+  'mikrofon',
+  'regal',
+  'thermometer',
+  'anhaenger',
+  /*
+   * Ab dem 18.08.2026 waechst der Vorrat, weil sich die Doktrin gedreht hat:
+   * Nicht mehr **eine** Zeichnung je Short als Ausnahme, sondern eine je
+   * Szene. Der Grund ist Zuschauerseite, nicht Systematik — die reine
+   * Typografie traegt inhaltlich, aber sie laesst die Flaeche leer.
+   *
+   * Die Grenze bleibt dieselbe und wird dadurch wichtiger, nicht unwichtiger:
+   * Situation, nie Technik. Ein Schraubenschluessel steht fuer Reparatur, er
+   * ist nicht das Werkzeug, mit dem etwas geoeffnet wird. Ein Karton ist der
+   * Kauf, kein Produkt.
+   */
+  'schraubenschluessel',
+  'lupe',
+  'karton',
+  /*
+   * Achtzehn auf einmal, am 18.08.2026 — der Vorrat musste von 15 auf 33, weil
+   * jetzt **jede** symbolfaehige Szene eine Zeichnung traegt und keine
+   * innerhalb eines Shorts doppelt vorkommen darf.
+   *
+   * Der Zuschnitt folgt weiter derselben Grenze, und an drei Stellen wurde sie
+   * eng: `batterie` ist waagerecht und offen gezeichnet, damit sie nicht mit
+   * dem aufrechten, flaechigen Logo verwechselt wird. Statt eines Fernsehers
+   * steht `sofa` — das Wohnzimmer ist die Situation, das Geraet waere die
+   * Behauptung. Und `schallwellen` zeigt, dass etwas aufgezeichnet wird, ohne
+   * ein Aufnahmegeraet zu zeichnen.
+   */
+  'europa',
+  'batterie',
+  'zettel',
+  'warndreieck',
+  'waage',
+  'stempel',
+  'sprechblase',
+  'haken',
+  'sofa',
+  'fabrik',
+  'schallwellen',
+  'wolke',
+  'papierkorb',
+  'karteikarte',
+  'ordner',
+  'mond',
+  'menschen',
+  'schild',
+  /*
+   * Fuenf Gegenstaende, nachgetragen am 18.08.2026 nach einer Korrektur an der
+   * Doktrin selbst.
+   *
+   * Die Regel „keine Geraetezeichnungen" stand hier seit dem 17.08. und war
+   * **ueberdehnt**. Ihr Grund ist eine falsch gezeichnete **Buchse**: Die
+   * behauptet etwas ueber ein Datenblatt, und dafuer steht keine Quelle ein.
+   * Ein Fernseher als Rechteck auf einem Fuss behauptet gar nichts. Ein Kabel
+   * ohne Pinbelegung auch nicht.
+   *
+   * Aus „keine Buchsen" war „keine Gegenstaende" geworden, und an die Stelle
+   * der Gegenstaende traten Assoziationen: ein Sofa fuer den Fernseher, eine
+   * Waage fuer zwei Kabel, eine Uhr fuer dreizehn Jahre. Eine Assoziation, die
+   * nicht trifft, ist schlechter als der schlichte Gegenstand — sie sieht aus
+   * wie ein Versehen, und beim Zuschauer ist sie genau das.
+   *
+   * **Die Grenze verlaeuft jetzt dort, wo sie immer gemeint war:** Gezeichnet
+   * wird, was der Satz nennt. Nicht gezeichnet wird, was ein Datenblatt
+   * behaupten wuerde — Buchsenformen, Pinbelegungen, Leistungsangaben,
+   * Herstellermerkmale.
+   */
+  'fernseher',
+  'kabel',
+  'stecker',
+  'einkaufskorb',
+  'kreuz',
 ]);
 export type KontextArt = z.infer<typeof KontextArt>;
 
@@ -972,6 +1056,29 @@ export const Plattformtext = z.object({
   hashtags: z.array(z.string()).max(12),
 });
 
+/**
+ * Die fertige Vertonung eines Shorts.
+ *
+ * Steht seit dem 18.08.2026 als **eigenes** Schema hier und nicht mehr inline
+ * im Short. Der Anlass ist `--ton-behalten` im Wochenlauf: Der Schalter
+ * braucht aus alten Renderdaten genau dieses Stueck und sonst nichts.
+ *
+ * Vorher parste er die ganze Datei gegen den aktuellen `Short` — und
+ * blockierte sich damit selbst, sobald sich der Datenvertrag aenderte. Genau
+ * das passierte, als ein Symbolwert aus dem Enum flog: Die Renderdaten von
+ * vorhin galten ploetzlich als ungueltig, obwohl an der Tonspur nichts falsch
+ * war. Renderdaten sind eine **Momentaufnahme** eines aelteren Vertrags; was
+ * man aus ihnen liest, muss man einzeln lesen koennen.
+ */
+export const Tonspur = z.object({
+  datei: z.string(),
+  dauerSek: z.number().positive(),
+  woerter: z.array(Untertitelwort),
+  /** Startzeit jeder Szene, aus den Sprech-Zeitstempeln abgeleitet. */
+  szenenStartSek: z.array(z.number().nonnegative()),
+});
+export type Tonspur = z.infer<typeof Tonspur>;
+
 export const Short = z.object({
   id: z.string(),
   /** Thema, zu dem dieser Short gehoert. */
@@ -1062,15 +1169,7 @@ export const Short = z.object({
   }),
 
   /* Wird erst von der Vertonung gefuellt. */
-  tonspur: z
-    .object({
-      datei: z.string(),
-      dauerSek: z.number().positive(),
-      woerter: z.array(Untertitelwort),
-      /** Startzeit jeder Szene, aus den Sprech-Zeitstempeln abgeleitet. */
-      szenenStartSek: z.array(z.number().nonnegative()),
-    })
-    .optional(),
+  tonspur: Tonspur.optional(),
   })
   /**
    * Bau, Beleg und Kennzeichnung haengen nicht am Gewissen.
