@@ -500,6 +500,32 @@ Praktische Folgen:
   `vergleich`, `warnung`, `merkmalskarte`, `kaufkriterien`, `beleg`; ohne Feld
   bei `hook` und `endkarte`.
 
+## Buffer nimmt zehn je Kanal
+
+Der kostenlose Tarif erlaubt **zehn geplante Beiträge je Kanal**. Bei acht
+Shorts auf drei Kanälen belegt eine Woche also acht Plätze — und solange die
+laufende Woche noch aussteht, ist kein Platz für die nächste.
+
+Das Limit meldet sich erst beim Anlegen, mit `LimitReachedError`, und dann
+steht die Hälfte schon draußen: Am 18.08.2026 brach ein Lauf nach dem
+**zwölften von 24** Beiträgen ab. `veroeffentlichen.ts` zählt deshalb vorher
+und bricht ab, bevor der erste Beitrag rausgeht.
+
+**Zwei Wochen lassen sich nicht auf Vorrat einplanen.** Die nächste Woche geht
+erst raus, wenn die laufende gesendet ist — praktisch also am Wochenende. Das
+ist keine Einschränkung der Produktion, nur der Terminierung.
+
+### Ein angelegter Beitrag wird sofort vermerkt
+
+Derselbe Abbruch hat die zwölf angelegten Beiträge fast verloren:
+`veroeffentlicht.json` wurde erst **nach** der letzten Schleife geschrieben,
+also nie. Die Zuordnung musste aus Buffer zurückgeholt und über die
+Fälligkeit den Shorts zugeordnet werden.
+
+Jetzt schreibt der Lauf nach jedem einzelnen Beitrag fort. Ein Beitrag, der
+angelegt ist, existiert — ihn erst nach dem letzten Erfolg zu vermerken heißt,
+den Buchhaltungsstand von etwas abhängig zu machen, das danach kommt.
+
 ## Rücklauf — was aus den Videos wird
 
 Bis zum 18.08.2026 war die Pipeline eine **Einbahnstraße**. `verlauf.json`

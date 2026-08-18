@@ -4,6 +4,8 @@ import path from 'node:path';
 import { Quelle, Short } from '../src/typen';
 import { hochladen, oeffentlichErreichbar, zugangAusUmgebung } from '../src/ablage';
 import {
+  geplanteJeKanal,
+  GEPLANT_MAXIMUM,
   beitragPlanen,
   beitragstext,
   beitragstitel,
@@ -263,7 +265,59 @@ const main = async () => {
   if (nachgezogen > 0) {
     console.log(`   ${nachgezogen} Termin(e) lagen in der Vergangenheit und gehen gleich raus.\n`);
   }
+  /*
+   * Erst zaehlen, dann senden. Siehe `geplanteJeKanal`: Das Kontolimit meldet
+   * sich sonst mitten im Versand, und die Haelfte steht schon draussen.
+   */
+  if (WIRKLICH) {
+    const belegt = await geplanteJeKanal(schluessel, organisation);
+    const brauchen = shorts.length;
+    const eng = kanaele.filter((k) => (belegt.get(k.id) ?? 0) + brauchen > GEPLANT_MAXIMUM);
+    if (eng.length > 0) {
+      console.error('\nBuffer nimmt nicht alle Beiträge an:\n');
+      for (const k of eng) {
+        const frei = GEPLANT_MAXIMUM - (belegt.get(k.id) ?? 0);
+        console.error(
+          `  ${k.service.padEnd(10)} ${belegt.get(k.id) ?? 0} von ${GEPLANT_MAXIMUM} belegt, ` +
+            `${frei} frei — gebraucht werden ${brauchen}`,
+        );
+      }
+      console.error(
+        '\nDie laufende Woche belegt die Plätze. Entweder abwarten, bis sie gesendet ist,\n' +
+          'oder mit --nur=<id> einzelne Shorts einplanen, sobald Plätze frei werden.',
+      );
+      process.exit(1);
+    }
+  }
+
   const geplant: Veroeffentlichung[] = [];
+
+  /*
+   * Nach **jedem** angelegten Beitrag fortschreiben, nicht erst am Ende.
+   *
+   * Am 18.08.2026 brach der Lauf nach dem zwoelften von 24 Beitraegen ab
+   * (Buffer-Kontolimit). Die zwoelf standen damit draussen, aber in keiner
+   * Datei — und `npm run rueckblick` haette sie nie gefunden. Die Zuordnung
+   * musste hinterher von Hand aus Buffer zurueckgeholt und ueber die
+   * Faelligkeit den Shorts zugeordnet werden.
+   *
+   * Ein Beitrag, der angelegt ist, existiert. Ihn erst nach dem letzten
+   * Erfolg zu vermerken heisst, den Buchhaltungsstand von etwas abhaengig zu
+   * machen, das danach kommt.
+   */
+  const fortschreiben = async () => {
+    const ablage = path.join(wurzel, 'veroeffentlicht.json');
+    const bisher = await fs
+      .readFile(ablage, 'utf8')
+      .then((t) => JSON.parse(t) as Veroeffentlichung[])
+      .catch(() => [] as Veroeffentlichung[]);
+    const schluesselVon = (e: Veroeffentlichung) => `${e.shortId}\u0000${e.kanalId}`;
+    const neuKeys = new Set(geplant.map(schluesselVon));
+    await fs.writeFile(
+      ablage,
+      JSON.stringify([...bisher.filter((e) => !neuKeys.has(schluesselVon(e))), ...geplant], null, 2),
+    );
+  };
 
   for (const [i, short] of shorts.entries()) {
     const faellig = zeiten[i]!;
@@ -290,6 +344,7 @@ const main = async () => {
           faelligAm: faellig,
         });
         geplant.push({ shortId: short.id, kanalId: kanal.id, dienst: kanal.service, faelligAm: faellig.toISOString(), beitragId });
+        await fortschreiben();
         console.log(`   ✓ ${short.id}  ${kanal.service.padEnd(10)} ${wann}`);
       } else {
         console.log(`   · ${short.id}  ${kanal.service.padEnd(10)} ${wann}`);

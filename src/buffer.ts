@@ -501,6 +501,41 @@ export const gesendeteBeitraege = async (
   return alle;
 };
 
+/**
+ * Wie viele Beitraege je Kanal schon in der Warteschlange stehen.
+ *
+ * Buffer begrenzt die geplanten Beitraege **je Kanal** — im kostenlosen Tarif
+ * auf zehn. Das Limit meldet sich erst beim Anlegen, mit
+ * `LimitReachedError`, und dann steht die Haelfte schon draussen: Am
+ * 18.08.2026 brach ein Lauf nach dem zwoelften von 24 Beitraegen ab, weil die
+ * laufende Woche die Plaetze noch belegte.
+ *
+ * Vorher zaehlen kostet eine Abfrage und erspart einen halb ausgefuehrten
+ * Versand — den man nicht zurueckdrehen kann, ohne in Buffer von Hand zu
+ * loeschen.
+ */
+export const geplanteJeKanal = async (
+  schluessel: string,
+  organisationId: string,
+): Promise<Map<string, number>> => {
+  const seite = await abfragen<{
+    posts: { edges: { node: { channelId: string } }[] };
+  }>(
+    schluessel,
+    `query($i: PostsInput!) { posts(input: $i, first: 100) { edges { node { channelId } } } }`,
+    { i: { organizationId: organisationId, filter: { status: 'scheduled' } } },
+  );
+
+  const zaehler = new Map<string, number>();
+  for (const e of seite.posts.edges) {
+    zaehler.set(e.node.channelId, (zaehler.get(e.node.channelId) ?? 0) + 1);
+  }
+  return zaehler;
+};
+
+/** Buffers Obergrenze je Kanal im kostenlosen Tarif. */
+export const GEPLANT_MAXIMUM = 10;
+
 export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
   shorts.map((short, i) => {
     const { tag, uhrzeit } = FORMATE[short.format];
