@@ -1,0 +1,30 @@
+#!/bin/sh
+# ffmpeg und ffprobe, ohne Homebrew.
+#
+# Remotion 4 liefert beide Binaerdateien mit (ffmpeg 7.1), aber sie finden ihre
+# eigenen dylibs nicht: Sie liegen im selben Ordner, der Loader sucht dort nicht
+# von allein. Ohne DYLD_LIBRARY_PATH bricht der Aufruf mit
+# "Library not loaded: libavdevice.dylib" ab — was nach einer kaputten
+# Installation aussieht und keine ist.
+#
+# Deshalb dieser Wrapper statt `brew install ffmpeg`: kein sudo, keine zweite
+# ffmpeg-Fassung neben der, mit der Remotion selbst rendert.
+#
+#   skripte/ff ffprobe -v error -show_format datei.mp4
+#   skripte/ff ffmpeg  -i datei.mp4 -frames:v 1 bild.png
+#
+# Achtung: Es ist ein abgespecktes ffmpeg. Filter, Muxer und Decoder sind auf
+# eine Whitelist beschraenkt (`skripte/ff ffmpeg -version` zeigt sie). Fuer die
+# Pruefung fertiger Renders und fuer Einzelbilder reicht sie.
+set -e
+VERZ="$(cd "$(dirname "$0")/.." && pwd)/node_modules/@remotion/compositor-darwin-arm64"
+WERKZEUG="$1"
+case "$WERKZEUG" in
+  ffmpeg|ffprobe) shift ;;
+  *) echo "skripte/ff: erstes Argument muss ffmpeg oder ffprobe sein, war: $WERKZEUG" >&2; exit 2 ;;
+esac
+if [ ! -x "$VERZ/$WERKZEUG" ]; then
+  echo "skripte/ff: $WERKZEUG fehlt unter $VERZ — npm install ausgefuehrt?" >&2
+  exit 1
+fi
+DYLD_LIBRARY_PATH="$VERZ" exec "$VERZ/$WERKZEUG" "$@"

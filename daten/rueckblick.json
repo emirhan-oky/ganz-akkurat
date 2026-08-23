@@ -18,6 +18,16 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 122,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 71.57,
+          "haltequote": 115.79000000000002,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -38,6 +48,136 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 35,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 54.89000000000001,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "wlan-abends": {
+      "shortId": "wlan-abends",
+      "titel": "Weder Router noch Anbieter sind schuld",
+      "online": "2026-08-23T16:03:12Z",
+      "laengeSek": 23,
+      "videoId": "OA6wu2Uwn7Y",
+      "link": "https://www.youtube.com/shorts/OA6wu2Uwn7Y",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 0,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "loeschen-loescht-nicht": {
+      "shortId": "loeschen-loescht-nicht",
+      "titel": "Der Verweis ist weg, die Datei nicht",
+      "online": "2026-08-22T16:04:00Z",
+      "laengeSek": 22,
+      "videoId": "xCChUE-tzC8",
+      "link": "https://www.youtube.com/shorts/xCChUE-tzC8",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 186,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "fernseher-hoert": {
+      "shortId": "fernseher-hoert",
+      "titel": "Vom Wohnzimmer auf den Cloud-Server",
+      "online": "2026-08-21T16:02:47Z",
+      "laengeSek": 21,
+      "videoId": "nPdCv4ml06g",
+      "link": "https://www.youtube.com/shorts/nPdCv4ml06g",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 5,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "garantie-gekauft": {
+      "shortId": "garantie-gekauft",
+      "titel": "Garantie und Gewährleistung sind nicht dasselbe",
+      "online": "2026-08-20T16:02:58Z",
+      "laengeSek": 21,
+      "videoId": "9NXIwaMKmZg",
+      "link": "https://www.youtube.com/shorts/9NXIwaMKmZg",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 173,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 75.61,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "reparatur-gilt": {
+      "shortId": "reparatur-gilt",
+      "titel": "Das Recht auf Reparatur gilt schon",
+      "online": "2026-08-19T10:01:35Z",
+      "laengeSek": 21,
+      "videoId": "1bnrl6OfFaY",
+      "link": "https://www.youtube.com/shorts/1bnrl6OfFaY",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 293,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 73.88,
+          "haltequote": 112.72999999999999,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "kabel-gleich": {
+      "shortId": "kabel-gleich",
+      "titel": "Warum alle USB-C-Kabel gleich aussehen",
+      "online": "2026-08-19T16:03:02Z",
+      "laengeSek": 22,
+      "videoId": "0V8N-8MnW9o",
+      "link": "https://www.youtube.com/shorts/0V8N-8MnW9o",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-23",
+          "aufrufe": 679,
+          "likes": 4,
+          "kommentare": 1,
+          "durchsicht": 66.27,
+          "haltequote": 110.45,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     }
