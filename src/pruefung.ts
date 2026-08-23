@@ -1297,8 +1297,15 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     const aus: KontextArt[] = [];
     if ('symbol' in szene && szene.symbol) aus.push(szene.symbol);
     if ('buehne' in szene && szene.buehne?.art === 'figur' && szene.buehne.requisite) {
-      // 'blatt' ist kein KontextArt, sondern die Requisite der Lesepose.
-      if (szene.buehne.requisite !== 'blatt') aus.push(szene.buehne.requisite);
+      /*
+       * `blatt` und `stab` sind keine `KontextArt`, sondern Requisiten der
+       * Figur — sie stehen in `Requisiten.tsx`, nicht in `Geraete.tsx`. Aus
+       * der Dopplungspruefung gehoeren sie ohnehin heraus: Dass die Figur in
+       * zwei Szenen liest oder zweimal auf etwas zeigt, ist eine Geste und
+       * keine wiederholte Zeichnung.
+       */
+      const r = szene.buehne.requisite;
+      if (r !== 'blatt' && r !== 'stab') aus.push(r);
     }
     return aus;
   };

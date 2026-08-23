@@ -7,7 +7,7 @@ import { Figur } from './Figur';
 import { Symbole } from './Geraete';
 import { Kamera } from './Kamera';
 import { poseAus } from './posen';
-import { Blatt } from './Requisiten';
+import { Blatt, Zeigestab } from './Requisiten';
 
 /**
  * Die Buehne einer Szene: was im Bild **passiert**.
@@ -44,6 +44,52 @@ import { Blatt } from './Requisiten';
  * die Buehne bekommt den Rest und fuellt ihn ganz aus. Deshalb steht hier eine
  * Begruendung statt einer Zahl.
  */
+
+/**
+ * Wo die Figur steht, wie gross sie ist und wohin die Kamera faehrt.
+ *
+ * Die drei haengen zusammen und werden deshalb an einer Stelle entschieden.
+ * Vorher standen sie verstreut: die Verschiebung am `<g>`, die Standflaeche
+ * daneben, das Kameraziel weiter oben — und jede Aenderung an einer der drei
+ * hat die anderen beiden stillschweigend falsch gemacht.
+ *
+ * Der Bezugspunkt ist immer der Boden bei (100 | 140). Eine Figur, die um
+ * ihren Mittelpunkt skaliert, schwebt oder versinkt; eine, die um ihre
+ * Standlinie skaliert, wird kleiner und bleibt stehen.
+ */
+const PLAETZE = {
+  /** Allein auf der Buehne, mittig, ganze Groesse. */
+  mitte: { x: 100, groesse: 1, ziel: { x: 100, y: 80, zoom: 1.24 } },
+  /** Links, damit rechts ein Symbol Platz hat. */
+  links: { x: 62, groesse: 1, ziel: { x: 88, y: 82, zoom: 1.16 } },
+  /** Rechts — dasselbe gespiegelt, fuer Abwechslung ueber mehrere Szenen. */
+  rechts: { x: 138, groesse: 1, ziel: { x: 112, y: 82, zoom: 1.16 } },
+  /**
+   * Klein am unteren Rand. Die Kamera bleibt weit und zeigt den Raum ueber
+   * ihr — sonst waere die Figur klein **und** formatfuellend, also nur eine
+   * schlecht aufgeloeste grosse Figur.
+   */
+  klein: { x: 46, groesse: 0.52, ziel: { x: 100, y: 84, zoom: 1.06 } },
+} as const;
+
+const platzVon = (stand: 'mitte' | 'links' | 'rechts' | 'klein', hatSymbol: boolean) => {
+  // Ein Symbol daneben braucht die rechte Haelfte. `mitte` weicht dann nach
+  // links aus, statt sich mit ihm zu ueberlagern.
+  const name = stand === 'mitte' && hatSymbol ? 'links' : stand;
+  const p = PLAETZE[name];
+  const verschiebung = p.x - 100;
+  return {
+    x: p.x,
+    groesse: p.groesse,
+    ziel: p.ziel,
+    transform:
+      p.groesse === 1
+        ? verschiebung === 0
+          ? undefined
+          : `translate(${verschiebung} 0)`
+        : `translate(${verschiebung} 0) translate(100 140) scale(${p.groesse}) translate(-100 -140)`,
+  };
+};
 
 /* ───────────────────────────── Figurenbuehne ─────────────────────────── */
 
@@ -86,6 +132,13 @@ const Figurenbuehne: React.FC<{
     extrapolateRight: 'clamp',
   });
 
+  const hatSymbol =
+    buehne.requisite !== undefined &&
+    buehne.requisite !== 'blatt' &&
+    buehne.requisite !== 'stab';
+  const platz = platzVon(buehne.stand ?? 'mitte', hatSymbol);
+  const ziel = platz.ziel;
+
   /*
    * Das Blatt gehoert **in** die Figur, nicht daneben.
    *
@@ -96,16 +149,20 @@ const Figurenbuehne: React.FC<{
    * decken seine Kanten, weil beide im selben Koordinatenraum gerechnet sind.
    *
    * Der Unterschied zu den Symbolen ist nicht Bequemlichkeit, sondern Groesse:
-   * Ein Blatt ist so gebaut, dass eine Hand es halten kann. Ein Drucker ist es
-   * nicht.
+   * Blatt und Zeigestab sind so gebaut, dass eine Hand sie fassen kann. Ein
+   * Drucker ist es nicht — der steht daneben.
    */
   const gehalten =
     buehne.requisite === 'blatt'
       ? [{ inhalt: <g opacity={auftauchen}><Blatt /></g>, ebene: 36 }]
-      : [];
+      : buehne.requisite === 'stab'
+        ? [{ inhalt: <g opacity={auftauchen}><Zeigestab /></g>, ebene: 25 }]
+        : [];
 
   const daneben =
-    buehne.requisite === undefined || buehne.requisite === 'blatt' ? undefined : (
+    buehne.requisite === undefined ||
+    buehne.requisite === 'blatt' ||
+    buehne.requisite === 'stab' ? undefined : (
       <g opacity={auftauchen}>
         {(
           /*
@@ -179,11 +236,7 @@ const Figurenbuehne: React.FC<{
           langsam, dass sie nur das Auge wachhaelt. Diese hier bewegt die
           Zeichnung und darf gesehen werden.
         */}
-        <Kamera
-          dauer={dauer}
-          von={{ zoom: 1 }}
-          nach={daneben ? { x: 88, y: 82, zoom: 1.16 } : { x: 100, y: 80, zoom: 1.24 }}
-        >
+        <Kamera dauer={dauer} von={{ zoom: 1 }} nach={ziel}>
           {/*
             Standflaeche wie bei den Symbolen — Figur und Requisite stehen auf
             derselben Linie, weil sie sich denselben Koordinatenraum teilen.
@@ -208,10 +261,10 @@ const Figurenbuehne: React.FC<{
             Boden aus, sondern nach einem zweiten Gegenstand.
           */}
           <ellipse
-            cx={daneben ? 62 : 100}
+            cx={platz.x}
             cy="140"
-            rx={34}
-            ry="9"
+            rx={34 * platz.groesse}
+            ry={9 * platz.groesse}
             fill={FARBEN.flaeche}
             opacity={0.5}
           />
@@ -225,7 +278,7 @@ const Figurenbuehne: React.FC<{
             links aussen, waehrend rechts die halbe Flaeche leer blieb, und der
             Platz, den sie fuer ein Symbol raeumte, wurde von nichts gebraucht.
           */}
-          <g transform={daneben ? 'translate(-38 0)' : undefined}>
+          <g transform={platz.transform}>
             <Figur rig={nachleser} pose={pose} requisiten={gehalten} />
           </g>
           {daneben}
@@ -252,6 +305,7 @@ const Gegenueber: React.FC<{
   dauer: number;
 }> = ({ buehne, dauer }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const zweite = interpolate(frame, [Math.round(dauer * 0.42), Math.round(dauer * 0.52)], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -365,6 +419,39 @@ const Gegenueber: React.FC<{
         />
 
         <Haelfte seite={buehne.unten} y={HALB + 6} auf={zweite} />
+
+        {/*
+          Die Figur zeigt auf den Vergleich, statt fuer eine ganze Szene zu
+          verschwinden.
+
+          Bis zum 23.08.2026 war das geteilte Bild die einzige Buehne ohne sie.
+          Im fertigen Video fiel auf, was das bedeutet: Der Avatar ist da, weg,
+          und wieder da — im Feed liest sich das nicht als Bildwechsel, sondern
+          als anderes Video.
+
+          Sie steht klein links unten. Der erste Versuch mit Groesse 0,4 und
+          Boden auf y = 140 hat sie in das Etikett der unteren Haelfte gestellt
+          — dort ist nichts frei, beide Haelften fuellen die 200 mal 150
+          vollstaendig aus. Bei 0,32 und Boden y = 148 reicht sie von y = 110
+          bis 148 und bleibt damit unter dem Etikett, das bei 94 endet.
+
+          Der Stab zeigt nach oben rechts, also in den Vergleich hinein.
+
+          Sie taucht mit der **unteren** Haelfte auf. Vorher waere sie eine
+          Figur, die auf etwas zeigt, das es noch nicht gibt.
+        */}
+        {(buehne.mitFigur ?? true) && (
+          <g
+            opacity={zweite}
+            transform="translate(-70 8) translate(100 140) scale(0.32) translate(-100 -140)"
+          >
+            <Figur
+              rig={nachleser}
+              pose={poseAus({ frame, fps, pose: 'erklaeren', vorherigePose: 'hochschauen', abBild: Math.round(dauer * 0.42) })}
+              requisiten={[{ inhalt: <Zeigestab />, ebene: 25 }]}
+            />
+          </g>
+        )}
       </svg>
   );
 };

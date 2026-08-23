@@ -42,8 +42,8 @@ export const RemotionRoot: React.FC = () => (
     * Kanalbilder: Was nur von Hand geprueft wird, wird irgendwann nicht mehr
     * geprueft.
     */}
-  <Composition id="Figurenprobe" component={Figurenprobe} width={1600} height={1200} fps={30} durationInFrames={1} defaultProps={{ geruest: false }} />
-  <Composition id="Figurengeruest" component={Figurenprobe} width={1600} height={1200} fps={30} durationInFrames={1} defaultProps={{ geruest: true }} />
+  <Composition id="Figurenprobe" component={Figurenprobe} width={2600} height={1100} fps={30} durationInFrames={1} defaultProps={{ geruest: false }} />
+  <Composition id="Figurengeruest" component={Figurenprobe} width={2600} height={1100} fps={30} durationInFrames={1} defaultProps={{ geruest: true }} />
   <Composition id="Figurenfolge" component={Figurenfolge} width={1920} height={640} fps={30} durationInFrames={1} defaultProps={{ pose: 'zeigen' as const }} />
   <Composition id="Figurengang" component={Figurengang} width={1080} height={1080} fps={30} durationInFrames={120} defaultProps={{ pose: 'zeigen' as const }} />
   {/* Die Buehnenprobe steht bei Bild 60 von 90: nach dem Uebergang bei 40 %,

@@ -213,7 +213,32 @@ export type Pose = z.infer<typeof Pose>;
  * `posen.ts` haelt sich per `Record<PosenName, Pose>` daran — fehlt dort eine,
  * meldet es `tsc`.
  */
-export const PosenName = z.enum(['ruhe', 'lesen', 'zeigen', 'stutzen', 'staunen', 'achselzucken']);
+export const PosenName = z.enum([
+  'ruhe',
+  'lesen',
+  'zeigen',
+  'stutzen',
+  'staunen',
+  'achselzucken',
+  /*
+   * Vier dazu am 23.08.2026, nach dem ersten fertigen Satz Videos. Der Befund
+   * kam vom Zuschauer und war eindeutig: „Er macht staendig immer nur dieselben
+   * Bewegungen."
+   *
+   * Der Kommentar in `posen.ts` verteidigte die Beschraenkung mit dem Satz,
+   * eine Figur mit dreissig Posen waere „eine Figur, die spielt". Das Argument
+   * stimmt und traf den falschen Fall: Bei acht Videos hintereinander sind
+   * sechs Posen keine Zurueckhaltung mehr, sondern eine Schleife.
+   */
+  /** Erklaeren mit dem Zeigestab — der Lehrer am Bild. */
+  'erklaeren',
+  /** Von unten nach oben schauen, wenn die Figur klein im Bild steht. */
+  'hochschauen',
+  /** Gruss mit erhobenem Arm. */
+  'winken',
+  /** Hand an der Wange. Die Pause vor der Aufloesung. */
+  'nachdenken',
+]);
 export type PosenName = z.infer<typeof PosenName>;
 
 /**

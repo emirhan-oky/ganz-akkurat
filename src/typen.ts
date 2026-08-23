@@ -503,7 +503,21 @@ const Buehnenbild = z.discriminatedUnion('art', [
      * von Anfang an dazustehen: Ein Gegenstand, der auftaucht, ist ein
      * Ereignis; einer, der schon da war, ist Kulisse.
      */
-    requisite: KontextArt.or(z.literal('blatt')).optional(),
+    requisite: KontextArt.or(z.literal('blatt')).or(z.literal('stab')).optional(),
+    /**
+     * Wo die Figur steht.
+     *
+     * Bis zum 23.08.2026 stand sie immer an derselben Stelle, und der Befund
+     * dazu kam vom Zuschauer: „Kann der Avatar nicht auch die Position
+     * wechseln?" Acht Videos hintereinander mit derselben Figur an derselben
+     * Stelle sehen aus wie achtmal dasselbe Video.
+     *
+     * `klein` ist der Fall, der den Platz unten nutzt: Die Figur steht
+     * verkleinert am unteren Rand und sieht nach oben. Sie gehoert zur Pose
+     * `hochschauen` — eine kleine Figur, die geradeaus schaut, wirkt nicht
+     * klein, sondern weit weg.
+     */
+    stand: z.enum(['mitte', 'links', 'rechts', 'klein']).optional(),
   }),
   z.object({
     /**
@@ -520,6 +534,21 @@ const Buehnenbild = z.discriminatedUnion('art', [
     art: z.literal('gegenueber'),
     oben: z.object({ etikett: z.string().min(1).max(14), symbol: KontextArt }),
     unten: z.object({ etikett: z.string().min(1).max(14), symbol: KontextArt }),
+    /**
+     * Die Figur steht mit im Bild und zeigt auf den Vergleich.
+     *
+     * Standard, seit der erste Satz Videos fertig war: Ohne sie verschwand der
+     * Avatar mitten im Video fuer eine ganze Szene und kam danach wieder — im
+     * Feed liest sich das nicht als Bildwechsel, sondern als anderes Video.
+     *
+     * Sie steht klein links unten und zeigt mit dem Stab nach oben. Der Platz
+     * dort ist ohnehin frei: Die beiden Haelften brauchen die Mitte, die
+     * Etiketten die linke obere Ecke jeder Haelfte.
+     *
+     * Abschaltbar, weil es Vergleiche gibt, die fuer sich stehen — zwei
+     * Zustaende und ein Etikett je Haelfte sind schon ein volles Bild.
+     */
+    mitFigur: z.boolean().optional(),
   }),
 ]).superRefine((buehne, ctx) => {
   /*

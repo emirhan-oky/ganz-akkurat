@@ -104,6 +104,73 @@ export const POSEN: Record<PosenName, Pose> = {
     },
     mund: 'zug',
   }),
+
+  /**
+   * Erklaeren mit dem Zeigestab.
+   *
+   * Der rechte Arm steht hoch und schraeg nach aussen, der Stab verlaengert
+   * ihn. Der Blick geht mit — eine Figur, die auf etwas zeigt und woandershin
+   * schaut, zeigt nicht, sondern haelt nur den Arm hoch.
+   *
+   * Gerechnet: Schulter rechts (132 | 62), Ellenbogen (144 | 76), Hand
+   * (144 | 99). Mit -78 am Oberarm und -12 am Unterarm kommt die Hand
+   * oberhalb der Schulter zu liegen, ausserhalb der Silhouette — dort hat der
+   * Stab freie Bahn.
+   */
+  erklaeren: p({
+    drehung: { oberarm_rechts: -78, unterarm_rechts: -12, koerper: 3 },
+    blick: [2.8, -2.2],
+    mund: 'offen',
+  }),
+
+  /**
+   * Von unten nach oben schauen.
+   *
+   * Fuer die Buehnen, in denen die Figur klein am unteren Rand steht und das
+   * Geschehen ueber ihr liegt. Der Koerper lehnt zurueck, der Blick geht nach
+   * oben — bei einer Figur ohne Kopf ist das die einzige Moeglichkeit, eine
+   * Blickrichtung zu zeigen, die nicht nur in den Augen steckt.
+   */
+  hochschauen: p({
+    drehung: { koerper: -7, oberarm_rechts: -16, oberarm_links: 16 },
+    blick: [0, -3.2],
+    mund: 'offen',
+  }),
+
+  /**
+   * Gruss mit erhobenem Arm.
+   *
+   * Nur fuer den Aufschlag gedacht. Mitten im Video winkt niemand, und am Ende
+   * waere es ein Abschied — genau das, was der Rundlauf verhindern soll.
+   */
+  winken: p({
+    drehung: { oberarm_rechts: -92, unterarm_rechts: -28, koerper: -2 },
+    blick: [1.6, -0.8],
+    mund: 'offen',
+  }),
+
+  /**
+   * Hand an der Wange.
+   *
+   * Gerechnet — und beim ersten Mal trotzdem falsch. Mit +45 am Oberarm und
+   * +80 am Unterarm landet die Hand bei (112 | 67), rechnerisch elf Einheiten
+   * unter dem rechten Auge (114 | 56). Im Standbild lag sie darauf: Hand und
+   * Auge haben beide einen Radius, und die Rechnung hatte nur die Mittelpunkte
+   * verglichen.
+   *
+   * Mit +30 und +70 kam sie auf (113 | 76) und lag damit auf dem Mund — im
+   * Standbild ein Schnurrbart. Erst +20 und +60 bringen sie auf (116 | 83),
+   * also unter den Mund ans Kinn.
+   *
+   * Dreimal gerechnet, dreimal nachgesehen. Bei einem Gesicht ohne Kopf gibt
+   * es keine Faustregel dafuer, wo „an der Wange" liegt — nur Koordinaten und
+   * das Bild.
+   */
+  nachdenken: p({
+    drehung: { oberarm_rechts: 20, unterarm_rechts: 60, koerper: 5 },
+    blick: [-1.8, 1.2],
+    mund: 'schmal',
+  }),
 };
 
 /**

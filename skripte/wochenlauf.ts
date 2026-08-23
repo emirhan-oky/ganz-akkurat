@@ -479,9 +479,25 @@ const main = async () => {
      * eine Obergrenze, kein Warten.
      */
     const beginn = Date.now();
+    /*
+     * `--crf=16` statt des Standards 18.
+     *
+     * Am 23.08.2026 kam der Hinweis, die Figur sei „sehr verpixelt". Gemessen
+     * an zwei vergroesserten Ausschnitten stimmt das fuer unser Rendering
+     * nicht: Das Standbild ist bei doppelter Vergroesserung glatt, das Bild aus
+     * dem fertigen MP4 nur leicht weicher. Der beanstandete Screenshot kam
+     * ueber WhatsApp, und WhatsApp rekomprimiert Videos hart.
+     *
+     * Trotzdem steht der Regler jetzt hoeher, weil unsere Bilder der
+     * ungeschickteste Fall fuer H.264 sind: grosse einfarbige Flaechen mit
+     * harten Kanten, dazu gesaettigtes Blau neben Weiss. Mit `yuvj420p` liegt
+     * die Farbe nur in einem Viertel der Aufloesung vor, und genau an solchen
+     * Kanten entstehen die Farbsaeume. Zwei CRF-Stufen kosten ein paar
+     * Megabyte und sonst nichts.
+     */
     await ausfuehren('npx', [
       'remotion', 'render', 'video/index.ts', 'Short', ziel,
-      `--props=${propsDatei}`, '--log=error', '--timeout=120000',
+      `--props=${propsDatei}`, '--log=error', '--timeout=120000', '--crf=16',
     ], { maxBuffer: 32 * 1024 * 1024 });
 
     const mb = (await fs.stat(ziel)).size / 1_048_576;

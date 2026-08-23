@@ -5,7 +5,7 @@ import { nachleser } from '../daten/figur/nachleser';
 import { Figur } from './bausteine/Figur';
 import { POSEN, poseAus } from './bausteine/posen';
 import type { PosenName } from '../src/figur';
-import { Blatt } from './bausteine/Requisiten';
+import { Blatt, Zeigestab } from './bausteine/Requisiten';
 import { Buehnenbild } from './bausteine/Buehnenbild';
 import type { Buehnenbild as Buehnenbilddaten } from '../src/typen';
 
@@ -27,14 +27,25 @@ import type { Buehnenbild as Buehnenbilddaten } from '../src/typen';
  *   Einzelbildern echte Unterschiede verlangt.
  */
 
-const REIHE: PosenName[] = ['ruhe', 'lesen', 'zeigen', 'stutzen', 'staunen', 'achselzucken'];
+const REIHE: PosenName[] = [
+  'ruhe',
+  'lesen',
+  'zeigen',
+  'stutzen',
+  'staunen',
+  'achselzucken',
+  'erklaeren',
+  'hochschauen',
+  'winken',
+  'nachdenken',
+];
 
 export const Figurenprobe: React.FC<{ geruest?: boolean }> = ({ geruest = false }) => (
   <AbsoluteFill style={{ backgroundColor: FARBEN.flaeche, padding: 40 }}>
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(5, 1fr)',
         gridTemplateRows: 'repeat(2, 1fr)',
         gap: 24,
         width: '100%',
@@ -61,7 +72,13 @@ export const Figurenprobe: React.FC<{ geruest?: boolean }> = ({ geruest = false 
               // Die Lesepose wird mit ihrer Requisite geprueft, nicht ohne.
               // Ohne Blatt ist sie kein zu zahmer Ausdruck, sondern falsch —
               // und eine Probe, die den falschen Zustand zeigt, prueft nichts.
-              requisiten={name === 'lesen' ? [{ inhalt: <Blatt />, ebene: 36 }] : []}
+              requisiten={
+                name === 'lesen'
+                  ? [{ inhalt: <Blatt />, ebene: 36 }]
+                  : name === 'erklaeren'
+                    ? [{ inhalt: <Zeigestab />, ebene: 25 }]
+                    : []
+              }
             />
           </div>
           <div

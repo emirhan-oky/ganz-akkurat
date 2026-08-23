@@ -46,3 +46,53 @@ export const Blatt: React.FC = () => (
     <path d="M 104 105 L 110 104" style={TEXTZEILE} />
   </g>
 );
+
+/**
+ * Der Zeigestab. Gehoert zur Pose `erklaeren` und zu keiner anderen.
+ *
+ * Er steht **fest im Koordinatenraum**, genau wie das Blatt, und aus demselben
+ * Grund: An ein Handteil gehaengt wuerde er mit dem Unterarm mitkippen und bei
+ * jeder Winkelaenderung woandershin zeigen. Ein Zeigestab, der nicht dorthin
+ * zeigt, wo die Figur hinsieht, ist keiner.
+ *
+ * Die Lage ist an `erklaeren` gerechnet. Mit -78 Grad am Oberarm und -12 am
+ * Unterarm laeuft die Kette so: Die Hand (144 | 99) dreht erst um den
+ * Ellenbogen (144 | 76) auf (148,8 | 98,5), dann um die Schulter (132 | 62)
+ * auf **(171,2 | 53,2)**. Der Schaft laeuft durch diesen Punkt.
+ *
+ * ## Ebene 25, nicht 36
+ *
+ * Anders als das Blatt liegt er **unter** dem Saumband (30 bis 35). Auf 36 war
+ * er im ersten Standbild praktisch unsichtbar: Schaft und Arm haben beide
+ * `tinte`, laufen fast parallel und verschmolzen zu einer einzigen dunklen
+ * Form — genau das Problem, gegen das der Saum gebaut ist, nur dass der ihn
+ * dort nicht erreichte.
+ *
+ * Unter dem Saum trennt derselbe helle Strich jetzt auch den Arm vom Stab.
+ * Die Reihenfolge stimmt dabei weiterhin: Stab, dann Saum, dann Arm mit Hand —
+ * die Hand liegt oben und haelt ihn sichtbar.
+ */
+export const Zeigestab: React.FC = () => (
+  <g>
+    <path
+      d="M 160 71 L 191 20"
+      style={{
+        fill: 'none',
+        stroke: FARBEN.tinte,
+        strokeWidth: 4,
+        strokeLinecap: 'round' as const,
+      }}
+    />
+    {/* Die Spitze abgesetzt, damit das Ende des Stabs zu sehen ist und nicht
+        im Strich verlaeuft. */}
+    <path
+      d="M 185 30 L 191 20"
+      style={{
+        fill: 'none',
+        stroke: FARBEN.blau,
+        strokeWidth: 5,
+        strokeLinecap: 'round' as const,
+      }}
+    />
+  </g>
+);
