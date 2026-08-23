@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "animation-vocabulary": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "skillPath": "skills/animation-vocabulary/SKILL.md",
+      "computedHash": "39319fc9a33c15be08666b3685f58666f042ff36bb902b7814c0834a5ba99df4"
+    },
+    "better-typography": {
+      "source": "jakubkrehel/skills",
+      "sourceType": "github",
+      "skillPath": "skills/better-typography/SKILL.md",
+      "computedHash": "9f92b06b0e587de9bf45f44b437719870efae3fdff9cface04927d5aaa34795c"
+    },
+    "character-animation-qa": {
+      "source": "calesthio/openmontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/character-animation-qa/SKILL.md",
+      "computedHash": "727ca3217c8d69cce95452c3d843db8c78536feaf8c61d0006bb2a62618ef9c7"
+    },
+    "ffmpeg": {
+      "source": "digitalsamba/claude-code-video-toolkit",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ffmpeg/SKILL.md",
+      "computedHash": "51fa05bc18bb2691e622aefd1d8ec6d4d96a9e9c44cdf599003c9d6003d11a07"
+    },
+    "svg-character-animation": {
+      "source": "calesthio/openmontage",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/svg-character-animation/SKILL.md",
+      "computedHash": "65a17b9ab121f1fb11af63ff1cc8ab36accf96a36ce8decb82660fe26df6fbf0"
+    }
+  }
+}
