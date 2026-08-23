@@ -254,11 +254,29 @@ const main = async () => {
       .sort()
       .reverse();
 
+    /*
+     * Gesucht wird der juengste Lauf mit einer **brauchbaren Tonspur** — nicht
+     * der juengste mit einer Datei.
+     *
+     * Der Unterschied hat am 23.08.2026 den Schalter blockiert: Der Lauf vom
+     * 20.08. war ein Trockenlauf. Seine `props/` enthalten Szenen und Texte,
+     * aber keine Tonspur. Die erste Fassung nahm ihn trotzdem, weil die Datei
+     * da war, und brach dann mit „keine brauchbare Tonspur" ab — waehrend im
+     * Ordner vom 18.08. der vertonte Stand lag und nie geprueft wurde.
+     *
+     * Der Kommentar darueber beschrieb schon das richtige Verhalten: „der
+     * juengste Lauf, **der eine Tonspur zu diesem Short hat**". Der Code tat es
+     * nicht. Ein Trockenlauf hinterlaesst dieselben Dateinamen wie ein
+     * vertonter; unterscheiden lassen sie sich nur am Inhalt.
+     */
     const propsSuchen = async (shortId: string): Promise<{ pfad: string; roh: string } | null> => {
       for (const ordner of laufOrdner) {
         const pfad = path.join('laeufe', ordner, 'props', `${shortId}.json`);
         const roh = await fs.readFile(pfad, 'utf8').catch(() => null);
-        if (roh) return { pfad, roh };
+        if (!roh) continue;
+        const alt = (JSON.parse(roh) as { daten?: { tonspur?: unknown } }).daten;
+        if (!Tonspur.safeParse(alt?.tonspur).success) continue;
+        return { pfad, roh };
       }
       return null;
     };
