@@ -1367,8 +1367,50 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     const BREITE_POSEN = new Set(['achselzucken']);
     for (const szene of short.szenen) {
       if (!('buehne' in szene) || szene.buehne?.art !== 'figur') continue;
-      const { nach, requisite } = szene.buehne;
-      if (requisite && requisite !== 'blatt' && BREITE_POSEN.has(nach)) {
+      const { nach, requisite, stand } = szene.buehne;
+      const symbolDaneben = requisite !== undefined && requisite !== 'blatt' && requisite !== 'stab';
+
+      /*
+       * Rechts steht das Symbol. Beide dorthin geht nicht.
+       *
+       * Die Buehne setzt ein Symbol fest auf x = 138, und `stand: 'rechts'`
+       * stellt die Figur auf denselben Punkt. Das ist kein Gedraenge, sondern
+       * eine Ueberlagerung — im Bild steht die Figur *im* Drucker.
+       *
+       * Fehler und nicht Hinweis: Anders als bei der breiten Pose gibt es hier
+       * keinen Fall, in dem es doch aufgeht.
+       */
+      if (stand === 'rechts' && symbolDaneben) {
+        befunde.push({
+          stufe: 'fehler',
+          shortId: short.id,
+          regel: 'bildvielfalt',
+          text:
+            `Figur steht rechts und „${requisite}" auch — beide liegen auf x = 138. ` +
+            'Entweder ein anderer Stand oder eine gehaltene Requisite (blatt, stab).',
+        });
+      }
+
+      /*
+       * Klein und weit weg ist nur dann eine Geste, wenn sie hochsieht.
+       *
+       * `stand: 'klein'` setzt die Figur auf ein Drittel ihrer Groesse an den
+       * unteren Rand. Schaut sie dabei geradeaus, wirkt sie nicht klein,
+       * sondern nur entfernt — und der Sinn der Anordnung, dass ueber ihr etwas
+       * steht, geht verloren.
+       */
+      if (stand === 'klein' && nach !== 'hochschauen' && nach !== 'staunen') {
+        befunde.push({
+          stufe: 'hinweis',
+          shortId: short.id,
+          regel: 'bildvielfalt',
+          text:
+            `Figur steht klein am Rand und endet in „${nach}". Ohne Blick nach oben ` +
+            'liest sich das als entfernt, nicht als kleiner Betrachter.',
+        });
+      }
+
+      if (symbolDaneben && BREITE_POSEN.has(nach)) {
         befunde.push({
           stufe: 'hinweis',
           shortId: short.id,

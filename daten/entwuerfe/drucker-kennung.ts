@@ -60,7 +60,7 @@ export const druckerKennung: Short = {
       position: 'kipppunkt',
       sprechtext: 'Nicht dokumentiert. Und abschalten kannst du es nicht.',
       text: 'Nicht dokumentiert. Nicht abschaltbar.',
-      buehne: { art: 'figur', von: 'zeigen', nach: 'stutzen', requisite: 'kreuz' },
+      buehne: { art: 'figur', von: 'zeigen', nach: 'hochschauen', requisite: 'kreuz', stand: 'klein' },
       quelleId: 'bsi-yellow-dots',
       belegId: 'diese-funktion-ist-oft',
     },

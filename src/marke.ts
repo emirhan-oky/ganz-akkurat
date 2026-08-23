@@ -251,6 +251,32 @@ export const SCHRIFT = {
    * offener Lizenzfrage fuer einen monetarisierten Kanal.
    */
   auszeichnung: 'Playfair Display',
+
+  /**
+   * Die Untertitelschrift — Archivo Black.
+   *
+   * Untertitel sind das, was beim Publikum ankam, und der einzige Teil, der
+   * **wortweise** gelesen wird. Sie bekommen deshalb eine eigene Zeile im
+   * System statt einer Staerke von Inter.
+   *
+   * Gewaehlt am gerenderten Vergleich gegen Inter 800, Inter 900 in Versalien
+   * und Anton, geprueft am echten Fall: derselbe Satz, dieselbe Groesse,
+   * derselbe blaue Balken um dasselbe Wort.
+   *
+   * - **Versalien** fallen aus. Sie sind lauter und bei wortweisem Wechsel
+   *   schlechter zu erfassen — Grossbuchstaben haben keine Oberlaengen, an
+   *   denen das Auge ein Wort als Form erkennt.
+   * - **Anton** ist die uebliche Shorts-Schrift und passt mehr Text in eine
+   *   Zeile. Sie ist dafuer so schmal, dass Umlaute gedraengt stehen, und sie
+   *   kollidiert mit der Playfair im Aufschlag: zwei sehr eigene Schriften in
+   *   einem Bild.
+   * - **Archivo Black** ist deutlich kraeftiger als Inter 800 und bleibt
+   *   ruhig genug, um neben einer Serif zu bestehen.
+   *
+   * Sie hat genau einen Schnitt. `SCHRIFT.fett` und `SCHRIFT.schwarz` gelten
+   * fuer sie nicht — das Gewicht ist immer 400.
+   */
+  untertitel: 'Archivo Black',
 } as const;
 
 /**

@@ -1,6 +1,8 @@
 import { Composition } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
 import { loadFont as ladePlayfair } from '@remotion/google-fonts/PlayfairDisplay';
+import { loadFont as ladeAnton } from '@remotion/google-fonts/Anton';
+import { loadFont as ladeArchivoBlack } from '@remotion/google-fonts/ArchivoBlack';
 import { FORMAT } from '../src/marke';
 import { Short as ShortDaten } from '../src/typen';
 import { gesamtdauerBilder } from '../src/zeit';
@@ -8,6 +10,7 @@ import { Short } from './Short';
 import { beispielShort } from '../daten/beispiel-short';
 import { BannerMuster, ProfilbildDunkel, ProfilbildHell, WortmarkeQuer } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
+import { Untertitelprobe } from './Untertitelprobe';
 
 /**
  * Alle Schriftstaerken, die das Design-System kennt. Werden hier einmal
@@ -26,6 +29,14 @@ loadFont('normal', { weights: ['300', '400', '600', '800', '900'], subsets: ['la
  * Buehne darunter bekommt.
  */
 ladePlayfair('italic', { weights: ['900'], subsets: ['latin', 'latin-ext'] });
+
+/*
+ * Die Untertitelschrift. Begruendung bei `SCHRIFT.untertitel` in `marke.ts`.
+ */
+ladeArchivoBlack('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
+
+/* Der unterlegene Kandidat — nur noch fuer `Untertitelprobe`. */
+ladeAnton('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -49,6 +60,9 @@ export const RemotionRoot: React.FC = () => (
   {/* Die Buehnenprobe steht bei Bild 60 von 90: nach dem Uebergang bei 40 %,
       denn ein Anfangszustand zeigt nichts von dem, was die Buehne behauptet. */}
   <Composition id="Buehnenprobe" component={Buehnenprobe} width={1800} height={900} fps={30} durationInFrames={90} />
+  {/* Der Prueftisch fuer die Untertitelschrift. Geht nach der Entscheidung
+      wieder weg, samt der Kandidatenschriften oben. */}
+  <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition id="Wortmarke-quer" component={WortmarkeQuer} width={1600} height={360} fps={30} durationInFrames={1} />
   <Composition
     id="Short"

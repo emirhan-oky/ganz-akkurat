@@ -194,7 +194,26 @@ const Figurenbuehne: React.FC<{
            * y = 139,9, und tx = 138 haelt es rechts von der Figur, deren
            * ausgestreckter Arm bis x = 106 reicht.
            */
-          <g transform="translate(138 110) scale(0.46) translate(-100 -75)">
+          <g transform={
+            /*
+             * Bei `stand: 'klein'` steht das Symbol **ueber** der Figur, nicht
+             * neben ihr.
+             *
+             * Sonst geht die Anordnung nicht auf: `klein` setzt die Figur auf
+             * 0,52 an den unteren Rand und laesst sie hochschauen — wenn der
+             * Gegenstand daneben auf derselben Standlinie steht, schaut sie an
+             * ihm vorbei ins Leere. Im ersten Video war genau das zu sehen:
+             * kleine Figur, Blick nach oben, Flugzeug in Augenhoehe.
+             *
+             * Groesser und hoeher: 0,62 statt 0,46, Mittelpunkt bei (128 | 66)
+             * statt Standlinie bei y = 140. Damit liegt das Symbol zwischen
+             * x = 66 und 190 — die Figur reicht bis x = 67, sie beruehren sich
+             * gerade nicht.
+             */
+            platz.groesse < 1
+              ? 'translate(128 66) scale(0.62) translate(-100 -75)'
+              : 'translate(138 110) scale(0.46) translate(-100 -75)'
+          }>
             <g
               transform={`scale(${interpolate(auftauchen, [0, 1], [0.94, 1])})`}
               transform-origin="100 75"

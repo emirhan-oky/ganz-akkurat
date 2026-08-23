@@ -139,8 +139,13 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
             <span
               key={`${w.wort}-${i}`}
               style={{
-                fontFamily: SCHRIFT.familie,
-                fontWeight: SCHRIFT.fett,
+                /*
+                 * Eigene Schrift, nicht Inter in einer anderen Staerke. Die
+                 * Begruendung samt Vergleich steht bei `SCHRIFT.untertitel`.
+                 * Archivo Black hat genau einen Schnitt — `fontWeight` waere
+                 * hier ohne Wirkung und stuende nur als falscher Hinweis da.
+                 */
+                fontFamily: SCHRIFT.untertitel,
                 fontSize: groesse,
                 lineHeight: 1.18,
                 color: aktiv ? '#FFFFFF' : FARBEN.tinte,

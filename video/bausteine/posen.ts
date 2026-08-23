@@ -133,7 +133,9 @@ export const POSEN: Record<PosenName, Pose> = {
    */
   hochschauen: p({
     drehung: { koerper: -7, oberarm_rechts: -16, oberarm_links: 16 },
-    blick: [0, -3.2],
+    // Nach oben **rechts**, nicht gerade nach oben: Dort steht bei
+    // `stand: 'klein'` das Symbol. Ein Blick, der daran vorbeigeht, ist keiner.
+    blick: [2, -2.8],
     mund: 'offen',
   }),
 

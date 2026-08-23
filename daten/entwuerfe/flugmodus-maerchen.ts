@@ -28,9 +28,16 @@ export const flugmodusMaerchen: Short = {
       position: 'aufschlag',
       sprechtext: 'Handy aus, sonst stürzt das Flugzeug ab.',
       text: 'Handy aus. Sonst stürzt es ab.',
-      // Das Flugzeug taucht auf, die Figur erschrickt. Die Drohung wird hier
-      // noch geglaubt; der Zweifel kommt erst in der Zuspitzung.
-      buehne: { art: 'figur', von: 'ruhe', nach: 'staunen', requisite: 'flugzeug' },
+      /*
+       * Die Figur steht klein am unteren Rand, das Flugzeug ueber ihr, und sie
+       * sieht hoch. Der Aufschlag behauptet eine Gefahr von oben — dann soll
+       * die Figur auch von unten hinaufschauen.
+       *
+       * Vorher stand sie hier gross in der Mitte und erschrak. Das war nicht
+       * falsch, aber es war dieselbe Anordnung wie in den sieben anderen
+       * Shorts.
+       */
+      buehne: { art: 'figur', von: 'ruhe', nach: 'hochschauen', requisite: 'flugzeug', stand: 'klein' },
     },
     {
       art: 'text',
@@ -39,7 +46,7 @@ export const flugmodusMaerchen: Short = {
       text: 'Ein Gerät mit einer einzigen Aufgabe.',
       // Aus dem Schreck wird Nachschlagen. Das ist der Kanal in einer Geste:
       // Wer erschrickt, glaubt; wer nachliest, prueft.
-      buehne: { art: 'figur', von: 'staunen', nach: 'lesen', requisite: 'blatt' },
+      buehne: { art: 'figur', von: 'hochschauen', nach: 'lesen', requisite: 'blatt' },
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'terrestrischen-umts-mobilfunknetzen',
       herausgeber: 'Europäische Union',
@@ -81,16 +88,19 @@ export const flugmodusMaerchen: Short = {
       sprechtext: 'Seit zweitausendzweiundzwanzig ist Fünf-G an Bord vorgesehen.',
       text: 'Seit 2022 ist 5G an Bord vorgesehen.',
       /*
-       * Aus dem Zweifel wird ein Hinweis: Sie zeigt auf das, was seit 2022
-       * gilt.
+       * Sie erklaert mit dem Stab, was seit 2022 gilt.
        *
-       * Hier stand zuerst `achselzucken`, und das Standbild hat gezeigt, warum
-       * das neben einer Requisite nicht geht: Die Pose stellt beide Arme aus,
-       * die linke Hand landet bei x = 23,3, und nach der Verschiebung um -38
-       * liegt sie bei -14,7 — ausserhalb der viewBox. Der Arm war im Bild
-       * glatt abgeschnitten.
+       * Zwei Anlaeufe stecken hier drin. Zuerst `achselzucken`: Die Pose
+       * stellt beide Arme aus, die linke Hand landet bei x = 23,3 und nach der
+       * Verschiebung um -38 bei -14,7 — ausserhalb der viewBox, der Arm war im
+       * Bild abgeschnitten. Dann `zeigen` mit dem Europa-Kranz daneben, was
+       * ging, aber die vierte Zeigegeste im selben Video war.
+       *
+       * `stand: 'rechts'` ist nur moeglich, weil der Stab **gehalten** wird.
+       * Ein Symbol daneben liegt fest auf x = 138, also genau dort, wo die
+       * Figur dann steht.
        */
-      buehne: { art: 'figur', von: 'stutzen', nach: 'zeigen', requisite: 'europa' },
+      buehne: { art: 'figur', von: 'stutzen', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'hinzufuegen-der-5g-netzanbindung',
     },
