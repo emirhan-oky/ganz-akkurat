@@ -208,8 +208,13 @@ export const FARBEN = {
 
 /**
  * Inter deckt deutsche Umlaute und scharfes S vollstaendig ab und ist als
- * variable Schrift frei nutzbar. Der Markenkontrast entsteht ueber die
- * Staerken, nicht ueber zwei verschiedene Schriften.
+ * variable Schrift frei nutzbar. Sie traegt alles, was gelesen wird.
+ *
+ * Der Satz „Der Markenkontrast entsteht ueber die Staerken, nicht ueber zwei
+ * verschiedene Schriften" stand hier bis zum 23.08.2026 und gilt nicht mehr.
+ * Er war eine Entscheidung gegen Aufwand, nicht fuer eine Wirkung — und nach
+ * zwei Wochen ohne Reichweite ist die fehlende Wiedererkennbarkeit das
+ * groessere Problem als eine zweite Schriftdatei.
  */
 export const SCHRIFT = {
   familie: 'Inter',
@@ -218,6 +223,34 @@ export const SCHRIFT = {
   halbfett: 600,
   fett: 800,
   schwarz: 900,
+
+  /**
+   * Die zweite Schrift — **nur** fuer Aufschlag und Schlusssatz.
+   *
+   * Playfair Display in 900 kursiv, gewaehlt am gerenderten Standbild gegen
+   * Inter 900, Fraunces 900 kursiv und Instrument Serif kursiv. Drei Gruende,
+   * in dieser Reihenfolge:
+   *
+   * - **Sie spart eine Zeile.** „Handy aus. Sonst stuerzt es ab." braucht in
+   *   Inter und Fraunces vier Zeilen, in Playfair drei. Der Platz darunter
+   *   gehoert der Buehne, und genau dort ist das Layout am 23.08.2026
+   *   gescheitert: Bei drei Textzeilen lag das Etikett im Satz.
+   * - **Sie ist schwer genug.** Instrument Serif sieht eleganter aus und wiegt
+   *   bei 400 zu wenig. Der Aufschlag ist der Hook im Feed und muss ohne Ton
+   *   bestehen.
+   * - **Sie passt zur Haltung.** Eine Serif liest sich redaktionell, und der
+   *   Kanal behauptet nichts ohne Beleg. Fraunces kippt ins Verspielte.
+   *
+   * Untertitel, Kopfzeile, Formatpille und Etiketten bleiben Inter. Die
+   * Untertitel sind das, was beim Publikum ankam, und sie werden wortweise
+   * gelesen — dort schlaegt eine Grotesk jede Serif.
+   *
+   * Die Schriften der Vorbilder — Macabro Danger, Ketchup Manis, Margin —
+   * sind Canva-Schriften und stehen nicht unter den 1.831 Google Fonts, die
+   * `@remotion/google-fonts` lokal mitbringt. Sie waeren Fremddateien mit
+   * offener Lizenzfrage fuer einen monetarisierten Kanal.
+   */
+  auszeichnung: 'Playfair Display',
 } as const;
 
 /**

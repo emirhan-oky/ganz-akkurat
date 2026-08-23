@@ -234,9 +234,18 @@ const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
         style={{
           ...grundtext,
           ...auftritt(frame, fps, 0),
+          /*
+           * Der Aufschlag steht in der Auszeichnungsschrift, alles danach in
+           * Inter. Er ist die einzige Position, die im Feed ueber das Video
+           * entscheidet — und die einzige, die nicht wortweise mitgelesen,
+           * sondern als Bild erfasst wird.
+           */
+          ...(aufschlag
+            ? { fontFamily: SCHRIFT.auszeichnung, fontStyle: 'italic', letterSpacing: -0.5 }
+            : {}),
           fontWeight: aufschlag ? SCHRIFT.schwarz : SCHRIFT.fett,
           fontSize: groesse,
-          lineHeight: aufschlag ? 1.04 : 1.16,
+          lineHeight: aufschlag ? 1.06 : 1.16,
           margin: 0,
         }}
       >
@@ -617,9 +626,21 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => 
         style={{
           ...grundtext,
           ...auftritt(frame, fps, 0),
+          /*
+           * Dieselbe Schrift wie der Aufschlag — die Klammer um das Video.
+           *
+           * Das ist keine Symmetrie um ihrer selbst willen: Ein Short laeuft
+           * von selbst wieder an, und das Feld `rundlauf` haelt fest, warum
+           * der erste Satz nach dem letzten wieder passt. Wenn beide Saetze in
+           * derselben Schrift stehen, sieht man den Anschluss, statt ihn nur
+           * aufgeschrieben zu haben.
+           */
+          fontFamily: SCHRIFT.auszeichnung,
+          fontStyle: 'italic',
+          letterSpacing: -0.5,
           fontWeight: SCHRIFT.schwarz,
           fontSize: groesse,
-          lineHeight: 1.1,
+          lineHeight: 1.12,
           margin: 0,
         }}
       >
