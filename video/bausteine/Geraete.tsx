@@ -56,7 +56,18 @@ const koerper = { fill: FARBEN.grundRein, stroke: FARBEN.linie, strokeWidth: 4, 
  * Symbol behauptet nichts, das falsch sein koennte. Ausfuehrlich begruendet
  * bei `KontextArt` in `src/typen.ts`.
  */
-const Symbole: Record<KontextArt, React.ReactNode> = {
+/**
+ * Die Zeichnungen selbst, ohne Rahmen und ohne Standflaeche.
+ *
+ * Exportiert, seit es die Buehne gibt: Sie setzt ein Symbol **neben** die
+ * Figur, und beide teilen sich eine Zeichenflaeche. Ueber `Symbol` ginge das
+ * nicht — die Komponente bringt ihr eigenes `<svg>` samt Breite, Hoehe und
+ * Standflaeche mit. Verschachtelt ergab das im Standbild eine zweite,
+ * schwebende Ellipse neben der Figur.
+ *
+ * Wer eine Zeichnung allein braucht, nimmt weiterhin `Symbol`.
+ */
+export const Symbole: Record<KontextArt, React.ReactNode> = {
   /*
    * Seitenansicht, Nase nach rechts — aus vier klaren Formen statt einer
    * durchgehenden Kontur. Ein erster Versuch zeichnete die ganze Silhouette

@@ -74,8 +74,22 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
  *
  * Das war lange die offene Frage: eine eingeblendete Rubrik sieht nach
  * Fernsehen aus statt nach Feed. Mit variablem Opener ist sie entschieden.
+ *
+ * ## Die Zaehlung rechts aussen
+ *
+ * `zaehlung` steht am rechten Rand und nicht neben der Pille. Der Grund ist
+ * die Aufgabe: Die Pille sagt, **welche Sorte** Video laeuft, die Zaehlung
+ * sagt, **wie weit** es ist. Nebeneinander lesen sich beide als ein Etikett;
+ * getrennt ist die Zahl das, was sie sein soll — ein Fortschrittsbalken aus
+ * zwei Ziffern.
+ *
+ * Sie erscheint nur, wenn der Short zaehlt. Warum das eine Ausnahme bleiben
+ * muss und keine Schablone werden darf, steht am Feld in `src/typen.ts`.
  */
-export const Kopfzeile: React.FC<{ format: Format }> = ({ format }) => (
+export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; von: number } }> = ({
+  format,
+  zaehlung,
+}) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
     <Logozeichen groesse={40} />
     <Wortmarke groesse={34} />
@@ -102,6 +116,31 @@ export const Kopfzeile: React.FC<{ format: Format }> = ({ format }) => (
     >
       {FORMATE[format].pille}
     </span>
+
+    {zaehlung && (
+      <span
+        style={{
+          // Schiebt die Zaehlung an den rechten Rand, ohne dass die Kopfzeile
+          // ihre Breite kennen muss.
+          marginLeft: 'auto',
+          fontFamily: SCHRIFT.familie,
+          fontWeight: SCHRIFT.fett,
+          fontSize: 26,
+          color: FARBEN.tinteWeich,
+          letterSpacing: 0.4,
+          whiteSpace: 'nowrap',
+          /*
+           * Tabellenziffern. Ohne sie sind „1" und „2" verschieden breit, und
+           * die Zahl zappelt bei jedem Wechsel um ein paar Pixel — bei einem
+           * Element, das sonst still steht, faellt genau das auf.
+           */
+          fontVariantNumeric: 'tabular-nums',
+        }}
+      >
+        {zaehlung.nummer}
+        <span style={{ color: FARBEN.linie, fontWeight: SCHRIFT.normal }}> / {zaehlung.von}</span>
+      </span>
+    )}
   </div>
 );
 

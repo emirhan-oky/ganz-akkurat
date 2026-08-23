@@ -6,6 +6,7 @@
  * oder unbelegtes Skript versehentlich in die Produktion laufen.
  */
 import { z } from 'zod';
+import { PosenName } from './figur';
 
 /*
  * Hier stand bis zum 17.08.2026 `System` — macOS, Windows, beide, ohne. Das
@@ -73,8 +74,9 @@ export type Beleg = z.infer<typeof Beleg>;
  * Die Liste ist am 14.08.2026 enger geworden, und zwar an beiden Enden:
  *
  * **`presse` ist raus.** Nicht heruntergestuft, sondern **nicht mehr
- * eintragbar**. Vorher stand `presse` im Enum und war nur aus
- * `OFFIZIELLE_ARTEN` ausgenommen — eine Pressequelle durfte also in
+ * eintragbar**. Vorher stand `presse` im Enum und war nur aus der damaligen
+ * Menge `OFFIZIELLE_ARTEN` ausgenommen (am 20.08.2026 gestrichen, weil sie
+ * nichts mehr pruefte) — eine Pressequelle durfte also in
  * `quellen.json` stehen und von einer Szene ueber `quelleId` als Beleg
  * benutzt werden, solange drei offizielle Quellen daneben die Zaehlung
  * erfuellten. Das war das Schlupfloch: Die Zahl stimmte, und die konkrete
@@ -97,8 +99,33 @@ export type Beleg = z.infer<typeof Beleg>;
  * **`rechtsprechung` ist dazugekommen.** Ein Urteil gilt anders als eine
  * Verordnung, und die Rubrik Kaufen braucht es regelmaessig — LG Erfurt und
  * BGH standen bisher nur in Projektkommentaren, nicht als Beleg.
+ *
+ * **`wissenschaft` ist am 20.08.2026 dazugekommen**, als die Nische von
+ * Geraeten und Verbraucherrecht auf Technik allgemein verbreitert wurde. Der
+ * Anlass ist eine Luecke, kein Wunsch: „Licht braucht 67 Millisekunden um die
+ * Erde" belegt keine Behoerde und keine Norm. Ohne eine passende Art waere ein
+ * grosser Teil der neuen Nische unbelegbar — und die Erfahrung dieses Projekts
+ * sagt, was dann passiert: Die Regel wird nicht gebrochen, sie wird umgangen,
+ * indem der Satz an eine Quelle gehaengt wird, die halb passt.
+ *
+ * Gemeint sind begutachtete Veroeffentlichungen, staatliche
+ * Forschungsinstitute (PTB, Fraunhofer, NIST, ESA) und Normungsgremien
+ * jenseits von `standard`. Sie erfuellt dasselbe Kriterium wie die drei
+ * anderen unbeteiligten Arten: **kein wirtschaftliches Interesse am
+ * Gegenstand.** Ein Institutsblog, der ein eigenes Produkt bewirbt, ist keine
+ * Wissenschaft in diesem Sinn, sondern `hersteller`.
+ *
+ * `presse` bleibt draussen, `messung` bleibt draussen. Was sich nicht
+ * ausdruecken laesst, laesst sich nicht brechen.
  */
-export const QuellenArt = z.enum(['standard', 'behoerde', 'rechtsprechung', 'hersteller', 'plattform']);
+export const QuellenArt = z.enum([
+  'standard',
+  'behoerde',
+  'rechtsprechung',
+  'wissenschaft',
+  'hersteller',
+  'plattform',
+]);
 export type QuellenArt = z.infer<typeof QuellenArt>;
 
 /**
@@ -113,7 +140,12 @@ export type QuellenArt = z.infer<typeof QuellenArt>;
  * Dieselbe Doppelrolle hat `plattform`: YouTube ist die Autoritaet fuer die
  * eigenen Regeln und zugleich der Beteiligte.
  */
-export const UNBETEILIGTE_ARTEN = ['standard', 'behoerde', 'rechtsprechung'] as const;
+export const UNBETEILIGTE_ARTEN = [
+  'standard',
+  'behoerde',
+  'rechtsprechung',
+  'wissenschaft',
+] as const;
 
 /**
  * Belegpflicht: Jede technische Kernaussage braucht eine Hersteller- oder
@@ -248,6 +280,40 @@ const SzeneBasis = z.object({
    * beantwortet das.
    */
   pauseSek: z.number().min(0.5).max(3).optional(),
+  /**
+   * Die Nummer dieser Szene in einer sichtbaren Zaehlung. Die Kopfzeile zeigt
+   * daraus „2 von 3"; die Gesamtzahl ist der hoechste Wert im Short und steht
+   * nirgends noch einmal.
+   *
+   * ## Woher das kommt
+   *
+   * Am 20.08.2026 wurden zwoelf virale Tech-Shorts angesehen und vermessen.
+   * **Drei der fuenf groessten bauen auf einer sichtbaren Zaehlung**: ein
+   * Countdown von 5 auf 1 (14,8 Mio Aufrufe), zehn Blaetter nacheinander
+   * (4,1 Mio), „SHOT 1 / SHOT 2 / SHOT 3" (5,7 Mio). Es ist eine offene
+   * Schleife, die man **sieht** statt hoert — wer bei 5 einsteigt, will die 1.
+   *
+   * ## Warum nur eine Zahl und kein Listenformat
+   *
+   * Der naheliegende Schluss waere ein fuenftes Format „Drei Dinge ueber X".
+   * Das waere ein Rueckfall: `endkarte` ist am 17.08.2026 gestrichen worden,
+   * weil ihr Schema `punkte: min(2).max(4)` erzwang und **eine Liste keine
+   * Pointe sein kann**. Die Begruendung gilt weiter.
+   *
+   * Was die zwoelf Videos zeigen, ist aber nicht die Liste, sondern die
+   * **Anzeige** der Liste. Der Motor ist die Zahl im Bild, nicht der
+   * Listeninhalt. Deshalb steht hier eine Zahl an der Szene und nicht eine
+   * Punkteliste am Short: Der Short bleibt ein Gedanke mit vier Positionen,
+   * und darueber laeuft eine Zaehlung mit.
+   *
+   * ## Bewusst optional
+   *
+   * Eine Zaehlung in jedem Short ist keine Schleife mehr, sondern eine
+   * Schablone — und die Retention-Ladder (`youtube-shorts`) nennt geklonte
+   * Machart ausdruecklich als Grund fuer Unterdrueckung. Dasselbe Argument,
+   * das den Wochentag gekostet hat.
+   */
+  zaehlung: z.number().int().min(1).max(9).optional(),
 });
 
 /**
@@ -390,6 +456,100 @@ export const KontextArt = z.enum([
 export type KontextArt = z.infer<typeof KontextArt>;
 
 /**
+ * Die Buehne einer Szene — was im Bild **passiert**, nicht was darin steht.
+ *
+ * ## Der Befund dahinter
+ *
+ * Am 20.08.2026 wurden zwoelf virale Tech-Shorts angesehen. **Neun von zwoelf
+ * leben davon, dass etwas Echtes vorgefuehrt wird**: ein Geraet in der Hand,
+ * eine Bildschirmaufnahme, ein Auto vor Ort. Das ist der Motor, nicht der
+ * Text.
+ *
+ * Wir haben nichts vorzufuehren — wir zeichnen, und eine Zeichnung fuehrt
+ * nichts vor, sie behauptet. Bildschirmaufnahmen waeren die naheliegende
+ * Abkuerzung und haengen an keiner `quelleId`; dasselbe Argument wie bei
+ * Herstellerfootage. **Also muss die Zeichnung selbst vorfuehren.**
+ *
+ * ## Die Regel, und warum sie sich pruefen laesst
+ *
+ * > Eine Buehne zeigt einen **Vorgang**, keinen Zustand. Zwischen erstem und
+ * > letztem Bild einer Szene muss sich etwas ereignet haben.
+ *
+ * Das klingt nach einer Regel, die kein Skript pruefen kann — und ist es
+ * nicht: Bei `figur` muessen `von` und `nach` verschieden sein. Eine Buehne,
+ * die anfaengt und endet wie sie anfing, wird abgelehnt. Damit steht die Regel
+ * im Schema und nicht in einem Kommentar, den man beim Schreiben nicht liest.
+ *
+ * ## Warum das `symbol` daneben bleibt
+ *
+ * `symbol` zeichnet einen Gegenstand unter den Satz und ist damit genau die
+ * **Bebilderung**, von der der Befund wegfuehrt. Es faellt trotzdem nicht
+ * sofort weg: Es traegt die sieben bestehenden Shorts, und ein Feld zu
+ * streichen, bevor sein Nachfolger an einem fertigen Video gemessen wurde,
+ * ist derselbe Fehler wie eine geratene Konstante. Die Entscheidung faellt in
+ * Stufe 4.
+ */
+const Buehnenbild = z.discriminatedUnion('art', [
+  z.object({
+    art: z.literal('figur'),
+    /**
+     * Die Haltung am Anfang und am Ende der Szene. **Sie muessen verschieden
+     * sein** — das ist die Vorgangsregel in Schemaform.
+     */
+    von: PosenName,
+    nach: PosenName,
+    /**
+     * Was die Figur dabei anschaut oder haelt. Erscheint zur Szenenmitte, statt
+     * von Anfang an dazustehen: Ein Gegenstand, der auftaucht, ist ein
+     * Ereignis; einer, der schon da war, ist Kulisse.
+     */
+    requisite: KontextArt.or(z.literal('blatt')).optional(),
+  }),
+  z.object({
+    /**
+     * Zwei Zustaende uebereinander, je ein Etikett. Aus dem kuerzesten Video
+     * der Sammlung: DJI zeigt in **sieben Sekunden** oben „AMATEUR" und unten
+     * „PRO", denselben Vorgang gleichzeitig — 1,75 Mio Aufrufe, kein
+     * gesprochenes Wort, kein Satz im Bild.
+     *
+     * Fuer `eswareinmal` (frueher/heute) und `werhatrecht` (zwei Lager) ist
+     * das die fertige Bildsprache. Der Vorgang liegt hier nicht in der Figur,
+     * sondern im **Vergleich**: Das Auge wandert von oben nach unten und
+     * findet den Unterschied selbst.
+     */
+    art: z.literal('gegenueber'),
+    oben: z.object({ etikett: z.string().min(1).max(14), symbol: KontextArt }),
+    unten: z.object({ etikett: z.string().min(1).max(14), symbol: KontextArt }),
+  }),
+]).superRefine((buehne, ctx) => {
+  /*
+   * Die Vorgangsregel, so weit ein Schema sie fassen kann.
+   *
+   * Sie prueft nicht, ob der Vorgang zum Satz passt — das kann kein Skript.
+   * Sie prueft den Fall, in dem gar keiner stattfindet, und das ist der Fall,
+   * der beim Schreiben tatsaechlich auftritt: zweimal dieselbe Pose
+   * hinschreiben, weil die Szene kurz ist und die Haltung schon stimmt.
+   */
+  if (buehne.art === 'figur' && buehne.von === buehne.nach) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['nach'],
+      message: `Buehne zeigt zweimal „${buehne.von}" — ein Zustand, kein Vorgang.`,
+    });
+  }
+
+  if (buehne.art === 'gegenueber' && buehne.oben.symbol === buehne.unten.symbol) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['unten', 'symbol'],
+      message: `Beide Haelften zeigen „${buehne.oben.symbol}" — der Vergleich hat nichts zu vergleichen.`,
+    });
+  }
+});
+
+export type Buehnenbild = z.infer<typeof Buehnenbild>;
+
+/**
  * Zeichnung unter dem Text einer Szene.
  *
  * Optional, und die Regel ist seit dem 17.08.2026 schaerfer: Gesetzt wird nur,
@@ -401,6 +561,7 @@ export type KontextArt = z.infer<typeof KontextArt>;
  */
 const mitIllustration = {
   symbol: KontextArt.optional(),
+  buehne: Buehnenbild.optional(),
 };
 
 /**
@@ -743,29 +904,127 @@ export type SzenenArt = Szene['art'];
  * Die zweite Person ist seit dem 16.08.2026 erlaubt und der Sprecher dabei
  * mitgemeint. Vorher galt die dritte Person als Schutz vor Belehrung; sie hat
  * stattdessen jede Frechheit weichgespuelt.
+ *
+ * ── Am 20.08.2026: aus sieben werden vier ──────────────────────────────
+ *
+ * Dasselbe Verfahren noch einmal, mit breiterer Nische (Technik allgemein
+ * statt Geraete und Verbraucherrecht) und mit zwei Befunden aus den
+ * Reichweiten-Skills, die das alte Modell direkt treffen:
+ *
+ * **Wiederholung ist ein Risiko, keine Wiedererkennung.** Die Retention-Ladder
+ * aus `youtube-shorts` nennt als dritte Stufe: geklonte Formate werden
+ * unterdrueckt, „volume without novelty is a negative". Acht feste Formate im
+ * Wochentakt sind per Bauart genau das. Die Wiedererkennung, fuer die der
+ * Wochentag gedacht war, ist ausserdem ein Versprechen an ein Publikum, das
+ * es noch nicht gibt — bei 0 Abonnenten kostet sie Neuheit und bringt nichts
+ * dafuer ein. **`tag` ist deshalb weg**, siehe `zeitplanBauen`.
+ *
+ * **Die Schaetzfrage ist keine Themengruppe** — das stand oben schon, aber die
+ * Folgerung war zu klein. Sie laesst sich auf fast jedes Thema legen, und
+ * WATCH verlangt ohnehin mehrere Hook-Varianten je Video. `dubistdumm` ist
+ * deshalb kein Sendeplatz mehr, sondern die erste Machart in
+ * `HOOK_MACHARTEN`. Der Vorrat wandert mit.
+ *
+ * Vier statt acht, sortiert nach der Reaktion:
+ *
+ * | Format | Reaktion | Vorrat kam aus |
+ * |---|---|---|
+ * | `gibtswirklich` | Staunen, „das erzaehl ich weiter" | `gibtswirklich` + die Zahlen aus `dubistdumm` |
+ * | `absicht` | Empoerung, „jemand hat das entschieden" | `absicht` + `heimlich` |
+ * | `eswareinmal` | Korrektur, „das stimmt nicht mehr" | `eswareinmal` |
+ * | `werhatrecht` | Widerspruch, „wer hat recht" | `werhatrecht` |
+ *
+ * **`heimlich` geht in `absicht` auf.** Die alte Abgrenzung war „wie das
+ * Geraet gebaut wurde" gegen „was es im Betrieb tut" — der Drucker, der
+ * Fremdpatronen sperrt, gegen den Drucker, der den Fuellstand meldet. Die
+ * Unterscheidung ist sauber und half beim Einsortieren, aber sie loest beim
+ * Zuschauer dieselbe Reaktion aus, und sortiert wird nach Reaktion.
+ *
+ * **`auchgekauft` und `neu` fallen weg.** Beide sind fuer die Zielgruppe
+ * 18–30 die schwaechsten: Garantieverlaengerungen und Displayversicherungen
+ * kauft sie selten, und `neu` war als einziges Fach ohne haltbaren Vorrat
+ * zugleich das teuerste — jede Woche eine frisch abgerufene Behoerdenseite.
+ * Ihre tragfaehigen Themen wandern in die vier. `npm run neuigkeiten` bleibt
+ * und liefert weiter Stoff fuer `absicht`; es traegt nur keinen Sendeplatz
+ * mehr allein.
+ *
+ * `empfehlung` bleibt unveraendert und ausserhalb: erst ab Affiliate-Links.
  */
 export const Format = z.enum([
-  'dubistdumm',
-  'eswareinmal',
-  'absicht',
-  'neu',
-  'auchgekauft',
-  'heimlich',
   'gibtswirklich',
+  'absicht',
+  'eswareinmal',
   'werhatrecht',
   'empfehlung',
 ]);
 export type Format = z.infer<typeof Format>;
 
 /**
- * Der Wochentag, an dem ein Format laeuft — `null` fuer die Empfehlung.
+ * Macharten fuer den Aufschlag — der Werkzeugkasten, aus dem der erste Satz
+ * kommt.
  *
- * Die sieben festen Formate belegen Montag bis Sonntag. Die **Empfehlung**
- * steht bewusst ausserhalb: Sie ist die Hauptidee des Kanals und wird als
- * Nebensache gesendet, weil Seltenheit der Preis ist, den eine Empfehlung
- * wert ist. Wer woechentlich empfiehlt, ist ein Prospekt. Sie kommt erst,
- * wenn Affiliate-Links stehen — dann als drei zusaetzliche Videos je Woche,
- * mit Label im Bild.
+ * Angelegt am 20.08.2026, als `dubistdumm` vom Sendeplatz zur Machart wurde.
+ * Der Grund steht oben; hier steht die Folge: **Die Machart ist unabhaengig
+ * vom Format.** Eine Schaetzfrage passt vor eine Absurditaet ebenso wie vor
+ * eine veraltete Regel.
+ *
+ * WATCH (`short-form-video-script`) verlangt mehrere Hook-Varianten je Video
+ * und nennt den Aufschlag ausdruecklich eine **Testgroesse**, keine einmalige
+ * Entscheidung. Diese Liste ist der Vorrat, aus dem die Varianten kommen.
+ *
+ * Kein Schema erzwingt eine davon — welche traegt, entscheidet sich am Text.
+ * Was das Schema erzwingt, steht anderswo: hoechstens 3,5 Sekunden, und keine
+ * Ankuendigung („heute geht es um").
+ */
+export const HOOK_MACHARTEN = [
+  {
+    name: 'Schaetzfrage',
+    tut: 'Fragt nach einer Groesse, die niemand einordnen kann. Der Zuschauer raet unwillkuerlich weiter, waehrend der Daumen schon wischt.',
+    achtung:
+      'Die Aufloesung muss ihn wieder einsammeln — „Sechzig. Du warst bei zwölf, wie alle." Ohne das „wie alle" bleibt nur die Beleidigung.',
+    beispiele: ['Schätz mal.', 'Wie viele, glaubst du?', 'Nenn eine Zahl.'],
+  },
+  {
+    name: 'Behauptung',
+    tut: 'Stellt den Gegenstand hin, als waere die Sache entschieden. Der Widerspruch entsteht beim Zuschauer.',
+    achtung: 'Muss belegt sein wie alles andere. Eine Behauptung ueber eine Absicht ist keine Behauptung ueber die Welt.',
+    beispiele: ['Dein Drucker unterschreibt.', 'Eingeklebt.', 'Das war eine Entscheidung.'],
+  },
+  {
+    name: 'Nackte Zahl',
+    tut: 'Nennt die Zahl ohne ihren Gegenstand. Die Luecke haelt fest, bis sie geschlossen wird.',
+    achtung:
+      'Bei fester Schriftgroesse laeuft ein langes Wort ueber den rechten Rand — die Hook skaliert deshalb nach dem laengsten Wort, nicht nach der Gesamtlaenge.',
+    beispiele: ['Dreizehn Jahre.', 'Zwanzigtausend.', 'Einundsechzig Sekunden.'],
+  },
+  {
+    name: 'Frage, die keine ist',
+    tut: 'Stellt eine Rueckfrage und beantwortet sie sofort. Ersetzt die Ueberleitung, die es sonst braeuchte.',
+    achtung: 'Nie als echte Frage an den Zuschauer — das waere eine Handlung, die er nicht leisten will.',
+    beispiele: ['Was heißt herausnehmbar?', 'Den Aufkleber gelassen?'],
+  },
+  {
+    name: 'Zwei Lager',
+    tut: 'Nennt beide Seiten eines Streits in einem Satz. Der Zuschauer nimmt sofort Partei und bleibt, um recht zu bekommen.',
+    achtung: 'Was zwei Lager behaupten, ist keine Aussage ueber die Welt — die Zuspitzung darunter muss eine sein.',
+    beispiele: ['Zwei Lager. Einer liegt falsch.', 'Die einen schwören darauf, die anderen lachen.'],
+  },
+] as const;
+
+/**
+ * Die Wochentage — nur noch fuer Anzeige und Datumsrechnung.
+ *
+ * **Bis zum 20.08.2026 hing hier der Sendeplan.** Jedes Format hatte ein Feld
+ * `tag`, die sieben festen belegten Montag bis Sonntag, und `zeitplanBauen`
+ * las den Termin dort. Das ist gestrichen: Der Wochentag war eine Zusage an
+ * Zuschauer, die es noch nicht gibt, und er zwang jede Woche dieselben acht
+ * Formate in derselben Reihenfolge — genau die Wiederholung, die die
+ * Retention-Ladder als Verteilungsrisiko nennt. Die Begruendung steht bei
+ * `Format`.
+ *
+ * Die **Empfehlung** stand schon vorher ausserhalb des Plans, und aus einem
+ * Grund, der bleibt: Seltenheit ist der Preis, den eine Empfehlung wert ist.
+ * Wer woechentlich empfiehlt, ist ein Prospekt.
  */
 export const WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'] as const;
 
@@ -783,7 +1042,6 @@ export const FORMATE: Record<
      * unten hat 17 Zeichen.
      */
     pille: string;
-    tag: (typeof WOCHENTAGE)[number] | null;
     /**
      * Sendezeit als volle Stunde.
      *
@@ -793,8 +1051,15 @@ export const FORMATE: Record<
      * Minute gefallen — sie haetten sich gegenseitig die Reichweite genommen,
      * und zwar unbemerkt, weil der Plan formal stimmt.
      *
-     * Achtzehn Uhr bleibt der Hauptplatz. Der Zweitplatz liegt mittags, weit
-     * genug entfernt, dass die beiden nicht dieselbe Feed-Sitzung teilen.
+     * **Das Feld `tag` ist am 20.08.2026 gestrichen worden**, die Uhrzeit
+     * nicht. Der Wochentag war eine Zusage an Zuschauer, die es noch nicht
+     * gibt, und stand der Neuheit im Weg (Begruendung bei `Format`). Die
+     * Uhrzeit bleibt, weil sie kein Versprechen ist, sondern eine Annahme
+     * ueber den Feed: abends laeuft Kurzvideo besser als frueh morgens.
+     *
+     * Achtzehn Uhr ist der Hauptplatz. Wo an einem Tag zwei Videos laufen,
+     * liegt das zweite mittags — weit genug entfernt, dass die beiden nicht
+     * dieselbe Feed-Sitzung teilen.
      */
     uhrzeit: number;
     haltung: string;
@@ -805,24 +1070,25 @@ export const FORMATE: Record<
     opener: readonly string[];
   }
 > = {
-  dubistdumm: {
-    titel: 'Du bist dumm',
-    pille: 'Du bist dumm',
-    tag: 'Mo',
+  gibtswirklich: {
+    titel: 'Das gibt es wirklich',
+    pille: 'Gibt es wirklich',
     uhrzeit: 18,
     haltung:
-      'Eine Groesse, die niemand einordnen kann, als Schaetzfrage. Der Kanal ' +
-      'behauptet im Titel, der Zuschauer sei zu bloed dafuer — und beweist ' +
-      'dann, dass es allen so geht. Die Frechheit traegt nur mit dem ' +
-      '„wie alle" in der Aufloesung.',
-    reaktion: 'Nie im Leben hätte ich das geraten',
-    kipppunkt: 'Die Zahl.',
-    opener: ['Schätz mal.', 'Wie viele, glaubst du?', 'Nenn eine Zahl.'],
+      'Tatsachen, die absurd klingen und trotzdem dokumentiert sind. Sie ' +
+      'brauchen keine Pointe — die Sache selbst ist die Pointe. Der staerkste ' +
+      'Vorrat des Kanals, und seit dem 20.08.2026 der breiteste: Die Zahlen ' +
+      'aus dem alten `dubistdumm` sind hierher gewandert, und die ' +
+      'Nischenverbreiterung wirkt hier am staerksten. Raumstation, ' +
+      'Radioastronomie, Schaltsekunde — kein Geraet, kein Paragraf, reines ' +
+      'Staunen.',
+    reaktion: 'Das kann nicht stimmen',
+    kipppunkt: 'Die Sache selbst.',
+    opener: ['Das gibt es wirklich.', 'Ich habe das dreimal nachgelesen.', 'Das ist kein Witz.'],
   },
   eswareinmal: {
     titel: 'Es war einmal',
     pille: 'Es war einmal',
-    tag: 'Di',
     uhrzeit: 18,
     haltung:
       'Die Regel, die einmal richtig war, als Maerchen erzaehlt. Der Reiz liegt ' +
@@ -836,100 +1102,67 @@ export const FORMATE: Record<
   absicht: {
     titel: 'Das ist Absicht',
     pille: 'Das ist Absicht',
-    tag: 'Mi',
     uhrzeit: 18,
     haltung:
       'Nichts davon ist kaputt, es ist so gebaut. Der Unterschied zur blossen ' +
       'Absurditaet: Hier gibt es jemanden, der es entschieden hat. Die Wut ' +
       'richtet sich gegen den Hersteller, und das macht den Zuschauer ' +
-      'automatisch zum Verbuendeten.',
+      'automatisch zum Verbuendeten.\n\n' +
+      'Seit dem 20.08.2026 gehoert auch dazu, **was das Geraet im Betrieb ' +
+      'tut** — der alte Sendeplatz `heimlich`. Beides loest dieselbe Reaktion ' +
+      'aus, und sortiert wird nach Reaktion. Die harte Regel von dort gilt ' +
+      'jetzt fuer den ganzen Sendeplatz: **Es muss in einem Dokument stehen.** ' +
+      '„Dein Handy hoert mit" ist unbelegbar und deshalb kein Thema — gerade ' +
+      'hier, wo die Vermutung billig zu haben waere.',
     reaktion: 'Die haben sie doch nicht mehr alle',
-    kipppunkt: 'Wer es entschieden hat.',
-    opener: ['Das ist kein Fehler.', 'Da hat jemand drüber nachgedacht.', 'Das war eine Entscheidung.'],
+    kipppunkt: 'Wer es entschieden hat — oder wo es dokumentiert steht.',
+    opener: [
+      'Das ist kein Fehler.',
+      'Da hat jemand drüber nachgedacht.',
+      'Das war eine Entscheidung.',
+      'Niemand hat dich gefragt.',
+      'Es schreibt mit.',
+    ],
   },
-  /**
-   * Der achte Sendeplatz, beschlossen am 17.08.2026 — und der einzige, der
-   * einen Tag **teilt** statt einen zu verdraengen.
+  /*
+   * ── Was das Aktuelle uebernimmt ──────────────────────────────────────
    *
-   * Der Anlass: Von 51 Themen im Vorrat hatte **keines ein Datum**. Der Kanal
-   * war ein Museum — gelbe Punkte, Bildschirmschoner, Defragmentieren, alles
-   * zeitlos richtig und nichts davon von dieser Woche.
+   * Der Sendeplatz `neu` („Neu und keiner sagt es dir") ist am 20.08.2026
+   * gestrichen. Sein Stoff geht an `absicht`, seine Begruendung bleibt hier
+   * stehen, weil sie weiter gilt:
    *
-   * **Die Materialgrenze ist hart und definiert den Sendeplatz.** „Aktuell"
-   * zerfaellt in zwei Sorten: neue Geraete, belegt durch Herstellerankuendigung
-   * (beteiligt) und Presse (nicht eintragbar) — das koennen wir nicht. Und
-   * neue **Regeln, Normen und Grenzwerte**, belegt durch Behoerden und
-   * Normungsgremien — das koennen wir als einzige. Wer hier ein Gadget
-   * ankuendigt, hat den Sendeplatz missverstanden.
+   * **Die Materialgrenze ist hart.** „Aktuell" zerfaellt in zwei Sorten: neue
+   * Geraete, belegt durch Herstellerankuendigung (beteiligt) und Presse (nicht
+   * eintragbar) — das koennen wir nicht. Und neue **Regeln, Normen und
+   * Grenzwerte**, belegt durch Behoerden und Normungsgremien — das koennen wir
+   * als einzige. Wer ein Gadget ankuendigt, hat das missverstanden.
    *
    * Das ist kein Ersatzmaterial, sondern das bessere: Niemand liest das
    * Amtsblatt. Ein Kanal mit dem Spruch „Wir haben nachgelesen" hat dort ein
-   * Monopol, und es ist wirklich aktuell statt nur zeitlos interessant.
+   * Monopol.
    *
-   * **Er ist der teuerste der acht.** Alle anderen ziehen aus einem Vorrat,
-   * der Wochen haelt. Dieser braucht jede Woche eine frisch abgerufene
-   * Behoerdenseite — ein Vorrat aus dem Fruehjahr ist im Herbst kein Vorrat
-   * mehr, sondern ein Archiv.
+   * **Warum er trotzdem faellt:** Er war als einziger ohne haltbaren Vorrat
+   * und damit der teuerste — jede Woche eine frisch abgerufene Behoerdenseite,
+   * waehrend alle anderen aus einem Vorrat ziehen, der Wochen haelt. Ein
+   * eigener Sendeplatz zwingt diese Kosten in **jede** Woche. Als Stoff fuer
+   * `absicht` faellt er an, wenn er anfaellt. `npm run neuigkeiten` bleibt und
+   * liefert weiter.
+   *
+   * ── Und was mit dem Kaufen passiert ──────────────────────────────────
+   *
+   * `auchgekauft` („Na, auch gekauft?") ist am selben Tag gestrichen. Fuer die
+   * Zielgruppe 18–30 war es das schwaechste Fach: Garantieverlaengerungen und
+   * Displayversicherungen kauft sie selten.
+   *
+   * **Der Verlust ist benannt und nicht bestritten:** Es war die Vorarbeit fuer
+   * die `empfehlung` — ein Kanal, der ein halbes Jahr lang sagt, was man nicht
+   * kaufen soll, wird geglaubt, wenn er einmal etwas empfiehlt. Diese Wirkung
+   * muss spaeter anders erarbeitet werden. Wer die `empfehlung` scharf
+   * schaltet, liest das hier zuerst.
    */
-  neu: {
-    titel: 'Neu und keiner sagt es dir',
-    pille: 'Neu',
-    tag: 'Mi',
-    uhrzeit: 12,
-    haltung:
-      'Was sich gerade geaendert hat und wovon niemand erzaehlt hat. Die ' +
-      'Komplizenschaft kommt aus der Aktualitaet: Der Zuschauer erfaehrt es ' +
-      'hier zuerst, und zwar aus dem Dokument statt aus einer Meldung ueber ' +
-      'das Dokument.',
-    reaktion: 'Das gilt schon? Seit wann?',
-    kipppunkt: 'Seit wann es gilt — und dass es niemand gesagt hat.',
-    opener: ['Seit drei Wochen gilt das.', 'Das hat sich gerade geändert.', 'Niemand hat es dir gesagt.'],
-  },
-  auchgekauft: {
-    titel: 'Na, auch gekauft?',
-    pille: 'Auch gekauft?',
-    tag: 'Do',
-    uhrzeit: 18,
-    haltung:
-      'Der Zuschauer sieht sein eigenes Regal. Funktioniert nur, wenn der ' +
-      'Sprecher mitgemeint ist — sonst ist es Belehrung. Zugleich die Vorarbeit ' +
-      'fuer die Empfehlung: Ein Kanal, der ein halbes Jahr lang sagt, was man ' +
-      'nicht kaufen soll, wird geglaubt, wenn er einmal etwas empfiehlt.',
-    reaktion: 'Verdammt, das liegt bei mir in der Schublade',
-    kipppunkt: 'Was du stattdessen bekommen hast.',
-    opener: ['Na, auch diesen dummen Kauf gemacht?', 'Das liegt bei dir in der Schublade.', 'Dafür hast du bezahlt.'],
-  },
-  heimlich: {
-    titel: 'Das macht dein Gerät heimlich',
-    pille: 'Heimlich',
-    tag: 'Fr',
-    uhrzeit: 18,
-    haltung:
-      'Nicht was du tust, sondern was das Geraet tut. An dir, ohne zu fragen. ' +
-      'Die harte Regel dieses Sendeplatzes: **Es muss in einem Dokument ' +
-      'stehen.** „Dein Handy hoert mit" ist unbelegbar und deshalb kein Thema — ' +
-      'gerade hier, wo die Vermutung billig zu haben waere.',
-    reaktion: 'Moment, was macht es?',
-    kipppunkt: 'Wo es dokumentiert steht.',
-    opener: ['Es tut das gerade. Jetzt.', 'Niemand hat dich gefragt.', 'Es schreibt mit.'],
-  },
-  gibtswirklich: {
-    titel: 'Das gibt es wirklich',
-    pille: 'Gibt es wirklich',
-    tag: 'Sa',
-    uhrzeit: 18,
-    haltung:
-      'Tatsachen, die absurd klingen und trotzdem dokumentiert sind. Sie ' +
-      'brauchen keine Pointe — die Sache selbst ist die Pointe. Der staerkste ' +
-      'Vorrat des Kanals steht am staerksten Feed-Tag.',
-    reaktion: 'Das kann nicht stimmen',
-    kipppunkt: 'Die Sache selbst.',
-    opener: ['Das gibt es wirklich.', 'Ich habe das dreimal nachgelesen.', 'Das ist kein Witz.'],
-  },
   werhatrecht: {
     titel: 'Wer hat recht?',
     pille: 'Wer hat recht?',
-    tag: 'So',
     uhrzeit: 18,
     haltung:
       'Zwei benennbare Lager, und **beide** uebersehen etwas. Der einzige ' +
@@ -943,7 +1176,6 @@ export const FORMATE: Record<
   empfehlung: {
     titel: 'Empfehlung',
     pille: 'Empfehlung',
-    tag: null,
     uhrzeit: 18,
     haltung:
       'Kaufhilfe mit Label im Bild. Der einzige Sendeplatz mit Partnerlinks ' +
@@ -962,27 +1194,35 @@ export const FORMATE: Record<
  * Ende, weil es alles auffaengt, was keine der sechs anderen Bedingungen
  * erfuellt — und deshalb nie zuerst greifen darf.
  *
- * Zwei Abgrenzungen muessen halten:
+ * **Am 20.08.2026 von acht Fragen auf vier gekuerzt**, weil es nur noch vier
+ * Formate gibt. Die beiden Abgrenzungen, die frueher haltbar sein mussten,
+ * sind unterschiedlich ausgegangen:
  *
- * **Dienstag gegen Sonntag.** Beide handeln von falschen Ueberzeugungen.
- * Pruefstein — lautet die Aufloesung schlicht „frueher stimmte es, heute
- * nicht", ist es ein **Maerchen**. `werhatrecht` braucht, dass **beide**
- * Seiten etwas uebersehen haben. Sonst ist es ein Mythos mit zwei Sprechern.
+ * **Maerchen gegen Streit muss weiter halten.** Beide handeln von falschen
+ * Ueberzeugungen. Pruefstein — lautet die Aufloesung schlicht „frueher stimmte
+ * es, heute nicht", ist es ein **Maerchen**. `werhatrecht` braucht, dass
+ * **beide** Seiten etwas uebersehen haben. Sonst ist es ein Mythos mit zwei
+ * Sprechern.
  *
- * **Mittwoch gegen Freitag.** Beide empoeren. `absicht` ist, wie das Geraet
- * **gebaut** wurde — jemand hat es so entschieden und verkauft es dir.
- * `heimlich` ist, was es im Betrieb **tut**, ohne zu fragen. Der Drucker, der
- * Fremdpatronen sperrt, ist Mittwoch; der Drucker, der den Fuellstand nach
- * Hause meldet, ist Freitag.
+ * **Gebaut gegen Betrieb ist entfallen.** Sie trennte `absicht` („der Drucker
+ * sperrt Fremdpatronen") von `heimlich` („der Drucker meldet den
+ * Fuellstand"). Die Trennung war sauber und half beim Einsortieren — nur loest
+ * sie beim Zuschauer dieselbe Reaktion aus, und sortiert wird nach Reaktion.
+ * Beides ist jetzt `absicht`.
+ *
+ * **Die Schaetzfrage steht nicht mehr hier.** „Ist es eine Groesse, die
+ * niemand einordnen kann?" war eine Frage nach der **Machart**, nicht nach dem
+ * Gegenstand — sie gehoerte nie in dieselbe Reihe wie die anderen sieben und
+ * hat deshalb Themen abgefangen, die woanders hingehoerten. Sie steht jetzt in
+ * `HOOK_MACHARTEN`.
  */
 export const MATRIX: readonly { prueffrage: string; format: Format }[] = [
   { prueffrage: 'Streiten zwei Lager darüber, und beide übersehen etwas?', format: 'werhatrecht' },
-  { prueffrage: 'Tut das Gerät es im Betrieb, ohne zu fragen — und steht das in einem Dokument?', format: 'heimlich' },
   { prueffrage: 'Stimmte es früher und heute nicht mehr?', format: 'eswareinmal' },
-  { prueffrage: 'Hat es sich in diesem Jahr geändert und steht das in einem amtlichen Text?', format: 'neu' },
-  { prueffrage: 'Hat jemand es absichtlich so gebaut, gegen den Käufer?', format: 'absicht' },
-  { prueffrage: 'Liegt das Ding bei ihm zu Hause und war es sein Geld?', format: 'auchgekauft' },
-  { prueffrage: 'Ist es eine Größe, die niemand einordnen kann?', format: 'dubistdumm' },
+  {
+    prueffrage: 'Hat jemand es so entschieden oder tut das Gerät es ungefragt — und steht das in einem Dokument?',
+    format: 'absicht',
+  },
   { prueffrage: 'Klingt es absurd und ist trotzdem dokumentiert?', format: 'gibtswirklich' },
 ];
 
@@ -1005,8 +1245,33 @@ export const MATRIX: readonly { prueffrage: string; format: Format }[] = [
  *
  * Format und Sachgebiet bleiben **unabhaengig**: „Es war einmal" ueber Akkus
  * und ueber Bildschirme sind zwei verschiedene Videos.
+ *
+ * **Am 20.08.2026 sind `raumfahrt` und `zeit` dazugekommen**, als die Nische
+ * von Geraeten auf Technik allgemein verbreitert wurde. Derselbe Vorgang wie
+ * bei `recht` am 17.08., und aus demselben Anlass: ein konkreter Fall, der
+ * nirgends hinpasste. Die Raumstation mit ihren Notebooks von 2001 ist kein
+ * `rechner`, und die Schaltsekunde ist kein `netz` — beides waeren
+ * Notloesungen, und eine willkuerliche Zuordnung macht die Achse wertlos.
+ * Genau daran ist die alte Fassung (`schreibtisch`, `unterwegs`, `reise`,
+ * `zuhause`, `kaufen`) gescheitert.
+ *
+ * `zeit` traegt die Schaltsekunde, den Zaehlerueberlauf 2038 und die
+ * Zeitzonen; `raumfahrt` die Raumstation, die Ariane und die
+ * Satellitennavigation. Beide sind bewusst eng: Sie sollen Haeufungen sichtbar
+ * machen und nicht alles auffangen.
  */
-export const Sachgebiet = z.enum(['drucken', 'laden', 'bildschirm', 'rechner', 'handy', 'fahren', 'netz', 'recht']);
+export const Sachgebiet = z.enum([
+  'drucken',
+  'laden',
+  'bildschirm',
+  'rechner',
+  'handy',
+  'fahren',
+  'netz',
+  'recht',
+  'raumfahrt',
+  'zeit',
+]);
 export type Sachgebiet = z.infer<typeof Sachgebiet>;
 
 export const SACHGEBIETE: Record<Sachgebiet, { titel: string; traegt: string; abgrenzung: string }> = {
@@ -1058,6 +1323,29 @@ export const SACHGEBIETE: Record<Sachgebiet, { titel: string; traegt: string; ab
     titel: 'Recht',
     traegt: 'Verordnungen, Gewährleistung, Reparatur, Kennzeichnung, Urteile.',
     abgrenzung: 'Der Gegenstand ist eine Vorschrift, kein Gerät.',
+  },
+  /*
+   * Die beiden letzten, nachgetragen am 20.08.2026 mit der breiteren Nische.
+   *
+   * Derselbe Vorgang wie bei `recht` und aus demselben Anlass: ein konkreter
+   * Fall, der nirgends hinpasste. Die Raumstation mit ihren Notebooks von 2001
+   * ist kein `rechner`, die Schaltsekunde kein `netz`. Beides waeren
+   * Notloesungen gewesen, und eine willkuerliche Zuordnung macht die Achse
+   * wertlos.
+   *
+   * Beide sind bewusst eng gehalten. Sie sollen Haeufungen sichtbar machen und
+   * nicht alles auffangen, was sonst nirgends passt — ein Sammelgebiet waere
+   * dasselbe wie gar keins.
+   */
+  raumfahrt: {
+    titel: 'Raumfahrt',
+    traegt: 'Raumstation, Satelliten, Sonden, Trägerraketen, Navigation von oben.',
+    abgrenzung: 'Der Gegenstand ist im All oder war dafür gebaut. Das Handy, das ein Satellitensignal empfängt, ist „handy".',
+  },
+  zeit: {
+    titel: 'Zeit',
+    traegt: 'Schaltsekunde, Zeitzonen, Zählerüberläufe, Uhren, Kalenderregeln.',
+    abgrenzung: 'Die Zeitrechnung selbst ist der Gegenstand, nicht ein Gerät, das sie anzeigt.',
   },
 };
 
@@ -1255,6 +1543,63 @@ export const Short = z.object({
         });
       }
     });
+
+    /* ── Die sichtbare Zaehlung, wenn es eine gibt ───────────────── */
+
+    /*
+     * Die Zaehlung muss **lueckenlos bei 1 beginnen und aufsteigen**. Sie ist
+     * eine offene Schleife, und eine Schleife mit Luecke ist keine: Die
+     * Kopfzeile rechnet die Gesamtzahl aus dem hoechsten Wert, also stuende
+     * bei den Nummern 1 und 3 im Bild „3 von 3", ohne dass es je eine 2 gab.
+     *
+     * Der Fehler faellt beim Ansehen nicht auf — die Zahl stimmt ja an jeder
+     * einzelnen Stelle. Nur die Rechnung dahinter stimmt nicht mehr.
+     */
+    const nummern = short.szenen
+      .map((s) => s.zaehlung)
+      .filter((z): z is number => typeof z === 'number');
+
+    if (nummern.length > 0) {
+      if (nummern.length < 2) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen'],
+          message:
+            'Nur eine Szene trägt eine Zählung. „1 von 1" ist keine offene Schleife, ' +
+            'sondern ein Etikett — entweder mehrere Szenen zählen oder keine.',
+        });
+      }
+
+      const sortiert = [...nummern].sort((a, b) => a - b);
+      const erwartet = sortiert.map((_, i) => i + 1);
+      if (sortiert.join(',') !== erwartet.join(',')) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen'],
+          message:
+            `Die Zählung lautet ${sortiert.join(', ')} und müsste ${erwartet.join(', ')} lauten. ` +
+            'Sie beginnt bei 1, steigt um 1 und lässt keine Nummer aus — die Kopfzeile ' +
+            'rechnet die Gesamtzahl aus dem höchsten Wert.',
+        });
+      }
+
+      /*
+       * Aufsteigend **in Szenenreihenfolge**, nicht nur als Menge. Eine
+       * Zaehlung, die im Bild rueckwaerts springt, macht aus der Schleife
+       * einen Fehler — und der Countdown von 5 auf 1, den die Vorlagen
+       * benutzen, laeuft im Bild ebenfalls vorwaerts durch seine Positionen.
+       */
+      nummern.forEach((n, i) => {
+        const vorher = nummern[i - 1];
+        if (vorher !== undefined && n <= vorher) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['szenen'],
+            message: `Die Zählung springt von ${vorher} auf ${n}. Sie läuft nur vorwärts.`,
+          });
+        }
+      });
+    }
 
     folge.forEach((p, i) => {
       const vorher = folge[i - 1];

@@ -109,6 +109,33 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
   const schlussIndex = daten.szenen.findIndex((s) => s.art === 'schluss');
   const schlussZeit = schlussIndex >= 0 ? plan[schlussIndex] : undefined;
 
+  /*
+   * Die sichtbare Zaehlung, wenn der Short eine hat.
+   *
+   * Sie wird hier gerechnet und nicht in der Szene, weil die Kopfzeile
+   * **ueber** allen Sequences liegt: Sie kennt das aktuelle Bild, aber keine
+   * Szene. Der Umweg ueber den Zeitplan ist deshalb kein Umweg, sondern die
+   * einzige Stelle, an der beides zusammenkommt.
+   *
+   * Die Zahl **haelt**, statt zu verschwinden. Eine Szene ohne eigene Nummer
+   * zwischen zwei gezaehlten ist der Normalfall — jeder Punkt braucht mehr als
+   * eine Szene. Wuerde die Anzeige dort aussetzen, blitzte sie im Bild und
+   * saehe nach Fehler aus statt nach Fortschritt.
+   */
+  const frame = useCurrentFrame();
+  const gesamtZaehlung = daten.szenen.reduce((max, s) => Math.max(max, s.zaehlung ?? 0), 0);
+
+  const aktuelleZaehlung = (() => {
+    if (gesamtZaehlung === 0) return undefined;
+    let stand: number | undefined;
+    for (const [i, szene] of daten.szenen.entries()) {
+      const zeit = plan[i];
+      if (!zeit || frame < zeit.startBild) break;
+      if (szene.zaehlung !== undefined) stand = szene.zaehlung;
+    }
+    return stand === undefined ? undefined : { nummer: stand, von: gesamtZaehlung };
+  })();
+
   return (
     <AbsoluteFill>
       <Hintergrund />
@@ -145,7 +172,13 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
               gap: ABSTAND.m,
             }}
           >
-            <Kopfzeile format={daten.format} />
+            {/* `flex: 1`, damit die Zaehlung in der Kopfzeile per `margin-left:
+                auto` bis an die Kennzeichnung heranrueckt. Ohne das ist die
+                Kopfzeile nur so breit wie ihr Inhalt, und die Zahl klebte an
+                der Formatpille — dort liest sie sich als Teil des Etiketts. */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <Kopfzeile format={daten.format} zaehlung={aktuelleZaehlung} />
+            </div>
             <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
           </div>
 

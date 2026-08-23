@@ -1,7 +1,8 @@
 import { useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
-import type { KontextArt, Szene } from '../../src/typen';
+import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
+import { Buehnenbild } from '../bausteine/Buehnenbild';
 import { Symbol } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
@@ -69,11 +70,37 @@ const ILLUSTRATION_GROESSE = 560;
  * Normalfall: Die Typografie traegt, die Zeichnung ist die Ausnahme.
  */
 const Illustration = (
-  szene: { symbol?: KontextArt },
+  szene: { symbol?: KontextArt; buehne?: BuehnenbildDaten },
   frame: number,
   fps: number,
   dauer: number,
 ): React.ReactNode | undefined => {
+  /*
+   * Die Buehne geht vor. Sie ist der Nachfolger von `symbol` — eine Szene, die
+   * beides setzt, ist ein halber Umbau, und dann soll das Neue gewinnen.
+   *
+   * Sie bekommt ihre eigene Untergrenze und **keinen** `auftritt`: Ein
+   * Vorgang, der als Ganzes eingeblendet wird, hat seinen Anfang schon
+   * verloren, bevor er sichtbar war. Die Buehne bringt ihre Zeitachse selbst
+   * mit und faengt bei Bild 0 der Szene an.
+   */
+  if (szene.buehne) {
+    return (
+      <div
+        style={{
+          marginTop: ABSTAND.m,
+          display: 'flex',
+          justifyContent: 'center',
+          minHeight: 340,
+          maxHeight: '100%',
+          flex: 1,
+        }}
+      >
+        <Buehnenbild buehne={szene.buehne} dauer={dauer} />
+      </div>
+    );
+  }
+
   if (!szene.symbol) return undefined;
   return (
     <div

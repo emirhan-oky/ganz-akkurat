@@ -6,6 +6,7 @@ import { gesamtdauerBilder } from '../src/zeit';
 import { Short } from './Short';
 import { beispielShort } from '../daten/beispiel-short';
 import { BannerMuster, ProfilbildDunkel, ProfilbildHell, WortmarkeQuer } from './Marke';
+import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 
 /**
  * Alle Schriftstaerken, die das Design-System kennt. Werden hier einmal
@@ -24,6 +25,18 @@ export const RemotionRoot: React.FC = () => (
   <Composition id="Profilbild-hell" component={ProfilbildHell} width={1024} height={1024} fps={30} durationInFrames={1} />
   <Composition id="Profilbild-dunkel" component={ProfilbildDunkel} width={1024} height={1024} fps={30} durationInFrames={1} />
   <Composition id="Banner-muster" component={BannerMuster} width={2048} height={1152} fps={30} durationInFrames={1} />
+  {/*
+    * Der Prueftisch der Figur. Steht hier aus demselben Grund wie die
+    * Kanalbilder: Was nur von Hand geprueft wird, wird irgendwann nicht mehr
+    * geprueft.
+    */}
+  <Composition id="Figurenprobe" component={Figurenprobe} width={1600} height={1200} fps={30} durationInFrames={1} defaultProps={{ geruest: false }} />
+  <Composition id="Figurengeruest" component={Figurenprobe} width={1600} height={1200} fps={30} durationInFrames={1} defaultProps={{ geruest: true }} />
+  <Composition id="Figurenfolge" component={Figurenfolge} width={1920} height={640} fps={30} durationInFrames={1} defaultProps={{ pose: 'zeigen' as const }} />
+  <Composition id="Figurengang" component={Figurengang} width={1080} height={1080} fps={30} durationInFrames={120} defaultProps={{ pose: 'zeigen' as const }} />
+  {/* Die Buehnenprobe steht bei Bild 60 von 90: nach dem Uebergang bei 40 %,
+      denn ein Anfangszustand zeigt nichts von dem, was die Buehne behauptet. */}
+  <Composition id="Buehnenprobe" component={Buehnenprobe} width={1800} height={900} fps={30} durationInFrames={90} />
   <Composition id="Wortmarke-quer" component={WortmarkeQuer} width={1600} height={360} fps={30} durationInFrames={1} />
   <Composition
     id="Short"
