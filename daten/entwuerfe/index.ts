@@ -33,20 +33,26 @@ import { privaterModus } from './privater-modus';
  * Struktur verkuerzt, und drei dieser acht Shorts leben davon, dass er
  * schon da war.
  *
- * Die Reihenfolge hier ist die des Wochentags, entscheidet aber nichts:
- * `zeitplanBauen` liest den Tag aus `FORMATE[...].tag` und nicht aus der
- * Listenstelle. Der Wochentag ist ein Versprechen an den Zuschauer und gehoert
- * nicht an eine Array-Position.
+ * **Die Reihenfolge hier entscheidet den Sendetermin.** Bis zum 20.08.2026 tat
+ * sie das nicht, und der Kommentar an dieser Stelle sagte ausdruecklich, die
+ * Listenstelle sei gleichgueltig: `zeitplanBauen` las den Tag aus
+ * `FORMATE[...].tag`. Mit dem Wegfall des Wochentags gilt das Gegenteil — der
+ * Zeitplan zaehlt die Positionen ab dem Beginn durch.
+ *
+ * Daraus folgt die Sortierung unten. Vier der acht stehen auf `absicht`, und
+ * dasselbe Format an zwei aufeinanderfolgenden Tagen trifft dieselben
+ * Zuschauer mit dem, was im Feed wie dasselbe Video aussieht. Bei vier von
+ * acht geht das Abwechseln genau auf: jede zweite Stelle ein `absicht`.
  */
 export const WOCHENLAUF: Short[] = [
-  powerbankHandgepaeck,
-  flugmodusMaerchen,
   produktpassRegister,
+  powerbankHandgepaeck,
   akkuLoesungsmittel,
+  flugmodusMaerchen,
   aufkleberGarantie,
+  privaterModus,
   druckerKennung,
   schaltsekundeEndet,
-  privaterModus,
 ];
 
 /**
