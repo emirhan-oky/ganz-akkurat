@@ -15,7 +15,7 @@ import type { Short } from '../../src/typen';
 export const produktpassRegister: Short = {
   id: 'produktpass-register',
   themaId: 'digitaler-produktpass',
-  format: 'neu',
+  format: 'absicht',
   sachgebiet: 'recht',
   arbeitstitel: 'Seit dem 6. August gibt es das Register',
   weitererzaehlt: 'Der Zugang ist ein Code auf der Batterie. Du hältst die Kamera drauf.',

@@ -82,23 +82,6 @@ export const ZUBEHOERMARKEN =
 const KENNZEICHNUNGSWORT = /\b(werbung|anzeige|werbepartner)\b/i;
 
 /**
- * Quellenarten, die auf die Drei-Quellen-Regel zaehlen.
- *
- * Seit dem 14.08.2026 sind das **alle** Arten, die es noch gibt: `presse` und
- * `messung` stehen nicht mehr im Enum und lassen sich gar nicht erst
- * eintragen (Begruendung bei `QuellenArt` in `src/typen.ts`). Diese Menge
- * bleibt trotzdem stehen — sie ist der Ort, an dem eine kuenftige Art
- * eingeordnet werden muss, statt still mitzuzaehlen.
- */
-const OFFIZIELLE_ARTEN = new Set<Quelle['art']>([
-  'standard',
-  'behoerde',
-  'rechtsprechung',
-  'hersteller',
-  'plattform',
-]);
-
-/**
  * Technische Zahl mit Einheit.
  *
  * Grundregel seit dem 13.08.2026: Eine gesprochene Zahl ist eine Behauptung,
@@ -283,8 +266,18 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * Was die Zahl wirklich absicherte, sichert seit dem 16.08.2026 die
    * Belegszene: Jeder Short zeigt im Bild, wer die Aussage traegt. Eine
    * Quelle, die niemand nennt, faellt damit auf.
+   *
+   * **Die Menge `OFFIZIELLE_ARTEN` ist am 20.08.2026 gestrichen worden.** Sie
+   * stand hier noch als `void OFFIZIELLE_ARTEN;` — beruehrt, damit der
+   * Compiler schweigt, und sonst von nichts gelesen. Ihr eigener Kommentar
+   * nannte sie „den Ort, an dem eine kuenftige Art eingeordnet werden muss";
+   * als am selben Tag `wissenschaft` dazukam, hat sie das nicht geleistet und
+   * konnte es nicht, weil sie nichts prueft. Eine Konstante, die als
+   * Absicherung beschrieben ist und keine ist, ist dieselbe Sorte Fehler wie
+   * die dekorative dritte Quelle: Sie laesst etwas stimmen aussehen.
+   * Massgeblich ist `UNBETEILIGTE_ARTEN` in `src/typen.ts`, und die wird
+   * gelesen.
    */
-  void OFFIZIELLE_ARTEN;
 
   /*
    * Mindestens eine Quelle ohne eigenes Interesse an der Aussage.
@@ -1070,69 +1063,80 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     });
   }
 
-  /* ── Jedes Format genau einmal ───────────────────────────────────── */
+  /* ── Kein Format zweimal hintereinander ──────────────────────────── */
 
   /*
-   * Das Format ist der Sendeplatz und zugleich das Versprechen an den
-   * Zuschauer: montags die Skala, dienstags das Maerchen, freitags die Wut
-   * auf die Industrie. Zwei Shorts desselben Formats in einer Woche heissen,
-   * dass ein Wochentag ausfaellt — und der Zuschauer, der dienstags kommt,
-   * findet nichts.
+   * **Diese Regel hat am 20.08.2026 die Richtung gewechselt.**
    *
-   * Die Empfehlung zaehlt nicht mit: Sie hat keinen festen Tag und laeuft
-   * zusaetzlich, sobald es Affiliate-Links gibt.
+   * Vorher hiess sie „jedes Format genau einmal je Lauf" und prueste beides:
+   * ein Format doppelt und ein Format fehlend. Sie war richtig, solange das
+   * Format ein Sendeplatz war — montags die Skala, dienstags das Maerchen. Wer
+   * zweimal dasselbe Format brachte, liess einen Wochentag ausfallen, und der
+   * Zuschauer, der dienstags kam, fand nichts.
+   *
+   * Mit dem Wegfall des Wochentags faellt die Begruendung weg, und die Regel
+   * waere zum Zwang geworden: Bei vier Formaten haette sie jede Woche genau
+   * diese vier verlangt, in derselben Zusammensetzung — also die Wiederholung
+   * erzwungen, die die Retention-Ladder als Verteilungsrisiko nennt
+   * („volume without novelty is a negative").
+   *
+   * **Die Gegenprobe auf fehlende Formate ist ersatzlos gestrichen.** Kein
+   * Format ist mehr Pflicht. Was sie einmal fand — ein Lauf mit sechs Shorts,
+   * bei dem die Dopplungspruefung schwieg, weil nichts doppelt war — kann
+   * nicht mehr auftreten, weil es keinen Sollbestand mehr gibt. Der Befund von
+   * damals bleibt trotzdem lesenswert: Sie stand bis zum 17.08.2026 hinter
+   * `if (shorts.length === wochenformate.length)` und war damit genau dann
+   * still, wenn sie gebraucht wurde. **Eine Wache, die sich bei Abweichung
+   * selbst abschaltet, ist keine Wache.**
+   *
+   * Was bleibt, ist die Neuheitsregel. Zwei gleiche Formate direkt
+   * hintereinander sehen im Feed wie dasselbe Video aus — dort liegen sie an
+   * aufeinanderfolgenden Tagen und treffen dieselben Zuschauer. Verteilt im
+   * Lauf ist dasselbe Format dagegen unbedenklich.
+   *
+   * Die Reihenfolge der Liste ist dafuer massgeblich, weil `zeitplanBauen` den
+   * Termin daraus ableitet.
    */
   const proFormat = new Map<Format, Short[]>();
   for (const short of shorts) {
     proFormat.set(short.format, [...(proFormat.get(short.format) ?? []), short]);
   }
 
-  for (const [format, gruppe] of proFormat) {
-    if (gruppe.length < 2) continue;
-    for (const short of gruppe) {
-      befunde.push({
-        stufe: 'fehler',
-        shortId: short.id,
-        regel: 'format',
-        text:
-          `Format „${FORMATE[format].titel}" kommt ${gruppe.length}× im Lauf vor (${gruppe
-            .map((s) => s.id)
-            .join(', ')}). Jeder Wochentag trägt genau ein Format.`,
-      });
-    }
+  for (let i = 1; i < shorts.length; i++) {
+    const vorher = shorts[i - 1];
+    const jetzt = shorts[i];
+    if (!vorher || !jetzt || vorher.format !== jetzt.format) continue;
+    befunde.push({
+      stufe: 'fehler',
+      shortId: jetzt.id,
+      regel: 'format',
+      text:
+        `Format „${FORMATE[jetzt.format].titel}" läuft zweimal hintereinander ` +
+        `(${vorher.id}, ${jetzt.id}). Im Feed sind das aufeinanderfolgende Tage und dieselben ` +
+        `Zuschauer. Einen der beiden im Lauf nach hinten schieben.`,
+    });
   }
 
   /*
-   * Die Gegenprobe. Ohne sie faellt ein Lauf mit sechs Shorts nicht auf — die
-   * Dopplungspruefung oben schweigt, weil nichts doppelt ist.
+   * Dazu die weichere Haelfte: Ein Lauf, der ueberwiegend aus einem Format
+   * besteht, ist kein Fehler, aber ein Zeichen. Meistens heisst es, dass ein
+   * Fach leer laeuft und der Rest aus dem vollsten aufgefuellt wurde.
    *
-   * **Sie stand bis zum 17.08.2026 hinter `if (shorts.length ===
-   * wochenformate.length)` und war damit genau dann still, wenn sie gebraucht
-   * wurde.** Aufgefallen ist das beim achten Sendeplatz: Der Lauf hatte sieben
-   * Shorts, es gab acht Formate, und die Pruefung meldete gruen — die Bedingung
-   * war nicht erfuellt, also lief die Regel gar nicht erst an. Eine Wache, die
-   * sich bei Abweichung selbst abschaltet, ist keine Wache.
-   *
-   * Der Grund fuer die Bedingung war vermutlich, Trockenlaeufe mit einem
-   * einzelnen Short (`--nur`) nicht mit sechs Fehlern zu ueberschuetten. Das
-   * loest jetzt `nurEiner` sauber, statt es an einer Zahlengleichheit
-   * aufzuhaengen.
+   * Erst ab vier Shorts, weil die Haelfte darunter keine Aussage ist: Bei zwei
+   * Shorts ist ein Format zwangslaeufig die Haelfte.
    */
-  const wochenformate = (Object.keys(FORMATE) as Format[]).filter((f) => FORMATE[f].tag !== null);
-  const nurEiner = shorts.length <= 1;
-  if (!nurEiner) {
-    const fehlend = wochenformate.filter((f) => !proFormat.has(f));
-    if (fehlend.length > 0) {
-      for (const short of shorts) {
-        befunde.push({
-          stufe: 'fehler',
-          shortId: short.id,
-          regel: 'format',
-          text:
-            `Im Lauf fehlt das Format ${fehlend.map((f) => `„${FORMATE[f].titel}"`).join(', ')}. ` +
-            `${shorts.length} von ${wochenformate.length} Sendeplätzen besetzt.`,
-        });
-      }
+  if (shorts.length >= 4) {
+    for (const [format, gruppe] of proFormat) {
+      const erster = gruppe[0];
+      if (!erster || gruppe.length * 2 <= shorts.length) continue;
+      befunde.push({
+        stufe: 'hinweis',
+        shortId: erster.id,
+        regel: 'format',
+        text:
+          `${gruppe.length} von ${shorts.length} Shorts sind „${FORMATE[format].titel}". ` +
+          `Meistens heißt das, ein anderes Fach läuft leer — \`npm run pruefen\` nennt die Reichweite je Format.`,
+      });
     }
   }
 

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { z } from 'zod';
-import { Format,  Sachgebiet, type Short } from './typen';
+import { type Short } from './typen';
 
 /**
  * Das Gedaechtnis ueber die Woche hinaus.
@@ -26,9 +26,30 @@ import { Format,  Sachgebiet, type Short } from './typen';
 
 export const VERLAUFSDATEI = 'daten/verlauf.json';
 
+/**
+ * `format` und `sachgebiet` stehen hier als **freier Text**, nicht als Enum.
+ *
+ * Das ist am 20.08.2026 geaendert worden, und der Anlass war ein
+ * Trockenlauf, der nach dem Formatumbau abbrach: Der Verlauf enthielt
+ * `dubistdumm`, `heimlich`, `neu` und `auchgekauft` — Formate, die es seit
+ * einer Stunde nicht mehr gab. Das Schema lehnte die eigene Historie ab.
+ *
+ * **Ein Protokoll darf nicht gegen den aktuellen Vertrag geprueft werden.** Es
+ * haelt fest, was war, und was war, aendert sich nicht mehr. Wer es gegen das
+ * heutige Enum parst, macht es nach jeder Vertragsaenderung unbenutzbar — also
+ * genau dann, wenn man wissen will, was vorher lief. Derselbe Fehler steckte
+ * in `--ton-behalten`, das die alten Renderdaten gegen das aktuelle Schema
+ * parste und deshalb nach jeder Aenderung versagte.
+ *
+ * Der Preis ist ein Tippfehler, den niemand meldet. Er ist tragbar: Der
+ * Verlauf dient der Wiederholungspruefung ueber `themaId`, und die ist ohnehin
+ * ein Zeichenkettenvergleich. Beim **Schreiben** kommen die Werte aus einem
+ * geprueften `Short`, also aus dem Enum — falsch werden kann nur, was von Hand
+ * editiert wird.
+ */
 export const Verlaufseintrag = z.object({
-  format: Format,
-  sachgebiet: Sachgebiet,
+  format: z.string(),
+  sachgebiet: z.string(),
   themaId: z.string(),
   /**
    * Die vertonte Laenge in Sekunden — die einzige Zahl hier, die nicht der

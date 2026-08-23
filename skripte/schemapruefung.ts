@@ -4,6 +4,15 @@ import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 import { shortPruefen } from '../src/pruefung';
+import { nachleser } from '../daten/figur/nachleser';
+import { POSEN, posenPruefen } from '../video/bausteine/posen';
+import {
+  GENUG_FUER_MEDIAN,
+  herkuenfteLesen,
+  median,
+  rueckblickLesen,
+  zusammenfuehren,
+} from '../src/rueckschau';
 
 /**
  * Schemapruefung der Daten — die Luecke, die `tsc` nicht schliesst.
@@ -110,6 +119,24 @@ for (const eintrag of WOCHENLAUF) {
   }
 }
 
+/*
+ * Die Figur wird hier mitgeprueft und nicht nur beim Rendern.
+ *
+ * Aus demselben Grund, aus dem die Schemapruefung ueberhaupt existiert: Das
+ * Rig-Paket wird im Browser-Kontext geparst, und ein ungueltiges Rig laesst
+ * Remotion in einem unerfuellten Promise stehen — der Render haengt ohne
+ * Fehlermeldung. `Rig.parse` liegt in `daten/figur/nachleser.ts` auf
+ * Modulebene, der Import hier loest ihn also aus.
+ *
+ * `posenPruefen` faengt die andere Haelfte: einen Tippfehler in einem
+ * Gelenknamen. Der ist im Bild unsichtbar, weil der Renderer ihn nachschlaegt,
+ * nichts findet und die Ruhelage zeichnet. Die Figur wirkt dann steif, und
+ * niemand sucht die Ursache in einem Buchstaben.
+ */
+const figurenbefunde = posenPruefen(nachleser);
+for (const befund of figurenbefunde) console.error(`✗ Fehler  · [figur] ${befund}`);
+fehler += figurenbefunde.length;
+
 if (fehler > 0) {
   console.error(`\n${fehler === 1 ? 'Ein Befund haelt' : `${fehler} Befunde halten`} den Lauf zurück.`);
   process.exit(1);
@@ -123,6 +150,42 @@ console.log(
     (hinweise > 0 ? ` (${hinweise} Hinweis${hinweise === 1 ? '' : 'e'})` : ''),
 );
 console.log(
+  `✓ Figur:  ${nachleser.teile.length} Teile, ${Object.keys(nachleser.gelenke).length} Gelenke, ` +
+    `${Object.keys(POSEN).length} Posen`,
+);
+console.log(
   `✓ Ideen:  ${IDEEN.length} im Vorrat (${belegt} belegt, ${produziert} produziert), ` +
     `Reichweite ${reichweiteInWochen()} Wochen bei einem Video je Format`,
 );
+
+/*
+ * Der Rücklauf in einem Satz — an der Stelle, an der man ihn braucht.
+ *
+ * `npm run pruefen` steht vor jedem Wochenlauf. Das ist der Moment, in dem
+ * die Themen der nächsten Woche feststehen und die letzten noch draußen sind;
+ * wer hier nichts von ihnen liest, plant die dritte Woche ohne die erste.
+ *
+ * **Er darf den Lauf nie aufhalten.** Der Rückblick ist eine Beobachtung, die
+ * Schemaprüfung ein Tor — ein fehlender Ordner, eine halb geschriebene Datei
+ * oder ein alter Lauf gegen das heutige Schema wären sonst ein Grund, die
+ * Woche nicht zu bauen. Deshalb steht alles hier in einem `catch`, das
+ * schweigt.
+ */
+try {
+  const rueckschau = zusammenfuehren(await rueckblickLesen(), await herkuenfteLesen());
+  const werte = rueckschau
+    .map((r) => r.mitHalt?.haltequote)
+    .filter((q): q is number => q != null);
+
+  if (rueckschau.length > 0) {
+    const mitte = werte.length >= GENUG_FUER_MEDIAN ? median(werte) : null;
+    console.log(
+      `✓ Rücklauf: ${rueckschau.length} draußen, ${werte.length} mit Haltekurve` +
+        (mitte === null
+          ? ` — für einen Median braucht es ${GENUG_FUER_MEDIAN}. \`npm run ausreisser\``
+          : `, Median ${mitte.toFixed(0)} % an Sekunde 3,5. \`npm run aufschlaege\``),
+    );
+  }
+} catch {
+  // Kein Rücklauf ist kein Fehler. Die Woche wird trotzdem gebaut.
+}

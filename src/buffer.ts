@@ -1,4 +1,4 @@
-import { FORMATE, WOCHENTAGE, type Quelle, type Short } from './typen';
+import { FORMATE, type Quelle, type Short } from './typen';
 
 /**
  * Anbindung an Buffer.
@@ -423,21 +423,23 @@ export const beitragLoeschen = async (schluessel: string, beitragId: string): Pr
 };
 
 /**
- * Verteilt Shorts auf Veroeffentlichungszeitpunkte.
+ * Verteilt Shorts auf Veroeffentlichungszeitpunkte — ein Video je Tag, in der
+ * Reihenfolge der Liste.
  *
- * Seit dem 16.08.2026 **sieben Tage statt fuenf**, und der Tag kommt nicht
- * mehr aus der Reihenfolge im Array, sondern aus dem Format:
- * `FORMATE[...].tag` sagt, an welchem Wochentag ein Format laeuft. Montags
- * die Skala, dienstags das Maerchen, sonntags der Streit.
+ * Die Zuordnung hat zweimal die Seite gewechselt. Bis zum 16.08.2026 kam der
+ * Termin aus der Listenposition; dann aus `FORMATE[...].tag`, weil der
+ * Wochentag beim Formatmodell ein Versprechen an den Zuschauer war und ein
+ * Versprechen nicht an eine Array-Position gehoert. Seit dem 20.08.2026 wieder
+ * aus der Position, weil es das Versprechen nicht mehr gibt.
  *
- * Das ist mehr als Kosmetik. Vorher hing der Termin daran, an welcher Stelle
- * ein Short in der Liste stand — wer zwei Eintraege vertauschte, verschob
- * stillschweigend zwei Sendetermine. Der Wochentag ist beim Formatmodell
- * aber ein Versprechen an den Zuschauer, und ein Versprechen gehoert nicht
- * an eine Array-Position.
+ * **Das ist keine Ruecknahme, sondern eine geaenderte Voraussetzung.** Der
+ * Einwand von damals stimmt weiter — wer zwei Eintraege vertauscht, verschiebt
+ * still zwei Sendetermine. Er wiegt nur nichts mehr, wenn kein Zuschauer einen
+ * bestimmten Tag erwartet. Die Reihenfolge der Liste muss trotzdem absichtlich
+ * sein: die staerkste Sache zuerst.
  *
  * Die Uhrzeit ist eine Annahme, kein Messergebnis: abends laeuft Kurzvideo
- * im Schnitt besser als frueh morgens.
+ * im Schnitt besser als frueh morgens. Sie steht weiter am Format.
  */
 export type GesendeterBeitrag = {
   id: string;
@@ -538,13 +540,26 @@ export const GEPLANT_MAXIMUM = 10;
 
 export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
   shorts.map((short, i) => {
-    const { tag, uhrzeit } = FORMATE[short.format];
+    const { uhrzeit } = FORMATE[short.format];
     /*
-     * Die Empfehlung hat keinen festen Wochentag (`tag === null`). Sie laeuft
-     * zusaetzlich und wird deshalb hinten angehaengt, statt einen der festen
-     * Plaetze zu verdraengen.
+     * Ein Video je Tag, in der Reihenfolge der Liste.
+     *
+     * **Bis zum 20.08.2026 kam der Versatz aus `FORMATE[...].tag`** — montags
+     * die Skala, dienstags das Maerchen, sonntags der Streit. Der Wochentag
+     * ist mit dem Formatumbau gestrichen (Begruendung bei `Format` in
+     * `src/typen.ts`), und damit faellt die Rechnung auf die Listenposition
+     * zurueck.
+     *
+     * **Das ist genau die Fassung, die am 16.08.2026 als fehleranfaellig
+     * abgeloest wurde**, und der Einwand von damals gilt weiter: Wer zwei
+     * Eintraege vertauscht, verschiebt still zwei Sendetermine. Er wiegt nur
+     * nicht mehr dasselbe. Damals war der Wochentag ein Versprechen an den
+     * Zuschauer und gehoerte deshalb nicht an eine Array-Position; heute gibt
+     * es dieses Versprechen nicht mehr, und ein Termin ist nur noch ein
+     * Termin. Was bleibt, ist die Regel, dass die Reihenfolge der Liste
+     * absichtlich sein muss — die staerkste Sache zuerst.
      */
-    const versatz = tag ? WOCHENTAGE.indexOf(tag) : 7 + i;
+    const versatz = i;
     const zeitpunkt = new Date(beginn);
     zeitpunkt.setDate(zeitpunkt.getDate() + versatz);
     /*

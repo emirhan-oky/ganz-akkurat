@@ -15,7 +15,7 @@ import type { Short } from '../../src/typen';
 export const aufkleberGarantie: Short = {
   id: 'aufkleber-garantie',
   themaId: 'garantie-siegel',
-  format: 'auchgekauft',
+  format: 'absicht',
   sachgebiet: 'recht',
   arbeitstitel: 'Der Aufkleber über der Schraube',
   weitererzaehlt: 'Der Aufkleber ist nicht verboten. Er wirkt nur nicht.',

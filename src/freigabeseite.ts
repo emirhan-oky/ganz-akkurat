@@ -144,7 +144,6 @@ export const freigabeseiteBauen = (opts: {
             <div class="marken">
               <span class="marke rubrik">${escape(FORMATE[short.format].titel)}</span>
               <span class="marke machart">${escape(SACHGEBIETE[short.sachgebiet].titel)}</span>
-              ${FORMATE[short.format].tag ? `<span class="marke muster">${FORMATE[short.format].tag}</span>` : ''}
               ${short.kennzeichnung.werbung === 'video' ? '<span class="marke werbung">Werbung im Bild</span>' : ''}
               ${short.kennzeichnung.werbung === 'beschreibung' ? '<span class="marke werbung">Werbung in der Beschreibung</span>' : ''}
               ${short.kennzeichnung.kiStimme ? '<span class="marke ki">KI-Stimme</span>' : ''}

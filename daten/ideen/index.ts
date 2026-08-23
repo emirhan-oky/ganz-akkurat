@@ -1,11 +1,7 @@
 import { FORMATE, type Format, type Idee, type Sachgebiet } from '../../src/typen';
-import { dubistdummIdeen } from './dubistdumm';
-import { eswareinmalIdeen } from './eswareinmal';
-import { absichtIdeen } from './absicht';
-import { neuIdeen } from './neu';
-import { auchgekauftIdeen } from './auchgekauft';
-import { heimlichIdeen } from './heimlich';
 import { gibtswirklichIdeen } from './gibtswirklich';
+import { absichtIdeen } from './absicht';
+import { eswareinmalIdeen } from './eswareinmal';
 import { werhatrechtIdeen } from './werhatrecht';
 
 /**
@@ -60,13 +56,9 @@ import { werhatrechtIdeen } from './werhatrecht';
  * hier bei jedem Lauf mit.
  */
 export const IDEEN: Idee[] = [
-  ...dubistdummIdeen,
-  ...eswareinmalIdeen,
-  ...absichtIdeen,
-  ...neuIdeen,
-  ...auchgekauftIdeen,
-  ...heimlichIdeen,
   ...gibtswirklichIdeen,
+  ...absichtIdeen,
+  ...eswareinmalIdeen,
   ...werhatrechtIdeen,
 ];
 
@@ -80,30 +72,39 @@ export const ideenNachSachgebiet = (sachgebiet: Sachgebiet): Idee[] =>
 export const sofortProduzierbar = (): Idee[] => IDEEN.filter((i) => i.reifegrad === 'belegt');
 
 /**
- * Die sieben Formate, die woechentlich laufen — ohne `empfehlung`.
+ * Die Formate, die laufend bespielt werden — ohne `empfehlung`.
  *
- * Die Empfehlung hat keinen festen Wochentag (`FORMATE[...].tag === null`)
- * und kommt erst, wenn Affiliate-Links stehen. Sie darf die Reichweite des
- * Vorrats nicht mitrechnen, sonst meldet ein leeres Empfehlungsfach eine
- * Reichweite von null Wochen fuer einen Kanal, der laeuft.
+ * Die Empfehlung kommt erst, wenn Affiliate-Links stehen. Sie darf die
+ * Reichweite des Vorrats nicht mitrechnen, sonst meldet ein leeres
+ * Empfehlungsfach eine Reichweite von null Wochen fuer einen Kanal, der laeuft.
+ *
+ * **Bis zum 20.08.2026 hiess das `WOCHENFORMATE`** und wurde ueber
+ * `FORMATE[f].tag !== null` bestimmt — die Empfehlung war das einzige Format
+ * ohne Wochentag. Mit dem Wegfall von `tag` steht die Ausnahme jetzt
+ * ausdruecklich da, statt sich aus einem Feld zu ergeben. Das ist die
+ * ehrlichere Fassung: Sie war nie eine Aussage ueber Wochentage, sondern
+ * darueber, was noch nicht laeuft.
  */
-export const WOCHENFORMATE = (Object.keys(FORMATE) as Format[]).filter(
-  (f) => FORMATE[f].tag !== null,
+export const LAUFENDE_FORMATE = (Object.keys(FORMATE) as Format[]).filter(
+  (f) => f !== 'empfehlung',
 );
 
 /**
- * Reichweite des Vorrats in Wochen.
+ * Reichweite des Vorrats in Wochen — gerechnet auf **vier Videos je Woche**.
  *
- * Rechnet **je Format** und nimmt das Minimum, nicht den Durchschnitt: Der
- * Lauf braucht jeden Wochentag besetzt. Ein Format ohne Nachschub haelt die
- * ganze Woche auf, auch wenn sechs andere ueberquellen.
+ * Rechnet **je Format** und nimmt das Minimum, nicht den Durchschnitt. Ein
+ * Format ohne Nachschub haelt den Kanal auf, auch wenn die anderen
+ * ueberquellen.
  *
- * Vorher rechnete diese Funktion je Rubrik und mit zwei Videos je Rubrik und
- * Woche. Beides ist mit dem Formatmodell hinfaellig: Der Takt ist ein Video
- * je Format und Woche, und die Rubrik ist zum Sachgebiet abgesunken.
+ * **Die Annahme „ein Video je Format und Woche" steht hier auf Abruf.** Der
+ * Takt wird erst festgelegt, wenn ein Video im neuen Bau gemessen ist —
+ * Charakteranimation kostet mehr Zeit je Video als reine Typografie, und wie
+ * viel mehr, weiss heute niemand. Bis dahin ist diese Zahl eine Schaetzung und
+ * kein Messergebnis; das ist genau die Sorte Groesse, die dieses Projekt schon
+ * zweimal Geld gekostet hat (`ZEICHEN_PRO_SEKUNDE`, `pauseSek`).
  */
 export const reichweiteInWochen = (): number => {
-  const offen = WOCHENFORMATE.map(
+  const offen = LAUFENDE_FORMATE.map(
     (f) => ideenNachFormat(f).filter((i) => i.reifegrad !== 'produziert').length,
   );
   return Math.min(...offen);
@@ -111,6 +112,6 @@ export const reichweiteInWochen = (): number => {
 
 /** Welches Format zu wenig Vorrat hat — fuer den Hinweis in der Pruefung. */
 export const duenneFormate = (mindestens = 3): Format[] =>
-  WOCHENFORMATE.filter(
+  LAUFENDE_FORMATE.filter(
     (f) => ideenNachFormat(f).filter((i) => i.reifegrad !== 'produziert').length < mindestens,
   );

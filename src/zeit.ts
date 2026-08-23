@@ -193,10 +193,32 @@ export const LAENGE_SEK = {
    *   21,4 s Sprechzeit plus 1,6 s Pausen — also 23 s.
    *
    * Daraus folgt die Regel, die wichtiger ist als die Grenzen selbst:
-   * **Zielwert ist die Mitte, nicht der Rand.** Wer bei 27,5 s baut, faellt
-   * beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
+   * **Zielwert ist die Mitte, nicht der Rand.** Wer an der Obergrenze baut,
+   * faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
+   *
+   * ## Die Obergrenze steht seit dem 20.08.2026 auf 34 statt 28
+   *
+   * Zwoelf fremde Tech-Shorts wurden angesehen und vermessen. Die drei mit den
+   * meisten Aufrufen sind **41, 29 und 31 Sekunden** lang — das alte Fenster
+   * haette alle drei abgelehnt. Der Median der Sammlung liegt bei rund 28 s,
+   * also genau auf der alten Obergrenze.
+   *
+   * Die Gegenprobe steht in derselben Sammlung: 4,1 Mio Aufrufe bei 19 s,
+   * 1,75 Mio bei 7 s. **Laenge ist keine Ursache, sondern eine Folge davon,
+   * wie viel es zu zeigen gibt.** Ein Fenster, das die Obergrenze zur Aussage
+   * ueber Qualitaet macht, misst die falsche Groesse.
+   *
+   * Der Zielwert bleibt deshalb bei 23 s und ist die eigentliche Steuerung.
+   * Die Obergrenze ist wieder das, was sie sein soll: eine Grenze gegen
+   * Abschweifen, keine Qualitaetsaussage.
+   *
+   * Der naheliegende Einwand — das „zu lang" der ersten Zuschauer — trifft die
+   * Shorts mit dem alten Fenster von 28 bis 40 Sekunden, nicht eine Obergrenze
+   * von 34. Und er kam von unserem Publikum, waehrend diese zwoelf Videos von
+   * fremden Kanaelen stammen und ausdruecklich als Treffer ausgewaehlt wurden.
+   * Deshalb wird die Obergrenze geoeffnet und nicht der Zielwert verschoben.
    */
-  ziel: [18, 28] as const,
+  ziel: [18, 34] as const,
   /**
    * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *

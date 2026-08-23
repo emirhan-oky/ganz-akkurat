@@ -15,7 +15,7 @@ import type { Short } from '../../src/typen';
 export const powerbankHandgepaeck: Short = {
   id: 'powerbank-handgepaeck',
   themaId: 'powerbank-handgepaeck',
-  format: 'dubistdumm',
+  format: 'gibtswirklich',
   sachgebiet: 'laden',
   arbeitstitel: 'Die Powerbank und die falsche Einheit',
   weitererzaehlt: 'Hundert Wattstunden. Und ins aufgegebene Gepäck darf sie nie.',

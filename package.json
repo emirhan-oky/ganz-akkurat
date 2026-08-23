@@ -21,6 +21,8 @@
     "neuigkeiten": "tsx skripte/neuigkeiten.ts",
     "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",
     "rueckblick": "tsx skripte/rueckblick.ts",
+    "ausreisser": "tsx skripte/ausreisser.ts",
+    "aufschlaege": "tsx skripte/aufschlaege.ts",
     "nachlegen": "tsx skripte/nachlegen.ts"
   },
   "dependencies": {

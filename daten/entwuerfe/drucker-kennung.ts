@@ -1,9 +1,15 @@
 import type { Short } from '../../src/typen';
 
 /**
- * Freitag · Das macht dein Geraet heimlich · die gelben Punkte.
+ * Das ist Absicht · die gelben Punkte.
  *
- * Die Hausregel des Sendeplatzes ist erfuellt, und zwar in ihrer schaerfsten
+ * Lief bis zum 20.08.2026 unter `heimlich` („Das macht dein Geraet heimlich",
+ * Freitag). Das Format ist in `absicht` aufgegangen, das Thema ist dasselbe
+ * geblieben — und es ist der Musterfall dafuer, warum die Zusammenlegung
+ * traegt: Ob der Drucker so **gebaut** wurde oder es im **Betrieb tut**,
+ * aendert an der Reaktion des Zuschauers nichts.
+ *
+ * Die Hausregel des Formats ist erfuellt, und zwar in ihrer schaerfsten
  * Form: Beide Haelften stehen woertlich beim BSI — dass die Kennung den
  * Ausdruck einem Geraet zuordnet, und dass sie **nicht dokumentiert und nicht
  * abschaltbar** ist. Der zweite Halbsatz ist der Kipppunkt und muesste sonst
@@ -16,7 +22,7 @@ import type { Short } from '../../src/typen';
 export const druckerKennung: Short = {
   id: 'drucker-kennung',
   themaId: 'drucker-gelbe-punkte',
-  format: 'heimlich',
+  format: 'absicht',
   sachgebiet: 'drucken',
   arbeitstitel: 'Jeder Ausdruck trägt die Nummer des Druckers',
   weitererzaehlt: 'Nicht dokumentiert. Und abschalten kannst du es nicht.',
