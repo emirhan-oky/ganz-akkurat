@@ -129,7 +129,15 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: '0 14px',
+          /*
+           * 24 statt 14 Pixel, seit die Untertitel kursiv gesetzt sind. Eine
+           * kursive Schrift neigt ihre Buchstaben nach rechts, und das letzte
+           * Zeichen eines Wortes ragt damit in den Zwischenraum. Beim aktiven
+           * Wort kommt der blaue Kasten dazu, der mit `margin: -10px` bewusst
+           * ueber die Wortkante hinausgeht — „einundsechzig" klebte an
+           * „Sekunden.".
+           */
+          gap: '0 24px',
           maxWidth: '100%',
         }}
       >
@@ -146,6 +154,8 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                  * hier ohne Wirkung und stuende nur als falscher Hinweis da.
                  */
                 fontFamily: SCHRIFT.untertitel,
+                fontStyle: SCHRIFT.neigung,
+                fontWeight: SCHRIFT.schwarz,
                 fontSize: groesse,
                 lineHeight: 1.18,
                 color: aktiv ? '#FFFFFF' : FARBEN.tinte,

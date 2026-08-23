@@ -28,14 +28,13 @@ loadFont('normal', { weights: ['300', '400', '600', '800', '900'], subsets: ['la
  * verspringen. Beim Aufschlag entscheidet der Umbruch ueber den Platz, den die
  * Buehne darunter bekommt.
  */
-ladePlayfair('italic', { weights: ['900'], subsets: ['latin', 'latin-ext'] });
+ladePlayfair('italic', {
+  weights: ['400', '500', '600', '700', '800', '900'],
+  subsets: ['latin', 'latin-ext'],
+});
 
-/*
- * Die Untertitelschrift. Begruendung bei `SCHRIFT.untertitel` in `marke.ts`.
- */
+/* Kandidaten der Untertitelprobe. Sie gehen mit ihr. */
 ladeArchivoBlack('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
-
-/* Der unterlegene Kandidat — nur noch fuer `Untertitelprobe`. */
 ladeAnton('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
 
 export const RemotionRoot: React.FC = () => (

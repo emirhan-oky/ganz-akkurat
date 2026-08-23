@@ -217,7 +217,34 @@ export const FARBEN = {
  * groessere Problem als eine zweite Schriftdatei.
  */
 export const SCHRIFT = {
-  familie: 'Inter',
+  /**
+   * **Playfair Display, kursiv — ueberall.**
+   *
+   * Bis zum 23.08.2026 trug Inter alles und Playfair nur den Aufschlag. Der
+   * Wunsch danach war eindeutig: alles in der Schrift des Aufschlags,
+   * einheitlich. Die Serif ist damit nicht mehr die Auszeichnung, sondern die
+   * Hausschrift.
+   *
+   * Der Vorbehalt bleibt im Text stehen, weil er sich am fertigen Video zeigen
+   * wird und nicht hier: Untertitel werden **wortweise** gelesen, und eine
+   * Serif mit hohem Strichkontrast ist dabei schwerer zu erfassen als eine
+   * Grotesk. Wenn es auf dem Handy nicht traegt, ist der Untertitel die
+   * Stelle, an der zuerst zurueckgebaut wird — `SCHRIFT.untertitel` steht
+   * dafuer weiterhin getrennt.
+   *
+   * Inter bleibt geladen und traegt die **Wortmarke**. Sie ist ein
+   * Logozeichen, keine Schrift im Satz: „Ganz" duenn, „akkurat" fett — dieser
+   * Kontrast lebt von den neun Staerken einer variablen Grotesk, die eine
+   * Display-Serif nicht hat.
+   */
+  familie: 'Playfair Display',
+  /** Nur noch fuer die Wortmarke. Siehe oben. */
+  wortmarke: 'Inter',
+  /**
+   * Der Schnitt der Hausschrift. Playfair traegt den Kanal kursiv — aufrecht
+   * ist sie eine Zeitungsschrift, kursiv eine Haltung.
+   */
+  neigung: 'italic',
   duenn: 300,
   normal: 400,
   halbfett: 600,
@@ -276,7 +303,7 @@ export const SCHRIFT = {
    * Sie hat genau einen Schnitt. `SCHRIFT.fett` und `SCHRIFT.schwarz` gelten
    * fuer sie nicht — das Gewicht ist immer 400.
    */
-  untertitel: 'Archivo Black',
+  untertitel: 'Playfair Display',
 } as const;
 
 /**

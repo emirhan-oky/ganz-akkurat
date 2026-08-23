@@ -25,8 +25,11 @@ import {
 
 const grundtext = {
   fontFamily: SCHRIFT.familie,
+  // Die Hausschrift ist kursiv. Der Schnitt steht im System und nicht an
+  // jeder Textstelle, sonst faellt beim naechsten Wechsel die Haelfte durch.
+  fontStyle: SCHRIFT.neigung,
   color: FARBEN.tinte,
-  letterSpacing: -1,
+  letterSpacing: -0.5,
 } as const;
 
 /** Farbpaar zu einer Bewertung. */
@@ -265,9 +268,6 @@ const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
            * entscheidet — und die einzige, die nicht wortweise mitgelesen,
            * sondern als Bild erfasst wird.
            */
-          ...(aufschlag
-            ? { fontFamily: SCHRIFT.auszeichnung, fontStyle: 'italic', letterSpacing: -0.5 }
-            : {}),
           fontWeight: aufschlag ? SCHRIFT.schwarz : SCHRIFT.fett,
           fontSize: groesse,
           lineHeight: aufschlag ? 1.06 : 1.16,
@@ -660,9 +660,6 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => 
            * derselben Schrift stehen, sieht man den Anschluss, statt ihn nur
            * aufgeschrieben zu haben.
            */
-          fontFamily: SCHRIFT.auszeichnung,
-          fontStyle: 'italic',
-          letterSpacing: -0.5,
           fontWeight: SCHRIFT.schwarz,
           fontSize: groesse,
           lineHeight: 1.12,

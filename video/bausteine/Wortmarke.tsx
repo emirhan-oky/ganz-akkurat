@@ -18,7 +18,7 @@ export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
 }) => (
   <span
     style={{
-      fontFamily: SCHRIFT.familie,
+      fontFamily: SCHRIFT.wortmarke,
       fontSize: groesse,
       color: farbe,
       letterSpacing: -0.5,
@@ -95,7 +95,7 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
     <Wortmarke groesse={34} />
     <span
       style={{
-        fontFamily: SCHRIFT.familie,
+        fontFamily: SCHRIFT.wortmarke,
         fontWeight: SCHRIFT.halbfett,
         fontSize: 24,
         padding: '8px 18px',
@@ -123,7 +123,7 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
           // Schiebt die Zaehlung an den rechten Rand, ohne dass die Kopfzeile
           // ihre Breite kennen muss.
           marginLeft: 'auto',
-          fontFamily: SCHRIFT.familie,
+          fontFamily: SCHRIFT.wortmarke,
           fontWeight: SCHRIFT.fett,
           fontSize: 26,
           color: FARBEN.tinteWeich,
@@ -169,7 +169,7 @@ export const Spruchzeile: React.FC = () => {
   return (
     <span
       style={{
-        fontFamily: SCHRIFT.familie,
+        fontFamily: SCHRIFT.wortmarke,
         fontWeight: SCHRIFT.halbfett,
         fontSize: 26,
         color: FARBEN.tinteWeich,
@@ -223,7 +223,7 @@ export const Belegzeile: React.FC<{ herausgeber: string }> = ({ herausgeber }) =
       <span style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: FARBEN.blau, flex: 'none' }} />
       <span
         style={{
-          fontFamily: SCHRIFT.familie,
+          fontFamily: SCHRIFT.wortmarke,
           fontWeight: SCHRIFT.halbfett,
           fontSize: 26,
           color: FARBEN.tinteWeich,
