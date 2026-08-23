@@ -31,8 +31,19 @@ import { Blatt } from './Requisiten';
  * und das Bild steht still.
  */
 
-/** Wie viel Platz die Buehne im Bild bekommt. Untergrenze, kein Restplatz. */
-export const BUEHNENBILD_GROESSE = 620;
+/*
+ * ## Hier stand `BUEHNENBILD_GROESSE = 620`
+ *
+ * Eine exportierte Konstante, die niemand las: `video/szenen/index.tsx` setzte
+ * stattdessen `minHeight: 340`. Der Versuch, sie anzuschliessen, hat gezeigt,
+ * warum sie nie funktionieren konnte — eine feste Untergrenze weiss nicht, ob
+ * der Satz darueber zwei Zeilen braucht oder drei, und bei drei laeuft die
+ * Buehne in den Text hinein.
+ *
+ * Der Platz kommt jetzt aus dem Layout: Der Text nimmt sich, was er braucht,
+ * die Buehne bekommt den Rest und fuellt ihn ganz aus. Deshalb steht hier eine
+ * Begruendung statt einer Zahl.
+ */
 
 /* ───────────────────────────── Figurenbuehne ─────────────────────────── */
 
@@ -140,7 +151,7 @@ const Figurenbuehne: React.FC<{
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
-      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ maxHeight: '100%' }}>
+      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
         {/*
           Die Kamera faehrt langsam heran. Sie richtet sich nach dem, was zu
           sehen ist: Steht ein Symbol daneben, rueckt sie in die Mitte zwischen
@@ -169,10 +180,22 @@ const Figurenbuehne: React.FC<{
             als das, was ihn wirft, sieht nicht nach Boden aus, sondern nach
             einem zweiten Gegenstand.
           */}
+          {/*
+            Sie gehoert der Figur, nicht der Buehne. Bei `daneben` spannte sie
+            vorher ueber beide (rx 62) und behauptete damit einen gemeinsamen
+            Boden — den es nicht gibt: `europa` ist ein Sternenkreis um
+            (100 | 74) mit Radius 46 und endet bei y = 127, also 13 Einheiten
+            ueber der Standlinie. Ein Zeichen setzt nicht auf, ein Gegenstand
+            schon, und die Ellipse kann das nicht wissen.
+
+            Damit gilt hier dieselbe Begruendung wie fuer die Breite: Ein
+            Schatten, der weiter reicht als das, was ihn wirft, sieht nicht nach
+            Boden aus, sondern nach einem zweiten Gegenstand.
+          */}
           <ellipse
-            cx={100}
+            cx={daneben ? 62 : 100}
             cy="140"
-            rx={daneben ? 62 : 34}
+            rx={34}
             ry="9"
             fill={FARBEN.flaeche}
             opacity={0.5}
@@ -242,10 +265,23 @@ const Gegenueber: React.FC<{
     auf: number;
   }> = ({ seite, y, auf }) => (
     <g opacity={auf} transform={`translate(0 ${y + interpolate(auf, [0, 1], [4, 0])})`}>
-      {/* Die Zeichnung sitzt in der Mitte ihrer Haelfte. Der doppelte
-          `translate` ist der uebliche Weg, um **um einen Punkt** zu skalieren,
-          ohne sich auf `transform-origin` zu verlassen. */}
-      <g transform={`translate(112 ${HALB / 2 - 2}) scale(0.52) translate(-100 -75)`}>
+      {/*
+        Die Zeichnung sitzt **unter** dem Etikett, nicht in der Mitte der
+        Haelfte. Der doppelte `translate` ist der uebliche Weg, um um einen
+        Punkt zu skalieren, ohne sich auf `transform-origin` zu verlassen.
+
+        Vorher stand sie bei y = 34 mit `scale(0.52)` und reichte damit von
+        y = -5 bis 73 — das Etikett belegt y 3 bis 16, und im Standbild lag
+        „DAS FLUGZEUG" quer ueber dem Tragflaechenansatz. Die beiden konnten
+        sich gar nicht ausweichen, weil die Zeichnung ueber den oberen Rand
+        ihrer eigenen Haelfte hinauslief.
+
+        Jetzt bleiben ihr y 19 bis 75: die Haelfte ohne den Streifen, den das
+        Etikett braucht. Das kostet Groesse, und der Tausch ist richtig — eine
+        Zeichnung, die halb unter einem schwarzen Kasten liegt, ist nicht
+        groesser, sondern unlesbar.
+      */}
+      <g transform={`translate(104 ${HALB / 2 + 11}) scale(0.37) translate(-100 -75)`}>
         {Symbole[seite.symbol]}
       </g>
 
@@ -265,10 +301,10 @@ const Gegenueber: React.FC<{
         und Grossbuchstaben — die breiteste Stelle ist ein „M", die schmalste
         ein „I", und der Mittelwert deckt beides mit dem Innenabstand ab.
       */}
-      <rect x={6} y={6} width={seite.etikett.length * 6.4 + 12} height={14} rx={3} fill={FARBEN.tinte} />
+      <rect x={6} y={3} width={seite.etikett.length * 6.4 + 12} height={13} rx={3} fill={FARBEN.tinte} />
       <text
         x={12}
-        y={16.4}
+        y={12.8}
         fill={FARBEN.grundRein}
         style={{
           fontFamily: SCHRIFT.familie,
@@ -284,7 +320,7 @@ const Gegenueber: React.FC<{
 
   return (
     <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
-      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ maxHeight: '100%' }}>
+      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
         <Haelfte seite={buehne.oben} y={0} auf={1} />
 
         {/* Die Trennlinie gehoert zur unteren Haelfte: Sie erscheint mit ihr

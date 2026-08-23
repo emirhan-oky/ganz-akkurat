@@ -20,16 +20,38 @@ import type { KontextArt } from '../../src/typen';
  */
 export type { KontextArt } from '../../src/typen';
 
+/*
+ * ## Warum `tinteWeich` und nicht `linie`
+ *
+ * Bis zum 23.08.2026 zeichneten die Symbole in `linie` (#9EA6AF) mit Staerke 4.
+ * Das war richtig, solange sie allein unter einem Satz standen und
+ * zuruecktreten sollten. Seit die Figur danebensteht, stimmt es nicht mehr:
+ * Sie ist eine Flaeche in `tinte` (#111820), und daneben liest sich eine
+ * hellgraue Kontur als Hintergrund statt als zweiter Gegenstand. Im geteilten
+ * Bild fiel es am deutlichsten auf — zwei blasse Zeichnungen unter fetter
+ * Typografie.
+ *
+ * `tinteWeich` (#5E6877) ist der Mittelweg: deutlich dunkler als vorher und
+ * trotzdem leichter als die Figur, damit die Rangfolge im Bild bleibt.
+ *
+ * Die Markenfarbe `linie` selbst bleibt unangetastet — sie faerbt auch das
+ * isometrische Hintergrundgitter in `Muster.tsx`, und das soll blass bleiben.
+ */
 const strich = {
   fill: 'none',
-  stroke: FARBEN.linie,
-  strokeWidth: 4,
+  stroke: FARBEN.tinteWeich,
+  strokeWidth: 5,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
 };
 
-const fein = { ...strich, stroke: FARBEN.linieFein, strokeWidth: 3 };
-const koerper = { fill: FARBEN.grundRein, stroke: FARBEN.linie, strokeWidth: 4, strokeLinejoin: 'round' as const };
+const fein = { ...strich, stroke: FARBEN.linie, strokeWidth: 3.5 };
+const koerper = {
+  fill: FARBEN.grundRein,
+  stroke: FARBEN.tinteWeich,
+  strokeWidth: 5,
+  strokeLinejoin: 'round' as const,
+};
 
 /*
  * Hier standen bis zum 17.08.2026 neun **Geraetezeichnungen** — Notebook,

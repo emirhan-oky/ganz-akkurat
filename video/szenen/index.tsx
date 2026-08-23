@@ -85,15 +85,55 @@ const Illustration = (
    * mit und faengt bei Bild 0 der Szene an.
    */
   if (szene.buehne) {
+    /*
+     * `minHeight: 0` ist hier die eigentliche Ansage, nicht `flex: 1`.
+     * Flex-Kinder haben `min-height: auto`, schrumpfen also nicht unter ihren
+     * Inhalt — ein Kasten mit fester Untergrenze nimmt sich den Platz auch
+     * dann, wenn keiner da ist, und laeuft nach oben in den Satz hinein.
+     *
+     * Genau das ist am 23.08.2026 passiert: Hier stand `minHeight: 620`, und
+     * bei „Nicht das Flugzeug. Das Netz." bricht der Satz in **drei** Zeilen
+     * statt zwei. Das Etikett „DAS FLUGZEUG" lag daraufhin quer ueber dem Wort
+     * „Netz.". Zwei Zeilen hatten gereicht, drei nicht — eine feste Zahl kann
+     * diesen Unterschied nicht kennen.
+     *
+     * Die Buehne nimmt jetzt den Rest und nie mehr. Wie viel das ist,
+     * entscheidet der Satz darueber, und das ist die richtige Rangfolge: Der
+     * Text traegt den Inhalt, die Zeichnung fuehrt ihn vor.
+     */
     return (
       <div
         style={{
-          marginTop: ABSTAND.m,
+          /*
+           * `xl` und nicht `m`. Der Aufschlag setzt unter seinen Satz einen
+           * blauen Balken — die einzige Bewegung der Szene und der Marker fuer
+           * den Anfang des Videos. Mit 32 Pixeln Abstand schob sich die groesser
+           * gewordene Buehne darueber, und der Balken schaute links neben dem
+           * Kopf der Figur hervor.
+           *
+           * Der Balken gehoert zum Text, nicht zur Zeichnung. Also braucht die
+           * Zeichnung Abstand, nicht der Balken weniger Platz.
+           */
+          marginTop: ABSTAND.xl,
           display: 'flex',
           justifyContent: 'center',
-          minHeight: 340,
-          maxHeight: '100%',
+          minHeight: 0,
           flex: 1,
+          /*
+           * Kein `alignItems: center`: Gestreckt fuellt das `<svg>` genau
+           * diesen Kasten, und `preserveAspectRatio` haelt die Zeichnung darin
+           * zentriert und vollstaendig.
+           *
+           * **Offen:** Beim dreizeiligen Aufschlag laeuft der blaue Balken
+           * weiterhin hinter dem Pluspol der Figur durch. Zwei Erklaerungen
+           * dafuer waren falsch — weder der `marginTop` noch die Streckung des
+           * SVG haben es behoben. Was stimmt, ist nur die Beobachtung: Die
+           * Figur beginnt rund 20 Pixel oberhalb des Balkens, obwohl beide im
+           * normalen Fluss stehen und die Buehne nach dem Balken kommt. Der
+           * naechste Verdacht ist die Skalierung per `passung` in
+           * `Buehne.tsx`, die bei zu hohem Inhalt greift und von oben
+           * verkleinert — nachzumessen, nicht zu raten.
+           */
         }}
       >
         <Buehnenbild buehne={szene.buehne} dauer={dauer} />
