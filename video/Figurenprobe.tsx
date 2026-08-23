@@ -30,7 +30,7 @@ import type { Buehnenbild as Buehnenbilddaten } from '../src/typen';
 const REIHE: PosenName[] = ['ruhe', 'lesen', 'zeigen', 'stutzen', 'staunen', 'achselzucken'];
 
 export const Figurenprobe: React.FC<{ geruest?: boolean }> = ({ geruest = false }) => (
-  <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 40 }}>
+  <AbsoluteFill style={{ backgroundColor: FARBEN.flaeche, padding: 40 }}>
     <div
       style={{
         display: 'grid',
@@ -45,7 +45,7 @@ export const Figurenprobe: React.FC<{ geruest?: boolean }> = ({ geruest = false 
         <div
           key={name}
           style={{
-            backgroundColor: FARBEN.grundRein,
+            backgroundColor: FARBEN.grund,
             borderRadius: 24,
             display: 'flex',
             flexDirection: 'column',
@@ -100,13 +100,13 @@ export const Figurenfolge: React.FC<{ pose?: PosenName }> = ({ pose = 'zeigen' }
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 40 }}>
+    <AbsoluteFill style={{ backgroundColor: FARBEN.flaeche, padding: 40 }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, height: '100%' }}>
         {ABTASTUNG.map((bild) => (
           <div
             key={bild}
             style={{
-              backgroundColor: FARBEN.grundRein,
+              backgroundColor: FARBEN.grund,
               borderRadius: 24,
               display: 'flex',
               flexDirection: 'column',
@@ -177,13 +177,13 @@ const BUEHNENFAELLE: { titel: string; buehne: Buehnenbilddaten }[] = [
 ];
 
 export const Buehnenprobe: React.FC = () => (
-  <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 40 }}>
+  <AbsoluteFill style={{ backgroundColor: FARBEN.flaeche, padding: 40 }}>
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, height: '100%' }}>
       {BUEHNENFAELLE.map(({ titel, buehne }) => (
         <div
           key={titel}
           style={{
-            backgroundColor: FARBEN.grundRein,
+            backgroundColor: FARBEN.grund,
             borderRadius: 24,
             display: 'flex',
             flexDirection: 'column',

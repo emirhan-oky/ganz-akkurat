@@ -62,14 +62,30 @@ const GLIED = { fuellung: 'none', strich: FARBEN.tinte, staerke: 7, kappe: 'roun
  * damit nicht vor ihm, sondern weg — und weil das so ist, hat sich die
  * Lesepose vorher aussen herumgedrueckt und dabei eine Kerbe eingeschlossen.
  *
- * Drei Einheiten je Seite (13 gegen 7) reichen, um die Kante zu trennen, und
- * sind schmal genug, dass der Saum vor dem Hintergrund nicht als zweite
- * Zeichnung auffaellt. Er sitzt in einem eigenen Ebenenband **unter** allen
- * Gliedern, nicht unmittelbar unter seinem eigenen: Laege jeder Saum direkt
- * unter seinem Glied, fraesse der Saum des Unterarms die Spitze des Oberarms
- * weg, und die Figur haette am Ellenbogen eine helle Naht.
+ * Drei Einheiten je Seite (13 gegen 7) reichen, um die Kante zu trennen. Er
+ * sitzt in einem eigenen Ebenenband **unter** allen Gliedern, nicht
+ * unmittelbar unter seinem eigenen: Laege jeder Saum direkt unter seinem
+ * Glied, fraesse der Saum des Unterarms die Spitze des Oberarms weg, und die
+ * Figur haette am Ellenbogen eine helle Naht.
+ *
+ * ## Die Farbe ist der Buehnengrund, nicht Weiss
+ *
+ * Hier stand bis zum 23.08.2026 `grundRein` mit der Begruendung, drei
+ * Einheiten seien „schmal genug, dass der Saum vor dem Hintergrund nicht als
+ * zweite Zeichnung auffaellt". Das erste Standbild eines echten Shorts hat das
+ * widerlegt: Reinweiss auf `#F7F8FA` ist ein sichtbarer Rand, und in fuenf von
+ * sechs Posen haengen die Arme **ausserhalb** der Silhouette — dort trennt der
+ * Saum nichts und liegt nur als heller Halo im Bild.
+ *
+ * Mit `grund` verschwindet er genau dort, wo er nichts zu tun hat, und bleibt
+ * voll sichtbar, wo er gebraucht wird: auf dem Gehaeuse in `#111820`. Die
+ * Trennung kostet damit nichts mehr.
+ *
+ * Der Preis steht in `Figurenprobe`: Auf weissen Kacheln waere der Saum wieder
+ * zu sehen. Die Kacheln stehen deshalb auf `grund` — eine Probe, die einen
+ * anderen Hintergrund zeigt als das Produkt, prueft den falschen Fall.
  */
-const SAUM = { fuellung: 'none', strich: FARBEN.grundRein, staerke: 13, kappe: 'round' } as const;
+const SAUM = { fuellung: 'none', strich: FARBEN.grund, staerke: 13, kappe: 'round' } as const;
 
 /**
  * Der Saum am Schulteransatz: stumpf abgeschnitten statt rund.
@@ -143,7 +159,7 @@ export const nachleser = Rig.parse({
     { id: 'saum_unterarm_links', ebene: 31, eltern: 'unterarm_links', stil: SAUM,
       formen: [{ art: 'pfad', d: 'M 56 76 L 56 96' }] },
     { id: 'saum_hand_links', ebene: 32, eltern: 'hand_links',
-      stil: { fuellung: FARBEN.grundRein, strich: 'none', staerke: 0 },
+      stil: { fuellung: FARBEN.grund, strich: 'none', staerke: 0 },
       formen: [{ art: 'kreis', cx: 56, cy: 99, r: 8 }] },
 
     { id: 'oberarm_links', ebene: 40, eltern: 'koerper', stil: GLIED,
@@ -215,7 +231,7 @@ export const nachleser = Rig.parse({
     { id: 'saum_unterarm_rechts', ebene: 34, eltern: 'unterarm_rechts', stil: SAUM,
       formen: [{ art: 'pfad', d: 'M 144 76 L 144 96' }] },
     { id: 'saum_hand_rechts', ebene: 35, eltern: 'hand_rechts',
-      stil: { fuellung: FARBEN.grundRein, strich: 'none', staerke: 0 },
+      stil: { fuellung: FARBEN.grund, strich: 'none', staerke: 0 },
       formen: [{ art: 'kreis', cx: 144, cy: 99, r: 8 }] },
 
     { id: 'oberarm_rechts', ebene: 50, eltern: 'koerper', stil: GLIED,

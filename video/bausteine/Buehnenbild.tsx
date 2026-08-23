@@ -156,7 +156,7 @@ const Figurenbuehne: React.FC<{
         <Kamera
           dauer={dauer}
           von={{ zoom: 1 }}
-          nach={daneben ? { x: 88, y: 82, zoom: 1.16 } : { x: 62, y: 80, zoom: 1.24 }}
+          nach={daneben ? { x: 88, y: 82, zoom: 1.16 } : { x: 100, y: 80, zoom: 1.24 }}
         >
           {/*
             Standflaeche wie bei den Symbolen — Figur und Requisite stehen auf
@@ -170,17 +170,24 @@ const Figurenbuehne: React.FC<{
             einem zweiten Gegenstand.
           */}
           <ellipse
-            cx={daneben ? 100 : 62}
+            cx={100}
             cy="140"
             rx={daneben ? 62 : 34}
             ry="9"
             fill={FARBEN.flaeche}
             opacity={0.5}
           />
-          {/* Die Figur steht links, ein Symbol rechts. Im ersten Standbild
-              standen beide mittig und die Lupe lag ueber dem Kopf. Das Blatt
-              geht als `gehalten` mit hinein und wird deshalb mitverschoben. */}
-          <g transform="translate(-38 0)">
+          {/*
+            Die Figur steht links, ein Symbol rechts. Im ersten Standbild
+            standen beide mittig und die Lupe lag ueber dem Kopf. Das Blatt
+            geht als `gehalten` mit hinein und wird deshalb mitverschoben.
+
+            **Ohne Symbol wird nicht verschoben.** Die -38 galten vorher immer,
+            auch wenn die Figur allein auf der Buehne stand: Sie sass dann
+            links aussen, waehrend rechts die halbe Flaeche leer blieb, und der
+            Platz, den sie fuer ein Symbol raeumte, wurde von nichts gebraucht.
+          */}
+          <g transform={daneben ? 'translate(-38 0)' : undefined}>
             <Figur rig={nachleser} pose={pose} requisiten={gehalten} />
           </g>
           {daneben}

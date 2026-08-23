@@ -4,6 +4,7 @@ import {
   FORMATE,
   Sachgebiet,
   SACHGEBIETE,
+  type KontextArt,
   type Quelle,
   type Short,
   type Szene,
@@ -1277,9 +1278,38 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    */
   const TRAEGT_ZEICHNUNG = new Set(['text', 'zahl', 'frage', 'einschraenkung']);
 
+  /**
+   * Was eine Szene an Zeichnung zeigt — als Liste von Symbolnamen.
+   *
+   * Die Buehne muss hier mitgezaehlt werden, sonst arbeitet die Regel gegen
+   * ihren eigenen Zweck: Sie meldet „ohne Zeichnung" fuer genau die Szenen,
+   * die statt eines stehenden Symbols einen Vorgang zeigen — also fuer den
+   * besseren Fall. Eine Wache, die den Fortschritt bestraft, wird abgeschaltet
+   * und nicht befolgt.
+   *
+   * `gegenueber` steht bewusst **nicht** darin. Dort stehen zwei Symbole
+   * nebeneinander, und ihr Verhaeltnis ist der Inhalt; das eine greift
+   * ausserdem meistens auf, was eine fruehere Szene schon gezeigt hat. Genau
+   * diese Wiederholung ist das Argument und kein Versehen — sie unten als
+   * Dopplung zu melden waere ein Fehlalarm mit Ansage.
+   */
+  const zeichnungenVon = (szene: Szene): KontextArt[] => {
+    const aus: KontextArt[] = [];
+    if ('symbol' in szene && szene.symbol) aus.push(szene.symbol);
+    if ('buehne' in szene && szene.buehne?.art === 'figur' && szene.buehne.requisite) {
+      // 'blatt' ist kein KontextArt, sondern die Requisite der Lesepose.
+      if (szene.buehne.requisite !== 'blatt') aus.push(szene.buehne.requisite);
+    }
+    return aus;
+  };
+
+  const traegtBild = (szene: Szene): boolean =>
+    ('symbol' in szene && szene.symbol !== undefined) ||
+    ('buehne' in szene && szene.buehne !== undefined);
+
   for (const short of shorts) {
     const faehig = short.szenen.filter((s) => TRAEGT_ZEICHNUNG.has(s.art));
-    const ohne = faehig.filter((s) => !('symbol' in s) || s.symbol === undefined);
+    const ohne = faehig.filter((s) => !traegtBild(s));
 
     if (ohne.length > 0) {
       befunde.push({
@@ -1299,8 +1329,7 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
      * Wiederholung dagegen erwuenscht: Das Gesetzbuch soll bei jedem
      * Rechtsthema dasselbe sein.
      */
-    const benutzt = short.szenen
-      .flatMap((s) => ('symbol' in s && s.symbol ? [s.symbol] : []));
+    const benutzt = short.szenen.flatMap(zeichnungenVon);
     const doppelt = benutzt.filter((s, i) => benutzt.indexOf(s) !== i);
     if (doppelt.length > 0) {
       befunde.push({
@@ -1309,6 +1338,39 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
         regel: 'bildvielfalt',
         text: `Zeichnung „${[...new Set(doppelt)].join(', ')}" kommt mehrfach vor.`,
       });
+    }
+
+    /*
+     * Breite Pose und Requisite daneben passen nicht in denselben Raum.
+     *
+     * Die Buehne ist 200 Einheiten breit. Steht ein Symbol daneben, rueckt die
+     * Figur um 38 nach links, und `achselzucken` stellt beide Arme so weit
+     * aus, dass die linke Hand bei x = 23,3 liegt — nach der Verschiebung also
+     * bei -14,7. Ein SVG mit `viewBox` verhandelt darueber nicht: Der Arm ist
+     * im Bild glatt abgeschnitten.
+     *
+     * Gefunden am ersten echten Short, nicht in der Buehnenprobe — die zeigt
+     * `stutzen` neben einem Drucker, und `stutzen` haelt die Arme am Koerper.
+     * Eine Probe findet nur die Faelle, die sie auch aufstellt.
+     *
+     * Hinweis, nicht Fehler: Ob es reicht, haengt am Symbol, und der Ausweg
+     * ist billig — eine andere Zielpose kostet nichts, weil `zeigen` und
+     * `stutzen` denselben Vorgang tragen.
+     */
+    const BREITE_POSEN = new Set(['achselzucken']);
+    for (const szene of short.szenen) {
+      if (!('buehne' in szene) || szene.buehne?.art !== 'figur') continue;
+      const { nach, requisite } = szene.buehne;
+      if (requisite && requisite !== 'blatt' && BREITE_POSEN.has(nach)) {
+        befunde.push({
+          stufe: 'hinweis',
+          shortId: short.id,
+          regel: 'bildvielfalt',
+          text:
+            `Pose „${nach}" stellt die Arme aus, und „${requisite}" steht daneben. ` +
+            'Der linke Arm läuft dabei aus dem Bild. Andere Zielpose wählen.',
+        });
+      }
     }
   }
 
