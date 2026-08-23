@@ -1,7 +1,5 @@
 import { Composition } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
-import { loadFont as ladeFraunces } from '@remotion/google-fonts/Fraunces';
-import { loadFont as ladeInstrumentSerif } from '@remotion/google-fonts/InstrumentSerif';
 import { loadFont as ladePlayfair } from '@remotion/google-fonts/PlayfairDisplay';
 import { FORMAT } from '../src/marke';
 import { Short as ShortDaten } from '../src/typen';
@@ -10,7 +8,6 @@ import { Short } from './Short';
 import { beispielShort } from '../daten/beispiel-short';
 import { BannerMuster, ProfilbildDunkel, ProfilbildHell, WortmarkeQuer } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
-import { Schriftprobe } from './Schriftprobe';
 
 /**
  * Alle Schriftstaerken, die das Design-System kennt. Werden hier einmal
@@ -29,14 +26,6 @@ loadFont('normal', { weights: ['300', '400', '600', '800', '900'], subsets: ['la
  * Buehne darunter bekommt.
  */
 ladePlayfair('italic', { weights: ['900'], subsets: ['latin', 'latin-ext'] });
-
-/*
- * Die beiden unterlegenen Kandidaten — nur noch fuer `Schriftprobe`, damit die
- * Entscheidung nachvollziehbar bleibt, solange die Probe steht. Sie gehen
- * zusammen mit ihr.
- */
-ladeFraunces('italic', { weights: ['900'], subsets: ['latin', 'latin-ext'] });
-ladeInstrumentSerif('italic', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -61,9 +50,6 @@ export const RemotionRoot: React.FC = () => (
       denn ein Anfangszustand zeigt nichts von dem, was die Buehne behauptet. */}
   <Composition id="Buehnenprobe" component={Buehnenprobe} width={1800} height={900} fps={30} durationInFrames={90} />
   <Composition id="Wortmarke-quer" component={WortmarkeQuer} width={1600} height={360} fps={30} durationInFrames={1} />
-  {/* Der Prueftisch fuer die Aufschlagschrift. Geht nach der Entscheidung
-      wieder weg, samt der drei Kandidatenschriften oben. */}
-  <Composition id="Schriftprobe" component={Schriftprobe} width={2400} height={1000} fps={30} durationInFrames={1} />
   <Composition
     id="Short"
     component={Short}

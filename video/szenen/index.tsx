@@ -120,20 +120,26 @@ const Illustration = (
           minHeight: 0,
           flex: 1,
           /*
-           * Kein `alignItems: center`: Gestreckt fuellt das `<svg>` genau
-           * diesen Kasten, und `preserveAspectRatio` haelt die Zeichnung darin
-           * zentriert und vollstaendig.
+           * `alignSelf: stretch` ist die Zeile, auf die es ankommt.
            *
-           * **Offen:** Beim dreizeiligen Aufschlag laeuft der blaue Balken
-           * weiterhin hinter dem Pluspol der Figur durch. Zwei Erklaerungen
-           * dafuer waren falsch — weder der `marginTop` noch die Streckung des
-           * SVG haben es behoben. Was stimmt, ist nur die Beobachtung: Die
-           * Figur beginnt rund 20 Pixel oberhalb des Balkens, obwohl beide im
-           * normalen Fluss stehen und die Buehne nach dem Balken kommt. Der
-           * naechste Verdacht ist die Skalierung per `passung` in
-           * `Buehne.tsx`, die bei zu hohem Inhalt greift und von oben
-           * verkleinert — nachzumessen, nicht zu raten.
+           * `Buehne.tsx` wickelt die Illustration in einen eigenen Kasten mit
+           * `flex: 1` und `alignItems: 'center'`. Der hat keine
+           * `flexDirection`, ist also eine **Zeile** — und dort richtet
+           * `alignItems: center` senkrecht aus. Dieser Kasten bekam dadurch die
+           * Hoehe seines Inhalts statt die des Wrappers; das `<svg>` mit
+           * `height: 100%` fand keine feste Bezugshoehe und rechnete seine
+           * eigene aus der Breite, also rund 820 mal 0,75 — gut 600 Pixel in
+           * einem Restplatz von etwa 450. Der Ueberschuss verteilte sich beim
+           * Zentrieren nach oben und unten, und die Figur ragte unter den
+           * blauen Balken des Aufschlags.
+           *
+           * Zwei Erklaerungen davor waren falsch: mehr Abstand und die
+           * Streckung des SVG haben nichts bewegt. Gefunden wurde es erst mit
+           * einem farbigen Rahmen um beide Kaesten im Standbild — der Balken
+           * lag sichtbar **innerhalb** des Buehnenkastens. Damit war klar, dass
+           * nicht der Abstand fehlt, sondern der Kasten zu hoch ist.
            */
+          alignSelf: 'stretch',
         }}
       >
         <Buehnenbild buehne={szene.buehne} dauer={dauer} />
@@ -211,9 +217,28 @@ const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
    * breit.
    */
   const laengstesWort = Math.max(...szene.text.split(/\s+/).map((w) => w.length));
+
+  /*
+   * Ein Aufschlag mit Buehne steht eine Stufe kleiner.
+   *
+   * Der Grund ist gemessen: `BUEHNE.hoehe` betraegt **730 Pixel** — von den
+   * 1920 des Formats gehen 420 an die sichere Zone oben, 500 an die unten und
+   * 270 an die Untertitelzone. Ein dreizeiliger Aufschlag in 104 Pixeln
+   * braucht davon mit dem blauen Balken rund 400, und fuer die Zeichnung
+   * bleiben 330. Die Figur wurde dadurch zum Daumennagel.
+   *
+   * Bei 86 Pixeln passt derselbe Satz auf zwei Zeilen: rund 250 Pixel statt
+   * 400, und die Buehne bekommt 480 statt 330. Das ist der Tausch, um den es
+   * geht — der Aufschlag verliert ein Sechstel Schriftgroesse, die Zeichnung
+   * gewinnt die Haelfte an Flaeche.
+   *
+   * Ohne Buehne bleibt es bei 104: Dort ist der ganze Platz seiner.
+   */
+  const grosseStufe = aufschlag && !szene.buehne ? GROESSEN.hook : 86;
+
   const groesse = aufschlag
     ? laengstesWort <= 11
-      ? GROESSEN.hook
+      ? grosseStufe
       : laengstesWort <= 14
         ? 86
         : laengstesWort <= 17

@@ -149,9 +149,24 @@ const Figurenbuehne: React.FC<{
       </g>
     );
 
+  /*
+   * Kein Zwischenkasten mehr. Hier stand ein `div` mit `width: 100%`,
+   * `height: 100%` und zentrierendem Flex — also genau das, was der aufrufende
+   * Kasten in `video/szenen/index.tsx` ohnehin tut. Er hat nichts hinzugefuegt
+   * und dabei die Hoehenkette unterbrochen: Das `<svg>` bezog sein
+   * `height: 100%` auf ihn statt auf den Kasten mit der wirklichen Hoehe, und
+   * die Zeichnung blieb weit unter ihrer Flaeche.
+   *
+   * `flex: 1` mit `minWidth: 0` statt fester Prozente: In einer Flex-Zeile ist
+   * das der Weg, den ganzen Platz zu nehmen, ohne unter den Inhalt schrumpfen
+   * zu duerfen — `width: 100%` waere hier nur ein Wunsch.
+   */
   return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
-      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
+      <svg
+        viewBox="0 0 200 150"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ flex: 1, minWidth: 0, minHeight: 0, alignSelf: 'stretch' }}
+      >
         {/*
           Die Kamera faehrt langsam heran. Sie richtet sich nach dem, was zu
           sehen ist: Steht ein Symbol daneben, rueckt sie in die Mitte zwischen
@@ -216,7 +231,6 @@ const Figurenbuehne: React.FC<{
           {daneben}
         </Kamera>
       </svg>
-    </div>
   );
 };
 
@@ -318,9 +332,24 @@ const Gegenueber: React.FC<{
     </g>
   );
 
+  /*
+   * Kein Zwischenkasten mehr. Hier stand ein `div` mit `width: 100%`,
+   * `height: 100%` und zentrierendem Flex — also genau das, was der aufrufende
+   * Kasten in `video/szenen/index.tsx` ohnehin tut. Er hat nichts hinzugefuegt
+   * und dabei die Hoehenkette unterbrochen: Das `<svg>` bezog sein
+   * `height: 100%` auf ihn statt auf den Kasten mit der wirklichen Hoehe, und
+   * die Zeichnung blieb weit unter ihrer Flaeche.
+   *
+   * `flex: 1` mit `minWidth: 0` statt fester Prozente: In einer Flex-Zeile ist
+   * das der Weg, den ganzen Platz zu nehmen, ohne unter den Inhalt schrumpfen
+   * zu duerfen — `width: 100%` waere hier nur ein Wunsch.
+   */
   return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
-      <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
+      <svg
+        viewBox="0 0 200 150"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ flex: 1, minWidth: 0, minHeight: 0, alignSelf: 'stretch' }}
+      >
         <Haelfte seite={buehne.oben} y={0} auf={1} />
 
         {/* Die Trennlinie gehoert zur unteren Haelfte: Sie erscheint mit ihr
@@ -337,7 +366,6 @@ const Gegenueber: React.FC<{
 
         <Haelfte seite={buehne.unten} y={HALB + 6} auf={zweite} />
       </svg>
-    </div>
   );
 };
 
