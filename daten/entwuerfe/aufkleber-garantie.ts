@@ -43,7 +43,7 @@ export const aufkleberGarantie: Short = {
       position: 'zuspitzung',
       sprechtext: 'Auf eine Abrede zu deinem Nachteil kann er sich nicht berufen.',
       text: 'Zu deinem Nachteil zählt nicht.',
-      buehne: { art: 'figur', von: 'lesen', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'lesen', nach: 'erklaeren', stand: 'rechts' },
       hervorhebung: 'nicht berufen',
       quelleId: 'bgb-476-abweichende',
       belegId: 'kann-der-unternehmer-sich-nicht',

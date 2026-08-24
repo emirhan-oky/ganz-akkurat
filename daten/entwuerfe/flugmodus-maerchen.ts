@@ -100,7 +100,7 @@ export const flugmodusMaerchen: Short = {
        * Ein Symbol daneben liegt fest auf x = 138, also genau dort, wo die
        * Figur dann steht.
        */
-      buehne: { art: 'figur', von: 'stutzen', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'stutzen', nach: 'erklaeren', stand: 'rechts' },
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'hinzufuegen-der-5g-netzanbindung',
     },

@@ -1305,7 +1305,7 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
        * keine wiederholte Zeichnung.
        */
       const r = szene.buehne.requisite;
-      if (r !== 'blatt' && r !== 'stab') aus.push(r);
+      if (r !== 'blatt') aus.push(r);
     }
     return aus;
   };
@@ -1368,7 +1368,7 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     for (const szene of short.szenen) {
       if (!('buehne' in szene) || szene.buehne?.art !== 'figur') continue;
       const { nach, requisite, stand } = szene.buehne;
-      const symbolDaneben = requisite !== undefined && requisite !== 'blatt' && requisite !== 'stab';
+      const symbolDaneben = requisite !== undefined && requisite !== 'blatt';
 
       /*
        * Rechts steht das Symbol. Beide dorthin geht nicht.

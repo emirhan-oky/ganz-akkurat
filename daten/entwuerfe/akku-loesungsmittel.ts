@@ -63,7 +63,7 @@ export const akkuLoesungsmittel: Short = {
       position: 'kipppunkt',
       sprechtext: 'Ab Februar zweitausendsiebenundzwanzig gilt das.',
       text: 'Ab Februar 2027.',
-      buehne: { art: 'figur', von: 'hochschauen', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'hochschauen', nach: 'erklaeren', stand: 'rechts' },
       quelleId: 'eu-batterie-entnehmbar',
       belegId: 'ab-dem-18-februar-2027',
     },

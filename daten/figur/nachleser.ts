@@ -225,6 +225,15 @@ export const nachleser = Rig.parse({
       formen: [{ art: 'pfad', d: 'M 93 73 Q 100 79 107 73' }] },
     { id: 'mund_zug', ebene: 20, eltern: 'koerper', stil: ZUG,
       formen: [{ art: 'pfad', d: 'M 93 77 Q 100 71 107 77' }] },
+    /*
+     * Das deutliche Laecheln. `mund_schmal` ist derselbe Bogen mit 6
+     * Einheiten Tiefe — im fertigen Video war er bei Bildschirmgroesse nicht
+     * als Laecheln zu erkennen, sondern als gerader Strich. Hier sind es 9
+     * Einheiten auf 18 Breite statt 14, also ein Mund, der auch klein noch
+     * eine Form hat.
+     */
+    { id: 'mund_laecheln', ebene: 20, eltern: 'koerper', stil: ZUG,
+      formen: [{ art: 'pfad', d: 'M 91 71 Q 100 80 109 71' }] },
 
     { id: 'saum_oberarm_rechts', ebene: 33, eltern: 'oberarm_rechts', stil: SAUM_STUMPF,
       formen: [{ art: 'pfad', d: 'M 136.8 67.6 L 144 76' }] },

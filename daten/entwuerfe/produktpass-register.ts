@@ -43,7 +43,7 @@ export const produktpassRegister: Short = {
       position: 'zuspitzung',
       sprechtext: 'Darin steht eine Kennung. Je Produkt, nicht je Modell.',
       text: 'Eine Kennung. Je Produkt.',
-      buehne: { art: 'figur', von: 'ruhe', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'ruhe', nach: 'erklaeren', stand: 'rechts' },
       hervorhebung: 'Je Produkt',
       quelleId: 'eu-produktpassregister',
       belegId: 'eindeutige-produktkennung-gespeichert',

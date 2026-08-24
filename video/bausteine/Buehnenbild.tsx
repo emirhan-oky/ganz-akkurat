@@ -7,7 +7,7 @@ import { Figur } from './Figur';
 import { Symbole } from './Geraete';
 import { Kamera } from './Kamera';
 import { poseAus } from './posen';
-import { Blatt, Zeigestab } from './Requisiten';
+import { Blatt } from './Requisiten';
 
 /**
  * Die Buehne einer Szene: was im Bild **passiert**.
@@ -61,7 +61,7 @@ const PLAETZE = {
   /** Allein auf der Buehne, mittig, ganze Groesse. */
   mitte: { x: 100, groesse: 1, ziel: { x: 100, y: 80, zoom: 1.24 } },
   /** Links, damit rechts ein Symbol Platz hat. */
-  links: { x: 62, groesse: 1, ziel: { x: 88, y: 82, zoom: 1.16 } },
+  links: { x: 52, groesse: 1, ziel: { x: 84, y: 82, zoom: 1.16 } },
   /** Rechts — dasselbe gespiegelt, fuer Abwechslung ueber mehrere Szenen. */
   rechts: { x: 138, groesse: 1, ziel: { x: 112, y: 82, zoom: 1.16 } },
   /**
@@ -73,9 +73,23 @@ const PLAETZE = {
 } as const;
 
 const platzVon = (stand: 'mitte' | 'links' | 'rechts' | 'klein', hatSymbol: boolean) => {
-  // Ein Symbol daneben braucht die rechte Haelfte. `mitte` weicht dann nach
-  // links aus, statt sich mit ihm zu ueberlagern.
-  const name = stand === 'mitte' && hatSymbol ? 'links' : stand;
+  /*
+   * Ein Symbol daneben braucht die rechte Haelfte — es steht fest bei x = 138.
+   * `mitte` weicht deshalb nach links aus, statt sich mit ihm zu ueberlagern.
+   *
+   * **`rechts` ebenso, seit dem 24.08.2026.** Vorher setzte es die Figur auf
+   * genau dieselben x = 138 wie das Symbol, und im fertigen Video stand der
+   * Stempel hinter der Figur: Beine und Rumpf lagen darueber. Aufgefallen ist
+   * es dem Zuschauer, nicht der Pruefung — zwei Zeichnungen, die sich
+   * ueberlagern, sind fuer ein Skript zwei gueltige Zeichnungen.
+   *
+   * Das Umbiegen hier ist das Sicherheitsnetz. Der eigentliche Ort der Regel
+   * ist das Schema, das `stand: 'rechts'` zusammen mit einem Symbol ablehnt —
+   * dort faellt es beim Schreiben auf und nicht erst im Bild. Gespiegelt wird
+   * nicht: Die Posen zeigen und greifen nach rechts, ein Symbol links davon
+   * stuende hinter ihrem Ruecken.
+   */
+  const name = (stand === 'mitte' || stand === 'rechts') && hatSymbol ? 'links' : stand;
   const p = PLAETZE[name];
   const verschiebung = p.x - 100;
   return {
@@ -132,10 +146,7 @@ const Figurenbuehne: React.FC<{
     extrapolateRight: 'clamp',
   });
 
-  const hatSymbol =
-    buehne.requisite !== undefined &&
-    buehne.requisite !== 'blatt' &&
-    buehne.requisite !== 'stab';
+  const hatSymbol = buehne.requisite !== undefined && buehne.requisite !== 'blatt';
   const platz = platzVon(buehne.stand ?? 'mitte', hatSymbol);
   const ziel = platz.ziel;
 
@@ -149,20 +160,16 @@ const Figurenbuehne: React.FC<{
    * decken seine Kanten, weil beide im selben Koordinatenraum gerechnet sind.
    *
    * Der Unterschied zu den Symbolen ist nicht Bequemlichkeit, sondern Groesse:
-   * Blatt und Zeigestab sind so gebaut, dass eine Hand sie fassen kann. Ein
-   * Drucker ist es nicht — der steht daneben.
+   * Das Blatt ist so gebaut, dass zwei Haende es fassen. Ein Drucker ist es
+   * nicht — der steht daneben.
    */
   const gehalten =
     buehne.requisite === 'blatt'
       ? [{ inhalt: <g opacity={auftauchen}><Blatt /></g>, ebene: 36 }]
-      : buehne.requisite === 'stab'
-        ? [{ inhalt: <g opacity={auftauchen}><Zeigestab /></g>, ebene: 25 }]
-        : [];
+      : [];
 
   const daneben =
-    buehne.requisite === undefined ||
-    buehne.requisite === 'blatt' ||
-    buehne.requisite === 'stab' ? undefined : (
+    buehne.requisite === undefined || buehne.requisite === 'blatt' ? undefined : (
       <g opacity={auftauchen}>
         {(
           /*
@@ -191,8 +198,19 @@ const Figurenbuehne: React.FC<{
            * (100 | 140) auf (tx | ty + 0,46 · 65) ab. Mit ty = 44 landet die
            * Standlinie bei y = 74 — das Symbol schwebte also 66 Einheiten ueber
            * dem Boden, auf dem die Figur steht. Mit ty = 110 kommt sie auf
-           * y = 139,9, und tx = 138 haelt es rechts von der Figur, deren
-           * ausgestreckter Arm bis x = 106 reicht.
+           * y = 139,9, und tx = 138 hielt es rechts von der Figur.
+           *
+           * ## Am 24.08.2026 auseinandergerueckt: 152 statt 138, 0,40 statt 0,46
+           *
+           * Die Rechnung darueber ging von einem ausgestreckten Arm bis x = 106
+           * aus. Das gilt fuer `zeigen` — bei `achselzucken` stehen **beide**
+           * Arme ab, und im fertigen Video lag die rechte Hand in der Uhr. Die
+           * Zahl war also nicht falsch gerechnet, sondern an der falschen Pose
+           * gemessen: an der, die zum Symbol hinzeigt, statt an der breitesten.
+           *
+           * Die Figur geht zugleich von x = 62 auf 52. Beides zusammen, weil
+           * nur eines von beidem den Abstand halbherzig vergroessert haette —
+           * das Symbol allein waere an den Buehnenrand gerueckt.
            */
           <g transform={
             /*
@@ -212,7 +230,7 @@ const Figurenbuehne: React.FC<{
              */
             platz.groesse < 1
               ? 'translate(128 66) scale(0.62) translate(-100 -75)'
-              : 'translate(138 110) scale(0.46) translate(-100 -75)'
+              : 'translate(152 112) scale(0.40) translate(-100 -75)'
           }>
             <g
               transform={`scale(${interpolate(auftauchen, [0, 1], [0.94, 1])})`}
@@ -467,7 +485,6 @@ const Gegenueber: React.FC<{
             <Figur
               rig={nachleser}
               pose={poseAus({ frame, fps, pose: 'erklaeren', vorherigePose: 'hochschauen', abBild: Math.round(dauer * 0.42) })}
-              requisiten={[{ inhalt: <Zeigestab />, ebene: 25 }]}
             />
           </g>
         )}

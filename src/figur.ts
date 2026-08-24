@@ -182,7 +182,15 @@ export const Pose = z.object({
   drehung: z.record(z.string(), z.number()).default({}),
   /** Pupillenversatz in Buehneneinheiten, [x, y]. Klein halten: ±2 reicht. */
   blick: z.tuple([z.number(), z.number()]).default([0, 0]),
-  mund: z.enum(['strich', 'offen', 'schmal', 'zug']).default('strich'),
+  /**
+   * Fuenf Mundformen. `laecheln` kam am 24.08.2026 dazu, nach dem ersten
+   * fertigen Video im neuen Bau: Die Figur wirkte durchgehend ernst bis
+   * betruebt. Der Grund stand im Rig — `schmal` ist zwar ein Bogen nach oben,
+   * aber ein sehr flacher, und die haeufigsten Posen trugen `strich` oder
+   * `zug`. Eine Figur, die in acht von zehn Posen nicht laechelt, laechelt im
+   * Video nie.
+   */
+  mund: z.enum(['strich', 'offen', 'schmal', 'zug', 'laecheln']).default('strich'),
   /**
    * Senkrechte Stauchung je Teil, um dessen Pivot. `1` ist unveraendert,
    * `0` ist zugedrueckt.
@@ -230,7 +238,7 @@ export const PosenName = z.enum([
    * stimmt und traf den falschen Fall: Bei acht Videos hintereinander sind
    * sechs Posen keine Zurueckhaltung mehr, sondern eine Schleife.
    */
-  /** Erklaeren mit dem Zeigestab — der Lehrer am Bild. */
+  /** Erklaeren: der ausgestreckte Arm zum Bild hin. */
   'erklaeren',
   /** Von unten nach oben schauen, wenn die Figur klein im Bild steht. */
   'hochschauen',

@@ -497,6 +497,40 @@ export const Symbole: Record<KontextArt, React.ReactNode> = {
       <path {...fein} d="M60 88h80" />
     </>
   ),
+  /*
+   * Satellit — der Weltraum als Ort, an dem Technik arbeitet.
+   *
+   * Der Mond daneben taugt fuer „abends", nicht fuer Raumfahrt: Er zeigt den
+   * Himmel, aber niemanden, der dort etwas gebaut hat. Zwei Paneele, ein
+   * Rumpf, eine Schuessel — das ist die Silhouette, die auch bei 40 Pixeln
+   * noch als Satellit gelesen wird.
+   */
+  satellit: (
+    <>
+      <rect {...koerper} x="86" y="56" width="28" height="40" rx="5" />
+      <rect {...koerper} x="26" y="62" width="50" height="28" rx="3" />
+      <rect {...koerper} x="124" y="62" width="50" height="28" rx="3" />
+      <path {...fein} d="M43 62v28M60 62v28M141 62v28M158 62v28" />
+      <path {...strich} d="M76 76h10M114 76h10" />
+      <path {...strich} d="M100 56V42" />
+      <path {...strich} stroke={FARBEN.blau} strokeWidth={7} d="M82 40a24 24 0 0 1 36 0" />
+    </>
+  ),
+  /*
+   * Chip — das Bauteil selbst.
+   *
+   * Fuer Saetze ueber Strukturbreite, Strahlungsfestigkeit und Rechenleistung.
+   * Der Haken stand hier vorher und sagte „stimmt" — er bewertet, statt zu
+   * zeigen, wovon die Rede ist.
+   */
+  chip: (
+    <>
+      <rect {...koerper} x="62" y="42" width="76" height="66" rx="8" />
+      <rect x="84" y="62" width="32" height="26" rx="4" style={{ fill: FARBEN.blau }} />
+      <path {...strich} d="M76 42V30M100 42V30M124 42V30M76 108v12M100 108v12M124 108v12" />
+      <path {...strich} d="M62 58H50M62 75H50M62 92H50M138 58h12M138 75h12M138 92h12" />
+    </>
+  ),
   /* Mond — abends. */
   mond: (
     <>

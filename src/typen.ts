@@ -452,6 +452,9 @@ export const KontextArt = z.enum([
   'browserfenster',
   'erde',
   'qrcode',
+  /* Zwei dazu am 24.08.2026 mit dem ersten Raumfahrt-Short. */
+  'satellit',
+  'chip',
 ]);
 export type KontextArt = z.infer<typeof KontextArt>;
 
@@ -503,7 +506,13 @@ const Buehnenbild = z.discriminatedUnion('art', [
      * von Anfang an dazustehen: Ein Gegenstand, der auftaucht, ist ein
      * Ereignis; einer, der schon da war, ist Kulisse.
      */
-    requisite: KontextArt.or(z.literal('blatt')).or(z.literal('stab')).optional(),
+    /*
+     * `stab` ist am 24.08.2026 gestrichen worden. Der Zeigestab war als
+     * Lehrergeste gedacht und sah im fertigen Video wie ein Fremdkoerper aus —
+     * eine Figur ohne Haende, die einen Stock haelt. `blatt` bleibt: Es liegt
+     * zwischen beiden Haenden und ist die Pose des Kanalspruchs.
+     */
+    requisite: KontextArt.or(z.literal('blatt')).optional(),
     /**
      * Wo die Figur steht.
      *
@@ -564,6 +573,32 @@ const Buehnenbild = z.discriminatedUnion('art', [
       code: 'custom',
       path: ['nach'],
       message: `Buehne zeigt zweimal „${buehne.von}" — ein Zustand, kein Vorgang.`,
+    });
+  }
+
+  /*
+   * Ein Symbol steht fest in der rechten Buehnenhaelfte. `stand: 'rechts'`
+   * setzt die Figur auf dieselbe Stelle, und im fertigen Video vom 24.08.2026
+   * lag der Stempel hinter ihr — verdeckt von Rumpf und Beinen.
+   *
+   * Der Renderer biegt den Fall inzwischen um, aber das ist das
+   * Sicherheitsnetz und nicht die Regel: Eine stille Korrektur heisst, dass
+   * die Buehne etwas anderes zeigt als das, was hier steht. Besser faellt es
+   * beim Schreiben auf. `blatt` und `stab` sind ausgenommen — sie liegen in
+   * der Hand der Figur und nicht neben ihr.
+   */
+  if (
+    buehne.art === 'figur' &&
+    buehne.stand === 'rechts' &&
+    buehne.requisite !== undefined &&
+    buehne.requisite !== 'blatt'
+  ) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['stand'],
+      message:
+        `„${buehne.requisite}" steht rechts auf der Buehne — dort steht bei ` +
+        `stand: 'rechts' auch die Figur. Nimm 'links', 'mitte' oder 'klein'.`,
     });
   }
 

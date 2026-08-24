@@ -27,7 +27,7 @@ const p = (roh: Partial<Pose>) => Pose.parse(roh);
 
 export const POSEN: Record<PosenName, Pose> = {
   /** Grundstellung. Arme haengen, Blick geradeaus. */
-  ruhe: p({}),
+  ruhe: p({ mund: 'laecheln' }),
 
   /**
    * Nachschlagen. Die Pose des Kanalspruchs.
@@ -63,7 +63,7 @@ export const POSEN: Record<PosenName, Pose> = {
   zeigen: p({
     drehung: { oberarm_rechts: -68, unterarm_rechts: -10, koerper: 4 },
     blick: [2.6, -1.4],
-    mund: 'strich',
+    mund: 'laecheln',
   }),
 
   /**
@@ -102,11 +102,17 @@ export const POSEN: Record<PosenName, Pose> = {
       oberarm_links: 22,
       unterarm_links: 40,
     },
-    mund: 'zug',
+    /*
+     * Kein Mundwinkel nach unten mehr. Bis zum 24.08.2026 stand hier `zug`,
+     * und im fertigen Video war das der Gesichtsausdruck einer Figur, die
+     * gerade eine schlechte Nachricht bekommt — beim Achselzucken ist die
+     * Haltung schon die Aussage, das Gesicht muss nicht mittrauern.
+     */
+    mund: 'strich',
   }),
 
   /**
-   * Erklaeren mit dem Zeigestab.
+   * Erklaeren: der ausgestreckte Arm zum Bild hin.
    *
    * Der rechte Arm steht hoch und schraeg nach aussen, der Stab verlaengert
    * ihn. Der Blick geht mit — eine Figur, die auf etwas zeigt und woandershin
@@ -120,7 +126,7 @@ export const POSEN: Record<PosenName, Pose> = {
   erklaeren: p({
     drehung: { oberarm_rechts: -78, unterarm_rechts: -12, koerper: 3 },
     blick: [2.8, -2.2],
-    mund: 'offen',
+    mund: 'laecheln',
   }),
 
   /**
@@ -148,7 +154,7 @@ export const POSEN: Record<PosenName, Pose> = {
   winken: p({
     drehung: { oberarm_rechts: -92, unterarm_rechts: -28, koerper: -2 },
     blick: [1.6, -0.8],
-    mund: 'offen',
+    mund: 'laecheln',
   }),
 
   /**

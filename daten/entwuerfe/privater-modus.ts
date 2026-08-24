@@ -48,7 +48,7 @@ export const privaterModus: Short = {
       position: 'zuspitzung',
       sprechtext: 'Beide meinen Cookies. Die löscht das Fenster wirklich.',
       text: 'Cookies löscht es wirklich.',
-      buehne: { art: 'figur', von: 'ruhe', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'ruhe', nach: 'erklaeren', stand: 'rechts' },
       quelleId: 'bsi-fingerprints',
       belegId: 'protokollieren-des-nutzungsverhaltens',
     },

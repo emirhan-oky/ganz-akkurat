@@ -62,7 +62,7 @@ export const schaltsekundeEndet: Short = {
       position: 'kipppunkt',
       sprechtext: 'Beschlossen von einer Konferenz, die du nicht kennst.',
       text: 'Beschlossen ist es längst.',
-      buehne: { art: 'figur', von: 'zeigen', nach: 'erklaeren', requisite: 'stab', stand: 'rechts' },
+      buehne: { art: 'figur', von: 'zeigen', nach: 'erklaeren', stand: 'rechts' },
       quelleId: 'bipm-schaltsekunde',
       belegId: 'maximum-value-will-be-increased',
     },
