@@ -37,7 +37,13 @@ tmp/
 belege.html
 
 # Markenbilder (erzeugt aus video/Marke.tsx)
-marke/
+#
+# Mit fuehrendem Schraegstrich, seit dem 24.08.2026. Ohne ihn trifft das Muster
+# jedes Verzeichnis dieses Namens -- also auch daten/marke/, wo brand-profile.md
+# und voice.md liegen. Die beiden Dokumente, die vor jedem Entwurf gelesen
+# werden, waren damit nicht versioniert: Aenderungen daran standen nur auf der
+# Platte und waeren bei einem git checkout verschwunden.
+/marke/
 
 # Kandidatenliste des Mittwochswaechters (erzeugt, veraltet woechentlich)
 daten/neuigkeiten.json
