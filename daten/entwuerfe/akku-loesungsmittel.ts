@@ -20,6 +20,7 @@ export const akkuLoesungsmittel: Short = {
   sachgebiet: 'handy',
   arbeitstitel: 'Fön und Lösungsmittel mussten verboten werden',
   weitererzaehlt: 'Ohne Wärme. Ohne Lösungsmittel. Das musste jemand hinschreiben.',
+  suchbegriff: 'Akku Lösungsmittel',
 
   szenen: [
     {
@@ -82,18 +83,18 @@ export const akkuLoesungsmittel: Short = {
   texte: {
     tiktok: {
       titel: 'Warum Lösungsmittel verboten werden musste',
-      beschreibung: '',
-      hashtags: ['#akku', '#reparatur', '#technik', '#ganzakkurat'],
+      beschreibung: 'Akku und Lösungsmittel: die EU schreibt vor, womit er sich lösen lassen muss.',
+      hashtags: ['#akkuwechsel', '#loesungsmittel', '#reparatur', '#eurecht', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Warum Lösungsmittel verboten werden musste',
-      beschreibung: '',
-      hashtags: ['#akku', '#reparatur', '#technik', '#ganzakkurat'],
+      beschreibung: 'Akku eingeklebt, Lösungsmittel verboten – nachgelesen im Verordnungstext.',
+      hashtags: ['#akku', '#righttorepair', '#reparieren', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Warum Lösungsmittel verboten werden musste',
-      beschreibung: '',
-      hashtags: ['#akku', '#reparatur', '#technik', '#ganzakkurat'],
+      beschreibung: 'Akku und Lösungsmittel: warum das eine Verordnung regeln musste.',
+      hashtags: ['#akku', '#loesungsmittel', '#reparatur', '#ganzakkurat'],
     },
   },
 

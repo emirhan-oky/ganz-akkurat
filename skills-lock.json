@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "analytics-and-reporting": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/analytics-and-reporting/SKILL.md",
+      "computedHash": "572ea6e7ee52dfe57953b82ae2bbafe02b9963119fb818e9a758ba668e8602b8"
+    },
     "animation-vocabulary": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
@@ -19,11 +25,59 @@
       "skillPath": ".agents/skills/character-animation-qa/SKILL.md",
       "computedHash": "727ca3217c8d69cce95452c3d843db8c78536feaf8c61d0006bb2a62618ef9c7"
     },
+    "competitor-analysis": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/competitor-analysis/SKILL.md",
+      "computedHash": "6388fab8048ee5ae32a06bf2a42326f4e9ecb968f18d15e301e25253d3163bf5"
+    },
+    "content-calendar": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-calendar/SKILL.md",
+      "computedHash": "814445569f4d210358e56edbcb11d3e939bb911a8a5298fcfe585e07a3fd00e0"
+    },
+    "content-pillars": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/content-pillars/SKILL.md",
+      "computedHash": "bae82cf614ff260ba13d8ddb4852f37f23e10b2a2fe8465548063b33333349ec"
+    },
     "ffmpeg": {
       "source": "digitalsamba/claude-code-video-toolkit",
       "sourceType": "github",
       "skillPath": ".claude/skills/ffmpeg/SKILL.md",
       "computedHash": "51fa05bc18bb2691e622aefd1d8ec6d4d96a9e9c44cdf599003c9d6003d11a07"
+    },
+    "hashtag-strategy": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/hashtag-strategy/SKILL.md",
+      "computedHash": "e1604e1f9a43168c617ee666a4fbc72c6af12c0588b106a43dac597114296cf2"
+    },
+    "instagram-growth": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/instagram-growth/SKILL.md",
+      "computedHash": "99723c3282a7d005e811dd2ec53b3c82ca11a9e27aebecb0b7b0949cb72d0a72"
+    },
+    "instagram-seo": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/instagram-seo/SKILL.md",
+      "computedHash": "310e60b316d10bcd3ea0237f35138d506ceadbc767fe9d86f28e46e2ad6dd2f6"
+    },
+    "reels-script": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/reels-script/SKILL.md",
+      "computedHash": "40b550d0b781c286da18ebb5631f5854e9959508b35f4a43a4b0a30903957586"
+    },
+    "social-seo": {
+      "source": "social-media-skills/skills",
+      "sourceType": "github",
+      "skillPath": "skills/social-seo/SKILL.md",
+      "computedHash": "381d6dc6a698589b7ff11264cd47b3457809dca1959198d6473f1d45344e7371"
     },
     "svg-character-animation": {
       "source": "calesthio/openmontage",

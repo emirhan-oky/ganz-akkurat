@@ -19,6 +19,7 @@ export const schaltsekundeEndet: Short = {
   sachgebiet: 'netz',
   arbeitstitel: 'Die Minute mit 61 Sekunden wird abgeschafft',
   weitererzaehlt: 'Damit ist Schluss. Spätestens zweitausendfünfunddreißig.',
+  suchbegriff: 'Sekunde Erde',
 
   szenen: [
     {
@@ -81,18 +82,18 @@ export const schaltsekundeEndet: Short = {
   texte: {
     tiktok: {
       titel: 'Die Minute mit 61 Sekunden endet',
-      beschreibung: '',
-      hashtags: ['#zeit', '#wissen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Warum manche Minuten 61 Sekunden haben und was das mit der Erde zu tun hat.',
+      hashtags: ['#schaltsekunde', '#zeitmessung', '#erdrotation', '#atomuhr', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Die Minute mit 61 Sekunden endet',
-      beschreibung: '',
-      hashtags: ['#zeit', '#wissen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Weil die Erde ungleichmäßig dreht, wird eine Sekunde eingeschoben – bald nicht mehr.',
+      hashtags: ['#schaltsekunde', '#zeit', '#wissenschaft', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Die Minute mit 61 Sekunden endet',
-      beschreibung: '',
-      hashtags: ['#zeit', '#wissen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Die eingeschobene Sekunde und die Erde: was 2035 endet.',
+      hashtags: ['#schaltsekunde', '#zeit', '#wissen', '#ganzakkurat'],
     },
   },
 

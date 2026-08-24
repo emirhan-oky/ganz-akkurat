@@ -24,6 +24,7 @@ export const privaterModus: Short = {
   sachgebiet: 'netz',
   arbeitstitel: 'Der Browser wird dadurch einzigartiger',
   weitererzaehlt: 'Je mehr du dagegen tust, desto einzigartiger wird er.',
+  suchbegriff: 'Privates Fenster',
 
   szenen: [
     {
@@ -90,18 +91,18 @@ export const privaterModus: Short = {
   texte: {
     tiktok: {
       titel: 'Der Browser wird dadurch einzigartiger',
-      beschreibung: '',
-      hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Privates Fenster: Cookies weg, Browser trotzdem erkennbar.',
+      hashtags: ['#privatesfenster', '#inkognito', '#browserfingerprint', '#datenschutz', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Der Browser wird dadurch einzigartiger',
-      beschreibung: '',
-      hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Ein privates Fenster löscht Cookies. Erkennbar bleibst du trotzdem.',
+      hashtags: ['#datenschutz', '#browser', '#privatsphaere', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Der Browser wird dadurch einzigartiger',
-      beschreibung: '',
-      hashtags: ['#browser', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Privates Fenster: was es löscht und woran man dich trotzdem erkennt.',
+      hashtags: ['#browser', '#datenschutz', '#inkognito', '#ganzakkurat'],
     },
   },
 

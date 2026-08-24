@@ -1408,24 +1408,46 @@ export type Untertitelwort = z.infer<typeof Untertitelwort>;
 export const Plattformtext = z.object({
   titel: z.string().max(100),
   /**
-   * Zusatztext zwischen Titel und Quellenblock — **zurzeit ueberall leer**.
+   * Die Keyword-Zeile zwischen Titel und Quellenblock.
    *
-   * Seit dem 15.08.2026 traegt der veroeffentlichte Text auf allen drei
-   * Diensten dasselbe Muster: Titel, Trennstrich, Quellen, Hashtags. Ein
-   * Short erklaert sich im Video, nicht im Text darunter; die frueheren
-   * Erklaerabsaetze sind deshalb entfallen. Die Quellen stehen nicht mehr
-   * hier drin, sondern werden in `beitragstext` aus den `quelleId`s der
-   * Szenen erzeugt — die abgeschriebene Liste war unvollstaendig.
+   * **Sie war vom 15.08. bis zum 24.08.2026 ueberall leer**, und die
+   * Begruendung dafuer stimmt weiter: Ein Short erklaert sich im Video, nicht
+   * im Text darunter. Die frueheren Erklaerabsaetze holten nach, was das Video
+   * nicht schaffte, und sind zu Recht entfallen.
    *
-   * **Das Feld bleibt trotzdem, und zwar mit Absicht.** An ihm haengt die
-   * `kennzeichnung`-Regel in `src/pruefung.ts`: Sie sucht Partnerlinks und
-   * verlangt „Werbung" oder „Anzeige" in derselben Zeile. Ohne ein Feld, das
-   * wirklich veroeffentlicht wird, waere das eine tote Regel an der einen
-   * Stelle, an der ein Fehler Geld kostet. Sobald Variante A greift, steht
-   * der Partnerlink hier.
+   * Eine Keyword-Zeile ist etwas anderes: Sie erklaert nichts, sie macht
+   * auffindbar. Ein Satz mit dem `suchbegriff` vorn — die Plattformen
+   * indizieren die ersten rund 80 Zeichen, und `beitragstext` setzt die Zeile
+   * direkt hinter den Titel. Damit sie nicht zum Erklaerabsatz zurueckwaechst,
+   * meldet `shortPruefen` alles ab 150 Zeichen als Hinweis.
+   *
+   * Die Quellen stehen nicht hier drin, sondern werden in `beitragstext` aus
+   * den `quelleId`s der Szenen erzeugt — die abgeschriebene Liste war
+   * unvollstaendig.
+   *
+   * An diesem Feld haengt ausserdem die `kennzeichnung`-Regel in
+   * `src/pruefung.ts`: Sie sucht Partnerlinks und verlangt „Werbung" oder
+   * „Anzeige" in derselben Zeile. Sobald Variante A greift, steht der
+   * Partnerlink hier.
    */
   beschreibung: z.string().max(2200),
-  hashtags: z.array(z.string()).max(12),
+
+  /**
+   * Drei bis fuenf, je Plattform verschieden.
+   *
+   * Bis zum 24.08.2026 waren hier zwoelf erlaubt und drei gleiche Saetze
+   * gesetzt. **Instagram deckelt seit Dezember 2025 hart bei fuenf** — was
+   * darueber steht, wird blockiert oder abgeschnitten. TikTok will drei bis
+   * fuenf und behandelt sie als Suchwoerter, YouTube „ein paar". Ein
+   * gemeinsames Fenster traegt alle drei; ein plattformabhaengiges Limit waere
+   * die kompliziertere Loesung ohne Gewinn.
+   *
+   * Was Hashtags leisten, ist damit auch gesagt: Sie **kategorisieren und
+   * helfen der Suche**. Sie sind kein Reichweitentrick, und die Tags, die
+   * einer waeren, wenn es einen gaebe — `#fyp`, `#viral` — wirken nachweislich
+   * nicht. `shortPruefen` lehnt sie hart ab.
+   */
+  hashtags: z.array(z.string()).min(3).max(5),
 });
 
 /**
@@ -1489,6 +1511,27 @@ export const Short = z.object({
    * dem sich dieser Satz nicht schreiben laesst, ist keins.
    */
   weitererzaehlt: z.string().min(10).max(90),
+
+  /**
+   * Wonach jemand sucht, der das hier finden soll.
+   *
+   * Ein bis drei Woerter, so wie sie getippt werden — „Laptops Raumstation",
+   * nicht „Warum im Weltraum alte Rechner laufen".
+   *
+   * Das Feld kam am 24.08.2026 dazu, nachdem `hashtag-strategy` und
+   * `social-seo` denselben Befund lieferten: **Der Hebel sind nicht die Tags,
+   * sondern das Suchwort** — gesprochen, im Bild und in der Beschreibung. Bei
+   * TikTok heisst das die Dreifachnennung, und zwei Drittel davon erfuellt der
+   * Kanal ohnehin, weil der Sprechtext Wort fuer Wort der Untertitel ist. Das
+   * dritte Drittel fehlte ganz: Die Beschreibung war ueberall leer.
+   *
+   * Pflichtfeld nach dem Muster von `weitererzaehlt` und `belegId`, und aus
+   * demselben Grund: Die Frage faellt beim Schreiben an, nicht in der
+   * Durchsicht. `shortPruefen` verlangt den Begriff im Sprechtext und in allen
+   * drei Beschreibungen; im Bildtext ist er nur ein Hinweis, weil der auf
+   * wenige Woerter gebaut ist.
+   */
+  suchbegriff: z.string().min(3).max(40),
 
   /**
    * Der Bau: vier Positionen, fuenf bis acht Szenen.

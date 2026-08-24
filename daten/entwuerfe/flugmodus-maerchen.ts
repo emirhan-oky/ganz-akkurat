@@ -21,6 +21,7 @@ export const flugmodusMaerchen: Short = {
   sachgebiet: 'fahren',
   arbeitstitel: 'Der Flugmodus war nie wegen des Flugzeugs da',
   weitererzaehlt: 'Nicht das Flugzeug war das Problem. Das Netz am Boden war es.',
+  suchbegriff: 'Handy Flugzeug',
 
   szenen: [
     {
@@ -119,18 +120,18 @@ export const flugmodusMaerchen: Short = {
   texte: {
     tiktok: {
       titel: 'Das Problem stand am Boden, nicht im Flugzeug',
-      beschreibung: '',
-      hashtags: ['#flugmodus', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Handy im Flugzeug: das Problem stand nie über den Wolken, sondern am Boden.',
+      hashtags: ['#handyimflugzeug', '#flugmodus', '#fliegen', '#luftfahrt', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Das Problem stand am Boden, nicht im Flugzeug',
-      beschreibung: '',
-      hashtags: ['#flugmodus', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Handy im Flugzeug – nachgelesen, warum der Schalter überhaupt kam.',
+      hashtags: ['#flugmodus', '#fliegen', '#reisen', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Das Problem stand am Boden, nicht im Flugzeug',
-      beschreibung: '',
-      hashtags: ['#flugmodus', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Handy im Flugzeug: warum es nie am Flugzeug lag.',
+      hashtags: ['#flugmodus', '#flugzeug', '#technik', '#ganzakkurat'],
     },
   },
 

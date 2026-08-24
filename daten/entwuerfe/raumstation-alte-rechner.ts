@@ -29,6 +29,7 @@ export const raumstationAlteRechner: Short = {
   sachgebiet: 'raumfahrt',
   arbeitstitel: 'Laptops auf der Raumstation',
   weitererzaehlt: 'Im Weltraum ist neuer nicht besser.',
+  suchbegriff: 'Laptops Raumstation',
 
   szenen: [
     {
@@ -110,18 +111,18 @@ export const raumstationAlteRechner: Short = {
   texte: {
     tiktok: {
       titel: 'Laptops auf der Raumstation',
-      beschreibung: '',
-      hashtags: ['#raumfahrt', '#technik', '#wissen', '#ganzakkurat'],
+      beschreibung: 'Auf der Raumstation liefen Laptops, die älter als fünf Jahre waren – mit Absicht.',
+      hashtags: ['#raumstation', '#iss', '#altetechnik', '#raumfahrt', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Laptops auf der Raumstation',
-      beschreibung: '',
-      hashtags: ['#raumfahrt', '#technik', '#wissen', '#ganzakkurat'],
+      beschreibung: 'Warum auf der Raumstation alte Laptops laufen: die ESA nennt den Grund.',
+      hashtags: ['#raumstation', '#raumfahrt', '#esa', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Laptops auf der Raumstation',
-      beschreibung: '',
-      hashtags: ['#raumfahrt', '#technik', '#wissen', '#ganzakkurat'],
+      beschreibung: 'Die ESA über die Laptops an Bord der Raumstation und die Prüfung dahinter.',
+      hashtags: ['#raumstation', '#raumfahrt', '#technik', '#ganzakkurat'],
     },
   },
 

@@ -26,6 +26,7 @@ export const druckerKennung: Short = {
   sachgebiet: 'drucken',
   arbeitstitel: 'Jeder Ausdruck trägt die Nummer des Druckers',
   weitererzaehlt: 'Nicht dokumentiert. Und abschalten kannst du es nicht.',
+  suchbegriff: 'Drucker Wasserzeichen',
 
   szenen: [
     {
@@ -92,18 +93,18 @@ export const druckerKennung: Short = {
   texte: {
     tiktok: {
       titel: 'Ein Wasserzeichen, das niemand dokumentiert',
-      beschreibung: '',
-      hashtags: ['#drucker', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Drucker-Wasserzeichen: gelbe Punkte auf jeder Seite, die niemand abschalten kann.',
+      hashtags: ['#druckerpunkte', '#wasserzeichen', '#gelbepunkte', '#datenschutz', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Ein Wasserzeichen, das niemand dokumentiert',
-      beschreibung: '',
-      hashtags: ['#drucker', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Drucker und Wasserzeichen: das BSI beschreibt, was auf jeder Seite mitgedruckt wird.',
+      hashtags: ['#drucker', '#datenschutz', '#ueberwachung', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Ein Wasserzeichen, das niemand dokumentiert',
-      beschreibung: '',
-      hashtags: ['#drucker', '#datenschutz', '#technik', '#ganzakkurat'],
+      beschreibung: 'Drucker-Wasserzeichen: die Kennung, die auf jedem Ausdruck steht.',
+      hashtags: ['#drucker', '#wasserzeichen', '#datenschutz', '#ganzakkurat'],
     },
   },
 

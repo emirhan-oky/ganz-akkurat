@@ -19,6 +19,7 @@ export const aufkleberGarantie: Short = {
   sachgebiet: 'recht',
   arbeitstitel: 'Der Aufkleber über der Schraube',
   weitererzaehlt: 'Der Aufkleber ist nicht verboten. Er wirkt nur nicht.',
+  suchbegriff: 'Aufkleber Schraube',
 
   szenen: [
     {
@@ -85,18 +86,18 @@ export const aufkleberGarantie: Short = {
   texte: {
     tiktok: {
       titel: 'Zwei Jahre Mängelhaftung bleiben trotzdem',
-      beschreibung: '',
-      hashtags: ['#garantie', '#reparatur', '#recht', '#ganzakkurat'],
+      beschreibung: 'Was ein Aufkleber auf der Schraube rechtlich bewirkt – und was nicht.',
+      hashtags: ['#garantiesiegel', '#aufkleber', '#maengelhaftung', '#verbraucherrecht', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Zwei Jahre Mängelhaftung bleiben trotzdem',
-      beschreibung: '',
-      hashtags: ['#garantie', '#reparatur', '#recht', '#ganzakkurat'],
+      beschreibung: 'Ein Aufkleber auf der Schraube ist nicht verboten. Er wirkt nur nicht.',
+      hashtags: ['#aufkleber', '#reparieren', '#verbraucherrecht', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Zwei Jahre Mängelhaftung bleiben trotzdem',
-      beschreibung: '',
-      hashtags: ['#garantie', '#reparatur', '#recht', '#ganzakkurat'],
+      beschreibung: 'Aufkleber ab, Schraube auf: zwei Jahre Mängelhaftung bleiben trotzdem.',
+      hashtags: ['#garantie', '#aufkleber', '#recht', '#ganzakkurat'],
     },
   },
 

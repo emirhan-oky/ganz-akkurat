@@ -28,6 +28,16 @@
           "haltequote": 115.79000000000002,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 123,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 71.57,
+          "haltequote": 115.79000000000002,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -58,6 +68,16 @@
           "haltequote": null,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 35,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 54.89000000000001,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -78,6 +98,16 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 111,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
         }
       ]
     },
@@ -92,6 +122,16 @@
         {
           "gemessenAm": "2026-08-23",
           "aufrufe": 186,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 368,
           "likes": 0,
           "kommentare": 0,
           "durchsicht": null,
@@ -118,6 +158,16 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 5,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 0,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -136,6 +186,16 @@
           "kommentare": 0,
           "durchsicht": 75.61,
           "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 173,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 62.95,
+          "haltequote": 100,
           "geteilt": 0,
           "neueAbos": 0
         }
@@ -158,6 +218,16 @@
           "haltequote": 112.72999999999999,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 294,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 73.92,
+          "haltequote": 110.94,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -176,6 +246,16 @@
           "kommentare": 1,
           "durchsicht": 66.27,
           "haltequote": 110.45,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-24",
+          "aufrufe": 686,
+          "likes": 4,
+          "kommentare": 2,
+          "durchsicht": 66.69,
+          "haltequote": 111.28,
           "geteilt": 0,
           "neueAbos": 0
         }

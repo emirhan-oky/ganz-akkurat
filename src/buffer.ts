@@ -203,10 +203,15 @@ export const beitragstext = (
 
   /*
    * Die Beschreibung steht zwischen Titel und Quellen — **wenn sie etwas
-   * enthaelt**. Zurzeit ist sie ueberall leer, und genau so ist das Format
-   * gemeint: Titel, Strich, Quellen, Hashtags.
+   * enthaelt**. Vom 15.08. bis zum 24.08.2026 war sie ueberall leer, und das
+   * Format hiess: Titel, Strich, Quellen, Hashtags.
    *
-   * Das Feld ganz zu streichen waere falsch gewesen. An ihm haengt die
+   * Seit dem 24.08.2026 traegt sie die **Keyword-Zeile**, und diese Stelle ist
+   * genau die richtige dafuer: Die Plattformen indizieren die ersten rund 80
+   * Zeichen, und hier steht sie direkt hinter dem Titel. Erklaert wird
+   * weiterhin nichts — `shortPruefen` meldet alles ab 150 Zeichen.
+   *
+   * Das Feld ganz zu streichen waere schon vorher falsch gewesen. An ihm haengt die
    * `kennzeichnung`-Regel in `src/pruefung.ts`: Sie sucht Partnerlinks und
    * verlangt „Werbung" oder „Anzeige" **in derselben Zeile** (LG Erfurt,
    * 23.11.2020). Wuerde die Beschreibung nicht mehr veroeffentlicht, pruefte

@@ -70,12 +70,22 @@ Diese Datei hält den **Vertrag**: was gilt und warum es so gilt. Die
 **Installierte Skills** — zwei Ketten, die sich nicht berühren:
 
 - **Inhalt:** `brand-profile` → `voice-builder` → `hook-writer` →
-  `short-form-video-script` → `youtube-shorts` / `tiktok-growth` →
-  `viral-reverse-engineering`. Sie lesen alle zuerst
-  `daten/marke/brand-profile.md` und `voice.md`.
+  `short-form-video-script` → `youtube-shorts` / `tiktok-growth` /
+  `reels-script` + `instagram-growth` → `viral-reverse-engineering`. Sie lesen
+  alle zuerst `daten/marke/brand-profile.md` und `voice.md`.
 - **Bild:** `character-rigging` → `svg-character-animation` →
   `character-animation-qa`, dazu `remotion-best-practices`,
   `better-typography` und `ffmpeg`.
+- **Auffindbarkeit:** `social-seo` → `instagram-seo` → `hashtag-strategy`.
+  Diese Kette hat am 24.08.2026 `suchbegriff` und die Keyword-Zeile
+  hervorgebracht.
+- **Planung und Zahlen:** `content-pillars` → `content-calendar`,
+  `analytics-and-reporting`, `competitor-analysis`.
+
+Zur letzten Kette eine Einschränkung, die man kennen muss: **`npm run
+rueckblick` liest ausschließlich YouTube.** `analytics-and-reporting` sagt,
+*wie* man Zahlen liest; es beschafft keine. Wer TikTok und Instagram messen
+will, braucht Zugänge, keine Skills.
 
 `watch` gehört zu `viral-reverse-engineering`: Der Skill nennt als eigene
 Schwäche, dass ein Agent ein Video hinter einem Link nicht sehen kann — `watch`
@@ -319,6 +329,41 @@ Wirklichkeit weg, an der bewusst Zeit verbraucht wird.
 Beim Wechsel von Modell oder Stimme gilt: Ein nicht unterstützter Break-Tag
 würde **vorgelesen**. `npm run pausenprobe` beantwortet das vorab.
 
+### Gefunden wird über das Suchwort, nicht über die Tags — `suchbegriff`
+
+Am 24.08.2026 kamen `hashtag-strategy` und `social-seo` dazu, und beide sagen
+dasselbe: **Hashtags kategorisieren und helfen der Suche. Reichweite bringen
+sie nicht.** Der Hebel ist das Suchwort — gesprochen, im Bild und in der
+Beschreibung; bei TikTok heißt das die Dreifachnennung.
+
+Zwei Drittel davon erfüllt der Kanal ohnehin, weil der Sprechtext Wort für Wort
+der Untertitel ist. **Das dritte Drittel fehlte ganz:** `beschreibung` war seit
+dem 15.08.2026 überall leer.
+
+Die Begründung von damals stimmt weiter — ein Short erklärt sich im Video, nicht
+im Text darunter, und die alten Erklärabsätze holten nach, was das Video nicht
+schaffte. **Eine Keyword-Zeile erklärt aber nichts, sie macht auffindbar.** Sie
+steht in `beitragstext` direkt hinter dem Titel, also in den ersten rund 80
+Zeichen, die indiziert werden. Damit sie nicht zum Erklärabsatz zurückwächst,
+meldet die Prüfung alles ab 150 Zeichen.
+
+`suchbegriff` ist ein Pflichtfeld nach dem Muster von `weitererzaehlt`: ein bis
+drei Wörter, so wie sie getippt werden. Geprüft wird **Wort für Wort**, nicht
+als Phrase — „Laptops Raumstation" steht im Video als „Auf der Raumstation
+liefen 2009 Laptops", getrennt, und genau so sucht auch niemand.
+
+**Hashtags: drei bis fünf, je Plattform verschieden.** Vorher waren zwölf
+erlaubt und drei gleiche Sätze gesetzt. Instagram deckelt seit Dezember 2025
+hart bei fünf; TikTok will drei bis fünf und behandelt sie als Suchwörter. Ein
+gemeinsames Fenster trägt alle drei Kanäle.
+
+Beim Nachziehen der neun Entwürfe ist etwas aufgefallen, das die Regel selbst
+nicht meldet: **Zwei Shorts sagen ihr eigenes Suchwort nie.** „Schaltsekunde"
+kommt in `schaltsekunde-endet` nicht vor, „Flugmodus" nicht in
+`flugmodus-maerchen` — beide Male steht im Sprechtext eine Umschreibung. Der
+Suchbegriff musste deshalb auf ein schwächeres Wortpaar ausweichen. Das ist der
+Fall, für den die Regel gebaut ist, und er lässt sich nur beim Schreiben lösen.
+
 ### `kennzeichnung.werbung` — Dreiwert, kein Boolean
 
 | Wert | Bedeutung |
@@ -377,6 +422,15 @@ Freigabe-Übersicht.
   Zahlengleichheit und war deshalb genau dann still, wenn sie gebraucht wurde.
   **Eine Wache, die sich bei Abweichung selbst abschaltet, ist keine Wache.**
 - **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
+- **`suchbegriff`** — jedes Wort steht im Sprechtext (Fehler) und in allen drei
+  Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Der
+  Bildtext ist auf wenige Wörter gebaut, und ein Zwang dort erzeugte dieselbe
+  Verstümmelung wie seinerzeit der Zielwert von 23 Sekunden.
+- **`texte`** — drei bis fünf Hashtags je Plattform (Schema). `#fyp`, `#viral`,
+  `#trending` und Verwandte sind ein **Fehler**: Sie wirken nachweislich nicht
+  und stehen neben einer Quellenangabe wie eine Bitte um Aufmerksamkeit.
+  Hinweise gibt es, wenn `#ganzakkurat` fehlt oder alle drei Plattformen
+  denselben Satz tragen — sie suchen verschieden.
 - **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short
   (`UNBETEILIGTE_ARTEN`). Die Drei-Quellen-Regel ist am 16.08.2026 entfallen:
   Die Anzahl war die schwächere Hälfte — drei Herstellerseiten belegen nichts,

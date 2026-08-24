@@ -19,6 +19,7 @@ export const produktpassRegister: Short = {
   sachgebiet: 'recht',
   arbeitstitel: 'Seit dem 6. August gibt es das Register',
   weitererzaehlt: 'Der Zugang ist ein Code auf der Batterie. Du hältst die Kamera drauf.',
+  suchbegriff: 'Akku Register',
 
   szenen: [
     {
@@ -85,18 +86,18 @@ export const produktpassRegister: Short = {
   texte: {
     tiktok: {
       titel: 'Der Code auf der Batterie führt zum Register',
-      beschreibung: '',
-      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+      beschreibung: 'Akku im Register: seit August gibt es zu jedem einzelnen einen Eintrag.',
+      hashtags: ['#batteriepass', '#akku', '#produktpass', '#eurecht', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Der Code auf der Batterie führt zum Register',
-      beschreibung: '',
-      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+      beschreibung: 'Der Akku hat einen Ausweis, das Register dazu steht seit August offen.',
+      hashtags: ['#akku', '#nachhaltigkeit', '#eu', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Der Code auf der Batterie führt zum Register',
-      beschreibung: '',
-      hashtags: ['#eu', '#akku', '#technik', '#ganzakkurat'],
+      beschreibung: 'Akku und Register: der Code auf der Batterie führt hin.',
+      hashtags: ['#akku', '#produktpass', '#eu', '#ganzakkurat'],
     },
   },
 

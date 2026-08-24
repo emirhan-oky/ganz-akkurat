@@ -19,6 +19,7 @@ export const powerbankHandgepaeck: Short = {
   sachgebiet: 'laden',
   arbeitstitel: 'Die Powerbank und die falsche Einheit',
   weitererzaehlt: 'Hundert Wattstunden. Und ins aufgegebene Gepäck darf sie nie.',
+  suchbegriff: 'Wattstunden Gepäck',
 
   szenen: [
     {
@@ -88,18 +89,18 @@ export const powerbankHandgepaeck: Short = {
   texte: {
     tiktok: {
       titel: 'Die Grenze steht nicht auf der Powerbank',
-      beschreibung: '',
-      hashtags: ['#powerbank', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Wattstunden statt Milliamperestunden: was fürs Gepäck wirklich zählt.',
+      hashtags: ['#wattstunden', '#powerbankregeln', '#handgepaeck', '#fliegen', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Die Grenze steht nicht auf der Powerbank',
-      beschreibung: '',
-      hashtags: ['#powerbank', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Wattstunden entscheiden, was ins Gepäck darf – die Zahl steht selten drauf.',
+      hashtags: ['#powerbank', '#handgepaeck', '#reisetipps', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Die Grenze steht nicht auf der Powerbank',
-      beschreibung: '',
-      hashtags: ['#powerbank', '#fliegen', '#technik', '#ganzakkurat'],
+      beschreibung: 'Wattstunden und Gepäck: die Grenze, die auf keiner Powerbank steht.',
+      hashtags: ['#powerbank', '#wattstunden', '#fliegen', '#ganzakkurat'],
     },
   },
 

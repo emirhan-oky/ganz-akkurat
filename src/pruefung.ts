@@ -617,10 +617,58 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   /* ── Plattformtexte ──────────────────────────────────────────────── */
 
+  /*
+   * Hashtags kategorisieren und helfen der Suche. Mehr tun sie nicht.
+   *
+   * Die Zahl steht seit dem 24.08.2026 im Schema (drei bis fuenf, wegen
+   * Instagrams hartem Deckel). Hier stehen die drei Regeln, die sich nicht als
+   * Zahl ausdruecken lassen.
+   */
+  const MEGATAGS = ['fyp', 'fürdich', 'fuerdich', 'foryou', 'foryoupage', 'viral', 'trending', 'explore', 'reichweite'];
+
+  const hashtagSaetze = new Map<string, string>();
+
   for (const [plattform, text] of Object.entries(short.texte)) {
-    if (text.hashtags.length === 0) {
-      melde('hinweis', 'texte', `Für ${plattform} sind keine Hashtags gesetzt.`);
+    /*
+     * `#fyp` beeinflusst die For-You-Page nicht — das ist gemessen und steht in
+     * `hashtag-strategy`. Ein Tag, der nur „ich will Reichweite" sagt, steht
+     * ausserdem neben einer Quellenangabe seltsam da.
+     */
+    const megatags = text.hashtags.filter((tag) =>
+      MEGATAGS.includes(tag.replace(/^#/, '').toLowerCase()),
+    );
+    if (megatags.length > 0) {
+      melde(
+        'fehler',
+        'texte',
+        `${plattform} trägt ${megatags.join(' ')}. Diese Tags wirken nachweislich nicht – ` +
+          'sie kategorisieren nichts und stehen neben einer Quellenangabe wie eine Bitte um Aufmerksamkeit.',
+      );
     }
+
+    /*
+     * Der Markentag ist die eine Stelle, an der Hashtags noch echtes Gewicht
+     * haben: Er sammelt, was zum Kanal gehoert.
+     */
+    if (!text.hashtags.some((tag) => tag.replace(/^#/, '').toLowerCase() === 'ganzakkurat')) {
+      melde('hinweis', 'texte', `Bei ${plattform} fehlt #ganzakkurat – der Markentag sammelt den Kanal.`);
+    }
+
+    hashtagSaetze.set(plattform, [...text.hashtags].sort().join(' ').toLowerCase());
+  }
+
+  /*
+   * Derselbe Block auf allen drei Kanaelen war bis zum 24.08.2026 der Zustand.
+   * Die Plattformen wollen Verschiedenes: TikTok Suchwoerter, Instagram Nische,
+   * YouTube das, was auch im Titel steht.
+   */
+  if (new Set(hashtagSaetze.values()).size === 1) {
+    melde(
+      'hinweis',
+      'texte',
+      'Alle drei Plattformen tragen denselben Hashtag-Satz. Sie suchen verschieden – ' +
+        'ein Block überall ist der geringste gemeinsame Nenner.',
+    );
   }
 
   /* ── Bilder ────────────────────────────────────────────────────────── */
@@ -847,6 +895,78 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
       `„${short.weitererzaehlt}" wird im Video nicht gesagt. Der Satz, den jemand ` +
         'weitererzählen soll, muss zusammenhängend im Sprechtext vorkommen – sonst ist ' +
         'er eine Notiz für den Autor und kein Teil des Videos.',
+    );
+  }
+
+  /* ── Der Suchbegriff ──────────────────────────────────────────────── */
+
+  /*
+   * `suchbegriff` muss dort stehen, wo die Plattform liest.
+   *
+   * `hashtag-strategy` und `social-seo` liefern denselben Befund: Der Hebel
+   * sind nicht die Tags, sondern das Suchwort — gesprochen, im Bild und in der
+   * Beschreibung. Bei TikTok heisst das die Dreifachnennung.
+   *
+   * Zwei Drittel davon erfuellt der Kanal ohnehin, weil der Sprechtext Wort
+   * fuer Wort der Untertitel ist. Das dritte Drittel fehlte bis zum 24.08.2026
+   * ganz: Die Beschreibung war ueberall leer.
+   *
+   * Geprueft wird **Wort fuer Wort**, nicht als Phrase. „Laptops Raumstation"
+   * steht im Video als „Auf der Raumstation liefen 2009 Laptops" — getrennt,
+   * und genau so sucht auch niemand. Als Teilstring, damit Beugungen nicht
+   * durchfallen: „raumstation" findet auch „Raumstationen".
+   */
+  const suchWoerter = ohneSatzzeichen(short.suchbegriff).split(' ').filter((w) => w.length >= 3);
+
+  const fehlendImSprechtext = suchWoerter.filter((w) => !gesprochen.includes(w));
+  if (fehlendImSprechtext.length > 0) {
+    melde(
+      'fehler',
+      'suchbegriff',
+      `„${fehlendImSprechtext.join('", „')}" aus dem Suchbegriff „${short.suchbegriff}" wird im ` +
+        'Video nicht gesagt. Der Sprechtext ist zugleich der Untertitel – was dort nicht steht, ' +
+        'findet die Plattform weder im Ton noch im Bild.',
+    );
+  }
+
+  for (const [plattform, text] of Object.entries(short.texte)) {
+    const beschreibung = ohneSatzzeichen(text.beschreibung);
+    const fehlend = suchWoerter.filter((w) => !beschreibung.includes(w));
+
+    if (fehlend.length > 0) {
+      melde(
+        'fehler',
+        'suchbegriff',
+        `In der ${plattform}-Beschreibung fehlt „${fehlend.join('", „')}" aus dem Suchbegriff. ` +
+          'Die ersten rund 80 Zeichen sind das, was die Plattform indiziert – eine leere ' +
+          'Beschreibung verschenkt genau die Stelle.',
+      );
+    }
+
+    /*
+     * Die Zeile darf nicht zum Erklaerabsatz zurueckwachsen. Die Entscheidung
+     * vom 15.08.2026 gilt weiter: Ein Short erklaert sich im Video.
+     */
+    if (text.beschreibung.length > 150) {
+      melde(
+        'hinweis',
+        'texte',
+        `Die ${plattform}-Beschreibung hat ${text.beschreibung.length} Zeichen. Sie soll auffindbar ` +
+          'machen, nicht erklären – ein Satz mit dem Suchbegriff vorn reicht.',
+      );
+    }
+  }
+
+  const bildtexte = ohneSatzzeichen(
+    short.szenen.map((szene) => (szene as { text?: string }).text ?? '').join(' '),
+  );
+  const fehlendImBild = suchWoerter.filter((w) => !bildtexte.includes(w));
+  if (fehlendImBild.length > 0) {
+    melde(
+      'hinweis',
+      'suchbegriff',
+      `„${fehlendImBild.join('", „')}" steht in keinem Bildtext. Kein Fehler – der Bildtext ist auf ` +
+        'wenige Wörter gebaut –, aber wo es ohne Verrenkung passt, zählt es doppelt.',
     );
   }
 
