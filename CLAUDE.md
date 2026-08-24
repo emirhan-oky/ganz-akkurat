@@ -541,8 +541,28 @@ nicht in `KontextArt` — sie behaupten nichts über die Welt und hängen an kei
 `quelleId`.
 
 `dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
-egal wo er landet. Bis die Pipeline drei Fassungen baut, steht die Vorgabe auf
-`tiktok`.
+egal wo er landet.
+
+**Der Wochenlauf baut deshalb seit dem 24.08.2026 drei Fassungen je Short** —
+`videos/<id>.<dienst>.mp4` —, und `veroeffentlichen.ts` lädt drei Dateien hoch
+und wählt je Kanal die passende. Vorher stand `urls.get(short.id)` *innerhalb*
+der Kanalschleife, aber die Map kannte nur eine URL: eine Datei für alle drei.
+Ohne den Umbau wäre die Prop folgenlos gewesen und das Zeichen auf zwei von drei
+Kanälen falsch — und ein falsches Zeichen ist schlechter als keines, weil es auf
+einen Knopf deutet, den es dort nicht gibt.
+
+**Der Teillauf bleibt einfassig.** `--nur=<id>` rendert nur TikTok, weil ein
+Teillauf eine Ansicht ist und keine Woche — dieselbe Begründung, aus der er auch
+den Verlauf nicht fortschreibt. `--dienst=youtube` wählt eine andere.
+
+Das kostet Renderzeit (21 s → 63 s je Short) und vor allem **Platz**: rund
+210 MB je Lauf statt 70. Kein ElevenLabs-Kontingent — die Vertonung entsteht
+einmal und wird geteilt. `props/<id>.json` **ohne** Dienst-Suffix bleibt neben
+den drei Fassungsdateien liegen, weil `--ton-behalten` genau dort nach einer
+brauchbaren Tonspur sucht.
+
+`veroeffentlicht.json` ist unberührt: Sein Schlüssel bleibt `shortId\0kanalId`,
+je Kanal entsteht weiter genau ein Beitrag.
 
 **Am 24.08.2026 sind 0,8 Sekunden Leere am Videoende weggefallen.**
 `gesamtdauerBilder` in `src/zeit.ts` addierte sie, „damit die Endkarte nicht auf

@@ -32,6 +32,15 @@ import {
  * Hand wieder entfernen — ein versehentlicher Durchlauf waere teuer an Zeit.
  */
 
+/**
+ * Die drei Fassungen, die der Wochenlauf je Short baut.
+ *
+ * Deckt sich mit `DIENSTE` in `skripte/wochenlauf.ts` und mit den Werten, die
+ * Buffer als `kanal.service` liefert — daran haengt die Zuordnung von Fassung
+ * zu Kanal.
+ */
+const DIENSTE = ['tiktok', 'instagram', 'youtube'] as const;
+
 const WIRKLICH = process.argv.includes('--wirklich');
 const LAUF_ID = process.argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 /** Wochenbeginn, falls nicht der naechste Montag gemeint ist. */
@@ -178,12 +187,20 @@ const main = async () => {
     ...(await Promise.all(['video', 'src', 'daten'].map(neuesteAenderung))),
   );
 
+  /*
+   * Geprueft wird **jede** Fassung, nicht nur eine. Fehlte eine, entstuende
+   * der Beitrag fuer diesen Kanal ohne Video — und das faellt erst zum
+   * Sendetermin auf. Eine veraltete Fassung waere ebenso still: Sie traegt
+   * dann das Zeichen von vorgestern.
+   */
   const veraltet: string[] = [];
   for (const short of shorts) {
-    const datei = path.join(wurzel, 'videos', `${short.id}.mp4`);
-    const stand = await fs.stat(datei).catch(() => null);
-    if (!stand) throw new Error(`Videodatei fehlt: ${datei}`);
-    if (stand.mtimeMs < quellstand) veraltet.push(short.id);
+    for (const dienst of DIENSTE) {
+      const datei = path.join(wurzel, 'videos', `${short.id}.${dienst}.mp4`);
+      const stand = await fs.stat(datei).catch(() => null);
+      if (!stand) throw new Error(`Videodatei fehlt: ${datei}`);
+      if (stand.mtimeMs < quellstand && !veraltet.includes(short.id)) veraltet.push(short.id);
+    }
   }
 
   if (veraltet.length > 0) {
@@ -219,23 +236,37 @@ const main = async () => {
   const zugang = zugangAusUmgebung();
   const urls = new Map<string, string>();
 
-  for (const short of shorts) {
-    const lokal = path.join(wurzel, 'videos', `${short.id}.mp4`);
-    const zielpfad = `${LAUF_ID}/${short.id}.mp4`;
+  /*
+   * **Drei Fassungen je Short, eine je Dienst.** Bis zum 24.08.2026 lag hier
+   * eine Datei, und `urls.get(short.id)` stand trotzdem **innerhalb** der
+   * Kanalschleife — alle drei Kanaele bekamen dieselbe. Seit das Folgen-
+   * Zeichen an der Signatur haengt, waere das ein falsches Zeichen auf zwei
+   * von drei Kanaelen, und das ist schlechter als keines: Es deutet auf einen
+   * Knopf, den es dort nicht gibt.
+   *
+   * Der Schluessel folgt dem Muster von `schonDraussen`: `id\0dienst`.
+   */
+  const fassungsschluessel = (id: string, dienst: string) => `${id}\u0000${dienst}`;
 
-    if (WIRKLICH) {
-      const url = await hochladen(zugang, lokal, zielpfad);
-      if (!(await oeffentlichErreichbar(url))) {
-        throw new Error(
-          `${url} ist nicht öffentlich erreichbar. Buffer könnte das Video nicht laden – ` +
-            'im R2-Dashboard den öffentlichen Zugriff für den Bucket freigeben.',
-        );
+  for (const short of shorts) {
+    for (const dienst of DIENSTE) {
+      const lokal = path.join(wurzel, 'videos', `${short.id}.${dienst}.mp4`);
+      const zielpfad = `${LAUF_ID}/${short.id}.${dienst}.mp4`;
+
+      if (WIRKLICH) {
+        const url = await hochladen(zugang, lokal, zielpfad);
+        if (!(await oeffentlichErreichbar(url))) {
+          throw new Error(
+            `${url} ist nicht öffentlich erreichbar. Buffer könnte das Video nicht laden – ` +
+              'im R2-Dashboard den öffentlichen Zugriff für den Bucket freigeben.',
+          );
+        }
+        urls.set(fassungsschluessel(short.id, dienst), url);
+        console.log(`   ${short.id}  ${dienst.padEnd(10)} → ${url}`);
+      } else {
+        urls.set(fassungsschluessel(short.id, dienst), `${zugang.oeffentlicheBasis}/${zielpfad}`);
+        console.log(`   ${short.id}  ${dienst.padEnd(10)} → würde nach ${zielpfad} geladen`);
       }
-      urls.set(short.id, url);
-      console.log(`   ${short.id} → ${url}`);
-    } else {
-      urls.set(short.id, `${zugang.oeffentlicheBasis}/${zielpfad}`);
-      console.log(`   ${short.id} → würde nach ${zielpfad} geladen`);
     }
   }
   console.log('');
@@ -343,12 +374,22 @@ const main = async () => {
 
   for (const [i, short] of shorts.entries()) {
     const faellig = zeiten[i]!;
-    const videoUrl = urls.get(short.id)!;
 
     for (const kanal of kanaele) {
       const text = beitragstext(short, kanal.service, quellen);
       if (!text) {
         console.log(`   ${short.id}  ${kanal.service}: kein Text hinterlegt, übersprungen`);
+        continue;
+      }
+
+      /*
+       * Kein `!` an dieser Stelle. Fehlt die Fassung, ginge `undefined` als
+       * Video-URL an Buffer — der Beitrag entstuende, nur ohne Video, und der
+       * Fehler faellt erst zum Sendetermin auf.
+       */
+      const videoUrl = urls.get(fassungsschluessel(short.id, kanal.service));
+      if (!videoUrl) {
+        console.log(`   ${short.id}  ${kanal.service}: keine Fassung gerendert, übersprungen`);
         continue;
       }
 
