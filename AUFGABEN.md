@@ -535,3 +535,14 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
 - [x] ~~**Die Figur steht rechts neben der Signatur**, größer, vertikal
       zentriert, lächelnd und ohne Zeigegeste. Sie hat vier Plätze durchlaufen;
       die Begründung steht bei `Schluss` in `video/szenen/index.tsx`~~
+
+## Takt festgelegt · 24.08.2026
+
+- [x] ~~**Vier Videos je Woche.** Nicht geschätzt, sondern über den Engpass
+      hergeleitet: Der Ideenvorrat trägt neun Wochen (77 Ideen, je Format mit
+      dem Minimum gerechnet), die Formatregel erlaubt vier ohne Wiederholung,
+      die Produktion schaffte 26 und ElevenLabs 240. **Die Grenze ist der
+      Vorrat, nicht die Produktion** — und damit ist die offene Frage aus
+      Stufe 4 beantwortet~~
+- [ ] Vorrat nachfüllen, sobald ein Format unter sechs offene Ideen fällt.
+      `eswareinmal` und `werhatrecht` stehen bei zehn

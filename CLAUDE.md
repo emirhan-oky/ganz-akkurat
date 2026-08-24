@@ -566,27 +566,45 @@ nicht neu gefunden werden müssen.
 
 ## Takt
 
-**Der Takt steht seit dem 20.08.2026 nicht fest und wird gemessen, nicht
-geschätzt.** Ein Video je Tag um 18:00, in der Reihenfolge der Liste —
-`zeitplanBauen` rechnet über die Listenposition, seit `FORMATE[...].tag`
-weggefallen ist. Die Uhrzeit steht weiter am Format.
+**Vier Videos je Woche, festgelegt am 24.08.2026.** Ein Video je Tag um 18:00,
+in der Reihenfolge der Liste — `zeitplanBauen` rechnet über die Listenposition,
+seit `FORMATE[...].tag` weggefallen ist. Die Uhrzeit steht weiter am Format.
+Feste Wochentage gibt es nicht: Veröffentlicht wird, was fertig und stark ist.
 
-Wie viele Videos je Woche, wird erst nach dem ersten Video im neuen Bau
-entschieden. Charakteranimation kostet mehr Zeit je Video als reine Typografie,
-und wie viel mehr, weiß heute niemand. **Das ist dieselbe Regel, die
-`ZEICHEN_PRO_SEKUNDE` und `pauseSek` zweimal Geld gekostet hat: Wenn eine Größe
-messbar ist, gehört sie gemessen.** Bis dahin rechnet `reichweiteInWochen` mit
-vier Videos je Woche, und das ist ausdrücklich eine Annahme.
+Die Zahl kommt nicht aus dem Bauchgefühl, sondern daraus, welcher Engpass
+zuerst greift. Vier Kandidaten, in dieser Reihenfolge geprüft:
 
-Kontingent zur Einordnung: acht Videos à rund 360 Zeichen waren knapp 2.900 die
-Woche, also gut 10 % des Monatsvolumens von 121.000. Der gemessene Wert für
-sieben Videos lag bei 2.508 Zeichen, für acht bei 2.828. Vorher waren es 26 %
-für fünf Videos.
+| Engpass | trägt | Rechnung |
+|---|---|---|
+| **Ideenvorrat** | **9 Wochen** | 77 Ideen, gerechnet je Format mit dem Minimum |
+| Formatabwechslung | 4 je Woche | vier Formate, keines zweimal hintereinander |
+| Produktion | ~26 je Woche | 11 min je Video, davon 6 min Beleg |
+| ElevenLabs | ~240 je Monat | rund 500 Zeichen je Video, 121.000 im Monat |
 
-**Der Engpass ist nicht die Produktion, sondern der Beleg**: eine abgerufene,
-wörtlich zitierte Seite je Video. Das ist der einzige Schritt, den keine
-Struktur verkürzt — und der Grund, warum der Ideenvorrat mit seinen
-Belegpfaden wertvoll ist.
+**Der Ideenvorrat ist die Grenze, nicht die Produktion.** Das ist der Befund
+aus Stufe 4: Ein Video im neuen Bau war in elf Minuten fertig, und mehr als die
+Hälfte davon war der Beleg — Suche, fünf Abrufe, zwei Fehlschläge. Rechnerisch
+gingen 26 Videos je Woche, aber `npm run pruefen` rechnet die Reichweite **je
+Format** mit dem Minimum, und die schwächsten Fächer (`eswareinmal`,
+`werhatrecht`) tragen zehn Themen. Bei vier Videos je Woche sind das neun
+Wochen; bei sieben wären es fünf.
+
+Die zweite Grenze ist die Formatregel. **Kein Format zweimal hintereinander**,
+und es gibt vier — bei mehr als vier Videos je Woche muss eines doppelt laufen,
+und dann wird aus der Regel ein Zwang statt einer Wache. Genau davor warnt die
+Retention-Ladder: „volume without novelty is a negative".
+
+Kontingent und Buffer sind keine Engpässe und werden hier nur genannt, damit
+niemand sie neu ausrechnet: Vier Videos à rund 500 Zeichen sind 2.000 die
+Woche, also knapp 7 % des Monatsvolumens von 121.000. Buffers kostenloser Tarif
+nimmt zehn geplante Beiträge je Kanal — vier je Woche passen, und
+`npm run nachlegen` legt täglich nach.
+
+**Die Messbasis ist ein einziges Video.** Das ist dünn, und es ist trotzdem
+genug für diese Entscheidung: Selbst wenn die Produktion dreimal so lange
+dauert wie gemessen, entscheidet weiter der Vorrat. Die Zahl gehört überprüft,
+sobald der Vorrat im schwächsten Fach unter sechs fällt — dann steht die Frage
+neu, und zwar als Frage nach dem Nachfüllen, nicht nach dem Takt.
 
 Die **Materialgrenze** für Aktuelles gilt weiter, sie hängt jetzt an `absicht`
 statt an einem eigenen Sendeplatz: Neue **Geräte** sind durch

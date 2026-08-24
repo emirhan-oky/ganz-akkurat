@@ -96,12 +96,15 @@ export const LAUFENDE_FORMATE = (Object.keys(FORMATE) as Format[]).filter(
  * Format ohne Nachschub haelt den Kanal auf, auch wenn die anderen
  * ueberquellen.
  *
- * **Die Annahme „ein Video je Format und Woche" steht hier auf Abruf.** Der
- * Takt wird erst festgelegt, wenn ein Video im neuen Bau gemessen ist —
- * Charakteranimation kostet mehr Zeit je Video als reine Typografie, und wie
- * viel mehr, weiss heute niemand. Bis dahin ist diese Zahl eine Schaetzung und
- * kein Messergebnis; das ist genau die Sorte Groesse, die dieses Projekt schon
- * zweimal Geld gekostet hat (`ZEICHEN_PRO_SEKUNDE`, `pauseSek`).
+ * **Seit dem 24.08.2026 ist das keine Annahme mehr, sondern der Takt.** Ein
+ * Video im neuen Bau wurde gemessen: elf Minuten, davon sechs fuer den Beleg.
+ * Rechnerisch gingen 26 Videos je Woche — die Grenze ist also nicht die
+ * Produktion, sondern **diese Zahl hier**. Bei vier Videos je Woche traegt der
+ * Vorrat neun Wochen, bei sieben fuenf.
+ *
+ * Damit ist diese Funktion nicht laenger eine Nebenrechnung, sondern die
+ * Stelle, an der der Takt haengt. Faellt das Minimum unter sechs, ist das die
+ * Aufforderung nachzufuellen — nicht, langsamer zu werden.
  */
 export const reichweiteInWochen = (): number => {
   const offen = LAUFENDE_FORMATE.map(
