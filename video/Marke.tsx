@@ -3,7 +3,6 @@ import { FORMATE, type Format } from '../src/typen';
 import { Logozeichen, Wortmarke } from './bausteine/Wortmarke';
 import { Muster } from './bausteine/Muster';
 import { Figur } from './bausteine/Figur';
-import { Symbol } from './bausteine/Geraete';
 import { nachleser } from '../daten/figur/nachleser';
 import { zeiger } from '../daten/figur/zeiger';
 import { POSEN } from './bausteine/posen';
@@ -157,63 +156,63 @@ export const BannerMuster: React.FC = () => (
     <Muster
       breite={2048}
       hoehe={1152}
-      freiBreite={1580}
-      freiHoehe={620}
+      freiBreite={SICHER_BREITE + 180}
+      freiHoehe={SICHER_HOEHE + 120}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
       akzent={FARBEN.blau}
     />
 
     {/*
-     * Die Akkus links, die Lupe rechts — **neben** dem Text, nicht darunter.
+     * **Der ganze Vordergrund steht gestapelt im sicheren Feld.**
      *
-     * Gerechnet, nicht geschaetzt: Der Satz steht bei 92 Pixeln Schriftgroesse
-     * rund 950 Pixel breit und mittig, laeuft also von etwa x = 550 bis 1500.
-     * Links bleiben 550 Pixel, rechts 548. Im ersten Anlauf standen die
-     * Figuren bei x = 250 mit 540 Pixeln Breite und lagen mitten im Wort.
+     * Bis zum 25.08.2026 flankierten die Figuren den Satz und die Lupe stand
+     * rechts aussen — beides ausserhalb der 1235x338 und damit auf dem Handy
+     * unsichtbar. Das war als Zugabe fuer grosse Bildschirme gedacht und ist
+     * die falsche Rechnung: Ein Kanalbanner wird ueberwiegend am Telefon
+     * gesehen, und was dort fehlt, fehlt fast immer.
+     *
+     * Die Groessen sind daran gerechnet, nicht geschaetzt. Gestapelt braucht
+     * der Block in den alten Groessen rund 415 Pixel Hoehe; erlaubt sind 338.
+     * Akkus 130, Satz 72, Spruch 36, Zeile 28, dazwischen je 15 — zusammen
+     * rund 325, also 13 Pixel Luft. Die Akkus standen erst auf 100 und wirkten
+     * neben dem Satz verloren; die Reserve ist in sie geflossen.
+     *
+     * Das Feld ist an `SICHER_BREITE` und `SICHER_HOEHE` festgemacht und nicht
+     * an freien Zahlen: Die Grenze steht damit im Code und nicht im Kopf.
      */}
-    <div
-      style={{
-        position: 'absolute',
-        left: 60,
-        top: 425,
-        display: 'flex',
-        alignItems: 'flex-end',
-      }}
-    >
-      <div style={{ width: 230, height: 173 }}>
-        <Figur rig={nachleser} pose={POSEN.zeigen} />
-      </div>
-      <div style={{ width: 230, height: 173, marginLeft: -50 }}>
-        <Figur rig={zeiger} pose={POSEN.ruhe} />
-      </div>
-    </div>
-
-    <div style={{ position: 'absolute', right: 150, top: 445 }}>
-      <Symbol art="lupe" groesse={210} />
-    </div>
-
-    {/* Das sichere Feld: Satz, Spruch, Zeile. */}
     <div
       style={{
         position: 'absolute',
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 1235,
+        width: SICHER_BREITE,
+        height: SICHER_HOEHE,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 30,
+        justifyContent: 'center',
+        gap: 15,
         zIndex: 1,
       }}
     >
+      {/* Die beiden Akkus, zentriert ueber dem Satz. */}
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <div style={{ width: 174, height: 130 }}>
+          <Figur rig={nachleser} pose={POSEN.zeigen} />
+        </div>
+        <div style={{ width: 174, height: 130, marginLeft: -40 }}>
+          <Figur rig={zeiger} pose={POSEN.ruhe} />
+        </div>
+      </div>
+
       <div
         style={{
           fontFamily: SCHRIFT.familie,
           fontStyle: 'italic',
           fontWeight: SCHRIFT.schwarz,
-          fontSize: 92,
+          fontSize: 72,
           color: FARBEN.tinte,
           lineHeight: 1.05,
           textAlign: 'center',
@@ -222,14 +221,14 @@ export const BannerMuster: React.FC = () => (
         {BANNER_SATZ}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
-        <div style={{ width: 108, height: 9, borderRadius: 999, backgroundColor: FARBEN.blau }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+        <div style={{ width: 88, height: 7, borderRadius: 999, backgroundColor: FARBEN.blau }} />
         <span
           style={{
             fontFamily: SCHRIFT.familie,
             fontStyle: 'italic',
             fontWeight: SCHRIFT.fett,
-            fontSize: 44,
+            fontSize: 36,
             color: FARBEN.tinteWeich,
             whiteSpace: 'nowrap',
           }}
@@ -239,21 +238,13 @@ export const BannerMuster: React.FC = () => (
       </div>
 
       {/*
-       * Dieselbe Struktur wie die Beschriftung in der `Farbprobe`: zwei
-       * gesetzte Teile, durch einen Mittelpunkt getrennt, dann ein leichter
-       * Nachsatz hinter dem Gedankenstrich.
-       *
-       * Der Nachsatz hiess im ersten Anlauf „nichts davon ist Zufall" — und
-       * stand damit woertlich zweimal im Bild, oben als Satz und hier klein.
-       * „Woertlich zitiert" sagt stattdessen, was tatsaechlich passiert: Jedes
-       * Zitat in `quellen.json` wird von `npm run quellen-pruefen` als
-       * Zeichenkette auf der Seite gesucht.
+       * Zwei gesetzte Teile, durch einen Mittelpunkt getrennt — dem Vorbild
+       * folgend **ohne** den leichten Nachsatz hinter dem Gedankenstrich.
        */}
-      <div style={{ fontFamily: 'Inter', fontSize: 34, color: FARBEN.tinte }}>
+      <div style={{ fontFamily: 'Inter', fontSize: 28, color: FARBEN.tinte }}>
         <span style={{ fontWeight: 700 }}>Ein Fakt</span>
         <span style={{ fontWeight: 400, color: FARBEN.tinteWeich }}> · </span>
         <span style={{ fontWeight: 700 }}>eine Fundstelle</span>
-        <span style={{ fontWeight: 400, color: FARBEN.tinteWeich }}> — wörtlich zitiert</span>
       </div>
     </div>
   </div>
