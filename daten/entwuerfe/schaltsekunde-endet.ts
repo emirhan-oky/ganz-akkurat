@@ -93,7 +93,7 @@ export const schaltsekundeEndet: Short = {
     youtube: {
       titel: 'Die Minute mit 61 Sekunden endet',
       beschreibung: 'Die eingeschobene Sekunde und die Erde: was 2035 endet.',
-      hashtags: ['#schaltsekunde', '#zeit', '#wissen', '#ganzakkurat'],
+      hashtags: ['#schaltsekunde', '#zeitmessung', '#atomuhr', '#ganzakkurat'],
     },
   },
 

@@ -357,6 +357,31 @@ erlaubt und drei gleiche Sätze gesetzt. Instagram deckelt seit Dezember 2025
 hart bei fünf; TikTok will drei bis fünf und behandelt sie als Suchwörter. Ein
 gemeinsames Fenster trägt alle drei Kanäle.
 
+Auf diesen Plätzen stehen **drei Rollen**: genau ein Markentag
+(`#ganzakkurat`, Fehler wenn er fehlt), ein bis zwei Tags aus
+`GEMEINSCHAFTSTAGS` — dort browst die Zielgruppe —, und zwei bis drei
+Themen-Tags, die benennen, wovon das Video handelt. Reichweiten-Tags sind ein
+Fehler, zu breite ein Hinweis.
+
+**`GEMEINSCHAFTSTAGS` ist absichtlich leer.** Der Skill verlangt, die Tagseite
+vor der Verwendung anzusehen: Sind die obersten Beiträge von der Art, gibt es
+Publikum, ist sie von Spam überrannt? Das kann kein Skript und kein Modell aus
+dem Gedächtnis — es wäre derselbe Fehler wie bei `ZEICHEN_PRO_SEKUNDE` und der
+Denkpause, die beide auf einer Annahme standen, bis jemand nachgemessen hat.
+Solange die Liste leer ist, schweigt die Regel; **eine Wache, die eine leere
+Liste erzwingt, hielte jeden Short zurück.** Kandidaten stehen als Kommentar
+daneben.
+
+**Einen Formattag gibt es bewusst nicht.** Er sammelte eine Serie für ein
+Publikum, das es noch nicht gibt — dasselbe Argument, mit dem am 20.08.2026 der
+Wochentag gestrichen wurde — und kostete dafür einen von fünf Plätzen, auf dem
+sonst ein Wort steht, nach dem jemand sucht. Zu holen, sobald Abonnenten da
+sind.
+
+**Das `sachgebiet` taugt nicht als Tag.** `#drucken` gehört dem Textildruck,
+`#laden` dem Einzelhandel, `#fahren` der Fahrschule. Die Sachgebiete sind
+interne Sortierachsen gegen die Druckerwoche, keine Suchwörter.
+
 Beim Nachziehen der neun Entwürfe ist etwas aufgefallen, das die Regel selbst
 nicht meldet: **Zwei Shorts sagen ihr eigenes Suchwort nie.** „Schaltsekunde"
 kommt in `schaltsekunde-endet` nicht vor, „Flugmodus" nicht in
@@ -426,11 +451,11 @@ Freigabe-Übersicht.
   Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Der
   Bildtext ist auf wenige Wörter gebaut, und ein Zwang dort erzeugte dieselbe
   Verstümmelung wie seinerzeit der Zielwert von 23 Sekunden.
-- **`texte`** — drei bis fünf Hashtags je Plattform (Schema). `#fyp`, `#viral`,
-  `#trending` und Verwandte sind ein **Fehler**: Sie wirken nachweislich nicht
-  und stehen neben einer Quellenangabe wie eine Bitte um Aufmerksamkeit.
-  Hinweise gibt es, wenn `#ganzakkurat` fehlt oder alle drei Plattformen
-  denselben Satz tragen — sie suchen verschieden.
+- **`texte`** — drei bis fünf Hashtags je Plattform (Schema), darauf drei
+  Rollen. Fehler: ein Tag aus `REICHWEITENTAGS`, ein fehlender `#ganzakkurat`,
+  oder — sobald die Liste für diese Plattform gefüllt ist — kein Tag aus
+  `GEMEINSCHAFTSTAGS`. Hinweise: ein Tag aus `BREITE_TAGS`, weniger als zwei
+  Themen-Tags, oder drei identische Sätze.
 - **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short
   (`UNBETEILIGTE_ARTEN`). Die Drei-Quellen-Regel ist am 16.08.2026 entfallen:
   Die Anzahl war die schwächere Hälfte — drei Herstellerseiten belegen nichts,

@@ -122,7 +122,7 @@ export const raumstationAlteRechner: Short = {
     youtube: {
       titel: 'Laptops auf der Raumstation',
       beschreibung: 'Die ESA über die Laptops an Bord der Raumstation und die Prüfung dahinter.',
-      hashtags: ['#raumstation', '#raumfahrt', '#technik', '#ganzakkurat'],
+      hashtags: ['#raumstation', '#raumfahrt', '#weltraum', '#ganzakkurat'],
     },
   },
 

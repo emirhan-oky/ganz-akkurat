@@ -73,6 +73,62 @@ export const ZUBEHOERMARKEN =
   /\b(anker|ugreen|belkin|caldigit|satechi|baseus|delock|startech|targus|kensington|elgato|sonnet|owc|aukey|ravpower|inateck|sabrent|orico|plugable|j5create|hyperdrive|lindy|club3d|cable ?matters|raidsonic|icy ?box|sharkoon|corsair)\b/i;
 
 /**
+ * Hashtags, die nur Reichweite erbitten.
+ *
+ * `#fyp` beeinflusst die For-You-Page nicht — das steht so in
+ * `hashtag-strategy`, und TikTok deprioritisiert die 30-Tag-Spray ohnehin.
+ * Ein Tag, der nichts kategorisiert, sondern „bitte zeigt mich" sagt, steht
+ * neben einer Quellenangabe wie eine Bitte um Aufmerksamkeit.
+ */
+export const REICHWEITENTAGS = [
+  'fyp', 'fürdich', 'fuerdich', 'foryou', 'foryoupage', 'viral', 'viralvideo',
+  'trending', 'explore', 'explorepage', 'reichweite', 'algorithmus',
+];
+
+/**
+ * Tags, unter denen die Zielgruppe wirklich browst — je Plattform.
+ *
+ * **Die Listen sind absichtlich leer.** `hashtag-strategy` verlangt als
+ * dritten Schritt, die Tagseite vor der Verwendung anzusehen: Sind die
+ * obersten Beitraege von der Art? Gibt es echtes Publikum? Ist sie von Spam
+ * ueberrannt? Das kann kein Skript, und aus dem Gedaechtnis eine Groesse zu
+ * behaupten waere derselbe Fehler wie bei `ZEICHEN_PRO_SEKUNDE` und der
+ * Denkpause — beide standen zweimal auf einer Annahme, bis jemand nachgemessen
+ * hat.
+ *
+ * Kandidaten zum Ansehen, je zwei Minuten auf der Plattform:
+ * TikTok `#techtok`, `#lernenmittiktok`, `#wissenauftiktok`;
+ * Instagram `#technikwissen`, `#wissenswert`, `#erklaert`;
+ * YouTube `#technikwissen`, `#wissen`.
+ *
+ * Was die Sichtung uebersteht, kommt hier hinein — mit dem Datum, wie
+ * `geprueftAm` bei den Quellen. Solange eine Liste leer ist, schweigt die
+ * Regel dazu: Eine Wache, die eine leere Liste erzwingt, hielte jeden Short
+ * zurueck.
+ */
+export const GEMEINSCHAFTSTAGS: Record<string, readonly string[]> = {
+  tiktok: [],
+  instagram: [],
+  youtube: [],
+};
+
+/**
+ * Tags, die zu breit sind, um zu tragen.
+ *
+ * Mid-Tier schlaegt Mega-Tag, weil man dort ueberhaupt sichtbar wird — unter
+ * `#technik` verschwindet ein neuer Beitrag in Sekunden. **Hinweis, kein
+ * Fehler:** Die Grenze zwischen breit und mittel ist eine Einschaetzung und
+ * keine Tatsache, und ein breiter Tag schadet nicht, er bringt nur nichts.
+ */
+export const BREITE_TAGS = [
+  'technik', 'tech', 'technology', 'wissen', 'news', 'tipps', 'tipp',
+  'lifehack', 'lifehacks', 'gadgets', 'digital',
+];
+
+/** Der Markentag. Genau einer, in jedem Short, auf jeder Plattform. */
+export const MARKENTAG = 'ganzakkurat';
+
+/**
  * Kennzeichnungswoerter, die am Partnerlink stehen muessen.
  *
  * Bewusst nur diese drei. „Affiliate-Link", „sponsored by" und „gesponsert"
@@ -621,46 +677,100 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * Hashtags kategorisieren und helfen der Suche. Mehr tun sie nicht.
    *
    * Die Zahl steht seit dem 24.08.2026 im Schema (drei bis fuenf, wegen
-   * Instagrams hartem Deckel). Hier stehen die drei Regeln, die sich nicht als
-   * Zahl ausdruecken lassen.
+   * Instagrams hartem Deckel). Hier stehen die Regeln, die sich nicht als Zahl
+   * ausdruecken lassen — der **Bauplan aus drei Rollen**:
+   *
+   * | Rolle | Anzahl | Beispiel |
+   * |---|---|---|
+   * | Marke | genau 1 | `#ganzakkurat` |
+   * | Gemeinschaft | 1–2, aus kuratierter Liste | `#techtok` |
+   * | Thema | 2–3, konkret zum Video | `#schaltsekunde` |
+   *
+   * Einen **Formattag** gibt es bewusst nicht. Er sammelte eine Serie fuer ein
+   * Publikum, das es noch nicht gibt — dasselbe Argument, mit dem am
+   * 20.08.2026 der Wochentag gestrichen wurde. Er kostet dafuer einen von
+   * fuenf Plaetzen, auf dem sonst ein Wort steht, nach dem jemand sucht.
+   *
+   * Und eine Abkuerzung, die nicht traegt: **Das `sachgebiet` taugt nicht als
+   * Tag.** `#drucken` gehoert dem Textildruck, `#laden` dem Einzelhandel,
+   * `#fahren` der Fahrschule. Die Sachgebiete sind interne Sortierachsen gegen
+   * die Druckerwoche, keine Suchwoerter.
    */
-  const MEGATAGS = ['fyp', 'fürdich', 'fuerdich', 'foryou', 'foryoupage', 'viral', 'trending', 'explore', 'reichweite'];
+  const nackt = (tag: string): string => tag.replace(/^#/, '').toLowerCase();
 
   const hashtagSaetze = new Map<string, string>();
 
   for (const [plattform, text] of Object.entries(short.texte)) {
-    /*
-     * `#fyp` beeinflusst die For-You-Page nicht — das ist gemessen und steht in
-     * `hashtag-strategy`. Ein Tag, der nur „ich will Reichweite" sagt, steht
-     * ausserdem neben einer Quellenangabe seltsam da.
-     */
-    const megatags = text.hashtags.filter((tag) =>
-      MEGATAGS.includes(tag.replace(/^#/, '').toLowerCase()),
-    );
-    if (megatags.length > 0) {
+    const tags = text.hashtags.map(nackt);
+
+    const reichweitentags = tags.filter((t) => REICHWEITENTAGS.includes(t));
+    if (reichweitentags.length > 0) {
       melde(
         'fehler',
         'texte',
-        `${plattform} trägt ${megatags.join(' ')}. Diese Tags wirken nachweislich nicht – ` +
+        `${plattform} trägt #${reichweitentags.join(' #')}. Diese Tags wirken nachweislich nicht – ` +
           'sie kategorisieren nichts und stehen neben einer Quellenangabe wie eine Bitte um Aufmerksamkeit.',
       );
     }
 
     /*
-     * Der Markentag ist die eine Stelle, an der Hashtags noch echtes Gewicht
-     * haben: Er sammelt, was zum Kanal gehoert.
+     * Der Markentag ist die eine Stelle, an der Hashtags dauerhaft Gewicht
+     * haben: Er sammelt, was zum Kanal gehoert. Er kostet nichts und ist
+     * deshalb ein Fehler, kein Hinweis.
      */
-    if (!text.hashtags.some((tag) => tag.replace(/^#/, '').toLowerCase() === 'ganzakkurat')) {
-      melde('hinweis', 'texte', `Bei ${plattform} fehlt #ganzakkurat – der Markentag sammelt den Kanal.`);
+    if (!tags.includes(MARKENTAG)) {
+      melde('fehler', 'texte', `Bei ${plattform} fehlt #${MARKENTAG} – der Markentag sammelt den Kanal.`);
     }
 
-    hashtagSaetze.set(plattform, [...text.hashtags].sort().join(' ').toLowerCase());
+    /*
+     * Die Gemeinschaftsliste ist heute leer, und dann schweigt diese Regel.
+     * Erst wenn jemand die Tagseiten angesehen und Tags eingetragen hat, wird
+     * daraus eine Wache.
+     */
+    const gemeinschaft = GEMEINSCHAFTSTAGS[plattform] ?? [];
+    const getragen = tags.filter((t) => gemeinschaft.includes(t));
+    if (gemeinschaft.length > 0 && getragen.length === 0) {
+      melde(
+        'fehler',
+        'texte',
+        `${plattform} trägt keinen Gemeinschaftstag. Einer aus #${gemeinschaft.join(' #')} sagt, ` +
+          'wohin der Kanal gehört – dort browst die Zielgruppe wirklich.',
+      );
+    }
+
+    const breite = tags.filter((t) => BREITE_TAGS.includes(t));
+    if (breite.length > 0) {
+      melde(
+        'hinweis',
+        'texte',
+        `#${breite.join(' #')} bei ${plattform} ist zu breit. Unter Millionen Beiträgen verschwindet ` +
+          'ein neuer in Sekunden – ein Tag, unter dem man sichtbar wird, ist enger.',
+      );
+    }
+
+    /*
+     * Was uebrig bleibt, benennt das Thema. Weniger als zwei heisst: Der Satz
+     * besteht aus Zugehoerigkeit und sagt nicht, wovon das Video handelt.
+     */
+    const themen = tags.filter(
+      (t) => t !== MARKENTAG && !gemeinschaft.includes(t) && !BREITE_TAGS.includes(t) && !REICHWEITENTAGS.includes(t),
+    );
+    if (themen.length < 2) {
+      melde(
+        'hinweis',
+        'texte',
+        `${plattform} hat ${themen.length === 0 ? 'keinen' : 'nur einen'} Tag zum Thema. Marke und ` +
+          'Gemeinschaft sagen, wer sendet – gefunden wird das Video über das, wovon es handelt.',
+      );
+    }
+
+    hashtagSaetze.set(plattform, [...tags].sort().join(' '));
   }
 
   /*
    * Derselbe Block auf allen drei Kanaelen war bis zum 24.08.2026 der Zustand.
-   * Die Plattformen wollen Verschiedenes: TikTok Suchwoerter, Instagram Nische,
-   * YouTube das, was auch im Titel steht.
+   * Die Plattformen wollen Verschiedenes: TikTok Suchwoerter, Instagram
+   * Nische, YouTube das, was auch im Titel steht.
    */
   if (new Set(hashtagSaetze.values()).size === 1) {
     melde(

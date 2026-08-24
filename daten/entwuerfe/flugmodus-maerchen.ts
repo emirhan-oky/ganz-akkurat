@@ -131,7 +131,7 @@ export const flugmodusMaerchen: Short = {
     youtube: {
       titel: 'Das Problem stand am Boden, nicht im Flugzeug',
       beschreibung: 'Handy im Flugzeug: warum es nie am Flugzeug lag.',
-      hashtags: ['#flugmodus', '#flugzeug', '#technik', '#ganzakkurat'],
+      hashtags: ['#flugmodus', '#flugzeug', '#luftfahrt', '#ganzakkurat'],
     },
   },
 
