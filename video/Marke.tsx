@@ -24,9 +24,14 @@ import { POSEN } from './bausteine/posen';
 /**
  * Profilbild, hell — 1024x1024.
  *
- * **Beide Akkus, seit dem 25.08.2026.** Vorher stand hier das gezeichnete
- * Akkuzeichen allein. Der Kanal hat aber zwei Figuren mit geteilter Arbeit,
- * und das Kanalbild ist die Stelle, an der man sie zuerst sieht.
+ * **Zwei Akkuzeichen, seit dem 25.08.2026.** Vorher stand hier eines allein.
+ * Der Kanal hat zwei Figuren mit geteilter Arbeit, und das Kanalbild ist die
+ * Stelle, an der man sie zuerst sieht — unterschieden wie ueberall sonst am
+ * Ladebalken, blau und altrosa.
+ *
+ * **Das Zeichen, nicht die Figur.** Der Akku ohne Gesicht und Gliedmassen
+ * bleibt bei 40 Pixeln lesbar; zwei vollstaendige Figuren waeren dort zwei
+ * dunkle Flecken mit Beinen.
  *
  * Ein Kanalbild wird bei TikTok mit rund 40 Pixeln Kantenlaenge angezeigt und
  * **rund beschnitten**. Zwei Figuren nebeneinander brauchen deshalb Breite,
@@ -52,13 +57,9 @@ export const ProfilbildHell: React.FC = () => (
       justifyContent: 'center',
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-      <div style={{ width: 660, height: 495 }}>
-        <Figur rig={nachleser} pose={POSEN.zeigen} />
-      </div>
-      <div style={{ width: 660, height: 495, marginLeft: -180 }}>
-        <Figur rig={zeiger} pose={POSEN.ruhe} />
-      </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
+      <Logozeichen groesse={420} ladung={FARBEN.anzeigeEins} />
+      <Logozeichen groesse={420} ladung={FARBEN.anzeigeZwei} />
     </div>
   </div>
 );
@@ -126,13 +127,9 @@ export const WortmarkeQuer: React.FC = () => (
       gap: 34,
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-      <div style={{ width: 660, height: 495 }}>
-        <Figur rig={nachleser} pose={POSEN.zeigen} />
-      </div>
-      <div style={{ width: 660, height: 495, marginLeft: -180 }}>
-        <Figur rig={zeiger} pose={POSEN.ruhe} />
-      </div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
+      <Logozeichen groesse={420} ladung={FARBEN.anzeigeEins} />
+      <Logozeichen groesse={420} ladung={FARBEN.anzeigeZwei} />
     </div>
     <Wortmarke groesse={200} />
   </div>

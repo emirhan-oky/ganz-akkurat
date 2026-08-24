@@ -44,7 +44,10 @@ export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
  * gebaut, damit es in jeder Groesse scharf bleibt und keine PNG-Datei in den
  * Renderprozess muss.
  */
-export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) => (
+export const Logozeichen: React.FC<{ groesse?: number; ladung?: string }> = ({
+  groesse = 44,
+  ladung = FARBEN.anzeigeEins,
+}) => (
   <svg width={groesse} height={groesse} viewBox="0 0 100 100" style={{ display: 'block' }}>
     {/*
       * Hochkant statt quer. Die erste Fassung lag waagerecht wie das
@@ -65,7 +68,7 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
       * Gehaeuse hat er nur 1,7**, und der Balken verschwindet darin. Bei 40
       * Pixeln Kanalbild waere das ein schwarzer Fleck ohne Ladestand.
       */}
-    <rect x="28" y="52" width="44" height="34" rx="7" fill={FARBEN.anzeigeEins} />
+    <rect x="28" y="52" width="44" height="34" rx="7" fill={ladung} />
   </svg>
 );
 
