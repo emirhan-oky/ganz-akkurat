@@ -403,9 +403,9 @@ Freigabe-Übersicht.
   braucht eine Quelle, egal in welcher Darstellung. Vorher entschied allein
   die Szenenart, und damit entschied die Wahl der Darstellung darüber, ob ein
   Satz belegt sein musste.
-- **`laenge`** — 18 bis 34 Sekunden, hart in beide Richtungen. Zielwert 23; die
-  Obergrenze ist seit dem 20.08.2026 offener, weil die drei stärksten von zwölf
-  vermessenen Fremdvideos zwischen 29 und 41 Sekunden liegen.
+- **`laenge`** — 20 bis 36 Sekunden, hart in beide Richtungen. Zielwert 30.
+  Beides ist am 24.08.2026 angehoben worden, und zwar wegen der Sprache: Der
+  alte Zielwert von 23 hat den Telegrammstil erzwungen.
 - **`produktname`** — im Video fällt nie ein Markenname (`ZUBEHOERMARKEN`),
   nur Merkmale. Das ist die Regel, die das ganze Modell trägt. Gerätehersteller
   (Apple, Dell) stehen bewusst nicht in der Liste — „dein MacBook" ist Kontext,
@@ -431,9 +431,18 @@ Ansicht.** Bis zum 18.08.2026 arbeitete der Schluss dagegen — ein Satz, ein
 blauer Strich, eine zweite Wortmarke, im Schnitt 2,2 Sekunden, in denen nichts
 Neues kommt. Der Strich war das eigentliche Signal: Er sagte optisch „fertig".
 
-Er ist weg, und mit ihm die zweite Wortmarke. Der Spruch läuft jetzt **oben
-unter der Kopfzeile** mit, an der Stelle, an der sonst der Beleg steht — der
-Platz ist frei, weil die Schlussszene als einzige nichts behauptet.
+Er ist weg, und mit ihm die zweite Wortmarke.
+
+**Der Spruch steht seit dem 24.08.2026 wieder in der Mitte**, unter dem
+Schlusssatz: ein kurzer Strich von 96 Pixeln, der in einer halben Sekunde
+gezogen wird, darunter „Wir haben nachgelesen.", rechts daneben die Figur.
+Zwischen dem 18. und dem 24.08. lief er oben unter der Kopfzeile mit.
+
+Das nimmt den Vorhang nicht zurück, und der Unterschied liegt in der Länge des
+Strichs. Einer über die ganze Bühnenbreite trennt die Pointe vom Absender und
+sagt „fertig". 96 Pixel trennen nichts, sie zeichnen den Spruch aus. Gezogen
+statt eingeblendet: **Eine Linie, die entsteht, ist eine Geste; eine, die schon
+da ist, ist ein Rahmen.**
 
 Zwei Felder tragen das: **`rundlauf`** an der Schlussszene sagt, warum der
 erste Satz danach wieder passt (ein Feld, keine Prüfung — beurteilen kann das
@@ -589,13 +598,21 @@ Reparatur gilt, erzählt niemand, weil es niemand liest.
 
 ## Länge
 
-Ein Fenster, hart: **18 bis 34 Sekunden**, Zielwert **23**.
+Ein Fenster, hart: **20 bis 36 Sekunden**, Zielwert **30**.
 
 Die Vertonung streut rund sechs Prozent — derselbe Text ergab bei zwei Läufen
 75,3 und 70,5 Sekunden; ElevenLabs liefert nicht zweimal dieselbe Aufnahme.
-Bei 23 Sekunden sind das ±1,4 s. Wer den Zielwert trifft, fällt nie heraus;
+Bei 30 Sekunden sind das ±1,8 s. Wer den Zielwert trifft, fällt nie heraus;
 wer an der Obergrenze baut, fällt beim nächsten Lauf durch, ohne ein Wort
 geändert zu haben.
+
+**Der Zielwert stand bis zum 24.08.2026 auf 23, und er war die Ursache für eine
+Sprache, die niemand spricht.** Aufgefallen am ersten Video im neuen Bau:
+„Laptops, älter als fünf Jahre." — kein Satz, kein Verb, eine Bildunterschrift.
+Sechs Szenen in 23 Sekunden lassen je Satz vier Sekunden, und dann wird
+gestrichen, bis nur noch Stichworte stehen. Der Zwang kam nicht vom Fenster,
+sondern vom Zielwert, an dem tatsächlich geschrieben wird. Die Obergrenze ging
+mit, weil 34 bei einem Zielwert von 30 im Wurfbereich der Streuung läge.
 
 **Die Obergrenze stand bis zum 20.08.2026 auf 28 und ist an fremden Videos
 gescheitert.** Zwölf Tech-Shorts wurden angesehen und vermessen; die drei mit
@@ -603,17 +620,34 @@ den meisten Aufrufen sind 41, 29 und 31 Sekunden lang, das alte Fenster hätte
 alle drei abgelehnt. Die Gegenprobe steht in derselben Sammlung: 4,1 Millionen
 bei 19 Sekunden, 1,75 Millionen bei sieben. **Länge ist keine Ursache, sondern
 eine Folge davon, wie viel es zu zeigen gibt** — eine Obergrenze, die zur
-Qualitätsaussage wird, misst die falsche Größe. Der Zielwert bei 23 bleibt die
+Qualitätsaussage wird, misst die falsche Größe. Der Zielwert ist die
 eigentliche Steuerung.
 
 Der Einwand liegt nahe und trägt nicht: Das „zu lang" der ersten Zuschauer galt
-Shorts im alten Fenster von 28 bis 40 Sekunden, nicht einer Obergrenze von 34.
+Shorts im alten Fenster von 28 bis 40 Sekunden, nicht einer Obergrenze von 36.
 
 Hier standen bis zum 16.08.2026 drei Zahlen für eine Frage (Fenster 28–40,
 harte Grenze 45, Minimum 15). Die zweite Stufe war ein Rest aus der Zeit mit
 zwei Fenstern — mit einem Fenster hat sie keine Aufgabe.
 
 `npm run sprechprobe` prüft das vorab und kostet nichts.
+
+### Was aus dem Zielwert für die Sprache folgt
+
+Zwei Regeln stehen seit dem 24.08.2026 in `voice.md`, beide aus demselben
+Befund:
+
+**Jeder gesprochene Satz hat ein Verb.** Die alte Vorgabe „zwei bis sechs
+Wörter" und „Ellipsen sind die Stimme" hat den Telegrammstil nicht erlaubt,
+sondern erzwungen. Der Bildtext darf knapp bleiben — er wird gelesen, nicht
+gehört, und `sprechtext` und `text` sind zwei Sprachen für zwei Sinne.
+
+**Zahlen stehen als Ziffer, auch im Sprechtext.** „2009", nicht
+„zweitausendneun". Vorher stand hier das Gegenteil, und der Untertitel hat es
+vorgeführt: Über dem Bild stand „Zweitausendneun:" in voller Breite, wo „2009:"
+gereicht hätte. **Der Sprechtext ist nicht nur Sprechtext — er ist der
+Untertitel, Wort für Wort.** Was sich schlecht liest, ist damit falsch
+geschrieben, auch wenn es sich gut anhört.
 
 ## Bild
 
@@ -638,6 +672,19 @@ hält den Inhalt, aber sie lässt die Fläche leer, und im Feed fällt das auf.
 **Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein
 Datenblatt behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben,
 Herstellermerkmale.
+
+**Die Figur und ihr Symbol stehen in getrennten Hälften.** Ein Symbol sitzt
+fest in der rechten Bühnenhälfte; `stand: 'rechts'` setzte die Figur auf
+dieselbe Stelle, und im Video vom 24.08.2026 lag der Stempel hinter ihr. Das
+Schema lehnt die Kombination jetzt ab. Die Symbolposition selbst war zugleich
+**an der falschen Pose gemessen** — gerechnet an `zeigen`, wo ein Arm zum Bild
+hin ausgestreckt ist, während bei `achselzucken` beide Arme abstehen und die
+Hand in der Zeichnung landete.
+
+**Der Zeigestab ist am 24.08.2026 gestrichen**, samt `'stab'` im Schema. Die
+Pose `erklaeren` bleibt als ausgestreckter Arm. Und die Figur kann seither
+lächeln: Das Rig kannte vier Mundformen, von denen keine ein deutliches
+Lächeln war, weshalb sie in acht von zehn Posen ernst bis betrübt aussah.
 
 **Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
 Regel hat sich siebenmal bewährt, und jedes Mal sah der Code vorher richtig aus.

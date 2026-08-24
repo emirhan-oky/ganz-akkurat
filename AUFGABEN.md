@@ -474,3 +474,64 @@ Regel, dass eine Begründung verschoben statt gelöscht wird.
 - [ ] Stufe 5: `thema-finden` und `rueckblick-lesen` schrumpfen, CLAUDE.md
 - [ ] Stufe 6: aufräumen — `laeufe/` (68 MB), tote Felder und Regeln, Skripte
       ohne Aufgabe, und die Frage, ob die vier eigenen Skills dann noch tragen
+
+## Nachbesserung aus der ersten Sichtung · 24.08.2026
+
+Alle sechs Punkte kamen vom Zuschauer, keiner aus der Prüfung. Das ist das
+Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
+
+- [x] ~~**Zahlen stehen als Ziffer**, auch im Sprechtext. Der Untertitel hat es
+      vorgeführt: „Zweitausendneun:" füllte die Zeile, wo „2009:" reicht. Der
+      Sprechtext *ist* der Untertitel — was sich schlecht liest, ist falsch
+      geschrieben, auch wenn es sich gut anhört~~
+- [x] ~~**Zielwert 30 s statt 23, Fenster 20–36 statt 18–34.** Der Zielwert war
+      die Ursache für den Telegrammstil: sechs Szenen in 23 Sekunden lassen je
+      Satz vier Sekunden. Die Obergrenze geht mit, weil sechs Prozent Streuung
+      bei 30 s ±1,8 s sind und 34 damit im Wurfbereich läge~~
+- [x] ~~**Jeder gesprochene Satz hat ein Verb** (`voice.md`). Die alte Vorgabe
+      „zwei bis sechs Wörter" und „Ellipsen sind die Stimme" hat den
+      Telegrammstil nicht erlaubt, sondern erzwungen~~
+- [x] ~~**Symbol und Figur standen beide bei x = 138.** Im fertigen Video lag
+      der Stempel hinter der Figur. Der Renderer biegt `stand: 'rechts'` bei
+      einem Symbol jetzt um, und das Schema lehnt die Kombination ab — dort
+      fällt sie beim Schreiben auf~~
+- [x] ~~**Die Figur konnte nicht lächeln.** Das Rig kannte vier Mundformen, und
+      keine davon war ein deutliches Lächeln. `mund_laecheln` dazu, gesetzt in
+      `ruhe`, `zeigen`, `erklaeren` und `winken`; `achselzucken` verliert den
+      Mundwinkel nach unten~~
+- [x] ~~**`hochschauen` und `erklaeren` zum ersten Mal im Bild** — die kleine
+      Figur am unteren Rand und der Zeigestab standen seit dem 23.08. im Rig,
+      aber in keinem Video~~
+- [ ] Offen: Wie ElevenLabs „2009" ausspricht, ist **nicht** geprüft — hörbar
+      nur beim Ansehen. Falls die Stimme Ziffern buchstabiert, braucht es eine
+      Ausnahme für Jahreszahlen
+
+## Zweite Sichtung · 24.08.2026
+
+- [x] ~~**Der Arm greift ins Symbol.** Die Symbolposition x = 138 war an der
+      Pose `zeigen` gerechnet — bei `achselzucken` stehen beide Arme ab, und
+      die Hand lag in der Uhr. Die Zahl war nicht falsch gerechnet, sondern an
+      der falschen Pose gemessen. Symbol jetzt bei 152 und 0,40 statt 0,46,
+      Figur bei 52 statt 62~~
+- [x] ~~**Der Zeigestab ist weg** — samt `'stab'` im Schema, der Zeichnung, den
+      sieben Entwürfen, die ihn benutzt haben, und den Ausnahmen in
+      `pruefung.ts`. Die Pose `erklaeren` bleibt: ausgestreckter Arm zum Bild~~
+- [x] ~~**Der Spruch steht wieder in der Mitte**, unter dem Schlusssatz, mit
+      der Figur in Zeilenhöhe daneben. Ohne blauen Strich und ohne zweite
+      Wortmarke — der Strich war das Signal „fertig", nicht der Spruch~~
+- [x] ~~**Die Signatur ist eine Geste geworden:** ein kurzer Strich von 96
+      Pixeln wird in einer halben Sekunde gezogen, darunter der Spruch, rechts
+      daneben die Figur, die darauf zeigt. Der Unterschied zum alten Abspann
+      liegt in der Länge — ein Strich über die ganze Breite trennt Pointe und
+      Absender, ein kurzer zeichnet den Spruch aus~~
+- [x] ~~**Die Figur steht unter dem Spruch statt daneben**, am rechten Ende
+      der Zeile, und sieht zu ihm hoch. Nebeneinander teilen sich Zeile und
+      Figur eine Grundlinie, die zu keinem von beiden gehört — untereinander
+      stellt sich die Frage nicht~~
+- [x] ~~**Zwei neue Zeichnungen:** `satellit` statt `mond` für den Weltraum —
+      der Mond zeigt den Himmel, aber niemanden, der dort etwas gebaut hat —
+      und `chip` statt `haken` für die strahlungsfesten Bauteile: Der Haken
+      sagte „stimmt", statt zu zeigen, wovon die Rede ist~~
+- [x] ~~**Die Figur steht rechts neben der Signatur**, größer, vertikal
+      zentriert, lächelnd und ohne Zeigegeste. Sie hat vier Plätze durchlaufen;
+      die Begründung steht bei `Schluss` in `video/szenen/index.tsx`~~
