@@ -24,9 +24,8 @@ import { nachleser } from './nachleser';
  * lautlos — die Schemapruefung sieht zwei gueltige Rigs, nicht zwei
  * verschiedene.
  *
- * Die Farbe ist vorlaeufig `blau`. Sobald der Kanal auf dunklen Grund wechselt,
- * wird Blau zur Grundfarbe und der Zeiger braucht eine andere; das steht als
- * eigene Entscheidung an.
+ * Seine Farbe ist der Akzent des Kanals — seit dem 24.08.2026 das Gelb
+ * `#F7F36D` aus der Vorlage, mit der die ganze Palette umgekehrt wurde.
  */
 const farbeTauschen = (stil: Stil | undefined, karte: Record<string, string>): Stil | undefined => {
   if (!stil) return stil;
@@ -62,12 +61,15 @@ export const eingefaerbt = (rig: Rig, karte: Record<string, string>): Rig => ({
 });
 
 /**
- * Die beiden tauschen ihre Rollen auch farblich: Der Nachleser ist ein dunkler
- * Koerper mit blauem Ladebalken, der Zeiger ein blauer Koerper mit hellem.
- * Dieselbe Form, umgekehrte Fuellung — sie sind erkennbar dasselbe Geraet und
- * trotzdem im Standbild nie zu verwechseln.
+ * Getauscht wird genau eine Farbe: die des Koerpers.
+ *
+ * Der Nachleser ist hell, der Zeiger gelb — beide mit demselben dunklen
+ * Ladebalken, denselben Augen, demselben Mund. Sie sind erkennbar dasselbe
+ * Geraet und trotzdem im Standbild nie zu verwechseln.
+ *
+ * `FARBEN.blau` heisst weiter so und ist seit dem 24.08.2026 das Gelb
+ * `#F7F36D`; der Name steht fuer die Rolle „Akzent", nicht fuer den Farbton.
  */
 export const zeiger: Rig = eingefaerbt(nachleser, {
   [FARBEN.tinte]: FARBEN.blau,
-  [FARBEN.blau]: FARBEN.grundRein,
 });

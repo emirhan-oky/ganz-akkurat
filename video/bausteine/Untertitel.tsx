@@ -158,7 +158,13 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                 fontWeight: SCHRIFT.schwarz,
                 fontSize: groesse,
                 lineHeight: 1.18,
-                color: aktiv ? '#FFFFFF' : FARBEN.tinte,
+                /*
+                 * Auf dem Akzentbalken steht die **Grundfarbe**, nicht Weiss.
+                 * Seit dem 24.08.2026 ist der Akzent gelb, und Weiss auf Gelb
+                 * traegt nichts — dieselbe Rechnung, die den ganzen
+                 * Farbwechsel ausgeloest hat, nur eine Ebene tiefer.
+                 */
+                color: aktiv ? FARBEN.grund : FARBEN.tinte,
                 letterSpacing: -1,
                 /*
                  * Das aktive Wort steht auf einem blauen Balken, nicht nur in
@@ -175,20 +181,26 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                 /*
                  * Kontrast am Text statt am Kasten.
                  *
-                 * Der weisse Kasten ist gestrichen: Auf dem hellen Grund der
-                 * Marke brachte er kaum Kontrast, kostete aber Flaeche und sah
-                 * aus wie ein aufgeklebtes Etikett. Sein eigentlicher Zweck —
-                 * Lesbarkeit ueber unruhigem Untergrund — wird jetzt erst
-                 * gebraucht, weil unter dem Untertitel Zeichnungen stehen
-                 * koennen. Eine Aura in der Grundfarbe traegt ueber Linien und
-                 * Flaechen, ohne Platz zu belegen.
+                 * Der weisse Kasten ist gestrichen: Er brachte kaum Kontrast,
+                 * kostete aber Flaeche und sah aus wie ein aufgeklebtes
+                 * Etikett. Sein eigentlicher Zweck — Lesbarkeit ueber
+                 * unruhigem Untergrund — wird gebraucht, weil unter dem
+                 * Untertitel Zeichnungen stehen koennen. Eine Aura in der
+                 * Grundfarbe traegt ueber Linien und Flaechen, ohne Platz zu
+                 * belegen.
+                 *
+                 * **Die Aura kommt aus `FARBEN.grund`, nicht als fester
+                 * rgba-Wert.** Bis zum 24.08.2026 stand hier `247,248,250`
+                 * ausgeschrieben — der alte helle Grund. Nach der Umkehr auf
+                 * Nachtblau leuchtete der Untertitel weiss aus dem Bild, und
+                 * genau so sah es auch aus: wie ein Fehler im Render.
                  */
                 textShadow: aktiv
                   ? 'none'
                   : [
-                      '0 0 10px rgba(247,248,250,0.98)',
-                      '0 0 20px rgba(247,248,250,0.92)',
-                      '0 2px 4px rgba(247,248,250,1)',
+                      `0 0 10px ${FARBEN.grund}FA`,
+                      `0 0 20px ${FARBEN.grund}EB`,
+                      `0 2px 4px ${FARBEN.grund}`,
                     ].join(', '),
               }}
             >

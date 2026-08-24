@@ -179,23 +179,68 @@ export const BUEHNE = {
   hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten - UNTERTITEL_ZONE,
 } as const;
 
+/**
+ * ## Die Umkehr vom 24.08.2026: heller Grund wird dunkel
+ *
+ * Bis dahin lief der Kanal auf `#F7F8FA` mit dunkler Tinte und blauem Akzent.
+ * Der Wechsel kam ueber die Figuren: Der zweite Akku sollte das Gelb
+ * `#F7F36D` tragen — und **Gelb auf fast weissem Grund ist unsichtbar**.
+ * Nachgerechnet nach WCAG:
+ *
+ * | Figur | Kontrast zu `#F7F8FA` |
+ * |---|---|
+ * | Nachtblau `#061B3D` | 16,5 : 1 |
+ * | Gelb `#F7F36D` | **1,1 : 1** |
+ *
+ * Gelb hat eine relative Luminanz von 0,85, der alte Grund 0,96. Das ist
+ * heller Text auf hellem Papier. Auf `#061B3D` dagegen leuchtet es — genau so
+ * war es in der Vorlage zu sehen, aus der die Farbe stammt.
+ *
+ * **Die Namen behalten ihre Bedeutung**, nur die Werte kehren sich um: `grund`
+ * ist der Hintergrund, `tinte` das, was darauf steht. Wer `tinte` liest und
+ * „dunkel" denkt, liegt seit dem 24.08.2026 falsch — gemeint war immer die
+ * Schreibfarbe, nicht ihr Helligkeitswert.
+ */
 export const FARBEN = {
-  /** Grund: heller Off-White wie im Banner — hebt sich im dunklen Feed ab. */
-  grund: '#F7F8FA',
-  grundRein: '#FFFFFF',
-  /** Isometrisches Hintergrundgitter. */
-  gitter: '#EDF1F5',
+  /** Grund: Nachtblau. Der Feed ist dunkel, und der Kanal jetzt auch. */
+  grund: '#061B3D',
+  /**
+   * Flaechen **auf** dem Grund — Symbolfuellungen, Pillen.
+   *
+   * Nicht mehr Weiss: Eine weisse Flaeche auf Nachtblau ist ein Loch im Bild.
+   * Ein Tick heller als der Grund genuegt, damit eine Form sich absetzt.
+   */
+  grundRein: '#0C2A55',
+  /** Isometrisches Hintergrundgitter — knapp ueber dem Grund. */
+  gitter: '#0B2449',
 
-  /** Text und Illustrationslinien. */
-  tinte: '#111820',
-  tinteWeich: '#5E6877',
-  linie: '#9EA6AF',
-  linieFein: '#BDC4CB',
-  flaeche: '#D7DCE2',
+  /** Text und Illustrationslinien. Hell, seit der Grund dunkel ist. */
+  tinte: '#EEF3F8',
+  /*
+   * Traegt zwei Rollen: den Spruch in der Signatur und die Symbolzeichnungen.
+   * Nach der Umkehr auf dunklen Grund stand sie erst auf `#9DB2CC` — der
+   * Spruch war gut lesbar, die Lupe daneben aber blass gegen die helle Figur.
+   * Dasselbe Missverhaeltnis hatte am 23.08.2026 schon den Wechsel von `linie`
+   * auf `tinteWeich` ausgeloest, nur mit umgekehrten Vorzeichen.
+   */
+  tinteWeich: '#B8CBE2',
+  linie: '#3C5378',
+  linieFein: '#2A3F60',
+  flaeche: '#123564',
 
-  /** Der einzige echte Akzent. Sparsam einsetzen, sonst verliert er Wirkung. */
-  blau: '#2C5EFF',
-  blauHell: '#E9EEFF',
+  /**
+   * Der Akzent ist seit dem 24.08.2026 **gelb**, nicht mehr blau.
+   *
+   * Auf hellem Grund trug Blau den Akzent, weil es das Dunkelste nach der
+   * Tinte war. Auf Nachtblau kann ein Blau nichts mehr auszeichnen — es
+   * verschwindet im Grund. Gelb ist die Gegenfarbe und traegt zugleich das
+   * Motiv: Die Figur ist ein Akku, und Gelb liest sich als Ladung.
+   *
+   * `blau` heisst weiter `blau`, damit nicht hundert Fundstellen umbenannt
+   * werden muessen — der Name ist die **Rolle** „Akzent", nicht die Farbe.
+   */
+  blau: '#F7F36D',
+  blauHell: '#1B3A66',
 
   /** Bedeutungsfarben fuer Kompatibilitaetsaussagen. */
   jaGruen: '#1F9D68',

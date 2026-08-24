@@ -192,7 +192,14 @@ export const nachleser = Rig.parse({
            Logozeichen — nicht mittig: Eine Ladung, die in der Mitte steht,
            liest sich als Fenster und nicht als Fuellstand. */
         { art: 'rechteck', x: 78, y: 86, breite: 44, hoehe: 22, radius: 7,
-          stil: { fuellung: FARBEN.blau, strich: 'none', staerke: 0 } },
+          /*
+           * Der Ladebalken traegt seit dem 24.08.2026 die **Grundfarbe**, nicht
+           * mehr den Akzent. Der Koerper ist jetzt hell, und ein gelber Balken
+           * darauf waere so unsichtbar wie eine gelbe Figur auf hellem Grund —
+           * derselbe Fehler eine Ebene tiefer. In Grundfarbe liest er sich als
+           * Fenster im Geraet, und das trifft es besser als eine Fuellung.
+           */
+          stil: { fuellung: FARBEN.grund, strich: 'none', staerke: 0 } },
       ] },
 
     { id: 'auge_links', ebene: 21, eltern: 'koerper', stil: GESICHT,
