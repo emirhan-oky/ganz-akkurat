@@ -57,8 +57,15 @@ export const Logozeichen: React.FC<{ groesse?: number }> = ({ groesse = 44 }) =>
     <rect x="38" y="4" width="24" height="12" rx="4" fill={FARBEN.tinte} />
     {/* Gehaeuse */}
     <rect x="16" y="16" width="68" height="80" rx="14" fill={FARBEN.tinte} />
-    {/* Ladung — der einzige blaue Fleck, wie beim Winkel zuvor */}
-    <rect x="28" y="52" width="44" height="34" rx="7" fill={FARBEN.blau} />
+    {/*
+      * Ladung — in `anzeigeEins`, nicht im Akzent.
+      *
+      * Dieselbe Rechnung wie beim Ladebalken der Figur: Der Akzent ist ein
+      * dunkles Marineblau und traegt auf hellem Grund; **auf dem dunklen
+      * Gehaeuse hat er nur 1,7**, und der Balken verschwindet darin. Bei 40
+      * Pixeln Kanalbild waere das ein schwarzer Fleck ohne Ladestand.
+      */}
+    <rect x="28" y="52" width="44" height="34" rx="7" fill={FARBEN.anzeigeEins} />
   </svg>
 );
 

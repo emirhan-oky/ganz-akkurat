@@ -1,7 +1,12 @@
 import { FARBEN, SCHRIFT, SPRUCH } from '../src/marke';
 import { FORMATE, type Format } from '../src/typen';
 import { Logozeichen, Wortmarke } from './bausteine/Wortmarke';
-import { Muster, SpruchGross } from './bausteine/Muster';
+import { Muster } from './bausteine/Muster';
+import { Figur } from './bausteine/Figur';
+import { Symbol } from './bausteine/Geraete';
+import { nachleser } from '../daten/figur/nachleser';
+import { zeiger } from '../daten/figur/zeiger';
+import { POSEN } from './bausteine/posen';
 
 /**
  * Kanalbilder — Profilbild und YouTube-Banner.
@@ -116,19 +121,29 @@ export const WortmarkeQuer: React.FC = () => (
 );
 
 /**
- * Banner, Variante Muster — 2048x1152.
+ * Der YouTube-Banner — 2048x1152.
  *
- * Die Fassung nach dem Vorbild des alten Banners: dichtes Isometriemuster aus
- * Linien und Dreiecken, in der Mitte eine Luecke, darin der Spruch.
+ * **Der sichere Bereich bestimmt die Komposition, nicht die Bildmitte.** Von
+ * den 2048x1152 sind nur **1235x338 in der Mitte** auf allen Geraeten
+ * sichtbar; auf dem Handy sieht man genau diesen flachen Streifen. Alles, was
+ * gelesen werden muss, gehoert hinein — alles, was schmueckt, darf daneben
+ * stehen und erscheint erst auf dem Desktop.
  *
- * Der Spruch traegt allein, ohne Logo. Er kann das, weil er im selben
- * Staerkekontrast gesetzt ist wie die Wortmarke — „Wir haben" duenn,
- * „nachgelesen." fett. Wer „Ganz akkurat" schon einmal gesehen hat, erkennt
- * die Machart wieder, auch wenn der Name nicht dasteht.
+ * Deshalb steht mittig nur Spruch und Zeile. Die beiden Akkus und die Lupe
+ * flankieren sie ausserhalb: Auf dem Handy fehlt nichts, auf dem grossen
+ * Bildschirm erzaehlt der Banner mehr.
  *
- * Und inhaltlich ist es die richtige Reihenfolge: Der Name sagt, wie der Kanal
- * heisst; der Spruch sagt, warum es ihn gibt.
+ * Der Aufbau folgt dem Feld der `Farbprobe`, weil dort schon steht, wie die
+ * Teile zusammen wirken: Satz oben, Figuren und Symbol in der Mitte, unten
+ * Strich, Spruch und eine Zeile im selben Muster.
+ *
+ * **Die Zeile nennt keine Frequenz.** „Viermal die Woche" waere ein
+ * Versprechen an ein Publikum, das es noch nicht gibt — dasselbe Argument, mit
+ * dem am 20.08.2026 der Wochentag gestrichen wurde. Sie sagt stattdessen, was
+ * den Kanal von hundert anderen mit derselben Verpackung unterscheidet.
  */
+const BANNER_SATZ = 'Nichts davon ist Zufall.';
+
 export const BannerMuster: React.FC = () => (
   <div
     style={{
@@ -137,29 +152,109 @@ export const BannerMuster: React.FC = () => (
       backgroundColor: FARBEN.grund,
       position: 'relative',
       overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     }}
   >
     <Muster
       breite={2048}
       hoehe={1152}
-      freiBreite={SICHER_BREITE}
-      freiHoehe={SICHER_HOEHE}
+      freiBreite={1580}
+      freiHoehe={620}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
       akzent={FARBEN.blau}
     />
-    <div style={{ position: 'relative', zIndex: 1 }}>
-      <SpruchGross
-        groesse={104}
-        farbe={FARBEN.tinte}
-        duenn={SCHRIFT.duenn}
-        fett={SCHRIFT.fett}
-        familie={SCHRIFT.familie}
-        akzent={FARBEN.blau}
-      />
+
+    {/*
+     * Die Akkus links, die Lupe rechts — **neben** dem Text, nicht darunter.
+     *
+     * Gerechnet, nicht geschaetzt: Der Satz steht bei 92 Pixeln Schriftgroesse
+     * rund 950 Pixel breit und mittig, laeuft also von etwa x = 550 bis 1500.
+     * Links bleiben 550 Pixel, rechts 548. Im ersten Anlauf standen die
+     * Figuren bei x = 250 mit 540 Pixeln Breite und lagen mitten im Wort.
+     */}
+    <div
+      style={{
+        position: 'absolute',
+        left: 60,
+        top: 425,
+        display: 'flex',
+        alignItems: 'flex-end',
+      }}
+    >
+      <div style={{ width: 230, height: 173 }}>
+        <Figur rig={nachleser} pose={POSEN.zeigen} />
+      </div>
+      <div style={{ width: 230, height: 173, marginLeft: -50 }}>
+        <Figur rig={zeiger} pose={POSEN.ruhe} />
+      </div>
+    </div>
+
+    <div style={{ position: 'absolute', right: 150, top: 445 }}>
+      <Symbol art="lupe" groesse={210} />
+    </div>
+
+    {/* Das sichere Feld: Satz, Spruch, Zeile. */}
+    <div
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 1235,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 30,
+        zIndex: 1,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: SCHRIFT.familie,
+          fontStyle: 'italic',
+          fontWeight: SCHRIFT.schwarz,
+          fontSize: 92,
+          color: FARBEN.tinte,
+          lineHeight: 1.05,
+          textAlign: 'center',
+        }}
+      >
+        {BANNER_SATZ}
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
+        <div style={{ width: 108, height: 9, borderRadius: 999, backgroundColor: FARBEN.blau }} />
+        <span
+          style={{
+            fontFamily: SCHRIFT.familie,
+            fontStyle: 'italic',
+            fontWeight: SCHRIFT.fett,
+            fontSize: 44,
+            color: FARBEN.tinteWeich,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {SPRUCH}
+        </span>
+      </div>
+
+      {/*
+       * Dieselbe Struktur wie die Beschriftung in der `Farbprobe`: zwei
+       * gesetzte Teile, durch einen Mittelpunkt getrennt, dann ein leichter
+       * Nachsatz hinter dem Gedankenstrich.
+       *
+       * Der Nachsatz hiess im ersten Anlauf „nichts davon ist Zufall" — und
+       * stand damit woertlich zweimal im Bild, oben als Satz und hier klein.
+       * „Woertlich zitiert" sagt stattdessen, was tatsaechlich passiert: Jedes
+       * Zitat in `quellen.json` wird von `npm run quellen-pruefen` als
+       * Zeichenkette auf der Seite gesucht.
+       */}
+      <div style={{ fontFamily: 'Inter', fontSize: 34, color: FARBEN.tinte }}>
+        <span style={{ fontWeight: 700 }}>Ein Fakt</span>
+        <span style={{ fontWeight: 400, color: FARBEN.tinteWeich }}> · </span>
+        <span style={{ fontWeight: 700 }}>eine Fundstelle</span>
+        <span style={{ fontWeight: 400, color: FARBEN.tinteWeich }}> — wörtlich zitiert</span>
+      </div>
     </div>
   </div>
 );
