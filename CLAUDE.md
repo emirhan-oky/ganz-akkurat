@@ -525,6 +525,33 @@ sagt „fertig". 96 Pixel trennen nichts, sie zeichnen den Spruch aus. Gezogen
 statt eingeblendet: **Eine Linie, die entsteht, ist eine Geste; eine, die schon
 da ist, ist ein Rahmen.**
 
+**Der Folgen-Hinweis ist stumm.** Seit dem 24.08.2026 steht unter dem Spruch
+ein Plattformzeichen — Plus im Kreis, Personenumriss mit Plus, Glocke —, und es
+wird **angetippt**: Umriss zuerst, einen Moment später gefüllt. Ein gesprochener
+Aufruf schied aus, weil `ABBINDER` Schlusssätze mit Handlungsaufforderung
+ablehnt und kein Format eine Handlung verlangt; ein stehendes Icon wäre ein
+Hinweisschild gewesen. Derselbe Gedanke wie beim gezogenen Strich.
+
+Das Zeichen bleibt in beiden Zuständen **vollständig** — beim Plus wäre es
+naheliegend gewesen, es beim Füllen verschwinden zu lassen („mach das Plus
+weg"), aber dann stünde im Standbild ein leerer Kreis. Es invertiert
+stattdessen. Nachgebaut wird die **Geste, nicht das Logo**: keine rote Glocke,
+keine Note, sondern der Strichstil des Kanals. Die Zeichen stehen deshalb auch
+nicht in `KontextArt` — sie behaupten nichts über die Welt und hängen an keiner
+`quelleId`.
+
+`dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
+egal wo er landet. Bis die Pipeline drei Fassungen baut, steht die Vorgabe auf
+`tiktok`.
+
+**Am 24.08.2026 sind 0,8 Sekunden Leere am Videoende weggefallen.**
+`gesamtdauerBilder` in `src/zeit.ts` addierte sie, „damit die Endkarte nicht auf
+dem letzten Wort abreißt" — und die Endkarte ist am 18.08.2026 gestrichen
+worden. Die Zahl blieb stehen; seither endete jedes Video mit einer leeren
+Bühne, weil die Sequences mit der letzten Szene aufhören und die Komposition
+weiterlief. Aufgefallen ist es erst am Standbild des **letzten** Bildes, das
+sonst niemand zieht. Genau dort setzt der Rundlauf an.
+
 Zwei Felder tragen das: **`rundlauf`** an der Schlussszene sagt, warum der
 erste Satz danach wieder passt (ein Feld, keine Prüfung — beurteilen kann das
 kein Skript), und **`weitererzaehlt`** muss im verketteten Sprechtext wirklich

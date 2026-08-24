@@ -755,6 +755,79 @@ const Zeichenflaeche: React.FC<ZeichnungProps & { inhalt: React.ReactNode }> = (
   </svg>
 );
 
+/* ─────────────────────────── Plattformzeichen ───────────────────────── */
+
+/**
+ * Der Dienst, fuer den eine Fassung gerendert wird.
+ *
+ * Keine Eigenschaft des Shorts, sondern des Renders — deshalb steht das hier
+ * und nicht im Schema. Ein Short ist derselbe, egal wo er landet; nur das
+ * Zeichen an der Signatur wechselt.
+ */
+export type Dienst = 'tiktok' | 'instagram' | 'youtube';
+
+/**
+ * Das stumme Folgen-Zeichen an der Signatur.
+ *
+ * **Nicht in `KontextArt`.** Das ist die Aufzaehlung der Symbole, die eine
+ * Szene inhaltlich zeigen kann; ein Plattformzeichen behauptet nichts ueber
+ * die Welt und haengt an keiner `quelleId`. Es ist ein Markenelement wie die
+ * Wortmarke, kein Inhalt.
+ *
+ * **Nachgebaut wird die Geste, nicht das Logo.** Ein Plus im Kreis, eine
+ * Glocke, ein Personenumriss — in den Farben des Kanals, im Strichstil der
+ * uebrigen Symbole. Keine rote Glocke, keine Note. Dasselbe Argument wie bei
+ * den Geraetezeichnungen: selbst gezeichnet, damit kein Lizenz- oder
+ * Markenproblem entsteht.
+ *
+ * `gedrueckt` schaltet den Zustand um: Umriss vor dem Antippen, gefuellt
+ * danach. **Das Zeichen bleibt in beiden Zustaenden vollstaendig** — beim
+ * Plus waere es naheliegend gewesen, es beim Fuellen verschwinden zu lassen
+ * („mach das Plus weg"), aber dann stuende im Standbild ein leerer Kreis. Es
+ * invertiert stattdessen: blauer Grund, weisses Zeichen.
+ */
+export const Plattformzeichen: React.FC<{
+  dienst: Dienst;
+  groesse?: number;
+  gedrueckt?: boolean;
+}> = ({ dienst, groesse = 76, gedrueckt = false }) => {
+  const grund = gedrueckt ? FARBEN.blau : FARBEN.grundRein;
+  const zug = gedrueckt ? FARBEN.grundRein : FARBEN.blau;
+  const kontur = { fill: 'none', stroke: zug, strokeWidth: 7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+
+  return (
+    <svg width={groesse} height={groesse} viewBox="0 0 100 100" style={{ display: 'block', overflow: 'visible' }}>
+      {/*
+       * Der Ring traegt alle drei Zeichen. Er ist der Knopf; was darin steht,
+       * unterscheidet die Dienste. Ohne ihn waere das Antippen nicht
+       * darstellbar — eine freistehende Glocke, die die Farbe wechselt, sieht
+       * aus wie ein Fehler.
+       */}
+      <circle cx="50" cy="50" r="42" fill={grund} stroke={FARBEN.blau} strokeWidth={6} />
+
+      {dienst === 'tiktok' && <path {...kontur} d="M50 32v36M32 50h36" />}
+
+      {dienst === 'instagram' && (
+        <>
+          {/* Kopf und Schultern, dazu das Plus rechts daneben. */}
+          <circle {...kontur} cx="43" cy="38" r="10.5" />
+          <path {...kontur} d="M27 68c3-9 8-13.5 16-13.5s13 4.5 16 13.5" />
+          <path {...kontur} strokeWidth={5.5} d="M71 37v14M64 44h14" />
+        </>
+      )}
+
+      {dienst === 'youtube' && (
+        <>
+          {/* Glockenmantel, Rand, Kloeppel. */}
+          <path {...kontur} d="M35 60c0-16 2-25 15-25s15 9 15 25" />
+          <path {...kontur} d="M31 60h38" />
+          <path {...kontur} strokeWidth={5.5} d="M46 68h8" />
+        </>
+      )}
+    </svg>
+  );
+};
+
 /** Situationssymbol — gleiche Flaeche, anderer Anspruch. Siehe `Symbole`. */
 export const Symbol: React.FC<ZeichnungProps & { art: KontextArt }> = ({ art, ...rest }) => (
   <Zeichenflaeche inhalt={Symbole[art]} {...rest} />

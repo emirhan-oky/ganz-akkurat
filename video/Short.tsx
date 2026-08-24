@@ -6,6 +6,7 @@ import { Hintergrund } from './bausteine/Hintergrund';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { SzeneRendern } from './szenen';
+import type { Dienst } from './bausteine/Geraete';
 
 /**
  * Ein vollstaendiger Short.
@@ -86,7 +87,22 @@ const Kennzeichnung: React.FC<{ werbung: ShortDaten['kennzeichnung']['werbung'];
  */
 const BELEG_MAXBILDER = 90;
 
-export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
+/**
+ * Der Dienst ist eine Eigenschaft des **Renders**, nicht des Shorts.
+ *
+ * Ein Short ist derselbe, egal wo er landet; nur das Folgen-Zeichen an der
+ * Signatur wechselt. Deshalb steht `dienst` hier als Prop und nicht im Schema.
+ *
+ * **Optional mit Vorgabe ist Absicht.** So bleibt `daten/beispiel-short.ts`
+ * als Standard-Prop der Komposition gueltig und `npm run lauf` laeuft
+ * unveraendert weiter. Wuerde die Prop pflichtig, riss die Standard-Prop das
+ * Schema — und dann bleibt Remotion in einem unerfuellten Promise stehen, ohne
+ * Fehlermeldung, bis jemand abbricht.
+ */
+export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
+  daten,
+  dienst = 'tiktok',
+}) => {
   const plan = szenenZeitplan(daten);
 
   /*
@@ -146,7 +162,7 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
         if (!zeit) return null;
         return (
           <Sequence key={i} from={zeit.startBild} durationInFrames={zeit.dauerBilder} name={`${i + 1} ${szene.art}`}>
-            <SzeneRendern szene={szene} dauer={zeit.dauerBilder} />
+            <SzeneRendern szene={szene} dauer={zeit.dauerBilder} dienst={dienst} />
           </Sequence>
         );
       })}

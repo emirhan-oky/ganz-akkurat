@@ -6,6 +6,7 @@ import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
 import { POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
+import { Plattformzeichen, type Dienst } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
   abschnitt,
@@ -609,7 +610,10 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
  * Keine Dauerbewegung: Der letzte Frame ist der, den die Plattform als
  * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
  */
-const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => {
+const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst }> = ({
+  szene,
+  dienst,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -690,6 +694,28 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => 
           >
             {SPRUCH}
           </span>
+
+          {/*
+           * Das stumme Folgen-Zeichen — dritte Zeile der Signatur.
+           *
+           * Ein gesprochener Aufruf scheidet aus: `ABBINDER` in
+           * `src/pruefung.ts` lehnt Schlusssaetze ab, die eine Handlung
+           * verlangen, und der Rundlauf lebt davon, dass am Ende kein Vorhang
+           * faellt. Ein „lass ein Abo da" waere genau der Abspann, der am
+           * 18.08.2026 abgeschafft wurde.
+           *
+           * **Es wird angetippt, nicht hingestellt.** Ein stehendes Icon ist
+           * ein Hinweisschild; der Wechsel von Umriss auf gefuellt zeigt die
+           * Handlung selbst. Derselbe Gedanke wie beim gezogenen Strich: Eine
+           * Linie, die entsteht, ist eine Geste.
+           *
+           * Der Druck sitzt bei Frame 36, nach Strich (6), Spruch (10) und
+           * Figur (12) — als letztes, damit er nicht mit dem Aufbau
+           * konkurriert.
+           */}
+          <div style={{ ...auftritt(frame, fps, 24), marginTop: ABSTAND.s }}>
+            <Plattformzeichen dienst={dienst} gedrueckt={frame >= 36} />
+          </div>
         </div>
 
         {/*
@@ -850,7 +876,11 @@ const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer })
 
 /* ──────────────────────────── Verteiler ────────────────────────────── */
 
-export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
+export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Dienst }> = ({
+  szene,
+  dauer,
+  dienst,
+}) => {
   switch (szene.art) {
     case 'text':
       return <Text szene={szene} dauer={dauer} />;
@@ -863,7 +893,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene,
     case 'einschraenkung':
       return <Einschraenkung szene={szene} dauer={dauer} />;
     case 'schluss':
-      return <Schluss szene={szene} />;
+      return <Schluss szene={szene} dienst={dienst} />;
     case 'kaufkriterien':
       return <Kaufkriterien szene={szene} dauer={dauer} />;
   }

@@ -157,8 +157,19 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
 /** Gesamtlaenge des Shorts in Bildern. */
 export const gesamtdauerBilder = (short: Short): number => {
   if (short.tonspur) {
-    // Etwas Nachlauf, damit die Endkarte nicht auf dem letzten Wort abreisst.
-    return Math.round((short.tonspur.dauerSek + 0.8) * FORMAT.bilderProSekunde);
+    /*
+     * **Kein Nachlauf.** Hier standen bis zum 24.08.2026 0,8 Sekunden extra,
+     * begruendet mit „damit die Endkarte nicht auf dem letzten Wort
+     * abreisst" — und die Endkarte ist am 18.08.2026 gestrichen worden. Die
+     * Zahl blieb stehen und produzierte seitdem am Ende jedes Videos 0,8
+     * Sekunden **leere Buehne**: Die Sequences enden mit der letzten Szene,
+     * die Komposition lief weiter.
+     *
+     * Aufgefallen beim Standbild des letzten Bildes — dort stand nur noch die
+     * Kopfzeile. Genau dort setzt der Rundlauf an, und Leere ist der Vorhang,
+     * den er nicht haben soll.
+     */
+    return Math.round(short.tonspur.dauerSek * FORMAT.bilderProSekunde);
   }
   const plan = szenenZeitplan(short);
   const letzter = plan[plan.length - 1];
