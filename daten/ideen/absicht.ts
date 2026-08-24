@@ -104,7 +104,7 @@ export const absichtIdeen: Idee[] = [
     id: "parts-pairing",
     format: "absicht",
     sachgebiet: "recht",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt: "Manche Ersatzteile funktionieren nur, wenn der Hersteller sie freischaltet. Gleiches Teil, tote Software.",
     dreh: "Der Entscheider steht namentlich in einer EU-Richtlinie, weil die EU es ihm gerade verbietet.",
     sache: "Die Reparaturrichtlinie 2024/1799 adressiert das Koppeln von Ersatzteilen ausdrücklich.",

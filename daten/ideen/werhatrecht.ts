@@ -136,7 +136,7 @@ export const werhatrechtIdeen: Idee[] = [
     id: "passwort-wechseln",
     format: "werhatrecht",
     sachgebiet: "netz",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt: "Passwörter regelmäßig wechseln: Die IT-Abteilung besteht darauf, im Internet lachen alle darüber.",
     dreh: "Beide streiten über eine Regel, die die Behörde, von der sie stammt, selbst zurückgezogen hat.",
     sache: "Das BSI hat die Empfehlung zum regelmäßigen Passwortwechsel aus dem Grundschutz entfernt.",

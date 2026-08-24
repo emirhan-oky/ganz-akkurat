@@ -50,6 +50,25 @@ import type { Short, Szene } from './typen';
  * Auch die neue Zahl bleibt eine Schaetzung fuer *ungesprochene* Entwuerfe:
  * Sobald ein Lauf `--mit-ton` gelaufen ist, gelten dessen echte Zeitstempel
  * und diese Formel spielt fuer den Short keine Rolle mehr.
+ *
+ * ## Offener Verdacht seit dem 24.08.2026
+ *
+ * `raumstation-alte-rechner` hat **506 Zeichen Sprechtext und 28,608 s
+ * Tonspur** — das sind **17,7 Zeichen/s**, nicht 15,4. Die Sprechprobe
+ * schaetzte fuer denselben Short 34,5 s. Ein Fehler von 15 %, und diesmal in
+ * die *harmlose* Richtung: zu lang geschaetzt heisst, es wird zu viel
+ * gestrichen.
+ *
+ * **Die Zahl wird trotzdem nicht geaendert**, weil eine Messung an einem
+ * Video genau der Fehler waere, den dieser Kommentar oben beschreibt. Der
+ * Verdacht hat aber eine plausible Ursache: Die Konstante wurde an Texten im
+ * alten Telegrammstil gemessen — viele kurze Saetze, viele Satzpausen. Seit
+ * dem 24.08.2026 verlangt `voice.md` in jedem gesprochenen Satz ein Verb, und
+ * laengere Saetze laufen fluessiger durch.
+ *
+ * Waere das die Ursache, dann waere die Konstante nicht falsch gemessen,
+ * sondern **fuer eine Sprache gemessen, die es nicht mehr gibt**. Nachmessen,
+ * sobald vier Shorts im neuen Stil vertont sind — dann liegen genug Werte vor.
  */
 export const ZEICHEN_PRO_SEKUNDE = 15.4;
 

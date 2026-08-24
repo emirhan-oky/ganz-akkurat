@@ -1,13 +1,8 @@
 import type { Short } from '../../src/typen';
-import { powerbankHandgepaeck } from './powerbank-handgepaeck';
-import { flugmodusMaerchen } from './flugmodus-maerchen';
-import { produktpassRegister } from './produktpass-register';
-import { akkuLoesungsmittel } from './akku-loesungsmittel';
-import { aufkleberGarantie } from './aufkleber-garantie';
-import { druckerKennung } from './drucker-kennung';
-import { schaltsekundeEndet } from './schaltsekunde-endet';
-import { privaterModus } from './privater-modus';
 import { raumstationAlteRechner } from './raumstation-alte-rechner';
+import { ersatzteilFreischalten } from './ersatzteil-freischalten';
+import { erstesLaden } from './erstes-laden';
+import { passwortWechseln } from './passwort-wechseln';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -46,15 +41,10 @@ import { raumstationAlteRechner } from './raumstation-alte-rechner';
  * acht geht das Abwechseln genau auf: jede zweite Stelle ein `absicht`.
  */
 export const WOCHENLAUF: Short[] = [
-  produktpassRegister,
-  powerbankHandgepaeck,
-  akkuLoesungsmittel,
-  flugmodusMaerchen,
-  aufkleberGarantie,
-  privaterModus,
-  druckerKennung,
-  schaltsekundeEndet,
   raumstationAlteRechner,
+  ersatzteilFreischalten,
+  erstesLaden,
+  passwortWechseln,
 ];
 
 /**

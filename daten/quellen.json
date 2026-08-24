@@ -419,7 +419,7 @@
       "titel": "Von Kauf bis Entsorgung: Smartphones und Tablets nachhaltig nutzen",
       "url": "https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/smartphones-tablets",
       "herausgeber": "Umweltbundesamt",
-      "geprueftAm": "2026-08-17",
+      "geprueftAm": "2026-08-24",
       "art": "behoerde",
       "abrufart": "automatisch",
       "belegt": [
@@ -442,6 +442,16 @@
           "id": "eine-vollstaendige-entleerung",
           "zitat": "Eine vollständige Entleerung schadet dem Akku",
           "stuetzt": "Leer laufen lassen ist nicht bloß überflüssig, sondern schädlich — die Umkehr der alten Regel, wörtlich."
+        },
+        {
+          "id": "siebzig-prozent-unterbrechen",
+          "zitat": "den Ladevorgang immer schon dann zu unterbrechen, wenn der Akku etwa 70 % seiner Kapazität erreicht hat",
+          "stuetzt": "Die Behörde empfiehlt ausdrücklich, den Ladevorgang vor dem Vollstand abzubrechen."
+        },
+        {
+          "id": "ausgeschalteter-zustand-laden",
+          "zitat": "den Akku möglichst im ausgeschalteten Zustand zu laden",
+          "stuetzt": "Auch beim Wie des Ladens weicht die heutige Empfehlung von der alten Regel ab."
         }
       ]
     },
@@ -786,6 +796,69 @@
           "id": "radiation-hardened-essential",
           "zitat": "special radiation-hardened components are essential for satellites",
           "stuetzt": "Für Satelliten sind besonders strahlungsfeste Bauteile unverzichtbar."
+        }
+      ]
+    },
+    {
+      "id": "eu-reparaturrichtlinie-2024",
+      "titel": "Richtlinie (EU) 2024/1799 über gemeinsame Vorschriften zur Förderung der Reparatur von Waren",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=OJ:L_202401799",
+      "herausgeber": "Europäische Union",
+      "geprueftAm": "2026-08-24",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "keine-hardware-oder-softwaretechniken",
+          "zitat": "Hersteller verwenden keine Vertragsklauseln und setzen keine Hardware- oder Softwaretechniken ein",
+          "stuetzt": "Die Reparaturrichtlinie verbietet Herstellern ausdrücklich technische Sperren gegen Reparatur."
+        },
+        {
+          "id": "behindern-verwendung-ersatzteile",
+          "zitat": "behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen",
+          "stuetzt": "Das Verbot nennt das Behindern gebrauchter und kompatibler Ersatzteile beim Namen."
+        }
+      ]
+    },
+    {
+      "id": "bsi-passwortwechsel-2026",
+      "titel": "Wirksamer Schutz von Benutzerkonten: Der Ändere-dein-Passwort-Tag braucht ein Update",
+      "url": "https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2026/260130_Aendere-dein-Passwort-Tag.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-24",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "routinemaessiger-wechsel-erhoeht-nicht",
+          "zitat": "Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch",
+          "stuetzt": "Das BSI sagt ausdrücklich, dass der regelmäßige Wechsel für sich genommen nichts bringt."
+        },
+        {
+          "id": "schwache-vorhersehbare-passwoerter",
+          "zitat": "vermehrt zu schwachen, z. B. leicht vorhersehbaren Passwörtern greifen",
+          "stuetzt": "Der erzwungene Wechsel führt laut BSI zu schwächeren Passwörtern."
+        },
+        {
+          "id": "stark-und-einzigartig",
+          "zitat": "Wichtiger ist, dass ein Passwort stark und einzigartig ist",
+          "stuetzt": "Das BSI nennt Stärke und Einzigartigkeit als das, worauf es stattdessen ankommt."
+        }
+      ]
+    },
+    {
+      "id": "bsi-umgang-mit-passwoertern",
+      "titel": "Umgang mit Passwörtern",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Accountschutz/Sichere-Passwoerter-erstellen/Umgang-mit-Passwoertern/umgang-mit-passwoertern.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-08-24",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "geaendert-wenn-hinweis-unbefugte",
+          "zitat": "geändert werden, wenn es einen Hinweis darauf gibt, dass es in die Hände von unbefugten Dritten gelangt ist",
+          "stuetzt": "Das BSI nennt den konkreten Verdacht als Anlass für den Wechsel, nicht den Kalender."
         }
       ]
     }

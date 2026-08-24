@@ -188,7 +188,7 @@ export const eswareinmalIdeen: Idee[] = [
     id: "erstes-laden-zwoelf-stunden",
     format: "eswareinmal",
     sachgebiet: "laden",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt: "Neue Geräte sollte man beim ersten Mal zwölf Stunden am Stück laden. Sollte man nicht.",
     dreh: "Die Regel stammt aus der Anleitung, die dem Gerät beilag — nur eben einem anderen Gerät.",
     sache: "Heutige Empfehlung ist das Gegenteil: nicht leer werden lassen, nicht dauerhaft voll halten.",
