@@ -195,11 +195,23 @@ export const BannerMuster: React.FC = () => (
       overflow: 'hidden',
     }}
   >
+    {/*
+     * **Der Freiraum ist enger als das sichere Feld, nicht weiter.**
+     *
+     * Bis zum 25.08.2026 stand hier `SICHER_BREITE + 180` — der Freiraum war
+     * damit groesser als der Ausschnitt, den ein Telefon zeigt, und auf dem
+     * Handy sah man vom Muster **gar nichts**. Es lief nur dort, wo ohnehin
+     * niemand hinsieht.
+     *
+     * Jetzt richtet er sich am Textblock aus: Der Satz misst bei 72 Pixeln
+     * rund 740, der gestapelte Block rund 270 hoch. 860 x 360 laesst dem
+     * Vordergrund Luft und holt das Muster bis in den sichtbaren Streifen.
+     */}
     <Muster
       breite={2048}
       hoehe={1152}
-      freiBreite={SICHER_BREITE + 180}
-      freiHoehe={SICHER_HOEHE + 120}
+      freiBreite={860}
+      freiHoehe={360}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
       akzent={FARBEN.blau}
