@@ -817,6 +817,16 @@
           "id": "behindern-verwendung-ersatzteile",
           "zitat": "behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen",
           "stuetzt": "Das Verbot nennt das Behindern gebrauchter und kompatibler Ersatzteile beim Namen."
+        },
+        {
+          "id": "mittels-3d-druck-hergestellt",
+          "zitat": "Ersatzteilen, die mittels 3D-Druck hergestellt wurden",
+          "stuetzt": "Die Aufzählung der geschützten Ersatzteile schließt selbst gedruckte ausdrücklich ein."
+        },
+        {
+          "id": "kompatiblen-ersatzteilen",
+          "zitat": "gebrauchten Ersatzteilen, kompatiblen Ersatzteilen",
+          "stuetzt": "Neben gebrauchten nennt die Richtlinie auch kompatible Ersatzteile beim Namen."
         }
       ]
     },

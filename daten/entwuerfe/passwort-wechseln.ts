@@ -56,7 +56,7 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Wichtiger ist laut Behörde, dass ein Passwort stark und für jedes Konto einzigartig ist.',
+      sprechtext: 'Wichtiger ist laut Behörde, dass ein Passwort stark und einzigartig ist.',
       text: 'Stark. Einzigartig.',
       buehne: { art: 'figur', von: 'erklaeren', nach: 'zeigen', requisite: 'haken' },
       quelleId: 'bsi-passwortwechsel-2026',
@@ -86,7 +86,7 @@ export const passwortWechseln: Short = {
   texte: {
     tiktok: {
       titel: 'Das Passwort und der Kalender',
-      beschreibung: 'Passwort wechseln alle 90 Tage: Das BSI hat die Empfehlung längst kassiert.',
+      beschreibung: 'Passwort wechseln nach Kalender: Das BSI sagt, das erhöht die Sicherheit nicht automatisch.',
       hashtags: ['#passwortsicherheit', '#bsi', '#passkeys', '#zweifaktor', '#ganzakkurat'],
     },
     instagram: {
@@ -96,7 +96,7 @@ export const passwortWechseln: Short = {
     },
     youtube: {
       titel: 'Das Passwort und der Verdacht',
-      beschreibung: 'Passwort wechseln nach BSI: Warum der Routinewechsel die Sicherheit nicht erhöht.',
+      beschreibung: 'Passwort wechseln nach BSI: Warum der Routinewechsel die Sicherheit nicht automatisch erhöht.',
       hashtags: ['#passwort', '#bsi', '#itsicherheit', '#ganzakkurat'],
     },
   },

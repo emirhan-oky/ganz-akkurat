@@ -57,25 +57,22 @@ export const ersatzteilFreischalten: Short = {
       text: 'Auch gebrauchte Teile.',
       buehne: { art: 'figur', von: 'erklaeren', nach: 'staunen', requisite: 'karton', stand: 'links' },
       quelleId: 'eu-reparaturrichtlinie-2024',
-      belegId: 'behindern-verwendung-ersatzteile',
+      belegId: 'kompatiblen-ersatzteilen',
     },
     {
+      /*
+       * Der 3D-Druck stand hier erst ohne eigene Fundstelle — er kam aus der
+       * Zusammenfassung des Abrufs, nicht aus dem gebundenen Zitat. Die
+       * Richtlinie nennt ihn tatsaechlich, an genau einer Stelle, und die
+       * steht jetzt als eigener Beleg daneben.
+       */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Auch das Nachbauen im 3D-Drucker darf ein Hersteller nicht blockieren.',
+      sprechtext: 'Sogar Ersatzteile aus dem 3D-Drucker stehen ausdrücklich in der Aufzählung.',
       text: 'Auch gedruckte Teile.',
       buehne: { art: 'figur', von: 'staunen', nach: 'zeigen', requisite: 'drucker' },
       quelleId: 'eu-reparaturrichtlinie-2024',
-      belegId: 'behindern-verwendung-ersatzteile',
-    },
-    {
-      art: 'text',
-      position: 'kipppunkt',
-      sprechtext: 'Das Verbot trifft Vertragsklauseln und Technik gleichermaßen. Richtlinie 2024/1799.',
-      text: 'Vertrag und Technik.',
-      buehne: { art: 'figur', von: 'zeigen', nach: 'achselzucken' },
-      quelleId: 'eu-reparaturrichtlinie-2024',
-      belegId: 'keine-hardware-oder-softwaretechniken',
+      belegId: 'mittels-3d-druck-hergestellt',
     },
     {
       art: 'schluss',
@@ -92,7 +89,7 @@ export const ersatzteilFreischalten: Short = {
   texte: {
     tiktok: {
       titel: 'Das Ersatzteil und das Verbot',
-      beschreibung: 'Ein Ersatzteil, das nach der Reparatur nichts tut – die EU verbietet genau das seit 2024.',
+      beschreibung: 'Ein Ersatzteil, das nach der Reparatur nichts tut – die EU untersagt genau das.',
       hashtags: ['#partspairing', '#ersatzteile', '#righttorepair', '#eurecht', '#ganzakkurat'],
     },
     instagram: {
