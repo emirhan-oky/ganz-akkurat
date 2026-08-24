@@ -24,8 +24,9 @@ import { nachleser } from './nachleser';
  * lautlos — die Schemapruefung sieht zwei gueltige Rigs, nicht zwei
  * verschiedene.
  *
- * Seine Farbe ist der Akzent des Kanals — seit dem 24.08.2026 das Gelb
- * `#F7F36D` aus der Vorlage, mit der die ganze Palette umgekehrt wurde.
+ * Seine Kennfarbe ist das Rot `#DD3B1D`, gemessen aus der Vorlage. Gelb war
+ * dafuer im Gespraech und ist an der Luminanz gescheitert: Auf hellem Grund
+ * traegt es 1,1 zu 1 — die Rechnung steht bei `FARBEN` in `src/marke.ts`.
  */
 const farbeTauschen = (stil: Stil | undefined, karte: Record<string, string>): Stil | undefined => {
   if (!stil) return stil;
@@ -61,15 +62,16 @@ export const eingefaerbt = (rig: Rig, karte: Record<string, string>): Rig => ({
 });
 
 /**
- * Getauscht wird genau eine Farbe: die des Koerpers.
+ * Getauscht wird genau eine Farbe: die des **Ladebalkens**.
  *
- * Der Nachleser ist hell, der Zeiger gelb — beide mit demselben dunklen
- * Ladebalken, denselben Augen, demselben Mund. Sie sind erkennbar dasselbe
- * Geraet und trotzdem im Standbild nie zu verwechseln.
+ * Koerper, Augen, Mund, Groesse, Haltung — alles identisch. Die beiden sind
+ * dasselbe Geraet, und was sie trennt, ist die Anzeige darauf: blau beim
+ * Nachleser, rot beim Zeiger.
  *
- * `FARBEN.blau` heisst weiter so und ist seit dem 24.08.2026 das Gelb
- * `#F7F36D`; der Name steht fuer die Rolle „Akzent", nicht fuer den Farbton.
+ * **Der erste Anlauf faerbte den Koerper**, und das war falsch. Ein zweiter
+ * Avatar in anderer Koerperfarbe ist eine zweite Figur; ein zweiter mit
+ * anderem Balken ist derselbe in einer anderen Rolle. Genau das ist gemeint.
  */
 export const zeiger: Rig = eingefaerbt(nachleser, {
-  [FARBEN.tinte]: FARBEN.blau,
+  [FARBEN.blau]: FARBEN.rot,
 });

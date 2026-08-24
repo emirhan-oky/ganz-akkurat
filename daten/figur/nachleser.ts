@@ -193,13 +193,15 @@ export const nachleser = Rig.parse({
            liest sich als Fenster und nicht als Fuellstand. */
         { art: 'rechteck', x: 78, y: 86, breite: 44, hoehe: 22, radius: 7,
           /*
-           * Der Ladebalken traegt seit dem 24.08.2026 die **Grundfarbe**, nicht
-           * mehr den Akzent. Der Koerper ist jetzt hell, und ein gelber Balken
-           * darauf waere so unsichtbar wie eine gelbe Figur auf hellem Grund —
-           * derselbe Fehler eine Ebene tiefer. In Grundfarbe liest er sich als
-           * Fenster im Geraet, und das trifft es besser als eine Fuellung.
+           * **Der Ladebalken traegt die Kennfarbe der Figur.** Beim
+           * `nachleser` ist das der Akzent, beim `zeiger` das Rot — und weil
+           * beide sonst identisch sind, ist dieser Balken das Einzige, was sie
+           * unterscheidet.
+           *
+           * Am 24.08.2026 stand hier einen Tag lang `FARBEN.grund`, waehrend
+           * der Koerper hell war. Das ging mit dem dunklen Hintergrund wieder.
            */
-          stil: { fuellung: FARBEN.grund, strich: 'none', staerke: 0 } },
+          stil: { fuellung: FARBEN.blau, strich: 'none', staerke: 0 } },
       ] },
 
     { id: 'auge_links', ebene: 21, eltern: 'koerper', stil: GESICHT,

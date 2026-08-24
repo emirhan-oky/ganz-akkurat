@@ -158,13 +158,7 @@ export const Untertitel: React.FC<{ woerter: Untertitelwort[] }> = ({ woerter })
                 fontWeight: SCHRIFT.schwarz,
                 fontSize: groesse,
                 lineHeight: 1.18,
-                /*
-                 * Auf dem Akzentbalken steht die **Grundfarbe**, nicht Weiss.
-                 * Seit dem 24.08.2026 ist der Akzent gelb, und Weiss auf Gelb
-                 * traegt nichts — dieselbe Rechnung, die den ganzen
-                 * Farbwechsel ausgeloest hat, nur eine Ebene tiefer.
-                 */
-                color: aktiv ? FARBEN.grund : FARBEN.tinte,
+                color: aktiv ? '#FFFFFF' : FARBEN.tinte,
                 letterSpacing: -1,
                 /*
                  * Das aktive Wort steht auf einem blauen Balken, nicht nur in

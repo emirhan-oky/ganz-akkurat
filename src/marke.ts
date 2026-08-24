@@ -180,67 +180,62 @@ export const BUEHNE = {
 } as const;
 
 /**
- * ## Die Umkehr vom 24.08.2026: heller Grund wird dunkel
+ * ## Warum Papier und nicht Weiss
  *
- * Bis dahin lief der Kanal auf `#F7F8FA` mit dunkler Tinte und blauem Akzent.
- * Der Wechsel kam ueber die Figuren: Der zweite Akku sollte das Gelb
- * `#F7F36D` tragen — und **Gelb auf fast weissem Grund ist unsichtbar**.
- * Nachgerechnet nach WCAG:
+ * Der Grund war bis zum 25.08.2026 `#F7F8FA` — praktisch Weiss, und damit
+ * ohne eigenen Ton. `#F2EBDE` ist ein warmes Papier: Der Kanal heisst „Wir
+ * haben nachgelesen", und das ist die Farbe des Nachlesens.
  *
- * | Figur | Kontrast zu `#F7F8FA` |
- * |---|---|
- * | Nachtblau `#061B3D` | 16,5 : 1 |
- * | Gelb `#F7F36D` | **1,1 : 1** |
+ * ## Der Umweg ueber Nachtblau, und warum er scheiterte
  *
- * Gelb hat eine relative Luminanz von 0,85, der alte Grund 0,96. Das ist
- * heller Text auf hellem Papier. Auf `#061B3D` dagegen leuchtet es — genau so
- * war es in der Vorlage zu sehen, aus der die Farbe stammt.
+ * Am 24.08.2026 lief der Kanal einen Tag lang auf `#061B3D` mit gelbem Akzent.
+ * Ausloeser war der zweite Avatar, der ein Gelb tragen sollte — und Gelb auf
+ * hellem Grund ist unsichtbar. Der dunkle Grund hat das geloest und zwei neue
+ * Probleme geschaffen: Die **Kontextsymbole** verloren ihre Wirkung, und der
+ * Avatar musste hell werden, was schlecht aussah.
  *
- * **Die Namen behalten ihre Bedeutung**, nur die Werte kehren sich um: `grund`
- * ist der Hintergrund, `tinte` das, was darauf steht. Wer `tinte` liest und
- * „dunkel" denkt, liegt seit dem 24.08.2026 falsch — gemeint war immer die
- * Schreibfarbe, nicht ihr Helligkeitswert.
+ * Die Rechnung dahinter, damit sie niemand zweimal anstellen muss (WCAG-
+ * Kontrast gegen den jeweiligen Grund):
+ *
+ * | | heller Grund | dunkler Grund |
+ * |---|---|---|
+ * | Avatarkoerper `#111820` | 12–17 | **1,0** |
+ * | Symbole `#5E6877` | 3,9–5,3 | 2,8–3,0 |
+ * | Akzent blau `#2C5EFF` | 3,5–4,8 | 3,1–3,4 |
+ * | Kennfarbe rot `#DD3B1D` | 3,1–4,2 | 3,5–3,8 |
+ * | Gelb `#F7F36D` | **1,0–1,2** | 13–15 |
+ *
+ * **Ein dunkler Koerper braucht hellen Grund, und auf hellem Grund faellt Gelb
+ * aus.** Deshalb tragen die beiden Avatare Blau und Rot, nicht Blau und Gelb.
  */
 export const FARBEN = {
-  /** Grund: Nachtblau. Der Feed ist dunkel, und der Kanal jetzt auch. */
-  grund: '#061B3D',
-  /**
-   * Flaechen **auf** dem Grund — Symbolfuellungen, Pillen.
-   *
-   * Nicht mehr Weiss: Eine weisse Flaeche auf Nachtblau ist ein Loch im Bild.
-   * Ein Tick heller als der Grund genuegt, damit eine Form sich absetzt.
-   */
-  grundRein: '#0C2A55',
-  /** Isometrisches Hintergrundgitter — knapp ueber dem Grund. */
-  gitter: '#0B2449',
+  /** Grund: warmes Papier. */
+  grund: '#F2EBDE',
+  /** Flaechen auf dem Grund — Symbolfuellungen, Pillen. Weiss mit derselben Waerme. */
+  grundRein: '#FFFDF9',
+  /** Isometrisches Hintergrundgitter. */
+  gitter: '#E9E1D2',
 
-  /** Text und Illustrationslinien. Hell, seit der Grund dunkel ist. */
-  tinte: '#EEF3F8',
-  /*
-   * Traegt zwei Rollen: den Spruch in der Signatur und die Symbolzeichnungen.
-   * Nach der Umkehr auf dunklen Grund stand sie erst auf `#9DB2CC` — der
-   * Spruch war gut lesbar, die Lupe daneben aber blass gegen die helle Figur.
-   * Dasselbe Missverhaeltnis hatte am 23.08.2026 schon den Wechsel von `linie`
-   * auf `tinteWeich` ausgeloest, nur mit umgekehrten Vorzeichen.
-   */
-  tinteWeich: '#B8CBE2',
-  linie: '#3C5378',
-  linieFein: '#2A3F60',
-  flaeche: '#123564',
+  /** Text und Illustrationslinien. */
+  tinte: '#111820',
+  tinteWeich: '#5E6877',
+  linie: '#A39C8E',
+  linieFein: '#C6BFB1',
+  flaeche: '#DCD3C2',
+
+  /** Der einzige echte Akzent. Sparsam einsetzen, sonst verliert er Wirkung. */
+  blau: '#2C5EFF',
+  blauHell: '#E9EEFF',
 
   /**
-   * Der Akzent ist seit dem 24.08.2026 **gelb**, nicht mehr blau.
+   * Die Kennfarbe des zweiten Avatars, gemessen aus der Vorlage.
    *
-   * Auf hellem Grund trug Blau den Akzent, weil es das Dunkelste nach der
-   * Tinte war. Auf Nachtblau kann ein Blau nichts mehr auszeichnen — es
-   * verschwindet im Grund. Gelb ist die Gegenfarbe und traegt zugleich das
-   * Motiv: Die Figur ist ein Akku, und Gelb liest sich als Ladung.
-   *
-   * `blau` heisst weiter `blau`, damit nicht hundert Fundstellen umbenannt
-   * werden muessen — der Name ist die **Rolle** „Akzent", nicht die Farbe.
+   * Keine Bedeutungsfarbe wie `neinRot`: Die sagen „passt nicht" und stehen an
+   * Aussagen. Dieses Rot sagt gar nichts, es unterscheidet nur den `zeiger`
+   * vom `nachleser` — beide haben denselben Koerper, und allein der
+   * Ladebalken trennt sie.
    */
-  blau: '#F7F36D',
-  blauHell: '#1B3A66',
+  rot: '#DD3B1D',
 
   /** Bedeutungsfarben fuer Kompatibilitaetsaussagen. */
   jaGruen: '#1F9D68',
