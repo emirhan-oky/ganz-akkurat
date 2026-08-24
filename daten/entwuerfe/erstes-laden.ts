@@ -90,7 +90,7 @@ export const erstesLaden: Short = {
   texte: {
     tiktok: {
       titel: '12 Stunden beim ersten Laden',
-      beschreibung: 'Akku laden: Die Behörde rät heute, bei 70 Prozent abzubrechen statt voll zu machen.',
+      beschreibung: 'Akku laden: Die Behörde rät heute, bei etwa 70 Prozent abzubrechen statt voll zu machen.',
       hashtags: ['#akkuladen', '#akkupflege', '#lithiumionen', '#umweltbundesamt', '#ganzakkurat'],
     },
     instagram: {
@@ -100,7 +100,7 @@ export const erstesLaden: Short = {
     },
     youtube: {
       titel: 'Warum das erste Laden nicht 12 Stunden dauern muss',
-      beschreibung: 'Akku laden nach Empfehlung des Umweltbundesamts: bei 70 Prozent abbrechen, nicht bei 100.',
+      beschreibung: 'Akku laden nach Empfehlung des Umweltbundesamts: bei etwa 70 Prozent abbrechen, nicht bei 100.',
       hashtags: ['#akku', '#laden', '#akkupflege', '#ganzakkurat'],
     },
   },

@@ -106,6 +106,29 @@
           "dauerSek": 18.5
         }
       ]
+    },
+    {
+      "lauf": "2026-08-24",
+      "shorts": [
+        {
+          "format": "gibtswirklich",
+          "sachgebiet": "raumfahrt",
+          "themaId": "raumstation-alte-rechner",
+          "dauerSek": 29.1
+        },
+        {
+          "format": "absicht",
+          "sachgebiet": "recht",
+          "themaId": "parts-pairing",
+          "dauerSek": 24.1
+        },
+        {
+          "format": "eswareinmal",
+          "sachgebiet": "laden",
+          "themaId": "erstes-laden-zwoelf-stunden",
+          "dauerSek": 24.6
+        }
+      ]
     }
   ]
 }

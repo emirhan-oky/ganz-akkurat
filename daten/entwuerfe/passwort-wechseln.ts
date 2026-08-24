@@ -29,7 +29,7 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Die IT sagt: Passwort wechseln. Das Internet lacht.',
+      sprechtext: 'Passwort wechseln, sagt die IT. Das Netz lacht.',
       text: 'Passwort wechseln?',
       buehne: { art: 'figur', von: 'ruhe', nach: 'achselzucken' },
     },
@@ -47,7 +47,7 @@ export const passwortWechseln: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext: 'Wer ständig wechseln muss, greift vermehrt zu schwachen, vorhersehbaren Passwörtern.',
-      text: 'Wechselzwang macht schwach.',
+      text: 'Oft schwächere Passwörter.',
       buehne: { art: 'figur', von: 'lesen', nach: 'erklaeren' },
       hervorhebung: 'vorhersehbaren',
       quelleId: 'bsi-passwortwechsel-2026',
