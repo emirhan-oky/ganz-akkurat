@@ -611,6 +611,23 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
  * Keine Dauerbewegung: Der letzte Frame ist der, den die Plattform als
  * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
  */
+/**
+ * Wie weit der Zeiger in der Signatur an den Rand rueckt — je Dienst.
+ *
+ * Negative Werte schieben ihn ueber die sichere Zone hinaus nach aussen. Das
+ * ist hier vertretbar: Es ist kein Text und keine Aussage, sondern eine Geste,
+ * die aus dem Bild deutet. Selbst wenn eine App ein Stueck davon verdeckt,
+ * bleibt die Richtung lesbar.
+ *
+ * Bei Instagram bleibt er stehen, wo er stand: Der Folgen-Knopf liegt dort
+ * unten **links**, und ein Zeiger am rechten Rand deutete in die falsche Ecke.
+ */
+const ZEIGER_VERSATZ: Record<Dienst, number> = {
+  tiktok: -86,
+  instagram: 0,
+  youtube: -30,
+};
+
 const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst }> = ({
   szene,
   dienst,
@@ -664,7 +681,24 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
        * die Pointe vom Absender. 96 Pixel trennen nichts, sie zeichnen aus.
        * Gezogen statt eingeblendet: Eine Linie, die entsteht, ist eine Geste.
        */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: ABSTAND.s, marginTop: ABSTAND.l }}>
+      {/*
+       * `justifyContent: space-between` und ein Versatz je Dienst: Der Zeiger
+       * rueckt dorthin, wo der Knopf liegt — bei TikTok an den rechten Rand,
+       * bei Instagram zurueck zur Mitte, weil dort unten links gefolgt wird.
+       *
+       * Die Geste allein reicht nicht: Wer nach rechts zeigt und dabei in der
+       * Bildmitte steht, zeigt auf die Buehne. Naeher am Rand zeigt er aus dem
+       * Bild heraus, und genau das ist gemeint.
+       */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: ABSTAND.s,
+          marginTop: ABSTAND.l,
+        }}
+      >
         <div>
           <div
             style={{
@@ -717,7 +751,15 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
          * hier bis zum 24.08.2026 und ist gestrichen: Ein Zeichen, das wir
          * selbst malen, deutet auf nichts.
          */}
-        <div style={{ ...auftritt(frame, fps, 12), width: 240, height: 180, flex: 'none' }}>
+        <div
+          style={{
+            ...auftritt(frame, fps, 12),
+            width: 240,
+            height: 180,
+            flex: 'none',
+            marginRight: ZEIGER_VERSATZ[dienst],
+          }}
+        >
           <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />
         </div>
 
