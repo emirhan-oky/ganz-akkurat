@@ -238,13 +238,26 @@ export const BannerMuster: React.FC = () => (
       </div>
 
       {/*
-       * Zwei gesetzte Teile, durch einen Mittelpunkt getrennt — dem Vorbild
-       * folgend **ohne** den leichten Nachsatz hinter dem Gedankenstrich.
+       * **Der Hexcode der Grundfarbe, und das ist so gewollt.**
+       *
+       * Hier standen nacheinander „Ein Fakt · eine Fundstelle — woertlich
+       * zitiert" und dieselbe Zeile ohne Nachsatz. Gemeint war die ganze Zeit
+       * die Beschriftung aus der `Farbprobe` selbst — nicht ihre Struktur mit
+       * anderem Inhalt, sondern woertlich `#F0EFEB · Warmes Weiss`.
+       *
+       * Es beschreibt tatsaechlich nur die Hintergrundfarbe. Das ist bekannt
+       * und ausdruecklich entschieden: Ein Kanal, der Fundstellen zitiert,
+       * nennt eben auch die Fundstelle seiner eigenen Farbe. Wer es fuer einen
+       * Rest aus der Farbprobe haelt und aufraeumen will — es ist keiner.
+       *
+       * Der Wert wird nicht aus `FARBEN.grund` erzeugt, sondern steht hier:
+       * Die Zeile ist ein Zitat des Probenfelds, kein Ausdruck des aktuellen
+       * Zustands. Aendert sich der Grund, ist das eine neue Entscheidung.
        */}
       <div style={{ fontFamily: 'Inter', fontSize: 28, color: FARBEN.tinte }}>
-        <span style={{ fontWeight: 700 }}>Ein Fakt</span>
+        <span style={{ fontWeight: 700 }}>#F0EFEB</span>
         <span style={{ fontWeight: 400, color: FARBEN.tinteWeich }}> · </span>
-        <span style={{ fontWeight: 700 }}>eine Fundstelle</span>
+        <span style={{ fontWeight: 700 }}>Warmes Weiß</span>
       </div>
     </div>
   </div>
