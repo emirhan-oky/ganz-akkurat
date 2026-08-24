@@ -557,3 +557,22 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
       Hinweis, dass an ihm der Takt hängt~~
 - [x] ~~CLAUDE.md: „je Sendeplatz" und die zweite Wortmarke im Nachschlag
       waren Reste aus zwei Umbauten~~
+
+## Stufe 6 · aufgeräumt · 24.08.2026
+
+- [x] ~~**`laeufe/` von 127 auf 19 MB.** Die acht Videos vom 23.08. waren ein
+      Neurender, der nie veröffentlicht wurde (kein `veroeffentlicht.json`) und
+      mit der Schriftrückkehr ohnehin überholt ist. Props, `lauf.json` und die
+      Tonspuren liegen vollständig — ein `--ton-behalten` baut sie in drei
+      Minuten neu, ohne Kontingent~~
+- [x] ~~**`symbol` gestrichen**, das Feld für die stehende Zeichnung unter dem
+      Satz. Die Entscheidung stand ausdrücklich im Schema auf Stufe 4 vertagt,
+      weil man ein Feld nicht streicht, bevor sein Nachfolger an einem fertigen
+      Video gemessen ist. Er ist gemessen, und kein Entwurf setzte es noch~~
+- [x] ~~**Szenenart `hook` gestrichen.** Sie stand seit dem 17.08. als
+      erledigt im Vertrag, trotzdem weiter im Schema — und ohne Zweig im
+      Renderer. Ein Short mit `art: 'hook'` wäre durch die Prüfung gegangen~~
+- [ ] `kaufkriterien` und `einschraenkung` sind ungenutzt, bleiben aber:
+      `kaufkriterien` trägt die Werberegel für Phase 2, `einschraenkung` ist
+      eine Erzählform und kein Erklärvideo-Rest
+- [ ] Alle Skripte hängen an einem npm-Eintrag; nichts verwaist

@@ -347,6 +347,8 @@ jedes dieser Felder setzt voraus, dass der Zuschauer etwas lernen will.
 | `endkarte` | erzwang per Schema `punkte: min(2).max(4)` — eine Liste kann keine Pointe sein |
 | `merksatz` | heißt `weitererzaehlt`; siehe unten |
 | `system` | kein einziges der 45 Themen ist systemspezifisch |
+| `symbol` | die stehende Zeichnung unter dem Satz; ersetzt durch `buehne`, gestrichen am 24.08.2026, nachdem der Nachfolger an einem fertigen Video gemessen war |
+| `hook` (Szenenart) | stand seit dem 17.08.2026 als gestrichen im Vertrag und trotzdem weiter im Schema — ohne Zweig im Renderer |
 | `GeraeteArt` | neun Gerätezeichnungen, mit der Kaufberatung gegangen |
 | `src/illustration.ts` | schlug Symbole aus dem Szenentext vor — der Erklärvideo-Reflex in Codeform |
 

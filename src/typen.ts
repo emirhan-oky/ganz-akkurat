@@ -624,7 +624,6 @@ export type Buehnenbild = z.infer<typeof Buehnenbild>;
  * sind, muss die Ausnahme eine Entscheidung sein.
  */
 const mitIllustration = {
-  symbol: KontextArt.optional(),
   buehne: Buehnenbild.optional(),
 };
 
@@ -663,23 +662,6 @@ const mitBelegeinblendung = {
    */
   herausgeber: z.string().max(60).optional(),
 };
-
-/** Aufhaenger. Die ersten drei Sekunden entscheiden ueber alles Weitere. */
-const SzeneHook = SzeneBasis.extend({
-  art: z.literal('hook'),
-  /** Kurz und konkret. Laenger als sieben Woerter liest im Feed niemand. */
-  text: z.string().max(70),
-  /** Optionaler Unterton, z.B. das Geraet oder die Situation. */
-  kontext: z.string().max(60).optional(),
-  /*
-   * Die Hook traegt eine Illustration am wirksamsten: Sie hat wenig Text und
-   * die Aufgabe, in drei Sekunden klarzumachen, worum es geht. Beim
-   * Reise-Short stand der Flug bis zum 13.08.2026 nur im Sprechtext — wer die
-   * ersten Sekunden stumm sah, hielt das Video fuer Powerbank-Wissen mit
-   * zufaelligem Flugbeispiel.
-   */
-  ...mitIllustration,
-});
 
 /**
  * Wer behaupten kann, muss belegen koennen.

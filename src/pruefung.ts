@@ -1295,11 +1295,10 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    */
   const zeichnungenVon = (szene: Szene): KontextArt[] => {
     const aus: KontextArt[] = [];
-    if ('symbol' in szene && szene.symbol) aus.push(szene.symbol);
     if ('buehne' in szene && szene.buehne?.art === 'figur' && szene.buehne.requisite) {
       /*
-       * `blatt` und `stab` sind keine `KontextArt`, sondern Requisiten der
-       * Figur — sie stehen in `Requisiten.tsx`, nicht in `Geraete.tsx`. Aus
+       * `blatt` ist keine `KontextArt`, sondern eine Requisite der Figur —
+       * sie steht in `Requisiten.tsx`, nicht in `Geraete.tsx`. Aus
        * der Dopplungspruefung gehoeren sie ohnehin heraus: Dass die Figur in
        * zwei Szenen liest oder zweimal auf etwas zeigt, ist eine Geste und
        * keine wiederholte Zeichnung.

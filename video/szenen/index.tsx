@@ -6,7 +6,6 @@ import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
 import { POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
-import { Symbol } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
   abschnitt,
@@ -49,34 +48,29 @@ const bewertungsfarben = (b?: 'ja' | 'nein' | 'achtung' | 'neutral') => {
   }
 };
 
-/* ─────────────────────────── Illustration ──────────────────────────── */
+/* ──────────────────────────── Die Buehne ───────────────────────────── */
 
 /**
- * Groesse der Zeichnung unter dem Text.
+ * Das Bild unter dem Text, sofern die Szene eines nennt.
  *
- * Die Buehne ist 820 Pixel breit; bei 560 bleibt links und rechts Luft, und
- * die Zeichnung wird nicht groesser als der Text darueber.
- */
-const ILLUSTRATION_GROESSE = 560;
-
-/**
- * Die Zeichnung unter dem Text, sofern die Szene eine nennt.
- *
- * Sie tritt **nach** dem Text auf, etwa im ersten Fuenftel der Szene: Erst
+ * Es tritt **nach** dem Text auf, etwa im ersten Fuenftel der Szene: Erst
  * liest man, was behauptet wird, dann sieht man, wovon die Rede ist. Beides
  * gleichzeitig einzublenden liesse den Blick zwischen zwei Neuigkeiten
  * springen.
  *
- * Seit dem 17.08.2026 gibt es nur noch **eine** Zeichenkategorie. `geraet`
- * ist weg — wir zeichnen keine Buchsen mehr, und die Regel „muss dem
- * Datenblatt entsprechen" ist damit gegenstandslos statt gelockert. Was
- * bleibt, ist das Situationssymbol, das nichts Technisches behauptet.
+ * **Das stehende Symbol ist am 24.08.2026 weggefallen**, und mit ihm das Feld
+ * `symbol`. Es war der Vorgaenger der Buehne: eine Zeichnung, die unter dem
+ * Satz stand und nichts tat. Die Entscheidung darueber war im Schema
+ * ausdruecklich auf Stufe 4 vertagt — „ein Feld zu streichen, bevor sein
+ * Nachfolger an einem fertigen Video gemessen wurde, ist derselbe Fehler wie
+ * eine geratene Konstante". Der Nachfolger ist inzwischen gemessen, und kein
+ * Entwurf hat das alte Feld noch gesetzt.
  *
- * Gibt `undefined` zurueck, wenn nichts gesetzt ist — und das ist jetzt der
- * Normalfall: Die Typografie traegt, die Zeichnung ist die Ausnahme.
+ * Gibt `undefined` zurueck, wenn nichts gesetzt ist — und das ist der
+ * Normalfall: Die Typografie traegt, das Bild ist die Ausnahme.
  */
 const Illustration = (
-  szene: { symbol?: KontextArt; buehne?: BuehnenbildDaten },
+  szene: { buehne?: BuehnenbildDaten },
   frame: number,
   fps: number,
   dauer: number,
@@ -153,39 +147,7 @@ const Illustration = (
     );
   }
 
-  if (!szene.symbol) return undefined;
-  return (
-    <div
-      style={{
-        ...auftritt(frame, fps, Math.round(dauer * 0.22)),
-        marginTop: ABSTAND.l,
-        display: 'flex',
-        justifyContent: 'center',
-        /*
-         * Eine Untergrenze, seit dem 17.08.2026.
-         *
-         * Vorher stand hier `minHeight: 0` neben `maxHeight: '100%'`, und das
-         * bedeutet in einer Flex-Spalte: Der Text nimmt sich, was er braucht,
-         * die Zeichnung bekommt den Rest. In einer textreichen Szene ist der
-         * Rest fast nichts — im gerenderten Sonntag kamen von 560 Pixeln
-         * Sollgroesse rund 60 an. Das Symbol war da, aber es las sich als
-         * graues Kritzelchen und nicht als Bild.
-         *
-         * Genau die Sorte Fehler, gegen die die Hausregel steht: Eine
-         * Zeichnung ist erst geprueft, wenn sie gerendert danebensteht. Im
-         * Code sah `einpassen` vernuenftig aus.
-         *
-         * 300 Pixel sind gemessen und nicht geraten: Die Buehne ueber der
-         * 270-Pixel-Untertitelzone ist rund 1.400 Pixel hoch, die Zeichnung
-         * nimmt davon gut ein Fuenftel.
-         */
-        minHeight: 300,
-        maxHeight: '100%',
-      }}
-    >
-      <Symbol art={szene.symbol} groesse={ILLUSTRATION_GROESSE} einpassen />
-    </div>
-  );
+  return undefined;
 };
 
 /* ─────────────────────────────── Text ──────────────────────────────── */
