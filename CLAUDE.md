@@ -525,12 +525,47 @@ sagt „fertig". 96 Pixel trennen nichts, sie zeichnen den Spruch aus. Gezogen
 statt eingeblendet: **Eine Linie, die entsteht, ist eine Geste; eine, die schon
 da ist, ist ein Rahmen.**
 
+**Zwei Marken-Töne seit dem 24.08.2026**, erzeugt von `skripte/toene.ts` als
+WAV nach `public/ton/marke/`: `gefaellt` (0,13 s, steigend) und `folgen`
+(0,51 s, zwei Töne im Quintabstand). Selbst erzeugt aus demselben Grund, aus
+dem die Symbole selbst gezeichnet sind — das Bediengeräusch der App ist
+nirgends veröffentlicht und nicht zum Einbrennen lizenziert. Nicht mit ffmpeg:
+Die Installation hier trägt 50 Filter, `afade` fehlt, und ein `sine` ohne
+Hüllkurve knackt.
+
+**Der Like-Hinweis** sitzt bei 62 % der Laufzeit — nach dem Kipppunkt, weit weg
+von Sekunde 3,5. Eine Hand tippt auf ein Herz, rechts am Rand, mit dem
+`gefaellt`-Ton. **Er braucht keine drei Fassungen:** Der Like-Knopf liegt bei
+allen drei Plattformen rechts, anders als der Folgen-Knopf.
+
+Drei Befunde aus dem Standbild, alle in derselben Runde:
+
+- **Keine zweite Figur.** Der erste Anlauf ließ den Nachleser von rechts
+  hereinlugen. Dann standen **zwei** Nachleser im Bild, und das liest sich als
+  Doppel statt als Hinweis. Die vorhandene Figur konnte es nicht übernehmen:
+  `Buehnenbild.tsx` interpoliert ihre Haltung über die ganze Szene von `von`
+  nach `nach`; ein Übersteuern mittendrin wäre ein Sprung.
+- **Kein Zeigefinger.** Das Rig kennt keine Finger — eine Hand ist dort ein
+  Kreis am Strich. Der Finger ragte außerdem aus dem Bild, weil er ja nach
+  rechts deutet.
+- **Das Herz gehört dazu.** Eine Hand ohne Körper wird nicht als Hand gelesen:
+  In der Szene mit der Steckdose sah der Strich mit Kugel aus wie ein Stecker,
+  der hineinwill. Mit dem Herz daneben ist die Lesart eindeutig.
+
+Dazu die Platzgrenze: Das Szenensymbol sitzt fest in der rechten Bühnenhälfte,
+und was von rechts hereinkommt, trifft es. Rechts von x = 870 bleiben rund 210
+Pixel — in die passt die Hand nur ohne Unterarm.
+
 **Der Folgen-Hinweis ist stumm.** Seit dem 24.08.2026 steht unter dem Spruch
 ein Plattformzeichen — Plus im Kreis, Personenumriss mit Plus, Glocke —, und es
 wird **angetippt**: Umriss zuerst, einen Moment später gefüllt. Ein gesprochener
 Aufruf schied aus, weil `ABBINDER` Schlusssätze mit Handlungsaufforderung
 ablehnt und kein Format eine Handlung verlangt; ein stehendes Icon wäre ein
 Hinweisschild gewesen. Derselbe Gedanke wie beim gezogenen Strich.
+
+Seit dem 24.08.2026 liegt der `folgen`-Ton auf dem Antippen, nicht auf dem
+Erscheinen: Ein Klang zum Einblenden wäre eine Ankündigung, auf dem
+Zustandswechsel ist er die Handlung.
 
 Das Zeichen bleibt in beiden Zuständen **vollständig** — beim Plus wäre es
 naheliegend gewesen, es beim Füllen verschwinden zu lassen („mach das Plus

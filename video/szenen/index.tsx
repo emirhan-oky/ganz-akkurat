@@ -1,4 +1,4 @@
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
+import { Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
@@ -716,6 +716,19 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
           <div style={{ ...auftritt(frame, fps, 24), marginTop: ABSTAND.s }}>
             <Plattformzeichen dienst={dienst} gedrueckt={frame >= 36} />
           </div>
+
+          {/*
+           * Der Ton sitzt auf dem Antippen, nicht auf dem Erscheinen. Ein
+           * Klang zum Einblenden waere eine Ankuendigung; auf dem
+           * Zustandswechsel ist er die Handlung selbst.
+           *
+           * Eigener Ton (`skripte/toene.ts`), kein Plattformklang: Das
+           * Bediengeraeusch der App ist nirgends veroeffentlicht und nicht zum
+           * Einbrennen lizenziert.
+           */}
+          <Sequence from={36} layout="none" name="Ton folgen">
+            <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
+          </Sequence>
         </div>
 
         {/*
