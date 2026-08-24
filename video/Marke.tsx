@@ -24,17 +24,22 @@ import { POSEN } from './bausteine/posen';
 /**
  * Profilbild, hell — 1024x1024.
  *
- * Nur das Akkuzeichen, keine Schrift. Ein Kanalbild wird bei TikTok mit rund
- * 40 Pixeln Kantenlaenge angezeigt und rund beschnitten; jede Wortmarke darin
- * waere ein grauer Streifen. Das Zeichen fuellt deshalb knapp zwei Drittel der
- * Flaeche — genug Rand, dass der runde Beschnitt nichts abschneidet, und
- * gross genug, dass der blaue Ladestand bei 40 Pixeln noch sichtbar ist.
+ * **Beide Akkus, seit dem 25.08.2026.** Vorher stand hier das gezeichnete
+ * Akkuzeichen allein. Der Kanal hat aber zwei Figuren mit geteilter Arbeit,
+ * und das Kanalbild ist die Stelle, an der man sie zuerst sieht.
  *
- * Der erste Anlauf stand auf 660 und war zu klein: Im Quadrat sah es
- * ausgewogen aus, als Kanalbild war es ein Punkt mit viel Rand. Der runde
- * Beschnitt nimmt ohnehin die Ecken, also darf das Zeichen bis nah an den
- * Rand — nachgerechnet bleibt an der schmalsten Stelle des Kreises noch
- * Luft. Wieder die Regel: erst gerendert, dann geurteilt.
+ * Ein Kanalbild wird bei TikTok mit rund 40 Pixeln Kantenlaenge angezeigt und
+ * **rund beschnitten**. Zwei Figuren nebeneinander brauchen deshalb Breite,
+ * und die ist im Kreis am knappsten: Bei einem Quadrat von 1024 misst der
+ * einbeschriebene Kreis dieselben 1024, aber auf halber Hoehe. Das Paar steht
+ * deshalb auf rund 620 Pixel Breite — schmal genug, dass der Beschnitt keinen
+ * Arm nimmt.
+ *
+ * Keine Schrift: Jede Wortmarke waere bei 40 Pixeln ein grauer Streifen.
+ *
+ * Die Regel von hier gilt weiter: erst gerendert, dann geurteilt. Der erste
+ * Anlauf des alten Zeichens stand auf 660 und war zu klein — im Quadrat
+ * ausgewogen, als Kanalbild ein Punkt mit viel Rand.
  */
 export const ProfilbildHell: React.FC = () => (
   <div
@@ -47,7 +52,14 @@ export const ProfilbildHell: React.FC = () => (
       justifyContent: 'center',
     }}
   >
-    <Logozeichen groesse={820} />
+    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+      <div style={{ width: 660, height: 495 }}>
+        <Figur rig={nachleser} pose={POSEN.zeigen} />
+      </div>
+      <div style={{ width: 660, height: 495, marginLeft: -180 }}>
+        <Figur rig={zeiger} pose={POSEN.ruhe} />
+      </div>
+    </div>
   </div>
 );
 
@@ -114,7 +126,14 @@ export const WortmarkeQuer: React.FC = () => (
       gap: 34,
     }}
   >
-    <Logozeichen groesse={200} />
+    <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+      <div style={{ width: 660, height: 495 }}>
+        <Figur rig={nachleser} pose={POSEN.zeigen} />
+      </div>
+      <div style={{ width: 660, height: 495, marginLeft: -180 }}>
+        <Figur rig={zeiger} pose={POSEN.ruhe} />
+      </div>
+    </div>
     <Wortmarke groesse={200} />
   </div>
 );
