@@ -180,11 +180,14 @@ export const BUEHNE = {
 } as const;
 
 /**
- * ## Warum Papier und nicht Weiss
+ * ## Zwei Umwege an einem Abend
  *
- * Der Grund war bis zum 25.08.2026 `#F7F8FA` — praktisch Weiss, und damit
- * ohne eigenen Ton. `#F2EBDE` ist ein warmes Papier: Der Kanal heisst „Wir
- * haben nachgelesen", und das ist die Farbe des Nachlesens.
+ * Der Grund war lange `#F7F8FA` — praktisch Weiss und ohne eigenen Ton. Auf
+ * dem Weg zum jetzigen Blaugrau lagen zwei Versuche, die beide am fertigen
+ * Bild gescheitert sind: **Nachtblau** (siehe unten) und ein **warmer
+ * Papierton** `#F2EBDE`. Der Papierton hatte das bessere Argument — der Kanal
+ * heisst „Wir haben nachgelesen" — und die schlechtere Wirkung: Er las sich
+ * nach Buchladen, nicht nach Technik.
  *
  * ## Der Umweg ueber Nachtblau, und warum er scheiterte
  *
@@ -209,33 +212,66 @@ export const BUEHNE = {
  * aus.** Deshalb tragen die beiden Avatare Blau und Rot, nicht Blau und Gelb.
  */
 export const FARBEN = {
-  /** Grund: warmes Papier. */
-  grund: '#F2EBDE',
-  /** Flaechen auf dem Grund — Symbolfuellungen, Pillen. Weiss mit derselben Waerme. */
-  grundRein: '#FFFDF9',
+  /**
+   * Grund: kuehles Blaugrau.
+   *
+   * Der Papierton `#F2EBDE` stand hier ganze zwei Stunden und war zu warm —
+   * er las sich nach Buchladen, nicht nach Technik. Das Blaugrau ist kuehl und
+   * trotzdem sichtbar getoent; das alte `#F7F8FA` war praktisch Weiss.
+   */
+  grund: '#E4E9EF',
+  /** Flaechen auf dem Grund — Symbolfuellungen, Pillen. */
+  grundRein: '#F7F9FB',
   /** Isometrisches Hintergrundgitter. */
-  gitter: '#E9E1D2',
+  gitter: '#DAE1E9',
 
   /** Text und Illustrationslinien. */
   tinte: '#111820',
   tinteWeich: '#5E6877',
-  linie: '#A39C8E',
-  linieFein: '#C6BFB1',
-  flaeche: '#DCD3C2',
-
-  /** Der einzige echte Akzent. Sparsam einsetzen, sonst verliert er Wirkung. */
-  blau: '#2C5EFF',
-  blauHell: '#E9EEFF',
+  linie: '#9EA6AF',
+  linieFein: '#BDC4CB',
+  flaeche: '#CBD3DC',
 
   /**
-   * Die Kennfarbe des zweiten Avatars, gemessen aus der Vorlage.
+   * Der Akzent — und zugleich die Kennfarbe des ersten Avatars.
    *
-   * Keine Bedeutungsfarbe wie `neinRot`: Die sagen „passt nicht" und stehen an
-   * Aussagen. Dieses Rot sagt gar nichts, es unterscheidet nur den `zeiger`
-   * vom `nachleser` — beide haben denselben Koerper, und allein der
-   * Ladebalken trennt sie.
+   * Bis zum 25.08.2026 stand hier das Signalblau `#2C5EFF`. Es steckte in
+   * Wortmarke, Formatpille, Untertitelbalken, dem Strich der Signatur und
+   * jeder Hervorhebung, und es war laut. Das Marineblau ist dunkler und
+   * ruhiger; der Kanal verliert damit seinen grellsten Ton.
+   *
+   * Der Name bleibt `blau`, weil er die **Rolle** meint und nicht den Ton.
    */
-  rot: '#DD3B1D',
+  blau: '#303C6C',
+  blauHell: '#DDE2ED',
+
+  /**
+   * ## Die Ladeanzeigen der beiden Figuren
+   *
+   * Beide Akkus sind identisch gebaut — derselbe dunkle Koerper, dieselben
+   * Augen. **Allein die Anzeige trennt sie**, und deshalb muss sie auf einen
+   * Blick lesbar sein.
+   *
+   * **Sie ist nicht derselbe Wert wie `blau`, und das ist gemessen.** Das
+   * Marineblau des Akzents traegt auf hellem Grund mit 8,9 — auf dem dunklen
+   * Koerper aber nur mit **1,7**, und dort verschwand der Balken im ersten
+   * Anlauf einfach. `anzeigeEins` ist dieselbe Farbe, aufgehellt bis der
+   * Kontrast zum Koerper 3,1 erreicht.
+   *
+   * Der Akzent bleibt dunkel, weil er auf dem Grund steht, nicht auf der
+   * Figur. Zwei Rollen, zwei Werte.
+   *
+   * **Die Unterscheidung liegt im Farbton, nicht in der Helligkeit.** Blau und
+   * Rosa liegen im Farbkreis gegenueber und sind im Vorbeiscrollen sofort zu
+   * trennen; zwei Blautoene waeren es nicht — deshalb traegt der `zeiger`
+   * nicht das Marineblau aus derselben Vorlage.
+   *
+   * Beide Werte sind aus einer Vorlage **geschaetzt**, nicht gemessen: Der
+   * Screenshot lag in einem temporaeren Ordner, der beim Zugriff schon geleert
+   * war. Ein `#DD3B1D` stand hier vorher und war zu grell.
+   */
+  anzeigeEins: '#4C61B0',
+  anzeigeZwei: '#BE8A7A',
 
   /** Bedeutungsfarben fuer Kompatibilitaetsaussagen. */
   jaGruen: '#1F9D68',

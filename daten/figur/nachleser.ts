@@ -201,7 +201,7 @@ export const nachleser = Rig.parse({
            * Am 24.08.2026 stand hier einen Tag lang `FARBEN.grund`, waehrend
            * der Koerper hell war. Das ging mit dem dunklen Hintergrund wieder.
            */
-          stil: { fuellung: FARBEN.blau, strich: 'none', staerke: 0 } },
+          stil: { fuellung: FARBEN.anzeigeEins, strich: 'none', staerke: 0 } },
       ] },
 
     { id: 'auge_links', ebene: 21, eltern: 'koerper', stil: GESICHT,

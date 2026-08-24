@@ -24,9 +24,9 @@ import { nachleser } from './nachleser';
  * lautlos — die Schemapruefung sieht zwei gueltige Rigs, nicht zwei
  * verschiedene.
  *
- * Seine Kennfarbe ist das Rot `#DD3B1D`, gemessen aus der Vorlage. Gelb war
- * dafuer im Gespraech und ist an der Luminanz gescheitert: Auf hellem Grund
- * traegt es 1,1 zu 1 — die Rechnung steht bei `FARBEN` in `src/marke.ts`.
+ * Seine Kennfarbe ist das Altrosa `anzeigeZwei`. Gelb und Rot waren dafuer im
+ * Gespraech: Gelb ist an der Luminanz gescheitert (auf hellem Grund 1,1 zu 1),
+ * Rot war zu grell. Die Rechnungen stehen bei `FARBEN` in `src/marke.ts`.
  */
 const farbeTauschen = (stil: Stil | undefined, karte: Record<string, string>): Stil | undefined => {
   if (!stil) return stil;
@@ -73,5 +73,5 @@ export const eingefaerbt = (rig: Rig, karte: Record<string, string>): Rig => ({
  * anderem Balken ist derselbe in einer anderen Rolle. Genau das ist gemeint.
  */
 export const zeiger: Rig = eingefaerbt(nachleser, {
-  [FARBEN.blau]: FARBEN.rot,
+  [FARBEN.anzeigeEins]: FARBEN.anzeigeZwei,
 });
