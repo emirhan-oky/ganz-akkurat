@@ -194,7 +194,8 @@ export const LAENGE_SEK = {
    *
    * Daraus folgt die Regel, die wichtiger ist als die Grenzen selbst:
    * **Zielwert ist die Mitte, nicht der Rand.** Wer an der Obergrenze baut,
-   * faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben.
+   * faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben. Der
+   * Zielwert steht seit dem 24.08.2026 bei 30 s; siehe unten.
    *
    * ## Die Obergrenze steht seit dem 20.08.2026 auf 34 statt 28
    *
@@ -208,17 +209,29 @@ export const LAENGE_SEK = {
    * wie viel es zu zeigen gibt.** Ein Fenster, das die Obergrenze zur Aussage
    * ueber Qualitaet macht, misst die falsche Groesse.
    *
-   * Der Zielwert bleibt deshalb bei 23 s und ist die eigentliche Steuerung.
-   * Die Obergrenze ist wieder das, was sie sein soll: eine Grenze gegen
-   * Abschweifen, keine Qualitaetsaussage.
-   *
    * Der naheliegende Einwand — das „zu lang" der ersten Zuschauer — trifft die
    * Shorts mit dem alten Fenster von 28 bis 40 Sekunden, nicht eine Obergrenze
    * von 34. Und er kam von unserem Publikum, waehrend diese zwoelf Videos von
    * fremden Kanaelen stammen und ausdruecklich als Treffer ausgewaehlt wurden.
-   * Deshalb wird die Obergrenze geoeffnet und nicht der Zielwert verschoben.
+   *
+   * ## Zielwert 30 statt 23, Fenster 20 bis 36 — seit dem 24.08.2026
+   *
+   * **Der Zielwert war die Ursache fuer eine Sprache, die niemand spricht.**
+   * Aufgefallen ist es am ersten Video im neuen Bau: „Laptops, aelter als
+   * fuenf Jahre." Kein Satz, kein Verb, ein Telegramm. Bei 23 Sekunden auf
+   * sechs Szenen bleiben je Satz rund vier Sekunden, und dann wird gestrichen,
+   * bis nur noch Stichworte stehen. Der Zwang kam nicht vom Fenster — 23 lag
+   * bequem darin — sondern vom Zielwert, an dem tatsaechlich geschrieben wird.
+   *
+   * Dieselben zwoelf fremden Videos stuetzen die Verschiebung: Ihr Median
+   * liegt bei rund 28 Sekunden, die drei staerksten bei 41, 31 und 29.
+   *
+   * Die Obergrenze geht mit, und zwar aus der Streuungsrechnung: Bei 30 s sind
+   * sechs Prozent ±1,8 s, und die alte Grenze von 34 laege damit im
+   * Wurfbereich. **Zielwert ist die Mitte, nicht der Rand** — 36 haelt den
+   * Abstand, den die Regel verlangt.
    */
-  ziel: [18, 34] as const,
+  ziel: [20, 36] as const,
   /**
    * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *
