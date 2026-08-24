@@ -204,14 +204,15 @@ export const BannerMuster: React.FC = () => (
      * niemand hinsieht.
      *
      * Jetzt richtet er sich am Textblock aus: Der Satz misst bei 72 Pixeln
-     * rund 740, der gestapelte Block rund 270 hoch. 860 x 360 laesst dem
-     * Vordergrund Luft und holt das Muster bis in den sichtbaren Streifen.
+     * rund 740, der gestapelte Block rund 270 hoch. 790 x 330 laesst dem
+     * Vordergrund gut 25 Pixel Luft je Seite und holt das Muster so weit in
+     * den Streifen, wie es geht, ohne den Satz zu beruehren.
      */}
     <Muster
       breite={2048}
       hoehe={1152}
-      freiBreite={860}
-      freiHoehe={360}
+      freiBreite={790}
+      freiHoehe={330}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
       akzent={FARBEN.blau}
