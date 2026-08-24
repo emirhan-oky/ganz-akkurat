@@ -213,24 +213,58 @@ export const BUEHNE = {
  */
 export const FARBEN = {
   /**
-   * Grund: kuehles Blaugrau.
+   * Grund: warmes Weiss.
    *
-   * Der Papierton `#F2EBDE` stand hier ganze zwei Stunden und war zu warm —
-   * er las sich nach Buchladen, nicht nach Technik. Das Blaugrau ist kuehl und
-   * trotzdem sichtbar getoent; das alte `#F7F8FA` war praktisch Weiss.
+   * **Gewaehlt an der Farbprobe** (`video/Farbprobe.tsx`), nachdem vier
+   * Hintergruende an einem Abend gescheitert waren. Das Muster der
+   * Fehlversuche entschied es:
+   *
+   * | | Helligkeit | Saettigung | Urteil |
+   * |---|---|---|---|
+   * | `#F7F8FA` Off-White | 97,5 % | 23 %, kuehl | zu steril |
+   * | `#E4E9EF` Blaugrau | 91,6 % | 26 %, kuehl | verworfen |
+   * | `#F2EBDE` Papier | 91,0 % | 44 %, warm | zu warm |
+   * | `#EAF0F2` Cyan | 93,9 % | 21 %, kuehl | dasselbe Feld wie Blaugrau |
+   * | **`#F0EFEB`** | **93,1 %** | **14 %, warm** | unbesetzt |
+   *
+   * Kuehl plus mittelhell war bereits durchgefallen. Dieses Feld — hell wie
+   * Off-White, aber ohne dessen Blaustich und mit einem Drittel der
+   * Saettigung des Papiertons — war als einziges noch frei.
+   *
+   * Zwei Sachgruende kamen dazu: Ein kuehler Grund verschluckt das Marineblau
+   * des ersten Akkus (Ton in Ton) und laesst nur das Altrosa arbeiten, womit
+   * die Rollenteilung optisch unausgewogen wird. Und ein blaustichiger Grund
+   * neben gesaettigtem Blau ist genau der Fall, fuer den `--crf=16` im
+   * Wochenlauf steht: aehnliche Chroma-Werte, harte Kanten, Farbsaeume.
    */
-  grund: '#E4E9EF',
+  grund: '#F0EFEB',
   /** Flaechen auf dem Grund — Symbolfuellungen, Pillen. */
-  grundRein: '#F7F9FB',
+  grundRein: '#FBFAF7',
   /** Isometrisches Hintergrundgitter. */
-  gitter: '#DAE1E9',
+  gitter: '#E6E4DE',
 
   /** Text und Illustrationslinien. */
   tinte: '#111820',
   tinteWeich: '#5E6877',
-  linie: '#9EA6AF',
-  linieFein: '#BDC4CB',
-  flaeche: '#CBD3DC',
+  linie: '#A8A69E',
+  linieFein: '#C7C4BB',
+  flaeche: '#D8D5CC',
+
+  /**
+   * Die Strichfarbe der Symbolzeichnungen.
+   *
+   * **Eigener Wert, seit die Farbprobe es zeigte:** Die Lupe war auf allen
+   * acht Kandidaten blass, unabhaengig vom Grund. Symbole zeichnen mit
+   * Staerke 5 auf einer 200er-Flaeche — im Video rund neun Pixel —, und bei
+   * so duennen Linien traegt `tinteWeich` mit seinem Kontrast von 4,9 nicht.
+   * Dieser Wert kommt auf rund 8,5.
+   *
+   * Warum nicht einfach `tinteWeich` dunkler: Die Farbe traegt zwei Rollen,
+   * die Symbole und den Spruch in der Signatur. Der Spruch **soll**
+   * zuruecktreten — er ist der Absender, nicht die Aussage. Zwei Rollen, zwei
+   * Werte, wie schon bei `blau` und `anzeigeEins`.
+   */
+  symbolLinie: '#3D4655',
 
   /**
    * Der Akzent — und zugleich die Kennfarbe des ersten Avatars.

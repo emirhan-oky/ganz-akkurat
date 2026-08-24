@@ -31,24 +31,40 @@ export type { KontextArt } from '../../src/typen';
  * Bild fiel es am deutlichsten auf — zwei blasse Zeichnungen unter fetter
  * Typografie.
  *
- * `tinteWeich` (#5E6877) ist der Mittelweg: deutlich dunkler als vorher und
+ * `tinteWeich` (#5E6877) war der Mittelweg: deutlich dunkler als vorher und
  * trotzdem leichter als die Figur, damit die Rangfolge im Bild bleibt.
+ *
+ * **Seit dem 25.08.2026 steht hier `symbolLinie` (#3D4655).** Die Farbprobe
+ * zeigte die Lupe auf allen acht Hintergrundkandidaten blass — das lag nicht
+ * am Grund, sondern an der Strichstaerke: Fuenf Einheiten auf einer 200er
+ * Flaeche sind im Video rund neun Pixel, und bei so duennen Linien traegt ein
+ * Kontrast von 4,9 nicht. Die Rangfolge bleibt trotzdem: Die Figur ist eine
+ * geschlossene Flaeche in `tinte`, das Symbol eine Kontur.
  *
  * Die Markenfarbe `linie` selbst bleibt unangetastet — sie faerbt auch das
  * isometrische Hintergrundgitter in `Muster.tsx`, und das soll blass bleiben.
  */
 const strich = {
   fill: 'none',
-  stroke: FARBEN.tinteWeich,
+  stroke: FARBEN.symbolLinie,
   strokeWidth: 5,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
 };
 
-const fein = { ...strich, stroke: FARBEN.linie, strokeWidth: 3.5 };
+/**
+ * Detaillinien innerhalb einer Zeichnung — Fensterreihe, Kreuz in der Lupe,
+ * Fugen. Leichter als die Kontur, damit die Form vorne bleibt.
+ *
+ * **Nicht `linie`, seit dem 25.08.2026.** Das ist die Farbe des
+ * Hintergrundgitters und damit dafuer gebaut, kaum sichtbar zu sein. In der
+ * Farbprobe wirkte die Lupe deshalb auf jedem der acht Gruende blass — die
+ * Kontur war laengst dunkler, aber das Kreuz darin blieb ein Gitterstrich.
+ */
+const fein = { ...strich, stroke: FARBEN.tinteWeich, strokeWidth: 3.5 };
 const koerper = {
   fill: FARBEN.grundRein,
-  stroke: FARBEN.tinteWeich,
+  stroke: FARBEN.symbolLinie,
   strokeWidth: 5,
   strokeLinejoin: 'round' as const,
 };
