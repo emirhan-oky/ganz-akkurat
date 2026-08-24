@@ -7,6 +7,7 @@ import { aufkleberGarantie } from './aufkleber-garantie';
 import { druckerKennung } from './drucker-kennung';
 import { schaltsekundeEndet } from './schaltsekunde-endet';
 import { privaterModus } from './privater-modus';
+import { raumstationAlteRechner } from './raumstation-alte-rechner';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -53,6 +54,7 @@ export const WOCHENLAUF: Short[] = [
   privaterModus,
   druckerKennung,
   schaltsekundeEndet,
+  raumstationAlteRechner,
 ];
 
 /**

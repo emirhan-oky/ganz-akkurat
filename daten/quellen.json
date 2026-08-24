@@ -731,6 +731,63 @@
           "stuetzt": "Gemeint ist alles, was vor der Mängelanzeige vereinbart wurde — der Aufkleber gehört dazu."
         }
       ]
+    },
+    {
+      "id": "esa-iss-laptops",
+      "titel": "Augmented reality to help astronauts make sense of space",
+      "url": "https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Augmented_reality_to_help_astronauts_make_sense_of_space",
+      "herausgeber": "Europäische Weltraumorganisation",
+      "geprueftAm": "2026-08-24",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "laptops-more-than-five-years-old",
+          "zitat": "these laptops are now more than five years old",
+          "stuetzt": "Die ESA schrieb 2009, die an Bord der Raumstation genutzten Laptops seien zu diesem Zeitpunkt älter als fünf Jahre."
+        },
+        {
+          "id": "thinkpads-already-qualified",
+          "zitat": "Thinkpads already qualified and aboard the ISS",
+          "stuetzt": "Es wurde kein schnellerer Rechner genommen, sondern die bereits zugelassenen Geräte — die Zulassung entscheidet, nicht die Rechenleistung."
+        },
+        {
+          "id": "arduous-safety-and-compatibility-testing",
+          "zitat": "must go through arduous safety and compatibility testing",
+          "stuetzt": "Alles, was zur Raumstation fliegt, durchläuft eine aufwendige Sicherheits- und Verträglichkeitsprüfung."
+        },
+        {
+          "id": "too-long-to-pass-a-faster-pc",
+          "zitat": "it would have taken too long to pass a faster ultramobile PC",
+          "stuetzt": "Ein schnelleres Gerät wurde nicht genommen, weil dessen Zulassung zu lange gedauert hätte."
+        }
+      ]
+    },
+    {
+      "id": "esa-strahlung-elektronik",
+      "titel": "Radiation: satellites' unseen enemy",
+      "url": "https://www.esa.int/Enabling_Support/Space_Engineering_Technology/Radiation_satellites_unseen_enemy",
+      "herausgeber": "Europäische Weltraumorganisation",
+      "geprueftAm": "2026-08-24",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "smaller-and-less-charge",
+          "zitat": "circuit features have become smaller and run on less charge",
+          "stuetzt": "Schaltungsstrukturen sind kleiner geworden und arbeiten mit weniger Ladung."
+        },
+        {
+          "id": "more-vulnerable-to-disruption",
+          "zitat": "making them more vulnerable to disruption by incoming charged particles",
+          "stuetzt": "Genau deshalb sind neuere Bauteile im Weltraum anfälliger für geladene Teilchen — neuer ist dort nicht besser."
+        },
+        {
+          "id": "radiation-hardened-essential",
+          "zitat": "special radiation-hardened components are essential for satellites",
+          "stuetzt": "Für Satelliten sind besonders strahlungsfeste Bauteile unverzichtbar."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",
