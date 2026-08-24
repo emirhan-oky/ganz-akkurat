@@ -1,7 +1,10 @@
-import { useCurrentFrame, useVideoConfig } from 'remotion';
+import { interpolate, spring, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
+import { Figur } from '../bausteine/Figur';
+import { nachleser } from '../../daten/figur/nachleser';
+import { POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
 import { Symbol } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
@@ -631,9 +634,15 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
  * Szene aus wie jede andere — und genau das soll sie, damit der erste Satz
  * danach wieder passt.
  *
- * Der Spruch ist nicht verschwunden, er ist umgezogen: Er laeuft oben unter
- * der Kopfzeile mit, an der Stelle, an der sonst der Beleg steht (siehe
- * `Spruchzeile`). Die Wortmarke stand ohnehin die ganze Zeit oben.
+ * Der Spruch stand seit dem 18.08.2026 oben unter der Kopfzeile. **Seit dem
+ * 24.08.2026 steht er wieder in der Mitte**, unter dem Schlusssatz — aber
+ * ohne das, was den alten Abspann zum Vorhang gemacht hat: kein blauer Strich,
+ * keine zweite Wortmarke, keine eigene Standzeit. Er erscheint innerhalb der
+ * Schlussszene, die ohnehin laeuft.
+ *
+ * Das ist kein Rueckbau der Begruendung von oben. Der Strich war das Signal
+ * „fertig", nicht der Spruch. Was jetzt dasteht, ist eine Signatur: die Figur
+ * in Schriftgroesse neben ihrem eigenen Satz. Sie hat nachgelesen.
  *
  * Keine Dauerbewegung: Der letzte Frame ist der, den die Plattform als
  * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
@@ -668,6 +677,71 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'>> = ({ szene }) => 
       >
         {szene.satz}
       </p>
+
+      {/*
+       * Die Signatur: Strich, Spruch — und die Figur rechts daneben, auf
+       * halber Hoehe zwischen Schlusssatz und Spruch.
+       *
+       * Sie hat drei Plaetze durchlaufen, und der Weg dorthin ist die
+       * Begruendung: **links** neben dem Spruch nahm sie ihm den Anfang,
+       * **unter** ihm sass sie in einer Ecke, die sonst leer bleibt, und
+       * **direkt daneben** teilte sie sich mit der Textzeile eine Grundlinie,
+       * die zu keinem von beiden gehoert. Rechts aussen, vertikal zentriert
+       * ueber dem ganzen Block, hat sie eine eigene Mitte.
+       *
+       * Sie zeigt auf nichts. Der Spruch traegt sich selbst, und eine Figur,
+       * die auf ihn deutet, macht ihn zur Beschriftung.
+       *
+       * **Der Strich ist bewusst kurz.** Der alte Abspann hatte einen ueber
+       * die ganze Buehnenbreite, und der war das Signal „fertig" — er trennte
+       * die Pointe vom Absender. 96 Pixel trennen nichts, sie zeichnen aus.
+       * Gezogen statt eingeblendet: Eine Linie, die entsteht, ist eine Geste.
+       */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: ABSTAND.s, marginTop: ABSTAND.l }}>
+        <div>
+          <div
+            style={{
+              height: 6,
+              width: interpolate(
+                spring({ frame: frame - 6, fps, config: TEMPO.feder }),
+                [0, 1],
+                [0, 96],
+              ),
+              borderRadius: 999,
+              backgroundColor: FARBEN.blau,
+            }}
+          />
+
+          <span
+            style={{
+              ...auftritt(frame, fps, 10),
+              ...grundtext,
+              display: 'block',
+              fontWeight: SCHRIFT.fett,
+              fontSize: GROESSEN.detail,
+              color: FARBEN.tinteWeich,
+              letterSpacing: 0.2,
+              marginTop: ABSTAND.s,
+              /* Der Spruch ist eine Zeile. Bricht er, steht dort ein Absatz. */
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {SPRUCH}
+          </span>
+        </div>
+
+        {/*
+         * Kein zweites `viewBox` um die Figur herum: Sie bringt ihr eigenes
+         * SVG mit `width="100%"` mit, und in einem aeusseren viewBox-SVG
+         * verschwindet sie spurlos — im ersten Anlauf stand hier nur der
+         * Spruch, ohne Fehler und ohne Figur. Der Kasten hat stattdessen das
+         * Seitenverhaeltnis ihres Zeichenraums (200 zu 150); die Figur fuellt
+         * darin etwa zwei Fuenftel der Hoehe, 210 ergeben also rund 86.
+         */}
+        <div style={{ ...auftritt(frame, fps, 12), width: 240, height: 180, flex: 'none' }}>
+          <Figur rig={nachleser} pose={POSEN.ruhe} />
+        </div>
+      </div>
     </Buehne>
   );
 };

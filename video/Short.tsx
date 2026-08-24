@@ -3,7 +3,7 @@ import { ABSTAND, FARBEN, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHER
 import type { Short as ShortDaten } from '../src/typen';
 import { szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
-import { Belegzeile, Kopfzeile, Spruchzeile } from './bausteine/Wortmarke';
+import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { SzeneRendern } from './szenen';
 
@@ -102,12 +102,11 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
     belegSzene !== undefined && 'herausgeber' in belegSzene ? belegSzene.herausgeber : undefined;
 
   /*
-   * Der Spruch laeuft in der Schlussszene an der Belegstelle mit. Die beiden
-   * koennen sich nicht ins Gehege kommen: `schluss` traegt nie eine
-   * `quelleId` und damit nie einen `herausgeber` — sie behauptet nichts.
+   * Der Spruch stand hier bis zum 24.08.2026 als eigene Sequenz oben in der
+   * Kopfzeile. Er steht jetzt **in** der Schlussszene, neben der Figur — die
+   * Stelle kennt nur `video/szenen/index.tsx`, und der Short muss dafuer
+   * nichts mehr ausrechnen.
    */
-  const schlussIndex = daten.szenen.findIndex((s) => s.art === 'schluss');
-  const schlussZeit = schlussIndex >= 0 ? plan[schlussIndex] : undefined;
 
   /*
    * Die sichtbare Zaehlung, wenn der Short eine hat.
@@ -199,16 +198,6 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({ daten }) => {
               </Sequence>
             )}
 
-            {schlussZeit !== undefined && (
-              <Sequence
-                from={schlussZeit.startBild}
-                durationInFrames={schlussZeit.dauerBilder}
-                layout="none"
-                name="Spruch"
-              >
-                <Spruchzeile />
-              </Sequence>
-            )}
           </div>
         </div>
 
