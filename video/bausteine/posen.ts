@@ -317,6 +317,68 @@ export const poseAus = ({
 };
 
 /**
+ * Die drei Folge-Posen des Zeigers — eine je Dienst.
+ *
+ * **Bewusst ausserhalb von `POSEN`.** Jenes Record folgt dem Enum `PosenName`
+ * und ist damit das Vokabular, aus dem **Entwuerfe** eine Haltung waehlen.
+ * Diese drei gehoeren nicht dorthin: Sie sind Teil der Signatur, kein
+ * Szenenmittel, und ein Entwurf soll sie nicht setzen koennen.
+ *
+ * **Was sie zeigen, gehoert uns nicht.** Der Folgen-Knopf liegt bei jedem
+ * Dienst woanders, als Overlay der App ueber unserem Video. Zeichnen koennen
+ * wir ihn nicht, in seine Richtung deuten schon.
+ *
+ * | Dienst | Knopf | Geste |
+ * |---|---|---|
+ * | `tiktok` | rechts, mittlere Hoehe | rechter Arm waagerecht nach rechts |
+ * | `instagram` | unten links | linker Arm nach links, leicht gesenkt |
+ * | `youtube` | unten Mitte | linker Arm nach unten |
+ *
+ * **Es ist eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geraete
+ * sind hoeher, und die Apps schneiden oder rahmen verschieden. Wo der Knopf
+ * relativ zu unserem Bildinhalt landet, haengt am Geraet — „nach rechts"
+ * ueberlebt das, ein Pfeil auf einen Punkt nicht.
+ *
+ * Der Blick geht mit: `blick` ist ein Versatz der Pupille in SVG-Konvention,
+ * x positiv nach rechts, y positiv nach unten.
+ */
+export const FOLGEPOSEN = {
+  /*
+   * Die Winkel sind beim ersten Standbild **verdoppelt** worden. Mit -46 und
+   * +22 Grad sahen die drei Fassungen fast gleich aus: Der Arm haengt in der
+   * Ruhelage schon schraeg nach aussen, und eine Drehung um zwanzig Grad
+   * verschwindet darin. Erst ab rund siebzig Grad steht er waagerecht und die
+   * Geste ist als Zeigen zu lesen — dieselbe Groessenordnung wie bei `zeigen`
+   * (-68).
+   */
+  tiktok: p({
+    drehung: { oberarm_rechts: -74, unterarm_rechts: -14, koerper: 6 },
+    blick: [3, 0.2],
+    mund: 'laecheln',
+  }),
+  instagram: p({
+    drehung: { oberarm_links: 46, unterarm_links: 14, koerper: -6 },
+    blick: [-3, 1.4],
+    mund: 'laecheln',
+  }),
+  /*
+   * **Der Unterarm dreht hier nicht mit.** Im ersten Anlauf stand er auf -22,
+   * und zusammen mit einem Oberarm auf -34 klappte der ganze Arm vor die
+   * Brust: Beide Vorzeichen drehen zum Koerper hin, und in der Ruhelage haengt
+   * der Arm ohnehin schon schraeg nach innen-unten.
+   *
+   * Der Knopf sitzt bei YouTube tiefer und weniger weit links als bei
+   * Instagram. Den Unterschied traegt vor allem der **Blick** — zwei Arme, die
+   * sich um zwanzig Grad unterscheiden, sieht im Feed niemand.
+   */
+  youtube: p({
+    drehung: { oberarm_links: 20, unterarm_links: 8, koerper: -4 },
+    blick: [-1, 2.9],
+    mund: 'laecheln',
+  }),
+} as const;
+
+/**
  * Prueft, dass jede Pose nur Gelenke nennt, die es im Rig gibt.
  *
  * Ein Tippfehler in einem Gelenknamen ist sonst unsichtbar: Der Renderer
@@ -327,7 +389,7 @@ export const posenPruefen = (rig: Rig): string[] => {
   const bekannt = new Set(Object.keys(rig.gelenke));
   const befunde: string[] = [];
 
-  for (const [name, pose] of Object.entries(POSEN)) {
+  for (const [name, pose] of [...Object.entries(POSEN), ...Object.entries(FOLGEPOSEN)]) {
     for (const id of Object.keys(pose.drehung)) {
       if (!bekannt.has(id)) befunde.push(`Pose „${name}" dreht „${id}" — kein Gelenk im Rig.`);
     }

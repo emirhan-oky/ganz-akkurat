@@ -72,6 +72,24 @@ import type { Short, Szene } from './typen';
  */
 export const ZEICHEN_PRO_SEKUNDE = 15.4;
 
+/**
+ * Stille nach dem letzten Wort, in der die Signatur stehen bleibt.
+ *
+ * **Diese Zahl stand hier schon einmal — und war zu Recht weg.** Bis zum
+ * 24.08.2026 addierte `gesamtdauerBilder` 0,8 Sekunden „damit die Endkarte
+ * nicht auf dem letzten Wort abreisst"; die Endkarte war seit dem 18.08.2026
+ * gestrichen, und uebrig blieb eine **leere Buehne** am Videoende. Aufgefallen
+ * ist das am Standbild des letzten Bildes.
+ *
+ * Jetzt steht dort etwas: Der Zeiger blickt in die Richtung des Folgen-Knopfs,
+ * und eine Geste, die mit dem letzten Wort verschwindet, sieht niemand.
+ * Dieselbe Zahl, ein anderer Grund — und diesmal waechst die **Schlussszene**
+ * mit, nicht nur die Komposition. Genau das war der alte Fehler.
+ *
+ * Wer sie streichen will: erst das letzte Bild eines Videos ziehen.
+ */
+export const NACHLAUF_SEK = 1.5;
+
 /** Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen. */
 const PAUSE_NACH_SZENE_SEK = 0.32;
 
@@ -153,7 +171,10 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
   if (short.tonspur) {
     const { szenenStartSek, dauerSek } = short.tonspur;
     return szenenStartSek.map((start, i) => {
-      const naechster = szenenStartSek[i + 1] ?? dauerSek;
+      const letzte = i === szenenStartSek.length - 1;
+      // Die letzte Szene traegt den Nachlauf mit, sonst endet sie mit dem Wort
+      // und die Komposition liefe ueber eine leere Buehne weiter.
+      const naechster = (szenenStartSek[i + 1] ?? dauerSek) + (letzte ? NACHLAUF_SEK : 0);
       return {
         startBild: Math.round(start * fps),
         dauerBilder: Math.max(1, Math.round((naechster - start) * fps)),
@@ -188,7 +209,7 @@ export const gesamtdauerBilder = (short: Short): number => {
      * Kopfzeile. Genau dort setzt der Rundlauf an, und Leere ist der Vorhang,
      * den er nicht haben soll.
      */
-    return Math.round(short.tonspur.dauerSek * FORMAT.bilderProSekunde);
+    return Math.round((short.tonspur.dauerSek + NACHLAUF_SEK) * FORMAT.bilderProSekunde);
   }
   const plan = szenenZeitplan(short);
   const letzter = plan[plan.length - 1];

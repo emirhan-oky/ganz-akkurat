@@ -4,9 +4,10 @@ import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../s
 import { Buehne } from '../bausteine/Buehne';
 import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
-import { POSEN } from '../bausteine/posen';
+import { zeiger } from '../../daten/figur/zeiger';
+import { FOLGEPOSEN, POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
-import { Plattformzeichen, type Dienst } from '../bausteine/Geraete';
+import type { Dienst } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
   abschnitt,
@@ -694,41 +695,6 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
           >
             {SPRUCH}
           </span>
-
-          {/*
-           * Das stumme Folgen-Zeichen — dritte Zeile der Signatur.
-           *
-           * Ein gesprochener Aufruf scheidet aus: `ABBINDER` in
-           * `src/pruefung.ts` lehnt Schlusssaetze ab, die eine Handlung
-           * verlangen, und der Rundlauf lebt davon, dass am Ende kein Vorhang
-           * faellt. Ein „lass ein Abo da" waere genau der Abspann, der am
-           * 18.08.2026 abgeschafft wurde.
-           *
-           * **Es wird angetippt, nicht hingestellt.** Ein stehendes Icon ist
-           * ein Hinweisschild; der Wechsel von Umriss auf gefuellt zeigt die
-           * Handlung selbst. Derselbe Gedanke wie beim gezogenen Strich: Eine
-           * Linie, die entsteht, ist eine Geste.
-           *
-           * Der Druck sitzt bei Frame 36, nach Strich (6), Spruch (10) und
-           * Figur (12) — als letztes, damit er nicht mit dem Aufbau
-           * konkurriert.
-           */}
-          <div style={{ ...auftritt(frame, fps, 24), marginTop: ABSTAND.s }}>
-            <Plattformzeichen dienst={dienst} gedrueckt={frame >= 36} />
-          </div>
-
-          {/*
-           * Der Ton sitzt auf dem Antippen, nicht auf dem Erscheinen. Ein
-           * Klang zum Einblenden waere eine Ankuendigung; auf dem
-           * Zustandswechsel ist er die Handlung selbst.
-           *
-           * Eigener Ton (`skripte/toene.ts`), kein Plattformklang: Das
-           * Bediengeraeusch der App ist nirgends veroeffentlicht und nicht zum
-           * Einbrennen lizenziert.
-           */}
-          <Sequence from={36} layout="none" name="Ton folgen">
-            <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
-          </Sequence>
         </div>
 
         {/*
@@ -739,9 +705,33 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
          * Seitenverhaeltnis ihres Zeichenraums (200 zu 150); die Figur fuellt
          * darin etwa zwei Fuenftel der Hoehe, 210 ergeben also rund 86.
          */}
+        {/*
+         * **Hier steht der Zeiger, nicht der Nachleser.** Der Kanal hat seit
+         * dem 24.08.2026 zwei Figuren mit geteilter Arbeit: Der Nachleser
+         * traegt den Inhalt, der Zeiger alles, was der Zuschauer tun kann. Der
+         * Schluss ist die Stelle, an der etwas verlangt wird — also gehoert
+         * sie ihm.
+         *
+         * Er blickt und zeigt je nach Dienst woanders hin, weil der
+         * Folgen-Knopf ueberall woanders liegt. Ein gezeichnetes Plus stand
+         * hier bis zum 24.08.2026 und ist gestrichen: Ein Zeichen, das wir
+         * selbst malen, deutet auf nichts.
+         */}
         <div style={{ ...auftritt(frame, fps, 12), width: 240, height: 180, flex: 'none' }}>
-          <Figur rig={nachleser} pose={POSEN.ruhe} />
+          <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />
         </div>
+
+        {/*
+         * Der Ton sitzt auf dem Moment, in dem die Geste steht — nicht auf dem
+         * Auftritt. Ein Klang zum Einblenden waere eine Ankuendigung.
+         *
+         * Eigener Ton (`skripte/toene.ts`), kein Plattformklang: Das
+         * Bediengeraeusch der App ist nirgends veroeffentlicht und nicht zum
+         * Einbrennen lizenziert.
+         */}
+        <Sequence from={22} layout="none" name="Ton folgen">
+          <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
+        </Sequence>
       </div>
     </Buehne>
   );

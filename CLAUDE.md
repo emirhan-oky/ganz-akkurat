@@ -533,47 +533,88 @@ nirgends veröffentlicht und nicht zum Einbrennen lizenziert. Nicht mit ffmpeg:
 Die Installation hier trägt 50 Filter, `afade` fehlt, und ein `sine` ohne
 Hüllkurve knackt.
 
-**Der Like-Hinweis** sitzt bei 62 % der Laufzeit — nach dem Kipppunkt, weit weg
-von Sekunde 3,5. Eine Hand tippt auf ein Herz, rechts am Rand, mit dem
-`gefaellt`-Ton. **Er braucht keine drei Fassungen:** Der Like-Knopf liegt bei
-allen drei Plattformen rechts, anders als der Folgen-Knopf.
+### Zwei Figuren, geteilte Arbeit
 
-Drei Befunde aus dem Standbild, alle in derselben Runde:
+**Der Kanal hat seit dem 24.08.2026 zwei Akkus.** Der `nachleser` trägt den
+Inhalt, der **`zeiger`** alles, was der Zuschauer tun kann — liken, folgen,
+abonnieren. Wer den Kanal ein paar Mal sieht, weiß beim Auftauchen des Zweiten
+sofort, worum es geht. Nebenbei stimmt damit der Spruch: „Wir haben
+nachgelesen" steht im Plural und hatte bisher nur einen Sprecher.
 
-- **Keine zweite Figur.** Der erste Anlauf ließ den Nachleser von rechts
-  hereinlugen. Dann standen **zwei** Nachleser im Bild, und das liest sich als
-  Doppel statt als Hinweis. Die vorhandene Figur konnte es nicht übernehmen:
-  `Buehnenbild.tsx` interpoliert ihre Haltung über die ganze Szene von `von`
-  nach `nach`; ein Übersteuern mittendrin wäre ein Sprung.
-- **Kein Zeigefinger.** Das Rig kennt keine Finger — eine Hand ist dort ein
-  Kreis am Strich. Der Finger ragte außerdem aus dem Bild, weil er ja nach
-  rechts deutet.
-- **Das Herz gehört dazu.** Eine Hand ohne Körper wird nicht als Hand gelesen:
-  In der Szene mit der Steckdose sah der Strich mit Kugel aus wie ein Stecker,
-  der hineinwill. Mit dem Herz daneben ist die Lesart eindeutig.
+`daten/figur/zeiger.ts` **leitet ab statt abzuschreiben**: Teile, Gelenke und
+Griffe kommen unverändert vom `nachleser`, getauscht wird nur die Farbe. Ein
+zweites Rig von Hand wäre beim ersten Umbau am Körper auseinandergelaufen, und
+zwar lautlos — die Prüfung sieht zwei gültige Rigs, nicht zwei verschiedene.
+Beide Tausche laufen in **einem** Durchgang: Der Nachleser ist ein dunkler
+Körper mit blauem Ladebalken, der Zeiger ein blauer mit hellem. Nacheinander
+gefärbt verschwände der Balken im frisch blauen Körper.
 
-Dazu die Platzgrenze: Das Szenensymbol sitzt fest in der rechten Bühnenhälfte,
-und was von rechts hereinkommt, trifft es. Rechts von x = 870 bleiben rund 210
-Pixel — in die passt die Hand nur ohne Unterarm.
+Der Zeiger tritt an genau zwei Stellen auf. **Mitten im Video** kommt er halb
+von rechts ins Bild und schaut nach rechts — dort liegt der Like-Knopf auf
+allen drei Plattformen, deshalb braucht dieser Hinweis keine drei Fassungen.
+**Am Schluss** steht er in der Signatur, wo bis zum 24.08.2026 der Nachleser
+stand.
 
-**Der Folgen-Hinweis ist stumm.** Seit dem 24.08.2026 steht unter dem Spruch
-ein Plattformzeichen — Plus im Kreis, Personenumriss mit Plus, Glocke —, und es
-wird **angetippt**: Umriss zuerst, einen Moment später gefüllt. Ein gesprochener
-Aufruf schied aus, weil `ABBINDER` Schlusssätze mit Handlungsaufforderung
-ablehnt und kein Format eine Handlung verlangt; ein stehendes Icon wäre ein
-Hinweisschild gewesen. Derselbe Gedanke wie beim gezogenen Strich.
+**Er hängt an einer Szene, nicht an einer Uhrzeit.** Das Szenensymbol sitzt
+fest in der rechten Bühnenhälfte, und alles, was von rechts hereinkommt, trifft
+es — daran sind drei Anläufe gescheitert. `hinweisSzene` in `video/Short.tsx`
+sucht deshalb die **letzte Szene ohne Requisite** vor dem Schluss; findet sie
+keine, entfällt der Hinweis.
 
-Seit dem 24.08.2026 liegt der `folgen`-Ton auf dem Antippen, nicht auf dem
-Erscheinen: Ein Klang zum Einblenden wäre eine Ankündigung, auf dem
-Zustandswechsel ist er die Handlung.
+Was auf dem Weg dahin verworfen wurde, steht hier, damit es niemand erneut
+versucht:
 
-Das Zeichen bleibt in beiden Zuständen **vollständig** — beim Plus wäre es
-naheliegend gewesen, es beim Füllen verschwinden zu lassen („mach das Plus
-weg"), aber dann stünde im Standbild ein leerer Kreis. Es invertiert
-stattdessen. Nachgebaut wird die **Geste, nicht das Logo**: keine rote Glocke,
-keine Note, sondern der Strichstil des Kanals. Die Zeichen stehen deshalb auch
-nicht in `KontextArt` — sie behaupten nichts über die Welt und hängen an keiner
-`quelleId`.
+- **Der Nachleser konnte es nicht selbst.** Mitten im Video steht er schon auf
+  der Bühne, und `Buehnenbild.tsx` interpoliert seine Haltung über die ganze
+  Szene von `von` nach `nach` — ein Übersteuern mittendrin wäre ein Sprung.
+- **Eine körperlose Hand wird nicht als Hand gelesen.** Im fertigen Video wurde
+  sie als **Schlüssel** erkannt. Im Rig ist eine Hand ein Kreis am Strich; was
+  sie zur Hand macht, ist der Körper daran.
+- **Ein gezeichnetes Plattformzeichen deutet auf nichts.** Plus, Glocke und
+  Personenumriss standen bis zum 24.08.2026 an der Signatur und sind
+  gestrichen: Ein Zeichen, das wir selbst malen, ist nicht der Knopf der App.
+
+### Die Blickrichtung
+
+`FOLGEPOSEN` in `video/bausteine/posen.ts`, eine je Dienst — **bewusst
+außerhalb von `POSEN`**, denn jenes Record ist das Vokabular für Entwürfe, und
+die Signatur ist kein Szenenmittel.
+
+| Dienst | Knopf | Geste |
+|---|---|---|
+| `tiktok` | rechts, mittlere Höhe | rechter Arm waagerecht nach rechts |
+| `instagram` | unten links | linker Arm nach links, leicht gesenkt |
+| `youtube` | unten Mitte | linker Arm tiefer, Blick nach unten |
+
+Zwei Messwerte aus dem Standbild: **Unter siebzig Grad sieht man nichts** — der
+Arm hängt in Ruhe schon schräg nach außen, und zwanzig Grad verschwinden darin.
+Und **der Unterarm darf nicht mitdrehen**: Oberarm auf −34 plus Unterarm auf
+−22 klappte den ganzen Arm vor die Brust, weil beide Vorzeichen zum Körper hin
+drehen.
+
+**Es bleibt eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geräte sind
+höher, und die Apps schneiden oder rahmen verschieden. Wo der Knopf relativ zu
+unserem Bildinhalt landet, hängt am Gerät. Ob es trägt, zeigt erst ein echter
+Beitrag auf dem Handy.
+
+### Der Nachlauf — dieselbe Zahl, ein anderer Grund
+
+`NACHLAUF_SEK` in `src/zeit.ts` steht auf **1,5 Sekunden** Stille nach dem
+letzten Wort, in denen die Signatur stehen bleibt.
+
+**Diese Zahl stand hier schon einmal und war zu Recht weg.** Bis zum
+24.08.2026 addierte `gesamtdauerBilder` 0,8 Sekunden „damit die Endkarte nicht
+abreißt" — die Endkarte war seit dem 18.08. gestrichen, und übrig blieb eine
+**leere Bühne** am Videoende. Jetzt steht dort etwas: Der Zeiger schaut in die
+Richtung des Folgen-Knopfs, und eine Geste, die mit dem letzten Wort
+verschwindet, sieht niemand.
+
+Der Unterschied im Bau ist entscheidend: **Die Schlussszene wächst mit**, nicht
+nur die Komposition. Genau das war der alte Fehler. Wer die Zahl streichen
+will, zieht vorher das letzte Bild eines Videos.
+
+Das Fenster bleibt bei 20–36 Sekunden — es war nie die Ursache. Was fehlte, war
+Zeit nach dem letzten Wort.
 
 `dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
 egal wo er landet.
