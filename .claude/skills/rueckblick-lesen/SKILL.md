@@ -8,12 +8,8 @@ description: Die Zahlen der veröffentlichten Videos deuten — Haltequote, Durc
 Bis zum 18.08.2026 war die Pipeline eine Einbahnstraße: `verlauf.json` schrieb
 mit, was hinausging, aber nie, was ankam. Woche 3 wusste nichts von Woche 1.
 
-## Welche Zahl zählt
-
-**Die Aufrufe sind die unwichtigste.** Sie sagen, was der Algorithmus getan
-hat. Was der Zuschauer getan hat, steht in der **Haltequote** — gelesen an
-**Sekunde 3,5**, dem Ende des Aufschlags, wo dieser Kanal ohnehin eine Regel
-hat. Dazu die Durchsichtsrate und das Teilen.
+Welche Zahl zählt, steht im Vertrag: die Haltequote an Sekunde 3,5, nicht die
+Aufrufe. Hier steht, wie man sie liest.
 
 ## Die drei Befehle
 
@@ -34,17 +30,25 @@ der die nächste Woche geplant wird.
 | `GENUG_JE_FORMAT` | 5 je Format | darunter kein Formatvergleich |
 
 **Diese Schwellen sind der Zweck der Werkzeuge, nicht ihre Einschränkung.**
-Bei acht Formaten und acht Videos die Woche hat jedes Format nach vier Wochen
-vier Messungen. Wer daraus einen Sendeplatz streicht, hat eine Woche Zufall
-zur Regel gemacht. Geratene Größen haben dieses Projekt schon zweimal Geld
-gekostet (`ZEICHEN_PRO_SEKUNDE`, `pauseSek`); eine geratene Reichweitenregel
-wäre die teuerste, weil sie die Themenwahl steuert.
+
+Beim Takt von vier Videos je Woche (seit 24.08.2026) heißt das: Der Median
+steht nach **zwei Wochen**, der Formatvergleich nach **fünf** — vier Formate,
+eines je Video, also eine Messung je Format und Woche. Wer vorher ein Format
+streicht, hat eine Woche Zufall zur Regel gemacht.
+
+Hier stand bis dahin eine Rechnung mit acht Formaten und acht Videos, und sie
+war nach dem Umbau vom 20.08. schlicht falsch. Das ist die Sorte Fehler, die
+eine Doku unbemerkt macht: Die Zahlen sahen weiter plausibel aus.
+
+Geratene Größen haben dieses Projekt schon zweimal Geld gekostet
+(`ZEICHEN_PRO_SEKUNDE`, `pauseSek`); eine geratene Reichweitenregel wäre die
+teuerste, weil sie die Themenwahl steuert.
 
 ## Die Frage, die früh trägt
 
-Nicht „welches Format ist gut" — dafür reichen die Daten auf Monate nicht —,
+Nicht „welches Format ist gut" — dafür reichen die Daten wochenlang nicht —,
 sondern **„was hatte dieses eine, das dreimal so gut lief"**. Ein Ausreißer
-ist nach zwei Wochen sichtbar, ein Formatvergleich nach Monaten.
+ist nach zwei Wochen sichtbar, ein Formatvergleich frühestens nach fünf.
 
 `npm run ausreisser` markiert mit `▲`, was mehr als das Doppelte des Medians
 hält. `npm run aufschlaege` ist das Gegenstück zu `npm run belege`: Dort

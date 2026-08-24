@@ -172,7 +172,7 @@ Was zusammengelegt und was gestrichen wurde:
 Zwei Regeln gelten für alle vier:
 
 1. **Die Pointe trifft die Sache, nicht den Zuschauer.** Die alte Ausnahme
-   (Montag) ist mit dem Sendeplatz entfallen — aber wo die Schätzfrage als
+   (Montag) ist mit dem Wochentag entfallen — aber wo die Schätzfrage als
    Machart benutzt wird, gilt sie weiter: „Sechzig. Du warst bei zwölf — wie
    alle." **Ohne dieses „wie alle" bleibt nur die Beleidigung.**
 2. **Kein Format verlangt eine Handlung.** „Steh auf und prüf das" ist Arbeit.
@@ -234,8 +234,8 @@ der gestrichenen Endkarte (3,2 s).
 |---|---|---|---|
 | 1 | **Aufschlag** | greift zu: beschuldigt, behauptet, fordert heraus | das Thema ankündigen |
 | 2 | **Zuspitzung** | macht es schlimmer, teurer, absurder | die Auflösung vorwegnehmen |
-| 3 | **Kipppunkt** | die Wendung, je Sendeplatz eine andere | erklären, warum das so ist |
-| 4 | **Nachschlag** | ein trockener Satz, dann Wortmarke und Spruch | zusammenfassen |
+| 3 | **Kipppunkt** | die Wendung, je Format eine andere | erklären, warum das so ist |
+| 4 | **Nachschlag** | ein trockener Satz, dann Strich und Spruch | zusammenfassen |
 
 **Die Position ist ein Feld im Schema, kein Kommentar.** Sieben Erklärvideos
 sind entstanden, weil beim Schreiben nichts gefragt hat: Ist das die Zuspitzung

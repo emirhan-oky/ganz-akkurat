@@ -502,9 +502,9 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
 - [x] ~~**`hochschauen` und `erklaeren` zum ersten Mal im Bild** — die kleine
       Figur am unteren Rand und der Zeigestab standen seit dem 23.08. im Rig,
       aber in keinem Video~~
-- [ ] Offen: Wie ElevenLabs „2009" ausspricht, ist **nicht** geprüft — hörbar
-      nur beim Ansehen. Falls die Stimme Ziffern buchstabiert, braucht es eine
-      Ausnahme für Jahreszahlen
+- [x] ~~Die Aussprache der Ziffern ist beim Ansehen bestätigt: Die Stimme liest
+      „2009" als Jahreszahl. Das Problem war allein die ausgeschriebene
+      Fassung im Untertitel~~
 
 ## Zweite Sichtung · 24.08.2026
 
@@ -546,3 +546,14 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
       Stufe 4 beantwortet~~
 - [ ] Vorrat nachfüllen, sobald ein Format unter sechs offene Ideen fällt.
       `eswareinmal` und `werhatrecht` stehen bei zehn
+
+## Stufe 5 · Doku entdoppelt · 24.08.2026
+
+- [x] ~~`rueckblick-lesen`: Die Rechnung „acht Formate, acht Videos die Woche"
+      war seit dem 20.08. falsch und sah weiter plausibel aus. Jetzt am Takt
+      gerechnet: Median nach zwei Wochen, Formatvergleich nach fünf~~
+- [x] ~~`thema-finden`: Materialgrenze und breitere Nische stehen im Vertrag,
+      hier bleibt nur die Folge fürs Arbeiten. Der Ideenvorrat trägt jetzt den
+      Hinweis, dass an ihm der Takt hängt~~
+- [x] ~~CLAUDE.md: „je Sendeplatz" und die zweite Wortmarke im Nachschlag
+      waren Reste aus zwei Umbauten~~

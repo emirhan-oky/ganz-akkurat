@@ -49,50 +49,25 @@ zweimal hintereinander.
 
 ## Der Ideenvorrat
 
-`daten/ideen/` — **eine Datei je Format**, `index.ts` als einzige Liste.
-Nicht je Sachgebiet: Die Reichweite wird je Format gerechnet, und wer wissen
-will, welches Fach leer läuft, soll eine Datei öffnen und nicht acht.
+`daten/ideen/`, eine Datei je Format. **Jede Idee trägt einen Belegpfad**: die
+Instanz, die die Aussage tragen könnte, und ob sie unbeteiligt ist. Das Schema
+erzwingt mindestens eine unbeteiligte — wer schon beim Skizzieren keine
+benennen kann, hat kein Thema, sondern eine Vermutung.
 
-**Jede Idee trägt einen Belegpfad**: welche Instanz die Aussage tragen könnte
-und ob sie unbeteiligt ist. Das Schema erzwingt mindestens eine unbeteiligte
-Instanz — wer schon beim Skizzieren keine benennen kann, hat kein Thema,
-sondern eine Vermutung.
+**An dieser Zahl hängt seit dem 24.08.2026 der Takt.** `reichweiteInWochen`
+rechnet je Format mit dem Minimum, und sie ist der engste Engpass des Kanals:
+enger als Produktion, Kontingent und Buffer. Fällt ein Format unter sechs
+offene Ideen, ist das die Aufforderung nachzufüllen — nicht, langsamer zu
+werden.
 
-`npm run pruefen` nennt die Reichweite in Wochen und rechnet **je Format** mit
-dem Minimum: Ein Format ohne Nachschub hält alles auf, auch wenn drei andere
-überquellen.
+## Die Materialgrenze beim Aktuellen
 
-## Die Materialgrenze
-
-Sie stammt vom gestrichenen Sendeplatz `neu` und gilt für alles Aktuelle
-weiter, das jetzt bei `absicht` anfällt:
-
-Neue **Geräte** sind durch Herstellerankündigung (beteiligt) und Presse (nicht
-eintragbar) belegt. Sie fallen aus, ausnahmslos. Neue **Regeln, Normen und
-Grenzwerte** sind durch Behörden und Normungsgremien belegt — nur die gehen.
-
-Das klingt nach Einschränkung und ist der Vorteil: Über ein neues Handy
-berichten hunderttausend Kanäle am selben Tag. Dass ein Recht auf Reparatur
-gilt, erzählt niemand, weil es niemand liest.
+Was gilt, steht im Vertrag: Neue **Geräte** fallen aus, neue **Regeln, Normen
+und Grenzwerte** gehen. Beim Arbeiten zählt die Folge daraus:
 
 `npm run neuigkeiten` siebt aus rund 400 EU-Rechtsakten zehn Kandidaten.
 **Was der Wächter nicht kann, bleibt der Engpass:** ob jemand es freiwillig
 weitererzählt. Er legt zehn vor, ein Mensch nimmt zwei.
-
-## Die breitere Nische
-
-Seit dem 20.08.2026 ist der Gegenstand **Technik allgemein**, nicht mehr nur
-Geräte und Verbraucherrecht. Zwei Folgen:
-
-- **Die Quellenart `wissenschaft` trägt das Neue.** Begutachtete Arbeiten,
-  staatliche Institute, Normungsgremien. „Licht braucht 67 Millisekunden um die
-  Erde" belegt keine Behörde. → Skill `beleg-holen`
-- **Zwei neue Sachgebiete**, `raumfahrt` und `zeit`. Beide bewusst eng: Sie
-  sollen Häufungen sichtbar machen und nicht alles auffangen, was sonst nirgends
-  passt.
-
-Der Zuwachs landet fast vollständig bei `gibtswirklich` — Raumstation,
-Radioastronomie, Schaltsekunde. Kein Gerät, kein Paragraf.
 
 ## Was als Short nicht trägt
 
