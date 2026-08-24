@@ -57,9 +57,22 @@ export const ProfilbildHell: React.FC = () => (
       justifyContent: 'center',
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
-      <Logozeichen groesse={420} ladung={FARBEN.anzeigeEins} />
-      <Logozeichen groesse={420} ladung={FARBEN.anzeigeZwei} />
+    {/*
+     * Die beiden stehen dicht beieinander und ueberlappen leicht: Ein
+     * Kanalbild wird rund beschnitten, und zwei Zeichen mit Luft dazwischen
+     * fallen dabei aus dem Kreis. Als Paar gelesen brauchen sie ohnehin keine
+     * Trennung — der Ladebalken unterscheidet sie.
+     *
+     * Das Zeichen bringt in seiner 100er-Flaeche links und rechts je 16
+     * Einheiten Rand mit; bei 460 Pixeln sind das rund 74 je Seite. Ein
+     * negativer Abstand von 120 laesst die Gehaeuse damit rund 30 Pixel
+     * ueberlappen.
+     */}
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Logozeichen groesse={460} ladung={FARBEN.anzeigeEins} />
+      <div style={{ marginLeft: -120 }}>
+        <Logozeichen groesse={460} ladung={FARBEN.anzeigeZwei} />
+      </div>
     </div>
   </div>
 );
@@ -127,9 +140,22 @@ export const WortmarkeQuer: React.FC = () => (
       gap: 34,
     }}
   >
-    <div style={{ display: 'flex', alignItems: 'center', gap: 34 }}>
-      <Logozeichen groesse={420} ladung={FARBEN.anzeigeEins} />
-      <Logozeichen groesse={420} ladung={FARBEN.anzeigeZwei} />
+    {/*
+     * Die beiden stehen dicht beieinander und ueberlappen leicht: Ein
+     * Kanalbild wird rund beschnitten, und zwei Zeichen mit Luft dazwischen
+     * fallen dabei aus dem Kreis. Als Paar gelesen brauchen sie ohnehin keine
+     * Trennung — der Ladebalken unterscheidet sie.
+     *
+     * Das Zeichen bringt in seiner 100er-Flaeche links und rechts je 16
+     * Einheiten Rand mit; bei 460 Pixeln sind das rund 74 je Seite. Ein
+     * negativer Abstand von 120 laesst die Gehaeuse damit rund 30 Pixel
+     * ueberlappen.
+     */}
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Logozeichen groesse={460} ladung={FARBEN.anzeigeEins} />
+      <div style={{ marginLeft: -120 }}>
+        <Logozeichen groesse={460} ladung={FARBEN.anzeigeZwei} />
+      </div>
     </div>
     <Wortmarke groesse={200} />
   </div>
