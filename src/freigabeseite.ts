@@ -55,15 +55,6 @@ const fassungKurz = (pfad: string): string => {
   return DIENSTNAMEN[teile[teile.length - 1] ?? ''] ?? 'Vorschau';
 };
 
-const fassungsname = (pfad: string): string => {
-  const teile = pfad.replace(/\.mp4$/, '').split('.');
-  const dienst = teile[teile.length - 1] ?? '';
-  const name = DIENSTNAMEN[dienst];
-  return name === undefined
-    ? 'Vorschau'
-    : `${name} — die anderen beiden zeigen am Schluss in eine andere Richtung`;
-};
-
 export const freigabeseiteBauen = (opts: {
   laufId: string;
   shorts: Short[];
@@ -165,12 +156,6 @@ export const freigabeseiteBauen = (opts: {
       <article class="karte ${zustand}" id="${escape(short.id)}">
         <div class="video">
           <video src="${escape(videopfad(short))}" controls preload="metadata" playsinline></video>
-          <!--
-            Welche der drei Fassungen hier laeuft, stand bis zum 25.08.2026
-            nirgends — und war damit die erste Frage beim Ansehen. Der
-            Dateiname traegt sie ohnehin; hier steht sie lesbar.
-          -->
-          <p class="fassung">${escape(fassungsname(videopfad(short)))}</p>
         </div>
         <div class="inhalt">
           <div class="kopf">
@@ -305,12 +290,6 @@ export const freigabeseiteBauen = (opts: {
   details { border-top: 1px solid var(--rand); padding: 12px 0 0; margin-top: 12px; }
   summary { cursor: pointer; font-weight: 600; font-size: 14px; }
   .texte { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 12px; }
-  .video .fassung {
-    margin: 8px 0 0;
-    font-size: 12px;
-    color: var(--weich);
-    text-align: center;
-  }
   .plattform h4 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--blau); }
   .plattform .titel { font-weight: 600; margin: 0 0 6px; }
   .plattform .beschreibung { font-size: 14px; color: var(--weich); margin: 0 0 6px; white-space: pre-wrap; }
@@ -341,7 +320,7 @@ export const freigabeseiteBauen = (opts: {
 <header>
   <h1><span class="duenn">Ganz&#8202;</span><span class="fett">akkurat</span> · Freigabe</h1>
   <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}${
-    shorts.length > 0 ? ` · ${escape(fassungKurz(videopfad(shorts[0]!)))}` : ''
+    shorts.length > 0 ? ` · <b>${escape(fassungKurz(videopfad(shorts[0]!)))}</b>` : ''
   }</p>
   <div class="bilanz">
     <div class="zahl"><b>${shorts.length}</b>Videos</div>

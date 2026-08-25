@@ -75,16 +75,31 @@ const PLAETZE = {
    * Die rechten Einheiten des Symbols lagen also ausserhalb. Im fertigen Video
    * war das Schild angeschnitten und gegen Szenenende ganz verschwunden.
    *
-   * `zielMitSymbol` liegt bei x = 102 — der tatsaechlichen Mitte zwischen
-   * Figur (52) und Symbol (152). Das Feld reicht damit bis x = 188 und fasst
-   * beides. Der Kommentar an der `Kamera` sagte diese Absicht schon; nur der
-   * Wert stammte aus dem Fall ohne Symbol.
+   * **Der erste Anlauf verschob nur das Ziel und war damit falsch.** Bei
+   * x = 102 und unveraendertem Zoom endete das Feld links bei x = 15,8 — und
+   * die Figur reicht in `achselzucken` mit abstehenden Armen bis x = 15. Der
+   * Fehler war nur von rechts nach links gewandert.
+   *
+   * Beides zusammen passt erst mit **weniger Zoom**. Was ins Feld muss:
+   *
+   * | | von | bis |
+   * |---|---|---|
+   * | Figur, Arme abstehend | 15 | 90 |
+   * | Symbol, gezeichnet | 112 | 176 |
+   * | **zusammen** | **15** | **176** |
+   *
+   * Das sind 161 Einheiten Breite, Mitte 95,5. Bei Zoom 1,10 ist das Feld
+   * 182 breit und reicht von x = 5 bis 187 — gut zehn Einheiten Rand auf
+   * jeder Seite. Bei 1,16 waeren es 172, und die Rechnung ginge nicht auf.
+   *
+   * Die Kamera kommt damit weniger nah heran, und das ist der Preis: Wer zwei
+   * Dinge zeigt, kann nicht so dicht heran wie bei einem.
    */
   links: {
     x: 52,
     groesse: 1,
     ziel: { x: 84, y: 82, zoom: 1.16 },
-    zielMitSymbol: { x: 102, y: 82, zoom: 1.16 },
+    zielMitSymbol: { x: 96, y: 82, zoom: 1.1 },
   },
   /** Rechts — dasselbe gespiegelt, fuer Abwechslung ueber mehrere Szenen. */
   rechts: { x: 138, groesse: 1, ziel: { x: 112, y: 82, zoom: 1.16 } },
