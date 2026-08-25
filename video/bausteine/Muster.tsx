@@ -42,55 +42,87 @@ const iso = (u: number, v: number) => ({
   y: u * ISO_X.y + v * ISO_Y.y,
 });
 
+/**
+ * Ein Musterteil samt seinem Platzbedarf.
+ *
+ * `kasten` nennt, wie weit das Teil vom Ankerpunkt aus nach links, oben,
+ * rechts und unten reicht. Ohne diese Angabe konnte die Freiraumpruefung nur
+ * den Anker pruefen, und ein Teil, das nach rechts waechst, ragte in die
+ * Schrift — dagegen half nur ein grosszuegiger Sicherheitsrand, der den
+ * Freiraum weit ueber den Textblock hinaus aufblies.
+ */
+type Bau = {
+  knoten: React.ReactNode;
+  /**
+   * links, oben, rechts, unten — je als Abstand vom Anker. Negativ ist
+   * erlaubt und heisst, dass das Teil auf dieser Seite gar nicht bis zum
+   * Anker reicht.
+   */
+  kasten: [number, number, number, number];
+};
+
 /** Flache Platte in Isometrie — Grundform fuer Tastaturen, Displays, Ablagen. */
-const Platte = (x: number, y: number, u: number, v: number, strich: string) => {
+const Platte = (x: number, y: number, u: number, v: number, strich: string): Bau => {
   const a = iso(0, 0);
   const b = iso(u, 0);
   const c = iso(u, v);
   const d = iso(0, v);
   const punkte = [a, b, c, d].map((p) => `${x + p.x},${y + p.y}`).join(' ');
-  return <polygon points={punkte} fill="none" stroke={strich} strokeWidth={1.6} />;
+  return {
+    knoten: <polygon points={punkte} fill="none" stroke={strich} strokeWidth={1.6} />,
+    kasten: [-ISO_Y.x * v, 0, ISO_X.x * u, 0.5 * (u + v)],
+  };
 };
 
 /** Quader in Isometrie — Gehaeuse, Schrank, Klotz. */
-const Quader = (x: number, y: number, u: number, v: number, h: number, strich: string) => {
+const Quader = (x: number, y: number, u: number, v: number, h: number, strich: string): Bau => {
   const o = (du: number, dv: number, dh: number) => {
     const p = iso(du, dv);
     return `${x + p.x},${y + p.y - dh}`;
   };
-  return (
-    <g fill="none" stroke={strich} strokeWidth={1.6}>
-      <polygon points={[o(0, 0, h), o(u, 0, h), o(u, v, h), o(0, v, h)].join(' ')} />
-      <polygon points={[o(0, 0, 0), o(u, 0, 0), o(u, 0, h), o(0, 0, h)].join(' ')} />
-      <polygon points={[o(u, 0, 0), o(u, v, 0), o(u, v, h), o(u, 0, h)].join(' ')} />
-    </g>
-  );
+  return {
+    knoten: (
+      <g fill="none" stroke={strich} strokeWidth={1.6}>
+        <polygon points={[o(0, 0, h), o(u, 0, h), o(u, v, h), o(0, v, h)].join(' ')} />
+        <polygon points={[o(0, 0, 0), o(u, 0, 0), o(u, 0, h), o(0, 0, h)].join(' ')} />
+        <polygon points={[o(u, 0, 0), o(u, v, 0), o(u, v, h), o(u, 0, h)].join(' ')} />
+      </g>
+    ),
+    kasten: [-ISO_Y.x * v, h, ISO_X.x * u, 0.5 * (u + v)],
+  };
 };
 
 /** Aufgeklappt — die Silhouette, die jeder als Notebook liest. */
-const Klappe = (x: number, y: number, u: number, v: number, strich: string) => {
+const Klappe = (x: number, y: number, u: number, v: number, strich: string): Bau => {
   const p = (du: number, dv: number, dh: number) => {
     const q = iso(du, dv);
     return `${x + q.x},${y + q.y - dh}`;
   };
-  return (
-    <g fill="none" stroke={strich} strokeWidth={1.6}>
-      <polygon points={[p(0, 0, 0), p(u, 0, 0), p(u, v, 0), p(0, v, 0)].join(' ')} />
-      <polygon points={[p(0, v, 0), p(u, v, 0), p(u, v, v * 0.8), p(0, v, v * 0.8)].join(' ')} />
-    </g>
-  );
+  return {
+    knoten: (
+      <g fill="none" stroke={strich} strokeWidth={1.6}>
+        <polygon points={[p(0, 0, 0), p(u, 0, 0), p(u, v, 0), p(0, v, 0)].join(' ')} />
+        <polygon points={[p(0, v, 0), p(u, v, 0), p(u, v, v * 0.8), p(0, v, v * 0.8)].join(' ')} />
+      </g>
+    ),
+    kasten: [-ISO_Y.x * v, 0.3 * v, ISO_X.x * u, 0.5 * (u + v)],
+  };
 };
 
 /** Rechtwinklige Leitung mit Endpunkt — das Leiterbahnmotiv. */
-const Leitung = (x: number, y: number, laenge: number, richtung: number, strich: string) => {
+const Leitung = (x: number, y: number, laenge: number, richtung: number, strich: string): Bau => {
   const s = richtung > 0 ? 1 : -1;
   const d = `M ${x} ${y} h ${laenge * 0.5 * s} l ${28 * s} 28 h ${laenge * 0.5 * s}`;
-  return (
-    <g stroke={strich} strokeWidth={1.6} fill="none">
-      <path d={d} />
-      <circle cx={x + laenge * s + 28 * s} cy={y + 28} r={4} fill={strich} stroke="none" />
-    </g>
-  );
+  const weite = laenge + 32;
+  return {
+    knoten: (
+      <g stroke={strich} strokeWidth={1.6} fill="none">
+        <path d={d} />
+        <circle cx={x + laenge * s + 28 * s} cy={y + 28} r={4} fill={strich} stroke="none" />
+      </g>
+    ),
+    kasten: [s > 0 ? 0 : weite, 4, s > 0 ? weite : 0, 32],
+  };
 };
 
 /**
@@ -100,20 +132,54 @@ const Leitung = (x: number, y: number, laenge: number, richtung: number, strich:
  * Ein liegendes Dreieck ist der Abspielknopf. Auf einem Videokanal braucht es
  * dafuer keine Erklaerung.
  */
-const Dreieck = (x: number, y: number, groesse: number, drehung: number, farbe: string) => (
-  <polygon
-    points={`0,0 ${groesse},${groesse * 0.55} 0,${groesse * 1.1}`}
-    fill={farbe}
-    transform={`translate(${x} ${y}) rotate(${drehung} 0 ${groesse * 0.55})`}
-  />
-);
+const Dreieck = (x: number, y: number, groesse: number, drehung: number, farbe: string): Bau => ({
+  knoten: (
+    <polygon
+      points={`0,0 ${groesse},${groesse * 0.55} 0,${groesse * 1.1}`}
+      fill={farbe}
+      transform={`translate(${x} ${y}) rotate(${drehung} 0 ${groesse * 0.55})`}
+    />
+  ),
+  /*
+   * Je Drehung ein eigener Kasten. Zusammengefasst waere er doppelt so
+   * breit wie noetig, und ein Dreieck, das nach rechts zeigt, muesste links
+   * denselben Abstand halten wie rechts — genau die Reserve, die den
+   * Freiraum aufblaeht.
+   */
+  kasten: KAESTEN[drehung]!(groesse),
+});
+
+/** Der Kasten des Dreiecks, je Drehung. Gerechnet, nicht geschaetzt. */
+const KAESTEN: Record<number, (g: number) => [number, number, number, number]> = {
+  0: (g) => [0, 0, g, 1.1 * g],
+  180: (g) => [g, 0, 0, 1.1 * g],
+  90: (g) => [0.55 * g, -0.55 * g, 0.55 * g, 1.55 * g],
+  270: (g) => [0.55 * g, 0.45 * g, 0.55 * g, 0.55 * g],
+};
+
+/**
+ * Ein Streifen des Textblocks, der frei bleiben muss.
+ *
+ * Alle drei Angaben zaehlen von der Bildmitte aus: `breite` ist die volle
+ * Breite des Streifens, `oben` und `unten` sind seine Kanten als Abstand zur
+ * Mitte, negativ nach oben.
+ */
+export type FreiStreifen = { breite: number; oben: number; unten: number };
 
 type MusterEigenschaften = {
   breite: number;
   hoehe: number;
-  /** Rechteck in der Mitte, das frei bleibt — dort steht die Schrift. */
-  freiBreite: number;
-  freiHoehe: number;
+  /**
+   * Die Streifen in der Mitte, die frei bleiben — dort steht die Schrift.
+   *
+   * **Kein einzelnes Rechteck und keine Ellipse, sondern die Silhouette.**
+   * Ein Textblock ist oben und unten schmal und nur in der Zeile mit der
+   * groessten Schrift breit. Eine Huelle darum haelt Flaeche frei, in der
+   * nichts steht — und genau diese Flaeche ist auf dem Telefon sichtbar.
+   */
+  frei: FreiStreifen[];
+  /** Abstand, den jedes Musterteil zu den Streifen haelt. */
+  freiRand: number;
   linie: string;
   dunkel: string;
   akzent: string;
@@ -122,8 +188,8 @@ type MusterEigenschaften = {
 export const Muster: React.FC<MusterEigenschaften> = ({
   breite,
   hoehe,
-  freiBreite,
-  freiHoehe,
+  frei,
+  freiRand,
   linie,
   dunkel,
   akzent,
@@ -135,22 +201,57 @@ export const Muster: React.FC<MusterEigenschaften> = ({
    * Die Mitte bleibt frei — nicht durch Ueberdecken, sondern indem dort
    * nichts erst gezeichnet wird. Ein halbdurchsichtiger Deckel ueber dem
    * Muster sieht aus wie ein Wasserzeichen; eine echte Luecke sieht aus wie
-   * Absicht. Der Rand ist grosszuegiger als das sichere Feld, damit die
-   * Schrift nicht auf einer Kante sitzt.
+   * Absicht.
+   *
+   * Geprueft wird der **Kasten** des Teils gegen die Streifen, nicht sein
+   * Ankerpunkt. Bis zum 25.08.2026 stand hier ein Punkttest mit einem
+   * pauschalen Rand von 90 Pixeln; der reichte fuer eine Leitung, die 230
+   * Pixel nach rechts waechst, nicht aus und war fuer ein kleines Dreieck
+   * dreimal zu viel. Der Rand musste deshalb den schlimmsten Fall abdecken
+   * und blies den Freiraum ueberall auf.
    */
-  const frei = (x: number, y: number, rand = 90) =>
-    Math.abs(x - breite / 2) < freiBreite / 2 + rand &&
-    Math.abs(y - hoehe / 2) < freiHoehe / 2 + rand;
+  const mx = breite / 2;
+  const my = hoehe / 2;
 
-  const platziere = (bauen: (x: number, y: number) => React.ReactNode, anzahl: number) => {
+  const stoert = (x: number, y: number, [links, oben, rechts, unten]: [number, number, number, number]) =>
+    frei.some((streifen) => {
+      const halb = streifen.breite / 2 + freiRand;
+      return (
+        x + rechts > mx - halb &&
+        x - links < mx + halb &&
+        y + unten > my + streifen.oben - freiRand &&
+        y - oben < my + streifen.unten + freiRand
+      );
+    });
+
+  /*
+   * **Das Muster ist innen dicht und aussen duenn.**
+   *
+   * Gleichverteilt gestreut liegt der groesste Teil dort, wo ihn niemand
+   * sieht: Auf dem Telefon zeigt YouTube nur einen Streifen von 1235x338,
+   * also rund ein Sechstel der Flaeche, und die Mitte davon gehoert der
+   * Schrift. Innerhalb dieses Streifens faellt kein Teil weg, nach aussen
+   * duennt das Muster bis auf ein Drittel aus.
+   */
+  const HANDY_BREITE = 1235;
+  const HANDY_HOEHE = 338;
+
+  const gewicht = (x: number, y: number) => {
+    const r = Math.max(Math.abs(x - mx) / (HANDY_BREITE / 2), Math.abs(y - my) / (HANDY_HOEHE / 2));
+    return r < 1 ? 1 : Math.max(0.34, 1 - (r - 1) * 0.4);
+  };
+
+  const platziere = (bauen: (x: number, y: number) => Bau, anzahl: number) => {
     let gesetzt = 0;
     let versuche = 0;
-    while (gesetzt < anzahl && versuche < anzahl * 40) {
+    while (gesetzt < anzahl && versuche < anzahl * 60) {
       versuche += 1;
       const x = w() * breite;
       const y = w() * hoehe;
-      if (frei(x, y)) continue;
-      teile.push(<g key={`${gesetzt}-${versuche}-${x.toFixed(0)}`}>{bauen(x, y)}</g>);
+      if (w() > gewicht(x, y)) continue;
+      const teil = bauen(x, y);
+      if (stoert(x, y, teil.kasten)) continue;
+      teile.push(<g key={`${gesetzt}-${versuche}-${x.toFixed(0)}`}>{teil.knoten}</g>);
       gesetzt += 1;
     }
   };

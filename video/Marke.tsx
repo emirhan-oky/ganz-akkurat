@@ -196,23 +196,28 @@ export const BannerMuster: React.FC = () => (
     }}
   >
     {/*
-     * **Der Freiraum ist enger als das sichere Feld, nicht weiter.**
+     * **Der Freiraum ist die Silhouette des Textblocks, keine Huelle darum.**
      *
-     * Bis zum 25.08.2026 stand hier `SICHER_BREITE + 180` — der Freiraum war
-     * damit groesser als der Ausschnitt, den ein Telefon zeigt, und auf dem
-     * Handy sah man vom Muster **gar nichts**. Es lief nur dort, wo ohnehin
-     * niemand hinsieht.
+     * Bis zum 25.08.2026 stand hier zweimal die falsche Form. Erst war der
+     * Freiraum breiter als der Ausschnitt, den ein Telefon zeigt — vom Muster
+     * sah man dort **gar nichts**. Dann war er ein Rechteck von 790 x 330,
+     * und damit blieb neben den Akkus und neben dem Spruch Flaeche frei, in
+     * der nichts steht: Der Block ist oben 308 breit, in der Mitte 800 und
+     * unten rund 500. Genau diese Flaeche zeigt das Telefon.
      *
-     * Jetzt richtet er sich am Textblock aus: Der Satz misst bei 72 Pixeln
-     * rund 740, der gestapelte Block rund 270 hoch. 790 x 330 laesst dem
-     * Vordergrund gut 25 Pixel Luft je Seite und holt das Muster so weit in
-     * den Streifen, wie es geht, ohne den Satz zu beruehren.
+     * Die drei Streifen sind an der gerenderten Fassung gemessen, nicht
+     * geschaetzt — dieselbe Regel wie bei der Sprechgeschwindigkeit und der
+     * Denkpause. Der Rand von 34 Pixeln kommt dazu.
      */}
     <Muster
       breite={2048}
       hoehe={1152}
-      freiBreite={790}
-      freiHoehe={330}
+      frei={[
+        { breite: 308, oben: -140, unten: -12 },
+        { breite: 800, oben: 8, unten: 80 },
+        { breite: 510, oben: 98, unten: 140 },
+      ]}
+      freiRand={34}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
       akzent={FARBEN.blau}

@@ -576,3 +576,17 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
       `kaufkriterien` trägt die Werberegel für Phase 2, `einschraenkung` ist
       eine Erzählform und kein Erklärvideo-Rest
 - [ ] Alle Skripte hängen an einem npm-Eintrag; nichts verwaist
+
+## Banner auf der Handyansicht · 25.08.2026
+
+- [x] ~~**Der Freiraum ist die Silhouette des Textblocks**, kein Rechteck um
+      ihn herum. Der Block ist oben 308 breit (Akkus), in der Mitte 800 (der
+      Satz) und unten 510 (Strich und Spruch); ein Rechteck von 790 × 330 hielt
+      daneben Fläche frei, in der nichts steht — und genau die zeigt das
+      Telefon~~
+- [x] ~~**Geprüft wird der Kasten eines Musterteils, nicht sein Ankerpunkt.**
+      Der pauschale Rand von 90 Pixeln reichte für eine Leitung nicht, die 230
+      nach rechts wächst, und war für ein kleines Dreieck dreimal zu viel~~
+- [x] ~~**Das Muster ist innen dicht und außen dünn.** Gleichverteilt lag der
+      größte Teil dort, wo ihn niemand sieht: Auf dem Telefon zeigt YouTube nur
+      1235 × 338 von 2048 × 1152~~
