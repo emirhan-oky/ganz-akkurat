@@ -1,4 +1,4 @@
-import { Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
@@ -630,16 +630,34 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
  * aus dem Bild deutet. Selbst wenn eine App ein Stueck verdeckt, bleibt die
  * Richtung lesbar.
  *
- * `links` ist der Abstand vom linken Buehnenrand zur linken Kante des
- * Figurenkastens. Der Knopf sitzt bei Instagram auf rund 38 % der Bildbreite,
- * also etwa 240 Pixel innerhalb der 710 Pixel breiten Buehne; der Kasten ist
- * 240 breit und die Figur darin mittig, deshalb 120.
+ * **Der freie Platz liegt ausserhalb der Buehne**, und das ist eine bewusste
+ * Ausnahme von der Regel, dass jede Szene nur im Rahmen rendert. Die Buehne
+ * endet bei y = 1150, der Untertitel darunter bei 1388, und der Folgen-Knopf
+ * sitzt erst bei rund 1594 — eine Figur am Buehnenboden stuende 450 Pixel
+ * ueber dem, worauf sie deutet.
+ *
+ * Die Zone dazwischen ist sonst gesperrt, weil die Apps dort ihre
+ * Bedienelemente einblenden. Hier traegt die Ausnahme, weil die Fassung fuer
+ * **genau eine App** gerendert wird: Bei Reels liegen Kanalname und Knopf
+ * tiefer, und der Streifen darueber bleibt frei. Auf einer anderen Plattform
+ * waere derselbe Platz verdeckt — deshalb steht er in einer Tabelle je Dienst
+ * und nicht als allgemeine Regel.
+ *
+ * Die Grenzen sind hart und in beide Richtungen begruendet: nicht hoeher als
+ * 1388, sonst laeuft der Untertitel hinein; nicht tiefer als rund 1570, sonst
+ * steht die Figur auf dem Knopf statt ueber ihm.
+ *
+ * `links` und `unten` sind Abstaende zum **Bildrand**, nicht zur Buehne. Der
+ * Knopf sitzt auf rund 38 % der Bildbreite, also bei 410; der Kasten ist 240
+ * breit und die Figur darin ungefaehr mittig, deshalb 290.
  */
-type ZeigerPlatz = { art: 'zeile'; versatz: number } | { art: 'frei'; links: number };
+type ZeigerPlatz =
+  | { art: 'zeile'; versatz: number }
+  | { art: 'frei'; links: number; unten: number; breite: number };
 
 const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
   tiktok: { art: 'zeile', versatz: -86 },
-  instagram: { art: 'frei', links: 80 },
+  instagram: { art: 'frei', links: 290, unten: 348, breite: 240 },
   youtube: { art: 'zeile', versatz: -30 },
 };
 
@@ -675,38 +693,31 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
   const figur = <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />;
 
   return (
-    <Buehne
-      illustration={
-        platz.art === 'frei' ? (
-          /*
-           * Die beiden `auto`-Raender sind der ganze Trick: Der Slot der
-           * Buehne zentriert seinen Inhalt in beide Richtungen, und ein
-           * `auto`-Rand gewinnt gegen `align-items` wie gegen
-           * `justify-content`. Rechts und oben auto heisst damit: links und
-           * unten angeschlagen, ohne dass die Buehne davon wissen muss.
-           */
+    <>
+      {/*
+       * Der freie Platz haengt nicht an der Buehne, sondern am Bild — deshalb
+       * ein eigener `AbsoluteFill` neben ihr statt eines Slots in ihr. Er
+       * steht **vor** der Buehne im Markup, damit die Figur hinter dem Text
+       * liegt, falls beide sich je beruehren.
+       */}
+      {platz.art === 'frei' && (
+        <AbsoluteFill>
           <div
             style={{
               ...auftritt(frame, fps, 12),
-              /*
-               * Groesser als in der Zeile (240 zu 180). Dort steht sie neben
-               * einer Textzeile und darf sie nicht ueberragen; hier hat sie
-               * das untere Drittel der Buehne fuer sich, und in Zeilengroesse
-               * war die Geste darin nicht mehr zu erkennen.
-               */
-              width: 320,
-              height: 240,
-              flex: 'none',
-              marginRight: 'auto',
-              marginTop: 'auto',
-              marginLeft: platz.links,
+              position: 'absolute',
+              left: platz.links,
+              bottom: platz.unten,
+              width: platz.breite,
+              height: (platz.breite * 3) / 4,
             }}
           >
             {figur}
           </div>
-        ) : undefined
-      }
-    >
+        </AbsoluteFill>
+      )}
+
+      <Buehne>
       <p
         style={{
           ...grundtext,
@@ -830,7 +841,8 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
           <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
         </Sequence>
       </div>
-    </Buehne>
+      </Buehne>
+    </>
   );
 };
 
