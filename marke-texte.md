@@ -1,16 +1,13 @@
 # Kanaltexte · Ganz akkurat
 
-Stand 17.08.2026. Die Zeichengrenzen sind die der Plattformen, nicht unsere —
+Stand 25.08.2026. Die Zeichengrenzen sind die der Plattformen, nicht unsere —
 was darüber steht, wird abgeschnitten oder gar nicht erst angenommen.
 
 ## Vier Regeln für jeden dieser Texte
 
-- **Kein Takt.** Nirgends steht, dass täglich etwas kommt. Der Wochentag ist im
-  Formatmodell ein Versprechen an den Zuschauer, aber ein Versprechen gilt erst,
-  wenn es gehalten wurde. In der ersten Woche ist eine angeschlagene Taktzahl
-  keine Zusage, sondern eine Wette — der Mittwoch um 12 braucht jede Woche eine
-  frisch abgerufene Behördenseite und hat per Bauart keinen Vorrat. Der
-  Sendeplan kommt zurück, wenn er ein paar Wochen gestanden hat.
+- **Kein Takt.** Nirgends steht, wie oft etwas kommt. Seit dem 24.08.2026 steht
+  die Zahl fest — vier Videos je Woche —, aber ein Versprechen gilt erst, wenn es
+  gehalten wurde. Sie steht in `CLAUDE.md`, nicht in der Bio.
 - **Kein „Test", keine behauptete Produkterfahrung.** Es wird nie etwas selbst
   benutzt, also darf es auch nirgends so klingen. `produktionsregel` in
   `src/pruefung.ts` erzwingt das für Titel und Sprechtext; hier muss es die
@@ -26,52 +23,53 @@ was darüber steht, wird abgeschnitten oder gar nicht erst angenommen.
 
 ## TikTok · Bio
 
-Maximal 80 Zeichen — **auch Zeilenumbrüche zählen mit**. Die dreizeilige
-Instagram-Fassung passt hier nicht, sie liegt bei 115.
+Maximal 80 Zeichen — **auch Zeilenumbrüche zählen mit**.
 
-**Empfohlen** — 76 Zeichen, zwei Zeilen, gleicher Anfang wie auf Instagram:
-
-```
-Wir behaupten nichts, was nicht belegt ist.
-Behörden, Normen, Gesetzestexte.
-```
-
-Mit dem Spruch statt der Quellenarten, 66 Zeichen:
+**Empfohlen** — 51 Zeichen, dieselbe Fassung wie auf Instagram und YouTube:
 
 ```
-Wir behaupten nichts, was nicht belegt ist.
-Wir haben nachgelesen.
-```
-
-Einzeilig, 70 Zeichen:
-
-```
-Wir behaupten nichts, was nicht belegt ist. Die Quelle steht im Video.
+Technikfakten, die niemand nachliest.
+Wir schon 📄
 ```
 
 ---
 
 ## Instagram · Bio
 
-Maximal 150 Zeichen, Zeilenumbrüche zählen mit. Drei kurze Zeilen werden
-gelesen, ein Block nicht — Instagram bricht ohnehin um.
+Maximal 150 Zeichen, Zeilenumbrüche zählen mit.
 
-**Empfohlen** — 115 Zeichen. Erster Satz wie auf TikTok, damit die Marke auf
-beiden Plattformen gleich klingt:
+**Empfohlen** — 51 Zeichen:
 
 ```
-Wir behaupten nichts, was nicht belegt ist.
-Behörden, Normen, Gesetzestexte statt Meinungen.
-Wir haben nachgelesen.
+Technikfakten, die niemand nachliest.
+Wir schon 📄
 ```
 
-Knapper, 98 Zeichen:
+**Warum diese und nicht die alte.** Bis zum 25.08.2026 stand hier „Wir behaupten
+nichts, was nicht belegt ist. / Behörden, Normen, Gesetzestexte statt Meinungen.
+/ Wir haben nachgelesen." Drei Zeilen, die dreimal dasselbe sagen, und keine
+davon nennt den Gegenstand: **Das Wort „Technik" kam nicht vor.** Seit Instagram
+über Suchwörter findet statt über Hashtags, ist das die teuerste Lücke — und die
+Aufzählung der Quellenarten ist Katalogsprache, kein Kanaltext.
 
-```
-Technikfakten, die stimmen.
-Belegt mit Behörden, Normen und Gesetzestexten.
-Wir haben nachgelesen.
-```
+Die neue Fassung tut, was der Kanal tut: eine Behauptung hinstellen, die Pointe
+nachschieben. Der Beleg steht drin, ohne dass das Wort „Beleg" fällt.
+
+**Das Emoji ist eine Ausnahme, die Emirhan am 25.08.2026 entschieden hat** —
+`voice.md` verbietet Emojis. Es steht am Ende und nicht am Anfang, damit das
+Suchwort die Zeile anführt.
+
+**Der Punkt nach „nachliest" ist keine Kosmetik.** Instagram rendert die Bio in
+Suchergebnissen und Vorschauen teils einzeilig; ohne ihn steht dort
+„…nachliest Wir schon" ohne Grenze.
+
+**Name-Feld:** `Ganz akkurat · Technikfakten` (28 von 30 Zeichen). Es hat in der
+Suche das höchste Gewicht und stand bis zum 25.08.2026 auf „Ganzakkurat" — eine
+Dopplung des Handles direkt darunter.
+
+**Kategorie:** nicht „KI-Creator". Der Kanal zeichnet alles aus Code und
+verbietet sich KI-Bilder; synthetisch ist allein die Stimme, und die wird
+deklariert. Passend ist „Digitaler Creator" oder „Bildung".
 
 **Link in Bio:** noch keiner. Solange es keine Website gibt, ist ein
 Linktree-Sammelsurium der Auftritt eines Kanals, der etwas verkaufen will.
@@ -81,25 +79,24 @@ Sobald `ganzakkurat.de` steht, kommt sie dorthin.
 
 ## YouTube · Kanalbeschreibung
 
-Maximal 1.000 Zeichen — die muss man nicht ausschöpfen. Dieselbe Bio wie auf
-Instagram, plus Kontakt. 138 Zeichen:
+Maximal 1.000 Zeichen — die muss man nicht ausschöpfen. 84 Zeichen:
 
 ```
-Wir behaupten nichts, was nicht belegt ist.
-Behörden, Normen, Gesetzestexte statt Meinungen.
-Wir haben nachgelesen.
+Technikfakten, die niemand nachliest.
+Wir schon 📄
 
-kontakt@ganzakkurat.de
+Kontakt: kontakt@ganzakkurat.de
 ```
 
-Ohne Spruch, 115 Zeichen:
+Die Adresse steht **auf Emirhans Entscheidung vom 25.08.2026 in der
+Beschreibung**, zusätzlich zum Feld „Kontaktdaten" weiter unten auf derselben
+Seite. Was dagegen sprach, steht hier, damit es nicht neu gefunden werden muss:
+Im Feld liegt sie hinter „Weitere Infos" und einem Captcha, in der Beschreibung
+im Klartext auf einer öffentlichen Seite. Und die ersten Zeilen der Beschreibung
+sind das, was YouTube in Suche und Kanalvorschau zeigt.
 
-```
-Wir behaupten nichts, was nicht belegt ist.
-Behörden, Normen, Gesetzestexte statt Meinungen.
-
-kontakt@ganzakkurat.de
-```
+Eine Leerzeile trennt, kein Strich: Der verbraucht eine der wenigen Zeilen, die
+in der Vorschau überhaupt zu sehen sind.
 
 **Hier stand zuerst eine Fassung mit 966 Zeichen**, samt Liste aller acht
 Formate. Sie war Dokumentation und kein Kanaltext. Derselbe Fehler wie bei der
@@ -109,13 +106,16 @@ Die Formate stehen in `src/typen.ts` und in `CLAUDE.md`, dort gehören sie hin.
 **Was bewusst fehlt:** „Abonniert" und „Lasst ein Like da". Das ist Bettelei,
 und ein Kanal, der auf Belege besteht, kann sie sich am wenigsten leisten.
 
+**Offen:** Die restlichen rund 900 Zeichen sind Suchfläche — der Kanal wird über
+die Beschreibung gefunden. Ein oder zwei Sätze mit den Wörtern, unter denen
+gesucht wird, sind noch nicht geschrieben.
 
 
 ## Kontakt
 
-`kontakt@ganzakkurat.de`, angelegt bei STRATO. Steht in der YouTube-
-Beschreibung, sonst nirgends — TikTok und Instagram haben zu wenig Zeichen,
-und wer schreiben will, findet die Adresse auf YouTube.
+`kontakt@ganzakkurat.de`, angelegt bei STRATO. Steht in der YouTube-Beschreibung
+und im Feld „Kontaktdaten", sonst nirgends — TikTok und Instagram haben zu wenig
+Zeichen.
 
 Hier stand zwischenzeitlich eine zweite Adresse für Fehlermeldungen samt der
 Zeile „Fehler gefunden? Schreib an …". Verworfen: Ein Kanal muss nicht um
@@ -135,6 +135,7 @@ damit benannt und steht auch in `CLAUDE.md` unter „Werbemodell".
 | | |
 |---|---|
 | Anzeigename | Ganz akkurat |
+| Name-Feld (Instagram) | Ganz akkurat · Technikfakten |
 | Handle | `@ganzakkurat` auf allen drei Plattformen |
 | Domain | `ganzakkurat.de` |
 

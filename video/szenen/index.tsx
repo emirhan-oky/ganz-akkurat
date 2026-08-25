@@ -612,20 +612,35 @@ const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer 
  * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
  */
 /**
- * Wie weit der Zeiger in der Signatur an den Rand rueckt — je Dienst.
+ * Wo der Zeiger in der Signatur steht — je Dienst.
  *
- * Negative Werte schieben ihn ueber die sichere Zone hinaus nach aussen. Das
- * ist hier vertretbar: Es ist kein Text und keine Aussage, sondern eine Geste,
- * die aus dem Bild deutet. Selbst wenn eine App ein Stueck davon verdeckt,
- * bleibt die Richtung lesbar.
+ * Zwei Plaetze, nicht ein Versatz: **In der Zeile** steht er rechts neben dem
+ * Spruch, auf dessen Hoehe. **Frei** verlaesst er die Zeile und sitzt unten in
+ * der Buehne, ueber dem Knopf.
  *
- * Bei Instagram bleibt er stehen, wo er stand: Der Folgen-Knopf liegt dort
- * unten **links**, und ein Zeiger am rechten Rand deutete in die falsche Ecke.
+ * Der Unterschied kommt daher, wo die Apps ihren Folgen-Knopf haben. Bei
+ * TikTok liegt er **rechts auf mittlerer Hoehe** — genau dort, wo die Signatur
+ * ohnehin endet, und ein Versatz nach aussen genuegt. Bei Instagram liegt er
+ * **unten links** neben dem Kanalnamen, also weder auf der Hoehe des Spruchs
+ * noch auf seiner Seite. Ein Zeiger, der von rechts oben dorthin deutet,
+ * deutet quer ueber den eigenen Schlusssatz.
+ *
+ * Negative Werte in der Zeile schieben ihn ueber die sichere Zone hinaus. Das
+ * ist vertretbar: Es ist kein Text und keine Aussage, sondern eine Geste, die
+ * aus dem Bild deutet. Selbst wenn eine App ein Stueck verdeckt, bleibt die
+ * Richtung lesbar.
+ *
+ * `links` ist der Abstand vom linken Buehnenrand zur linken Kante des
+ * Figurenkastens. Der Knopf sitzt bei Instagram auf rund 38 % der Bildbreite,
+ * also etwa 240 Pixel innerhalb der 710 Pixel breiten Buehne; der Kasten ist
+ * 240 breit und die Figur darin mittig, deshalb 120.
  */
-const ZEIGER_VERSATZ: Record<Dienst, number> = {
-  tiktok: -86,
-  instagram: 0,
-  youtube: -30,
+type ZeigerPlatz = { art: 'zeile'; versatz: number } | { art: 'frei'; links: number };
+
+const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
+  tiktok: { art: 'zeile', versatz: -86 },
+  instagram: { art: 'frei', links: 80 },
+  youtube: { art: 'zeile', versatz: -30 },
 };
 
 const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst }> = ({
@@ -638,8 +653,60 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
   const laengstesWort = Math.max(...szene.satz.split(/\s+/).map((w) => w.length));
   const groesse = laengstesWort <= 13 ? GROESSEN.ueberschrift : 62;
 
+  const platz = ZEIGER_PLATZ[dienst];
+
+  /*
+   * Kein zweites `viewBox` um die Figur herum: Sie bringt ihr eigenes SVG mit
+   * `width="100%"` mit, und in einem aeusseren viewBox-SVG verschwindet sie
+   * spurlos — im ersten Anlauf stand hier nur der Spruch, ohne Fehler und ohne
+   * Figur. Der Kasten hat stattdessen das Seitenverhaeltnis ihres Zeichenraums
+   * (200 zu 150).
+   *
+   * **Hier steht der Zeiger, nicht der Nachleser.** Der Kanal hat seit dem
+   * 24.08.2026 zwei Figuren mit geteilter Arbeit: Der Nachleser traegt den
+   * Inhalt, der Zeiger alles, was der Zuschauer tun kann. Der Schluss ist die
+   * Stelle, an der etwas verlangt wird — also gehoert sie ihm.
+   *
+   * Er blickt und zeigt je nach Dienst woanders hin, weil der Folgen-Knopf
+   * ueberall woanders liegt. Ein gezeichnetes Plus stand hier bis zum
+   * 24.08.2026 und ist gestrichen: Ein Zeichen, das wir selbst malen, deutet
+   * auf nichts.
+   */
+  const figur = <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />;
+
   return (
-    <Buehne>
+    <Buehne
+      illustration={
+        platz.art === 'frei' ? (
+          /*
+           * Die beiden `auto`-Raender sind der ganze Trick: Der Slot der
+           * Buehne zentriert seinen Inhalt in beide Richtungen, und ein
+           * `auto`-Rand gewinnt gegen `align-items` wie gegen
+           * `justify-content`. Rechts und oben auto heisst damit: links und
+           * unten angeschlagen, ohne dass die Buehne davon wissen muss.
+           */
+          <div
+            style={{
+              ...auftritt(frame, fps, 12),
+              /*
+               * Groesser als in der Zeile (240 zu 180). Dort steht sie neben
+               * einer Textzeile und darf sie nicht ueberragen; hier hat sie
+               * das untere Drittel der Buehne fuer sich, und in Zeilengroesse
+               * war die Geste darin nicht mehr zu erkennen.
+               */
+              width: 320,
+              height: 240,
+              flex: 'none',
+              marginRight: 'auto',
+              marginTop: 'auto',
+              marginLeft: platz.links,
+            }}
+          >
+            {figur}
+          </div>
+        ) : undefined
+      }
+    >
       <p
         style={{
           ...grundtext,
@@ -663,8 +730,8 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
       </p>
 
       {/*
-       * Die Signatur: Strich, Spruch — und die Figur rechts daneben, auf
-       * halber Hoehe zwischen Schlusssatz und Spruch.
+       * Die Signatur: Strich, Spruch — und, wo der Knopf auf ihrer Hoehe
+       * liegt, die Figur rechts daneben.
        *
        * Sie hat drei Plaetze durchlaufen, und der Weg dorthin ist die
        * Begruendung: **links** neben dem Spruch nahm sie ihm den Anfang,
@@ -683,8 +750,9 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
        */}
       {/*
        * `justifyContent: space-between` und ein Versatz je Dienst: Der Zeiger
-       * rueckt dorthin, wo der Knopf liegt — bei TikTok an den rechten Rand,
-       * bei Instagram zurueck zur Mitte, weil dort unten links gefolgt wird.
+       * rueckt dorthin, wo der Knopf liegt — bei TikTok an den rechten Rand.
+       * Bei Instagram steht er gar nicht in dieser Zeile, sondern unten in der
+       * Buehne; siehe `ZEIGER_PLATZ`.
        *
        * Die Geste allein reicht nicht: Wer nach rechts zeigt und dabei in der
        * Bildmitte steht, zeigt auf die Buehne. Naeher am Rand zeigt er aus dem
@@ -732,36 +800,23 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
         </div>
 
         {/*
-         * Kein zweites `viewBox` um die Figur herum: Sie bringt ihr eigenes
-         * SVG mit `width="100%"` mit, und in einem aeusseren viewBox-SVG
-         * verschwindet sie spurlos — im ersten Anlauf stand hier nur der
-         * Spruch, ohne Fehler und ohne Figur. Der Kasten hat stattdessen das
-         * Seitenverhaeltnis ihres Zeichenraums (200 zu 150); die Figur fuellt
-         * darin etwa zwei Fuenftel der Hoehe, 210 ergeben also rund 86.
+         * Nur wo der Knopf auf der Hoehe der Signatur liegt. Steht die Figur
+         * frei, ist diese Stelle leer und die Zeile traegt allein den Spruch —
+         * `space-between` schadet dabei nicht, weil nur noch ein Kind da ist.
          */}
-        {/*
-         * **Hier steht der Zeiger, nicht der Nachleser.** Der Kanal hat seit
-         * dem 24.08.2026 zwei Figuren mit geteilter Arbeit: Der Nachleser
-         * traegt den Inhalt, der Zeiger alles, was der Zuschauer tun kann. Der
-         * Schluss ist die Stelle, an der etwas verlangt wird — also gehoert
-         * sie ihm.
-         *
-         * Er blickt und zeigt je nach Dienst woanders hin, weil der
-         * Folgen-Knopf ueberall woanders liegt. Ein gezeichnetes Plus stand
-         * hier bis zum 24.08.2026 und ist gestrichen: Ein Zeichen, das wir
-         * selbst malen, deutet auf nichts.
-         */}
-        <div
-          style={{
-            ...auftritt(frame, fps, 12),
-            width: 240,
-            height: 180,
-            flex: 'none',
-            marginRight: ZEIGER_VERSATZ[dienst],
-          }}
-        >
-          <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />
-        </div>
+        {platz.art === 'zeile' && (
+          <div
+            style={{
+              ...auftritt(frame, fps, 12),
+              width: 240,
+              height: 180,
+              flex: 'none',
+              marginRight: platz.versatz,
+            }}
+          >
+            {figur}
+          </div>
+        )}
 
         {/*
          * Der Ton sitzt auf dem Moment, in dem die Geste steht — nicht auf dem

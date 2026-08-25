@@ -595,3 +595,20 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
       Komponente, nicht nur aus dem Skript. Beide standen auf Vorrat für Fälle,
       die es nicht gibt: ein helles Kanalbild, das im Feed verschwindet, und
       ein Impressum. Sie kommen nicht wieder~~
+
+## Kanaltexte neu · 25.08.2026
+
+Die Bio stand auf dem Stand vom 17.08. und nannte den Gegenstand nicht: Das Wort
+„Technik" kam in keiner der drei Zeilen vor. Seit Instagram über Suchwörter
+findet, ist das die teuerste Lücke — die Aufzählung der Quellenarten war
+Katalogsprache.
+
+- [x] ~~Neue Bio für alle drei Plattformen: „Technikfakten, die niemand
+      nachliest. / Wir schon 📄"~~
+- [x] ~~`marke-texte.md` nachgezogen: TikTok, Instagram, YouTube, Name-Feld,
+      Kontakt, die überholte Takt-Regel~~
+- [ ] Eintragen: Instagram-Bio, **Name-Feld auf „Ganz akkurat · Technikfakten"**,
+      Kategorie weg von „KI-Creator" (YouTube ist erledigt)
+- [ ] TikTok-Bio eintragen
+- [ ] Die restlichen ~900 Zeichen der YouTube-Beschreibung sind Suchfläche —
+      ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird

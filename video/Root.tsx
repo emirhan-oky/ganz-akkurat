@@ -12,6 +12,7 @@ import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
+import { Gestenprobe } from './Gestenprobe';
 
 /**
  * Alle Schriftstaerken, die das Design-System kennt. Werden hier einmal
@@ -62,6 +63,7 @@ export const RemotionRoot: React.FC = () => (
   {/* Der Prueftisch fuer die Untertitelschrift. Geht nach der Entscheidung
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
+  <Composition id="Gestenprobe" component={Gestenprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition
     id="Short"

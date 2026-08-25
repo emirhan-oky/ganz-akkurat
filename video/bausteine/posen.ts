@@ -331,7 +331,7 @@ export const poseAus = ({
  * | Dienst | Knopf | Geste |
  * |---|---|---|
  * | `tiktok` | rechts, mittlere Hoehe | rechter Arm waagerecht nach rechts |
- * | `instagram` | unten links | linker Arm nach links, leicht gesenkt |
+ * | `instagram` | unten links | linker Arm gestreckt nach links-unten |
  * | `youtube` | unten Mitte | linker Arm nach unten |
  *
  * **Es ist eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geraete
@@ -356,9 +356,29 @@ export const FOLGEPOSEN = {
     blick: [3, 0.2],
     mund: 'laecheln',
   }),
+  /*
+   * **Nach unten zu deuten ist die schwerste Richtung**, und drei Runden
+   * Standbild (`video/Gestenprobe.tsx`) liegen hinter diesen drei Zahlen. Der
+   * linke Arm haengt in Ruhe bereits nach unten, also traegt die Geste nicht
+   * der Winkel, sondern die **Streckung**: Der Unterarm steht auf seinem
+   * Maximum von +15 — weiter geht das Gelenk nicht, ein Ellbogen ueberstreckt
+   * nicht —, und die Richtung macht allein der Oberarm.
+   *
+   * Zwei Sackgassen davor, beide am Bild gesehen: Ein abstehender Ellbogen
+   * (Oberarm heraus, Unterarm herunter) liest sich als **Winken**. Und ein
+   * negativer Unterarm klappt nicht nach aussen, sondern vor den Koerper —
+   * die Hand landet auf dem Ladebalken.
+   *
+   * Der Arm zeigt schraeg, nicht senkrecht: Die Figur steht ueber dem Knopf
+   * und leicht rechts davon, und eine Senkrechte verfehlte ihn nach rechts.
+   *
+   * **Der rechte Arm liegt bewusst an.** Ohne ihn standen beide Arme gleich
+   * weit schraeg ab, und zwei gleiche Arme sind keine Geste, sondern eine
+   * Haltung. Erst die Asymmetrie macht den linken zum zeigenden.
+   */
   instagram: p({
-    drehung: { oberarm_links: 46, unterarm_links: 14, koerper: -6 },
-    blick: [-3, 1.4],
+    drehung: { oberarm_links: 20, unterarm_links: 15, oberarm_rechts: 16, koerper: -8 },
+    blick: [-2.5, 2.8],
     mund: 'laecheln',
   }),
   /*
