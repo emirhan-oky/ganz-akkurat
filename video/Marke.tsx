@@ -1,6 +1,6 @@
 import { FARBEN, SCHRIFT, SPRUCH } from '../src/marke';
 import { FORMATE, type Format } from '../src/typen';
-import { Logozeichen, Wortmarke } from './bausteine/Wortmarke';
+import { Logozeichen } from './bausteine/Wortmarke';
 import { Muster } from './bausteine/Muster';
 import { Figur } from './bausteine/Figur';
 import { nachleser } from '../daten/figur/nachleser';
@@ -78,33 +78,6 @@ export const ProfilbildHell: React.FC = () => (
 );
 
 /**
- * Profilbild, dunkel — 1024x1024.
- *
- * Dieselbe Zeichnung auf Tinte. Im Feed stehen Kanalbilder meist auf hellem
- * Grund, und ein heller Kreis auf hellem Grund verschwindet. Welche der beiden
- * Fassungen genommen wird, entscheidet sich am fertigen Kanal, nicht hier —
- * deshalb gibt es beide.
- */
-export const ProfilbildDunkel: React.FC = () => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      backgroundColor: FARBEN.tinte,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
-    <svg width={820} height={820} viewBox="0 0 100 100" style={{ display: 'block' }}>
-      <rect x="38" y="4" width="24" height="12" rx="4" fill={FARBEN.grund} />
-      <rect x="16" y="16" width="68" height="80" rx="14" fill={FARBEN.grund} />
-      <rect x="28" y="52" width="44" height="34" rx="7" fill={FARBEN.blau} />
-    </svg>
-  </div>
-);
-
-/**
  * Das sichere Feld eines YouTube-Banners.
  *
  * YouTube zeigt je nach Geraet einen anderen Ausschnitt derselben Datei.
@@ -121,45 +94,6 @@ export const ProfilbildDunkel: React.FC = () => (
  */
 const SICHER_BREITE = 1235;
 const SICHER_HOEHE = 338;
-
-/**
- * Wortmarke quer, freigestellt — 1600x360.
- *
- * Fuer alles, was kein Kanalbild ist: Impressum, Anschreiben, ein
- * Presseversand, spaeter eine Website. Wird mit durchsichtigem Grund
- * gerendert, damit sie auf jeden Untergrund passt.
- */
-export const WortmarkeQuer: React.FC = () => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 34,
-    }}
-  >
-    {/*
-     * Die beiden stehen dicht beieinander und ueberlappen leicht: Ein
-     * Kanalbild wird rund beschnitten, und zwei Zeichen mit Luft dazwischen
-     * fallen dabei aus dem Kreis. Als Paar gelesen brauchen sie ohnehin keine
-     * Trennung — der Ladebalken unterscheidet sie.
-     *
-     * Das Zeichen bringt in seiner 100er-Flaeche links und rechts je 16
-     * Einheiten Rand mit; bei 460 Pixeln sind das rund 74 je Seite. Ein
-     * negativer Abstand von 120 laesst die Gehaeuse damit rund 30 Pixel
-     * ueberlappen.
-     */}
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Logozeichen groesse={460} ladung={FARBEN.anzeigeEins} />
-      <div style={{ marginLeft: -120 }}>
-        <Logozeichen groesse={460} ladung={FARBEN.anzeigeZwei} />
-      </div>
-    </div>
-    <Wortmarke groesse={200} />
-  </div>
-);
 
 /**
  * Der YouTube-Banner — 2048x1152.

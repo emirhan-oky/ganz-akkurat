@@ -38,6 +38,16 @@
           "haltequote": 115.79000000000002,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 123,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 71.57,
+          "haltequote": 115.79000000000002,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -78,6 +88,16 @@
           "haltequote": null,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 35,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 54.89000000000001,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -103,6 +123,16 @@
           "gemessenAm": "2026-08-24",
           "aufrufe": 111,
           "likes": 1,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 441,
+          "likes": 0,
           "kommentare": 0,
           "durchsicht": null,
           "haltequote": null,
@@ -138,6 +168,16 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 377,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 53.26,
+          "haltequote": 100,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -165,6 +205,16 @@
           "likes": 0,
           "kommentare": 0,
           "durchsicht": 0,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 6,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 81.9,
           "haltequote": null,
           "geteilt": 0,
           "neueAbos": 0
@@ -198,6 +248,16 @@
           "haltequote": 100,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 171,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 64.73,
+          "haltequote": 100,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -222,6 +282,16 @@
         {
           "gemessenAm": "2026-08-24",
           "aufrufe": 294,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 73.92,
+          "haltequote": 110.94,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 291,
           "likes": 1,
           "kommentare": 0,
           "durchsicht": 73.92,
@@ -258,6 +328,36 @@
           "haltequote": 111.28,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 685,
+          "likes": 4,
+          "kommentare": 2,
+          "durchsicht": 66.49,
+          "haltequote": 111.33999999999999,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "powerbank-handgepaeck": {
+      "shortId": "powerbank-handgepaeck",
+      "titel": "Die Grenze steht nicht auf der Powerbank",
+      "online": "2026-08-24T16:04:17Z",
+      "laengeSek": 22,
+      "videoId": "Um9aA3w-fHY",
+      "link": "https://www.youtube.com/shorts/Um9aA3w-fHY",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-25",
+          "aufrufe": 83,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
         }
       ]
     }

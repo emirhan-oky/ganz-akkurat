@@ -8,7 +8,7 @@ import { Short as ShortDaten } from '../src/typen';
 import { gesamtdauerBilder } from '../src/zeit';
 import { Short } from './Short';
 import { beispielShort } from '../daten/beispiel-short';
-import { BannerMuster, ProfilbildDunkel, ProfilbildHell, WortmarkeQuer } from './Marke';
+import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
@@ -46,7 +46,6 @@ export const RemotionRoot: React.FC = () => (
     * Ein Bild, das von Hand gebaut wurde, veraltet still.
     */}
   <Composition id="Profilbild-hell" component={ProfilbildHell} width={1024} height={1024} fps={30} durationInFrames={1} />
-  <Composition id="Profilbild-dunkel" component={ProfilbildDunkel} width={1024} height={1024} fps={30} durationInFrames={1} />
   <Composition id="Banner-muster" component={BannerMuster} width={2048} height={1152} fps={30} durationInFrames={1} />
   {/*
     * Der Prueftisch der Figur. Steht hier aus demselben Grund wie die
@@ -64,7 +63,6 @@ export const RemotionRoot: React.FC = () => (
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
-  <Composition id="Wortmarke-quer" component={WortmarkeQuer} width={1600} height={360} fps={30} durationInFrames={1} />
   <Composition
     id="Short"
     component={Short}

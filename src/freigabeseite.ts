@@ -49,6 +49,12 @@ const DIENSTNAMEN: Record<string, string> = {
   youtube: 'YouTube-Fassung',
 };
 
+/** Nur der Name, fuer die Kopfzeile — dort ist kein Platz fuer den Zusatz. */
+const fassungKurz = (pfad: string): string => {
+  const teile = pfad.replace(/\.mp4$/, '').split('.');
+  return DIENSTNAMEN[teile[teile.length - 1] ?? ''] ?? 'Vorschau';
+};
+
 const fassungsname = (pfad: string): string => {
   const teile = pfad.replace(/\.mp4$/, '').split('.');
   const dienst = teile[teile.length - 1] ?? '';
@@ -334,7 +340,9 @@ export const freigabeseiteBauen = (opts: {
 <body>
 <header>
   <h1><span class="duenn">Ganz&#8202;</span><span class="fett">akkurat</span> · Freigabe</h1>
-  <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}</p>
+  <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}${
+    shorts.length > 0 ? ` · ${escape(fassungKurz(videopfad(shorts[0]!)))}` : ''
+  }</p>
   <div class="bilanz">
     <div class="zahl"><b>${shorts.length}</b>Videos</div>
     <div class="zahl ${fehlerGesamt > 0 ? 'warn' : ''}"><b>${fehlerGesamt}</b>Fehler</div>

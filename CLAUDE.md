@@ -19,7 +19,7 @@ npm run belege            # stellt Sprechtext und Zitat nebeneinander
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt (~60 Zeichen)
 npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf, siebt auf ~10
-npm run markenbilder      # Profilbild, Banner, Wortmarke aus video/Marke.tsx
+npm run markenbilder      # Profilbild und Banner aus video/Marke.tsx
 npm run rueckblick        # holt, was aus den Videos geworden ist
 npm run ausreisser        # was hatte dieses eine? Zahlen neben Format und Thema
 npm run aufschlaege       # jeder Aufschlag neben seiner Haltequote

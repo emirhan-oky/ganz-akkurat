@@ -590,3 +590,8 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
 - [x] ~~**Das Muster ist innen dicht und außen dünn.** Gleichverteilt lag der
       größte Teil dort, wo ihn niemand sieht: Auf dem Telefon zeigt YouTube nur
       1235 × 338 von 2048 × 1152~~
+- [x] ~~**Zwei Markenbilder statt vier.** Das dunkle Profilbild und die
+      freigestellte Wortmarke sind gestrichen — samt Komposition und
+      Komponente, nicht nur aus dem Skript. Beide standen auf Vorrat für Fälle,
+      die es nicht gibt: ein helles Kanalbild, das im Feed verschwindet, und
+      ein Impressum. Sie kommen nicht wieder~~

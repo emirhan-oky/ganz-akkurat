@@ -60,8 +60,32 @@ import { Blatt } from './Requisiten';
 const PLAETZE = {
   /** Allein auf der Buehne, mittig, ganze Groesse. */
   mitte: { x: 100, groesse: 1, ziel: { x: 100, y: 80, zoom: 1.24 } },
-  /** Links, damit rechts ein Symbol Platz hat. */
-  links: { x: 52, groesse: 1, ziel: { x: 84, y: 82, zoom: 1.16 } },
+  /**
+   * Links, damit rechts ein Symbol Platz hat.
+   *
+   * **Zwei Kameraziele, seit dem 25.08.2026.** Steht ein Symbol daneben, muss
+   * die Kamera es mitfassen — und das tat sie nicht:
+   *
+   * | | Wert |
+   * |---|---|
+   * | Symbol im Raum | x = 112 bis 192, sichtbar gezeichnet bis ~176 |
+   * | Kamera zielte auf | x = 84, Zoom 1,16 |
+   * | sichtbares Feld | 200 / 1,16 = 172 breit → x = −2 bis **170** |
+   *
+   * Die rechten Einheiten des Symbols lagen also ausserhalb. Im fertigen Video
+   * war das Schild angeschnitten und gegen Szenenende ganz verschwunden.
+   *
+   * `zielMitSymbol` liegt bei x = 102 — der tatsaechlichen Mitte zwischen
+   * Figur (52) und Symbol (152). Das Feld reicht damit bis x = 188 und fasst
+   * beides. Der Kommentar an der `Kamera` sagte diese Absicht schon; nur der
+   * Wert stammte aus dem Fall ohne Symbol.
+   */
+  links: {
+    x: 52,
+    groesse: 1,
+    ziel: { x: 84, y: 82, zoom: 1.16 },
+    zielMitSymbol: { x: 102, y: 82, zoom: 1.16 },
+  },
   /** Rechts — dasselbe gespiegelt, fuer Abwechslung ueber mehrere Szenen. */
   rechts: { x: 138, groesse: 1, ziel: { x: 112, y: 82, zoom: 1.16 } },
   /**
@@ -95,7 +119,9 @@ const platzVon = (stand: 'mitte' | 'links' | 'rechts' | 'klein', hatSymbol: bool
   return {
     x: p.x,
     groesse: p.groesse,
-    ziel: p.ziel,
+    // Ein Platz darf ein eigenes Ziel fuer den Fall mit Symbol nennen. Wo es
+    // fehlt, gilt dasselbe Ziel — dort passt das Symbol ohnehin ins Feld.
+    ziel: hatSymbol && 'zielMitSymbol' in p ? p.zielMitSymbol : p.ziel,
     transform:
       p.groesse === 1
         ? verschiebung === 0

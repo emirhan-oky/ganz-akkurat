@@ -19,16 +19,21 @@ import { promisify } from 'node:util';
 const ausfuehren = promisify(execFile);
 const ZIEL = 'marke';
 
-/** Was gebaut wird, und wofuer es gedacht ist. */
+/**
+ * Was gebaut wird, und wofuer es gedacht ist.
+ *
+ * **Zwei Bilder, seit dem 25.08.2026 — und es kommen keine dritten dazu.**
+ * Das dunkle Profilbild war fuer den Fall gedacht, dass das helle im Feed
+ * verschwindet; der Kanal steht, es verschwindet nicht. Die freigestellte
+ * Wortmarke war fuer Impressum, Anschreiben und eine spaetere Website
+ * gedacht — nichts davon gibt es, und ein Bild auf Vorrat veraltet still.
+ * Beide sind auf Emirhans Ansage hin gestrichen und werden nicht wieder
+ * aufgenommen.
+ */
 const BILDER = [
   { id: 'Profilbild-hell', datei: 'profilbild-hell.png', zweck: 'Kanalbild auf hellem Grund' },
-  { id: 'Profilbild-dunkel', datei: 'profilbild-dunkel.png', zweck: 'Kanalbild, falls hell verschwindet' },
   { id: 'Banner-muster', datei: 'youtube-banner.png', zweck: 'YouTube-Kanalbanner, 2048x1152' },
-  { id: 'Wortmarke-quer', datei: 'wortmarke-quer.png', zweck: 'freigestellt, mit Transparenz' },
 ] as const;
-
-/** Nur die Wortmarke braucht einen durchsichtigen Grund. */
-const DURCHSICHTIG = new Set(['Wortmarke-quer']);
 
 const main = async () => {
   await fs.mkdir(ZIEL, { recursive: true });
@@ -40,7 +45,6 @@ const main = async () => {
       'remotion', 'still', 'video/index.ts', bild.id, pfad,
       '--log=error', '--timeout=120000',
     ];
-    if (DURCHSICHTIG.has(bild.id)) argumente.push('--image-format=png', '--transparent');
 
     await ausfuehren('npx', argumente, { maxBuffer: 32 * 1024 * 1024 });
     const kb = Math.round((await fs.stat(pfad)).size / 1024);
