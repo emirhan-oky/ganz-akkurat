@@ -1,0 +1,16 @@
+# Was GitHub als Sprache dieses Projekts zaehlen soll.
+#
+# Unter .claude/skills/ liegen ueberwiegend installierte, fremde Skills --
+# 110 Markdown-Dateien gegen 73 TypeScript-Dateien. Ohne diese Angabe traegt
+# fremder Text zur Statistik des Projekts bei.
+.claude/skills/** linguist-vendored
+
+# Die fuenf eigenen Skills sind Projektdokumentation und keine Fremdware.
+.claude/skills/thema-finden/** -linguist-vendored
+.claude/skills/beleg-holen/** -linguist-vendored
+.claude/skills/bild-bauen/** -linguist-vendored
+.claude/skills/woche-bauen/** -linguist-vendored
+.claude/skills/rueckblick-lesen/** -linguist-vendored
+
+# Erzeugt beziehungsweise Vertrag, nicht handgeschriebener Code.
+package-lock.json linguist-generated
