@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"${CLAUDE_PROJECT_DIR:-.}\" && out=$(npm run pruefen 2>&1) || printf '%s' \"$out\" | tail -15 | jq -Rs '{systemMessage: (\"Die Prüfung ist rot — npm run pruefen schlägt fehl:\\n\" + .)}'",
+            "timeout": 180,
+            "statusMessage": "npm run pruefen"
+          }
+        ]
+      }
+    ]
+  }
+}

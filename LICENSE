@@ -1,0 +1,25 @@
+MIT-Lizenz für den Code — Copyright (c) 2026 Emirhan Okyay
+
+Hiermit wird unentgeltlich jeder Person, die eine Kopie dieser Software und
+der zugehörigen Dokumentation erhält, die Erlaubnis erteilt, sie
+uneingeschränkt zu nutzen, zu kopieren, zu verändern, zusammenzufügen, zu
+veröffentlichen, zu verbreiten, zu unterlizenzieren und zu verkaufen, unter
+den folgenden Bedingungen:
+
+Der obige Urheberrechtsvermerk und dieser Erlaubnisvermerk sind in allen
+Kopien oder wesentlichen Teilen der Software beizufügen.
+
+DIE SOFTWARE WIRD OHNE JEDE GEWÄHR BEREITGESTELLT.
+
+---
+
+Nicht von dieser Lizenz erfasst:
+
+- Die Marke „Ganz akkurat", das Handle @ganzakkurat, Wortmarke, Logo, Farben
+  und Schriftwahl (video/Marke.tsx, src/marke.ts, daten/marke/).
+- Die redaktionellen Inhalte: Entwürfe, Sprechtexte, Ideenvorrat und die
+  Zitate in daten/quellen.json. Die Zitate gehören ihren Urhebern und stehen
+  hier als Beleg, nicht zur Weiterverwendung.
+- Die Skills unter .claude/skills/, soweit sie nicht in diesem Projekt
+  entstanden sind. Eigene Skills sind thema-finden, beleg-holen, bild-bauen,
+  woche-bauen und rueckblick-lesen.

@@ -4,241 +4,190 @@ Automatisierte Shortvideo-Produktion. Entwurf → Vertonung → Render → Freig
 Veröffentlichung. Deutschsprachig, auch im Code: Bezeichner, Kommentare und
 Ausgaben sind deutsch.
 
-**Der Kanal heißt seit dem 16.08.2026 „Ganz akkurat"** (vorher SetupKlar),
-Handle `@ganzakkurat`, Domain `ganzakkurat.de`, Spruch **„Wir haben
-nachgelesen."** Der alte Name war selbst ein Hilfe-Versprechen — wer ihn liest,
-erwartet Unterstützung beim Einrichten. „Akkurat" trägt drei Bedeutungen auf
-einmal: den **Akku** vorn, die **Genauigkeit** als Haltung, den **Rat** hinten.
+**Der Kanal heißt seit dem 16.08.2026 „Ganz akkurat"**, Handle `@ganzakkurat`,
+Domain `ganzakkurat.de`, Spruch **„Wir haben nachgelesen."** „Akkurat" trägt
+drei Bedeutungen: den **Akku** vorn, die **Genauigkeit** als Haltung, den
+**Rat** hinten.
 
 ## Prüfen vor allem anderen
 
 ```
-npm run pruefen           # tsc --noEmit && Schemaprüfung der Daten
+npm run pruefen           # tsc --noEmit && Schema- und Regelprüfung
 npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
 npm run belege            # stellt Sprechtext und Zitat nebeneinander
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
-npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt (~60 Zeichen)
-npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf, siebt auf ~10
+npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt
+npm run stimmproben       # Hörproben mehrerer Stimmen, `--paar` für beide Rollen
+npm run regieprobe        # was die Regieanweisung mit der Zeile macht (~600 Zeichen)
+npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf
 npm run markenbilder      # Profilbild und Banner aus video/Marke.tsx
 npm run rueckblick        # holt, was aus den Videos geworden ist
 npm run ausreisser        # was hatte dieses eine? Zahlen neben Format und Thema
 npm run aufschlaege       # jeder Aufschlag neben seiner Haltequote
-npm run youtube-anmelden  # einmalig, danach nie wieder
+npm run laengen           # Länge gegen Verweildauer, schweigt bei zu wenig
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 ```
 
-`sprechprobe` gehört vor jeden Lauf mit Ton und kostet nichts.
-`ZEICHEN_PRO_SEKUNDE` in `src/zeit.ts` stand auf 15,0 und war nie nachgemessen;
-heute steht dort **15,4**, gemessen an 2.479 Zeichen echter Vertonung. **Was
-die Probe misst, ist nicht das Tempo, sondern der Text** — die Formel zählt
-Zeichen, gesprochen werden Silben, und „240" sind drei Zeichen und vier Silben.
-
-`npm run pruefen` muss vor jedem Lauf grün sein — **und es prüft seit dem
-18.08.2026 auch die harten Regeln aus `src/pruefung.ts`**, nicht nur das
-Schema. Vorher liefen die erst im Wochenlauf, also *nachdem* die Vertonung
-bezahlt war. Aufgefallen ist der Unterschied an einem Schlusssatz mit „Schreib
-es in die Kommentare": Die Regel dagegen meldete ihn zuverlässig,
-`npm run pruefen` sagte grün. Der erste Lauf mit den harten Regeln in der
-Vorprüfung hat sofort eine tote, widersprüchliche Regel zutage gefördert — eine
-Obergrenze für Zeichnungen, die längst durch eine Untergrenze ersetzt war und
-von da an den Sollzustand als Mangel meldete.
+`npm run pruefen` muss vor jedem Lauf grün sein. Es prüft Schema **und** die
+harten Regeln aus `src/pruefung.ts` — vorher liefen die erst im Wochenlauf,
+also *nachdem* die Vertonung bezahlt war.
 
 Die Schemaprüfung (`skripte/schemapruefung.ts`) existiert wegen einer teuren
-Erfahrung:
-`daten/beispiel-short.ts` ist die Standard-Prop der Remotion-Komposition und
-wird in `calculateMetadata` **im Browser-Kontext** geparst. Reißt er das
-Schema, bleibt Remotion in einem unerfüllten Promise stehen — der Render hängt
-ohne Fehlermeldung, bis jemand abbricht. `tsc` sieht das nicht, weil
+Erfahrung: `daten/beispiel-short.ts` ist die Standard-Prop der
+Remotion-Komposition und wird in `calculateMetadata` **im Browser-Kontext**
+geparst. Reißt er das Schema, bleibt Remotion in einem unerfüllten Promise
+stehen — der Render hängt ohne Fehlermeldung. `tsc` sieht das nicht, weil
 TypeScript Formen prüft und nicht Werte.
 
 ## Wo was steht
 
-Diese Datei hält den **Vertrag**: was gilt und warum es so gilt. Die
-**Abläufe** stehen in `.claude/skills/` und werden bei Bedarf geladen.
+Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen in
+`.claude/skills/`.
 
-**Eigene Skills** — das Wissen, das nur hier gilt:
-
-| Skill | wofür |
+| Eigener Skill | wofür |
 |---|---|
 | `thema-finden` | Thema wählen, Ideenvorrat, Formatzuordnung, Materialgrenze |
 | `beleg-holen` | Quelle abrufen, Zitat sichern, an die Szene binden |
-| `bild-bauen` | Bühnenmaße, was gezeichnet wird, Figur, Kamera, Standbildpflicht |
+| `bild-bauen` | Bühnenmaße, Figur, Kamera, Standbildpflicht |
 | `woche-bauen` | prüfen, vertonen, rendern, freigeben, einplanen |
-| `rueckblick-lesen` | die Zahlen holen und die Schwellen kennen, ab denen sie etwas sagen |
+| `rueckblick-lesen` | die Zahlen holen und die Schwellen kennen |
 
-**Installierte Skills** — zwei Ketten, die sich nicht berühren:
+**Installiert:** die Inhaltskette (`brand-profile` → `voice-builder` →
+`hook-writer` → `short-form-video-script` → die Plattform-Skills →
+`viral-reverse-engineering`), die Bildkette (`character-rigging` →
+`svg-character-animation` → `character-animation-qa`,
+`remotion-best-practices`, `better-typography`, `ffmpeg`), die
+Auffindbarkeitskette (`social-seo` → `instagram-seo` → `hashtag-strategy`) und
+die Planungskette (`content-pillars` → `content-calendar`,
+`analytics-and-reporting`, `competitor-analysis`).
 
-- **Inhalt:** `brand-profile` → `voice-builder` → `hook-writer` →
-  `short-form-video-script` → `youtube-shorts` / `tiktok-growth` /
-  `reels-script` + `instagram-growth` → `viral-reverse-engineering`. Sie lesen
-  alle zuerst `daten/marke/brand-profile.md` und `voice.md`.
-- **Bild:** `character-rigging` → `svg-character-animation` →
-  `character-animation-qa`, dazu `remotion-best-practices`,
-  `better-typography` und `ffmpeg`.
-- **Auffindbarkeit:** `social-seo` → `instagram-seo` → `hashtag-strategy`.
-  Diese Kette hat am 24.08.2026 `suchbegriff` und die Keyword-Zeile
-  hervorgebracht.
-- **Planung und Zahlen:** `content-pillars` → `content-calendar`,
-  `analytics-and-reporting`, `competitor-analysis`.
+Dazu **`joke-engineering`** seit dem 25.08.2026 — der einzige Skill, der das
+Comedy-Handwerk lehrt. Er ist rein diagnostisch: Er benennt, *warum* eine Zeile
+flach ist, und schreibt nichts. Sein Befund „H4 Over-Explained: punchline is
+stated rather than implied" traf die ersten Entwürfe der Reaktionszeilen
+wörtlich.
 
-Zur letzten Kette eine Einschränkung, die man kennen muss: **`npm run
-rueckblick` liest ausschließlich YouTube.** `analytics-and-reporting` sagt,
-*wie* man Zahlen liest; es beschafft keine. Wer TikTok und Instagram messen
-will, braucht Zugänge, keine Skills.
+Einschränkungen, die man kennen muss: **`npm run rueckblick` liest
+ausschließlich YouTube.** `analytics-and-reporting` sagt, *wie* man Zahlen
+liest; es beschafft keine. Und `watch` behebt die Schwäche, die
+`viral-reverse-engineering` selbst nennt — ein Agent kann ein Video hinter
+einem Link nicht sehen.
 
-`watch` gehört zu `viral-reverse-engineering`: Der Skill nennt als eigene
-Schwäche, dass ein Agent ein Video hinter einem Link nicht sehen kann — `watch`
-behebt genau das.
-
-Dazu der Subagent `belegpruefer`: Er liest die Behauptung-Zitat-Paare in
-eigenem Kontext und meldet nur, wo ein Satz mehr behauptet, als sein Zitat
-trägt.
+Der Subagent `belegpruefer` liest die Behauptung-Zitat-Paare in eigenem Kontext
+und meldet, wo ein Satz mehr behauptet, als sein Zitat trägt.
 
 ## Die Ausrichtung
 
-**Tech-Unterhaltung, die nebenbei hilft** — entschieden am 15.08.2026, nachdem
-die ersten Shorts online gingen und das Feedback einhellig war: zu lang. Nicht
-zu kompliziert, nicht zu trocken. Design, Untertitel und Machart kamen an, die
-Länge nicht.
-
-Der Grund für den Kurswechsel ist technisch, nicht geschmacklich: **Bei Shorts
-sucht niemand.** Das Video läuft im Feed von selbst, der Zuschauer hat in dem
-Moment kein Dock-Problem. Ein Hilfe-Video erreicht nur die Schnittmenge derer,
-die gerade genau das haben — ein Staunfakt trifft jeden, der wischt.
+**Tech-Unterhaltung, die nebenbei hilft.** Der Grund ist technisch: **Bei
+Shorts sucht niemand.** Das Video läuft im Feed von selbst, der Zuschauer hat
+in dem Moment kein Problem. Ein Hilfe-Video erreicht nur die Schnittmenge
+derer, die gerade genau das haben — ein Staunfakt trifft jeden, der wischt.
 
 **Was nicht mitwandert, ist der Belegapparat.** Quellenpflicht, wörtliches
-Zitat, unbeteiligte Quelle: Er ist kein Ballast aus der Hilfe-Ära, sondern der
-einzige Unterschied zu den hundert anderen Kanälen mit derselben Verpackung —
-und der Grund, warum wir uns die Frechheit der Formate leisten können.
+Zitat, unbeteiligte Quelle: der einzige Unterschied zu den hundert anderen
+Kanälen mit derselben Verpackung — und der Grund, warum wir uns die Frechheit
+der Formate leisten können.
 
-**Der Gegenstand ist seit dem 20.08.2026 Technik allgemein**, nicht mehr nur
-Geräte und Verbraucherrecht. Die Zielgruppe steht damit fest: 18–30,
-technikaffin — sie kennt sich weit genug aus, um zu merken, dass etwas seltsam
-ist, und zu wenig, um es zu erklären. Genau dort wird weitererzählt.
+**Der Gegenstand ist Technik allgemein.** Zielgruppe 18–30, technikaffin — sie
+kennt sich weit genug aus, um zu merken, dass etwas seltsam ist, und zu wenig,
+um es zu erklären. Genau dort wird weitererzählt.
 
 Die Haltung, die der Kanal verteidigt: **Nichts davon ist Zufall.** Alles an
 deinen Geräten wurde entschieden, und wo entschieden wurde, gibt es ein
-Dokument. Das ist zugleich der Grund, warum die breitere Nische den
-Belegapparat nicht sprengt — sie öffnet ihn über die neue Quellenart
-`wissenschaft` statt über eine Ausnahme.
+Dokument.
 
 → `daten/marke/brand-profile.md` (wer der Kanal ist) und `voice.md` (wie er
-klingt). Beide werden vor jedem Entwurf gelesen; die installierten Skills
-suchen sie unter diesen Namen.
+klingt). Beide werden vor jedem Entwurf gelesen.
 
 ## Datenvertrag
 
 `src/typen.ts` ist der einzige Vertrag. Alles andere richtet sich danach.
 
-### `format` — die tragende Achse
+### `format` — was der Short auslöst
 
 **Vier Formate, kein Wochentag.** Veröffentlicht wird, was fertig und stark ist.
 
 | Format | Reaktion | Kipppunkt |
 |---|---|---|
 | **Das gibt es wirklich** | Staunen, „das erzähl ich weiter" | die Sache selbst |
-| **Das ist Absicht** | Empörung | wer es entschieden hat — oder wo es dokumentiert steht |
+| **Das ist Absicht** | Empörung | wer es entschieden hat — oder wo es steht |
 | **Es war einmal** | Korrektur | das „und heute" |
 | **Wer hat recht?** | Widerspruch | das Dritte, das beide übersehen |
 | **Empfehlung** | — | erst ab Affiliate-Links |
 
-**Aus acht wurden am 20.08.2026 vier**, nach demselben Verfahren wie am 17.08.:
-erst sammeln, dann nach **Reaktion** sortieren, dann sehen, welche Gruppen
-entstehen. Die Zahl war nicht vorgegeben.
+Sortiert wird nach **Reaktion**, nicht nach Gegenstand. Das ist der Grund,
+warum es vier sind und nicht acht: Zwei Fächer, die dieselbe Reaktion
+auslösen, sind ein Fach.
 
-Zwei Befunde aus den Reichweiten-Skills haben das alte Modell getroffen:
+**Der Wochentag ist gestrichen.** Er war ein Versprechen an ein Publikum, das
+es noch nicht gibt — bei 0 Abonnenten kostet er Neuheit und bringt nichts ein.
+`zeitplanBauen` rechnet über die Listenposition; die Uhrzeit bleibt am Format.
 
-**Wiederholung ist ein Risiko, keine Wiedererkennung.** Die Retention-Ladder
-(`youtube-shorts`) nennt geklonte Formate als Grund für Unterdrückung — „volume
-without novelty is a negative". Acht feste Formate im Wochentakt sind per Bauart
-genau das. Der Wochentag war außerdem ein Versprechen an ein Publikum, das es
-noch nicht gibt: Bei 0 Abonnenten kostet er Neuheit und bringt nichts ein.
-**`FORMATE[...].tag` ist deshalb weg**, `zeitplanBauen` rechnet wieder über die
-Listenposition. Die Uhrzeit bleibt am Format — sie ist kein Versprechen,
-sondern eine Annahme über den Feed.
-
-**Die Schätzfrage ist keine Themengruppe.** Das stand hier schon („die Machart
-der Zahlen-Gruppe"), aber die Folgerung war zu klein. Sie lässt sich auf jedes
-Thema legen, und WATCH verlangt ohnehin mehrere Hook-Varianten je Video.
-`dubistdumm` ist kein Sendeplatz mehr, sondern die erste von fünf Macharten in
-**`HOOK_MACHARTEN`**; seine Zahlen sind zu `gibtswirklich` gewandert.
-
-Was zusammengelegt und was gestrichen wurde:
-
-- **`heimlich` geht in `absicht` auf.** Die alte Abgrenzung — wie das Gerät
-  **gebaut** wurde gegen das, was es im **Betrieb tut** — war sauber und half
-  beim Einsortieren. Nur löst sie beim Zuschauer dieselbe Reaktion aus, und
-  sortiert wird nach Reaktion. Die schärfste Hausregel des Kanals kommt mit und
-  gilt jetzt für ganz `absicht`: **Es muss in einem Dokument stehen.**
-- **`neu` fällt weg.** Es war als einziges Fach ohne haltbaren Vorrat zugleich
-  das teuerste — jede Woche eine frisch abgerufene Behördenseite. Als Stoff für
-  `absicht` fällt es an, wenn es anfällt. `npm run neuigkeiten` bleibt.
-- **`auchgekauft` fällt weg.** Für 18–30 das schwächste Fach. **Der Verlust ist
-  benannt:** Es war die Vorarbeit für die `empfehlung` — ein Kanal, der ein
-  halbes Jahr sagt, was man nicht kaufen soll, wird geglaubt, wenn er einmal
-  empfiehlt. Diese Wirkung muss später anders erarbeitet werden.
-
-Zwei Regeln gelten für alle vier:
-
-1. **Die Pointe trifft die Sache, nicht den Zuschauer.** Die alte Ausnahme
-   (Montag) ist mit dem Wochentag entfallen — aber wo die Schätzfrage als
-   Machart benutzt wird, gilt sie weiter: „Sechzig. Du warst bei zwölf — wie
-   alle." **Ohne dieses „wie alle" bleibt nur die Beleidigung.**
-2. **Kein Format verlangt eine Handlung.** „Steh auf und prüf das" ist Arbeit.
-   Ein Format, das Arbeit verlangt, ist Hauptvideo-Stoff. Schätzen ist die
-   feine Ausnahme: Es ist keine Arbeit, es passiert unwillkürlich.
-
-Die zweite Person ist seit dem 16.08.2026 erlaubt, der Sprecher dabei
-mitgemeint. Vorher galt die dritte Person als Schutz vor Belehrung; sie hat
-stattdessen jede Frechheit weichgespült.
-
-**`MATRIX`** beantwortet die einzige Frage, die beim Entwerfen wirklich
-auftritt: in welches Format gehört dieser Fakt? Vier Prüffragen, der Reihe
-nach, die erste Übereinstimmung gewinnt. `gibtswirklich` steht am Ende, weil es
-alles auffängt, was keine der drei anderen erfüllt.
+**`MATRIX`** beantwortet die einzige Frage, die beim Entwerfen auftritt: in
+welches Format gehört dieser Fakt? Vier Prüffragen der Reihe nach, die erste
+Übereinstimmung gewinnt. `gibtswirklich` steht am Ende, weil es auffängt, was
+keine der drei anderen erfüllt.
 
 **Die eine Abgrenzung, die halten muss:** `eswareinmal` gegen `werhatrecht`.
 Beide handeln von falschen Überzeugungen. Lautet die Auflösung schlicht „früher
 stimmte es, heute nicht", ist es ein **Märchen**. `werhatrecht` braucht, dass
 **beide** Seiten etwas übersehen.
 
+Zwei Regeln für alle vier:
+
+1. **Die Pointe trifft die Sache, nicht den Zuschauer** — mit einer Ausnahme,
+   die seit dem 25.08.2026 die wichtigere ist: Sie darf **Watti** treffen. Er
+   steht für den Zuschauer und sagt es selbst. Siehe „Zwei Stimmen".
+2. **Kein Format verlangt eine Handlung.** „Steh auf und prüf das" ist Arbeit.
+   Schätzen ist die feine Ausnahme: Es passiert unwillkürlich.
+
 ### `sachgebiet` — die stille zweite Achse
 
 `drucken`, `laden`, `bildschirm`, `rechner`, `handy`, `fahren`, `netz`,
 `recht`, `raumfahrt`, `zeit`. Einzige Aufgabe: verhindern, dass eine Woche zur
-**Druckerwoche** wird. Vier Formate garantieren vier verschiedene **Zugriffe**,
-aber nicht vier verschiedene **Gegenstände** — deshalb höchstens zweimal
-dasselbe Sachgebiet je Lauf.
+**Druckerwoche** wird. Höchstens zweimal dasselbe Sachgebiet je Lauf.
 
-**Die Werte sind am 17.08.2026 komplett ausgetauscht worden.** Die alten fünf
-(`schreibtisch`, `unterwegs`, `reise`, `zuhause`, `kaufen`) passen auf das neue
-Material nicht: `reise` hätte genau **ein** Thema getragen, während im Vorrat
-vier Drucker- und sieben Akku-Themen stehen. Eine Achse, die die Häufung nicht
-sieht, um die es geht, ist keine Achse.
+Vier Formate garantieren vier verschiedene **Zugriffe**, aber nicht vier
+verschiedene **Gegenstände**. Format und Sachgebiet bleiben unabhängig: „Es war
+einmal" über Akkus und über Bildschirme sind zwei verschiedene Videos.
 
-`recht` ist beim Planen der ersten Woche nachgetragen worden. Der Mangel fiel
-am konkreten Fall auf: Wohin gehört „Ersatzteile müssen freigeschaltet
-werden"? Es hat keinen Gegenstand, sondern einen Paragrafen — und eine
-willkürliche Zuordnung macht die Achse wertlos.
+**Das `sachgebiet` taugt nicht als Tag.** `#drucken` gehört dem Textildruck,
+`#laden` dem Einzelhandel, `#fahren` der Fahrschule. Es ist eine interne
+Sortierachse, kein Suchwort.
 
-**`raumfahrt` und `zeit` kamen am 20.08.2026 dazu**, mit der breiteren Nische
-und aus demselben Anlass: Die Raumstation mit ihren Notebooks von 2001 ist kein
-`rechner`, die Schaltsekunde kein `netz`. Beide sind bewusst eng — sie sollen
-Häufungen sichtbar machen und nicht alles auffangen, was sonst nirgends passt.
-Ein Sammelgebiet wäre dasselbe wie gar keins.
+### `bauform` — wie der Short gebaut ist
 
-Format und Sachgebiet bleiben **unabhängig**: „Es war einmal" über Akkus und
-über Bildschirme sind zwei verschiedene Videos.
+Seit dem 25.08.2026. Vier Einträge in `BAUFORMEN`, jeder mit einem eigenen
+Zielwert für die Länge:
 
-### Der Bau: vier Positionen, fünf bis acht Szenen
+| Bauform | tut | Ziel |
+|---|---|---|
+| `wechselrede` | einer trägt den Beleg, der andere reagiert | 35 s |
+| `zitatkarte` | das Zitat steht als Karte im Bild, beide reden darüber | 45 s |
+| `stationen` | vier bis fünf Stationen, steigend, dann die Landung | 60 s |
+| `einstimmig` | ein Sprecher, Untertitel unten — der alte Bau | 25 s |
 
-**Positionen und Szenen sind seit dem 17.08.2026 zwei verschiedene Dinge.**
-Vorher war eine Szene eine Position, und das hieß bei fünf Positionen: fünf
-Textblöcke à vier bis fünf Sekunden. Für einen Feed ist das eine Diashow. Sechs
-bis sieben Szenen ergeben einen Schnitt alle drei Sekunden bei **gleicher**
-Gesamtlänge — der Platz dafür kommt aus der gestrichenen Belegszene (2,5 s) und
-der gestrichenen Endkarte (3,2 s).
+**Warum es die Ebene gibt.** Am 25.08. wurde gemessen, was die Gattung
+„faceless" als Standard fährt: KI-Stimme, ein Erzähler, wortweise animierte
+Untertitel. Das war Wort für Wort unser Bau — wir waren nicht eigen, sondern
+die **Voreinstellung**. Und dieselbe Gattung prüft YouTube seit Juli 2025 auf
+Schablonenhaftigkeit, was Reichweite und Monetarisierung kostet.
+
+**`einstimmig` steht bewusst mit im Katalog.** Was keinen Namen hat, kann keine
+Regel begrenzen. Ihn zu verschweigen hieße, ihn unbegrenzt weiterlaufen zu
+lassen; ihn zu benennen setzt ihn unter dieselbe Drittelregel wie alles andere.
+
+**Und die Bauform darf nicht lügen.** `shortPruefen` prüft, ob die Mittel da
+sind, die den Namen tragen — mindestens zwei zweistimmige Szenen für die
+Wechselrede, mindestens eine Zitatkartenszene, mindestens drei Zuspitzungen für
+Stationen, und **keine** zweistimmige Szene bei `einstimmig`. Ohne diese Regel
+zählte die Drittelregel Etiketten statt Unterschiede.
+
+Format und Bauform sind unabhängig: Ein Märchen kann eine Wechselrede oder eine
+Reihe von Stationen sein.
+
+### Der Bau: vier Positionen
 
 | # | Position | tut was | verboten |
 |---|---|---|---|
@@ -249,436 +198,373 @@ der gestrichenen Endkarte (3,2 s).
 
 **Die Position ist ein Feld im Schema, kein Kommentar.** Sieben Erklärvideos
 sind entstanden, weil beim Schreiben nichts gefragt hat: Ist das die Zuspitzung
-oder schon der Kipppunkt? Dieselbe Logik wie bei der Belegpflicht und beim
-gestrichenen `presse` — eine Regel, die sich nicht ausdrücken lässt, lässt sich
-nicht brechen. Geprüft wird, dass jede Position vorkommt, dass Aufschlag und
-Nachschlag genau einmal vorkommen und dass die Folge **nur vorwärts** läuft.
+oder schon der Kipppunkt? Dieselbe Logik wie bei der Belegpflicht — eine Regel,
+die sich nicht ausdrücken lässt, lässt sich nicht brechen.
 
-`werhatrecht` ist die Ausnahme beim Nachschlag: Er endet auf einer Restfrage
-statt auf einer Pointe, sonst gibt es nichts zu kommentieren.
+Geprüft wird, dass jede Position vorkommt, dass Aufschlag und Nachschlag genau
+einmal vorkommen und dass die Folge **nur vorwärts** läuft. Eine Zuspitzung
+nach dem Kipppunkt ist kein Fehler, den man hört, sondern einer, den man spürt:
+Das Video hat seine Pointe schon gehabt und redet weiter.
 
-### Der Beleg wird eingeblendet, nicht gespielt
+`werhatrecht` ist die Ausnahme beim Nachschlag: Er endet auf einer Restfrage,
+sonst gibt es nichts zu kommentieren.
 
-Die Belegszene saß auf Position 4 des alten Baus — zweieinhalb Sekunden
-Standbild mit einem Behördennamen, genau dort, wo die Pointe hingehört.
+### Zwei Stimmen — `rede`, `Sprecher`, `Redeanteil`
 
-Jetzt hängt `herausgeber` an der Szene, die die **tragende Behauptung** macht,
-und läuft als dünne Zeile **unter der Kopfzeile** mit. Nicht unten: Dort sitzt
-der Untertitel in seiner 270-Pixel-Zone, darunter beginnt TikToks
-Bedienleiste. Oben steht der Beleg außerdem bei Wortmarke und Formatpille, und
-das ist die richtige Nachbarschaft — er ist ein Markenelement, kein Inhalt.
+Seit dem 25.08.2026 hat der Kanal zwei sprechende Figuren.
 
-`herausgeber` steht in der Szene **und** in `quellen.json`. Die Doppelung ist
-gewollt: Der Renderer bekommt nur den Short. Damit beide nicht auseinander
-laufen, prüft `shortPruefen` hart auf Gleichheit.
+**Volti** liest nach und trägt die belegte Aussage. **Watti** reagiert; er macht
+alles falsch und lernt nichts. **Wattis Ausruf ist „Watt?"** — norddeutsch für
+„Was?", womit er bei jeder Verwirrung fast seinen eigenen Namen sagt.
 
-### Die Szene hängt am Zitat, nicht an der Quelle — `belegId`
+**Die Rollen sind fest, die Besetzung nicht.** In jedem Wortwechsel trägt genau
+einer den Beleg und der andere reagiert, aber wer von beiden das ist, darf
+wechseln (`wer` an der Figurenbühne). Feste Rollen an festen Figuren wären nach
+vier Videos wieder eine Schablone — aus Volti würde ein Moderator und aus Watti
+ein Requisit.
 
-Jede Szene mit `quelleId` trägt auch eine **`belegId`**: die eine Fundstelle in
-dieser Quelle, die genau diesen Satz trägt. Bis zum 17.08.2026 nannte eine
-Szene nur die Quelle und erbte damit den Belegstatus von allem, was in ihr
-stand — drei unbelegte Sätze sind so durchgegangen, alle formal grün. Das
-Entscheidende ist der **Zeitpunkt**: Die Frage „welcher Satz trägt das?" fällt
-beim Schreiben an, nicht in der Durchsicht, und wo es keine Fundstelle gibt,
-steht ein leeres Feld statt einer Diskussion.
+**Der Grund für den ganzen Umbau steht in den Zahlen.** Neun Videos, 2.212
+Aufrufe, 10 Likes, **0-mal geteilt, 0 neue Abonnenten** — bei einer Durchsicht
+von 53 bis 82 %. Die Leute bleiben bis zum Ende, und es passiert nichts mit
+ihnen. Man abonniert Leute, keine Fakten.
 
-Geprüft wird an zwei Stellen, weil das Schema auch im Browser läuft: Das Schema
-(`src/typen.ts`) erzwingt das Paar, `shortPruefen` prüft, dass die Fundstelle
-wirklich in **dieser** Quelle steht.
+**Eine Reaktion behauptet nichts über die Welt und braucht deshalb keine
+Quelle.** Genau dort darf der Kanal frech sein, während der Beleg sonst zwingt,
+dicht am Zitat zu bleiben. Die Trennung liegt in der Rolle, nicht in einer
+Prüfung: Wer `machart` trägt, ist eine Reaktion und darf keine Quelle nennen —
+das Schema lehnt die Kombination ab.
 
-Zwei Bauregeln folgen daraus, beide aus der Reparatur gelernt:
+**Die Formsperre** fängt die eine Lücke, die bleibt: Eine Reaktion könnte
+heimlich eine Tatsachenbehauptung sein. Verboten sind Jahreszahlen und Zahlen
+mit technischer Einheit, höchstens zwei Sätze.
+
+Zwei Fehler beim Bau dieser Sperre, beide von der eigenen Prüfung gefunden:
+Der erste Anlauf verbot **jede Ziffer** und lehnte „Passwort7 ist meins" ab —
+eine Ziffer ist keine Behauptung, eine **Messgröße** ist eine. Der zweite hatte
+Jahre, Monate und Tage in der Einheitenliste und lehnte „Wie? Ich mache das
+seit 10 Jahren" ab — eine Zeitspanne behauptet etwas über den Sprecher, nicht
+über die Welt.
+
+**`sprechtext` und `rede` stehen nebeneinander**, und die Doppelung ist
+gewollt: `sprechtext` ist die Fassung, die zwanzig Lesestellen kennen, `rede`
+sagt zusätzlich, wer welchen Teil spricht. Ein `superRefine` prüft hart auf
+Gleichheit — dasselbe Vorbild wie bei `herausgeber`. **Eine Doppelung ohne
+Wache ist der Fehler, nicht die Doppelung selbst.**
+
+Das Mindestmaß an Zweistimmigkeit gilt je **Short**, nicht je Szene. „Immer
+beide" wäre nach vier Videos wieder die Schablone, gegen die der Umbau läuft.
+
+### Der Beleg
+
+**Eingeblendet, nicht gespielt.** `herausgeber` hängt an der Szene mit der
+tragenden Behauptung und läuft als dünne Zeile unter der Kopfzeile mit. Nicht
+unten: Dort sitzt der Untertitel, darunter beginnt TikToks Bedienleiste. Oben
+steht der Beleg bei Wortmarke und Formatpille — die richtige Nachbarschaft, er
+ist ein Markenelement.
+
+Genau **eine** Szene je Short trägt `herausgeber`, und sie muss an einer
+`quelleId` hängen. `herausgeber` steht in der Szene **und** in `quellen.json`;
+`shortPruefen` prüft hart auf Gleichheit.
+
+**Die Szene hängt am Zitat, nicht an der Quelle — `belegId`.** Jede Szene mit
+`quelleId` trägt auch die eine Fundstelle, die genau diesen Satz trägt. Bis zum
+17.08.2026 nannte eine Szene nur die Quelle und erbte den Belegstatus von
+allem, was in ihr stand — drei unbelegte Sätze sind so durchgegangen, alle
+formal grün. Das Entscheidende ist der **Zeitpunkt**: Die Frage „welcher Satz
+trägt das?" fällt beim Schreiben an, nicht in der Durchsicht.
+
+**Die Zitatkarte** (seit 25.08.2026) ist die dritte Darstellung: Der Wortlaut
+steht als Karte im Bild, mit blauem Zitatbalken und dem Herausgeber darunter,
+und die beiden Figuren reden darüber. `quelleId` und `belegId` sind dort
+Pflicht, nicht optional.
+
+Zwei Bauregeln, beide aus Reparaturen gelernt:
 
 - **Das „es war einmal" gehört in den Aufschlag und nur dorthin.** Er ist die
-  einzige Position ohne Belegpflicht, und das ist kein Schlupfloch: Er setzt die
-  Erzählung, er behauptet nichts. Alles danach läuft in der Gegenwart.
-- **Der Streitfall bei `werhatrecht` ebenso.** Was zwei Lager behaupten, ist keine
-  Aussage über die Welt — aber die Zuspitzung darunter muss eine sein.
-
-→ Skill `beleg-holen`: die drei Fälle, die es aufdeckte, und das Warnzeichen.
+  einzige Position ohne Belegpflicht, und das ist kein Schlupfloch: Er setzt
+  die Erzählung, er behauptet nichts.
+- **Der Streitfall bei `werhatrecht` ebenso.** Was zwei Lager behaupten, ist
+  keine Aussage über die Welt — aber die Zuspitzung darunter muss eine sein.
 
 ### Die Denkpause — `pauseSek`
 
-Die Schätzfrage braucht Stille nach „Schätz mal", sonst ist die Frage rhetorisch
-und niemand liegt hinterher daneben. Eine Szene bestellt sie über `pauseSek`,
-die Vertonung setzt einen `<break>`-Tag in den Text.
+Die Schätzfrage braucht Stille nach „Schätz mal", sonst ist die Frage
+rhetorisch. Eine Szene bestellt sie über `pauseSek`.
 
 **Der erste Anlauf lief über Auslassungspunkte und war falsch begründet.** Im
-Schema stand, eine Sekundenangabe sei „eine Zahl, die niemand einhält" — die
-Pause entstehe in der Sprachsynthese und lasse sich nicht bestellen. Das war
-geraten. Im fertigen Schätzfrage-Short kam eine Denkpause von **1,0 Sekunde**
-heraus: eine Atempause, kein Gedanke. `npm run pausenprobe` hat es dann
-gemessen, für rund 60 Zeichen Kontingent:
+Schema stand, eine Sekundenangabe sei „eine Zahl, die niemand einhält". Das war
+geraten. `npm run pausenprobe` hat es gemessen:
 
 | Trenner | Pause |
 |---|---|
 | ` ... ` | 0,38 s |
 | ` ... ... ... ` | 0,86 s |
-| ` ... ... ... ... ... ... ` | 1,69 s |
 | `<break time="2.5s" />` | **2,60 s** |
 
-Dieselbe Geschichte wie bei `ZEICHEN_PRO_SEKUNDE`, das zweimal auf einer
-Annahme stand, bis jemand nachgemessen hat. **Wenn eine Größe messbar ist,
-gehört sie gemessen und nicht begründet** — und die Begründung, warum sie sich
-angeblich nicht messen lässt, ist das verdächtigste Bauteil überhaupt.
+Dieselbe Geschichte wie bei `ZEICHEN_PRO_SEKUNDE`. **Wenn eine Größe messbar
+ist, gehört sie gemessen und nicht begründet** — und die Begründung, warum sie
+sich angeblich nicht messen lässt, ist das verdächtigste Bauteil überhaupt.
 
-Zwei Folgen im Code: `woerterAusAusrichtung` filtert alles zwischen `<` und
-`>`, sonst stünde „time=2.5s" im Untertitel. Und `szenendauerAus` rechnet die
-bestellte Pause mit — vorher lief die Vorschau genau an der Stelle von der
-Wirklichkeit weg, an der bewusst Zeit verbraucht wird.
+`woerterAusAusrichtung` filtert deshalb, was gesprochen aussieht, aber nicht
+gesprochen wird: alles zwischen `<` und `>` (Break-Tags) **und** alles zwischen
+`[` und `]` (die Regieanweisungen von `eleven_v3`). Ohne den zweiten Filter
+stünde „[confused]" groß über der Bühne.
 
-Beim Wechsel von Modell oder Stimme gilt: Ein nicht unterstützter Break-Tag
-würde **vorgelesen**. `npm run pausenprobe` beantwortet das vorab.
+### `suchbegriff` — gefunden wird über das Wort, nicht über die Tags
 
-### Gefunden wird über das Suchwort, nicht über die Tags — `suchbegriff`
-
-Am 24.08.2026 kamen `hashtag-strategy` und `social-seo` dazu, und beide sagen
-dasselbe: **Hashtags kategorisieren und helfen der Suche. Reichweite bringen
-sie nicht.** Der Hebel ist das Suchwort — gesprochen, im Bild und in der
-Beschreibung; bei TikTok heißt das die Dreifachnennung.
+Hashtags kategorisieren und helfen der Suche. **Reichweite bringen sie nicht.**
+Der Hebel ist das Suchwort — gesprochen, im Bild und in der Beschreibung.
 
 Zwei Drittel davon erfüllt der Kanal ohnehin, weil der Sprechtext Wort für Wort
-der Untertitel ist. **Das dritte Drittel fehlte ganz:** `beschreibung` war seit
-dem 15.08.2026 überall leer.
+der Untertitel ist. Das dritte Drittel ist die Keyword-Zeile in
+`beitragstext`, direkt hinter dem Titel, also in den ersten rund 80 indizierten
+Zeichen. Damit sie nicht zum Erklärabsatz zurückwächst, meldet die Prüfung
+alles ab 150 Zeichen.
 
-Die Begründung von damals stimmt weiter — ein Short erklärt sich im Video, nicht
-im Text darunter, und die alten Erklärabsätze holten nach, was das Video nicht
-schaffte. **Eine Keyword-Zeile erklärt aber nichts, sie macht auffindbar.** Sie
-steht in `beitragstext` direkt hinter dem Titel, also in den ersten rund 80
-Zeichen, die indiziert werden. Damit sie nicht zum Erklärabsatz zurückwächst,
-meldet die Prüfung alles ab 150 Zeichen.
+`suchbegriff` ist Pflicht: ein bis drei Wörter, so wie sie getippt werden.
+Geprüft wird **Wort für Wort**, nicht als Phrase.
 
-`suchbegriff` ist ein Pflichtfeld nach dem Muster von `weitererzaehlt`: ein bis
-drei Wörter, so wie sie getippt werden. Geprüft wird **Wort für Wort**, nicht
-als Phrase — „Laptops Raumstation" steht im Video als „Auf der Raumstation
-liefen 2009 Laptops", getrennt, und genau so sucht auch niemand.
-
-**Hashtags: drei bis fünf, je Plattform verschieden.** Vorher waren zwölf
-erlaubt und drei gleiche Sätze gesetzt. Instagram deckelt seit Dezember 2025
-hart bei fünf; TikTok will drei bis fünf und behandelt sie als Suchwörter. Ein
-gemeinsames Fenster trägt alle drei Kanäle.
-
-Auf diesen Plätzen stehen **drei Rollen**: genau ein Markentag
-(`#ganzakkurat`, Fehler wenn er fehlt), ein bis zwei Tags aus
-`GEMEINSCHAFTSTAGS` — dort browst die Zielgruppe —, und zwei bis drei
-Themen-Tags, die benennen, wovon das Video handelt. Reichweiten-Tags sind ein
-Fehler, zu breite ein Hinweis.
+**Hashtags: drei bis fünf, je Plattform verschieden.** Instagram deckelt hart
+bei fünf; TikTok will drei bis fünf. Auf diesen Plätzen stehen drei Rollen:
+genau ein Markentag (`#ganzakkurat`), ein bis zwei aus `GEMEINSCHAFTSTAGS`,
+zwei bis drei Themen-Tags.
 
 **`GEMEINSCHAFTSTAGS` ist absichtlich leer.** Der Skill verlangt, die Tagseite
-vor der Verwendung anzusehen: Sind die obersten Beiträge von der Art, gibt es
-Publikum, ist sie von Spam überrannt? Das kann kein Skript und kein Modell aus
-dem Gedächtnis — es wäre derselbe Fehler wie bei `ZEICHEN_PRO_SEKUNDE` und der
-Denkpause, die beide auf einer Annahme standen, bis jemand nachgemessen hat.
-Solange die Liste leer ist, schweigt die Regel; **eine Wache, die eine leere
-Liste erzwingt, hielte jeden Short zurück.** Kandidaten stehen als Kommentar
-daneben.
+vor der Verwendung anzusehen — das kann kein Skript aus dem Gedächtnis. Solange
+die Liste leer ist, schweigt die Regel; **eine Wache, die eine leere Liste
+erzwingt, hielte jeden Short zurück.**
 
 **Einen Formattag gibt es bewusst nicht.** Er sammelte eine Serie für ein
-Publikum, das es noch nicht gibt — dasselbe Argument, mit dem am 20.08.2026 der
-Wochentag gestrichen wurde — und kostete dafür einen von fünf Plätzen, auf dem
-sonst ein Wort steht, nach dem jemand sucht. Zu holen, sobald Abonnenten da
-sind.
+Publikum, das es noch nicht gibt, und kostete einen von fünf Plätzen.
 
-**Das `sachgebiet` taugt nicht als Tag.** `#drucken` gehört dem Textildruck,
-`#laden` dem Einzelhandel, `#fahren` der Fahrschule. Die Sachgebiete sind
-interne Sortierachsen gegen die Druckerwoche, keine Suchwörter.
+Ein Fall, der beim Nachziehen auffiel und den die Regel selbst nicht meldet:
+**Zwei Shorts sagen ihr eigenes Suchwort nie.** „Schaltsekunde" kommt in
+`schaltsekunde-endet` nicht vor, „Flugmodus" nicht in `flugmodus-maerchen`.
+Das lässt sich nur beim Schreiben lösen.
 
-Beim Nachziehen der neun Entwürfe ist etwas aufgefallen, das die Regel selbst
-nicht meldet: **Zwei Shorts sagen ihr eigenes Suchwort nie.** „Schaltsekunde"
-kommt in `schaltsekunde-endet` nicht vor, „Flugmodus" nicht in
-`flugmodus-maerchen` — beide Male steht im Sprechtext eine Umschreibung. Der
-Suchbegriff musste deshalb auf ein schwächeres Wortpaar ausweichen. Das ist der
-Fall, für den die Regel gebaut ist, und er lässt sich nur beim Schreiben lösen.
+### `kennzeichnung`
 
-### `kennzeichnung.werbung` — Dreiwert, kein Boolean
+`werbung` ist ein Dreiwert: `keine`, `beschreibung` (Partnerlinks nur im Text),
+`video` (Label eingebrannt).
 
-| Wert | Bedeutung |
-|---|---|
-| `keine` | keine kommerziellen Verweise, kein Label |
-| `beschreibung` | Partnerlinks nur in der Beschreibung, kein Label im Bild |
-| `video` | Label wird ins Video eingebrannt (`video/Short.tsx`) |
+`kiStimme` ist Pflicht und geht als `isAiGenerated` an alle drei Dienste
+(`src/buffer.ts`). Das ist die von YouTube seit Mai 2025 verlangte
+Kennzeichnung; `shortPruefen` meldet einen Fehler bei `false`.
 
 ### Was es nicht mehr gibt
 
-`winkelart`, `titelmuster`, `Vertiefung`, `produktnaehe`, `kontext` als freier
-Text — und die Szenenarten `anschluss`, `checkliste`, `fehlspur`,
-`herleitung`, `cta`.
-
-Am 17.08.2026 dazugekommen, alle aus demselben Befund: Das alte Vokabular war
-**Erklärvideo-Vokabular**. Lösung, Merkmal, Bewertung, Punkte zum Mitnehmen —
-jedes dieser Felder setzt voraus, dass der Zuschauer etwas lernen will.
+Gestrichen und nicht zurückzuholen — die Begründung steht dabei, weil sonst
+jemand sie wieder einbaut:
 
 | weg | warum |
 |---|---|
-| `hook` | ging in `text` auf; ihr Merkmal war eine Zeichengrenze, die als Sekundengrenze längst existierte |
-| `aussage` | heißt jetzt `text` |
-| `warnung` | trug ein Feld `loesung` — eine Lösung anzubieten heißt, eine Handlung zu verlangen |
+| `warnung` mit `loesung` | eine Lösung anzubieten heißt, eine Handlung zu verlangen |
 | `merkmalskarte` | Gerätezeichnung plus ja/nein-Merkmale: eine Kaufberatungskarte |
-| `beleg` | wurde zur Einblendung |
-| `endkarte` | erzwang per Schema `punkte: min(2).max(4)` — eine Liste kann keine Pointe sein |
-| `merksatz` | heißt `weitererzaehlt`; siehe unten |
-| `system` | kein einziges der 45 Themen ist systemspezifisch |
-| `symbol` | die stehende Zeichnung unter dem Satz; ersetzt durch `buehne`, gestrichen am 24.08.2026, nachdem der Nachfolger an einem fertigen Video gemessen war |
-| `hook` (Szenenart) | stand seit dem 17.08.2026 als gestrichen im Vertrag und trotzdem weiter im Schema — ohne Zweig im Renderer |
+| `endkarte` | erzwang `punkte: min(2).max(4)` — eine Liste kann keine Pointe sein |
+| `merksatz` | stellte bei jedem Entwurf die Frage „was ist hier das Prinzip?" und erzwang siebenmal ein Erklärvideo. Heißt jetzt `weitererzaehlt` |
+| `symbol` | die stehende Zeichnung unter dem Satz; ersetzt durch `buehne` |
 | `GeraeteArt` | neun Gerätezeichnungen, mit der Kaufberatung gegangen |
 | `src/illustration.ts` | schlug Symbole aus dem Szenentext vor — der Erklärvideo-Reflex in Codeform |
+| `stab` | der Zeigestab sah im Video aus wie eine Figur ohne Hände, die einen Stock hält |
 
-**`merksatz` → `weitererzaehlt`** ist der wichtigste dieser Tausche. Das alte
-Feld hat getan, was es sollte, und genau darin lag der Fehler: Es stellte bei
-jedem Entwurf die Frage „was ist hier das Prinzip?" und erzwang damit siebenmal
-ein Erklärvideo. Der Zwang bleibt, die Frage wechselt.
+Das alte Vokabular war **Erklärvideo-Vokabular**: Lösung, Merkmal, Bewertung,
+Punkte zum Mitnehmen — jedes Feld setzt voraus, dass der Zuschauer etwas lernen
+will.
 
-Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln
-gehören deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein
-`superRefine` auf `Lauf`. Eine Regel dort ist tote Regel.
+Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln gehören
+deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein `superRefine`
+auf `Lauf`. Eine Regel dort ist tote Regel.
 
 ## Harte Regeln (`src/pruefung.ts`)
 
-Fehler halten einen Short zurück, Hinweise erscheinen nur in der
-Freigabe-Übersicht.
+Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersicht.
 
-- **`format`** — **kein Format zweimal hintereinander** (Fehler), und ab vier
-  Shorts ein Hinweis, wenn eines mehr als die Hälfte des Laufs stellt.
-  Die Regel hat am 20.08.2026 die Richtung gewechselt: Vorher hieß sie „jedes
-  Format genau einmal je Lauf" und prüfte auch, ob eines **fehlt**. Mit dem
-  Wegfall des Wochentags wäre daraus ein Zwang geworden — bei vier Formaten
-  hätte sie jede Woche genau diese vier verlangt und damit die Wiederholung
-  erzwungen, gegen die die Retention-Ladder warnt. Der Befund, der zur alten
-  Gegenprobe führte, bleibt lesenswert: Sie stand einmal hinter einer
-  Zahlengleichheit und war deshalb genau dann still, wenn sie gebraucht wurde.
-  **Eine Wache, die sich bei Abweichung selbst abschaltet, ist keine Wache.**
+- **`format`** — kein Format zweimal hintereinander (Fehler); ab vier Shorts
+  ein Hinweis, wenn eines mehr als die Hälfte stellt. Die Regel hieß einmal
+  „jedes Format genau einmal je Lauf" und stand hinter einer Zahlengleichheit —
+  sie war deshalb genau dann still, wenn sie gebraucht wurde. **Eine Wache, die
+  sich bei Abweichung selbst abschaltet, ist keine Wache.**
+- **`bauform`** — keine zweimal hintereinander (Fehler), ab sechs Shorts keine
+  über ein Drittel je Lauf, und die Deckungsregel oben. Die Drittelregel greift
+  erst ab sechs, weil sie bei vier Shorts vier verschiedene Bauformen erzwänge
+  — derselbe Zwang, an dem die alte Formatregel gescheitert ist.
+- **`zweistimmigkeit`** und **`reaktion`** — die beiden einzigen Regeln, die
+  etwas **verlangen** statt etwas zu verbieten, seit dem 26.08.2026. Jeder
+  Short braucht mindestens zwei Szenen mit beiden Stimmen (außer `einstimmig`,
+  den die Drittelregel begrenzt) und mindestens eine Zeile mit `machart`; keine
+  Machart kommt zweimal im selben Short vor. Geprüft wird nicht, ob es witzig
+  ist — geprüft wird, ob der Platz benutzt wurde. Genau so arbeitet die
+  Belegregel: Sie prüft nicht, ob das Zitat überzeugt, sondern ob eins da ist.
 - **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
-- **`suchbegriff`** — jedes Wort steht im Sprechtext (Fehler) und in allen drei
-  Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Der
-  Bildtext ist auf wenige Wörter gebaut, und ein Zwang dort erzeugte dieselbe
-  Verstümmelung wie seinerzeit der Zielwert von 23 Sekunden.
-- **`texte`** — drei bis fünf Hashtags je Plattform (Schema), darauf drei
-  Rollen. Fehler: ein Tag aus `REICHWEITENTAGS`, ein fehlender `#ganzakkurat`,
-  oder — sobald die Liste für diese Plattform gefüllt ist — kein Tag aus
-  `GEMEINSCHAFTSTAGS`. Hinweise: ein Tag aus `BREITE_TAGS`, weniger als zwei
-  Themen-Tags, oder drei identische Sätze.
-- **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short
-  (`UNBETEILIGTE_ARTEN`). Die Drei-Quellen-Regel ist am 16.08.2026 entfallen:
-  Die Anzahl war die schwächere Hälfte — drei Herstellerseiten belegen nichts,
-  eine Behördenseite belegt alles. Genau dieser Fall stand im WLAN-Short, der
-  mit drei Quellen sauber durchging und auf TP-Link, TP-Link und Intel stand.
-  Bei einem Fakt je Video wären drei Quellen ohnehin zwei dekorative — und
-  Dekoration im Belegapparat ist schlimmer als keine, weil sie die Zahl
-  stimmen lässt.
-- **`aufbau`** — jede Position kommt vor, Aufschlag und Nachschlag genau
-  einmal, und die Folge läuft **nur vorwärts**. Eine Zuspitzung nach dem
-  Kipppunkt ist kein Fehler, den man hört, sondern einer, den man spürt: Das
-  Video hat seine Pointe schon gehabt und redet weiter. Geprüft im Schema.
-- **`aufschlag`** — die erste Szene spricht höchstens **3,5 Sekunden**, und
-  zwar an den **gemessenen** Wortzeitstempeln, sobald eine Tonspur vorliegt.
-  71 % der Zuschauer entscheiden in den ersten Sekunden. Dazu eine Handvoll
-  Ansagen, die das Schema hart ablehnt: „heute geht es um", „in diesem Video",
-  „ich zeige dir", „wir schauen uns" — das kündigt an, statt zuzugreifen.
-- **`beleg`** (Einblendung) — genau **eine** Szene je Short trägt
-  `herausgeber`, und sie muss an einer `quelleId` hängen. Zwei Einblendungen
-  wären zwei Quellenangaben in zwanzig Sekunden; keine wäre der Zustand vor
-  dem 16.08.2026, als der ganze Belegapparat im Video unsichtbar war.
+- **`suchbegriff`** — jedes Wort steht im Sprechtext und in allen drei
+  Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Ein Zwang
+  dort erzeugte dieselbe Verstümmelung wie seinerzeit der Zielwert von 23
+  Sekunden.
+- **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short. Die
+  Drei-Quellen-Regel ist entfallen: Die Anzahl war die schwächere Hälfte — drei
+  Herstellerseiten belegen nichts, eine Behördenseite belegt alles. Genau
+  dieser Fall stand im WLAN-Short, der mit drei Quellen sauber durchging und
+  auf TP-Link, TP-Link und Intel stand.
 - **`belegId`** — die Fundstelle steht wirklich in der genannten Quelle
-  (Fehler), und ein Zitat trägt höchstens zwei Szenen (Hinweis). Die andere
-  Hälfte der Regel steht im Schema: Wer eine Quelle nennt, nennt ein Zitat.
+  (Fehler); ein Zitat trägt höchstens zwei Szenen (Hinweis).
 - **Belegpflicht nach Position** — alles auf `zuspitzung` und `kipppunkt`
-  braucht eine Quelle, egal in welcher Darstellung. Vorher entschied allein
-  die Szenenart, und damit entschied die Wahl der Darstellung darüber, ob ein
-  Satz belegt sein musste.
-- **`laenge`** — 20 bis 36 Sekunden, hart in beide Richtungen. Zielwert 30.
-  Beides ist am 24.08.2026 angehoben worden, und zwar wegen der Sprache: Der
-  alte Zielwert von 23 hat den Telegrammstil erzwungen.
-- **`produktname`** — im Video fällt nie ein Markenname (`ZUBEHOERMARKEN`),
-  nur Merkmale. Das ist die Regel, die das ganze Modell trägt. Gerätehersteller
-  (Apple, Dell) stehen bewusst nicht in der Liste — „dein MacBook" ist Kontext,
-  keine Empfehlung. Ausnahme: das Format `Empfehlung` mit Label im Bild.
+  braucht eine Quelle, egal in welcher Darstellung. Vorher entschied die Wahl
+  der Darstellung darüber, ob ein Satz belegt sein musste.
+- **`aufbau`** — jede Position kommt vor, Aufschlag und Nachschlag genau
+  einmal, die Folge läuft nur vorwärts. Geprüft im Schema.
+- **`aufschlag`** — die erste Szene spricht höchstens **3,5 Sekunden**, an den
+  gemessenen Wortzeitstempeln, sobald eine Tonspur vorliegt. 71 % der Zuschauer
+  entscheiden in den ersten Sekunden. Dazu eine Handvoll Ansagen, die das
+  Schema hart ablehnt: „heute geht es um", „in diesem Video", „ich zeige dir".
+- **`sprache`** — Amtsdeutsch im Sprechtext ist ein Fehler, **außer** hinter
+  einem Doppelpunkt. Siehe „Sprache und Humor".
+- **`laenge`** — 20 bis 65 Sekunden hart, dazu ein Hinweis bei mehr als einem
+  Fünftel Abweichung vom Zielwert der Bauform. Laufweit ein zweiter Hinweis,
+  wenn ab drei Shorts **alle in derselben Längenklasse** liegen: Bis Oktober
+  läuft der Versuch, verschiedene Längen zu senden.
+- **`produktname`** — im Video fällt nie ein Markenname (`ZUBEHOERMARKEN`), nur
+  Merkmale. Gerätehersteller stehen bewusst nicht in der Liste — „dein MacBook"
+  ist Kontext, keine Empfehlung.
 - **`kennzeichnung`** — ein Partnerlink braucht „Werbung", „Anzeige" oder
-  „Werbepartner" **in derselben Zeile**. Ein Sammelhinweis am Textende
-  kennzeichnet den Link zwanzig Zeilen weiter unten nicht (LG Erfurt,
-  23.11.2020). „Affiliate-Link" und „gesponsert" hat der BGH als unscharf
-  verworfen (06.02.2014, I ZR 2/11).
+  „Werbepartner" **in derselben Zeile** (LG Erfurt, 23.11.2020).
+  „Affiliate-Link" und „gesponsert" hat der BGH als unscharf verworfen
+  (06.02.2014, I ZR 2/11).
 - **`produktionsregel`** — kein Sprechtext behauptet eigene Produkterfahrung,
-  kein Titel sagt „Test", solange nichts selbst benutzt wurde. Zulässig:
-  „Vergleich", „Kompatibilitätscheck", „Kaufhilfe".
+  kein Titel sagt „Test". Zulässig: „Vergleich", „Kompatibilitätscheck".
 - **`titel`** — der Titel darf **nichts nennen, was im Video nicht vorkommt**:
-  die Belegpflicht, auf den Titel angewandt. Dazu kein Ausrufezeichen, kein
-  Emoji, keine Konfrontation gegen den Zuschauer. `KEINE_SACHWOERTER` hält die
-  Funktionswörter, die am Titelanfang großgeschrieben stehen — „Weder Leitung
-  noch Router sind schuld" meldete sonst „weder" als fehlendes Sachwort.
+  die Belegpflicht, auf den Titel angewandt. Kein Ausrufezeichen, kein Emoji,
+  keine Konfrontation gegen den Zuschauer.
+- **Zeitangaben** — „seit heute", „gestern", „diese Woche", „seit N Tagen"
+  werden hart abgelehnt. Siehe unten.
 
-## Der Rundlauf und der Humor
+## Sprache und Humor
 
-**Ein Short läuft von selbst wieder an, und ein Rewatch zählt als eigene
-Ansicht.** Bis zum 18.08.2026 arbeitete der Schluss dagegen — ein Satz, ein
-blauer Strich, eine zweite Wortmarke, im Schnitt 2,2 Sekunden, in denen nichts
-Neues kommt. Der Strich war das eigentliche Signal: Er sagte optisch „fertig".
+**Der Humor hängt an der zweiten Stimme.** Bis zum 25.08.2026 stand in
+`voice.md` ein Dreizeiler — „trocken, und er steckt in der Tatsache selbst".
+Das war keine Beschreibung, sondern eine Erlaubnis, nicht witzig zu sein.
 
-Er ist weg, und mit ihm die zweite Wortmarke.
+**Die eine Regel, an der alles scheitert: Eine Reaktion, die den Fakt
+zusammenfasst, ist keine Reaktion.** Sie muss etwas hinzufügen, das im Fakt
+nicht steht. Ohne Vorgabe fällt jeder Entwurf auf den zusammenfassenden
+Kommentar zurück — das ist der Normalfall, nicht die Ausnahme, und
+`npm run pruefen` wird dabei grün.
 
-**Der Spruch steht seit dem 24.08.2026 wieder in der Mitte**, unter dem
-Schlusssatz: ein kurzer Strich von 96 Pixeln, der in einer halben Sekunde
-gezogen wird, darunter „Wir haben nachgelesen.", rechts daneben die Figur.
-Zwischen dem 18. und dem 24.08. lief er oben unter der Kopfzeile mit.
+**`REAKTIONS_MACHARTEN`** in `src/typen.ts` ist das Gegenmittel, nach dem
+Muster von `HOOK_MACHARTEN`: Geständnis, falscher Schluss, Bild, Ratlosigkeit,
+Empörung gegen den Falschen, die banale Rückfrage. Der Entwurf wählt eine je
+Reaktionszeile und darf sie im selben Short nicht wiederholen.
 
-Das nimmt den Vorhang nicht zurück, und der Unterschied liegt in der Länge des
-Strichs. Einer über die ganze Bühnenbreite trennt die Pointe vom Absender und
-sagt „fertig". 96 Pixel trennen nichts, sie zeichnen den Spruch aus. Gezogen
-statt eingeblendet: **Eine Linie, die entsteht, ist eine Geste; eine, die schon
-da ist, ist ein Rahmen.**
+**Das Zitat bleibt Behördendeutsch, alles in eigenen Worten ist
+Alltagssprache.** Vorher lief es umgekehrt: Das Zitat stand klein oben in der
+Einblendung, gesprochen wurde die Behördenfassung mit anderer Wortstellung. Die
+Ursache war der Bau, nicht der Vorsatz — wer gedeckt sein muss, bleibt dicht
+am Zitat.
 
-**Zwei Marken-Töne seit dem 24.08.2026**, erzeugt von `skripte/toene.ts` als
-WAV nach `public/ton/marke/`: `gefaellt` (0,13 s, steigend) und `folgen`
-(0,51 s, zwei Töne im Quintabstand). Selbst erzeugt aus demselben Grund, aus
-dem die Symbole selbst gezeichnet sind — das Bediengeräusch der App ist
-nirgends veröffentlicht und nicht zum Einbrennen lizenziert. Nicht mit ffmpeg:
-Die Installation hier trägt 50 Filter, `afade` fehlt, und ein `sine` ohne
-Hüllkurve knackt.
+**Register: umgangssprachlich und derb, aber ohne Fluchen.** „Kacke" ist drin,
+„Fuck" nicht — YouTubes Werberichtlinien stufen starke Sprache in den ersten
+Sekunden am härtesten ab.
 
-### Zwei Figuren, geteilte Arbeit
+**Der Ausruf darf nie zum Markenwort werden.** Ein fester Marker ist in vier
+Wochen eine Schablone. Es gibt einen Vorrat, aus dem gewählt wird, und dasselbe
+Wort steht nicht zweimal im selben Lauf.
 
-**Der Kanal hat seit dem 24.08.2026 zwei Akkus.** Der `nachleser` trägt den
-Inhalt, der **`zeiger`** alles, was der Zuschauer tun kann — liken, folgen,
-abonnieren. Wer den Kanal ein paar Mal sieht, weiß beim Auftauchen des Zweiten
-sofort, worum es geht. Nebenbei stimmt damit der Spruch: „Wir haben
-nachgelesen" steht im Plural und hatte bisher nur einen Sprecher.
+**Jeder gesprochene Satz hat ein Verb.** Die alte Vorgabe „zwei bis sechs
+Wörter" hat den Telegrammstil erzwungen. Der Bildtext darf knapp bleiben — er
+wird gelesen, nicht gehört.
 
-`daten/figur/zeiger.ts` **leitet ab statt abzuschreiben**: Teile, Gelenke und
-Griffe kommen unverändert vom `nachleser`, getauscht wird nur die Farbe. Ein
-zweites Rig von Hand wäre beim ersten Umbau am Körper auseinandergelaufen, und
-zwar lautlos — die Prüfung sieht zwei gültige Rigs, nicht zwei verschiedene.
-Beide Tausche laufen in **einem** Durchgang: Der Nachleser ist ein dunkler
-Körper mit blauem Ladebalken, der Zeiger ein blauer mit hellem. Nacheinander
-gefärbt verschwände der Balken im frisch blauen Körper.
+**Zahlen stehen als Ziffer, auch im Sprechtext.** „2009", nicht
+„zweitausendneun". Der Sprechtext ist nicht nur Sprechtext, **er ist der
+Untertitel, Wort für Wort.** Was sich schlecht liest, ist falsch geschrieben,
+auch wenn es sich gut anhört.
 
-Der Zeiger tritt an genau zwei Stellen auf. **Mitten im Video** kommt er halb
-von rechts ins Bild und schaut nach rechts — dort liegt der Like-Knopf auf
-allen drei Plattformen, deshalb braucht dieser Hinweis keine drei Fassungen.
-**Am Schluss** steht er in der Signatur, wo bis zum 24.08.2026 der Nachleser
-stand.
+→ `daten/marke/voice.md`, Kapitel „Humor": die sieben Regeln aus dem Eichmaß
+vom 25.08.2026, samt Vorher-Nachher-Tabelle.
 
-**Er hängt an einer Szene, nicht an einer Uhrzeit.** Das Szenensymbol sitzt
-fest in der rechten Bühnenhälfte, und alles, was von rechts hereinkommt, trifft
-es — daran sind drei Anläufe gescheitert. `hinweisSzene` in `video/Short.tsx`
-sucht deshalb die **letzte Szene ohne Requisite** vor dem Schluss; findet sie
-keine, entfällt der Hinweis.
+## Vertonung
 
-Was auf dem Weg dahin verworfen wurde, steht hier, damit es niemand erneut
-versucht:
+**Modell: `eleven_v3`** seit dem 25.08.2026. Vorher lief
+`eleven_multilingual_v2`, das Modell von 2024 — und es war der Grund für eine
+Suche, die ins Leere lief: **26 Stimmen** wurden für die zweite Figur
+synthetisiert und vermessen, und keine überzeugte. Bei der Trefferquote liegt
+der Fehler nicht in der Auswahl. Dieselbe Stimme durch v3 war nicht eine
+andere, sondern eine bessere.
 
-- **Der Nachleser konnte es nicht selbst.** Mitten im Video steht er schon auf
-  der Bühne, und `Buehnenbild.tsx` interpoliert seine Haltung über die ganze
-  Szene von `von` nach `nach` — ein Übersteuern mittendrin wäre ein Sprung.
-- **Eine körperlose Hand wird nicht als Hand gelesen.** Im fertigen Video wurde
-  sie als **Schlüssel** erkannt. Im Rig ist eine Hand ein Kreis am Strich; was
-  sie zur Hand macht, ist der Körper daran.
-- **Ein gezeichnetes Plattformzeichen deutet auf nichts.** Plus, Glocke und
-  Personenumriss standen bis zum 24.08.2026 an der Signatur und sind
-  gestrichen: Ein Zeichen, das wir selbst malen, ist nicht der Knopf der App.
+v3 versteht **Regieanweisungen** in eckigen Klammern (`[confused]`, `[sighs]`).
+Für Watti ist das keine Spielerei: Seine Macharten heißen Ratlosigkeit,
+Geständnis und falscher Schluss, und die lassen sich damit ansagen statt hoffen.
 
-### Die Blickrichtung
+**Seit dem 26.08.2026 hängt die Anweisung an der Machart** — `regie` in
+`REAKTIONS_MACHARTEN`, gesetzt von `redelaeufe`. Sie steht **nur im
+Synthesetext**: `sprechtext` bleibt unberührt, damit Untertitel,
+Längenschätzung und die Gleichheitswache `rede` ↔ `sprechtext` nichts davon
+mitbekommen, und `woerterAusAusrichtung` filtert die Klammer hinterher ohnehin
+wieder heraus.
 
-`FOLGEPOSEN` in `video/bausteine/posen.ts`, eine je Dienst — **bewusst
-außerhalb von `POSEN`**, denn jenes Record ist das Vokabular für Entwürfe, und
-die Signatur ist kein Szenenmittel.
+**Zwei der sechs bekommen bewusst keine.** Eine Regieanweisung sagt an, wie
+etwas klingt; wo der Witz im Wort liegt und nicht im Ton, überspielt sie ihn.
+`bild` trägt sich selbst, und die banale Rückfrage lebt davon, banal zu klingen
+— jede Ansage macht daraus eine Pointe mit Unterstreichung.
 
-| Dienst | Knopf | Geste |
-|---|---|---|
-| `tiktok` | rechts, mittlere Höhe | rechter Arm waagerecht nach rechts |
-| `instagram` | unten links | linker Arm nach links, leicht gesenkt |
-| `youtube` | unten Mitte | linker Arm tiefer, Blick nach unten |
+**Die sechs Zuordnungen sind geraten.** `npm run regieprobe` misst, ob die
+Klammer Ton erzeugt, ob sie mitgesprochen wird und was sie an Sprechzeit
+kostet; ob es besser klingt, entscheidet das Ohr an den Dateien. Solange das
+nicht gelaufen ist, steht dort eine Vermutung — dieselbe Sorte wie bei
+`ZEICHEN_PRO_SEKUNDE` und der Denkpause.
 
-Zwei Messwerte aus dem Standbild: **Unter siebzig Grad sieht man nichts** — der
-Arm hängt in Ruhe schon schräg nach außen, und zwanzig Grad verschwinden darin.
-Und **der Unterarm darf nicht mitdrehen**: Oberarm auf −34 plus Unterarm auf
-−22 klappte den ganzen Arm vor die Brust, weil beide Vorzeichen zum Körper hin
-drehen.
+**Zwei Stimmen, zwei Aufrufe je Lauf.** ElevenLabs synthetisiert mit genau
+einer Stimme. `redelaeufe` in `src/stimme.ts` bildet je zusammenhängendem Stück
+einer Figur einen Lauf — **über Szenengrenzen hinweg**, solange dieselbe Figur
+weiterspricht. Der erste Anlauf schnitt an jeder Szene und machte aus einem
+einstimmigen Short sechs Aufrufe statt einem, gegen die Begründung, aus der die
+Verkettung überhaupt existiert: durchgehende Betonung.
 
-**Es bleibt eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geräte sind
-höher, und die Apps schneiden oder rahmen verschieden. Wo der Knopf relativ zu
-unserem Bildinhalt landet, hängt am Gerät. Ob es trägt, zeigt erst ein echter
-Beitrag auf dem Handy.
+**Die Pausen zwischen den Sprechern zählen mit.** 0,28 Sekunden bei jedem
+Wechsel innerhalb einer Szene, 0,45 an einer Szenengrenze mit Wechsel — beide
+Zahlen stehen seit dem 26.08.2026 in `src/zeit.ts` und nicht mehr nur in der
+Vertonung. Vorher wusste die Schätzung nichts von ihnen: **1,2 bis 1,6 Sekunden
+je Short fehlten** in der Sprechprobe, in der Längenprüfung und im tonlosen
+Render.
 
-### Der Nachlauf — dieselbe Zahl, ein anderer Grund
+`zusatzpausenSzene` rechnet sie **je Szene** und nicht nur als Summe. Sonst
+gäbe es zwei Wahrheiten über dieselbe Länge: eine für die Prüfung, eine für den
+Zeitplan — dieselbe Sorte Widerspruch, die schon einmal eine leere Bühne am
+Videoende erzeugt hat.
 
-`NACHLAUF_SEK` in `src/zeit.ts` steht auf **1,5 Sekunden** Stille nach dem
-letzten Wort, in denen die Signatur stehen bleibt.
+Die Rechnung ist ein **Abbild** von `redelaeufe` und kein zweiter Entwurf.
+Aufrufen lässt sie sich nicht: `src/stimme.ts` importiert `node:buffer`, und
+die Schätzung läuft über `calculateMetadata` im Browser. Deshalb hält
+`npm run pruefen` beide Fassungen je Short gegeneinander und meldet jede
+Abweichung über einer Millisekunde — **eine Doppelung ohne Wache ist der
+eigentliche Fehler, nicht die Doppelung.**
 
-**Diese Zahl stand hier schon einmal und war zu Recht weg.** Bis zum
-24.08.2026 addierte `gesamtdauerBilder` 0,8 Sekunden „damit die Endkarte nicht
-abreißt" — die Endkarte war seit dem 18.08. gestrichen, und übrig blieb eine
-**leere Bühne** am Videoende. Jetzt steht dort etwas: Der Zeiger schaut in die
-Richtung des Folgen-Knopfs, und eine Geste, die mit dem letzten Wort
-verschwindet, sieht niemand.
+**Zusammengeklebt wird nichts.** Die Abschnitte werden im Renderer
+nebeneinandergelegt, je einer in einer `Sequence`. Kleben bräuchte ffmpeg, und
+hier gibt es nur den abgespeckten Remotion-Wrapper (`skripte/ff`, 50 Filter,
+kein `afade`).
 
-Der Unterschied im Bau ist entscheidend: **Die Schlussszene wächst mit**, nicht
-nur die Komposition. Genau das war der alte Fehler. Wer die Zahl streichen
-will, zieht vorher das letzte Bild eines Videos.
+**Die Besetzung:** Volti ist Lenny (132 Hz), Watti ist Prayan (198 Hz). Beide
+Kennungen stehen in `.env` als `ELEVENLABS_VOICE_ID` und
+`ELEVENLABS_VOICE_ID_ZEIGER`.
 
-Das Fenster bleibt bei 20–36 Sekunden — es war nie die Ursache. Was fehlte, war
-Zeit nach dem letzten Wort.
+Zwei Messbefunde, die für jede künftige Besetzung gelten:
 
-`dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
-egal wo er landet.
-
-**Der Wochenlauf baut deshalb seit dem 24.08.2026 drei Fassungen je Short** —
-`videos/<id>.<dienst>.mp4` —, und `veroeffentlichen.ts` lädt drei Dateien hoch
-und wählt je Kanal die passende. Vorher stand `urls.get(short.id)` *innerhalb*
-der Kanalschleife, aber die Map kannte nur eine URL: eine Datei für alle drei.
-Ohne den Umbau wäre die Prop folgenlos gewesen und das Zeichen auf zwei von drei
-Kanälen falsch — und ein falsches Zeichen ist schlechter als keines, weil es auf
-einen Knopf deutet, den es dort nicht gibt.
-
-**Der Teillauf bleibt einfassig.** `--nur=<id>` rendert nur TikTok, weil ein
-Teillauf eine Ansicht ist und keine Woche — dieselbe Begründung, aus der er auch
-den Verlauf nicht fortschreibt. `--dienst=youtube` wählt eine andere.
-
-Das kostet Renderzeit (21 s → 63 s je Short) und vor allem **Platz**: rund
-210 MB je Lauf statt 70. Kein ElevenLabs-Kontingent — die Vertonung entsteht
-einmal und wird geteilt. `props/<id>.json` **ohne** Dienst-Suffix bleibt neben
-den drei Fassungsdateien liegen, weil `--ton-behalten` genau dort nach einer
-brauchbaren Tonspur sucht.
-
-`veroeffentlicht.json` ist unberührt: Sein Schlüssel bleibt `shortId\0kanalId`,
-je Kanal entsteht weiter genau ein Beitrag.
-
-**Am 24.08.2026 sind 0,8 Sekunden Leere am Videoende weggefallen.**
-`gesamtdauerBilder` in `src/zeit.ts` addierte sie, „damit die Endkarte nicht auf
-dem letzten Wort abreißt" — und die Endkarte ist am 18.08.2026 gestrichen
-worden. Die Zahl blieb stehen; seither endete jedes Video mit einer leeren
-Bühne, weil die Sequences mit der letzten Szene aufhören und die Komposition
-weiterlief. Aufgefallen ist es erst am Standbild des **letzten** Bildes, das
-sonst niemand zieht. Genau dort setzt der Rundlauf an.
-
-Zwei Felder tragen das: **`rundlauf`** an der Schlussszene sagt, warum der
-erste Satz danach wieder passt (ein Feld, keine Prüfung — beurteilen kann das
-kein Skript), und **`weitererzaehlt`** muss im verketteten Sprechtext wirklich
-vorkommen. Prüfbar ist die andere Hälfte: **Der Schlusssatz darf nicht
-abbinden.** „Fazit", „kurz gesagt", „schreib es in die Kommentare" — die Liste
-steht in `src/pruefung.ts`.
-
-Der **Humor** ist keine vierte Zutat, sondern die **Wendung**, und er hängt am
-Format: `eswareinmal` ist die veraltete Weisheit, `absicht` die Absurdität der
-Industrie, `gibtswirklich` die Tatsache, die keine Pointe braucht,
-`werhatrecht` das Dritte, an das keiner gedacht hat. Drei Regeln: Die Pointe
-trifft die Sache, nicht den Zuschauer (außer bei der Schätzfrage, wo die
-Auflösung ihn wieder einsammelt); trocken statt laut; **der Witz muss belegt
-sein wie alles andere**. Die Folge ist angenehm — das Lustigste ist meistens
-die Tatsache, nüchtern hingestellt.
-
-→ Skill `thema-finden`: die Herleitung beider Teile.
+- **Unter 40 Hz Abstand klingen zwei Stimmen im Wechsel wie eine.** Der erste
+  Vorschlag lag fünf Hertz neben Volti.
+- **Eine Einzelmessung der Tonhöhe trägt nicht.** Dieselbe Stimme, derselbe
+  Text, zwei Aufnahmen: Olaf maß 182 und 155 Hz. Die Synthese ist nicht
+  deterministisch — der Vertrag weiß das schon von der Länge.
 
 ## Quellen
 
 `daten/quellen.json`. Neue Quellen kommen erst hinein, **nachdem die URL
 tatsächlich abgerufen und der Inhalt gelesen wurde** — nie aus dem Gedächtnis
-und nie aus einem Suchtreffer-Ausschnitt. `geprueftAm` dokumentiert genau
-diesen Abruf.
+und nie aus einem Suchtreffer-Ausschnitt. `geprueftAm` dokumentiert den Abruf.
 
 Die Regel ist **nachprüfbar**: Jeder Beleg trägt ein `zitat`, wörtlich von der
-Seite, und `npm run quellen-pruefen` holt die Seite und sucht die
-Zeichenkette — stumpf, ohne Sprachmodell. `stuetzt` daneben ist die Folgerung
-in unseren Worten und wird **nie** geprüft. Genau dort saß der teuerste Fehler
-dieses Projekts, und `npm run belege` ist die Durchsicht dagegen: vor der
-Vertonung, von Hand.
+Seite, und `npm run quellen-pruefen` holt die Seite und sucht die Zeichenkette
+— stumpf, ohne Sprachmodell. `stuetzt` daneben ist die Folgerung in unseren
+Worten und wird **nie** geprüft. Genau dort saß der teuerste Fehler dieses
+Projekts; `npm run belege` ist die Durchsicht dagegen.
 
 | Rang | Arten | Rolle |
 |---|---|---|
@@ -686,14 +572,343 @@ Vertonung, von Hand.
 | **beteiligt** | `hersteller`, `plattform` | autoritativ fürs eigene Datenblatt, interessiert am Rest |
 
 **`presse` ist nicht eintragbar**, nicht bloß heruntergestuft — sie fehlt im
-Enum. Erlaubt bleibt sie als **Wegweiser**: lesen, zur Primärquelle folgen,
-die Primärquelle zitieren. Dass das nicht an Vorsatz hängt, sondern am Enum,
-ist die Absicherung — eine Regel, die sich nicht ausdrücken lässt, lässt sich
-nicht brechen. **`messung` ist raus**, weil die `produktionsregel` Aussagen aus
-eigener Produkterfahrung verbietet.
+Enum. Erlaubt bleibt sie als Wegweiser: lesen, zur Primärquelle folgen, die
+Primärquelle zitieren. Dass das nicht an Vorsatz hängt, sondern am Enum, ist
+die Absicherung. **`messung` ist raus**, weil die `produktionsregel` Aussagen
+aus eigener Produkterfahrung verbietet.
 
-→ Skill `beleg-holen`: der Ablauf, Zitatlänge, `abrufart`, `QUELLENPFLICHT`,
-und warum die Prüfung kein Modell fragt.
+## Bild
+
+**Keine Fotos, keine KI-Bilder, kein Stock-Material, keine Herstellerfootage.**
+Ein Bildmodell erfindet Buchsen — derselbe Fehler, den die Belegpflicht
+verhindern soll, nur ungeprüft. Herstellerfootage behauptet Technisches, ohne
+dass eine `quelleId` daran hängt. Folge: Es wird nie etwas selbst benutzt, also
+bleibt `produktionsregel` dauerhaft und **„Test" ist endgültig ausgeschlossen**.
+
+**Jede Szene, die eine Zeichnung tragen kann, trägt eine.** Die Kehrtwende kam
+vom Zuschauer, nicht aus der Systematik: Reine Typografie hält den Inhalt, aber
+sie lässt die Fläche leer, und im Feed fällt das auf.
+
+**Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein Datenblatt
+behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben.
+
+**Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
+Regel hat sich zehnmal bewährt, und jedes Mal sah der Code vorher richtig aus.
+Zusätzlich gehört das **letzte** Bild gezogen — dort fiel die leere Bühne am
+Videoende auf, die sonst niemand sieht.
+
+### Die Figuren
+
+**Volti** ist die schlanke Zelle, **Watti** eine Knopfzelle — `ZEIGER_STAUCHUNG`
+in `daten/figur/zeiger.ts`, `scale(1.2 0.74)` um die Standlinie. Gestaucht statt
+umgebaut, weil ein breiteres Gehäuse die Arme aus dem Rumpf wachsen ließe: Die
+Armgelenke sitzen fest bei x = 68 und 132.
+
+Der Unterschied musste sein: Im ersten Standbild zu zweit waren sie nicht
+auseinanderzuhalten — gleicher Körper, gleiches Gesicht, dazwischen ein
+Farbfleck, der im Feed briefmarkengroß ist. Verworfen wurden vorher eine eigene
+Körperfarbe (macht aus der Rolle eine fremde Figur), Füllstände, Größe und
+Geschlechtszeichen wie Wimpern.
+
+`daten/figur/zeiger.ts` **leitet ab statt abzuschreiben**: Teile, Gelenke und
+Griffe kommen unverändert vom `nachleser`, getauscht wird nur die Farbe. Ein
+zweites Rig von Hand wäre beim ersten Umbau am Körper auseinandergelaufen, und
+zwar lautlos — die Prüfung sieht zwei gültige Rigs, nicht zwei verschiedene.
+
+**Im Wortwechsel stehen sie 116 Einheiten auseinander** (`WORTWECHSEL` in
+`Buehnenbild.tsx`), die rechte gespiegelt. Der Abstand ist in drei Schritten
+erarbeitet: 76 — Körper überlappten. 100 — Rumpf frei, aber Voltis Hand lag auf
+Wattis Brust. Gerechnet wird nicht mit der **breitesten** Pose, sondern mit der
+**weitesten**: `erklaeren` und `zeigen` strecken einen Arm über die eigene
+Mitte hinaus.
+
+**Im Wortwechsel fallen ein Symbol und drei Posen weg.** Ein **Symbol** daneben
+steht auf x = 152 und läge damit in der zweiten Figur; nur `blatt` bleibt, weil
+es in der Hand der linken Figur mitfährt. Und **`zeigen`, `erklaeren` und
+`achselzucken`** legen eine Hand auf das andere Gehäuse; die übrigen sieben
+Posen sind frei.
+
+**Diese Liste ist gemessen, nicht geschätzt** — `video/Wortwechselprobe.tsx`
+stellt alle zehn Posen einzeln neben eine ruhende Figur, in der Anordnung des
+Videos. Davor standen nacheinander zwei engere Regeln da, je aus einem
+Standbild geschlossen, und beide waren zu eng. **Eine Messung ist billiger als
+drei Regeln, die nacheinander zu eng waren.**
+
+Mehr Abstand löst es nicht. Die 116 sind an zwei gleich breiten Rigs gemessen,
+Wattis Stauchung macht ihn ein Fünftel breiter — und bei 158 plus halber Breite
+steht er schon am Bühnenrand.
+
+Der Satz „Gespiegelt wird nicht" in `platzVon` gilt weiter für Figur plus
+Symbol — ein Symbol läge sonst hinter dem Rücken. Bei zwei Figuren gilt er
+nicht.
+
+### Die Sprechblase
+
+Bei zwei Stimmen ersetzt `video/bausteine/Sprechblase.tsx` den Untertitel. Sie
+kann, was er nicht konnte: **zeigen, wer spricht** — Namensschild in der Farbe
+der Figur, Text auf ihrer Seite.
+
+**Das Karaoke-Prinzip zieht mit um, statt ersetzt zu werden.** `gruppiere` kommt
+unverändert aus `Untertitel.tsx`; das aktive Wort steht weiter auf farbigem
+Grund, nur in der Farbe seines Sprechers. Der Untertitel war von den ersten
+Zuschauern ausdrücklich gelobt worden — ihn ersatzlos zu streichen hieße, eine
+der wenigen belegten Stärken wegzuwerfen.
+
+**Keine Blase mit Zipfel.** Ein Zipfel müsste auf den Mund zeigen, und der sitzt
+im SVG-Raum der Bühne, während der Text HTML ist. An dieser Kopplung ist die
+Symbolposition dreimal gescheitert. Seite und Farbe beantworten dieselbe Frage
+ohne eine umgerechnete Koordinate.
+
+### Die Bühne
+
+`video/bausteine/Buehne.tsx` misst den Überlauf und verkleinert den Inhalt, wenn
+er nicht passt (Untergrenze 0,7). **Diese Messung wird nicht angefasst.** Ihre
+Kommentare dokumentieren drei gescheiterte Anläufe; einer rechnete
+`passung = 0` und machte **jede Szene leer**.
+
+Die Bühne zu lockern stand im Plan und ist am 25.08.2026 verworfen worden: Die
+270 Pixel Untertitelzone sind nicht frei, dort sitzt die Sprechblase. Eine
+Beschränkung zu lösen, für die es keinen Bedarf gibt, ist in dieser Datei
+besonders teuer.
+
+**Die Figur und ihr Symbol stehen in getrennten Hälften.** Ein Symbol sitzt
+fest in der rechten Bühnenhälfte; `stand: 'rechts'` setzte die Figur auf
+dieselbe Stelle, und im Video lag der Stempel hinter ihr. Das Schema lehnt die
+Kombination ab.
+
+**Die Posenfolge:** Eine Szene trägt zwei bis vier Haltungen (`zwischen`), die
+Übergänge liegen zwischen 40 % und 90 % der Szene. Der Anlass war ein
+Zuschauersatz — „Er macht ständig immer nur dieselben Bewegungen" —, und der
+erste Versuch behandelte die **Anzahl** der Posen statt die **Folge**. Geprüft
+wird die ganze Kette: Zwei benachbarte Stationen müssen verschieden sein.
+
+**Welche Szene ein Bild trägt, ist eine Entscheidung und kein Automatismus.**
+`src/illustration.ts` schlug Symbole aus dem Szenentext vor, und das Ergebnis
+war, dass **jede** Szene eins bekam. Die Regel dazu hat zweimal auf der
+falschen Seite gestanden — erst prüfte sie nur nach oben (Ergebnis: gar keine
+Zeichnungen), dann verlangte sie genau eine je Short (Ergebnis: eine, vier
+Szenen leer). Heute meldet sie jede bebilderbare Szene **ohne** Zeichnung und
+dieselbe Zeichnung zweimal im selben Video.
+
+→ Skill `bild-bauen`: Bühnenmaße (200 × 150, nichts unter y = 146), die
+Standbild-Fälle, Kamera-Messwerte, die QA-Kette.
+
+## Der Rundlauf
+
+**Ein Short läuft von selbst wieder an, und ein Rewatch zählt als eigene
+Ansicht.** Der Schluss arbeitete dagegen — ein Strich über die ganze
+Bühnenbreite sagte optisch „fertig". Er ist weg.
+
+Der Spruch steht in der Mitte unter dem Schlusssatz: ein Strich von 96 Pixeln,
+in einer halben Sekunde gezogen, darunter „Wir haben nachgelesen.", rechts die
+Figur. **Eine Linie, die entsteht, ist eine Geste; eine, die schon da ist, ist
+ein Rahmen.**
+
+**`NACHLAUF_SEK` steht auf 1,5 Sekunden** Stille nach dem letzten Wort, in denen
+die Signatur stehen bleibt. Diese Zahl stand hier schon einmal und war zu Recht
+weg: 0,8 Sekunden „damit die Endkarte nicht abreißt", während die Endkarte
+längst gestrichen war — übrig blieb eine **leere Bühne** am Videoende. Jetzt
+steht dort etwas. **Die Schlussszene wächst mit**, nicht nur die Komposition;
+genau das war der alte Fehler.
+
+Zwei Felder tragen den Rundlauf: **`rundlauf`** an der Schlussszene sagt, warum
+der erste Satz danach wieder passt (ein Feld, keine Prüfung — beurteilen kann
+das kein Skript), und **`weitererzaehlt`** muss im verketteten Sprechtext
+vorkommen. Prüfbar ist die andere Hälfte: **Der Schlusssatz darf nicht
+abbinden.** „Fazit", „kurz gesagt", „schreib es in die Kommentare".
+
+### Der Zeiger in der Signatur
+
+`FOLGEPOSEN` in `video/bausteine/posen.ts`, eine je Dienst — bewusst außerhalb
+von `POSEN`, denn jenes Record ist das Vokabular für Entwürfe.
+
+| Dienst | Knopf | Lösung |
+|---|---|---|
+| `tiktok` | rechts, mittlere Höhe | rechter Arm waagerecht nach rechts |
+| `instagram` | unten links | gestreckter Arm nach unten-links, Figur unter der Bühne |
+| `youtube` | unten Mitte | **dieselbe Geste, andere Position** |
+
+Drei Messwerte, die man kennen muss:
+
+- **Unter siebzig Grad sieht man nichts** — der Arm hängt in Ruhe schon schräg
+  nach außen.
+- **Der Unterarm darf nicht mitdrehen.** Oberarm −34 plus Unterarm −22 klappte
+  den ganzen Arm vor die Brust: Beide Vorzeichen drehen zum Körper hin.
+- **Für „unten Mitte" gibt es keinen Armwinkel.** Acht Kandidaten zwischen +20
+  und −30 standen nebeneinander: Jeder negative Oberarmwert klappt den Arm nach
+  oben vor den Körper. Der Arm hängt in Ruhe schon fast senkrecht — Instagram
+  funktioniert nur, weil unten *links* von der Ruhelage wegführt. Gelöst über
+  die **Position** statt über die Pose.
+
+**Es bleibt eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geräte sind
+höher, und die Apps schneiden verschieden.
+
+Der Zeiger tritt mitten im Video halb von rechts ins Bild und schaut nach
+rechts — dort liegt der Like-Knopf auf allen drei Plattformen. **Er hängt an
+einer Szene, nicht an einer Uhrzeit:** `hinweisSzene` sucht die letzte Szene
+ohne Requisite vor dem Schluss, weil das Szenensymbol fest in der rechten
+Bühnenhälfte sitzt und alles trifft, was von rechts hereinkommt.
+
+Drei Sackgassen, damit sie niemand erneut versucht: Der Nachleser konnte es
+nicht selbst (er steht schon auf der Bühne, ein Übersteuern mittendrin wäre ein
+Sprung). Eine **körperlose Hand** wurde im fertigen Video als Schlüssel
+erkannt. Und ein **gezeichnetes Plattformzeichen** deutet auf nichts — ein
+Zeichen, das wir selbst malen, ist nicht der Knopf der App.
+
+`dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
+egal wo er landet. Der Wochenlauf baut **drei Fassungen je Short** —
+`videos/<id>.<dienst>.mp4` —, und `veroeffentlichen.ts` wählt je Kanal die
+passende. Der Teillauf `--nur=<id>` bleibt einfassig.
+
+## Länge
+
+**Fenster 20 bis 65 Sekunden, hart. Zielwert je Bauform.**
+
+Ein einziger Zielwert für alle Bauformen war der eigentliche Fehler, nicht seine
+Höhe: Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil sie mehr
+Inhalt haben. **Länge ist keine Ursache, sondern eine Folge davon, wie viel es
+zu zeigen gibt.**
+
+Zwei Korrekturen an fremden Videos, beide gegen die eigene Vermutung:
+
+- Zwölf Tech-Shorts vermessen: Die drei mit den meisten Aufrufen sind 41, 29
+  und 31 Sekunden lang; das damalige Fenster hätte alle drei abgelehnt.
+- `@dr_data_dr` (44 Mio. Aufrufe), zwölf Shorts: **48 bis 67 Sekunden**, Median
+  61, das stärkste bei 51. **Kein einziges lag im alten Fenster.**
+
+**Der Zielwert ist erstmals eine Wache statt eines Kommentars.** Bis zum
+25.08.2026 stand er nur im Text; geprüft wurde allein das Fenster. Mit 65 als
+Obergrenze liefe eine Wechselrede von 60 Sekunden stumm durch.
+
+### Die vier Zielwerte sind ein Versuchsaufbau
+
+**25 / 35 / 45 / 60 seit dem 26.08.2026, und keine dieser Zahlen ist gemessen.**
+Gemessen ist bisher eine einzige Länge: Alle neun veröffentlichten Videos sind
+20 bis 23 Sekunden lang, zu allem darüber gibt es keine eigene Zahl.
+
+Vorher lagen sie bei 30 / 35 / 35 / 55, und damit fielen **drei von vier
+Bauformen in dieselbe Längenklasse**. Ein Versuch über Längen war so nicht
+möglich — die Streuung hing allein daran, wie oft `stationen` drankam.
+Gespreizt trägt jede Bauform eine eigene Klasse, und die Drittelregel für
+Bauformen streut die Länge von selbst. Es braucht dafür keine zweite Ebene im
+Schema: Die Ebene, die sagt, wie ein Short gebaut ist, sagt ohnehin, wie lang
+er wird.
+
+**Die Längenklassen werden aus `BAUFORMEN` abgeleitet** (`LAENGENKLASSEN` in
+`src/zeit.ts`), Grenze jeweils in der Mitte zwischen zwei Zielwerten: bis 30,
+30–40, 40–53, über 53. Eine danebengeschriebene zweite Einteilung wäre eine
+Doppelung ohne Wache und liefe beim ersten Umbau lautlos auseinander.
+
+Der Einwand gehört daneben: Das „zu lang" der ersten Zuschauer galt Videos von
+28 bis 40 Sekunden. Wir halten Langeweile für die Ursache und wissen es nicht
+sicher — eine Bauform mit 60 Sekunden ist eine Wette.
+
+**Und was der Versuch nicht kann:** Bis Ende Oktober sind es rund 36 Shorts.
+Das trägt drei Längenklassen mit je etwa zwölf Videos, aber Format mal Länge
+wären zwölf Felder mit je dreien — Rauschen. Ausgewertet wird eindimensional,
+Länge und Format getrennt.
+
+**`ZEICHEN_PRO_SEKUNDE` steht auf 13,0.** Die alte 15,4 war an
+`eleven_multilingual_v2` gemessen und damit nicht unsicher, sondern **für ein
+Modell gemessen, das nicht mehr läuft**. Drei Messungen auf v3 liegen zwischen
+12,6 und 13,0. Die Basis ist dünn — 800 Zeichen gegen die 2.479, auf denen die
+alte Zahl stand; nachmessen, sobald vier Shorts auf v3 vertont sind.
+
+Die Vertonung streut rund sechs Prozent — derselbe Text ergab 75,3 und 70,5
+Sekunden. **Zielwert ist die Mitte, nicht der Rand.**
+
+`npm run sprechprobe` prüft das vorab und kostet nichts.
+
+## Zeitangaben altern — der Short nicht
+
+Zwischen Entwurf und Ausstrahlung liegen ein bis zwei Wochen, und danach bleibt
+der Short im Feed. „Seit zwölf Tagen" stimmte am Schreibtag und ist am Sendetag
+falsch, ohne dass jemand etwas geändert hätte.
+
+Das ist die unangenehmste Sorte Fehler, weil sie durch jede Prüfung geht: Die
+Quelle stimmt, das Zitat steht auf der Seite, die Rechnung war korrekt — nur
+der Bezugspunkt wandert. **Absolute Daten altern nicht.**
+
+## Rücklauf — was aus den Videos wird
+
+`npm run rueckblick` schließt den Kreis: Buffer liefert den `externalLink`,
+YouTube die Zahlen, `daten/rueckblick.json` sammelt sie nachtragend.
+`npm run ausreisser`, `npm run aufschlaege` und `npm run laengen` lesen sie.
+
+**Die Länge ist die offene Frage.** Keiner der vier Zielwerte ist gemessen;
+sie sind am 26.08.2026 gespreizt worden, damit es überhaupt etwas zu messen
+gibt. Die einzige fremde Messung (48–67 s) wurde bewusst **nicht** übernommen —
+eine geratene Zahl durch eine übertragene zu ersetzen, macht sie nicht
+gemessen. Die Zahlen fallen, sobald zwei Längenklassen belegt sind.
+
+Dafür gibt es seit demselben Tag `npm run laengen`. Es rechnet die
+**Verweildauer** (`durchsicht × laengeSek`) statt der Prozent-Durchsicht: Die
+sinkt mit der Länge zwangsläufig, und wer Längen an Prozenten vergleicht, hat
+sich für das kürzere Video entschieden, bevor er hingesehen hat. Es schweigt
+unter drei Videos je Längenklasse.
+
+Der Anlass war eine Lücke: `laengeSek` stand seit Wochen in
+`daten/rueckblick.json` und wurde **von keiner Auswertung gelesen**. Heute sind
+alle neun veröffentlichten Videos 20–23 Sekunden lang; zu jeder Länge darüber
+gibt es keine eigene Zahl.
+
+**Der Nordstern sind geteilt und neue Abonnenten**, dazu Kommentare als frühes
+Signal. Das ist am 25.08.2026 geändert worden, und zwar an den eigenen Zahlen:
+Die Haltequote an Sekunde 3,5 lag bei **100 bis 115 %** — sie ist grün und
+ausgereizt, während geteilt und Abos bei **null** stehen. Ein Messinstrument,
+das auf die ausgereizte Größe zeigt, sagt nichts mehr.
+
+Beide Werkzeuge schweigen, solange zu wenig gemessen ist: Median ab acht
+Videos, Formatvergleich ab fünf je Format. Geratene Größen haben hier zweimal
+Geld gekostet; eine geratene Reichweitenregel wäre die teuerste, weil sie die
+Themenwahl steuert. Die Frage, die früh trägt, ist **„was hatte dieses eine"**.
+
+**Veröffentlichtes wird nicht nachgebessert.** Der Lauf-Ordner `laeufe/<tag>/`
+hält den ausgestrahlten Wortlaut und ist das Archiv; der Entwurf in
+`daten/entwuerfe/` geht weiter. Der Verlauf soll zeigen, wie der Kanal sich
+verändert hat.
+
+## Takt
+
+**Vier Videos je Woche**, ein Video je Tag um 18:00, in der Reihenfolge der
+Liste. Obergrenze 7 — das ist das Ende der Spanne, die `youtube-shorts` nennt
+(„post ~3–7/week, not spam").
+
+Die Zahl kommt daraus, welcher Engpass zuerst greift:
+
+| Engpass | trägt | Rechnung |
+|---|---|---|
+| **Ideenvorrat** | **9 Wochen** | 77 Ideen, je Format mit dem Minimum |
+| Formatabwechslung | 4 je Woche | vier Formate, keines zweimal hintereinander |
+| Produktion | ~26 je Woche | 11 min je Video, davon 6 min Beleg |
+| ElevenLabs | ~240 je Monat | rund 500 Zeichen je Video, 121.000 im Monat |
+
+**Der Ideenvorrat ist die Grenze, nicht die Produktion.** Bei mehr als vier
+Videos je Woche muss ein Format doppelt laufen, und dann wird aus der Regel ein
+Zwang statt einer Wache — genau davor warnt die Retention-Ladder: „volume
+without novelty is a negative".
+
+Die **Materialgrenze** für Aktuelles: Neue **Geräte** sind durch
+Herstellerankündigung (beteiligt) und Presse (nicht eintragbar) belegt und
+fallen aus. Neue **Regeln, Normen und Grenzwerte** sind durch Behörden belegt —
+nur die gehen. Das klingt nach Einschränkung und ist der Vorteil: Über ein neues
+Handy berichten hunderttausend Kanäle am selben Tag; dass ein Recht auf
+Reparatur gilt, erzählt niemand.
+
+## Ideenvorrat
+
+`daten/ideen/` — **eine Datei je Format**, `index.ts` als einzige Liste. Jede
+Idee trägt einen **Belegpfad**; das Schema erzwingt mindestens eine unbeteiligte
+Instanz — wer schon beim Skizzieren keine benennen kann, hat kein Thema,
+sondern eine Vermutung.
+
+Stand: **77 Ideen** — `gibtswirklich` 21, `absicht` 36, `eswareinmal` 10,
+`werhatrecht` 10. `daten/ideen/hauptvideo.ts` sammelt, was als Short nicht
+trägt.
+
+**Nachgefüllt wird je Pillar, nicht je Format.** Welches Format daraus wird,
+entscheidet die `MATRIX` hinterher — ob ein Thema ein Märchen oder ein
+Streitfall ist, sieht man erst, wenn man es hat.
 
 ## Was ohne Zutun läuft
 
@@ -703,295 +918,55 @@ und warum die Prüfung kein Modell fragt.
 | **Nachlegen** | `de.ganzakkurat.nachlegen` | täglich 19:15, wenn ein Platz frei wird |
 | **Messen** | `de.ganzakkurat.rueckblick` | täglich 9:30 |
 
+**Buffers kostenloser Tarif nimmt zehn geplante Beiträge je Kanal** — zwei
+Wochen lassen sich deshalb nicht auf Vorrat einplanen. `npm run nachlegen` löst
+das täglich.
+
 Alles andere braucht eine Sitzung: Themen wählen, Quellen abrufen, Entwürfe
 schreiben, vertonen, rendern, freigeben.
 
-**Buffers kostenloser Tarif nimmt zehn geplante Beiträge je Kanal.** Eine Woche
-belegt acht davon — **zwei Wochen lassen sich deshalb nicht auf Vorrat
-einplanen.** Das ist keine Einschränkung der Produktion, nur der Terminierung,
-und sie löst sich selbst auf: `npm run nachlegen` legt täglich nach, was
-hineinpasst.
+## Werbemodell
 
-→ Skill `woche-bauen`: die Kette von der Prüfung bis zur Einplanung.
-
-## Rücklauf — was aus den Videos wird
-
-Bis zum 18.08.2026 war die Pipeline eine **Einbahnstraße**: `verlauf.json`
-schrieb mit, was hinausging, aber nie, was ankam. `npm run rueckblick`
-schließt den Kreis — Buffer liefert den `externalLink`, YouTube die Zahlen,
-`daten/rueckblick.json` sammelt sie nachtragend. `npm run ausreisser` und
-`npm run aufschlaege` lesen sie, `src/rueckschau.ts` legt sie mit der Herkunft
-aus `laeufe/<tag>/lauf.json` zusammen.
-
-**Die Aufrufe sind die unwichtigste Zahl.** Sie sagen, was der Algorithmus
-getan hat; was der Zuschauer getan hat, steht in der **Haltequote** an
-**Sekunde 3,5** — dem Ende des Aufschlags, wo es hier ohnehin schon eine Regel
-gibt. Beide Werkzeuge schweigen, solange zu wenig gemessen ist: Median ab acht
-Videos, Formatvergleich ab fünf je Format. Geratene Größen haben hier zweimal
-Geld gekostet; eine geratene Reichweitenregel wäre die teuerste, weil sie die
-Themenwahl steuert. Die Frage, die früh trägt, ist ohnehin nicht „welches
-Format ist gut", sondern **„was hatte dieses eine"**.
-
-→ Skill `rueckblick-lesen`: warum nicht Buffer, warum nur YouTube, der Verzug
-von ein bis drei Tagen.
-
-## Werbemodell — Phase 1
-
-**Zurzeit gar keine Werbung und keine Links, in keiner Beschreibung.** Für
-Affiliate braucht es zuerst ein Kleingewerbe. Reihenfolge: Gewerbe →
-Steuernummer → Bewerbung bei Amazon PartnerNet (dort werden Konten gekündigt,
-die in 180 Tagen keine drei qualifizierten Verkäufe haben — Reichweite muss
-vorher stehen).
-
-Ab Partnerkonto gilt Variante A: nur das Format **Empfehlung** trägt
-Partnerlinks und dafür das Label im Bild; die vier laufenden Formate bleiben
-ganz ohne Links.
-
+**Zurzeit gar keine Werbung und keine Links.** Das Format `empfehlung` ruht,
+bis Partnerlinks möglich sind, und trägt dann als einziges das Label im Bild.
 **Seltenheit ist der Preis, den eine Empfehlung wert ist.** Wer wöchentlich
 empfiehlt, ist ein Prospekt.
 
-**Die Vorarbeit fehlt seit dem 20.08.2026.** Sie hieß `auchgekauft` — ein
-Kanal, der ein halbes Jahr lang sagt, was man *nicht* kaufen soll, wird
-geglaubt, wenn er einmal etwas empfiehlt. Das Format ist gestrichen, weil es
-für 18–30 das schwächste war, und der Verlust ist damit nicht weg, sondern
-unbezahlt. Wer die Empfehlung scharf schaltet, muss dieses Vertrauen vorher
-anders erarbeitet haben.
+Die Kennzeichnungsregeln stehen trotzdem schon im Code (`src/pruefung.ts`,
+`ZUBEHOERMARKEN` und `kennzeichnung`): Eine Regel, die erst gebaut wird, wenn
+sie gebraucht wird, wird unter Zeitdruck gebaut.
 
-Ob Kennzeichnung allein in der Beschreibung für ein *Video* genügt, ist
-ungeklärt und bleibt es vorerst. Der Anwaltstermin, der hier bis zum
-17.08.2026 vorgesehen war, ist gestrichen — nicht aufgeschoben, sondern
-gegenstandslos: Alle drei Fragen (Werbekennzeichnung, Impressumspflicht nach
-§ 5 DDG, DPMAregister auf „Akkurat" in Klasse 41) hängen am gewerblichen
-Start, und es gibt weder Werbung noch Partnerlinks noch Monetarisierung.
-
-**Der Auslöser ist damit benannt, nicht der Termin.** Wer Phase 2 beginnt,
-holt die drei Fragen zurück — sie stehen hier, damit sie beim Kleingewerbe
-nicht neu gefunden werden müssen.
-
-## Takt
-
-**Vier Videos je Woche, festgelegt am 24.08.2026.** Ein Video je Tag um 18:00,
-in der Reihenfolge der Liste — `zeitplanBauen` rechnet über die Listenposition,
-seit `FORMATE[...].tag` weggefallen ist. Die Uhrzeit steht weiter am Format.
-Feste Wochentage gibt es nicht: Veröffentlicht wird, was fertig und stark ist.
-
-Die Zahl kommt nicht aus dem Bauchgefühl, sondern daraus, welcher Engpass
-zuerst greift. Vier Kandidaten, in dieser Reihenfolge geprüft:
-
-| Engpass | trägt | Rechnung |
-|---|---|---|
-| **Ideenvorrat** | **9 Wochen** | 77 Ideen, gerechnet je Format mit dem Minimum |
-| Formatabwechslung | 4 je Woche | vier Formate, keines zweimal hintereinander |
-| Produktion | ~26 je Woche | 11 min je Video, davon 6 min Beleg |
-| ElevenLabs | ~240 je Monat | rund 500 Zeichen je Video, 121.000 im Monat |
-
-**Der Ideenvorrat ist die Grenze, nicht die Produktion.** Das ist der Befund
-aus Stufe 4: Ein Video im neuen Bau war in elf Minuten fertig, und mehr als die
-Hälfte davon war der Beleg — Suche, fünf Abrufe, zwei Fehlschläge. Rechnerisch
-gingen 26 Videos je Woche, aber `npm run pruefen` rechnet die Reichweite **je
-Format** mit dem Minimum, und die schwächsten Fächer (`eswareinmal`,
-`werhatrecht`) tragen zehn Themen. Bei vier Videos je Woche sind das neun
-Wochen; bei sieben wären es fünf.
-
-Die zweite Grenze ist die Formatregel. **Kein Format zweimal hintereinander**,
-und es gibt vier — bei mehr als vier Videos je Woche muss eines doppelt laufen,
-und dann wird aus der Regel ein Zwang statt einer Wache. Genau davor warnt die
-Retention-Ladder: „volume without novelty is a negative".
-
-Kontingent und Buffer sind keine Engpässe und werden hier nur genannt, damit
-niemand sie neu ausrechnet: Vier Videos à rund 500 Zeichen sind 2.000 die
-Woche, also knapp 7 % des Monatsvolumens von 121.000. Buffers kostenloser Tarif
-nimmt zehn geplante Beiträge je Kanal — vier je Woche passen, und
-`npm run nachlegen` legt täglich nach.
-
-**Die Messbasis ist ein einziges Video.** Das ist dünn, und es ist trotzdem
-genug für diese Entscheidung: Selbst wenn die Produktion dreimal so lange
-dauert wie gemessen, entscheidet weiter der Vorrat. Die Zahl gehört überprüft,
-sobald der Vorrat im schwächsten Fach unter sechs fällt — dann steht die Frage
-neu, und zwar als Frage nach dem Nachfüllen, nicht nach dem Takt.
-
-Die **Materialgrenze** für Aktuelles gilt weiter, sie hängt jetzt an `absicht`
-statt an einem eigenen Sendeplatz: Neue **Geräte** sind durch
-Herstellerankündigung (beteiligt) und Presse (nicht eintragbar) belegt und
-fallen aus. Neue **Regeln, Normen und Grenzwerte** sind durch Behörden belegt —
-nur die gehen. Das klingt nach Einschränkung und ist der Vorteil: Über ein neues
-Handy berichten hunderttausend Kanäle am selben Tag; dass ein Recht auf
-Reparatur gilt, erzählt niemand, weil es niemand liest.
-
-## Länge
-
-Ein Fenster, hart: **20 bis 36 Sekunden**, Zielwert **30**.
-
-Die Vertonung streut rund sechs Prozent — derselbe Text ergab bei zwei Läufen
-75,3 und 70,5 Sekunden; ElevenLabs liefert nicht zweimal dieselbe Aufnahme.
-Bei 30 Sekunden sind das ±1,8 s. Wer den Zielwert trifft, fällt nie heraus;
-wer an der Obergrenze baut, fällt beim nächsten Lauf durch, ohne ein Wort
-geändert zu haben.
-
-**Der Zielwert stand bis zum 24.08.2026 auf 23, und er war die Ursache für eine
-Sprache, die niemand spricht.** Aufgefallen am ersten Video im neuen Bau:
-„Laptops, älter als fünf Jahre." — kein Satz, kein Verb, eine Bildunterschrift.
-Sechs Szenen in 23 Sekunden lassen je Satz vier Sekunden, und dann wird
-gestrichen, bis nur noch Stichworte stehen. Der Zwang kam nicht vom Fenster,
-sondern vom Zielwert, an dem tatsächlich geschrieben wird. Die Obergrenze ging
-mit, weil 34 bei einem Zielwert von 30 im Wurfbereich der Streuung läge.
-
-**Die Obergrenze stand bis zum 20.08.2026 auf 28 und ist an fremden Videos
-gescheitert.** Zwölf Tech-Shorts wurden angesehen und vermessen; die drei mit
-den meisten Aufrufen sind 41, 29 und 31 Sekunden lang, das alte Fenster hätte
-alle drei abgelehnt. Die Gegenprobe steht in derselben Sammlung: 4,1 Millionen
-bei 19 Sekunden, 1,75 Millionen bei sieben. **Länge ist keine Ursache, sondern
-eine Folge davon, wie viel es zu zeigen gibt** — eine Obergrenze, die zur
-Qualitätsaussage wird, misst die falsche Größe. Der Zielwert ist die
-eigentliche Steuerung.
-
-Der Einwand liegt nahe und trägt nicht: Das „zu lang" der ersten Zuschauer galt
-Shorts im alten Fenster von 28 bis 40 Sekunden, nicht einer Obergrenze von 36.
-
-Hier standen bis zum 16.08.2026 drei Zahlen für eine Frage (Fenster 28–40,
-harte Grenze 45, Minimum 15). Die zweite Stufe war ein Rest aus der Zeit mit
-zwei Fenstern — mit einem Fenster hat sie keine Aufgabe.
-
-`npm run sprechprobe` prüft das vorab und kostet nichts.
-
-### Was aus dem Zielwert für die Sprache folgt
-
-Zwei Regeln stehen seit dem 24.08.2026 in `voice.md`, beide aus demselben
-Befund:
-
-**Jeder gesprochene Satz hat ein Verb.** Die alte Vorgabe „zwei bis sechs
-Wörter" und „Ellipsen sind die Stimme" hat den Telegrammstil nicht erlaubt,
-sondern erzwungen. Der Bildtext darf knapp bleiben — er wird gelesen, nicht
-gehört, und `sprechtext` und `text` sind zwei Sprachen für zwei Sinne.
-
-**Zahlen stehen als Ziffer, auch im Sprechtext.** „2009", nicht
-„zweitausendneun". Vorher stand hier das Gegenteil, und der Untertitel hat es
-vorgeführt: Über dem Bild stand „Zweitausendneun:" in voller Breite, wo „2009:"
-gereicht hätte. **Der Sprechtext ist nicht nur Sprechtext — er ist der
-Untertitel, Wort für Wort.** Was sich schlecht liest, ist damit falsch
-geschrieben, auch wenn es sich gut anhört.
-
-## Bild
-
-**Keine Fotos, keine KI-Bilder, kein Stock-Material, keine Herstellerfootage.**
-Ein Bildmodell erfindet Buchsen — das wäre derselbe Fehler, den die Belegpflicht
-verhindern soll, nur ungeprüft. Herstellerfootage ist Marketingmaterial und
-behauptet Technisches, ohne dass eine `quelleId` daran hängt; dasselbe Argument,
-nur sitzt eine Marketingabteilung an der Quelle statt eines Bildmodells. Folge:
-Es wird nie etwas selbst benutzt, also bleibt `produktionsregel` dauerhaft und
-**„Test" ist für diesen Kanal endgültig ausgeschlossen**.
-
-**Am 20.08.2026 ist KI-Video geprüft und verworfen worden** — nicht aus
-Doktrin, sondern weil der Charakter-Stack dasselbe lokal und kostenlos leistet
-und dabei nichts behauptet, wofür keine Quelle einsteht. Seither trägt eine
-gerigte Figur die Shorts, dazu mehrere Bühnen und eine Kamera. Alles entsteht
-aus Code.
-
-**Jede Szene, die eine Zeichnung tragen kann, trägt eine.** Die Kehrtwende vom
-18.08.2026 kam vom Zuschauer, nicht aus der Systematik: Die reine Typografie
-hält den Inhalt, aber sie lässt die Fläche leer, und im Feed fällt das auf.
-
-**Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein
-Datenblatt behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben,
-Herstellermerkmale.
-
-**Die Figur und ihr Symbol stehen in getrennten Hälften.** Ein Symbol sitzt
-fest in der rechten Bühnenhälfte; `stand: 'rechts'` setzte die Figur auf
-dieselbe Stelle, und im Video vom 24.08.2026 lag der Stempel hinter ihr. Das
-Schema lehnt die Kombination jetzt ab. Die Symbolposition selbst war zugleich
-**an der falschen Pose gemessen** — gerechnet an `zeigen`, wo ein Arm zum Bild
-hin ausgestreckt ist, während bei `achselzucken` beide Arme abstehen und die
-Hand in der Zeichnung landete.
-
-**Der Zeigestab ist am 24.08.2026 gestrichen**, samt `'stab'` im Schema. Die
-Pose `erklaeren` bleibt als ausgestreckter Arm. Und die Figur kann seither
-lächeln: Das Rig kannte vier Mundformen, von denen keine ein deutliches
-Lächeln war, weshalb sie in acht von zehn Posen ernst bis betrübt aussah.
-
-**Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
-Regel hat sich siebenmal bewährt, und jedes Mal sah der Code vorher richtig aus.
-
-→ Skill `bild-bauen`: die Bühnenmaße (200 × 150, nichts unter y = 146), die
-sieben Standbild-Fälle, Figur und Kamera samt Messwerten, die Bewegungsregeln,
-die QA-Kette und `skripte/ff`.
-
-
-## Zeitangaben altern — der Short nicht
-
-Zwischen Entwurf und Ausstrahlung liegen hier ein bis zwei Wochen, und danach
-bleibt der Short im Feed. „Seit zwölf Tagen" stimmte am Schreibtag und ist am
-Sendetag falsch, ohne dass jemand etwas geändert hätte.
-
-Das ist die unangenehmste Sorte Fehler, weil sie durch jede Prüfung geht: Die
-Quelle stimmt, das Zitat steht auf der Seite, die Rechnung war korrekt — nur
-der Bezugspunkt wandert. **Absolute Daten altern nicht:** „Seit dem 6. August"
-ist in einem Jahr noch richtig. `src/pruefung.ts` lehnt „seit heute",
-„gestern", „diese Woche" und „seit N Tagen/Wochen/Monaten" hart ab.
-
-### Wer entscheidet, welche Szene ein Bild trägt
-
-`src/illustration.ts` schlug aus dem Szenentext ein Symbol vor, und das
-Ergebnis war, dass **jede** Szene eins bekam — der Erklärvideo-Reflex in
-Codeform. Es ist ersatzlos gestrichen; welche Szene ein Bild trägt, ist eine
-Entscheidung und kein Automatismus.
-
-Die Regel dazu hat zweimal auf der falschen Seite gestanden — erst prüfte sie
-nur nach oben (Ergebnis: gar keine Zeichnungen), dann verlangte sie genau eine
-je Short (Ergebnis: eine, vier Szenen leer). Heute meldet sie jede bebilderbare
-Szene **ohne** Zeichnung, und zusätzlich dieselbe Zeichnung zweimal im selben
-Video. Über verschiedene Shorts hinweg ist Wiederholung erwünscht: Das
-Gesetzbuch soll bei jedem Rechtsthema dasselbe sein.
-
-Die Kopfzeile trägt Wortmarke, Formatpille und bei echter Systemspezifik die
-Systemangabe. **Die Formatpille trägt die Wiedererkennung allein**, weil der
-gesprochene Opener bewusst variiert — derselbe Einstieg immer wieder klingt
-nach Schablone. Seit dem Wegfall des Wochentags ist sie das einzige
-Wiedererkennungszeichen, das ein Format hat.
-
-→ Skill `bild-bauen`: die sieben Standbild-Fälle im Einzelnen und die
-Kamera-Messwerte vom 12.08.2026.
-
-## Ideenvorrat
-
-`daten/ideen/` — **eine Datei je Format**, `index.ts` als einzige Liste. Nicht
-je Sachgebiet: Die Reichweite wird je Format gerechnet, und wer wissen will,
-welches Fach leer läuft, soll eine Datei öffnen und nicht zehn. Jede Idee trägt
-einen **Belegpfad**; das Schema erzwingt mindestens eine unbeteiligte Instanz —
-wer schon beim Skizzieren keine benennen kann, hat kein Thema, sondern eine
-Vermutung. `npm run pruefen` nennt die Reichweite in Wochen und rechnet dabei
-**je Format** mit dem Minimum. `daten/ideen/hauptvideo.ts` sammelt, was als
-Short nicht trägt.
-
-Stand 20.08.2026: **77 Ideen auf vier Dateien** — `gibtswirklich` 21,
-`absicht` 36, `eswareinmal` 10, `werhatrecht` 10. Bei der Umsortierung von acht
-auf vier Formate ist keine Idee verloren gegangen; der Belegpfad ist der teure
-Teil und formatunabhängig.
-
-→ Skill `thema-finden`: der Prüfstein, die Materialgrenze, was nicht trägt.
+Die geschäftliche und rechtliche Vorbereitung steht in `daten/geschaeft.md`
+und nicht in diesem Repository.
 
 ## Stand
 
 Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
-liegen in `.env`. `npm run veroeffentlichen` ist am 17.08.2026 erstmals im
-Ganzen gelaufen — 24 Beiträge auf drei Kanälen, kein Fehlschlag. Die laufende
-Aufgabenliste steht in `AUFGABEN.md`.
+liegen in `.env`. Die laufende Aufgabenliste steht in `AUFGABEN.md`.
 
-**Seit dem 20.08.2026 läuft ein Umbau**, und zwar mitten drin: Marke, Nische
-und Formate sind neu, das Bild noch nicht. Bis eine Figur steht und ein Video
-im neuen Bau gemessen ist, gilt der Takt als offen und wird nirgends zugesagt.
-Der Plan liegt unter `~/.claude/plans/okay-ich-habe-hier-shimmering-eich.md`.
+**Seit dem 25.08.2026 läuft der Umbau auf zwei Stimmen.** Schema, Vertonung,
+Sprechblase, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen; die
+Pillar-Ebene aus Stufe 6 fehlt. **Kein Video im neuen Bau ist bisher
+veröffentlicht** — alle Zahlen oben stammen aus der einstimmigen Zeit.
 
-→ Skill `woche-bauen`: die Fallstricke der Frischeprüfung, `buffer-probe`,
-ein hängender Render.
+Die drei Entwürfe, die der neue Bau zurückgehalten hatte —
+`raumstation-alte-rechner`, `ersatzteil-freischalten` und `erstes-laden` —
+sind auf zwei Stimmen umgeschrieben; `npm run pruefen` ist seit dem 26.08.2026
+wieder grün. Ausgenommen wurde keiner: Eine Regel, die den alten Bestand
+durchwinkt, wäre keine.
 
 ## Arbeitsweise
 
 **Die Aufgabenliste gehört ans Ende jeder Antwort**, solange etwas offen ist —
 aus `AUFGABEN.md`, Erledigtes durchgestrichen, die laufende Aufgabe mit `▸`.
-Nicht in die Statuszeile: die gehört Emirhan und zeigt Modell, Kontingent und
-Verzeichnis.
+Nicht in die Statuszeile: die gehört Emirhan.
 
 **Erst zu Ende besprechen, dann bauen.** Nach einem bestätigten Einzelpunkt
-sofort loszubauen hat sich als falsch erwiesen — die Umsetzung kommt
-gesammelt.
+sofort loszubauen hat sich als falsch erwiesen — die Umsetzung kommt gesammelt.
+
+**Wenn eine Größe messbar ist, gehört sie gemessen und nicht begründet.** Das
+ist die Regel, die dieses Projekt am häufigsten gerettet hat: bei
+`ZEICHEN_PRO_SEKUNDE`, bei der Denkpause, bei der Videolänge, bei der Tonhöhe
+der Stimmen. Und die Begründung, warum sich etwas angeblich nicht messen lässt,
+ist das verdächtigste Bauteil überhaupt.

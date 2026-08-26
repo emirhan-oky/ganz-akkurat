@@ -126,7 +126,7 @@ leert, ist schlechter als keins.
 „geschäftsmäßige" Telemedien, und „geschäftsmäßig" verlangt keinen Gewinn —
 ohne Werbung, Partnerlinks und Monetarisierung steht aber nichts an. Mit dem
 gewerblichen Start wird ein Impressum mit Anschrift fällig; der Auslöser ist
-damit benannt und steht auch in `CLAUDE.md` unter „Werbemodell".
+damit benannt und steht auch in `daten/geschaeft.md`.
 
 ---
 
