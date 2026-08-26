@@ -109,11 +109,151 @@ Entwicklung, und es wird darüber nicht gemittelt.
 - **Direkte Anrede:** hoch, aber nie belehrend. „Du warst bei zwölf — wie alle."
 - **Mittel:** Kontrast (zwei Dinge nebeneinander, eins stimmt nicht), die
   Rückfrage, die Formwiederholung, das nachgeschobene Detail.
-- **Humor:** trocken, und er steckt in der Tatsache selbst. Er trifft die Sache,
-  nicht den Zuschauer. Wo ein Format ihn angreift, sammelt die Auflösung ihn
-  wieder ein.
+- **Humor:** siehe eigenes Kapitel weiter unten. Er steckt seit dem 25.08.2026
+  nicht mehr allein in der Tatsache — das war die Begründung, mit der der Kanal
+  neun Videos lang informativ blieb.
 - **Die Landung:** ein Satz, der nicht zusammenfasst. Oft das kleinste Detail
   der ganzen Geschichte.
+
+## Humor
+
+Bis zum 25.08.2026 stand hier ein Dreizeiler: „trocken, und er steckt in der
+Tatsache selbst". Das war keine Beschreibung, sondern eine Erlaubnis, nicht
+witzig zu sein — und die Zahlen haben sie bestätigt. Neun Videos, 2.212
+Aufrufe, **0-mal geteilt, 0 neue Abonnenten**, bei einer Durchsicht von 53 bis
+82 Prozent. Die Leute sahen zu Ende und es passierte nichts mit ihnen.
+
+Der Humor hängt seit dem Umbau an der **zweiten Stimme**. Einer trägt die
+belegte Aussage, der andere reagiert.
+
+### Volti und Watti
+
+Die beiden Akkus haben seit dem 25.08.2026 Namen. Der Grund ist nicht Zierde:
+Die Zwei-Figuren-Gattung lebt anderswo von **geborgter** Wiedererkennung — man
+bleibt hängen, weil man Peter Griffin hört. Unsere Figuren kennt niemand, und
+über eine namenlose Figur kann auch niemand reden. Ein Name ist das billigste
+Wiedererkennungsmittel, das es gibt.
+
+- **Volti** liest nach und trägt die belegte Aussage.
+- **Watti** reagiert. Er macht alles falsch und lernt nichts — „Bin bei
+  Passwort7", „Ich bin quasi Astronaut", „Wie? Ich mache das seit zehn Jahren".
+
+**Wattis Ausruf ist „Watt?"** — norddeutsch für „Was?", und damit sagt er bei
+jeder Verwirrung fast seinen eigenen Namen. Der Witz erklärt sich bei jedem
+Auftreten von selbst und nutzt sich nicht ab, weil er nie ausgesprochen wird.
+
+Die **Rollen sind fest, die Besetzung nicht**: In jedem Wortwechsel trägt genau
+einer den Beleg und der andere reagiert, aber wer von beiden das ist, darf
+wechseln. Sonst wird aus Volti ein Moderator und aus Watti ein Requisit.
+
+Die Namen fallen **ein- bis zweimal je Video** im Sprechtext. Häufiger wird es
+zur Floskel und kostet Sprechzeit, die es bei diesem Zielwert nicht gibt. Eine Reaktion behauptet nichts über die
+Welt, braucht also keine Quelle — und darf deshalb frech sein, wo der Beleg
+zwingt, nah am Zitat zu bleiben.
+
+### Die eine Regel, an der alles scheitert
+
+**Eine Reaktion, die den Fakt zusammenfasst, ist keine Reaktion.**
+
+Sie muss etwas hinzufügen, das im Fakt nicht steht: ein Geständnis, einen
+falschen Schluss, ein Bild, Ratlosigkeit, Empörung gegen den Falschen. Der
+Skill `joke-engineering` nennt den Fehler H4 — „punchline is stated rather
+than implied" — und er ist der Normalfall, nicht die Ausnahme: Ohne Vorgabe
+fällt jeder Entwurf auf den zusammenfassenden Kommentar zurück.
+
+| flach | trägt |
+|---|---|
+| Die Regel, über die sich alle beschweren, hilft also niemandem. | Kacke, was dann? |
+| Das Teil funktioniert. Es darf nur nicht. | Also haben Einzelteile jetzt Herrchen. |
+| Ich mache das seit zehn Jahren. | Wie? Ich mache das seit zehn Jahren. |
+
+### Den Ton sagt die Machart an, nicht der Text
+
+Seit dem 26.08.2026 trägt jede Machart eine Regieanweisung für `eleven_v3`
+(`regie` in `REAKTIONS_MACHARTEN`): Ratlosigkeit klingt ratlos, weil
+`[confused]` davorsteht, nicht weil die Zeile es beschreibt.
+
+**Geschrieben wird die Klammer nie.** Sie entsteht beim Vertonen; das Schema
+lehnt eckige Klammern im Sprechtext ab. Für den Entwurf ändert sich damit
+nichts außer einem Freibrief: Eine Zeile muss ihren Ton nicht mehr in Worten
+mitliefern. „Also war das alles umsonst?" reicht — „fragt Watti ratlos" wäre
+Regieanweisung im Untertitel.
+
+Zwei Macharten bekommen bewusst keine: `bild` und `rueckfrage`. Wo der Witz im
+Wort liegt und nicht im Ton, überspielt die Ansage ihn — die banale Rückfrage
+lebt davon, banal zu klingen.
+
+### Sieben Regeln, am 25.08.2026 an fünfzehn Zeilen gemessen
+
+**1 · Verständlichkeit schlägt Pointe.** Kein Witz darf an einem Wort hängen,
+das die Zielgruppe 18–30 nicht benutzt. Gestrichen wurden „Röhre" (niemand
+unter dreißig hatte einen Röhrenmonitor) und „Ladeziegel" (sagt keiner). Wer
+ein Wort erklären muss, hat keinen Witz mehr.
+
+**2 · Ein Bild schlägt ein Paradox.** „Das Teil funktioniert. Es darf nur
+nicht." ist eine saubere Verneinung, an der nichts zu sehen ist. „Einzelteile
+haben jetzt Herrchen" erzeugt ein Bild.
+
+**3 · Die Reaktion wird im Moment gesprochen, nicht rückblickend.** „Ich mache
+das seit zehn Jahren" ist ein Protokoll. Das vorangestellte „Wie?" macht daraus
+den Augenblick, in dem es auffällt, und trägt die ganze Zeile.
+
+**4 · Die Pointe zielt auf den Verursacher.** Bei „Ab 2027 muss der Akku wieder
+wechselbar sein" war nicht das Wort „wieder" zu holen, sondern die EU: „Die EU
+kann also doch was?!"
+
+**5 · Keine Mensch-Maschine-Vergleiche.** Sie sind als Konstruktion erkennbar,
+auch wenn die Absicht durchkommt. „Ich kotze, wenn ich es bin" trägt, „Ich
+stehe trotzdem nachts auf" nicht.
+
+**6 · Sofort, nicht nach einem Takt.** Wer erst überlegen muss, lacht nicht
+mehr. Im Zweifel banaler: „Also vor meiner Mutter" statt einer eleganteren
+Wendung über dieselbe Sache.
+
+**7 · Der Ausruf variiert.** Siehe unten — das ist die Regel, die für die
+Automatisierung am meisten zählt.
+
+**Nachtrag vom 26.08.2026: Eine Reaktion darf einen Schritt weit greifen.** Sie
+muss nicht am unmittelbar vorigen Satz hängen. „Und wer weckt mich dafür?"
+antwortet in `erstes-laden` auf die Empfehlung, vorher zu unterbrechen — der
+Witz entsteht aber erst mit dem Aufschlag zwei Szenen davor („12 Stunden
+laden", also über Nacht). Ich hatte die Zeile selbst als die schwächste
+markiert, weil sie diese Verbindung verlangt; Emirhan hat sie als die beste
+bezeichnet.
+
+Die Grenze bleibt Regel 6: Der Schritt muss **sofort** gehen, nicht nach einem
+Takt. Was der Zuschauer dabei verbindet, steht im Video und nicht in seinem
+Wissen — das ist der Unterschied zu einer Anspielung.
+
+### Register
+
+Umgangssprachlich und derb, aber ohne Fluchen. „Kacke" ist drin, „Fuck" nicht:
+YouTubes Werberichtlinien stufen starke Sprache in den ersten Sekunden am
+härtesten ab, und der Kanal steuert auf Werbepartner zu.
+
+**Der Ausruf darf nie zum Markenwort werden.** Ein fester Marker ist in vier
+Wochen eine Schablone — und Schablone ist bei KI-Material seit Juli 2025 ein
+Reichweiten- und Monetarisierungsrisiko. Es gibt deshalb einen Vorrat, aus dem
+gewählt wird, und dasselbe Wort steht nicht zweimal im selben Lauf:
+
+> Watt? · Wie? · Wie, vier Stück?! · Moment. · Ohman. · Shit. · Kacke, was
+> dann? · Und jetzt? · Warum heißt er dann so?
+
+Der Vorrat wächst mit dem, was funktioniert. Er ist keine Liste zum Abarbeiten:
+Die Hälfte der guten Reaktionen kommt ganz ohne Ausruf aus.
+
+### Wen die Pointe treffen darf
+
+Die alte Regel lautete: die Sache, nie den Zuschauer. Sie hat den Humor
+weichgespült, weil niemanden treffen fast immer heißt, niemanden zu treffen.
+
+Mit zwei Figuren gilt sie anders. **Der Zeiger steht für den Zuschauer und sagt
+es selbst** — „Jetzt habe ich einen Verdacht auf meine Dummheit". Damit darf
+die Pointe eine Person treffen, ohne den zu beleidigen, der zusieht. Das ist
+das „wie alle" aus der Schätzfrage, als Charakter statt als Wort.
+
+Nie getroffen werden: der Zuschauer direkt, Gruppen, Personen des öffentlichen
+Lebens. Firmen und Behörden dürfen, wenn ein Beleg danebensteht.
 
 ## Aufbau
 
@@ -180,9 +320,12 @@ zuzugreifen.
 - **Sicherheit: hoch** für Satzbau, Lexikon und Nie-Liste — 23 Proben, davon
   acht in der Zielfassung, alle vertont und damit auf Sprechbarkeit geprüft.
 - **Gut belegt:** Satzbau, Rhythmus, negativer Raum, Aufbau.
-- **Dünn:** Humor über die trockene Tatsache hinaus. Die Proben enthalten kaum
-  einen Witz, der über „Fakt nüchtern hingestellt" hinausgeht — ob die Stimme
-  mehr kann, ist unbekannt.
+- **Humor: eingerichtet, nicht belegt.** Das Kapitel oben steht auf fünfzehn
+  bewerteten Zeilen vom 25.08.2026, nicht auf gemessener Wirkung — **kein
+  einziges Video mit zweiter Stimme ist bisher draußen**. Die sieben Regeln
+  sagen, was in der Werkstatt gescheitert ist, nicht was im Feed funktioniert.
+  Nachzumessen an geteilt und neuen Abos, sobald vier Videos im neuen Bau
+  laufen; heute stehen beide auf null.
 - **Nicht bestimmbar:** wie die Stimme auf Widerspruch reagiert. Es gab noch
   keinen Kommentar.
 - **Wandert:** Der Umbau vom 20.08.2026 verbreitert die Nische. Die Signaturen

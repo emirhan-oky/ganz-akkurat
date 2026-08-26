@@ -206,7 +206,18 @@ Drei Kompositionen in `Root.tsx`, jede für einen anderen Fehler:
 npx remotion still video/index.ts Figurenprobe    posen.png   # alle Posen
 npx remotion still video/index.ts Figurengeruest  rig.png     # Pivots und Grenzen
 npx remotion still video/index.ts Figurenfolge    folge.png   # vier Zeitpunkte
+npx remotion still video/index.ts Wortwechselprobe paare.png  # zwei Figuren
 ```
+
+`Wortwechselprobe` beantwortet die Posenfrage bei zwei Figuren für das ganze
+Vokabular: zwanzig Kacheln, jede Pose einmal links neben einer ruhenden Figur
+und einmal rechts. Gemessen am 26.08.2026 greifen **`zeigen`, `erklaeren` und
+`achselzucken`** in die andere Figur, die übrigen sieben bleiben frei;
+`src/pruefung.ts` sperrt die drei seither.
+
+Sie rendert durch `Buehnenbild` selbst statt durch einen Nachbau der Anordnung.
+Ein Nachbau wäre eine zweite Geometrie neben der echten und liefe beim ersten
+Umbau lautlos auseinander.
 
 `Figurenfolge` ist die Bewegungsprobe als **einzelnes Bild**. Die vier
 Zeitpunkte sind gewählt, nicht gleichmäßig verteilt: Bild 2 fällt in den

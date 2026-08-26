@@ -4,6 +4,8 @@ import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 import { shortPruefen } from '../src/pruefung';
+import { redelaeufe } from '../src/stimme';
+import { zusatzpausenSek } from '../src/zeit';
 import { nachleser } from '../daten/figur/nachleser';
 import { POSEN, posenPruefen } from '../video/bausteine/posen';
 import {
@@ -136,6 +138,59 @@ for (const eintrag of WOCHENLAUF) {
 const figurenbefunde = posenPruefen(nachleser);
 for (const befund of figurenbefunde) console.error(`✗ Fehler  · [figur] ${befund}`);
 fehler += figurenbefunde.length;
+
+/*
+ * ## Die Wache über der Pausenrechnung
+ *
+ * `zusatzpausenSek` in `src/zeit.ts` bildet nach, welche Pausen `redelaeufe`
+ * in `src/stimme.ts` zwischen zwei Sprechern einlegt. Zwei Fassungen derselben
+ * Regel — aufrufen lässt sich die eine von der anderen nicht, weil
+ * `stimme.ts` `node:buffer` importiert und die Schätzung über
+ * `calculateMetadata` im Browser läuft.
+ *
+ * **Eine Doppelung ohne Wache ist der eigentliche Fehler, nicht die
+ * Doppelung.** Dasselbe Vorbild wie bei `rede` neben `sprechtext` und bei
+ * `herausgeber`: Hier läuft beides je Short gegeneinander, und jede Abweichung
+ * über einer Millisekunde hält den Lauf zurück.
+ *
+ * Verglichen wird nur, was `redelaeufe` als Zahl ausweist: die Pause vor jedem
+ * Lauf. Der Szenentrenner **innerhalb** eines Laufs steckt im Text und nicht
+ * in `pauseDavorSek` — die Schätzung zählt ihn als Atempause, und genau um
+ * deren Differenz korrigiert `zusatzpausenSek` an der Szenengrenze.
+ */
+for (const short of [...WOCHENLAUF, ...GEPARKT, beispielShort]) {
+  const ausRede = redelaeufe(short).reduce((summe, lauf) => summe + lauf.pauseDavorSek, 0);
+
+  const bestellte = short.szenen.reduce((summe, szene, i) => {
+    const naechste = short.szenen[i + 1];
+    if (!naechste || szene.pauseSek === undefined) return summe;
+    const letzter = szene.rede?.[szene.rede.length - 1]?.sprecher ?? 'nachleser';
+    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
+    return letzter === erster ? summe : summe + szene.pauseSek;
+  }, 0);
+
+  const grenzwechsel = short.szenen.reduce((n, szene, i) => {
+    const naechste = short.szenen[i + 1];
+    if (!naechste || szene.pauseSek !== undefined) return n;
+    const letzter = szene.rede?.[szene.rede.length - 1]?.sprecher ?? 'nachleser';
+    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
+    return letzter === erster ? n : n + 1;
+  }, 0);
+
+  // `zusatzpausenSek` zieht an jeder Szenengrenze die Atempause ab, die
+  // `szenendauerAus` dort schon zählt. Für den Vergleich kommt sie zurück.
+  const nachgerechnet = zusatzpausenSek(short) + grenzwechsel * 0.32 + bestellte;
+
+  if (Math.abs(ausRede - nachgerechnet) > 0.001) {
+    console.error(
+      `✗ Fehler  · ${short.id} · [pausen] Die Schätzung rechnet ${nachgerechnet.toFixed(2)}s ` +
+        `Sprecherpausen, die Vertonung legt ${ausRede.toFixed(2)}s ein. ` +
+        '`zusatzpausenSek` in `src/zeit.ts` und `redelaeufe` in `src/stimme.ts` ' +
+        'sind auseinandergelaufen.',
+    );
+    fehler += 1;
+  }
+}
 
 if (fehler > 0) {
   console.error(`\n${fehler === 1 ? 'Ein Befund haelt' : `${fehler} Befunde halten`} den Lauf zurück.`);

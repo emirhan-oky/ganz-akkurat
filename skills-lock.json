@@ -67,6 +67,12 @@
       "skillPath": "skills/instagram-seo/SKILL.md",
       "computedHash": "310e60b316d10bcd3ea0237f35138d506ceadbc767fe9d86f28e46e2ad6dd2f6"
     },
+    "joke-engineering": {
+      "source": "jwynia/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/creative/humor/joke-engineering/SKILL.md",
+      "computedHash": "e09ec32320b952d988338510d8d3c4252eeecf97bc9323e21b28976643fe6556"
+    },
     "reels-script": {
       "source": "social-media-skills/skills",
       "sourceType": "github",

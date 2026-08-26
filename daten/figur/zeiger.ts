@@ -75,3 +75,30 @@ export const eingefaerbt = (rig: Rig, karte: Record<string, string>): Rig => ({
 export const zeiger: Rig = eingefaerbt(nachleser, {
   [FARBEN.anzeigeEins]: FARBEN.anzeigeZwei,
 });
+
+/**
+ * Wattis Umriss: eine **Knopfzelle**, breiter als hoch.
+ *
+ * **Warum die Balkenfarbe nicht mehr genuegt.** Sie war richtig, solange es
+ * eine Figur in zwei Rollen war — der Kommentar oben sagt das noch. Seit dem
+ * 25.08.2026 sind es zwei Charaktere mit Namen, die miteinander reden, und im
+ * ersten Standbild zu zweit waren sie nicht auseinanderzuhalten: gleicher
+ * Koerper, gleiches Gesicht, gleiche Groesse, dazwischen ein Farbfleck, der im
+ * Feed briefmarkengross ist. Wiedererkennung ist der ganze Grund fuer den
+ * Umbau — bei 0 Abonnenten baut sie niemand mit einem Detail auf.
+ *
+ * **Gestaucht statt umgebaut.** Ein zweites Rig von Hand liefe beim ersten
+ * Umbau am Koerper auseinander, und ein veraendertes Gehaeuse zoege Gelenke,
+ * Arme und Beine hinter sich her: Die Armgelenke sitzen bei x = 68 und 132,
+ * ein breiteres Gehaeuse liesse die Arme aus dem Rumpf wachsen. Die Stauchung
+ * nimmt alles mit — Koerper, Gesicht, Glieder — und bleibt eine Zeile.
+ *
+ * Um die **Standlinie** bei y = 140, nicht um die Mitte: Eine Figur, die um
+ * ihren Mittelpunkt gestaucht wird, versinkt im Boden. Dieselbe Rechnung wie
+ * bei `PLAETZE` in `Buehnenbild.tsx`.
+ *
+ * Zwei Klischee-Wege wurden vorher verworfen: eine eigene Koerperfarbe (macht
+ * aus der Rolle eine fremde Figur) und Geschlechtszeichen wie Wimpern (sagen
+ * nichts ueber eine Figur, die alles falsch macht und nichts lernt).
+ */
+export const ZEIGER_STAUCHUNG = 'translate(100 140) scale(1.2 0.74) translate(-100 -140)';

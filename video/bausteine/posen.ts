@@ -382,18 +382,28 @@ export const FOLGEPOSEN = {
     mund: 'laecheln',
   }),
   /*
-   * **Der Unterarm dreht hier nicht mit.** Im ersten Anlauf stand er auf -22,
-   * und zusammen mit einem Oberarm auf -34 klappte der ganze Arm vor die
-   * Brust: Beide Vorzeichen drehen zum Koerper hin, und in der Ruhelage haengt
-   * der Arm ohnehin schon schraeg nach innen-unten.
+   * **Dieselbe Geste wie bei Instagram, an einer anderen Stelle im Bild.**
    *
-   * Der Knopf sitzt bei YouTube tiefer und weniger weit links als bei
-   * Instagram. Den Unterschied traegt vor allem der **Blick** — zwei Arme, die
-   * sich um zwanzig Grad unterscheiden, sieht im Feed niemand.
+   * Der Abonnieren-Knopf sitzt bei YouTube unten **Mitte**, nicht unten links,
+   * und dafuer gibt es keinen eigenen Armwinkel: Die Gestenprobe vom
+   * 25.08.2026 hat acht Kandidaten zwischen +20 und -30 nebeneinander
+   * gestellt, und **jeder negative Oberarm klappte den Arm nach oben vor den
+   * Koerper** — die Hand lag auf dem Ladebalken. Negativ dreht zum Koerper
+   * hin, und aus einer Ruhelage, die schon fast senkrecht haengt, fuehrt das
+   * nicht tiefer, sondern herum.
+   *
+   * Damit bleibt nur ein Winkel, der nach unten zeigt, und das ist der
+   * Ruhewinkel selbst — also gar keine Geste. Instagram funktioniert nur
+   * deshalb, weil unten **links** von der Ruhelage wegfuehrt.
+   *
+   * Geloest ueber die Position statt ueber die Pose: Die Figur steht in
+   * `ZEIGER_PLATZ` weiter rechts, und die geprueste Geste nach unten-links
+   * trifft damit die Mitte. Wer hier einen eigenen Winkel sucht, sollte
+   * zuerst das Standbild der Probe ansehen.
    */
   youtube: p({
-    drehung: { oberarm_links: 20, unterarm_links: 8, koerper: -4 },
-    blick: [-1, 2.9],
+    drehung: { oberarm_links: 20, unterarm_links: 15, oberarm_rechts: 16, koerper: -8 },
+    blick: [-2.5, 2.8],
     mund: 'laecheln',
   }),
 } as const;

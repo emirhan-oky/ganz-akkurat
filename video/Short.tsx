@@ -5,6 +5,7 @@ import { szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
+import { Sprechblase } from './bausteine/Sprechblase';
 import { SzeneRendern } from './szenen';
 import type { Dienst } from './bausteine/Geraete';
 import { Figur } from './bausteine/Figur';
@@ -175,6 +176,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   dienst = 'tiktok',
 }) => {
   const plan = szenenZeitplan(daten);
+  const { fps: bilderProSekunde } = useVideoConfig();
 
   const hinweisIndex = hinweisSzene(daten);
 
@@ -228,7 +230,28 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
     <AbsoluteFill>
       <Hintergrund />
 
-      {daten.tonspur && <Audio src={staticFile(daten.tonspur.datei)} />}
+      {/*
+        Bei zwei Sprechern liegt der Ton in Abschnitten vor, je einer mit
+        eigener Stimme und eigenem Startbild. Sie werden **nebeneinandergelegt**
+        statt zu einer Datei verklebt — das kann Remotion von Haus aus, und
+        Zusammenkleben braeuchte ffmpeg, das hier nur als abgespeckter
+        Remotion-Wrapper existiert.
+
+        Ohne `abschnitte` laeuft der einstimmige Fall wie vorher.
+      */}
+      {daten.tonspur?.abschnitte
+        ? daten.tonspur.abschnitte.map((abschnitt) => (
+            <Sequence
+              key={abschnitt.datei}
+              from={Math.round(abschnitt.startSek * bilderProSekunde)}
+              // Ohne eigene Laenge endet die Sequence mit der Komposition; der
+              // Ton hoert ohnehin von selbst auf.
+              layout="none"
+            >
+              <Audio src={staticFile(abschnitt.datei)} />
+            </Sequence>
+          ))
+        : daten.tonspur && <Audio src={staticFile(daten.tonspur.datei)} />}
 
       {daten.szenen.map((szene, i) => {
         const zeit = plan[i];
@@ -310,7 +333,16 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
           </div>
         </div>
 
-        {daten.tonspur && <Untertitel woerter={daten.tonspur.woerter} />}
+        {/*
+          Zwei Stimmen bekommen die Sprechblase, eine den Untertitel. Der
+          Unterschied ist nicht Zierde: Ohne Ton muss im Bild stehen, wer
+          gerade redet — sonst ist ein Wortwechsel keiner.
+        */}
+        {daten.tonspur?.abschnitte && daten.tonspur.abschnitte.length > 1 ? (
+          <Sprechblase woerter={daten.tonspur.woerter} abschnitte={daten.tonspur.abschnitte} />
+        ) : (
+          daten.tonspur && <Untertitel woerter={daten.tonspur.woerter} />
+        )}
       </AbsoluteFill>
     </AbsoluteFill>
   );

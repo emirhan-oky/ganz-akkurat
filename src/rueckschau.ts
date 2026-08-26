@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
-import { Format, Sachgebiet } from './typen';
+import { Bauform, Format, Sachgebiet } from './typen';
 
 /**
  * Die Rückschau — was hinausging, neben dem, was ankam.
@@ -98,6 +98,15 @@ export type Herkunft = {
   lauf: string;
   format: Format;
   sachgebiet: Sachgebiet;
+  /**
+   * Wie der Short gebaut war. **Optional, und das bleibt so.**
+   *
+   * `bauform` gibt es erst seit dem 25.08.2026; die Laeufe davor kennen das
+   * Feld nicht. Es zur Pflicht zu machen hiesse, dass `safeParse` unten jeden
+   * alten Lauf verwirft — und damit waeren die neun veroeffentlichten Videos
+   * auf einen Schlag herkunftslos, samt ihrer Formate und Aufschlaege.
+   */
+  bauform?: Bauform;
   themaId: string;
   arbeitstitel: string;
   /** Der gesprochene Text der Aufschlagszenen, zusammengezogen. */
@@ -109,6 +118,7 @@ const LaufShort = z.object({
   themaId: z.string(),
   format: Format,
   sachgebiet: Sachgebiet,
+  bauform: Bauform.optional(),
   arbeitstitel: z.string(),
   szenen: z.array(
     z.object({
@@ -147,6 +157,7 @@ export const herkuenfteLesen = async (ordner = LAEUFE): Promise<Map<string, Herk
         lauf: ergebnis.data.id,
         format: short.format,
         sachgebiet: short.sachgebiet,
+        bauform: short.bauform,
         themaId: short.themaId,
         arbeitstitel: short.arbeitstitel,
         aufschlag: short.szenen

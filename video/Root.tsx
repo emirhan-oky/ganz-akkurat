@@ -12,7 +12,9 @@ import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
+import { Wortwechselprobe } from './Wortwechselprobe';
 import { Gestenprobe } from './Gestenprobe';
+import { Anordnungsprobe, AnordnungsprobeProps } from './Anordnungsprobe';
 
 /**
  * Alle Schriftstaerken, die das Design-System kennt. Werden hier einmal
@@ -64,6 +66,19 @@ export const RemotionRoot: React.FC = () => (
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
   <Composition id="Gestenprobe" component={Gestenprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
+  {/* Der Musterbogen fuer die Bildaufteilung: acht Muster, 4 × 2, halbe
+      Aufloesung. `--props='{"zonen":true}'` legt die App-Flaechen darueber. */}
+  <Composition
+    id="Anordnungsprobe"
+    component={Anordnungsprobe}
+    schema={AnordnungsprobeProps}
+    defaultProps={{ zonen: false }}
+    width={FORMAT.breite * 2}
+    height={FORMAT.hoehe}
+    fps={30}
+    durationInFrames={1}
+  />
+  <Composition id="Wortwechselprobe" component={Wortwechselprobe} width={1900} height={3760} fps={30} durationInFrames={1} />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition
     id="Short"

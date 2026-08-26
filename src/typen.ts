@@ -237,6 +237,260 @@ export const POSITIONEN: Record<Position, { titel: string; tut: string; verboten
   },
 };
 
+/* ──────────────────────────── Bauformen ────────────────────────────── */
+
+/**
+ * Wie ein Short gebaut ist — die Struktur, nicht der Inhalt.
+ *
+ * **Warum es die Ebene gibt.** Am 25.08.2026 wurde gemessen, was die Gattung
+ * „faceless" als Standard fahrt: KI-Stimme, ein Erzaehler, wortweise animierte
+ * Untertitel. Das war Wort fuer Wort unser Bau — wir waren nicht eigen,
+ * sondern die Voreinstellung. Und dieselbe Gattung prueft YouTube seit Juli
+ * 2025 auf Schablonenhaftigkeit, was Reichweite **und** Monetarisierung
+ * kostet.
+ *
+ * Der Katalog ist die Antwort darauf, und er ist bewusst eine **Auswahl, aus
+ * der gewaehlt werden muss**, keine Vorschrift: `laufweiteBefunde` meldet
+ * dieselbe Bauform zweimal hintereinander und jede, die mehr als ein Drittel
+ * eines Laufs stellt. Eine festlegende Matrix machte alle Videos einer Rubrik
+ * identisch — eine ausschliessende laesst offen, was dazwischen passiert.
+ *
+ * **Die Figuren bleiben dabei konstant, die Bauformen wechseln.** Die
+ * Zwei-Figuren-Gattung lebt anderswo von geborgter Wiedererkennung; unsere
+ * muss erst entstehen, und sie entsteht am Charakter, nicht an der Struktur.
+ * Die Regel gegen Schablonen zielt deshalb nie auf Volti und Watti.
+ *
+ * Fuenf bis sieben sind das Ziel — fuenf ist das Minimum, bei dem die
+ * Drittelregel bei sieben Videos je Woche ueberhaupt etwas zu sagen hat.
+ */
+export const Bauform = z.enum(['einstimmig', 'wechselrede', 'zitatkarte', 'stationen']);
+export type Bauform = z.infer<typeof Bauform>;
+
+/**
+ * Was jede Bauform tut — und **wie lang sie sein will**.
+ *
+ * `zielSek` ist die wichtigste Zahl hier, und sie ist neu. Bis zum 25.08.2026
+ * gab es **einen** Zielwert fuer alle Shorts, und der stand nur im Kommentar;
+ * geprueft wurde allein das Fenster. Beides war falsch:
+ *
+ * - **Ein Zielwert fuer alle Bauformen ist der eigentliche Fehler**, nicht
+ *   seine Hoehe. Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil
+ *   sie mehr Inhalt haben. „Laenge ist keine Ursache, sondern eine Folge
+ *   davon, wie viel es zu zeigen gibt" — der Satz stand schon im Vertrag, die
+ *   Folgerung fehlte.
+ * - **Ein Zielwert, der nur im Kommentar steht, ist keine Wache.** Mit dem
+ *   Fenster auf 20–65 s liefe eine Wechselrede von 60 Sekunden stumm durch.
+ *   `shortPruefen` meldet deshalb einen Hinweis, sobald ein Short mehr als ein
+ *   Fuenftel vom Zielwert seiner Bauform abweicht.
+ */
+/*
+ * ## Die vier Zielwerte sind ein Versuchsaufbau, keine Erkenntnis
+ *
+ * Am 26.08.2026 auf **25 / 35 / 45 / 60** gespreizt. Wer sie liest, muss das
+ * wissen: Sie sind nicht gemessen. Gemessen ist bisher **eine einzige
+ * Laenge** — alle neun veroeffentlichten Videos sind 20 bis 23 Sekunden lang,
+ * und zu allem darueber gibt es keine eigene Zahl.
+ *
+ * Vorher lagen sie bei 30 / 35 / 35 / 55, und damit fielen **drei von vier
+ * Bauformen in dieselbe Laengenklasse**. Egal wie oft die Bauform wechselte,
+ * es entstanden zwei Klassen, und die Streuung hing allein daran, wie oft
+ * `stationen` drankam. Ein Versuch ueber Laengen war so nicht moeglich.
+ *
+ * Gespreizt heisst: Jede Bauform traegt jetzt eine eigene Klasse, und die
+ * schon vorhandene Drittelregel fuer Bauformen streut die Laenge von selbst.
+ * Es braucht dafuer keine zweite Ebene im Schema — die Ebene, die sagt, wie
+ * ein Short gebaut ist, sagt ohnehin, wie lang er wird.
+ *
+ * Die Mitte des Feldes ist absichtlich geblieben, wo sie war. Die einzige
+ * fremde Messung (`@dr_data_dr`, zwoelf Shorts, 48–67 s, Median 61) haette
+ * hoehere Werte nahegelegt; eine geratene Zahl durch eine uebertragene zu
+ * ersetzen, macht sie aber nicht gemessen — der Kanal ist englisch,
+ * einstimmig und hat ein Publikum, das wir nicht haben.
+ *
+ * **Diese Zahlen fallen, sobald `npm run laengen` zwei belegte Klassen zeigt.**
+ */
+export const BAUFORMEN: Record<Bauform, { titel: string; tut: string; zielSek: number }> = {
+  /*
+   * Der alte Bau, und er steht hier aus einem Grund: **Was keinen Namen hat,
+   * kann keine Regel begrenzen.** Ein Erzaehler, wortweise Untertitel — das
+   * ist die Voreinstellung der ganzen „faceless"-Gattung und damit genau das,
+   * was YouTubes Anti-Repetition seit Juli 2025 sucht. Ihn zu verschweigen
+   * hiesse, ihn unbegrenzt weiterlaufen zu lassen; ihn zu benennen setzt ihn
+   * unter dieselbe Drittelregel wie alles andere.
+   *
+   * Die neun Videos bis zum 25.08.2026 sind alle so gebaut. Sie haben 2.212
+   * Aufrufe, 0-mal geteilt und 0 Abonnenten gebracht.
+   */
+  einstimmig: {
+    titel: 'Einstimmig',
+    tut: 'Ein Sprecher, Untertitel unten. Der alte Bau und die Voreinstellung der Gattung — sparsam einsetzen.',
+    zielSek: 25,
+  },
+  wechselrede: {
+    titel: 'Wechselrede',
+    tut: 'Einer traegt den Beleg, der andere reagiert. Vier Runden, dichter Sprecherwechsel.',
+    zielSek: 35,
+  },
+  zitatkarte: {
+    titel: 'Zitatkarte',
+    tut: 'Das Zitat steht als Karte im Bild, beide unterhalten sich darueber.',
+    zielSek: 45,
+  },
+  stationen: {
+    titel: 'Stationen',
+    tut: 'Vier bis fuenf Stationen, steigend, dann die Landung. Die Stationen sind Zuspitzungen, die letzte ist der Kipppunkt.',
+    zielSek: 60,
+  },
+};
+
+/* ─────────────────────────── Zwei Stimmen ──────────────────────────── */
+
+/**
+ * Wer spricht. Zwei Figuren seit dem 25.08.2026.
+ *
+ * Die Rollen sind fest, die **Besetzung nicht**: In jedem Wortwechsel traegt
+ * genau einer die belegte Aussage und der andere reagiert, aber wer von beiden
+ * das ist, wechselt zwischen und innerhalb von Videos. Feste Rollen an festen
+ * Figuren waeren nach vier Videos wieder eine Schablone — aus dem Nachleser
+ * wuerde ein Moderator und aus dem Zeiger ein Requisit.
+ *
+ * Die Bezeichner hier sind intern; im Bild und im Sprechtext stehen die Namen.
+ */
+export const Sprecher = z.enum(['nachleser', 'zeiger']);
+
+/**
+ * Die Namen der beiden Figuren, seit dem 25.08.2026.
+ *
+ * Nicht Zierde: Die Zwei-Figuren-Gattung lebt anderswo von **geborgter**
+ * Wiedererkennung — man bleibt haengen, weil man eine bekannte Stimme hoert.
+ * Unsere Akkus kennt niemand, und ueber eine namenlose Figur kann auch niemand
+ * reden. Ein Name ist das billigste Wiedererkennungsmittel, das es gibt.
+ *
+ * **Wattis Ausruf ist „Watt?"** — norddeutsch fuer „Was?". Er sagt bei jeder
+ * Verwirrung fast seinen eigenen Namen; der Witz erklaert sich von selbst und
+ * nutzt sich nicht ab, weil er nie ausgesprochen wird.
+ */
+export const FIGURENNAMEN: Record<Sprecher, string> = {
+  nachleser: 'Volti',
+  zeiger: 'Watti',
+};
+export type Sprecher = z.infer<typeof Sprecher>;
+
+/**
+ * Ein Redeanteil — eine Figur, ein Satz.
+ *
+ * **Warum es die Reaktionszeile ueberhaupt gibt.** Die Belegpflicht zwingt
+ * jeden Satz dicht ans Zitat, und dicht am Zitat heisst Amtssprache; neun
+ * Videos lang war das Ergebnis „informativ, aber ohne Charakter". Eine
+ * **Reaktion behauptet nichts ueber die Welt** und braucht deshalb keine
+ * Quelle — genau dort darf der Kanal frech sein.
+ *
+ * Die Trennung liegt in der Rolle, nicht in einer Pruefung: Wer `machart`
+ * traegt, ist eine Reaktion und darf keine Quelle nennen. Dieselbe Bauart wie
+ * „`presse` fehlt im Enum" — was sich nicht ausdruecken laesst, laesst sich
+ * nicht brechen.
+ *
+ * **Die Formsperre daneben** faengt die eine Luecke, die bleibt: Eine Reaktion
+ * koennte heimlich eine Tatsachenbehauptung sein. Keine Zahl, keine
+ * Jahreszahl, hoechstens ein Satz — dann passt dort keine hinein. Der
+ * `belegpruefer` liest zusaetzlich gegen, aber als zweite Instanz; eine Wache,
+ * die ein Modell fragt, ist die schwaechere.
+ */
+export const Redeanteil = z
+  .object({
+    sprecher: Sprecher,
+    text: z.string().min(1),
+    /**
+     * Nur an Reaktionszeilen. Aus `REAKTIONS_MACHARTEN` — der Entwurf muss
+     * eine waehlen, statt in den zusammenfassenden Kommentar zu fallen.
+     */
+    machart: z
+      .enum(['gestaendnis', 'falscherschluss', 'bild', 'ratlosigkeit', 'empoerung', 'rueckfrage'])
+      .optional(),
+    quelleId: z.string().min(1).optional(),
+    belegId: z.string().min(1).optional(),
+  })
+  .superRefine((r, ctx) => {
+    /*
+     * **Keine Regieanweisung von Hand.** Sie haengt seit dem 26.08.2026 an der
+     * Machart (`regie` in `REAKTIONS_MACHARTEN`) und wird beim Vertonen davor
+     * gesetzt — im Text steht sie nie.
+     *
+     * Der Schaden waere still: `sprechtext` ist die Fassung, an der die Laenge
+     * geschaetzt wird, und `ZEICHEN_PRO_SEKUNDE` haelt jedes Zeichen darin fuer
+     * gesprochen. Zehn Zeichen Klammer sind knapp eine Sekunde Schaetzfehler je
+     * Zeile — im Untertitel unsichtbar, weil `woerterAusAusrichtung` eckige
+     * Klammern wegfiltert. Ein Fehler, den niemand sieht und niemand hoert.
+     */
+    if (/[[\]]/.test(r.text)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          'Keine eckigen Klammern im Sprechtext. Die Regieanweisung hängt an der ' +
+          'Machart und wird beim Vertonen gesetzt.',
+        path: ['text'],
+      });
+    }
+    if (r.machart !== undefined && (r.quelleId !== undefined || r.belegId !== undefined)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Eine Reaktion nennt keine Quelle. Sie behauptet nichts über die Welt.',
+        path: ['quelleId'],
+      });
+    }
+    if ((r.quelleId === undefined) !== (r.belegId === undefined)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Wer eine Quelle nennt, nennt die Fundstelle darin — und umgekehrt.',
+        path: ['belegId'],
+      });
+    }
+    if (r.machart !== undefined) {
+      /*
+       * Formsperre: dort darf keine Tatsachenbehauptung stehen.
+       *
+       * **Nicht „keine Ziffer".** Der erste Anlauf verbot jede Ziffer und hat
+       * sofort „Passwort7 ist meins" abgelehnt — eine Zeile, die als Beispiel
+       * in `REAKTIONS_MACHARTEN` steht. Eine Ziffer ist keine Behauptung; eine
+       * **Messgroesse** ist eine. Verboten sind deshalb Jahreszahlen und
+       * Zahlen mit technischer Einheit, nicht die Ziffer als solche.
+       *
+       * **Zeitspannen bleiben erlaubt.** Der zweite Anlauf hatte „Jahre",
+       * „Monate" und „Tage" in der Einheitenliste und lehnte damit „Wie? Ich
+       * mache das seit 10 Jahren" ab — eine Zeile aus dem Eichmass. Eine
+       * Zeitspanne in einer Reaktion ist Alltagssprache und behauptet nichts
+       * ueber die Welt, sondern etwas ueber den Sprecher.
+       */
+      if (/\b(?:19|20)\d{2}\b/.test(r.text)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Eine Reaktion nennt keine Jahreszahl — das wäre eine Aussage über die Welt.',
+          path: ['text'],
+        });
+      }
+      if (
+        /\b\d+(?:[.,]\d+)?\s?(?:wh|wattstunden?|w|v|a|mah|gb|tb|mb|hz|khz|ghz|zoll|mbit|gbit|%|prozent|euro|€)\b/i.test(
+          r.text,
+        )
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Eine Reaktion nennt keine Größe mit Einheit — das wäre ein Fakt ohne Beleg.',
+          path: ['text'],
+        });
+      }
+      const saetze = r.text.split(/[.!?]+/).filter((t) => t.trim().length > 0);
+      if (saetze.length > 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Eine Reaktion ist kurz. Höchstens zwei Sätze, meist einer.',
+          path: ['text'],
+        });
+      }
+    }
+  });
+export type Redeanteil = z.infer<typeof Redeanteil>;
+
 /* ────────────────────────────── Szenen ─────────────────────────────── */
 
 /** Gemeinsame Felder jeder Szene. */
@@ -246,6 +500,27 @@ const SzeneBasis = z.object({
    * tatsaechlichen Sprechdauer, nicht aus einer geschaetzten Sekundenzahl.
    */
   sprechtext: z.string().min(1),
+  /**
+   * Die Aufteilung desselben Textes auf zwei Stimmen. Optional.
+   *
+   * **`sprechtext` bleibt die Fassung, die alle lesen** — Vertonung,
+   * Untertitel, Sprechprobe, zwanzig Pruefstellen. `rede` sagt zusaetzlich,
+   * wer welchen Teil spricht, und wird von Vertonung und Sprechblasen
+   * gebraucht.
+   *
+   * Die Doppelung ist gewollt und hat hier ein Vorbild: `herausgeber` steht
+   * ebenfalls an zwei Stellen, und `shortPruefen` prueft hart auf Gleichheit.
+   * Der Grund ist derselbe — ein Umbau aller Lesestellen waere teurer als eine
+   * Wache, und **eine Doppelung ohne Wache ist der eigentliche Fehler**, nicht
+   * die Doppelung selbst. Geprueft wird im `superRefine` des Shorts: Die
+   * verketteten `rede`-Texte muessen `sprechtext` ergeben.
+   *
+   * **Ein Anteil genuegt.** Der erste Anlauf verlangte zwei und lehnte damit
+   * jede einstimmige Szene ab. Das Mindestmass an Zweistimmigkeit gilt je
+   * **Short**, nicht je Szene — „immer beide" waere nach vier Videos wieder
+   * die Schablone, gegen die der ganze Umbau laeuft.
+   */
+  rede: z.array(Redeanteil).min(1).optional(),
   /** Wo im Bau die Szene steht. Geprueft im `superRefine` des Shorts. */
   position: Position,
   /**
@@ -499,8 +774,61 @@ const Buehnenbild = z.discriminatedUnion('art', [
      * Die Haltung am Anfang und am Ende der Szene. **Sie muessen verschieden
      * sein** — das ist die Vorgangsregel in Schemaform.
      */
+    /**
+     * Wessen Haltungen `von`, `zwischen` und `nach` beschreiben.
+     *
+     * **Die Rollen sind fest, die Besetzung nicht.** In jedem Wortwechsel
+     * traegt genau einer den Beleg und der andere reagiert — wer von beiden
+     * das ist, darf wechseln. Ohne dieses Feld waere Volti immer links und
+     * immer der Erklaerende, und nach vier Videos waere aus ihm ein Moderator
+     * und aus Watti ein Requisit geworden.
+     *
+     * Fehlt das Feld, gilt `nachleser` — der haeufigere Fall, und `optional`
+     * statt `default`, weil `z.default` das Feld im abgeleiteten Typ trotzdem
+     * zur Pflicht macht und damit jeden bestehenden Entwurf braeche.
+     */
+    wer: Sprecher.optional(),
     von: PosenName,
     nach: PosenName,
+    /**
+     * Haltungen **zwischen** `von` und `nach`. Hoechstens zwei, also insgesamt
+     * zwei bis vier Stationen je Szene.
+     *
+     * **Das ist die Antwort auf einen Zuschauersatz, der seit dem 23.08.2026
+     * im Code steht:** „Er macht staendig immer nur dieselben Bewegungen."
+     * Damals wurde das Posenvokabular von sechs auf zehn erweitert — das
+     * behandelt die **Anzahl**, nicht die **Folge**. Eine Szene kannte genau
+     * einen Uebergang, und ein Uebergang je Szene sieht bei jedem Video gleich
+     * aus, egal aus wie vielen Posen er gewaehlt wird.
+     *
+     * Zwei benachbarte Stationen muessen verschieden sein — dieselbe
+     * Vorgangsregel wie bei `von` und `nach`, nur ueber die ganze Kette. Sonst
+     * entstuende eine Folge, die zwischendurch stehenbleibt und damit genau
+     * das Gegenteil dessen tut, wofuer sie da ist.
+     */
+    zwischen: z.array(PosenName).max(2).optional(),
+    /**
+     * Die **zweite Figur**. `wer` sagt, welches Rig die Posen oben traegt;
+     * `gegenueber` bekommt automatisch das andere.
+     *
+     * **Warum es sie gibt.** Neun Videos haben 0 Abonnenten gebracht. Man
+     * abonniert Leute, keine Fakten, und zwei stumme Maskottchen sind kein
+     * Grund wiederzukommen. Die Zwei-Figuren-Gattung lebt anderswo von
+     * **geborgter** Wiedererkennung — unsere muss erst entstehen, und sie
+     * entsteht daran, dass zwei Figuren miteinander reden statt nebeneinander
+     * zu stehen.
+     *
+     * Ohne dieses Feld bleibt die Buehne einfigurig. Das ist kein Mangel: Eine
+     * Szene, die nur den Beleg traegt, braucht kein Gegenueber, und
+     * „immer beide" waere nach vier Videos wieder die Schablone.
+     */
+    gegenueber: z
+      .object({
+        von: PosenName,
+        nach: PosenName,
+        zwischen: z.array(PosenName).max(2).optional(),
+      })
+      .optional(),
     /**
      * Was die Figur dabei anschaut oder haelt. Erscheint zur Szenenmitte, statt
      * von Anfang an dazustehen: Ein Gegenstand, der auftaucht, ist ein
@@ -568,12 +896,25 @@ const Buehnenbild = z.discriminatedUnion('art', [
    * der beim Schreiben tatsaechlich auftritt: zweimal dieselbe Pose
    * hinschreiben, weil die Szene kurz ist und die Haltung schon stimmt.
    */
-  if (buehne.art === 'figur' && buehne.von === buehne.nach) {
-    ctx.addIssue({
-      code: 'custom',
-      path: ['nach'],
-      message: `Buehne zeigt zweimal „${buehne.von}" — ein Zustand, kein Vorgang.`,
-    });
+  if (buehne.art === 'figur') {
+    /*
+     * Geprueft wird die **ganze Kette**, nicht nur ihre Enden. Mit
+     * `zwischen` kann eine Folge zwischendurch stehenbleiben — `ruhe`,
+     * `ruhe`, `zeigen` faengt und endet verschieden und haelt trotzdem in der
+     * Mitte an. Das ist genau der Zustand, den die Vorgangsregel verbietet,
+     * nur eine Ebene tiefer.
+     */
+    const kette = [buehne.von, ...(buehne.zwischen ?? []), buehne.nach];
+    for (let i = 1; i < kette.length; i += 1) {
+      if (kette[i] === kette[i - 1]) {
+        ctx.addIssue({
+          code: 'custom',
+          path: kette.length === 2 ? ['nach'] : ['zwischen'],
+          message: `Buehne zeigt zweimal „${kette[i]}" hintereinander — ein Zustand, kein Vorgang.`,
+        });
+        break;
+      }
+    }
   }
 
   /*
@@ -587,6 +928,35 @@ const Buehnenbild = z.discriminatedUnion('art', [
    * beim Schreiben auf. `blatt` und `stab` sind ausgenommen — sie liegen in
    * der Hand der Figur und nicht neben ihr.
    */
+  /*
+   * Dieselbe Ueberlagerung eine Ebene weiter: **zwei Figuren und ein Symbol
+   * passen nicht nebeneinander.**
+   *
+   * Im Wortwechsel steht die rechte Figur auf x = 158 (`WORTWECHSEL` in
+   * `Buehnenbild.tsx`), ein Symbol daneben auf x = 152. Der Renderer zeichnet
+   * beides, ohne zu murren — das Symbol laege also im Gehaeuse der rechten
+   * Figur, und zwar seitenverkehrt, weil sie gespiegelt ist.
+   *
+   * `blatt` ist ausgenommen, und hier ist es mehr als eine Ausnahme: Es faehrt
+   * als Requisite **in** der linken Figur mit, und die linke Figur ist die,
+   * die vorliest. Der Nachleser mit Blatt in der Hand ist genau das Bild, das
+   * die Szene meint.
+   */
+  if (
+    buehne.art === 'figur' &&
+    buehne.gegenueber !== undefined &&
+    buehne.requisite !== undefined &&
+    buehne.requisite !== 'blatt'
+  ) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['requisite'],
+      message:
+        `„${buehne.requisite}" steht auf x = 152, die zweite Figur auf x = 158 — ` +
+        'das Symbol laege in ihr. Bei zwei Figuren traegt nur `blatt`.',
+    });
+  }
+
   if (
     buehne.art === 'figur' &&
     buehne.stand === 'rechts' &&
@@ -807,6 +1177,43 @@ const SzeneEinschraenkung = SzeneBasis.extend({
 });
 
 /**
+ * Die Zitatkarte — das Zitat **steht** im Bild, statt zitiert zu werden.
+ *
+ * ## Warum es sie gibt
+ *
+ * Der Belegapparat ist das Einzige, was diesen Kanal von hundert anderen mit
+ * derselben Verpackung unterscheidet — und er war neun Videos lang eine
+ * **dünne graue Zeile** unter der Kopfzeile. Am 16.08.2026 wurde die eigene
+ * Belegszene gestrichen, weil sie zweieinhalb Sekunden Standbild kostete und
+ * dort sass, wo die Pointe hingehoert.
+ *
+ * Die Zitatkarte ist der Nachfolger, und der Unterschied zur alten Belegszene
+ * ist, dass hier **etwas passiert**: Der Wortlaut steht als Karte da, und die
+ * beiden Figuren reden darueber. Kein Standbild mit einem Behoerdennamen,
+ * sondern der Gegenstand des Gespraechs.
+ *
+ * ## Was hier anders ist als bei `text`
+ *
+ * `zitat` ist **woertlich** und wird nicht umgeschrieben. Genau hier darf das
+ * Amtsdeutsch stehen, das die Sprachregel sonst verbietet — es ist als Zitat
+ * gekennzeichnet und als solches erkennbar. Das ist die Umkehrung, die am
+ * 25.08.2026 entschieden wurde: Das Zitat bleibt Behoerdensprache, alles in
+ * eigenen Worten ist Alltagssprache.
+ *
+ * `quelleId` und `belegId` sind Pflicht, nicht optional wie bei `text`. Eine
+ * Zitatkarte ohne Fundstelle waere ein Zitat ohne Quelle, und das ist der
+ * einzige Fehler, den dieser Kanal sich nicht leisten kann.
+ */
+const SzeneZitatkarte = SzeneBasis.extend({
+  art: z.literal('zitatkarte'),
+  /** Der Wortlaut, wie er in der Quelle steht. Wird nie umgeschrieben. */
+  zitat: z.string().max(180),
+  quelleId: z.string(),
+  belegId: z.string(),
+  ...mitBelegeinblendung,
+});
+
+/**
  * Der Nachschlag — **ein** Satz, dann Wortmarke und Spruch.
  *
  * Hier stand bis zum 17.08.2026 die Endkarte, und ihr Schema erzwang
@@ -905,6 +1312,7 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneFrage,
   SzeneVergleich,
   SzeneEinschraenkung,
+  SzeneZitatkarte,
   SzeneSchluss,
   SzeneKaufkriterien,
 ]);
@@ -1056,6 +1464,183 @@ export const HOOK_MACHARTEN = [
     beispiele: ['Zwei Lager. Einer liegt falsch.', 'Die einen schwören darauf, die anderen lachen.'],
   },
 ] as const;
+
+/**
+ * Macharten fuer die Reaktion — der Werkzeugkasten der zweiten Stimme.
+ *
+ * Angelegt am 25.08.2026, als der Kanal zwei Sprecher bekam. Einer traegt die
+ * belegte Aussage, der andere reagiert; eine Reaktion behauptet nichts ueber
+ * die Welt und braucht deshalb keine Quelle. Genau darin liegt ihr Wert: Wo
+ * der Beleg zwingt, nah am Zitat zu bleiben, darf sie frech sein.
+ *
+ * **Warum es diese Liste braucht.** Ohne Vorgabe faellt jeder Entwurf auf den
+ * zusammenfassenden Kommentar zurueck — der Skill `joke-engineering` nennt das
+ * H4, „punchline is stated rather than implied". Das ist der Normalfall, nicht
+ * die Ausnahme, und `npm run pruefen` wird dabei gruen. Dieselbe Bauart wie bei
+ * `HOOK_MACHARTEN`: Ein Problem, das man nicht verbieten kann, bekommt ein
+ * Vokabular, aus dem gewaehlt werden muss.
+ *
+ * **Die eine Regel, an der alles scheitert:** Eine Reaktion, die den Fakt
+ * zusammenfasst, ist keine Reaktion. Sie muss etwas hinzufuegen, das im Fakt
+ * nicht steht.
+ *
+ * Abgeleitet aus fuenfzehn Zeilen, die Emirhan am 25.08.2026 einzeln bewertet
+ * hat. Die Streichungen trugen mehr als die Treffer — sie stehen als Regeln in
+ * `daten/marke/voice.md` unter „Humor", zusammen mit dem Register und dem
+ * Vorrat an Ausrufen.
+ *
+ * **Der Vorrat ist nicht abzuarbeiten.** Die Haelfte der guten Reaktionen kommt
+ * ohne Ausruf aus, und dasselbe Wort zweimal im Lauf macht daraus eine
+ * Schablone — bei KI-Material seit Juli 2025 ein Reichweiten- und
+ * Monetarisierungsrisiko.
+ *
+ * ## `regie` — die Ansage an die Stimme
+ *
+ * Seit dem 26.08.2026. `eleven_v3` versteht Regieanweisungen in eckigen
+ * Klammern, und das war der **Grund** fuer den Modellwechsel: Wattis Macharten
+ * heissen Ratlosigkeit und Gestaendnis, und die lassen sich damit ansagen,
+ * statt zu hoffen, dass die Stimme sie erraet. Der Ertrag lag seit dem 25.08.
+ * ungenutzt da — das Modell konnte es, niemand hat es bestellt.
+ *
+ * `redelaeufe` in `src/stimme.ts` setzt die Anweisung vor die Zeile. Sie steht
+ * **nur im Synthesetext**: `sprechtext` bleibt unberuehrt, damit Untertitel,
+ * Laengenschaetzung und die Gleichheitswache `rede` ↔ `sprechtext` nichts
+ * davon mitbekommen. `woerterAusAusrichtung` filtert eckige Klammern ohnehin
+ * schon heraus — ohne diesen Filter stuende „[confused]" gross ueber der
+ * Buehne.
+ *
+ * **Nicht jede Machart bekommt eine, und das ist die eigentliche Regel:** Eine
+ * Regieanweisung sagt an, wie etwas klingt. Wo der Witz im Wort liegt und
+ * nicht im Ton, ueberspielt sie ihn. `bild` und `rueckfrage` bleiben deshalb
+ * leer — die banale Rueckfrage lebt davon, banal zu klingen, und eine Ansage
+ * macht daraus eine Pointe mit Unterstreichung.
+ *
+ * **Die sechs Anweisungen sind geraten und gehoeren gemessen.**
+ * `npm run regieprobe` synthetisiert jede Reaktionszeile einmal mit und einmal
+ * ohne Anweisung und misst, ob die Klammer Ton erzeugt. Solange das nicht
+ * gelaufen ist, steht hier eine Vermutung — dieselbe Sorte, die bei
+ * `ZEICHEN_PRO_SEKUNDE` und der Denkpause schon zweimal Geld gekostet hat.
+ */
+export const REAKTIONS_MACHARTEN = [
+  {
+    schluessel: 'gestaendnis',
+    name: 'Gestaendnis',
+    tut: 'Gibt zu, es selbst falsch zu machen. Der Zuschauer erkennt sich wieder, ohne dass ihm jemand etwas vorwirft.',
+    achtung:
+      'Im Moment gesprochen, nicht rueckblickend. „Ich mache das seit zehn Jahren." ist ein Protokoll; „Wie? Ich mache das seit zehn Jahren." ist der Augenblick, in dem es auffaellt.',
+    beispiele: ['Wie? Ich mache das seit zehn Jahren.', 'Passwort3 ist meins.', 'Ich habe in der Schule vier gekonnt.'],
+    /*
+     * Der Seufzer ist das Ertapptwerden. **Und er ist der einzige Tag hier,
+     * der selbst Ton erzeugt** — ein Seufzer ist hoerbar, „[confused]" ist nur
+     * eine Anweisung. Das faellt in der Probe auf, nicht im Video: Der Seufzer
+     * steht in keinem Untertitel, weil `woerterAusAusrichtung` alles zwischen
+     * eckigen Klammern wegfiltert.
+     */
+    regie: '[sighs]',
+  },
+  {
+    schluessel: 'falscherschluss',
+    name: 'Falscher Schluss',
+    tut: 'Zieht aus dem Fakt die naechstliegende falsche Folgerung. Der Zuschauer korrigiert im Kopf mit — und das ist die Beteiligung, die ein Kommentar braucht.',
+    achtung:
+      'Er muss erkennbar falsch sein. Ein Schluss, der stimmen koennte, ist eine Behauptung ueber die Welt und damit belegpflichtig.',
+    beispiele: ['Meiner ist 7. Ich bin quasi Astronaut.', 'Mein Laptop ist also weltraumtauglich.'],
+    /*
+     * Der falsche Schluss lebt davon, dass Watti ihn fuer richtig haelt.
+     * Zoegernd vorgetragen waere er ein Vorschlag; ueberzeugt vorgetragen ist
+     * er der Fehler, den der Zuschauer im Kopf berichtigt.
+     */
+    regie: '[excited]',
+  },
+  {
+    schluessel: 'bild',
+    name: 'Bild',
+    tut: 'Setzt an die Stelle des Sachverhalts einen Gegenstand oder eine Szene. Ein Bild schlaegt ein Paradox.',
+    achtung:
+      'Nie an einem Wort haengen, das die Zielgruppe 18–30 nicht benutzt. „Roehre" und „Ladeziegel" sind daran gescheitert: Wer ein Wort erklaeren muss, hat keinen Witz mehr.',
+    beispiele: ['Also haben Einzelteile jetzt Herrchen.', 'Meins liegt seit drei Jahren hinterm Sofa.'],
+    /*
+     * Keine. Ein Bild traegt sich selbst — „Meins liegt seit drei Jahren
+     * hinterm Sofa." braucht keinen Ton, der ansagt, dass es lustig ist.
+     */
+    regie: undefined,
+  },
+  {
+    schluessel: 'ratlosigkeit',
+    name: 'Ratlosigkeit',
+    tut: 'Nimmt dem Zuschauer den Boden weg, den der Fakt gerade weggezogen hat. Die Folgerung bleibt bei ihm.',
+    achtung: 'Keine rhetorische Frage — echte Hilflosigkeit. Sobald eine Antwort mitgeliefert wird, ist es wieder ein Kommentar.',
+    beispiele: ['Kacke, was dann?', 'Und jetzt? Zwiebeln?', 'Moment. Kleiner ist schlechter?'],
+    /*
+     * Der Fall, fuer den der Modellwechsel gemacht wurde. Ratlosigkeit ist
+     * ganz Ton: „Kacke, was dann?" gelesen wie eine Frage ist rhetorisch,
+     * gelesen wie Hilflosigkeit ist es die Machart.
+     */
+    regie: '[confused]',
+  },
+  {
+    schluessel: 'empoerung',
+    name: 'Empoerung gegen den Falschen',
+    tut: 'Zielt auf den Verursacher statt auf die Sache. Traegt die Reaktion, die `absicht` ohnehin ausloest.',
+    achtung:
+      'Firmen und Behoerden duerfen getroffen werden, wenn ein Beleg danebensteht. Gruppen und Personen des oeffentlichen Lebens nie.',
+    beispiele: ['Die EU kann also doch was?!', 'Dreizehn Jahre. Für ein Loch.', 'Mein Hintern ist jetzt ein Geschäftsmodell.'],
+    /*
+     * Gespielte Empoerung, nicht echte. Sie zielt auf den Verursacher, und der
+     * Ton macht den Unterschied zwischen einem Vorwurf und einem Witz ueber
+     * einen Vorwurf.
+     */
+    regie: '[angry]',
+  },
+  {
+    schluessel: 'rueckfrage',
+    name: 'Die banale Rueckfrage',
+    tut: 'Fragt das Naheliegendste, das im Fakt offen bleibt. Wirkt, weil es niemand ausspricht.',
+    achtung:
+      'Sofort verstaendlich, nicht nach einem Takt. Wer erst ueberlegen muss, lacht nicht mehr — im Zweifel banaler.',
+    beispiele: ['Warum heißt er dann so?', 'Also vor meiner Mutter.', 'Wie, vier Stück?!'],
+    /*
+     * Keine, und zwar bewusst. Die banale Rueckfrage wirkt, weil sie banal
+     * klingt. Jede Ansage — neugierig, empoert, verwundert — macht aus der
+     * Banalitaet eine Pointe mit Unterstreichung, und dann ist sie keine mehr.
+     */
+    regie: undefined,
+  },
+] as const;
+
+/**
+ * Die Wache ueber der Doppelung: `Redeanteil.machart` zaehlt die Schluessel
+ * ein zweites Mal auf.
+ *
+ * Abgeleitet werden kann das Enum nicht — `Redeanteil` steht tausend Zeilen
+ * weiter oben, und ein `const` ist zur Auswertungszeit dort noch leer. Also
+ * bleibt die Doppelung, und damit gilt der Satz, der in diesem Projekt an
+ * `herausgeber` und an `rede` ↔ `sprechtext` haengt: **Eine Doppelung ohne
+ * Wache ist der eigentliche Fehler, nicht die Doppelung selbst.**
+ *
+ * Diese hier kostet nichts, weil sie im Typsystem liegt: Wer eine Machart
+ * hinzufuegt und das Enum vergisst (oder umgekehrt), bekommt einen
+ * `tsc`-Fehler statt einer Machart, die sich nicht eintragen laesst.
+ */
+type MachartSchluessel = (typeof REAKTIONS_MACHARTEN)[number]['schluessel'];
+type MachartImSchema = NonNullable<z.infer<typeof Redeanteil>['machart']>;
+const _machartenDeckenSich: [MachartSchluessel, MachartImSchema] extends [
+  MachartImSchema,
+  MachartSchluessel,
+]
+  ? true
+  : never = true;
+void _machartenDeckenSich;
+
+/**
+ * Die Regieanweisung zu einer Machart, oder `undefined`.
+ *
+ * Steht hier statt in `src/stimme.ts`, weil die Vertonung nicht die einzige
+ * Stelle bleiben muss, die sie liest — die Freigabeseite koennte sie zeigen,
+ * und eine zweite `find`-Schleife waere die naechste Doppelung.
+ */
+export const regieVon = (machart: MachartImSchema): string | undefined =>
+  REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.regie;
 
 /**
  * Die Wochentage — nur noch fuer Anzeige und Datumsrechnung.
@@ -1465,11 +2050,41 @@ export const Plattformtext = z.object({
  * man aus ihnen liest, muss man einzeln lesen koennen.
  */
 export const Tonspur = z.object({
+  /**
+   * Die Tondatei. Bei zwei Sprechern die **erste** — die uebrigen stehen in
+   * `abschnitte`, und der Renderer legt sie nebeneinander.
+   */
   datei: z.string(),
   dauerSek: z.number().positive(),
   woerter: z.array(Untertitelwort),
   /** Startzeit jeder Szene, aus den Sprech-Zeitstempeln abgeleitet. */
   szenenStartSek: z.array(z.number().nonnegative()),
+  /**
+   * Ein Abschnitt je zusammenhaengendem Redeanteil einer Figur.
+   *
+   * **Warum nicht eine Datei.** Zwei Sprecher heissen zwei Stimmen, und
+   * ElevenLabs synthetisiert je Aufruf mit genau einer. Die Stuecke wieder zu
+   * einer Datei zusammenzukleben braeuchte ffmpeg — und hier gibt es nur den
+   * abgespeckten Remotion-Wrapper mit 50 Filtern, an dem schon `afade`
+   * gescheitert ist.
+   *
+   * Der Renderer legt sie stattdessen **nebeneinander**: je Abschnitt ein
+   * `<Audio>` in einer `Sequence` mit eigenem Startbild. Das kann Remotion von
+   * Haus aus, und die Markentoene laufen seit dem 24.08.2026 genau so.
+   *
+   * Fehlt das Feld, gilt `datei` allein — der einstimmige Fall bleibt
+   * unveraendert, und kein bestehender Short bricht.
+   */
+  abschnitte: z
+    .array(
+      z.object({
+        datei: z.string(),
+        sprecher: Sprecher,
+        startSek: z.number().nonnegative(),
+      }),
+    )
+    .min(1)
+    .optional(),
 });
 export type Tonspur = z.infer<typeof Tonspur>;
 
@@ -1489,6 +2104,16 @@ export const Short = z.object({
    * Druckerwoche.
    */
   sachgebiet: Sachgebiet,
+
+  /**
+   * Wie der Short gebaut ist. Siehe `BAUFORMEN` — dort steht auch, wie lang
+   * diese Bauform sein will.
+   *
+   * Format und Bauform sind **unabhaengig**: Ein Maerchen kann eine
+   * Wechselrede oder eine Reihe von Stationen sein. Das Format sagt, welche
+   * Reaktion der Short ausloest; die Bauform sagt, wie er sie erzeugt.
+   */
+  bauform: Bauform,
 
   /** Interner Arbeitstitel, nicht der Veroeffentlichungstitel. */
   arbeitstitel: z.string(),
@@ -1594,6 +2219,44 @@ export const Short = z.object({
    * Stelle, an der die Dramaturgie greift.
    */
   .superRefine((short, ctx) => {
+    /* ── Zwei Stimmen: die Wache gegen das Auseinanderlaufen ─────── */
+
+    /*
+     * `rede` und `sprechtext` sind zwei Fassungen desselben Textes. Ohne diese
+     * Pruefung wuerde eine Aenderung an der einen die andere still veralten
+     * lassen — und weil die Vertonung `sprechtext` liest und die Sprechblasen
+     * `rede`, faellt es erst im fertigen Video auf.
+     *
+     * Verglichen wird ohne Ruecksicht auf Leerraum, sonst meldete ein
+     * doppeltes Leerzeichen einen Fehler, den niemand sieht.
+     */
+    const platt = (t: string) => t.replace(/\s+/g, ' ').trim();
+    short.szenen.forEach((szene, i) => {
+      if (szene.rede === undefined) return;
+      const verkettet = platt(szene.rede.map((r) => r.text).join(' '));
+      if (verkettet !== platt(szene.sprechtext)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen', i, 'rede'],
+          message:
+            'Die Redeanteile ergeben nicht den Sprechtext. Beide müssen denselben ' +
+            'Wortlaut tragen — die Vertonung liest den einen, die Sprechblasen den anderen.',
+        });
+      }
+      /*
+       * Zwei Reaktionen derselben Machart in einer Szene sind der Anfang der
+       * Schablone. Ueber den ganzen Short prueft `shortPruefen`.
+       */
+      const macharten = szene.rede.map((r) => r.machart).filter((m) => m !== undefined);
+      if (new Set(macharten).size !== macharten.length) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['szenen', i, 'rede'],
+          message: 'Zweimal dieselbe Reaktions-Machart in einer Szene.',
+        });
+      }
+    });
+
     /* ── Der Bau: vier Positionen in ihrer Reihenfolge ───────────── */
 
     /*

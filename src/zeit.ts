@@ -1,5 +1,5 @@
 import { FORMAT } from './marke';
-import type { Short, Szene } from './typen';
+import { BAUFORMEN, type Short, type Szene } from './typen';
 
 /**
  * Zeitberechnung eines Shorts.
@@ -69,8 +69,38 @@ import type { Short, Szene } from './typen';
  * Waere das die Ursache, dann waere die Konstante nicht falsch gemessen,
  * sondern **fuer eine Sprache gemessen, die es nicht mehr gibt**. Nachmessen,
  * sobald vier Shorts im neuen Stil vertont sind — dann liegen genug Werte vor.
+ *
+ * ## 13,0 statt 15,4 — 25.08.2026, wegen des Modellwechsels
+ *
+ * Der Satz oben („nicht aendern, eine Messung an einem Video waere genau der
+ * Fehler") gilt weiter fuer eine **unsichere** Zahl. Hier liegt ein anderer
+ * Fall vor: Die 15,4 sind an `eleven_multilingual_v2` gemessen, und seit dem
+ * Wechsel auf `eleven_v3` (Begruendung in `src/stimme.ts`) spricht das Modell
+ * langsamer. Die Zahl ist damit nicht unsicher, sondern **fuer ein Modell
+ * gemessen, das nicht mehr laeuft**.
+ *
+ * Drei Messungen auf v3, zusammen rund 800 Zeichen:
+ *
+ * | Was | Zeichen | Dauer | Rate |
+ * |---|---|---|---|
+ * | `passwort-wechseln`, zweistimmig, ganze Kette | 502 | 38,7 s ohne Pausen | **13,0** |
+ * | Lenny, Vergleichstext | 148 | 11,5 s | 12,9 |
+ * | Prayan, Vergleichstext | 148 | 11,7 s | 12,6 |
+ *
+ * Genommen wird **13,0**, die Rate **ohne** Pausen: Die Konstante rechnet je
+ * Szene, und `szenendauerAus` addiert `pauseSek` getrennt. Mit Pausen waeren
+ * es 12,1 — die Pausen zaehlten dann doppelt.
+ *
+ * **Was die Schaetzung weiterhin nicht kennt, sind die Sprecherwechsel.** Seit
+ * dem 25.08. liegt zwischen zwei Redeanteilen einer Szene eine Pause von 0,28
+ * Sekunden (`SPRECHERWECHSEL_SEK` in `src/stimme.ts`), und `szenendauerAus`
+ * sieht sie nicht. Beim gemessenen Short fehlen dadurch rund 1,1 Sekunden.
+ * Das ist der naechste Posten, nicht dieser.
+ *
+ * Die Basis bleibt duenn — 800 Zeichen gegen die 2.479, auf denen die 15,4
+ * standen. Nachmessen, sobald vier Shorts auf v3 vertont sind.
  */
-export const ZEICHEN_PRO_SEKUNDE = 15.4;
+export const ZEICHEN_PRO_SEKUNDE = 13.0;
 
 /**
  * Stille nach dem letzten Wort, in der die Signatur stehen bleibt.
@@ -94,6 +124,29 @@ export const NACHLAUF_SEK = 1.5;
 const PAUSE_NACH_SZENE_SEK = 0.32;
 
 /**
+ * Wie lange zwischen zwei Sprechern geschwiegen wird.
+ *
+ * Kuerzer als der Szenentrenner: Ein Wortwechsel ist eine Reaktion, und eine
+ * Reaktion kommt schnell. Zu lang, und aus dem Schlagabtausch werden zwei
+ * Monologe.
+ *
+ * **Steht hier und nicht in `stimme.ts`**, obwohl die Vertonung sie einlegt:
+ * Sie ist eine Laenge, und Laengen wohnen in dieser Datei. Vorher stand sie
+ * nur drueben — und die Schaetzung wusste deshalb nichts von ihr.
+ */
+export const SPRECHERWECHSEL_SEK = 0.28;
+
+/**
+ * Die Pause zwischen zwei Szenen, wenn der Sprecher dabei wechselt.
+ *
+ * Innerhalb eines Laufs entsteht die Szenenpause ueber den Trenner im Text;
+ * nur wo die Vertonung schneidet, muss sie als Zahl danebenstehen. Die 0,45
+ * sind der gemessene Wert des Trenners aus `npm run pausenprobe`, gerundet:
+ * ` ... ` ergab 0,38 s, drei davon 0,86 s.
+ */
+export const SZENENTRENNER_SEK = 0.45;
+
+/**
  * Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der
  * Text ist.
  *
@@ -106,6 +159,12 @@ const PAUSE_NACH_SZENE_SEK = 0.32;
 const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
   text: 1.4,
   zahl: 2.0,
+  /**
+   * Die Zitatkarte traegt einen woertlichen Behoerdensatz — laenger und
+   * sperriger als jeder Satz, den der Kanal selbst schreibt. Sie braucht
+   * Lesezeit, nicht nur Sprechzeit.
+   */
+  zitatkarte: 2.6,
   /**
    * Die Frage steht, waehrend nichts gesprochen wird.
    *
@@ -157,6 +216,75 @@ export const szenendauerAus = (
   pauseSek?: number,
 ): number => Math.max(MINDESTDAUER_SEK[art], sprechdauerSek) + (pauseSek ?? PAUSE_NACH_SZENE_SEK);
 
+/**
+ * Die Pausen, die **zwischen** den Sprechern entstehen und die
+ * `szenendauerAus` nicht kennt.
+ *
+ * ## Der Fehler, den sie behebt
+ *
+ * `szenendauerAus` rechnet je Szene: Sprechdauer plus eine Atempause. Seit dem
+ * Umbau auf zwei Stimmen legt die Vertonung aber **innerhalb** einer Szene
+ * eine Pause ein, sobald die Figur wechselt — 0,28 Sekunden, die in keiner
+ * Schaetzung standen. Bei vier Reaktionszeilen sind das 1,1 Sekunden je Short,
+ * und sie fehlten in der Sprechprobe, in der Laengenpruefung und im
+ * Szenenzeitplan der Vorschau.
+ *
+ * Dazu die kleinere Haelfte: Faellt der Sprecherwechsel auf eine
+ * **Szenengrenze**, schneidet die Vertonung und legt `SZENENTRENNER_SEK` ein
+ * statt der Atempause von 0,32 — also 0,13 Sekunden mehr, die hier
+ * nachgetragen werden. Eine bestellte `pauseSek` bleibt aussen vor: Die zaehlt
+ * `szenendauerAus` bereits.
+ *
+ * ## Warum sie `redelaeufe` nicht aufruft
+ *
+ * `redelaeufe` in `src/stimme.ts` ist die Wahrheit ueber diese Pausen — die
+ * Regel hier ist ihr Abbild und kein zweiter Entwurf. Aufrufen laesst sie sich
+ * trotzdem nicht: `stimme.ts` importiert `node:buffer`, und `gesamtdauerBilder`
+ * laeuft ueber `calculateMetadata` **im Browser**. Ein Import von dort haenge
+ * den Render an einem Modul auf, das dort nicht laedt.
+ *
+ * **Die Doppelung hat deshalb eine Wache**: `skripte/schemapruefung.ts` haelt
+ * beide Rechnungen je Short nebeneinander und meldet jede Abweichung. Eine
+ * Doppelung ohne Wache waere der eigentliche Fehler.
+ */
+export const zusatzpausenSzene = (short: Short, i: number): number => {
+  const szene = short.szenen[i];
+  const anteile = szene?.rede;
+  if (!szene || anteile === undefined) return 0;
+
+  let summe = 0;
+
+  // Wechsel **innerhalb** der Szene: jede Naht zwischen zwei Sprechern.
+  for (let j = 1; j < anteile.length; j += 1) {
+    if (anteile[j]!.sprecher !== anteile[j - 1]!.sprecher) summe += SPRECHERWECHSEL_SEK;
+  }
+
+  // Und der Wechsel **an** der hinteren Grenze, der einen Schnitt erzwingt.
+  const naechste = short.szenen[i + 1];
+  if (naechste) {
+    const letzter = anteile[anteile.length - 1]?.sprecher;
+    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
+    if (letzter !== undefined && letzter !== erster && szene.pauseSek === undefined) {
+      summe += SZENENTRENNER_SEK - PAUSE_NACH_SZENE_SEK;
+    }
+  }
+
+  return summe;
+};
+
+/**
+ * Dieselben Pausen ueber den ganzen Short.
+ *
+ * **Je Szene und nicht nur als Summe**, weil sonst zwei Wahrheiten ueber
+ * dieselbe Laenge entstuenden: `geschaetzteDauerSek` haette die Pausen
+ * gezaehlt und `szenenZeitplan` nicht — der tonlose Render waere um bis zu
+ * anderthalb Sekunden kuerzer gewesen als die Zahl, gegen die die
+ * Laengenpruefung misst. Genau diese Sorte Widerspruch hat hier schon einmal
+ * eine leere Buehne am Videoende produziert.
+ */
+export const zusatzpausenSek = (short: Short): number =>
+  short.szenen.reduce((summe, _, i) => summe + zusatzpausenSzene(short, i), 0);
+
 /** Geschaetzte Sprechdauer einer einzelnen Szene in Sekunden. */
 export const geschaetzteSzenendauer = (szene: Szene): number =>
   szenendauerAus(szene.art, szene.sprechtext.length / ZEICHEN_PRO_SEKUNDE, szene.pauseSek);
@@ -183,8 +311,10 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
   }
 
   let laufend = 0;
-  return short.szenen.map((szene) => {
-    const dauer = geschaetzteSzenendauer(szene);
+  return short.szenen.map((szene, i) => {
+    // Die Sprecherpausen gehoeren in die Szene, in der gewechselt wird —
+    // sonst laufen Zeitplan und Gesamtdauer auseinander.
+    const dauer = geschaetzteSzenendauer(szene) + zusatzpausenSzene(short, i);
     const eintrag = {
       startBild: Math.round(laufend * fps),
       dauerBilder: Math.max(1, Math.round(dauer * fps)),
@@ -282,7 +412,32 @@ export const LAENGE_SEK = {
    * Wurfbereich. **Zielwert ist die Mitte, nicht der Rand** — 36 haelt den
    * Abstand, den die Regel verlangt.
    */
-  ziel: [20, 36] as const,
+  /*
+   * ## Fenster 20 bis 65 — seit dem 25.08.2026
+   *
+   * Zwoelf Shorts eines laufenden Kanals wurden vermessen (`@dr_data_dr`,
+   * 91.000 Abonnenten, 44 Mio. Aufrufe): **48 bis 67 Sekunden**, Median rund
+   * 61, das staerkste Video (3,2 Mio.) bei 51. **Kein einziges lag in unserem
+   * alten Fenster.**
+   *
+   * Wichtiger als die neue Obergrenze ist aber, was daneben passiert ist: Der
+   * **Zielwert haengt jetzt an der Bauform** (`BAUFORMEN[...].zielSek`), nicht
+   * mehr einmal an allem. Vier Stationen brauchen mehr Zeit als ein
+   * Wortwechsel, weil sie mehr Inhalt haben — „Laenge ist keine Ursache,
+   * sondern eine Folge davon, wie viel es zu zeigen gibt" stand schon oben,
+   * nur fehlte die Folgerung.
+   *
+   * **Und der Zielwert ist erstmals eine Wache statt eines Kommentars.** Bis
+   * hierher stand er nur in diesem Text; geprueft wurde allein das Fenster.
+   * Mit 65 als Obergrenze liefe eine Wechselrede von 60 Sekunden stumm durch,
+   * deshalb meldet `shortPruefen` jede Abweichung von mehr als einem Fuenftel
+   * vom Zielwert der jeweiligen Bauform.
+   *
+   * Der Einwand gehoert daneben: Das „zu lang" der ersten Zuschauer galt
+   * Videos von 28 bis 40 Sekunden. Wir halten Langeweile fuer die Ursache und
+   * wissen es nicht sicher — eine Bauform mit 55 Sekunden ist eine Wette.
+   */
+  ziel: [20, 65] as const,
   /**
    * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *
@@ -298,6 +453,50 @@ export const LAENGE_SEK = {
 
 export const zielfenster = (): readonly [number, number] => LAENGE_SEK.ziel;
 
+/* ───────────────────────── Laengenklassen ──────────────────────────── */
+
+/**
+ * Die Klassen, in denen der Ruecklauf Laengen vergleicht.
+ *
+ * **Sie werden aus `BAUFORMEN` abgeleitet und nicht danebengeschrieben.** Die
+ * Zielwerte sagen, welche Laengen wir ueberhaupt anstreben; eine zweite,
+ * handgeschriebene Einteilung waere eine Doppelung ohne Wache und liefe beim
+ * ersten Umbau lautlos auseinander — genau der Fehler, den `rede` neben
+ * `sprechtext` nur deshalb nicht macht, weil dort eine harte Gleichheit
+ * prueft.
+ *
+ * Die Grenze liegt jeweils **in der Mitte zwischen zwei benachbarten
+ * Zielwerten**: Bei 25 / 35 / 45 / 60 sind das 30, 40 und 53. Damit liegt
+ * jeder Zielwert mittig in seiner Klasse, und eine Bauform, die ihr Ziel
+ * trifft, landet in ihrer eigenen Klasse.
+ *
+ * Zwei Bauformen mit demselben Zielwert teilen sich eine Klasse. Das ist kein
+ * Sonderfall, sondern die richtige Antwort: Sie sind dann in dieser Hinsicht
+ * dasselbe, und genau deshalb wurden die Zielwerte am 26.08.2026 gespreizt.
+ */
+export type Laengenklasse = { name: string; von: number; bis: number };
+
+const klassenAusZielwerten = (): Laengenklasse[] => {
+  const ziele = [...new Set(Object.values(BAUFORMEN).map((b) => b.zielSek))].sort((a, b) => a - b);
+  const grenzen = ziele.slice(0, -1).map((z, i) => Math.round((z + ziele[i + 1]!) / 2));
+
+  return ziele.map((_, i) => {
+    const von = i === 0 ? 0 : grenzen[i - 1]!;
+    const bis = i === ziele.length - 1 ? Infinity : grenzen[i]!;
+    return {
+      name: von === 0 ? `bis ${bis} s` : bis === Infinity ? `über ${von} s` : `${von}–${bis} s`,
+      von,
+      bis,
+    };
+  });
+};
+
+export const LAENGENKLASSEN = klassenAusZielwerten();
+
+/** In welche Klasse eine Dauer faellt. Die letzte Klasse ist nach oben offen. */
+export const laengenklasseVon = (sek: number): Laengenklasse =>
+  LAENGENKLASSEN.find((k) => sek >= k.von && sek < k.bis) ?? LAENGENKLASSEN[LAENGENKLASSEN.length - 1]!;
+
 /**
  * Geschaetzte Gesamtlaenge in Sekunden, ohne Tonspur.
  *
@@ -308,4 +507,5 @@ export const zielfenster = (): readonly [number, number] => LAENGE_SEK.ziel;
  * Stelle, an der eine Rueckmeldung zu spaet kommt.
  */
 export const geschaetzteDauerSek = (short: Short): number =>
-  short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0);
+  short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0) +
+  zusatzpausenSek(short);

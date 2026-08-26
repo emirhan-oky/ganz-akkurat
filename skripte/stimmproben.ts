@@ -51,7 +51,80 @@ const KANDIDATEN = [
   { id: 'AMJfLTmTy3vPtjSvrGqZ', name: 'Peter-Hartlapp', beschreibung: 'Podcast, tiefer' },
 ];
 
-const ZIEL = 'laeufe/stimmproben';
+/**
+ * Wattis Probetext — **seine echten Zeilen**, nicht der Kanal-Probetext.
+ *
+ * Der obere Text prueft, ob eine Stimme erklaeren kann. Watti erklaert nichts:
+ * Er gesteht, zieht falsche Schluesse und ist ratlos. Ob eine Stimme das
+ * traegt, hoert man an einer Erklaerung nicht — deshalb hier vier Zeilen aus
+ * dem Eichmass vom 25.08.2026, je eine Machart.
+ *
+ * „Watt?" steht bewusst vorn: Es ist sein wiederkehrender Ausruf, und wenn eine
+ * Stimme daran scheitert, scheitert sie in jedem zweiten Video.
+ */
+const WATTI_TEXT =
+  'Watt? Ich mache das seit zehn Jahren. ' +
+  'Bin bei Passwort7. ' +
+  'Also war das alles umsonst? ' +
+  'Volti, das hat sich jemand ausgedacht.';
+
+/**
+ * Wattis Kandidaten — gesucht am **Abstand zu Volti**.
+ *
+ * Volti bleibt Lenny bei 137 Hz; die Paarrunde vom 25.08.2026 hat ihn
+ * bestaetigt, nachdem er kurz zur Disposition stand. Was zaehlt, ist damit nur
+ * noch eine Zahl: **mindestens 40 Hz Abstand**, also ueber 177 oder unter 97.
+ * Darunter klingen zwei Stimmen im Wechsel wie eine.
+ *
+ * Von achtzehn gemessenen Stimmen erfuellt das genau eine sauber — Olaf mit
+ * 182 Hz. Callya liegt bei 172 knapp darunter, Peter-Hartlapp trennt mit 88 Hz
+ * gut und spricht dafuer nur 11,6 Zeichen/s, was bei Zwei-Wort-Einwuerfen
+ * schleppt. Deshalb diese Runde im hohen Bereich.
+ *
+ * Zwei Anlaeufe davor sind an der falschen Achse gescheitert. Die acht
+ * Erzaehler oben liegen fast alle neben Voltis 137 Hz — Lars bei 132, also
+ * fuenf Hertz daneben, was im Wechsel derselbe Sprecher waere. Und
+ * `characters_animation` war zu kindisch: Nach dem Aussieben von Schrei-,
+ * Horror- und Roboterstimmen bleiben dort **zwei** deutsche Stimmen. Die
+ * Kategorie ist fuer Kinderformate gebaut.
+ *
+ * Die Spur hier ist `conversational` und `social_media`, Alter `young` — 57
+ * beziehungsweise 50 Stimmen, und niemand hat sie probiert. Jemand, der
+ * **redet**, statt zu erzaehlen oder eine Figur zu spielen. Nachrichten-
+ * sprecher, Kommentatoren und Motivationsredner sind aussortiert: alles
+ * Vortragsregister.
+ *
+ * Vali und Gerry stehen bewusst dabei, obwohl sie tiefer liegen. Ohne sie
+ * bestuende der Topf nur aus hohen Stimmen, und dann gaebe es kein Paar mit
+ * Abstand, sondern zehn Wattis.
+ */
+const PAAR_KANDIDATEN = [
+  // Zweite Messung derselben drei — die Streuung der Synthese pruefen.
+  { id: 'ZDsEGXYAf6c4QY0LNSHr', name: 'Prayan-2', beschreibung: 'schrullig, energisch' },
+  { id: 'UafGxvF2q1XMC9Qy4tPR', name: 'Clowny-2', beschreibung: 'lustig, aufgedreht' },
+  { id: 'iwRzSAbd1d305sh0TAAy', name: 'Olaf-2', beschreibung: 'froehlich, jung' },
+  { id: '6IEvIqBOPOMUc5HwR9sQ', name: 'Volti-Lenny', beschreibung: 'die laufende Kanalstimme' },
+];
+
+/**
+ * Der Paar-Probetext — **beide Register in einer Datei.**
+ *
+ * Zuerst ein Zitatsatz, wie Volti ihn traegt: Amtsdeutsch hinter einem
+ * Doppelpunkt, sachlich, ohne Pointe. Dann zwei Einwuerfe, wie Watti sie sagt:
+ * kurz, ratlos, mit Gestaendnis. So hoert man je Stimme, welche der beiden
+ * Rollen sie besser kann — und ob sie beide kann.
+ *
+ * „Watt?" steht bewusst dazwischen: Es ist Wattis wiederkehrender Ausruf, und
+ * eine Stimme, die daran scheitert, scheitert in jedem zweiten Video.
+ */
+const PAAR_TEXT =
+  'Beim BSI steht: Ein routinemäßiger Passwortwechsel erhöht die Sicherheit nicht automatisch. ' +
+  'Watt? Ich mache das seit zehn Jahren. Bin bei Passwort7.';
+
+/** `--paar` hoert beide Register ab, ohne `--paar` den alten Kanal-Probetext. */
+const WATTI = process.argv.includes('--paar') || process.argv.includes('--watti');
+
+const ZIEL = WATTI ? 'laeufe/stimmproben-paar' : 'laeufe/stimmproben';
 
 const main = async () => {
   const schluessel = process.env.ELEVENLABS_API_KEY;
@@ -59,23 +132,23 @@ const main = async () => {
 
   await fs.mkdir(ZIEL, { recursive: true });
   console.log(
-    `Probetext: ${PROBETEXT.length} Zeichen je Stimme, ` +
-      `${KANDIDATEN.length * PROBETEXT.length} Zeichen insgesamt\n`,
+    `${WATTI ? 'Beide Register' : 'Probetext'}: ${(WATTI ? PAAR_TEXT : PROBETEXT).length} Zeichen je Stimme, ` +
+      `${(WATTI ? PAAR_KANDIDATEN : KANDIDATEN).length * (WATTI ? PAAR_TEXT : PROBETEXT).length} Zeichen insgesamt\n`,
   );
 
   const tempi: number[] = [];
 
-  for (const kandidat of KANDIDATEN) {
+  for (const kandidat of WATTI ? PAAR_KANDIDATEN : KANDIDATEN) {
     try {
       const synthese = await synthetisieren(
-        PROBETEXT,
+        WATTI ? PAAR_TEXT : PROBETEXT,
         { stimmeId: kandidat.id, ...KANAL_STIMME },
         schluessel,
       );
       const datei = path.join(ZIEL, `${kandidat.name}.mp3`);
       await fs.writeFile(datei, synthese.ton);
 
-      const tempo = PROBETEXT.length / synthese.dauerSek;
+      const tempo = (WATTI ? PAAR_TEXT : PROBETEXT).length / synthese.dauerSek;
       tempi.push(tempo);
       console.log(
         `✓ ${kandidat.name.padEnd(18)} ${synthese.dauerSek.toFixed(1).padStart(5)}s  ` +
@@ -105,7 +178,7 @@ const main = async () => {
 
   console.log(`\nHörproben liegen in ${ZIEL}/`);
   console.log(`Anhören mit:  open ${ZIEL}`);
-  console.log(`Danach ELEVENLABS_VOICE_ID in .env auf die Kennung der gewählten Stimme setzen.`);
+  console.log(`Danach ${WATTI ? 'ELEVENLABS_VOICE_ID (Volti) und ELEVENLABS_VOICE_ID_ZEIGER (Watti)' : 'ELEVENLABS_VOICE_ID'} in .env auf die Kennung der gewählten Stimme setzen.`);
 };
 
 main().catch((fehler) => {

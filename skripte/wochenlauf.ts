@@ -80,7 +80,22 @@ if (MIT_TON && TON_BEHALTEN) {
   console.error('\nFür eine Bildkorrektur an fertigen Shorts: nur --ton-behalten.');
   process.exit(1);
 }
-const STIMME = process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb';
+/**
+ * Eine Stimme je Figur.
+ *
+ * Volti behaelt die bisherige Kanalstimme. Watti braucht eine eigene — zwei
+ * Sprecher mit derselben Stimme waeren kein Wortwechsel, sondern ein Monolog
+ * mit Absaetzen. Die Besetzung ist eine Entscheidung und keine Voreinstellung:
+ * Solange `ELEVENLABS_VOICE_ID_ZEIGER` fehlt, spricht Watti mit Voltis Stimme,
+ * und das faellt beim Hoeren sofort auf.
+ *
+ * Kandidaten stehen in `skripte/stimmproben.ts`, samt der Regel, nach der sie
+ * ausgewaehlt wurden.
+ */
+const STIMMEN = {
+  nachleser: process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb',
+  zeiger: process.env.ELEVENLABS_VOICE_ID_ZEIGER ?? process.env.ELEVENLABS_VOICE_ID ?? 'nPczCjzI2devNBz1zQrb',
+} as const;
 
 /**
  * Teillauf: `--nur=ein-stecker` baut einen einzigen Short.
@@ -243,17 +258,26 @@ const main = async () => {
     await fs.mkdir(path.join('public', 'ton', id), { recursive: true });
     fertige = [];
     for (const short of shorts) {
-      const datei = `ton/${id}/${short.id}.mp3`;
-      const { short: vertont, ton } = await shortVertonen(short, STIMME, schluessel, datei);
+      /*
+       * `%` wird zur Abschnittsnummer. Bei einem Sprecher entsteht daraus
+       * `<id>.1.mp3` — eine Datei wie vorher, nur mit Nummer, damit ein Short
+       * nicht je nach Stimmenzahl anders heisst.
+       */
+      const muster = `ton/${id}/${short.id}.%.mp3`;
+      const { short: vertont, toene } = await shortVertonen(short, STIMMEN, schluessel, muster);
 
-      // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohe
-      // Datei bleibt liegen, damit sich das Ergebnis nachvollziehen laesst.
-      const rohPfad = path.join('public', `ton/${id}/${short.id}.roh.mp3`);
-      await fs.writeFile(rohPfad, ton);
-      const pegel = await lautheitAngleichen(rohPfad, path.join('public', datei));
+      // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohen
+      // Dateien bleiben liegen, damit sich das Ergebnis nachvollziehen laesst.
+      let pegel = { vorher: 0, nachher: 0 };
+      for (const abschnitt of toene) {
+        const rohPfad = path.join('public', abschnitt.datei.replace('.mp3', '.roh.mp3'));
+        await fs.writeFile(rohPfad, abschnitt.ton);
+        pegel = await lautheitAngleichen(rohPfad, path.join('public', abschnitt.datei));
+      }
 
       console.log(
         `   ${short.id}  ${vertont.tonspur!.dauerSek.toFixed(1)}s  ` +
+          `${toene.length} Abschnitt${toene.length === 1 ? '' : 'e'}  ` +
           `Lautheit ${pegel.vorher.toFixed(1)} → ${pegel.nachher} LUFS`,
       );
       fertige.push(vertont);

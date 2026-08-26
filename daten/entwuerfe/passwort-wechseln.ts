@@ -21,6 +21,7 @@ export const passwortWechseln: Short = {
   themaId: 'passwort-wechseln',
   format: 'werhatrecht',
   sachgebiet: 'netz',
+  bauform: 'wechselrede',
   arbeitstitel: 'Das Passwort und der Kalender',
   weitererzaehlt: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
   suchbegriff: 'Passwort wechseln',
@@ -29,16 +30,35 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Passwort wechseln, sagt die IT. Das Netz lacht.',
+      sprechtext: '90 Tage, neues Passwort. Bin bei Passwort7.',
+      rede: [
+        { sprecher: 'nachleser', text: '90 Tage, neues Passwort.' },
+        { sprecher: 'zeiger', text: 'Bin bei Passwort7.', machart: 'gestaendnis' },
+      ],
       text: 'Passwort wechseln?',
       buehne: { art: 'figur', von: 'ruhe', nach: 'achselzucken' },
     },
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Beim BSI steht, ein routinemäßiger Wechsel erhöht die Sicherheit nicht automatisch.',
+      sprechtext: 'Beim BSI steht: Ein routinemäßiger Passwortwechsel erhöht die Sicherheit nicht automatisch. Also war das alles umsonst?',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          text: 'Beim BSI steht: Ein routinemäßiger Passwortwechsel erhöht die Sicherheit nicht automatisch.',
+          quelleId: 'bsi-passwortwechsel-2026',
+          belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
+        },
+        { sprecher: 'zeiger', text: 'Also war das alles umsonst?', machart: 'ratlosigkeit' },
+      ],
       text: 'Nicht automatisch.',
-      buehne: { art: 'figur', von: 'achselzucken', nach: 'lesen', requisite: 'schild', stand: 'links' },
+      buehne: {
+        art: 'figur',
+        von: 'lesen',
+        zwischen: ['zeigen'],
+        nach: 'erklaeren',
+        gegenueber: { von: 'ruhe', zwischen: ['stutzen'], nach: 'achselzucken' },
+      },
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
@@ -46,7 +66,16 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Wer ständig wechseln muss, greift vermehrt zu schwachen, vorhersehbaren Passwörtern.',
+      sprechtext: 'Watti, wer ständig wechseln muss, nimmt vorhersehbare Passwörter. Passwort8 kriegt ein Ausrufezeichen.',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          text: 'Watti, wer ständig wechseln muss, nimmt vorhersehbare Passwörter.',
+          quelleId: 'bsi-passwortwechsel-2026',
+          belegId: 'schwache-vorhersehbare-passwoerter',
+        },
+        { sprecher: 'zeiger', text: 'Passwort8 kriegt ein Ausrufezeichen.', machart: 'bild' },
+      ],
       text: 'Oft schwächere Passwörter.',
       buehne: { art: 'figur', von: 'lesen', nach: 'erklaeren' },
       hervorhebung: 'vorhersehbaren',
@@ -56,7 +85,15 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Wichtiger ist laut Behörde, dass ein Passwort stark und einzigartig ist.',
+      sprechtext: 'Wichtiger ist, dass es stark ist und nirgendwo sonst steht.',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          text: 'Wichtiger ist, dass es stark ist und nirgendwo sonst steht.',
+          quelleId: 'bsi-passwortwechsel-2026',
+          belegId: 'stark-und-einzigartig',
+        },
+      ],
       text: 'Stark. Einzigartig.',
       buehne: { art: 'figur', von: 'erklaeren', nach: 'zeigen', requisite: 'haken' },
       quelleId: 'bsi-passwortwechsel-2026',
@@ -65,7 +102,16 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Wechseln sollst du dann, wenn es einen Hinweis auf unbefugte Dritte gibt.',
+      sprechtext: 'Wechseln sollst du, wenn jemand Fremdes drangekommen sein könnte. Volti, das hat sich jemand ausgedacht.',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          text: 'Wechseln sollst du, wenn jemand Fremdes drangekommen sein könnte.',
+          quelleId: 'bsi-umgang-mit-passwoertern',
+          belegId: 'geaendert-wenn-hinweis-unbefugte',
+        },
+        { sprecher: 'zeiger', text: 'Volti, das hat sich jemand ausgedacht.', machart: 'falscherschluss' },
+      ],
       text: 'Beim Hinweis. Dann ja.',
       buehne: { art: 'figur', von: 'zeigen', nach: 'stutzen', requisite: 'warndreieck', stand: 'links' },
       quelleId: 'bsi-umgang-mit-passwoertern',

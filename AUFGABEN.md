@@ -612,3 +612,113 @@ Katalogsprache.
 - [ ] TikTok-Bio eintragen
 - [ ] Die restlichen ~900 Zeichen der YouTube-Beschreibung sind Suchfläche —
       ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird
+
+## Die erste fordernde Regel · 26.08.2026
+
+1693 Zeilen Prüfung suchten bis heute ausschließlich Verbotenes. Deshalb wurde
+`npm run pruefen` bei neun Videos grün, die 0-mal geteilt wurden.
+
+- [x] ~~**Zweistimmigkeit**: mindestens zwei Szenen je Short tragen beide
+      Stimmen, außer bei `einstimmig` — den begrenzt die Drittelregel im Lauf.
+      Ein Mindestmaß, kein Muster: „immer beide" wäre nach vier Videos wieder
+      die Schablone, gegen die der Umbau läuft~~
+- [x] ~~**Reaktionszeile**: mindestens eine Zeile mit `machart` je Short, und
+      keine Machart zweimal. Geprüft wird nicht, ob es witzig ist, sondern ob
+      der Platz benutzt wurde — dieselbe Bauart wie die Belegregel~~
+- [x] ~~**Bauform laufweit**: keine zweimal hintereinander (Fehler), ab sechs
+      Shorts keine über ein Drittel. Die Grenze bei sechs ist nicht Vorsicht,
+      sondern Rechnung: Bei vier Shorts hieße ein Drittel vier verschiedene
+      Bauformen je Woche — derselbe Zwang, an dem die alte Formatregel
+      gescheitert ist~~
+- [x] ~~Alle vier Regeln an manipulierten Shorts gegengeprüft: jede feuert, und
+      der unveränderte `passwort-wechseln` bleibt still~~
+- [x] ~~**`erstes-laden` umgeschrieben** — Wechselrede, vier Reaktionen in vier
+      Macharten, 40,4 s. Zwei Bildfehler fand erst das Standbild und beide sind
+      jetzt Regeln: kein Symbol neben zwei Figuren, kein `zeigen` im
+      Wortwechsel, und nie beide Figuren gleichzeitig ausgreifend~~
+- [x] ~~Fehlalarm der Zeitregel abgestellt: „empfiehlt heute, vorher zu
+      unterbrechen" wurde nach `ohneSatzzeichen` zu „heute vor…". Die Wendung
+      wird jetzt samt ihrer Zeitspanne gesucht — ein Fehlalarm auf der starken
+      Seite lädt dazu ein, den Sprechtext gegen die Sprache zu verbiegen~~
+- [x] ~~**`ersatzteil-freischalten` umgeschrieben** — Wechselrede, vier
+      Macharten, 36,2 s. Der Beleg der dritten Szene ist dabei auf die
+      Fundstelle gewandert, die das gesprochene Wort wirklich trägt~~
+- [x] ~~**`video/Wortwechselprobe.tsx`** — der Prüftisch, der die Posenfrage
+      einmal für das ganze Vokabular beantwortet: `zeigen`, `erklaeren` und
+      `achselzucken` greifen in die andere Figur, die übrigen sieben nicht.
+      Davor standen zwei engere Regeln da, jede aus einem Standbild
+      geschlossen, und beide waren zu eng~~
+- [x] ~~**`raumstation-alte-rechner` ist der erste Short der Bauform
+      `stationen`** — und war es vorher schon: sechs Zuspitzungen und
+      Kipppunkte hintereinander sind eine steigende Aufzählung. Das Etikett
+      `einstimmig` hat nur nicht beschrieben, was dasteht. Fünf Szenen bleiben
+      einstimmig, damit die vier Zeichnungen im Bild bleiben; Watti tritt an
+      drei Stellen dazu. 48,2 s~~
+- [x] ~~**`npm run pruefen` ist wieder grün, ohne einen einzigen Hinweis** —
+      zum ersten Mal seit der fordernden Regel~~
+- [ ] In der `zahl`-Szene schrumpfen die Figuren auf rund vierzig Prozent: Zahl
+      und Bedeutung nehmen die Höhe, die Bühne bekommt den Rest. Derselbe
+      Restplatz-Fehler wie seinerzeit bei den 60-Pixel-Symbolen — aber die
+      Überlaufmessung wird dafür nicht angefasst
+- [x] ~~**`npm run laengen`** — Länge gegen Verweildauer. Anlass: `laengeSek`
+      stand seit Wochen in `daten/rueckblick.json` und wurde von keiner
+      Auswertung gelesen. Ohne das hätte die Entscheidung „erst messen, dann
+      über die Zielwerte reden" Daten gesammelt, die niemand ansieht.
+      Gerechnet wird `durchsicht × laengeSek`, weil die Prozent-Durchsicht mit
+      der Länge zwangsläufig sinkt — sie beantwortet die Frage, bevor sie
+      gestellt ist~~
+- [x] ~~`Herkunft` trägt jetzt `bauform`, **optional**: Die Läufe vor dem
+      25.08.2026 kennen das Feld nicht, und ein Pflichtfeld hätte jeden alten
+      Lauf durch `safeParse` fallen lassen — samt Format und Aufschlag der
+      neun veröffentlichten Videos~~
+- [x] ~~**Der Längenversuch bis Oktober ist aufgesetzt.** Die Zielwerte sind
+      auf 25 / 35 / 45 / 60 gespreizt — vorher fielen drei von vier Bauformen
+      in dieselbe Längenklasse, und die Streuung hing allein daran, wie oft
+      `stationen` drankam. Keine der vier Zahlen ist gemessen; sie stehen als
+      Versuchsaufbau im Code und im Vertrag~~
+- [x] ~~`LAENGENKLASSEN` in `src/zeit.ts`, **aus `BAUFORMEN` abgeleitet**:
+      Grenze jeweils in der Mitte zwischen zwei Zielwerten. Eine zweite,
+      handgeschriebene Einteilung wäre eine Doppelung ohne Wache~~
+- [x] ~~Laufregel: Hinweis, wenn ab drei Shorts alle in derselben Klasse
+      liegen. Hinweis und kein Fehler — „Länge ist eine Folge davon, wie viel
+      es zu zeigen gibt" bleibt die stärkere Regel. Beide Richtungen
+      gegengeprüft~~
+- [x] ~~`npm run laengen` zeigt jetzt auch „je Format", eindimensional. Format
+      mal Länge wären zwölf Felder mit je drei Videos bis Oktober — Rauschen~~
+- [ ] Ab Oktober: `npm run laengen` lesen, sobald zwei Klassen belegt sind.
+      **Dann fallen die vier Zielwerte** — vorher nicht, sonst ersetzt eine
+      geratene Zahl die andere
+- [x] ~~**Sprecherwechsel-Pausen zählen mit.** Es waren 1,2 bis 1,6 s je Short,
+      nicht 1,1: 0,28 s je Wechsel innerhalb einer Szene plus 0,13 s Aufschlag
+      an jeder Szenengrenze mit Wechsel, wo die Vertonung schneidet statt zu
+      atmen. `SPRECHERWECHSEL_SEK` und `SZENENTRENNER_SEK` stehen jetzt in
+      `src/zeit.ts` — Längen wohnen dort, und `stimme.ts` importiert sie~~
+- [x] ~~Gerechnet wird **je Szene** (`zusatzpausenSzene`), nicht nur als Summe:
+      Sonst hätte `geschaetzteDauerSek` die Pausen gezählt und `szenenZeitplan`
+      nicht, und der tonlose Render wäre kürzer gewesen als die Zahl, gegen die
+      die Längenprüfung misst~~
+- [x] ~~**Wache über der Doppelung**: `npm run pruefen` hält `zusatzpausenSek`
+      und die `pauseDavorSek` aus `redelaeufe` je Short gegeneinander. Aufrufen
+      lässt sich die eine von der anderen nicht — `stimme.ts` importiert
+      `node:buffer`, die Schätzung läuft im Browser. Gegenprobe: Bei halbiertem
+      Wechselwert meldet sie alle vier Shorts~~
+- [x] ~~`npm run sprechprobe` rechnet die Pausen ebenfalls mit, sonst hätte die
+      Spreizungswarnung eine fehlende Zeile als Textproblem gemeldet~~
+- [x] ~~Regieanweisungen an die Macharten binden (`[confused]` → Ratlosigkeit,
+      `[sighs]` → Geständnis). Das war der Grund für den Wechsel auf `eleven_v3`.
+      `regie` steht jetzt in `REAKTIONS_MACHARTEN`, `redelaeufe` setzt sie vor
+      die Zeile — **nur im Synthesetext**, `sprechtext` bleibt unberührt~~
+- [x] ~~Zwei der sechs Macharten bekommen bewusst keine: `bild` und
+      `rueckfrage`. Eine Ansage sagt an, wie etwas klingt; wo der Witz im Wort
+      liegt, überspielt sie ihn~~
+- [x] ~~Wache über der Doppelung `Redeanteil.machart` ↔ `REAKTIONS_MACHARTEN`.
+      Ableiten geht nicht (das Enum steht tausend Zeilen früher als die Liste),
+      also eine Typwache: wer eine Machart hinzufügt und das Enum vergisst,
+      bekommt einen `tsc`-Fehler~~
+- [ ] ▸ `npm run regieprobe` laufen lassen — die sechs Zuordnungen sind
+      **geraten**. Gemessen wird, ob die Klammer Ton erzeugt, ob sie
+      mitgesprochen wird und was sie an Sprechzeit kostet; ob es besser klingt,
+      entscheidet das Ohr an den Dateien in `laeufe/regieprobe/`. Kostet rund
+      600 Zeichen ElevenLabs-Kontingent, läuft erst nach Emirhans Ja
+- [x] ~~Die Bauform `stationen` an einem echten Thema gebaut~~
+- [ ] Bildtexte von `passwort-wechseln` an den neuen Sprechtext angleichen

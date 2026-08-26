@@ -2,7 +2,9 @@ import React from 'react';
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 import { FARBEN, SCHRIFT } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt } from '../../src/typen';
+import type { PosenName } from '../../src/figur';
 import { nachleser } from '../../daten/figur/nachleser';
+import { ZEIGER_STAUCHUNG, zeiger } from '../../daten/figur/zeiger';
 import { Figur } from './Figur';
 import { Symbole } from './Geraete';
 import { Kamera } from './Kamera';
@@ -111,6 +113,33 @@ const PLAETZE = {
   klein: { x: 46, groesse: 0.52, ziel: { x: 100, y: 84, zoom: 1.06 } },
 } as const;
 
+/**
+ * Die beiden Plaetze im Wortwechsel, seit dem 25.08.2026.
+ *
+ * Sie stehen ausserhalb von `PLAETZE`, weil `stand` sie nicht waehlen kann:
+ * Wer ein Gegenueber hat, hat keine Wahl mehr, wo er steht.
+ *
+ * **116 Einheiten Abstand, in zwei Schritten erarbeitet.** Der erste Anlauf
+ * rechnete mit 76 und der Figur in Ruhe — die Koerper ueberlappten. Der zweite
+ * mit 100 und `achselzucken`, der breitesten Pose — da lag der Rumpf frei, aber
+ * **`erklaeren` greift weiter als er breit ist**: Im Standbild lag Voltis Hand
+ * auf Wattis Brust.
+ *
+ * Gerechnet wird also nicht mit der breitesten Pose, sondern mit der
+ * **weitesten**: `erklaeren` und `zeigen` strecken einen Arm bis x = 106 im
+ * eigenen Raum, also 6 Einheiten ueber die Mitte hinaus. Derselbe Fehler wie
+ * am 24.08.2026 beim Symbolabstand, nur eine Ebene feiner.
+ *
+ * **Die Kamera bleibt weit.** `ziel` liegt bei Zoom 1,06 statt 1,24 — der
+ * Kommentar an `links` sagt warum: „Wer zwei Dinge zeigt, kann nicht so dicht
+ * heran wie bei einem." Bei zwei Figuren gilt das doppelt.
+ */
+const WORTWECHSEL = {
+  links: 42,
+  rechts: 158,
+  ziel: { x: 100, y: 84, zoom: 1.06 },
+} as const;
+
 const platzVon = (stand: 'mitte' | 'links' | 'rechts' | 'klein', hatSymbol: boolean) => {
   /*
    * Ein Symbol daneben braucht die rechte Haelfte — es steht fest bei x = 138.
@@ -146,6 +175,41 @@ const platzVon = (stand: 'mitte' | 'links' | 'rechts' | 'klein', hatSymbol: bool
   };
 };
 
+/**
+ * Wann die Uebergaenge einer Posenkette beginnen.
+ *
+ * Sie liegen zwischen 40 % und 90 % der Szene. Bei genau einem Uebergang
+ * ergibt die Rechnung wieder 40 % — das bisherige Verhalten bleibt also
+ * unveraendert, und der Grund dafuer gilt weiter: Am Anfang laege der
+ * Uebergang vor dem Satz, der ihn ausloest.
+ */
+const uebergangsstarts = (stationen: number, dauer: number): number[] => {
+  const uebergaenge = Math.max(1, stationen - 1);
+  return Array.from({ length: uebergaenge }, (_, i) =>
+    Math.round(dauer * (0.4 + (i * 0.5) / uebergaenge)),
+  );
+};
+
+/** Die Haltung, die zu diesem Bild gehoert — der letzte begonnene Abschnitt. */
+const poseDerKette = (
+  kette: readonly PosenName[],
+  starts: readonly number[],
+  frame: number,
+  fps: number,
+) => {
+  let abschnitt = 0;
+  starts.forEach((start, i) => {
+    if (frame >= start) abschnitt = i;
+  });
+  return poseAus({
+    frame,
+    fps,
+    pose: kette[abschnitt + 1] ?? kette[kette.length - 1]!,
+    vorherigePose: kette[abschnitt] ?? kette[0]!,
+    abBild: starts[abschnitt] ?? 0,
+  });
+};
+
 /* ───────────────────────────── Figurenbuehne ─────────────────────────── */
 
 /**
@@ -168,14 +232,36 @@ const Figurenbuehne: React.FC<{
   // Atmen und Blinzeln laufen ab Bild 0 weiter. Der erste Anlauf uebergab
   // stattdessen `frame - beginn` und verschob damit alles — mit negativen
   // Frames als Folge, die die Augen auf das Einundzwanzigfache streckten.
-  const beginn = Math.round(dauer * 0.4);
-  const pose = poseAus({
-    frame,
-    fps,
-    pose: buehne.nach,
-    vorherigePose: buehne.von,
-    abBild: beginn,
-  });
+  /*
+   * Seit dem 25.08.2026 kann eine Szene eine **Folge** von Haltungen tragen,
+   * nicht nur einen Uebergang. Die Kette ist `[von, ...zwischen, nach]`, also
+   * zwei bis vier Stationen und damit ein bis drei Uebergaenge.
+   *
+   * Sie liegen zwischen 40 % und 90 % der Szene. Bei genau einem Uebergang
+   * ergibt die Rechnung wieder 40 % — das bisherige Verhalten bleibt also
+   * unveraendert, und der Grund dafuer gilt weiter: Am Anfang laege der
+   * Uebergang vor dem Satz, der ihn ausloest.
+   */
+  const kette = [buehne.von, ...(buehne.zwischen ?? []), buehne.nach];
+  const starts = uebergangsstarts(kette.length, dauer);
+  const beginn = starts[0] ?? Math.round(dauer * 0.4);
+  const pose = poseDerKette(kette, starts, frame, fps);
+
+  /*
+   * Das Gegenueber laeuft auf derselben Zeitachse, aber mit eigener Kette.
+   * Beide Figuren wechseln damit **gleichzeitig** die Haltung — das ist
+   * gewollt: Ein Wortwechsel ist eine Reaktion, und eine Reaktion faellt mit
+   * dem zusammen, worauf sie antwortet.
+   */
+  const gegenkette = buehne.gegenueber
+    ? [buehne.gegenueber.von, ...(buehne.gegenueber.zwischen ?? []), buehne.gegenueber.nach]
+    : undefined;
+  const gegenstarts = gegenkette ? uebergangsstarts(gegenkette.length, dauer) : [];
+  const gegenpose = gegenkette ? poseDerKette(gegenkette, gegenstarts, frame, fps) : undefined;
+
+  // Wer die Posen oben traegt, bekommt sein Rig; das Gegenueber das andere.
+  const eigenes = (buehne.wer ?? 'nachleser') === 'zeiger' ? zeiger : nachleser;
+  const anderes = eigenes === nachleser ? zeiger : nachleser;
 
   /*
    * Die Requisite erscheint kurz **vor** dem Haltungswechsel. Umgekehrt wuerde
@@ -189,7 +275,11 @@ const Figurenbuehne: React.FC<{
 
   const hatSymbol = buehne.requisite !== undefined && buehne.requisite !== 'blatt';
   const platz = platzVon(buehne.stand ?? 'mitte', hatSymbol);
-  const ziel = platz.ziel;
+  /*
+   * Mit Gegenueber gilt `stand` nicht mehr: Wer ein Gegenueber hat, hat keine
+   * Wahl, wo er steht. Die Kamera geht dafuer weiter auf.
+   */
+  const ziel = gegenpose ? WORTWECHSEL.ziel : platz.ziel;
 
   /*
    * Das Blatt gehoert **in** die Figur, nicht daneben.
@@ -338,14 +428,23 @@ const Figurenbuehne: React.FC<{
             Schatten, der weiter reicht als das, was ihn wirft, sieht nicht nach
             Boden aus, sondern nach einem zweiten Gegenstand.
           */}
-          <ellipse
-            cx={platz.x}
-            cy="140"
-            rx={34 * platz.groesse}
-            ry={9 * platz.groesse}
-            fill={FARBEN.flaeche}
-            opacity={0.5}
-          />
+          {gegenpose === undefined ? (
+            <ellipse
+              cx={platz.x}
+              cy="140"
+              rx={34 * platz.groesse}
+              ry={9 * platz.groesse}
+              fill={FARBEN.flaeche}
+              opacity={0.5}
+            />
+          ) : (
+            // Zwei Figuren, zwei Schatten. Einer ueber beide behauptete einen
+            // gemeinsamen Sockel, auf dem sie nicht stehen.
+            <>
+              <ellipse cx={WORTWECHSEL.links} cy="140" rx="34" ry="9" fill={FARBEN.flaeche} opacity={0.5} />
+              <ellipse cx={WORTWECHSEL.rechts} cy="140" rx="34" ry="9" fill={FARBEN.flaeche} opacity={0.5} />
+            </>
+          )}
           {/*
             Die Figur steht links, ein Symbol rechts. Im ersten Standbild
             standen beide mittig und die Lupe lag ueber dem Kopf. Das Blatt
@@ -356,9 +455,39 @@ const Figurenbuehne: React.FC<{
             links aussen, waehrend rechts die halbe Flaeche leer blieb, und der
             Platz, den sie fuer ein Symbol raeumte, wurde von nichts gebraucht.
           */}
-          <g transform={platz.transform}>
-            <Figur rig={nachleser} pose={pose} requisiten={gehalten} />
-          </g>
+          {gegenpose === undefined ? (
+            <g transform={platz.transform}>
+              <Figur rig={eigenes} pose={pose} requisiten={gehalten} />
+            </g>
+          ) : (
+            <>
+              <g transform={`translate(${WORTWECHSEL.links - 100} 0)`}>
+                <g transform={eigenes === zeiger ? ZEIGER_STAUCHUNG : undefined}>
+                  <Figur rig={eigenes} pose={pose} requisiten={gehalten} />
+                </g>
+              </g>
+              {/*
+                Die rechte Figur ist **gespiegelt**, damit beide sich ansehen.
+                Der Satz „Gespiegelt wird nicht" in `platzVon` bleibt richtig —
+                er galt dem Fall Figur plus Symbol, wo das Symbol danach hinter
+                dem Ruecken laege. Bei zwei Figuren gilt er nicht: Gehaeuse und
+                Ladebalken sind symmetrisch, und ohne Spiegelung schauen beide
+                in dieselbe Richtung, was ein Gruppenbild ergibt und kein
+                Gespraech.
+
+                Gespiegelt wird um x = 100, also um die eigene Mitte der Figur
+                in ihrem Koordinatenraum — erst danach wird verschoben. Die
+                umgekehrte Reihenfolge klappte sie ueber den Buehnenrand.
+              */}
+              <g
+                transform={`translate(${WORTWECHSEL.rechts - 100} 0) translate(100 0) scale(-1 1) translate(-100 0)`}
+              >
+                <g transform={anderes === zeiger ? ZEIGER_STAUCHUNG : undefined}>
+                  <Figur rig={anderes} pose={gegenpose} />
+                </g>
+              </g>
+            </>
+          )}
           {daneben}
         </Kamera>
       </svg>

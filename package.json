@@ -12,6 +12,7 @@
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",
     "pausenprobe": "tsx skripte/pausenprobe.ts",
+    "regieprobe": "tsx skripte/regieprobe.ts",
     "sprechprobe": "tsx skripte/sprechprobe.ts",
     "belege": "tsx skripte/belege.ts",
     "zugaenge": "tsx skripte/zugaenge.ts",
@@ -23,6 +24,7 @@
     "rueckblick": "tsx skripte/rueckblick.ts",
     "ausreisser": "tsx skripte/ausreisser.ts",
     "aufschlaege": "tsx skripte/aufschlaege.ts",
+    "laengen": "tsx skripte/laengen.ts",
     "nachlegen": "tsx skripte/nachlegen.ts"
   },
   "dependencies": {

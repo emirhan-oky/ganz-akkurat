@@ -39,6 +39,8 @@ type Kandidat = {
   unter: number;
   koerper: number;
   blick: [number, number];
+  /** Rechter Oberarm, wo die Asymmetrie den linken Arm zum zeigenden macht. */
+  rechts?: number;
 };
 
 /*
@@ -50,18 +52,23 @@ type Kandidat = {
  * senkrecht.
  */
 const KANDIDATEN: Kandidat[] = [
-  { name: 'Jetzt (Instagram)', notiz: 'Arm waagerecht nach links', ober: 46, unter: 14, koerper: -6, blick: [-3, 1.4] },
-  { name: 'Oberarm 0', notiz: 'Ruhewinkel, 41 Grad nach links-unten', ober: 0, unter: 15, koerper: -6, blick: [-2, 3] },
-  { name: 'Oberarm -15', notiz: 'steiler, 26 Grad nach links-unten', ober: -15, unter: 15, koerper: -6, blick: [-1.5, 3.2] },
-  { name: 'Oberarm -30', notiz: 'fast senkrecht nach unten', ober: -30, unter: 15, koerper: -8, blick: [-1, 3.4] },
-  { name: 'Oberarm 20', notiz: 'flacher, 61 Grad nach links-unten', ober: 20, unter: 15, koerper: -8, blick: [-2.5, 2.8] },
-  { name: 'Oberarm 0, geneigt', notiz: 'Koerper lehnt mit', ober: 0, unter: 15, koerper: -18, blick: [-2, 3] },
-  { name: 'Oberarm -15, geneigt', notiz: 'steil und geneigt', ober: -15, unter: 15, koerper: -16, blick: [-1.5, 3.2] },
-  { name: 'Oberarm 10, geneigt', notiz: 'der Mittelweg', ober: 10, unter: 15, koerper: -14, blick: [-2.2, 3] },
+  { name: 'Jetzt (YouTube)', notiz: 'gleicher Arm wie Instagram, Unterarm nur 8', ober: 20, unter: 8, koerper: -4, blick: [-1, 2.9] },
+  { name: 'Oberarm 0', notiz: 'Ruhewinkel, 41 Grad nach links-unten', ober: 0, unter: 15, koerper: -4, blick: [-1, 3.1] },
+  { name: 'Oberarm -15', notiz: '26 Grad nach links-unten', ober: -15, unter: 15, koerper: -4, blick: [-0.6, 3.3] },
+  { name: 'Oberarm -25', notiz: '16 Grad, fast senkrecht', ober: -25, unter: 15, koerper: -4, blick: [-0.3, 3.5] },
+  { name: 'Oberarm -30', notiz: '11 Grad, senkrecht nach unten', ober: -30, unter: 15, koerper: 0, blick: [0, 3.6] },
+  { name: 'Oberarm -25, geneigt', notiz: 'Koerper lehnt nach vorn', ober: -25, unter: 15, koerper: -12, blick: [-0.3, 3.5] },
+  { name: 'Oberarm -20, rechts an', notiz: 'rechter Arm liegt an, Asymmetrie', ober: -20, unter: 15, koerper: -4, blick: [-0.5, 3.4], rechts: 16 },
+  { name: 'Oberarm -30, rechts an', notiz: 'senkrecht plus Asymmetrie', ober: -30, unter: 15, koerper: -4, blick: [0, 3.6], rechts: 16 },
 ];
 
 const pose = (k: Kandidat): Pose => ({
-  drehung: { oberarm_links: k.ober, unterarm_links: k.unter, koerper: k.koerper },
+  drehung: {
+    oberarm_links: k.ober,
+    unterarm_links: k.unter,
+    koerper: k.koerper,
+    ...(k.rechts != null ? { oberarm_rechts: k.rechts } : {}),
+  },
   stauchung: {},
   blick: k.blick,
   mund: 'laecheln',
@@ -104,7 +111,7 @@ const Feld: React.FC<{ k: Kandidat }> = ({ k }) => (
      * der Figur, sondern leicht links: So liegt er bei Instagram und YouTube,
      * und eine Geste, die genau senkrecht nach unten geht, verfehlt ihn.
      */}
-    <div style={{ alignSelf: 'flex-start', marginLeft: 96, marginTop: 'auto' }}>
+    <div style={{ alignSelf: 'center', marginTop: 'auto' }}>
       <div
         style={{
           width: 170,
@@ -119,7 +126,7 @@ const Feld: React.FC<{ k: Kandidat }> = ({ k }) => (
           justifyContent: 'center',
         }}
       >
-        Follow
+        Abonnieren
       </div>
     </div>
 

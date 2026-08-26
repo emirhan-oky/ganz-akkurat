@@ -5,7 +5,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 import type { Szene } from '../src/typen';
-import { ZEICHEN_PRO_SEKUNDE, geschaetzteDauerSek, szenendauerAus, zielfenster } from '../src/zeit';
+import {
+  ZEICHEN_PRO_SEKUNDE,
+  geschaetzteDauerSek,
+  szenendauerAus,
+  zielfenster,
+  zusatzpausenSek,
+} from '../src/zeit';
 
 const ausfuehren = promisify(execFile);
 
@@ -115,7 +121,15 @@ const main = async () => {
 
   for (const short of WOCHENLAUF) {
     const meine = proben.filter((p) => p.id === short.id);
-    const erwartet = meine.reduce((summe, p) => summe + szenendauerAus(p.art, p.roh * faktor), 0);
+    /*
+     * `zusatzpausenSek` gehoert dazu, sonst vergleicht die Zeile Aepfel mit
+     * Birnen: Die Formel rechts zaehlt die Sprecherpausen seit dem 26.08.2026
+     * mit, die Summe der Szenen hier nicht — und die Spreizung unten meldete
+     * eine Abweichung, die nur eine fehlende Zeile ist.
+     */
+    const erwartet =
+      meine.reduce((summe, p) => summe + szenendauerAus(p.art, p.roh * faktor), 0) +
+      zusatzpausenSek(short);
     const geschaetzt = geschaetzteDauerSek(short);
 
     const drin = erwartet >= min && erwartet <= max;
@@ -139,9 +153,11 @@ const main = async () => {
    * Zahlen, Abkuerzungen, Komposita. Die Konstante bleibt davon unberuehrt.
    */
   const spreizung = WOCHENLAUF.map((short) => {
-    const erwartet = proben
-      .filter((p) => p.id === short.id)
-      .reduce((summe, p) => summe + szenendauerAus(p.art, p.roh * faktor), 0);
+    const erwartet =
+      proben
+        .filter((p) => p.id === short.id)
+        .reduce((summe, p) => summe + szenendauerAus(p.art, p.roh * faktor), 0) +
+      zusatzpausenSek(short);
     return Math.abs(erwartet - geschaetzteDauerSek(short));
   });
   const groesste = Math.max(...spreizung);

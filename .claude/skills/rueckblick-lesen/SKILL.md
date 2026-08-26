@@ -17,6 +17,7 @@ Aufrufe. Hier steht, wie man sie liest.
 npm run rueckblick     # holt die Zahlen (läuft täglich 9:30 von selbst)
 npm run ausreisser     # Haltequote neben Format und Thema
 npm run aufschlaege    # jeder Aufschlag neben seiner Haltequote
+npm run laengen        # Länge gegen Verweildauer
 ```
 
 `npm run pruefen` sagt den Stand nebenbei in einer Zeile — an der Stelle, an

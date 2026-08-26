@@ -1,4 +1,6 @@
-import {
+import { BAUFORMEN,
+  type Bauform,
+  REAKTIONS_MACHARTEN,
   UNBETEILIGTE_ARTEN,
   Format,
   FORMATE,
@@ -10,7 +12,13 @@ import {
   type Szene,
 } from './typen';
 import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
-import { geschaetzteDauerSek, LAENGE_SEK, ZEICHEN_PRO_SEKUNDE, zielfenster } from './zeit';
+import {
+  geschaetzteDauerSek,
+  laengenklasseVon,
+  LAENGE_SEK,
+  ZEICHEN_PRO_SEKUNDE,
+  zielfenster,
+} from './zeit';
 
 /**
  * Qualitaetspruefung vor der Freigabe.
@@ -1102,7 +1110,6 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     'seit heute',
     'seit gestern',
     'seit vorgestern',
-    'heute vor',
     'diese woche',
     'letzte woche',
     'vorige woche',
@@ -1114,6 +1121,22 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     'uebermorgen',
     'übermorgen',
   ];
+  /*
+   * „heute vor drei Jahren" — aber nur mit Zeitspanne dahinter.
+   *
+   * Die Wendung stand bis zum 26.08.2026 als blosse Zeichenkette in der Liste
+   * oben und hat den Satz „Das Umweltbundesamt empfiehlt heute, vorher zu
+   * unterbrechen" abgelehnt: `ohneSatzzeichen` nimmt das Komma weg, und uebrig
+   * bleibt „heute vorher".
+   *
+   * Der Fehlalarm ist teurer als er aussieht, weil er auf der starken Seite
+   * liegt: Er haelt einen richtigen Short zurueck und laedt dazu ein, den
+   * Sprechtext gegen die Sprache zu verbiegen. Gesucht wird deshalb, was
+   * gemeint war — die Wendung **samt** ihrer Zeitspanne.
+   */
+  const HEUTE_VOR =
+    /\bheute vor\s+(einer|einem|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+)\s+(tag|tagen|woche|wochen|monat|monaten|jahr|jahren)\b/i;
+
   /** „seit drei Wochen", „vor zwoelf Tagen" — Zahl plus Zeiteinheit. */
   const ZEITSPANNE =
     /\b(seit|vor)\s+(einer|einem|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|\d+)\s+(tag|tagen|woche|wochen|monat|monaten)\b/i;
@@ -1136,7 +1159,10 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   for (const szene of short.szenen) {
     const text = ohneSatzzeichen(szene.sprechtext);
-    const woerter = HEUTEBEZUG.filter((w) => text.includes(w));
+    const woerter = [
+      ...HEUTEBEZUG.filter((w) => text.includes(w)),
+      ...(HEUTE_VOR.test(szene.sprechtext) ? ['heute vor'] : []),
+    ];
     const spanne = ZEITSPANNE.exec(szene.sprechtext);
 
     const monat = MONATE.exec(szene.sprechtext);
@@ -1201,6 +1227,188 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
   }
 
+  /* ── Die Bauform darf nicht luegen ───────────────────────────────── */
+
+  /*
+   * **Ein Etikett ohne Deckung ist schlimmer als keins.**
+   *
+   * `bauform` steuert seit dem 25.08.2026 zwei Regeln: keine zweimal
+   * hintereinander, keine ueber ein Drittel je Lauf. Beide sollen dafuer
+   * sorgen, dass Videos verschieden **aussehen** — und beide sind wirkungslos,
+   * wenn ein Short sich Zitatkarte nennt und dann wie jeder andere gebaut ist.
+   * Die Drittelregel zaehlte dann Etiketten und keine Unterschiede.
+   *
+   * Geprueft wird deshalb, ob die Mittel da sind, die den Namen tragen. Nicht,
+   * ob es gut aussieht — das kann kein Skript. Sondern ob das Wort gedeckt
+   * ist, genau wie bei der Belegregel: Sie prueft nicht, ob das Zitat
+   * ueberzeugt, sondern ob eins da ist.
+   */
+  {
+    const zweistimmig = short.szenen.filter(
+      (sz) => new Set((sz.rede ?? []).map((r) => r.sprecher)).size > 1,
+    ).length;
+    const zitatkarten = short.szenen.filter((sz) => sz.art === 'zitatkarte').length;
+    const stationen = short.szenen.filter((sz) => sz.position === 'zuspitzung').length;
+
+    if (short.bauform === 'zitatkarte' && zitatkarten === 0) {
+      melde('fehler', 'bauform', 'Zitatkarte ohne eine Szene der Art `zitatkarte`.');
+    }
+    if (short.bauform === 'stationen' && stationen < 3) {
+      melde(
+        'fehler',
+        'bauform',
+        `Stationen, aber nur ${stationen} Zuspitzung(en). Eine steigende ` +
+          'Aufzählung braucht mindestens drei, sonst ist es eine Wechselrede.',
+      );
+    }
+    /*
+     * Umgekehrt ebenso: Wer die Mittel benutzt, soll sie auch anmelden. Sonst
+     * stuenden zwei gleich gebaute Shorts unter verschiedenen Etiketten, und
+     * die Drittelregel liesse beide durch.
+     */
+    if (short.bauform === 'einstimmig' && zweistimmig > 0) {
+      melde(
+        'fehler',
+        'bauform',
+        'Als einstimmig angemeldet, hat aber Szenen mit zwei Stimmen.',
+      );
+    }
+  }
+
+  /* ── Zwei Stimmen: das Mindestmass ───────────────────────────────── */
+
+  /*
+   * **Die erste Regel des Projekts, die etwas verlangt statt etwas zu
+   * verbieten.** 1693 Zeilen Pruefung haben bis zum 26.08.2026 ausschliesslich
+   * Verbotenes gesucht — und `npm run pruefen` wurde bei neun Videos gruen,
+   * die 0-mal geteilt wurden.
+   *
+   * Zwei Sachen werden verlangt, beide abzaehlbar:
+   *
+   * **Zweistimmigkeit.** Mindestens zwei Szenen tragen beide Stimmen. Ein
+   * Mindestmass, kein Muster: „immer beide" waere nach vier Videos wieder die
+   * Schablone, gegen die der Umbau laeuft. Ausgenommen ist `einstimmig` —
+   * dort ist es der angemeldete Bau, und begrenzt wird er von der Drittelregel
+   * im Lauf, nicht hier.
+   *
+   * **Eine Reaktion.** Mindestens eine Zeile traegt eine `machart`, also eine
+   * Aeusserung, die nichts ueber die Welt behauptet. Geprueft wird nicht, ob
+   * sie witzig ist — das kann kein Skript. Geprueft wird, ob der Platz benutzt
+   * wurde, genau wie bei der Belegregel: Sie prueft nicht, ob das Zitat
+   * ueberzeugt, sondern ob eins da ist.
+   *
+   * Auch `einstimmig` braucht sie. Der gemessene Vergleichskanal setzt seinen
+   * Humor eingestreut statt in einem Slot — funktional dieselbe Zeile, nur vom
+   * selben Sprecher.
+   */
+  {
+    const zweistimmig = short.szenen.filter(
+      (sz) => new Set((sz.rede ?? []).map((r) => r.sprecher)).size > 1,
+    ).length;
+
+    if (short.bauform !== 'einstimmig' && zweistimmig < 2) {
+      melde(
+        'fehler',
+        'zweistimmigkeit',
+        `Nur ${zweistimmig} Szene(n) mit beiden Stimmen, mindestens zwei sind nötig. ` +
+          'Zwei Figuren, die abwechselnd Absätze vorlesen, sind ein Sprecher mit zwei Farben.',
+      );
+    }
+
+    const reaktionen = short.szenen.flatMap((sz) =>
+      (sz.rede ?? []).filter((r) => r.machart !== undefined),
+    );
+    if (reaktionen.length === 0) {
+      melde(
+        'fehler',
+        'reaktion',
+        'Keine einzige Reaktionszeile. Der Short trägt nur Belegtes — und genau so ' +
+          'sahen die neun Videos aus, die 0-mal geteilt wurden. Mindestens eine Zeile ' +
+          'mit `machart` aus `REAKTIONS_MACHARTEN`.',
+      );
+    }
+
+    /*
+     * Und keine Machart zweimal im selben Short. Das Schema prueft es je
+     * Szene; ueber den ganzen Short faellt erst auf, wenn ein Entwurf sich auf
+     * eine Lieblingsform einpendelt — vier Rueckfragen hintereinander sind
+     * keine zweite Stimme, sondern ein Tic.
+     */
+    const gesehen = new Map<string, number>();
+    for (const r of reaktionen) {
+      if (r.machart === undefined) continue;
+      gesehen.set(r.machart, (gesehen.get(r.machart) ?? 0) + 1);
+    }
+    for (const [machart, anzahl] of gesehen) {
+      if (anzahl < 2) continue;
+      const name = REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.name ?? machart;
+      melde(
+        'fehler',
+        'reaktion',
+        `Die Machart „${name}" kommt ${anzahl}-mal vor. Eine je Short — sonst ist die ` +
+          'zweite Stimme eine Masche und keine Figur.',
+      );
+    }
+  }
+
+  /* ── Behoerdendeutsch ────────────────────────────────────────────── */
+
+  /*
+   * Die Belegpflicht flacht die Sprache ab, und niemand hat es entschieden.
+   *
+   * Ein Satz muss vom Zitat gedeckt sein. Der sicherste Weg, gedeckt zu sein,
+   * ist, dicht am Zitat zu bleiben — also schreibt sich der Sprechtext von
+   * selbst in Richtung Amtssprache. Im Short vom 25.08.2026 waren vier von
+   * sechs gesprochenen Saetzen das BSI mit anderer Wortstellung:
+   * „routinemaessig", „laut Behoerde", „unbefugte Dritte".
+   *
+   * Die Regel dreht das um. **Das Zitat bleibt woertlich Amtsdeutsch und ist
+   * als Zitat erkennbar; alles, was der Kanal in eigenen Worten sagt, ist
+   * Alltagssprache.** Bisher lief es andersherum — das Zitat stand klein oben
+   * in der Einblendung, gesprochen wurde die Behoerdenfassung.
+   *
+   * **Der Doppelpunkt ist die Grenze.** Geprueft wird nur, was **vor** dem
+   * ersten Doppelpunkt einer Sprecheinheit steht; alles dahinter gilt als
+   * ausgeliefertes Zitat („Das BSI schreibt: …"). Das ist bewusst grob: Ein
+   * Doppelpunkt steht hier auch mal ohne Quelle dahinter („Zwei Artikel
+   * weiter:"), und dort schweigt die Regel dann zu Unrecht. Der Fehler geht
+   * in die harmlose Richtung — eine Wache, die zu viel meldet, wird
+   * abgeschaltet.
+   *
+   * Die Liste haelt nur Woerter, die unverwechselbar Amtsdeutsch sind. Woerter
+   * wie „vermehrt" oder „vorhersehbar" stehen bewusst nicht darin: Sie sind
+   * steif, aber sie sind auch normales Deutsch, und eine Wache, die normales
+   * Deutsch meldet, erzieht zum Ausweichen statt zum Umschreiben.
+   */
+  const AMTSDEUTSCH = [
+    'laut behörde',
+    'gemäß',
+    'routinemäßig',
+    'im sinne von',
+    'unbefugte dritte',
+    'seitens',
+    'zwecks',
+    'diesbezüglich',
+    'in diesem zusammenhang',
+    'ist sicherzustellen',
+    'ist zu gewährleisten',
+  ];
+  for (const szene of short.szenen) {
+    const gesprochen = szene.sprechtext;
+    if (!gesprochen) continue;
+    // Nur der Teil vor dem ersten Doppelpunkt — dahinter steht das Zitat.
+    const eigeneWorte = ohneSatzzeichen(gesprochen.split(':')[0] ?? '');
+    const treffer = AMTSDEUTSCH.filter((w) => eigeneWorte.includes(w));
+    if (treffer.length > 0) {
+      melde(
+        'fehler',
+        'sprache',
+        `„${treffer.join('", „')}" steht im Sprechtext außerhalb eines Zitats. ` +
+          'Das Zitat bleibt wörtlich, alles andere ist Alltagssprache.',
+      );
+    }
+  }
+
   /* ── Sprechdauer ─────────────────────────────────────────────────── */
 
   if (short.tonspur) {
@@ -1251,6 +1459,37 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
         'laenge',
         `Geschätzt ${geschaetzt.toFixed(0)}s, Zielfenster ${von}–${bis}s. ` +
           'Vor der Vertonung anpassen – danach kostet es Kontingent.',
+      );
+    }
+  }
+
+  /*
+   * Der Zielwert der Bauform — die Wache, die das geweitete Fenster ersetzt.
+   *
+   * Bis zum 25.08.2026 stand der Zielwert nur im Kommentar von `LAENGE_SEK`,
+   * und das Fenster war eng genug, um ihn nebenbei durchzusetzen. Mit 20 bis
+   * 65 Sekunden ist es das nicht mehr: Eine Wechselrede von 60 Sekunden laege
+   * bequem darin und waere trotzdem das Doppelte dessen, was diese Bauform
+   * sein will.
+   *
+   * Gemessen wird gegen die **tatsaechliche** Dauer, sobald es eine Tonspur
+   * gibt, sonst gegen die Schaetzung. Ein Fuenftel Abweichung ist grosszuegig
+   * — die Vertonung selbst streut schon rund sechs Prozent, und ein Hinweis,
+   * der bei jedem zweiten Short erscheint, wird nicht gelesen.
+   */
+  {
+    const ziel = BAUFORMEN[short.bauform].zielSek;
+    const gemessen = short.tonspur !== undefined;
+    const dauer = gemessen ? short.tonspur!.dauerSek : geschaetzteDauerSek(short);
+    const abweichung = Math.abs(dauer - ziel) / ziel;
+    if (abweichung > 0.2) {
+      melde(
+        'hinweis',
+        'laenge',
+        `${BAUFORMEN[short.bauform].titel} will rund ${ziel}s, ` +
+          `${gemessen ? 'gemessen' : 'geschätzt'} sind es ${dauer.toFixed(0)}s. ` +
+          'Länge ist eine Folge davon, wie viel es zu zeigen gibt – ' +
+          'wenn der Inhalt es trägt, ist der Hinweis erledigt.',
       );
     }
   }
@@ -1368,6 +1607,98 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
           `${gruppe.length} von ${shorts.length} Shorts sind „${FORMATE[format].titel}". ` +
           `Meistens heißt das, ein anderes Fach läuft leer — \`npm run pruefen\` nennt die Reichweite je Format.`,
       });
+    }
+  }
+
+  /* ── Bauform: nicht zweimal hintereinander, nicht ein Drittel ────── */
+
+  /*
+   * Dieselbe Rechnung wie beim Format, aus einem anderen Grund. Das Format
+   * sagt, was ein Short **ausloest**; die Bauform sagt, wie er **aussieht** —
+   * und im Feed entscheidet das Aussehen, ob der naechste wie derselbe wirkt.
+   *
+   * Der Anlass steht nicht im Geschmack, sondern bei YouTube: Seit Juli 2025
+   * wird schablonenhaftes KI-Material unterdrueckt, und die Machart, die wir
+   * neun Videos lang gefahren haben, ist die Voreinstellung einer ganzen
+   * Gattung. `einstimmig` ist deshalb ausdruecklich mitgezaehlt — was keinen
+   * Namen hat, kann keine Regel begrenzen.
+   *
+   * Die Drittelregel greift erst ab sechs Shorts. Darunter erzwaenge sie
+   * lauter verschiedene Bauformen: Bei vier Shorts waere ein Drittel eine
+   * einzige, also vier verschiedene je Woche — genau der Zwang, an dem die
+   * alte Formatregel gescheitert ist.
+   */
+  const proBauform = new Map<Bauform, Short[]>();
+  for (const short of shorts) {
+    proBauform.set(short.bauform, [...(proBauform.get(short.bauform) ?? []), short]);
+  }
+
+  for (let i = 1; i < shorts.length; i++) {
+    const vorher = shorts[i - 1];
+    const jetzt = shorts[i];
+    if (!vorher || !jetzt || vorher.bauform !== jetzt.bauform) continue;
+    befunde.push({
+      stufe: 'fehler',
+      shortId: jetzt.id,
+      regel: 'bauform',
+      text:
+        `Bauform „${BAUFORMEN[jetzt.bauform].titel}" läuft zweimal hintereinander ` +
+        `(${vorher.id}, ${jetzt.id}). Zwei gleich gebaute Videos an aufeinanderfolgenden ` +
+        `Tagen sehen für denselben Zuschauer aus wie eins.`,
+    });
+  }
+
+  if (shorts.length >= 6) {
+    for (const [bauform, gruppe] of proBauform) {
+      const erster = gruppe[0];
+      if (!erster || gruppe.length * 3 <= shorts.length) continue;
+      befunde.push({
+        stufe: 'fehler',
+        shortId: erster.id,
+        regel: 'bauform',
+        text:
+          `${gruppe.length} von ${shorts.length} Shorts sind „${BAUFORMEN[bauform].titel}" ` +
+          `(${gruppe.map((s) => s.id).join(', ')}). Höchstens ein Drittel je Lauf.`,
+      });
+    }
+  }
+
+  /* ── Nicht alle Shorts in derselben Längenklasse ─────────────────── */
+
+  /*
+   * **Der Laengenversuch bis Oktober, als Wache.**
+   *
+   * Emirhans Vorschlag vom 26.08.2026: bis Oktober absichtlich verschiedene
+   * Laengen senden, damit sich ueberhaupt vergleichen laesst, welche ankommt.
+   * Bisher ist genau **eine** Laenge gemessen — alle neun veroeffentlichten
+   * Videos sind 20 bis 23 Sekunden lang.
+   *
+   * **Hinweis und kein Fehler**, und das ist wichtig: „Laenge ist eine Folge
+   * davon, wie viel es zu zeigen gibt" bleibt die staerkere Regel. Es gibt
+   * Wochen, in denen das Material die Klasse vorgibt, und einen fertigen Lauf
+   * dafuer zurueckzuhalten hiesse, den Versuchsaufbau ueber den Inhalt zu
+   * stellen.
+   *
+   * Erst ab drei Shorts. Bei zweien ist „beide in derselben Klasse" keine
+   * Einseitigkeit, sondern die Haelfte aller Moeglichkeiten.
+   */
+  if (shorts.length >= 3) {
+    const klassen = new Set(
+      shorts.map((s) => laengenklasseVon(geschaetzteDauerSek(s)).name),
+    );
+    if (klassen.size === 1) {
+      const erster = shorts[0];
+      if (erster) {
+        befunde.push({
+          stufe: 'hinweis',
+          shortId: erster.id,
+          regel: 'laenge',
+          text:
+            `Alle ${shorts.length} Shorts liegen in derselben Längenklasse (${[...klassen][0]}). ` +
+            'Bis Oktober läuft der Versuch, verschiedene Längen zu senden — gemessen ist ' +
+            'bisher nur eine. Eine andere Bauform im Lauf trägt eine andere Länge.',
+        });
+      }
     }
   }
 
@@ -1637,6 +1968,52 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
             `Figur steht klein am Rand und endet in „${nach}". Ohne Blick nach oben ` +
             'liest sich das als entfernt, nicht als kleiner Betrachter.',
         });
+      }
+
+      /*
+       * **Drei Posen greifen bei zwei Figuren in die andere hinein.**
+       *
+       * Das ist gemessen, nicht geschaetzt: `video/Wortwechselprobe.tsx`
+       * stellt alle zehn Posen einzeln neben eine ruhende Figur, in derselben
+       * Anordnung wie im Video. `zeigen`, `erklaeren` und `achselzucken`
+       * legen eine Hand auf das andere Gehaeuse, die uebrigen sieben bleiben
+       * frei. Die Seite spielt keine Rolle — die rechte Figur ist gespiegelt
+       * und greift spiegelbildlich.
+       *
+       * **Der Weg dahin gehoert dazu.** Am 26.08.2026 sind nacheinander drei
+       * Faelle im fertigen Standbild aufgefallen, jeder an einer anderen Pose,
+       * und nach jedem stand eine engere Regel da: erst „nicht beide
+       * gleichzeitig", dann „kein `zeigen`". Beide waren zu eng, weil sie aus
+       * je einem Bild geschlossen haben. Erst die Probe hat die Frage fuer das
+       * ganze Vokabular beantwortet — **eine Messung ist billiger als drei
+       * Regeln, die nacheinander zu eng waren.**
+       *
+       * Mehr Abstand loest es nicht: Die 116 Einheiten sind an zwei gleich
+       * breiten Rigs gemessen, Wattis Stauchung macht ihn ein Fuenftel
+       * breiter, und bei x = 158 plus halber Breite steht er am Buehnenrand.
+       */
+      const GREIFT_HINUEBER = new Set(['zeigen', 'erklaeren', 'achselzucken']);
+      if (szene.buehne.gegenueber) {
+        const ketten = [
+          ...[szene.buehne.von, ...(szene.buehne.zwischen ?? []), szene.buehne.nach],
+          ...[
+            szene.buehne.gegenueber.von,
+            ...(szene.buehne.gegenueber.zwischen ?? []),
+            szene.buehne.gegenueber.nach,
+          ],
+        ];
+        const treffer = [...new Set(ketten.filter((p) => GREIFT_HINUEBER.has(p)))];
+        if (treffer.length > 0) {
+          befunde.push({
+            stufe: 'fehler',
+            shortId: short.id,
+            regel: 'bildvielfalt',
+            text:
+              `„${treffer.join('", „')}" im Wortwechsel: Die Hand landet auf dem anderen ` +
+              'Gehäuse. Frei sind ruhe, lesen, stutzen, staunen, hochschauen, winken und ' +
+              'nachdenken — gemessen in `Wortwechselprobe`.',
+          });
+        }
       }
 
       if (symbolDaneben && BREITE_POSEN.has(nach)) {

@@ -4,7 +4,7 @@ import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../s
 import { Buehne } from '../bausteine/Buehne';
 import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
-import { zeiger } from '../../daten/figur/zeiger';
+import { ZEIGER_STAUCHUNG, zeiger } from '../../daten/figur/zeiger';
 import { FOLGEPOSEN, POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
 import type { Dienst } from '../bausteine/Geraete';
@@ -658,7 +658,7 @@ type ZeigerPlatz =
 const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
   tiktok: { art: 'zeile', versatz: -86 },
   instagram: { art: 'frei', links: 290, unten: 348, breite: 240 },
-  youtube: { art: 'zeile', versatz: -30 },
+  youtube: { art: 'frei', links: 580, unten: 348, breite: 240 },
 };
 
 const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst }> = ({
@@ -690,7 +690,16 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
    * 24.08.2026 und ist gestrichen: Ein Zeichen, das wir selbst malen, deutet
    * auf nichts.
    */
-  const figur = <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />;
+  /*
+   * Gestaucht wie auf der Buehne. Ohne das waere Watti in der Signatur schlank
+   * und mitten im Video eine Knopfzelle — zwei Umrisse fuer dieselbe Figur
+   * heben genau die Wiedererkennung wieder auf, fuer die die Stauchung da ist.
+   */
+  const figur = (
+    <g transform={ZEIGER_STAUCHUNG}>
+      <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />
+    </g>
+  );
 
   return (
     <>
@@ -986,6 +995,77 @@ const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer })
   );
 };
 
+/**
+ * Die Zitatkarte — der Wortlaut steht im Bild, in Anfuehrungszeichen und auf
+ * einer eigenen Flaeche.
+ *
+ * **Warum eine Flaeche und keine blosse Kursivschrift.** Ein Zitat muss als
+ * fremder Text erkennbar sein, sonst ist es nur ein Satz mit anderer Neigung.
+ * Die Karte trennt ihn sichtbar von allem, was der Kanal selbst sagt — und
+ * genau das ist der Punkt der Sprachregel vom 25.08.2026: Das Zitat bleibt
+ * Behoerdendeutsch, alles andere ist Alltagssprache. Sieht man die Grenze
+ * nicht, traegt die Regel nicht.
+ *
+ * Der Herausgeber steht **unter** dem Zitat, klein und in der weichen Tinte.
+ * Nicht darueber: Erst der Satz, dann wer ihn verantwortet — umgekehrt liest
+ * man den Namen und ueberfliegt den Satz.
+ */
+const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  /*
+   * Die Karte faehrt aus sich heraus auf: erst der Rahmen, dann der Text.
+   * Beides gleichzeitig sieht aus wie ein eingeblendetes Bild; nacheinander
+   * wie ein Blatt, das jemand hinlegt.
+   */
+  const rahmen = auftritt(frame, fps, 0);
+  const text = auftritt(frame, fps, 8);
+
+  return (
+    <Buehne dauerBilder={dauer}>
+      <div
+        style={{
+          ...rahmen,
+          backgroundColor: FARBEN.flaeche,
+          borderRadius: RADIUS.m,
+          padding: `${ABSTAND.l}px ${ABSTAND.l}px`,
+          // Der blaue Balken links ist das Zitatzeichen. Er kostet nichts an
+          // Hoehe und sagt auf einen Blick: Das hier ist nicht von uns.
+          borderLeft: `10px solid ${FARBEN.blau}`,
+        }}
+      >
+        <p
+          style={{
+            ...grundtext,
+            ...text,
+            fontSize: GROESSEN.aussage,
+            fontStyle: 'italic',
+            lineHeight: 1.32,
+            color: FARBEN.tinte,
+            margin: 0,
+          }}
+        >
+          {'\u201E'}{szene.zitat}{'\u201C'}
+        </p>
+        {szene.herausgeber && (
+          <p
+            style={{
+              ...grundtext,
+              ...text,
+              fontSize: GROESSEN.fussnote,
+              color: FARBEN.tinteWeich,
+              margin: `${ABSTAND.m}px 0 0 0`,
+            }}
+          >
+            {szene.herausgeber}
+          </p>
+        )}
+      </div>
+    </Buehne>
+  );
+};
+
 /* ──────────────────────────── Verteiler ────────────────────────────── */
 
 export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Dienst }> = ({
@@ -1004,6 +1084,8 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Diens
       return <Vergleich szene={szene} dauer={dauer} />;
     case 'einschraenkung':
       return <Einschraenkung szene={szene} dauer={dauer} />;
+    case 'zitatkarte':
+      return <Zitatkarte szene={szene} dauer={dauer} />;
     case 'schluss':
       return <Schluss szene={szene} dienst={dienst} />;
     case 'kaufkriterien':
