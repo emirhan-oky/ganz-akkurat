@@ -96,6 +96,32 @@ npm run zugaenge          # alle Dienste pruefen und sagen, was fehlt
 Trockenlauf und Probelauf sind jeweils der Standard. Geld und geplante Beiträge
 entstehen nur mit ausdrücklichem Schalter.
 
+## Was ohne Zutun läuft
+
+Drei Dinge brauchen keine Sitzung mehr. Sie sind der Grund, warum aus der Kette
+ein Betrieb geworden ist und kein Werkzeug, das man bedient:
+
+| | wo | wann |
+|---|---|---|
+| Senden | Buffers Server | zu den geplanten Terminen, der Rechner darf aus sein |
+| Nachlegen | launchd, `de.ganzakkurat.nachlegen` | täglich 19:15 |
+| Messen | launchd, `de.ganzakkurat.rueckblick` | täglich 9:30 |
+
+Das **Nachlegen** löst eine Grenze des Dienstes: Buffers kostenloser Tarif nimmt
+zehn geplante Beiträge je Kanal, also passt eine zweite Woche nicht daneben,
+solange die erste noch aussteht. Am 18.08.2026 blieben deshalb vier von acht
+Shorts liegen. Statt den Tarif zu wechseln, schiebt ein täglicher Lauf nach,
+sobald ein Platz frei wird.
+
+Das **Messen** holt die Zahlen der veröffentlichten Videos zurück ins Projekt
+(`daten/rueckblick.json`), wo `npm run ausreisser` und `npm run laengen` sie
+lesen. Beide schweigen, solange zu wenig gemessen ist — ein Median ab acht
+Videos, ein Formatvergleich ab fünf je Format. Eine Auswertung, die aus drei
+Datenpunkten eine Regel macht, ist schlechter als keine.
+
+Die beiden `.plist`-Dateien liegen in `skripte/`. Keine trägt `RunAtLoad`: Der
+Dienst soll zu seiner Zeit laufen und nicht bei jedem Anmelden.
+
 ## Verzeichnisse
 
 ```
