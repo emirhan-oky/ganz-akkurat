@@ -760,6 +760,13 @@ es in der Hand der linken Figur mitfährt. Und **`zeigen`, `erklaeren` und
 `achselzucken`** legen eine Hand auf das andere Gehäuse; die übrigen sieben
 Posen sind frei.
 
+**Was die Liste nicht fängt, ist das eigene Gesicht.** `nachdenken` legte die
+Hand bis zum 01.09.2026 quer über den **Mund** — im Wortwechsel-Standbild sah
+die Figur aus, als hielte sie sich den Mund zu, und der Mund ist die Stelle,
+die lippensynchron animiert wird. „Hand an der Wange" heißt bei einem Gehäuse
+ohne Kopf: an der **Kante**, nicht in der Mitte. Der Unterarm steht seitdem auf
+38 statt 60.
+
 **Diese Liste ist gemessen, nicht geschätzt** — `video/Wortwechselprobe.tsx`
 stellt alle zehn Posen einzeln neben eine ruhende Figur, in der Anordnung des
 Videos. Davor standen nacheinander zwei engere Regeln da, je aus einem

@@ -179,7 +179,15 @@ export const POSEN: Record<PosenName, Pose> = {
    * das Bild.
    */
   nachdenken: p({
-    drehung: { oberarm_rechts: 20, unterarm_rechts: 60, koerper: 5, braue_links: -14, braue_rechts: 6 },
+    /*
+     * **Der Unterarm stand bis zum 01.09.2026 auf 60, und die Hand lag damit
+     * quer ueber dem Mund.** Gefunden im Wortwechsel-Standbild: Die Figur sah
+     * aus, als hielte sie sich den Mund zu — und der Mund ist die Stelle, die
+     * lippensynchron animiert wird, also genau die, die nicht verdeckt werden
+     * darf. „Hand an der Wange" heisst bei einem Gehaeuse ohne Kopf: an der
+     * **Kante**, nicht in der Mitte.
+     */
+    drehung: { oberarm_rechts: 20, unterarm_rechts: 38, koerper: 5, braue_links: -14, braue_rechts: 6 },
     blick: [-1.8, 1.2],
     mund: 'schmal',
   }),

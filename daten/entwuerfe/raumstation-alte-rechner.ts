@@ -302,6 +302,20 @@ export const raumstationAlteRechner: Short = {
         },
       ],
       satz: 'Im Weltraum gewinnt nicht der schnellste Chip.',
+      /*
+       * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
+       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0`
+       * und nimmt damit Blick und Neigung zur anderen Figur heraus.
+       *
+       * Der Nachschlag ist der Ort dafuer, weil er der einzige Satz im Short
+       * ist, der niemandem auf der Buehne gilt.
+       */
+      buehne: {
+        art: 'figur',
+        von: 'staunen',
+        nach: 'ansprechen',
+        gegenueber: { von: 'nachdenken', nach: 'hochschauen' },
+      },
       rundlauf:
         'Beim zweiten Sehen ist „zu modern" keine Übertreibung mehr, sondern die genaue Beschreibung des Problems.',
     },

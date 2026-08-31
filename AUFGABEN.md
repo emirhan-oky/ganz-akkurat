@@ -1771,3 +1771,19 @@ Dazu ein Randfund, der keiner Belegregel unterliegt: In `daten/quellen.json`
 stand eine **relative Zeitangabe** („Er liegt drei Wochen zurück"). Das Kapitel
 „Zeitangaben altern" galt bisher nur dem Sprechtext.
 
+## Die vierte Wand steht — und hat zwei Zeichenfehler mitgebracht
+
+- [x] ~~Pose `ansprechen` plus Posenfaktor `zuwendung`, `Zuwendungsprobe` mit
+      `Sprecherstand` und Gegenprobe. Alle vier Nachschläge tragen sie jetzt~~
+- [x] ~~**Die Armvorzeichen sind seitenabhängig.** Mit −10/−28 auf beiden
+      Seiten klappte nur der linke Arm an den Bauch. Am Standbild gelernt,
+      nicht am Code~~
+- [x] ~~**`nachdenken` lag quer über dem Mund.** Gefunden beim Durchsehen aller
+      elf Posen zu zweit — die Pose war seit dem 23.08.2026 im Vokabular und
+      **in allen vier Entwürfen benutzt**. Unterarm 60 → 38~~
+
+**Offen am Bild, gesehen im Schlussstandbild:** Die beiden Figuren stehen im
+Nachschlag sehr klein und im unteren Drittel, darunter bleibt rund ein Viertel
+des Bildes leer. Das ist derselbe Eindruck, der am 31.08. schon einmal gemeldet
+wurde. Braucht eine Entscheidung am Bild, nicht im Code.
+

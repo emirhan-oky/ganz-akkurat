@@ -280,6 +280,20 @@ export const erstesLaden: Short = {
         },
       ],
       satz: '12 Stunden waren die Regel. Ideal sind heute 70 Prozent.',
+      /*
+       * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
+       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0`
+       * und nimmt damit Blick und Neigung zur anderen Figur heraus.
+       *
+       * Der Nachschlag ist der Ort dafuer, weil er der einzige Satz im Short
+       * ist, der niemandem auf der Buehne gilt.
+       */
+      buehne: {
+        art: 'figur',
+        von: 'stutzen',
+        nach: 'ansprechen',
+        gegenueber: { von: 'staunen', nach: 'ruhe' },
+      },
       rundlauf:
         'Beim zweiten Sehen klingen die 12 Stunden nicht mehr nach Sorgfalt, sondern nach dem, was der Schlusssatz daraus macht.',
     },

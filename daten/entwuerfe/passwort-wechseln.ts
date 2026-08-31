@@ -315,20 +315,27 @@ export const passwortWechseln: Short = {
        * Einlenken, im Bildtext und hier. **Ein Wort, das nur an einer Stelle
        * belegt ist, darf nicht an vier Stellen stehen.**
        */
-      rundlauf:
-        'Beim zweiten Sehen streiten die beiden Lager nicht mehr um dasselbe – jedes hat die Hälfte, die dem anderen fehlt.',
       /*
-       * **Beide stehen auch im Schluss auf der Buehne.** `zeigen` fuer Volti,
-       * weil er die Restfrage an den Zuschauer richtet; `achselzucken` fuer
-       * Watti, der sie nicht beantworten kann — das ist die Haltung, mit der
-       * ein Streitfall bei „Wer hat recht?" endet.
+       * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
+       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0`
+       * und nimmt damit Blick und Neigung zur anderen Figur heraus.
+       *
+       * Der Nachschlag ist der Ort dafuer, weil er der einzige Satz im Short
+       * ist, der niemandem auf der Buehne gilt.
+       *
+       * **Hier stand bis heute `zeigen`**, mit derselben Absicht: Volti
+       * richtet die Restfrage an den Zuschauer. Die Pose zeigte nur hin — sie
+       * konnte die Zuwendung zu Watti nicht abschalten, weil die am
+       * Sprechenden haengt und nicht an der Haltung. `ansprechen` kann es.
        */
       buehne: {
         art: 'figur',
         von: 'lesen',
-        nach: 'zeigen',
+        nach: 'ansprechen',
         gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
+      rundlauf:
+        'Beim zweiten Sehen streiten die beiden Lager nicht mehr um dasselbe – jedes hat die Hälfte, die dem anderen fehlt.',
     },
   ],
 

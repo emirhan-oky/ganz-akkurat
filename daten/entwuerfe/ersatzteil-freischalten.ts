@@ -300,6 +300,20 @@ export const ersatzteilFreischalten: Short = {
         },
       ],
       satz: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
+      /*
+       * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
+       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0`
+       * und nimmt damit Blick und Neigung zur anderen Figur heraus.
+       *
+       * Der Nachschlag ist der Ort dafuer, weil er der einzige Satz im Short
+       * ist, der niemandem auf der Buehne gilt.
+       */
+      buehne: {
+        art: 'figur',
+        von: 'lesen',
+        nach: 'ansprechen',
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
+      },
       rundlauf:
         'Beim zweiten Sehen ist „es tut trotzdem nichts" keine Klage mehr, sondern der Grund, warum das Verbot überhaupt nötig war.',
     },
