@@ -8,6 +8,7 @@ import {
   wortwechselKanten,
   type Wortwechselstand,
 } from './bausteine/Buehnenbild';
+import { Sprecherstand } from './bausteine/Sprecherstand';
 
 /**
  * Der Prueftisch fuer den Wortwechsel. Kein Sendeinhalt.
@@ -206,6 +207,67 @@ export const Wortwechselprobe: React.FC = () => (
       {POSEN.map((p) => (
         <Kachel key={`r-${p}`} links="ruhe" rechts={p} titel={`rechts ${p}`} />
       ))}
+    </div>
+  </AbsoluteFill>
+);
+
+/**
+ * **Frage 3: schaltet `ansprechen` die Zuwendung wirklich ab?**
+ *
+ *     npx remotion still video/index.ts Zuwendungsprobe zuwendung.png --frame=20
+ *
+ * ## Warum diese Probe einen Wrapper braucht und die beiden oberen nicht
+ *
+ * `Wortwechselprobe` rendert `Buehnenbild` **ohne** `Sprecherstand`. Die
+ * Sprechstaerke ist dort also 0, und damit zeigt sie ausgerechnet die beiden
+ * Groessen nicht, gegen die `ansprechen` antritt: `BLICK_ZUR_MITTE` und
+ * `HINLEHNEN` werden mit der Staerke multipliziert. Fuer die Frage „passt die
+ * Hand ins Bild" ist das richtig — eine ruhende Figur ist die breiteste —,
+ * fuer diese Frage macht es die Probe blind.
+ *
+ * **Das Bild 20 ist Teil der Probe.** Der Sprecherwechsel laeuft ueber
+ * `UEBERGANG_SEK = 0,25`, also acht Bilder. Bei Bild 0 steht die Staerke auf 0,
+ * und die Probe zeigte dann dasselbe wie ihre eigene Gegenprobe.
+ *
+ * ## Was zu sehen sein muss
+ *
+ * Links `ansprechen`: Pupillen **mittig** im Auge, Gehaeuse **senkrecht**.
+ * Rechts daneben dieselbe Figur mit `ruhe`, und dort muessen beide da sein —
+ * Pupille zur Mitte versetzt, Gehaeuse leicht geneigt. **Ohne die Gegenprobe
+ * beweist die Probe nur, dass die Zuwendung ueberhaupt noch anliegt**, nicht
+ * dass die Pose sie ausnimmt.
+ */
+const spricht = (wer: 'nachleser' | 'zeiger') =>
+  [
+    /*
+     * Zwei Abschnitte mit derselben Startsekunde: `sprecherZu` nimmt den
+     * letzten erreichten, `sprechstaerke` sieht dazwischen einen Wechsel bei
+     * 0 und faehrt den zweiten binnen 0,25 s auf 1. Ein einzelner Abschnitt
+     * genuegt nicht — `Sprecherstand` haelt einen Short mit einem Abschnitt
+     * fuer einstimmig und liefert gar keine Staerke.
+     */
+    { datei: '', sprecher: wer === 'nachleser' ? ('zeiger' as const) : ('nachleser' as const), startSek: 0 },
+    { datei: '', sprecher: wer, startSek: 0 },
+  ];
+
+const Zuwendungsfeld: React.FC<{
+  titel: string;
+  links: PosenName;
+  rechts: PosenName;
+  wer: 'nachleser' | 'zeiger';
+}> = ({ titel, links, rechts, wer }) => (
+  <Sprecherstand abschnitte={spricht(wer)}>
+    <Kachel links={links} rechts={rechts} titel={titel} breite={620} hoehe={470} />
+  </Sprecherstand>
+);
+
+export const Zuwendungsprobe: React.FC = () => (
+  <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 20 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <Zuwendungsfeld titel="Volti spricht · ansprechen" links="ansprechen" rechts="ruhe" wer="nachleser" />
+      <Zuwendungsfeld titel="Volti spricht · ruhe (Gegenprobe)" links="ruhe" rechts="ruhe" wer="nachleser" />
+      <Zuwendungsfeld titel="Watti spricht · ansprechen" links="ruhe" rechts="ansprechen" wer="zeiger" />
+      <Zuwendungsfeld titel="Watti spricht · ruhe (Gegenprobe)" links="ruhe" rechts="ruhe" wer="zeiger" />
     </div>
   </AbsoluteFill>
 );

@@ -60,7 +60,7 @@ export const erstesLaden: Short = {
   sachgebiet: 'laden',
   bauform: 'wechselrede',
   arbeitstitel: '12 Stunden beim ersten Laden',
-  weitererzaehlt: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+  weitererzaehlt: '12 Stunden waren die Regel. Ideal sind heute 70 Prozent.',
   suchbegriff: 'Akku laden',
   /*
    * **„Kaputt" trug keine der sechs Fundstellen** und stand hier bis zum
@@ -106,12 +106,12 @@ export const erstesLaden: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Und das stimmt nicht mehr, Volti? Wer vorher auflädt, statt leer zu warten, verlängert die Lebensdauer. Sonst merkt der Akku sich das doch. Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.',
+        'Und vorher ganz leer fahren, Volti? Wer vorher auflädt, statt leer zu warten, verlängert die Lebensdauer. Sonst merkt der Akku sich das doch. Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.',
       rede: [
         {
           sprecher: 'zeiger',
           zug: 'nachhaken',
-          text: 'Und das stimmt nicht mehr, Volti?',
+          text: 'Und vorher ganz leer fahren, Volti?',
           machart: 'rueckfrage',
         },
         {
@@ -242,12 +242,12 @@ export const erstesLaden: Short = {
       art: 'text',
       position: 'kipppunkt',
       sprechtext:
-        'Extreme Kälte soll man auch vermeiden. Also lade ich ab jetzt absichtlich schlecht.',
+        'Auch die Aufbewahrung bei extremer Kälte soll man vermeiden. Also lade ich ab jetzt absichtlich schlecht.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Extreme Kälte soll man auch vermeiden.',
+          text: 'Auch die Aufbewahrung bei extremer Kälte soll man vermeiden.',
           quelleId: 'uba-akku-laden',
           belegId: 'extreme-kaelte-vermieden',
         },
@@ -258,7 +258,7 @@ export const erstesLaden: Short = {
           machart: 'falscherschluss',
         },
       ],
-      text: 'Kälte ist keine Pflege.',
+      text: 'Auch nicht kalt lagern.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
@@ -271,15 +271,15 @@ export const erstesLaden: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+      sprechtext: '12 Stunden waren die Regel. Ideal sind heute 70 Prozent.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+          text: '12 Stunden waren die Regel. Ideal sind heute 70 Prozent.',
         },
       ],
-      satz: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+      satz: '12 Stunden waren die Regel. Ideal sind heute 70 Prozent.',
       rundlauf:
         'Beim zweiten Sehen klingen die 12 Stunden nicht mehr nach Sorgfalt, sondern nach dem, was der Schlusssatz daraus macht.',
     },

@@ -141,7 +141,7 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Software? Ich hab einen Schraubenschlüssel benutzt. Freie Werkstätten dürfen sie bei der Reparatur nicht behindern. Gebrauchte Teile zählen doch nicht, Volti.',
+        'Software? Ich hab einen Schraubenschlüssel benutzt. Hersteller dürfen freie Werkstätten bei zulässigen Ersatzteilen nicht behindern. Gebrauchte Teile zählen doch nicht, Volti.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -152,7 +152,7 @@ export const ersatzteilFreischalten: Short = {
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',
-          text: 'Freie Werkstätten dürfen sie bei der Reparatur nicht behindern.',
+          text: 'Hersteller dürfen freie Werkstätten bei zulässigen Ersatzteilen nicht behindern.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'behindern-verwendung-ersatzteile',
         },
@@ -186,12 +186,12 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'kipppunkt',
       sprechtext:
-        'Teile aus dem 3D-Drucker stehen in der Liste. Drucker? Dann drucke ich mir gleich ein neues Handy.',
+        'Teile aus dem 3D-Drucker stehen in der Richtlinie. Drucker? Dann drucke ich mir gleich ein neues Handy.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Teile aus dem 3D-Drucker stehen in der Liste.',
+          text: 'Teile aus dem 3D-Drucker stehen in der Richtlinie.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'mittels-3d-druck-hergestellt',
         },
@@ -248,7 +248,7 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'kipppunkt',
       sprechtext:
-        'Lies mal, was hinter dem Verbot steht. Hier steht: es sei denn, es geht um geistiges Eigentum. Also immer. Und gelten tut das erst seit dem 31. Juli 2026. Meins ist von der Schulzeit.',
+        'Lies mal, was hinter dem Verbot steht. Hier steht: es sei denn, das ist durch geistiges Eigentum gerechtfertigt. Also immer. Und die Vorschriften gelten erst seit dem 31. Juli 2026. Ich hab den Schraubenzieher verdächtigt.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -258,7 +258,7 @@ export const ersatzteilFreischalten: Short = {
         {
           sprecher: 'zeiger',
           zug: 'nachlegen',
-          text: 'Hier steht: es sei denn, es geht um geistiges Eigentum.',
+          text: 'Hier steht: es sei denn, das ist durch geistiges Eigentum gerechtfertigt.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'es-sei-denn-legitime',
         },
@@ -266,14 +266,14 @@ export const ersatzteilFreischalten: Short = {
         {
           sprecher: 'nachleser',
           zug: 'einschraenken',
-          text: 'Und gelten tut das erst seit dem 31. Juli 2026.',
+          text: 'Und die Vorschriften gelten erst seit dem 31. Juli 2026.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'die-mitgliedstaaten-wenden-diese',
         },
         {
           sprecher: 'zeiger',
           zug: 'einlenken',
-          text: 'Meins ist von der Schulzeit.',
+          text: 'Ich hab den Schraubenzieher verdächtigt.',
           machart: 'gestaendnis',
         },
       ],

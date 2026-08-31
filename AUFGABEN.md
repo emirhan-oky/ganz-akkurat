@@ -1738,3 +1738,36 @@ der Rechte des geistigen Eigentums … gerechtfertigt") steht unmittelbar hinter
 der Fundstelle, an der der Short ohnehin hing, und ist die Wendung, die
 `absicht` verlangt: Es gibt ein Verbot, und jemand hat eine Tür hineingeschrieben.
 
+## Die Gegenprobe fand elf weitere — darunter die dokumentierte Falle
+
+Nach den Reparaturen ging derselbe Text noch einmal an den `belegpruefer`, und
+**das war nicht Vorsicht, sondern hat sich gelohnt**: elf weitere Befunde in
+Sätzen, die ich gerade erst angefasst hatte.
+
+**Der wichtigste ist die Falle, die in dieser Datei schon steht.** Ich hatte im
+Ersatzteil-Short das Zitat ausgetauscht, das die Ausnahme nach Gerätealter
+belegen sollte — und Wattis Pointe „Meins ist von der Schulzeit" stehen lassen.
+**Das Wort war getauscht, die Folgerung war geblieben**, genau wie am
+31.08.2026 bei „erst bei einem Hinweis". Die Stelle sah geprüft aus, weil die
+Zeile daneben repariert war.
+
+Vier Muster über alle elf:
+
+- **Der Vorbehalt fällt weg wie eine Verneinung.** „Hersteller dürfen nicht
+  behindern, **wenn** die Teile den Anforderungen entsprechen" wurde zu einem
+  unbedingten Verbot. Dieselbe Bauform wie das gekappte „nicht" am Satzende,
+  nur die andere Satzhälfte.
+- **„Hier steht:" ist ein Versprechen.** Wer so einleitet, gibt sich als
+  Vorlesender aus — eine Zusammenfassung, die eine Tatbestandsvoraussetzung
+  streicht, wiegt dort schwerer als anderswo.
+- **Das Subjekt fällt beim Kürzen zuerst.** „Eine **Aufbewahrung** bei extremer
+  Kälte" wurde zu „Extreme Kälte", und aus einem Lagerhinweis ein Ladeverbot.
+- **Der Sprechsatz weicht von seinem eigenen `stuetzt` ab.** „hätte zu lange
+  gedauert" stand im `stuetzt` richtig da, im Sprechtext stand „hätte es nicht
+  geschafft". Zwei Sätze über dieselbe Fundstelle, in derselben Zeile geprüft,
+  und nur einer war richtig.
+
+Dazu ein Randfund, der keiner Belegregel unterliegt: In `daten/quellen.json`
+stand eine **relative Zeitangabe** („Er liegt drei Wochen zurück"). Das Kapitel
+„Zeitangaben altern" galt bisher nur dem Sprechtext.
+

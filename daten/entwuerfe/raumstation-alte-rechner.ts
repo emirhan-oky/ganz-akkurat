@@ -68,7 +68,7 @@ export const raumstationAlteRechner: Short = {
    * Short nicht" warnt, nur in der unauffaelligsten Form: kein „seit heute",
    * sondern ein blosses Verb im Praesens. **Absolute Daten altern nicht.**
    */
-  vorspann: '2009 liefen auf der ISS 5 Jahre alte Laptops',
+  vorspann: '2009 waren die ISS-Laptops über 5 Jahre alt',
   vorspannBelegId: 'laptops-more-than-five-years-old',
 
   szenen: [
@@ -96,13 +96,13 @@ export const raumstationAlteRechner: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Zu modern? Das gibt es nicht. 2009 liefen auf der Raumstation Laptops über 5 Jahre. Raumstation? Ich hätte Raumschiff erwartet.',
+        'Zu modern? Das gibt es nicht. 2009 waren die Laptops auf der Raumstation über 5 Jahre alt. Raumstation? Ich hätte Raumschiff erwartet.',
       rede: [
         { sprecher: 'zeiger', zug: 'widersprechen', text: 'Zu modern? Das gibt es nicht.' },
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',
-          text: '2009 liefen auf der Raumstation Laptops über 5 Jahre.',
+          text: '2009 waren die Laptops auf der Raumstation über 5 Jahre alt.',
           quelleId: 'esa-iss-laptops',
           belegId: 'laptops-more-than-five-years-old',
         },
@@ -130,12 +130,12 @@ export const raumstationAlteRechner: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Alles an Bord muss durch die Prüfung. Warum dann nicht einfach neue, Volti? Ein schnellerer Rechner hätte die Zulassung nicht geschafft.',
+        'Alles an Bord musste durch die Prüfung. Warum dann nicht einfach neue, Volti? Einen schnelleren Rechner zuzulassen hätte dort zu lange gedauert.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Alles an Bord muss durch die Prüfung.',
+          text: 'Alles an Bord musste durch die Prüfung.',
           quelleId: 'esa-iss-laptops',
           belegId: 'arduous-safety-and-compatibility-testing',
         },
@@ -148,7 +148,7 @@ export const raumstationAlteRechner: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Ein schnellerer Rechner hätte die Zulassung nicht geschafft.',
+          text: 'Einen schnelleren Rechner zuzulassen hätte dort zu lange gedauert.',
           quelleId: 'esa-iss-laptops',
           belegId: 'too-long-to-pass-a-faster-pc',
         },

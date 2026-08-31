@@ -74,6 +74,7 @@ const pose = (k: Kandidat): Pose => ({
   blick: k.blick,
   mund: 'laecheln',
   hub: 0,
+  zuwendung: 1,
 });
 
 const Feld: React.FC<{ k: Kandidat }> = ({ k }) => (

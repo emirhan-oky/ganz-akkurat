@@ -183,6 +183,41 @@ export const POSEN: Record<PosenName, Pose> = {
     blick: [-1.8, 1.2],
     mund: 'schmal',
   }),
+
+  /**
+   * **Die vierte Wand.** Die Figur laesst den anderen stehen und redet mit dem
+   * Zuschauer.
+   *
+   * Sie besteht aus **zwei** Dingen, und das zweite ist das eigentliche:
+   *
+   * 1. Die Haltung — beide Arme leicht nach innen, offen, Blick geradeaus.
+   *    `blick: [0, 0]` ist die Vorgabe und steht hier trotzdem, damit
+   *    `hochschauen` oder `nachdenken` davor nichts nachhaengen lassen.
+   * 2. **`zuwendung: 0`.** Ohne das bleibt die Pose wirkungslos: Der Renderer
+   *    addiert `BLICK_ZUR_MITTE` und `HINLEHNEN` mit der Sprechstaerke obendrauf,
+   *    und die sprechende Figur ist per Definition die mit Staerke 1. Sie
+   *    schaute und lehnte also zum anderen, waehrend sie den Zuschauer ansprach.
+   *
+   * **Die Arme drehen nach innen, nicht nach aussen** — der aeusserste Punkt
+   * ist damit die Gehaeusekante und nicht die Hand. `AUSSENREICHWEITE` steht
+   * deshalb auf 52 wie bei `ruhe`; `skripte/schemapruefung.ts` rechnet das
+   * nach, und meldet sie etwas, ist die Schaetzung falsch — dann nachrechnen,
+   * nicht die Zahl kleiner schreiben.
+   */
+  ansprechen: p({
+    /*
+     * **Die Vorzeichen sind seitenabhaengig, und das ist am Standbild gelernt.**
+     * Mit −10/−28 auf beiden Seiten klappte nur der linke Arm an den Bauch,
+     * waehrend der rechte nach aussen-unten wegstand. Die beiden Armketten
+     * sind gespiegelt gezeichnet: Dasselbe Vorzeichen dreht links nach innen
+     * und rechts nach aussen. `nachdenken` sagt es schon — dort hebt
+     * `oberarm_rechts: 20` die Hand zur Wange, also nach innen.
+     */
+    drehung: { oberarm_links: -10, unterarm_links: -28, oberarm_rechts: 10, unterarm_rechts: 28 },
+    blick: [0, 0],
+    mund: 'laecheln',
+    zuwendung: 0,
+  }),
 };
 
 /**
@@ -251,6 +286,8 @@ export const poseMischen = (
       interpolate(t, [0, 1], [von.blick[1], nach.blick[1]]),
     ],
     hub: interpolate(t, [0, 1], [von.hub, nach.hub]),
+    // Wird gemischt wie jede Posenzahl — die Figur dreht sich weg, sie springt nicht.
+    zuwendung: interpolate(t, [0, 1], [von.zuwendung, nach.zuwendung]),
     mund: t < 0.5 ? von.mund : nach.mund,
   };
 };
@@ -553,6 +590,8 @@ export const AUSSENREICHWEITE: Record<PosenName, number> = {
   hochschauen: 61.7,
   winken: 52,
   nachdenken: 52,
+  // Beide Arme nach innen: Der aeusserste Punkt ist die Gehaeusekante, nicht die Hand.
+  ansprechen: 52,
 };
 
 export const posenPruefen = (rig: Rig): string[] => {

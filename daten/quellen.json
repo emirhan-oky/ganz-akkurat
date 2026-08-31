@@ -456,7 +456,7 @@
         {
           "id": "extreme-kaelte-vermieden",
           "zitat": "Eine Aufbewahrung bei extremer Kälte sollte ebenfalls vermieden werden",
-          "stuetzt": "Die Gegenrichtung zur Wärme: Kühlen ist keine Pflege. Steht im selben Absatz wie die Erwärmung."
+          "stuetzt": "Gilt der **Aufbewahrung**, nicht dem Laden. Steht im selben Absatz wie die Erwärmung — dieselbe Falle wie `eine-vollstaendige-entleerung`."
         }
       ]
     },
@@ -738,7 +738,7 @@
         {
           "id": "thinkpads-already-qualified",
           "zitat": "Thinkpads already qualified and aboard the ISS",
-          "stuetzt": "Es wurde kein schnellerer Rechner genommen, sondern die bereits zugelassenen Geräte — die Zulassung entscheidet, nicht die Rechenleistung."
+          "stuetzt": "Die Thinkpads waren zugelassen und an Bord. Was entschied, war der Terminplan eines Demonstrators — kein Grundsatz der Raumfahrt."
         },
         {
           "id": "arduous-safety-and-compatibility-testing",
@@ -748,7 +748,7 @@
         {
           "id": "too-long-to-pass-a-faster-pc",
           "zitat": "it would have taken too long to pass a faster ultramobile PC",
-          "stuetzt": "Ein schnelleres Gerät wurde nicht genommen, weil dessen Zulassung zu lange gedauert hätte."
+          "stuetzt": "Eine Aussage über die **Dauer** im Zeitplan eines Demonstrators, nicht über Bestehen oder Scheitern einer Zulassung."
         }
       ]
     },
@@ -810,7 +810,7 @@
         {
           "id": "die-mitgliedstaaten-wenden-diese",
           "zitat": "Die Mitgliedstaaten wenden diese Vorschriften ab dem 31. Juli 2026 an",
-          "stuetzt": "Der Stichtag. Er liegt drei Wochen zurück und ist damit der aktuellste belegbare Fakt im Vorrat."
+          "stuetzt": "Der Stichtag der Anwendung, 31. Juli 2026. Er betrifft die Vorschriften, nicht das Kaufdatum eines Geräts — dafür gilt nur Artikel 21."
         },
         {
           "id": "gilt-nicht-fu-r",

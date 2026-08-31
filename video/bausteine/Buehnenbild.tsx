@@ -548,7 +548,8 @@ const figurenbewegung = (
     drehung: {
       ...geredetSynchron.drehung,
       ...g,
-      koerper: (geredetSynchron.drehung.koerper ?? 0) + g.koerper + HINLEHNEN * staerke,
+      koerper:
+        (geredetSynchron.drehung.koerper ?? 0) + g.koerper + HINLEHNEN * staerke * pose.zuwendung,
     },
     stauchung: { ...geredetSynchron.stauchung, ...atem.stauchung },
     dehnung: { ...geredetSynchron.dehnung, ...atem.dehnung },
@@ -628,7 +629,7 @@ export const sprechbewegung = (pose: Pose, staerke: number, frame: number, fps: 
      * eigenen Blick, und der soll erhalten bleiben. Zwei Einheiten obendrauf
      * heissen „schaut hin", nicht „schaut nur noch dorthin".
      */
-    blick: [pose.blick[0] + BLICK_ZUR_MITTE * staerke, pose.blick[1]],
+    blick: [pose.blick[0] + BLICK_ZUR_MITTE * staerke * pose.zuwendung, pose.blick[1]],
     /* Der Mund bleibt ein Ja/Nein — ein halb offener Mund ist keine Silbe.
        Ab der halben Staerke gilt die Figur als sprechend. */
     mund: staerke > 0.5 && takt > MUND_SCHWELLE ? 'offen' : pose.mund,

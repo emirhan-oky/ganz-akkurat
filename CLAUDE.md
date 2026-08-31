@@ -774,6 +774,38 @@ Der Satz „Gespiegelt wird nicht" in `platzVon` gilt weiter für Figur plus
 Symbol — ein Symbol läge sonst hinter dem Rücken. Bei zwei Figuren gilt er
 nicht.
 
+### Die vierte Wand
+
+Seit dem 01.09.2026 gibt es die Pose **`ansprechen`**: Die Figur lässt die
+andere stehen und redet mit dem Zuschauer. Ihr Ort ist der Nachschlag.
+
+**Die Pose allein löst es nicht, und das war der eigentliche Fund.**
+`blick: [0, 0]` ist bereits der Blick nach vorn — eine Pose müsste dafür gar
+nichts setzen. Das Problem sitzt im Renderer: `BLICK_ZUR_MITTE` und
+`HINLEHNEN` werden mit der **Sprechstärke** aufaddiert, und wer spricht, hat
+Stärke 1. Volti schaute und lehnte also zu Watti, während er den Zuschauer
+ansprach.
+
+Deshalb trägt jede Pose einen Faktor **`zuwendung`** (0…1, Vorgabe 1), der
+**beide** Größen skaliert. Ein Wert für beides, aus demselben Grund, der schon
+am Lichtkegel steht: drei Dinge, ein Wert, sonst laufen sie beim nächsten Umbau
+auseinander. Er wird wie jede Posenzahl gemischt — die Figur dreht sich weg,
+sie springt nicht.
+
+**Die Armvorzeichen sind seitenabhängig**, und das hat erst das Standbild
+gezeigt: Mit −10/−28 auf beiden Seiten klappte nur der linke Arm an den Bauch,
+der rechte stand nach außen-unten weg. Die Armketten sind gespiegelt
+gezeichnet.
+
+**`Zuwendungsprobe` braucht einen `Sprecherstand` und das Bild 20.**
+`Wortwechselprobe` rendert `Buehnenbild` ohne ihn, die Sprechstärke ist dort
+also 0 — sie zeigt ausgerechnet die beiden Größen nicht, gegen die die Pose
+antritt. Und der Wechsel läuft über 0,25 Sekunden, also acht Bilder; bei Bild 0
+zeigte die Probe dasselbe wie ihre eigene Gegenprobe. **Die Gegenprobe gehört
+dazu**: Ohne eine Kachel mit `ruhe`, in der Blick und Neigung da sein *müssen*,
+beweist die Probe nur, dass die Zuwendung noch anliegt — nicht, dass die Pose
+sie ausnimmt.
+
 ### Die Sprechblase
 
 Bei zwei Stimmen ersetzt `video/bausteine/Sprechblase.tsx` den Untertitel. Sie

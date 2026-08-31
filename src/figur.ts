@@ -220,6 +220,33 @@ export const Pose = z.object({
   dehnung: z.record(z.string(), z.number()).default({}),
   /** Hebt die ganze Figur, ohne ein Gelenk zu bemuehen — fuer Atmen. */
   hub: z.number().default(0),
+  /**
+   * Wie weit sich die sprechende Figur der anderen zuwendet: 1 ganz, 0 gar
+   * nicht. Skaliert **beide** Zuwendungsgroessen im Renderer, den Blick zur
+   * Mitte und das Hinlehnen.
+   *
+   * ## Warum ein Wert fuer beides
+   *
+   * Sie beantworten dieselbe Frage — „redet die Figur mit dem anderen oder mit
+   * dem Zuschauer?" — und wuerden als zwei Felder beim naechsten Umbau
+   * auseinanderlaufen. Derselbe Grund steht schon am Lichtkegel.
+   *
+   * ## Warum es das Feld ueberhaupt gibt
+   *
+   * Fuer die vierte Wand, und der eigentliche Fund lag **nicht** in einer
+   * fehlenden Pose: `blick: [0, 0]` ist bereits der Blick nach vorn, eine Pose
+   * muesste dafuer gar nichts setzen. Das Problem ist, dass der Renderer
+   * `BLICK_ZUR_MITTE` und `HINLEHNEN` mit der Sprechstaerke **aufaddiert** —
+   * wer spricht, dreht sich zum anderen, auch wenn er gerade den Zuschauer
+   * anspricht. Eine neue Pose allein loest das nicht.
+   *
+   * Der Wert wird wie jede andere Posenzahl gemischt, also mit derselben
+   * Feder: Die Figur dreht sich **weg**, sie springt nicht.
+   *
+   * **Der Ruhewert ist 1**, damit jede der zehn bestehenden Posen sich weiter
+   * verhaelt wie vor dem 01.09.2026.
+   */
+  zuwendung: z.number().min(0).max(1).default(1),
 });
 export type Pose = z.infer<typeof Pose>;
 
@@ -261,6 +288,11 @@ export const PosenName = z.enum([
   'winken',
   /** Hand an der Wange. Die Pause vor der Aufloesung. */
   'nachdenken',
+  /**
+   * Die vierte Wand: Die Figur wendet sich vom anderen ab und spricht den
+   * Zuschauer an. Traegt als einzige Pose `zuwendung: 0`.
+   */
+  'ansprechen',
 ]);
 export type PosenName = z.infer<typeof PosenName>;
 
