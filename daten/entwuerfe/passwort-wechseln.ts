@@ -68,6 +68,21 @@ export const passwortWechseln: Short = {
         { sprecher: 'zeiger', text: 'Sicherheit? Also war das alles umsonst?', machart: 'ratlosigkeit' },
       ],
       zitat: 'Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
+      /*
+       * **Die Zitatkarte traegt seit dem 31.08.2026 eine Buehne.** Der Vertrag
+       * verlangt sie seit einer Woche — „die beiden Figuren reden darueber" —,
+       * und das Schema kannte sie nicht. Ausgerechnet die Szene, in der am
+       * ausdruecklichsten geredet wird, war die einzige ohne Figuren.
+       *
+       * `lesen` fuer Volti, weil er vorliest, was auf der Karte steht;
+       * `stutzen → nachdenken` fuer Watti, der es gerade begreift.
+       */
+      buehne: {
+        art: 'figur',
+        von: 'lesen',
+        nach: 'stutzen',
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
+      },
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',

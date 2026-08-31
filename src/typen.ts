@@ -1190,6 +1190,19 @@ const SzeneZitatkarte = SzeneBasis.extend({
   quelleId: z.string(),
   belegId: z.string(),
   ...mitBelegeinblendung,
+  /*
+   * **Die Buehne hat hier eine Woche lang gefehlt**, obwohl der Vertragstext
+   * darueber sie seit dem 25.08.2026 verlangt: „Das Zitat steht als Karte im
+   * Bild, und die beiden Figuren reden darueber."
+   *
+   * Im Standbild sass die Karte mittig und darunter war nichts — die Szene, in
+   * der am ausdruecklichsten geredet wird, war die einzige ohne Figuren.
+   *
+   * **Ein Vertrag, den das Schema nicht kennt, ist eine Absichtserklaerung.**
+   * Dieselbe Lehre wie bei der Belegpflicht und den Positionen: Was sich nicht
+   * ausdruecken laesst, wird beim Schreiben nicht gefragt.
+   */
+  ...mitIllustration,
 });
 
 /**

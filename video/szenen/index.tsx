@@ -119,7 +119,30 @@ const Illustration = (
           marginTop: ABSTAND.xl,
           display: 'flex',
           justifyContent: 'center',
-          minHeight: 0,
+          /*
+           * **Die Untergrenze, unter der eine Figur keine mehr ist.**
+           *
+           * Hier stand `minHeight: 0`, und der Kommentar davor erklaerte
+           * ausfuehrlich, warum die alte feste Zahl 620 falsch war. Sie war es
+           * — nur ist `0` der Fehler in die andere Richtung: Bei einem Zitat
+           * von 172 Zeichen nimmt sich die Karte den ganzen Platz, und die
+           * Buehne verschwindet auf null. Die beiden Figuren waren im
+           * Standbild nicht klein, sondern **nicht da**, und nichts hat es
+           * gemeldet.
+           *
+           * 260 Pixel sind kein Wunschmass, sondern die Untergrenze der
+           * Sichtbarkeit: Das Buehnen-SVG ist 200 x 150 Einheiten, und die
+           * Figur nimmt davon rund 86 in der Hoehe ein — bei 260 Pixeln
+           * Kastenhoehe steht sie gut 150 Pixel hoch im Bild und ist auf einem
+           * Handy noch als Figur erkennbar.
+           *
+           * Was die 620 damals falsch machte, macht die 260 nicht: Sie
+           * verdraengt den Text nicht, sie laesst den **Inhalt insgesamt**
+           * ueber die Buehnenhoehe wachsen. Damit greift die `passung`-Bremse
+           * in `Buehne.tsx` und verkleinert Karte und Figuren gemeinsam,
+           * statt eine von beiden verschwinden zu lassen.
+           */
+          minHeight: 260,
           flex: 1,
           /*
            * `alignSelf: stretch` ist die Zeile, auf die es ankommt.
@@ -775,7 +798,20 @@ const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
   const text = auftritt(frame, fps, 8);
 
   return (
-    <Buehne dauerBilder={dauer}>
+    /*
+     * **Die Karte steht oben, die Figuren darunter.**
+     *
+     * Ohne `illustration` zentriert `Buehne` ihren Inhalt und legt den Rest je
+     * zur Haelfte darueber und darunter — bei einem hundert Zeichen langen
+     * Zitat sind das zweimal 212 Pixel Leere. Mit Buehne rueckt die Karte nach
+     * oben, und der Platz darunter geht an die Figuren.
+     *
+     * **Der Platz reicht nicht immer:** Ein Zitat von 180 Zeichen braucht neun
+     * Zeilen und laesst nur 108 Pixel uebrig. Dann greift die
+     * `passung`-Bremse in `Buehne.tsx` — dieselbe, die seit dem 18.08.2026
+     * jeden zu vollen Inhalt verkleinert.
+     */
+    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       <div
         style={{
           ...rahmen,

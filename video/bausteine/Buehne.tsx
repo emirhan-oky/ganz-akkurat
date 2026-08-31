@@ -210,9 +210,26 @@ export const Buehne: React.FC<{
             flexShrink: 0,
             display: 'flex',
             flexDirection: 'column',
-            // Nur mit Illustration: Der Inhalt fuellt den Rahmen, damit das
-            // `flex: 1` der Zeichnung darunter etwas zu verteilen hat.
-            ...(illustration ? { height: '100%' } : {}),
+            /*
+             * Nur mit Illustration: Der Inhalt fuellt den Rahmen, damit das
+             * `flex: 1` der Zeichnung darunter etwas zu verteilen hat.
+             *
+             * **`minHeight` und nicht `height` — seit dem 31.08.2026.** Mit
+             * `height: '100%'` ist `offsetHeight` per Definition genau die
+             * Buehnenhoehe, egal wie viel der Inhalt wirklich braucht. Die
+             * Messung oben verglich also eine Zahl mit sich selbst und kam
+             * **nie** auf einen Ueberlauf: Bei einem Zitat von 172 Zeichen
+             * nahm sich die Karte den ganzen Platz, die Figurenbuehne
+             * darunter behielt null Hoehe, und im Bild waren die beiden
+             * schlicht weg. Kein Ueberlauf, keine Warnung, kein Fehler —
+             * genau die Sorte stiller Ausfall, gegen die die Bremse gebaut
+             * wurde.
+             *
+             * Mit `minHeight` ist der Inhalt **mindestens** so hoch wie die
+             * Buehne und darf darueber hinauswachsen. Erst dann hat die
+             * Messung etwas zu messen.
+             */
+            ...(illustration ? { minHeight: '100%' } : {}),
             transform: `scale(${zoom * passung})`,
             /*
              * Der Ankerpunkt haengt daran, ob geschrumpft wird.
