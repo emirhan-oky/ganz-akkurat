@@ -534,23 +534,30 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
   });
 };
 
-/** Gesamtlaenge des Shorts in Bildern. */
+/**
+ * Gesamtlaenge des Shorts in Bildern.
+ *
+ * **Immer aus dem Zeitplan, seit dem 31.08.2026.** Fuer vertonte Shorts stand
+ * hier eine eigene Rechnung — `(dauerSek + NACHLAUF_SEK) * fps` —, und sie war
+ * nicht falsch, sondern **zweite Wahrheit ueber dieselbe Groesse**. Beide
+ * runden, und zwar an verschiedenen Stellen: Der Zeitplan rundet jede Szene
+ * einzeln, diese Zeile die Summe. Beim ersten vertonten Short trennte sie
+ * genau ein Bild — die Komposition war 1634 Bilder lang, die letzte Szene
+ * endete bei 1633.
+ *
+ * Sichtbar wurde das nur im Standbild des **letzten** Bildes: eine leere
+ * Buehne, ein Dreissigstel Sekunde lang, genau dort, wo der Rundlauf ansetzt.
+ * Denselben Fehler hat dieselbe Zeile schon einmal produziert — damals 0,8
+ * Sekunden lang, weil sie einen Nachlauf fuer eine geloeschte Endkarte
+ * addierte. Er ist nicht wiedergekommen, weil die Zahl falsch war, sondern
+ * **weil die Rechnung doppelt war.**
+ *
+ * Der Nachlauf steckt laengst im Zeitplan: `szenenZeitplan` schlaegt ihn der
+ * letzten Szene zu, damit die Signatur nach dem letzten Wort stehen bleibt.
+ * Ihn hier ein zweites Mal zu kennen, war der ganze Fehler. Jetzt kann per
+ * Konstruktion kein Bild uebrig bleiben, das keine Szene abdeckt.
+ */
 export const gesamtdauerBilder = (short: Short): number => {
-  if (short.tonspur) {
-    /*
-     * **Kein Nachlauf.** Hier standen bis zum 24.08.2026 0,8 Sekunden extra,
-     * begruendet mit „damit die Endkarte nicht auf dem letzten Wort
-     * abreisst" — und die Endkarte ist am 18.08.2026 gestrichen worden. Die
-     * Zahl blieb stehen und produzierte seitdem am Ende jedes Videos 0,8
-     * Sekunden **leere Buehne**: Die Sequences enden mit der letzten Szene,
-     * die Komposition lief weiter.
-     *
-     * Aufgefallen beim Standbild des letzten Bildes — dort stand nur noch die
-     * Kopfzeile. Genau dort setzt der Rundlauf an, und Leere ist der Vorhang,
-     * den er nicht haben soll.
-     */
-    return Math.round((short.tonspur.dauerSek + NACHLAUF_SEK) * FORMAT.bilderProSekunde);
-  }
   const plan = szenenZeitplan(short);
   const letzter = plan[plan.length - 1];
   return letzter ? letzter.startBild + letzter.dauerBilder : FORMAT.bilderProSekunde;
