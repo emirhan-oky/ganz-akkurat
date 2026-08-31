@@ -686,8 +686,30 @@ export const laengenklasseVon = (sek: number): Laengenklasse =>
  * Stelle, an der eine Rueckmeldung zu spaet kommt.
  */
 export const geschaetzteDauerSek = (short: Short): number =>
-  short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0) +
-  zusatzpausenSek(short) +
+  geschaetzteInhaltSek(short) +
   // Der Vorspann zaehlt mit. Das Laengenfenster misst, wie lange der Zuschauer
   // zusieht — nicht, wie lange geredet wird.
   vorspannSek(short);
+
+/**
+ * Dieselbe Schaetzung **ohne** den Vorspann — die Laenge des Gespraechs.
+ *
+ * ## Warum es beide gibt
+ *
+ * Das **Fenster** (42–67 s) misst, wie lange der Zuschauer zusieht, und dazu
+ * gehoert der Vorspann. Der **Zielwert einer Bauform** misst etwas anderes: wie
+ * lang ein so gebautes Gespraech ist. Der Vorspann ist bei jeder Bauform
+ * derselbe und sagt ueber sie nichts aus.
+ *
+ * Solange er 3,8 Sekunden gerechnet war, fiel der Unterschied nicht auf. Mit
+ * der Themenansage kostet er **9,5**, und damit blieben einer Wechselrede von
+ * ihren 45 Sekunden noch 35,5 fuer den Inhalt — `ersatzteil-freischalten`
+ * meldete 58 gegen 45, ohne dass am Text etwas falsch war.
+ *
+ * Die Zielwerte einfach anzuheben ging nicht: 62 plus 9,5 sind 71,5 und reissen
+ * die Obergrenze. **Zwei Groessen, die verschiedene Dinge meinen, brauchen
+ * verschiedene Zahlen** — nicht dieselbe Zahl mit einem Aufschlag.
+ */
+export const geschaetzteInhaltSek = (short: Short): number =>
+  short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0) +
+  zusatzpausenSek(short);

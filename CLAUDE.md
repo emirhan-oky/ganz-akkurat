@@ -954,6 +954,17 @@ passende. Der Teillauf `--nur=<id>` bleibt einfassig.
 
 **Fenster 42 bis 67 Sekunden, hart. Zielwert je Bauform.**
 
+**Die beiden messen verschiedene Dinge, seit der Vorspann Ton hat.** Das
+Fenster misst, wie lange der Zuschauer zusieht — der Vorspann gehört dazu. Der
+Zielwert einer Bauform misst, wie lang ein so gebautes **Gespräch** ist; der
+Vorspann ist bei jeder Bauform derselbe und sagt über sie nichts aus.
+
+Solange er 3,8 Sekunden gerechnet war, fiel der Unterschied nicht auf. Mit der
+Themenansage kostet er rund 9 — und damit blieben einer Wechselrede von ihren 45
+Sekunden noch 35,5 für den Inhalt. Die Zielwerte anzuheben ging nicht: 62 plus 9
+sind 71 und reißen die Obergrenze. **Zwei Größen, die verschiedene Dinge meinen,
+brauchen verschiedene Zahlen** — nicht dieselbe Zahl mit einem Aufschlag.
+
 Ein einziger Zielwert für alle Bauformen war der eigentliche Fehler, nicht seine
 Höhe: Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil sie mehr
 Inhalt haben. **Länge ist keine Ursache, sondern eine Folge davon, wie viel es

@@ -15,6 +15,8 @@ import { BAUFORMEN,
 import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
 import {
   geschaetzteDauerSek,
+  geschaetzteInhaltSek,
+  vorspannSek,
   laengenklasseVon,
   LAENGE_SEK,
   ZEICHEN_PRO_SEKUNDE,
@@ -1765,15 +1767,26 @@ const STIMMANTEIL_MAX = 2 / 3;
    * der bei jedem zweiten Short erscheint, wird nicht gelesen.
    */
   {
+    /*
+     * **Ohne den Vorspann.** Der Zielwert sagt, wie lang ein so gebautes
+     * Gespraech ist — der Vorspann ist bei jeder Bauform derselbe und sagt
+     * ueber sie nichts aus. Mit ihm gerechnet meldete `ersatzteil-freischalten`
+     * 58 Sekunden gegen 45, ohne dass am Text etwas falsch war.
+     *
+     * Bei vorhandener Tonspur steckt er in `dauerSek` und wird abgezogen; die
+     * gemessene Vorspanndauer steht dort ebenfalls.
+     */
     const ziel = BAUFORMEN[short.bauform].zielSek;
     const gemessen = short.tonspur !== undefined;
-    const dauer = gemessen ? short.tonspur!.dauerSek : geschaetzteDauerSek(short);
+    const dauer = gemessen
+      ? short.tonspur!.dauerSek - vorspannSek(short)
+      : geschaetzteInhaltSek(short);
     const abweichung = Math.abs(dauer - ziel) / ziel;
     if (abweichung > 0.2) {
       melde(
         'hinweis',
         'laenge',
-        `${BAUFORMEN[short.bauform].titel} will rund ${ziel}s, ` +
+        `${BAUFORMEN[short.bauform].titel} will rund ${ziel}s Gespräch, ` +
           `${gemessen ? 'gemessen' : 'geschätzt'} sind es ${dauer.toFixed(0)}s. ` +
           'Länge ist eine Folge davon, wie viel es zu zeigen gibt – ' +
           'wenn der Inhalt es trägt, ist der Hinweis erledigt.',

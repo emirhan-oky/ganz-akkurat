@@ -1423,7 +1423,7 @@ Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
 
 ### Offen
 
-- [ ] ▸ **Die drei Regeln bauen** — `anrede`, `zweitePerson`, `rueckbezug`.
+- [ ] **Die drei Regeln bauen** — `anrede`, `zweitePerson`, `rueckbezug`.
       Ohne sie fragt beim Schreiben wieder nichts danach
 - [ ] **Die restlichen drei Entwürfe** nach dem Musterdialog
 - [ ] **Die Bauform-Zielwerte kennen den Vorspann nicht.** 45 / 52 / 62 sind
@@ -1438,5 +1438,28 @@ Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
       beide drauf". Das Symbol blockiert den zweiten Platz
 - [ ] **Der Freiraum unter dem Satz** — drei Anläufe ohne Wirkung. Erst messen,
       wo der Platz entsteht
+- [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
+      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*
+
+## Zielwert und Fenster messen Verschiedenes · 31.08.2026 · Nacht
+
+- [x] ~~**Der Bauform-Zielwert rechnet ohne den Vorspann.** Er sagt, wie lang
+      ein so gebautes *Gespräch* ist; das Fenster sagt, wie lange der Zuschauer
+      zusieht. Solange der Vorspann 3,8 s gerechnet war, fiel der Unterschied
+      nicht auf — mit Themenansage kostet er 9~~
+- [x] ~~**Anheben ging nicht:** 62 + 9,5 = 71,5 reißt die Obergrenze. Zwei
+      Größen, die verschiedene Dinge meinen, brauchen verschiedene Zahlen~~
+- [x] ~~`npm run pruefen` ist **vollständig grün** — kein Fehler, kein Hinweis,
+      erstmals seit dem 26.08.2026~~
+
+Gespräch gegen Zielwert: raumstation 55 (62) · ersatzteil 49 (45) ·
+passwort 48 (52) · erstes-laden 45 (45). Gesamtlängen 54 bis 64 s.
+
+### Offen
+
+- [ ] ▸ **Das Bild der Gesprächsszenen** — vier tote Szenenarten streichen, die
+      Zitatkarte mit Bühne, die erste Szene mit beiden Figuren, der Freiraum
+      unter dem Satz
+- [ ] **Der erste Short mit vollem Ton** — rund 580 Zeichen von 81.000
 - [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
       einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*
