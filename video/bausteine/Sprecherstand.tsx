@@ -72,6 +72,58 @@ export const sprecherZu = (
   return wer;
 };
 
+/**
+ * Wie lange ein Sprecherwechsel braucht, bis er im Bild angekommen ist.
+ *
+ * **Vorher gab es diesen Wert nicht, und das war der Fehler.** Hinlehnen,
+ * Blickrichtung und Namensschild sprangen in **einem einzigen Bild** um — bei
+ * der Neigung sind das 3 Grad Unterschied zwischen den beiden Figuren, ohne
+ * jede Zwischenstufe. Es waren die einzigen Bewegungen im ganzen Projekt, die
+ * nicht ueber Frames liefen, und im fertigen Video gehoerten sie zu dem, was
+ * als „alles zappelt" auffiel.
+ *
+ * 0,25 s sind rund acht Bilder: lang genug, dass das Auge eine Bewegung sieht
+ * statt eines Schnitts, kurz genug, dass die Zuwendung noch zur Silbe gehoert.
+ */
+const UEBERGANG_SEK = 0.25;
+
+/**
+ * Wie stark diese Figur gerade spricht — 0 bis 1 statt ja oder nein.
+ *
+ * Der Wert haengt am **letzten Wechsel**, nicht am Abschnitt: Redet dieselbe
+ * Figur ueber zwei Abschnitte weiter, gibt es nichts zu ueberblenden, und ein
+ * Wert je Abschnitt liesse sie bei jedem Szenenschnitt neu „anlaufen".
+ */
+export const sprechstaerke = (
+  abschnitte: NonNullable<Tonspur['abschnitte']>,
+  sekunde: number,
+  wer: Sprecher,
+): number => {
+  let laufend = abschnitte[0]!.sprecher;
+  let wechselBei = abschnitte[0]!.startSek;
+  for (const a of abschnitte) {
+    if (sekunde < a.startSek) break;
+    if (a.sprecher !== laufend) {
+      laufend = a.sprecher;
+      wechselBei = a.startSek;
+    }
+  }
+  const t = Math.min(1, Math.max(0, (sekunde - wechselBei) / UEBERGANG_SEK));
+  return wer === laufend ? t : 1 - t;
+};
+
+const StaerkeContext = createContext<((wer: Sprecher) => number) | undefined>(undefined);
+
+/**
+ * Die weiche Sprechstaerke, oder `undefined` im einstimmigen Fall.
+ *
+ * Wer sie nicht bekommt, faellt auf `useSprecher()` zurueck — dort ist der
+ * harte Wert richtig, weil es keinen Wechsel gibt, den man ueberblenden
+ * koennte.
+ */
+export const useSprechstaerke = (): ((wer: Sprecher) => number) | undefined =>
+  useContext(StaerkeContext);
+
 export const Sprecherstand: React.FC<{
   abschnitte?: Tonspur['abschnitte'];
   /** Die Wortzeitstempel des ganzen Shorts. Ohne sie klappt der Mund blind. */
@@ -88,11 +140,18 @@ export const Sprecherstand: React.FC<{
    */
   const zweistimmig = (abschnitte?.length ?? 1) > 1;
   const wer = zweistimmig && abschnitte ? sprecherZu(abschnitte, frame / fps) : undefined;
+  const staerke =
+    zweistimmig && abschnitte
+      ? (figur: Sprecher) => sprechstaerke(abschnitte, frame / fps, figur)
+      : undefined;
+
   return (
     <UntertitelzoneContext.Provider value={!zweistimmig}>
       <WoerterContext.Provider value={woerter}>
         <SekundeContext.Provider value={frame / fps}>
-          <SprecherContext.Provider value={wer}>{children}</SprecherContext.Provider>
+          <StaerkeContext.Provider value={staerke}>
+            <SprecherContext.Provider value={wer}>{children}</SprecherContext.Provider>
+          </StaerkeContext.Provider>
         </SekundeContext.Provider>
       </WoerterContext.Provider>
     </UntertitelzoneContext.Provider>

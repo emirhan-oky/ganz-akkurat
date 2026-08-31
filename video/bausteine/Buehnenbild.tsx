@@ -17,7 +17,7 @@ import { Kamera } from './Kamera';
 import { poseAus } from './posen';
 import { Blatt } from './Requisiten';
 import { atemvolumen, gewicht } from './bewegung';
-import { useSprechsekunde, useSprecher, useWoerter } from './Sprecherstand';
+import { useSprechsekunde, useSprecher, useSprechstaerke, useWoerter } from './Sprecherstand';
 
 /**
  * Die Buehne einer Szene: was im Bild **passiert**.
@@ -362,6 +362,21 @@ const poseDerKette = (
   starts: readonly number[],
   frame: number,
   fps: number,
+  /**
+   * Welche der beiden Figuren das ist — 0 oder 1.
+   *
+   * **Er fehlte hier, und das war ein stiller Fehler.** `poseAus` nimmt einen
+   * `versatz` und verschiebt damit Atem und Blinzeln gegeneinander; die Kette
+   * hat ihn nie weitergereicht, also stand fuer beide Figuren die 0. Die Folge
+   * war im fertigen Video zu sehen, ohne dass jemand sie benennen konnte:
+   * **Beide blinzelten im selben Bild und atmeten im selben Takt.** Zwei
+   * Figuren, die exakt gleich atmen, sind nicht zwei Figuren, sondern ein
+   * Objekt, das zweimal gezeichnet wurde.
+   *
+   * `gewicht` und `atemvolumen` bekamen den Versatz die ganze Zeit — nur die
+   * Kette nicht. Eine halbe Kopplung ist schwerer zu sehen als gar keine.
+   */
+  versatz = 0,
 ) => {
   let abschnitt = 0;
   starts.forEach((start, i) => {
@@ -373,6 +388,7 @@ const poseDerKette = (
     pose: kette[abschnitt + 1] ?? kette[kette.length - 1]!,
     vorherigePose: kette[abschnitt] ?? kette[0]!,
     abBild: starts[abschnitt] ?? 0,
+    versatz,
   });
 };
 
@@ -494,14 +510,15 @@ const BLICK_ZUR_MITTE = 2;
 const figurenbewegung = (
   pose: Pose,
   {
-    spricht,
+    staerke,
     versatz,
     frame,
     fps,
     woerter,
     sekunde,
   }: {
-    spricht: boolean;
+    /** Wie stark diese Figur spricht: 0 bis 1, ueberblendet am Wechsel. */
+    staerke: number;
     versatz: number;
     frame: number;
     fps: number;
@@ -518,8 +535,8 @@ const figurenbewegung = (
    * ohne Ton — bleibt die zweifrequente Bewegung, die wenigstens nicht nach
    * Metronom aussieht.
    */
-  const geredet = sprechbewegung(pose, spricht, frame, fps);
-  const synchron = spricht && woerter ? lippensync(sekunde, woerter) : undefined;
+  const geredet = sprechbewegung(pose, staerke, frame, fps);
+  const synchron = staerke > 0.5 && woerter ? lippensync(sekunde, woerter) : undefined;
   /*
    * Blickkontakt und Wippen bleiben in jedem Fall — nur der **Mund** wechselt
    * die Quelle. Mit Wortzeitstempeln klappt er zur Silbe, ohne bleibt der
@@ -531,7 +548,7 @@ const figurenbewegung = (
     drehung: {
       ...geredetSynchron.drehung,
       ...g,
-      koerper: (geredetSynchron.drehung.koerper ?? 0) + g.koerper + (spricht ? HINLEHNEN : 0),
+      koerper: (geredetSynchron.drehung.koerper ?? 0) + g.koerper + HINLEHNEN * staerke,
     },
     stauchung: { ...geredetSynchron.stauchung, ...atem.stauchung },
     dehnung: { ...geredetSynchron.dehnung, ...atem.dehnung },
@@ -598,7 +615,7 @@ export const lippensync = (
   return VOKALFORM[gruppen[i]![0]!] ?? 'offen';
 };
 
-export const sprechbewegung = (pose: Pose, spricht: boolean, frame: number, fps: number): Pose => {
+export const sprechbewegung = (pose: Pose, staerke: number, frame: number, fps: number): Pose => {
   const sek = frame / fps;
   const takt =
     (Math.sin(sek * SPRECH_HZ * 2 * Math.PI) +
@@ -611,9 +628,11 @@ export const sprechbewegung = (pose: Pose, spricht: boolean, frame: number, fps:
      * eigenen Blick, und der soll erhalten bleiben. Zwei Einheiten obendrauf
      * heissen „schaut hin", nicht „schaut nur noch dorthin".
      */
-    blick: [pose.blick[0] + BLICK_ZUR_MITTE, pose.blick[1]],
-    mund: spricht && takt > MUND_SCHWELLE ? 'offen' : pose.mund,
-    hub: pose.hub + (spricht ? takt * 0.6 : 0),
+    blick: [pose.blick[0] + BLICK_ZUR_MITTE * staerke, pose.blick[1]],
+    /* Der Mund bleibt ein Ja/Nein — ein halb offener Mund ist keine Silbe.
+       Ab der halben Staerke gilt die Figur als sprechend. */
+    mund: staerke > 0.5 && takt > MUND_SCHWELLE ? 'offen' : pose.mund,
+    hub: pose.hub + takt * 0.6 * staerke,
   };
 };
 
@@ -661,8 +680,9 @@ const Namensschild: React.FC<{
   wer: Sprecher;
   x: number;
   groesse: number;
-  spricht: boolean;
-}> = ({ wer, x, groesse, spricht }) => {
+  /** 0 bis 1 statt ja oder nein — siehe `sprechstaerke` in `Sprecherstand.tsx`. */
+  staerke: number;
+}> = ({ wer, x, groesse, staerke }) => {
   /*
    * Die Oberkante wandert mit der Wortwechselgroesse, um die Standlinie bei
    * y = 140 — dieselbe Rechnung wie bei der Figur selbst.
@@ -683,7 +703,9 @@ const Namensschild: React.FC<{
       fontWeight={700}
       letterSpacing={0.6}
       fill={wer === 'zeiger' ? FARBEN.anzeigeZwei : FARBEN.anzeigeEins}
-      opacity={spricht ? 1 : 0.32}
+      /* Der Name blendet mit dem Wechsel auf, statt in einem Bild umzuspringen.
+         0,32 bleibt die Ruhelage: Der Zuhoerende ist gedaempft, nicht weg. */
+      opacity={0.32 + 0.68 * staerke}
     >
       ({FIGURENNAMEN[wer]})
     </text>
@@ -743,7 +765,7 @@ const Figurenbuehne: React.FC<{
     ? [buehne.gegenueber.von, ...(buehne.gegenueber.zwischen ?? []), buehne.gegenueber.nach]
     : undefined;
   const gegenstarts = gegenkette ? uebergangsstarts(gegenkette.length, dauer) : [];
-  const gegenpose = gegenkette ? poseDerKette(gegenkette, gegenstarts, frame, fps) : undefined;
+  const gegenpose = gegenkette ? poseDerKette(gegenkette, gegenstarts, frame, fps, 1) : undefined;
 
   // Wer die Posen oben traegt, bekommt sein Rig; das Gegenueber das andere.
   const eigenes = (buehne.wer ?? 'nachleser') === 'zeiger' ? zeiger : nachleser;
@@ -753,6 +775,15 @@ const Figurenbuehne: React.FC<{
    * `Sprecherstand.tsx`.
    */
   const spricht = useSprecher();
+  /*
+   * **Die weiche Fassung desselben Standes.** `spricht` sagt, wer dran ist;
+   * `staerkeVon` sagt, wie weit der Wechsel schon durch ist. Ohne Tonspur —
+   * jede Probe, jedes Standbild ohne Ton — gibt es keinen Wechsel, und dann
+   * ist der harte Wert richtig.
+   */
+  const sprechstaerkeFn = useSprechstaerke();
+  const staerkeVon = (rolle: Sprecher) =>
+    sprechstaerkeFn ? sprechstaerkeFn(rolle) : spricht === rolle ? 1 : 0;
   const woerter = useWoerter();
   const sekunde = useSprechsekunde();
   const eigeneRolle: Sprecher = eigenes === zeiger ? 'zeiger' : 'nachleser';
@@ -900,7 +931,25 @@ const Figurenbuehne: React.FC<{
           langsam, dass sie nur das Auge wachhaelt. Diese hier bewegt die
           Zeichnung und darf gesehen werden.
         */}
-        <Kamera dauer={dauer} von={{ zoom: 1 }} nach={ziel}>
+        {/*
+          **Die Fahrt ist am 31.08.2026 stillgelegt — `von` und `nach` sind
+          derselbe Stand.**
+
+          Sie zoomte ueber die Szene auf bis zu 1,24, und zusammen mit der
+          Dauerbewegung in `Buehne.tsx` waren das +29,6 %. Am ersten fertigen
+          Video war das Urteil „alles zappelt im Bild", und dazu kam ein Fehler,
+          den erst die Pixelmessung zeigte: **Die Fahrt vergroessert den Inhalt
+          ueber den SVG-Rahmen hinaus, und niemand beschneidet ihn.** Voltis
+          linke Hand stand am Szenenanfang 58 Pixel ueber der Buehnenkante, am
+          Ende 70 — und damit direkt auf dem Vorhangstreifen.
+
+          **Der Aufbau bleibt vollstaendig stehen**, samt `PLAETZE` und ihren
+          Kamerazielen: Die Rechnungen darin sind an Standbildern erarbeitet und
+          dokumentieren, wie eng es zugeht, sobald ein Symbol danebensteht. Wer
+          die Fahrt zurueckholt, findet sie hier — und muss dann die
+          Beschneidung mitbauen.
+        */}
+        <Kamera dauer={dauer} von={{ zoom: 1 }} nach={{ zoom: 1 }}>
           {/*
             Standflaeche wie bei den Symbolen — Figur und Requisite stehen auf
             derselben Linie, weil sie sich denselben Koordinatenraum teilen.
@@ -973,7 +1022,7 @@ const Figurenbuehne: React.FC<{
               */}
               <Figur
                 rig={eigenes}
-                pose={figurenbewegung(pose, { spricht: false, versatz: 0, frame, fps, woerter, sekunde })}
+                pose={figurenbewegung(pose, { staerke: 0, versatz: 0, frame, fps, woerter, sekunde })}
                 requisiten={gehalten}
               />
             </g>
@@ -982,7 +1031,7 @@ const Figurenbuehne: React.FC<{
               <g transform={wortwechselTransform(stand, 'links')}>
                 <Figur
                   rig={eigenes}
-                  pose={figurenbewegung(pose, { spricht: spricht === eigeneRolle, versatz: 0, frame, fps, woerter, sekunde })}
+                  pose={figurenbewegung(pose, { staerke: staerkeVon(eigeneRolle), versatz: 0, frame, fps, woerter, sekunde })}
                   requisiten={gehalten}
                 />
               </g>
@@ -1002,7 +1051,7 @@ const Figurenbuehne: React.FC<{
               <g transform={wortwechselTransform(stand, 'rechts')}>
                 <Figur
                   rig={anderes}
-                  pose={figurenbewegung(gegenpose, { spricht: spricht === andereRolle, versatz: 1, frame, fps, woerter, sekunde })}
+                  pose={figurenbewegung(gegenpose, { staerke: staerkeVon(andereRolle), versatz: 1, frame, fps, woerter, sekunde })}
                 />
               </g>
               {/*
@@ -1015,13 +1064,13 @@ const Figurenbuehne: React.FC<{
                 wer={eigeneRolle}
                 x={stand.links}
                 groesse={stand.groesse}
-                spricht={spricht === eigeneRolle}
+                staerke={staerkeVon(eigeneRolle)}
               />
               <Namensschild
                 wer={andereRolle}
                 x={stand.rechts}
                 groesse={stand.groesse}
-                spricht={spricht === andereRolle}
+                staerke={staerkeVon(andereRolle)}
               />
             </>
           )}

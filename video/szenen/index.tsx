@@ -145,6 +145,26 @@ const Illustration = (
           minHeight: 260,
           flex: 1,
           /*
+           * **`minWidth: 0` ist die Zeile, die die Figur in der Buehne haelt.**
+           *
+           * Ein Flex-Kind hat `min-width: auto`, schrumpft also nicht unter die
+           * **Mindestbreite seines Inhalts**. Das `<svg>` darin traegt
+           * `alignSelf: 'stretch'` und bekommt damit die volle Hoehe des
+           * Kastens; aus seiner `viewBox` von 200 zu 150 leitet der Browser
+           * dann eine Mindestbreite von vier Dritteln dieser Hoehe ab. Bei 649
+           * Pixeln Hoehe sind das **865 Pixel Breite auf einer Buehne von 719**
+           * — der Kasten wuchs nach beiden Seiten heraus, und die Figur stand
+           * mit der Hand auf dem Vorhangstreifen.
+           *
+           * Gefunden mit farbigen Rahmen um beide Kaesten im Standbild,
+           * nachdem drei andere Erklaerungen danebenlagen: die Kamerafahrt war
+           * nur die Haelfte, `overflow` war es nicht, und die Buehne selbst ist
+           * mit 710 Pixeln sogar schmaler als die freie Flaeche zwischen den
+           * Vorhaengen. **Die Breite kam nicht von der Breite, sondern von der
+           * Hoehe.**
+           */
+          minWidth: 0,
+          /*
            * `alignSelf: stretch` ist die Zeile, auf die es ankommt.
            *
            * `Buehne.tsx` wickelt die Illustration in einen eigenen Kasten mit

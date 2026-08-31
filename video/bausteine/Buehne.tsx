@@ -153,9 +153,33 @@ export const Buehne: React.FC<{
     if (gemessen) continueRender(messung);
   }, [gemessen, messung]);
 
-  const zoom = dauerBilder
-    ? interpolate(frame, [0, dauerBilder], [1, 1.045], { extrapolateRight: 'clamp' })
-    : 1;
+  /*
+   * **Die Dauerbewegung ist am 31.08.2026 gestrichen.**
+   *
+   * Hier wuchs die Buehne ueber jede Szene um 4,5 %, „damit ein Short nicht
+   * wie eine Diashow wirkt". Der Grund ist entfallen, seit zwei Figuren im Bild
+   * stehen, die atmen, blinzeln und sich zuwenden — das Auge hat genug zu tun.
+   *
+   * **Was sie stattdessen angerichtet hat**, gemessen am ersten fertigen Video:
+   *
+   * - Die Zitatkarte liegt in diesem Container und sitzt an seinem oberen Rand.
+   *   Sie wuchs also nicht nur mit, sie **driftete um 11 Pixel nach oben** und
+   *   wurde dabei **in jedem Einzelbild neu subpixel-gerastert**. Das ist das
+   *   Flimmern, das am Standbild unsichtbar ist und im Video sofort auffaellt.
+   * - Sie multiplizierte sich mit der Kamerafahrt im SVG zu **+29,6 %**.
+   * - Und sie sprang **an jedem Schnitt um 4,5 % zurueck**: Jede Szene ist eine
+   *   eigene `Sequence`, `useCurrentFrame()` beginnt wieder bei 0.
+   *
+   * Der letzte Punkt ist der eigentliche Befund: Eine Bewegung, die am Ende
+   * jeder Szene zurueckschnellt, ist keine Ruhe und keine Bewegung, sondern ein
+   * Ruckeln im Takt der Schnitte.
+   *
+   * `dauerBilder` bleibt als Prop stehen — die Szenen geben sie ohnehin weiter,
+   * und wer hier je wieder etwas ueber die Szenenlaenge animieren will, braucht
+   * sie. Ein ungenutztes Feld ist billiger als eine Signaturaenderung an zehn
+   * Aufrufstellen.
+   */
+  const zoom = 1;
 
   return (
     <AbsoluteFill

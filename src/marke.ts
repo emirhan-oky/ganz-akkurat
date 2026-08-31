@@ -254,6 +254,39 @@ export const VORHANG = {
 } as const;
 
 /**
+ * Was vom Bild uebrig bleibt, wenn der Vorhang steht.
+ *
+ * **Die Zahl, die am 31.08.2026 gefehlt hat.** Seit der Vorhang dauerhaft
+ * links und rechts stehenbleibt, ist nicht mehr das Format die Grenze, sondern
+ * sein Innenrand — und diese Grenze stand nirgends. Die Folge war ein Fehler,
+ * der drei Erklaerungen ueberlebt hat: Voltis linke Hand lag im fertigen Video
+ * bei x = 101, die Vorhangkante bei 100.
+ *
+ * Zur Einordnung, alles gemessen und nicht gerechnet:
+ *
+ * | | von | bis | Breite |
+ * |---|---|---|---|
+ * | Bild | 0 | 1080 | 1080 |
+ * | zwischen den Vorhaengen | 100 | 980 | 880 |
+ * | **Spielflaeche** (hier) | 120 | 960 | **840** |
+ * | Buehne (`BUEHNE`) | 170 | 880 | 710 |
+ *
+ * **Die Buehne ist also gar nicht zu breit** — sie ist mit 710 Pixeln sogar
+ * schmaler als die freie Flaeche. Der Fehler lag nie an dieser Zahl, sondern
+ * daran, dass ein Kasten ueber sie hinauswuchs, ohne dass etwas es gemerkt
+ * haette. Deshalb ist diese Konstante vor allem eine **Messlatte**: Sie sagt,
+ * wogegen `npm run bildrand` prueft.
+ *
+ * Der Saum von 20 Pixeln ist kein Sicherheitsabstand gegen Rechenfehler,
+ * sondern gegen den Eindruck: Eine Figur, die den Stoff beruehrt, sieht aus,
+ * als lehnte sie am Vorhang.
+ */
+export const SPIELFLAECHE = {
+  links: VORHANG.rand + 20,
+  rechts: FORMAT.breite - VORHANG.rand - 20,
+} as const;
+
+/**
  * Hoehe, die der Untertitel unten belegt.
  *
  * Zwei Zeilen à 66 Pixel plus Abstand. Der Wert ist eine Reservierung, kein
