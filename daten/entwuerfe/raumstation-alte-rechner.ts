@@ -17,21 +17,33 @@ import type { Short } from '../../src/typen';
  * Beide Quellen sind ESA-Seiten, also `behoerde` und unbeteiligt. Zitiert wird
  * englisch, weil dort englisch steht; gesprochen wird deutsch.
  *
- * ## Am 26.08.2026 auf `stationen` umgebaut
+ * ## Am 01.09.2026 auf Zuege umgeschrieben
  *
- * **Der erste Short dieser Bauform, und er war es vorher schon** — sechs
- * Zuspitzungen und Kipppunkte hintereinander sind eine steigende Aufzaehlung
- * und kein Wortwechsel. Das Etikett `einstimmig` hat nur nicht beschrieben,
- * was dasteht.
+ * Der Entwurf vom 26.08. war der ehrlichste Fall im ganzen Lauf: **sechs
+ * belegte Saetze hintereinander, dazwischen Kommentare.** Die Bauform
+ * `stationen` lebt von der Reihe, und genau deshalb kippt sie am leichtesten
+ * in den Vortrag zu zweit — von dreizehn Zeilen schlossen zehn an nichts an.
  *
- * **Deshalb bleiben hier fuenf Szenen einstimmig.** Die Bauform lebt von der
- * Reihe, nicht vom Gespraech: Watti tritt an drei Stellen dazu, und die vier
- * Zeichnungen (Satellit, Kalender, Lupe, Chip) bleiben in den Szenen, in denen
- * Volti allein steht — bei zwei Figuren laege ein Symbol in der rechten.
+ * Der Umbau haengt die Reihe an Widersprueche statt an Uebergaenge. Dreimal
+ * bestreitet Watti, was gerade gesagt wurde, und dreimal kontert Volti mit
+ * einer Fundstelle. Die Stationen sind dieselben geblieben, ihre Reihenfolge
+ * auch — **neu ist nur, wer sie auslöst**.
  *
- * Die letzte Reaktion sitzt bei der Pruefungsdauer und nicht am Schluss. Der
- * gemessene Vergleichskanal landet am Ende beim Zuschauer; hier tut es der
- * Schlusssatz schon, und zwei Landungen hintereinander sind eine zu viel.
+ * Zwei Stellen tragen die Abweichung vom Metronom:
+ *
+ * - Watti spricht in Szene 4 **zwei Zeilen am Stueck**: erst die Unterstellung
+ *   („Also Beziehungen"), dann das Gestaendnis. Beide sind kurz genug, dass
+ *   `redelauf` sie durchlaesst.
+ * - Das Gestaendnis ist der **einzige `abbiegen`-Zug im Lauf** und als solcher
+ *   ausgewiesen: „Und ich rege mich über Ladezeiten auf" geht am Gesagten
+ *   vorbei, und hier ist genau das der Witz. Mehr als einen davon laesst die
+ *   Regel nicht zu — beim ersten fertigen Video waren es drei.
+ *
+ * **Die vier Zeichnungen sind gefallen.** Vorher standen fuenf Szenen
+ * einstimmig, damit Satellit, Kalender, Lupe und Chip Platz haben; bei zwei
+ * Figuren laege ein Symbol in der rechten. Ein Bau, der die Haelfte der Szenen
+ * einstimmig haelt, ist aber genau der Bau, gegen den der Umbau laeuft.
+ * Geblieben ist der Satellit im einstimmigen Aufschlag.
  *
  * Die Jahreszahl im zweiten Satz ist Absicht: Die ESA schreibt „more than five
  * years old", und das ist eine relative Angabe, die altert. Die Seite ist auf
@@ -68,39 +80,47 @@ export const raumstationAlteRechner: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext: 'Dein Handy ist zu modern für den Weltraum.',
-      rede: [{ sprecher: 'nachleser', text: 'Dein Handy ist zu modern für den Weltraum.' }],
+      rede: [
+        { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Handy ist zu modern für den Weltraum.' },
+      ],
       text: 'Zu modern für den Weltraum.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'satellit' },
     },
     {
       /*
-       * **Watti eroeffnet und schliesst.** Vorher lief hier Voltis Belegsatz
-       * allein, und weil `redebloecke` gleiche Sprecher ueber Szenengrenzen
-       * zusammenklebt, entstand mit Aufschlag und Szene 3 ein Block von 12,8
-       * Sekunden — der laengste des ganzen Laufs.
-       *
-       * Zwei Wattizeilen um den Beleg herum brechen ihn an beiden Enden. Die
-       * erste nimmt das „zu modern" aus dem Aufschlag woertlich auf, die
-       * zweite setzt ein Bild an die Stelle der Zahl.
+       * **Der erste von drei Widerspruechen.** Watti bestreitet, Volti haelt
+       * einen Fall dagegen — `gegenbeispiel` statt `richtigstellen`, weil ein
+       * Beispiel hier mehr traegt als ein Argument: Die Raumstation ist der
+       * Fall, und niemand kann ihn wegdiskutieren.
        */
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Zu modern? Wie geht das denn? 2009 liefen dort Laptops, älter als 5 Jahre. Ich hätte da oben Raumschiff erwartet.',
+        'Zu modern? Das gibt es nicht. 2009 liefen auf der Raumstation Laptops über 5 Jahre. Raumstation? Ich hätte Raumschiff erwartet.',
       rede: [
-        { sprecher: 'zeiger', text: 'Zu modern? Wie geht das denn?', machart: 'ratlosigkeit' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Zu modern? Das gibt es nicht.' },
         {
           sprecher: 'nachleser',
-          text: '2009 liefen dort Laptops, älter als 5 Jahre.',
+          zug: 'gegenbeispiel',
+          text: '2009 liefen auf der Raumstation Laptops über 5 Jahre.',
+          quelleId: 'esa-iss-laptops',
+          belegId: 'laptops-more-than-five-years-old',
         },
-        { sprecher: 'zeiger', text: 'Ich hätte da oben Raumschiff erwartet.', machart: 'bild' },
+        {
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
+          text: 'Raumstation? Ich hätte Raumschiff erwartet.',
+          machart: 'bild',
+        },
       ],
       text: 'Laptops: älter als 5 Jahre.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
+        zwischen: ['lesen'],
         nach: 'hochschauen',
-        gegenueber: { von: 'ruhe', nach: 'staunen' },
+        requisite: 'blatt',
+        gegenueber: { von: 'ruhe', zwischen: ['stutzen'], nach: 'staunen' },
       },
       quelleId: 'esa-iss-laptops',
       belegId: 'laptops-more-than-five-years-old',
@@ -109,92 +129,117 @@ export const raumstationAlteRechner: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Watti, alles was zur Raumstation fliegt, muss durch eine Sicherheitsprüfung. Sicherheitsprüfung? Auch die Zahnbürste?',
+      sprechtext:
+        'Alles an Bord muss durch die Prüfung. Warum dann nicht einfach neue, Volti? Ein schnellerer Rechner hätte die Zulassung nicht geschafft.',
       rede: [
-        { sprecher: 'nachleser', text: 'Watti, alles was zur Raumstation fliegt, muss durch eine Sicherheitsprüfung.' },
-        { sprecher: 'zeiger', text: 'Sicherheitsprüfung? Auch die Zahnbürste?', machart: 'rueckfrage' },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Alles an Bord muss durch die Prüfung.',
+          quelleId: 'esa-iss-laptops',
+          belegId: 'arduous-safety-and-compatibility-testing',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          text: 'Warum dann nicht einfach neue, Volti?',
+          machart: 'rueckfrage',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Ein schnellerer Rechner hätte die Zulassung nicht geschafft.',
+          quelleId: 'esa-iss-laptops',
+          belegId: 'too-long-to-pass-a-faster-pc',
+        },
       ],
       text: 'Raumstation: erst die Prüfung.',
       buehne: {
         art: 'figur',
         von: 'hochschauen',
+        zwischen: ['lesen'],
         nach: 'stutzen',
-        gegenueber: { von: 'staunen', nach: 'nachdenken' },
+        requisite: 'blatt',
+        gegenueber: { von: 'staunen', zwischen: ['nachdenken'], nach: 'hochschauen' },
       },
+      hervorhebung: 'zuzulassen',
       quelleId: 'esa-iss-laptops',
       belegId: 'arduous-safety-and-compatibility-testing',
     },
     {
-      art: 'text',
-      position: 'zuspitzung',
-      sprechtext: 'Ein Gerät wie deins zuzulassen hätte damals zu lange gedauert. Und ich rege mich über Ladezeiten auf.',
-      rede: [
-        { sprecher: 'nachleser', text: 'Ein Gerät wie deins zuzulassen hätte damals zu lange gedauert.' },
-        { sprecher: 'zeiger', text: 'Und ich rege mich über Ladezeiten auf.', machart: 'gestaendnis' },
-      ],
-      text: 'Zulassung dauert.',
-      buehne: {
-        art: 'figur',
-        von: 'stutzen',
-        nach: 'nachdenken',
-        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
-      },
-      hervorhebung: 'zuzulassen',
-      quelleId: 'esa-iss-laptops',
-      belegId: 'too-long-to-pass-a-faster-pc',
-    },
-    {
       /*
-       * **Neu, und `thinkpads-already-qualified` lag dafuer ungenutzt in der
-       * Quelle.** Der Short sagte bisher nur, warum das schnellere Geraet
-       * *nicht* genommen wurde — nie, was stattdessen genommen wurde. Genau
-       * das ist die Station, die zwischen „dauert zu lange" und der Landung
-       * fehlte.
-       *
-       * `stationen` verlangt mindestens drei Zuspitzungen. Mit dieser sind es
-       * vier, und die Bauform traegt ihren Namen erstmals wirklich.
+       * **Die einzige Stelle im Lauf, an der Watti zweimal hintereinander
+       * spricht** — und die einzige mit einem `abbiegen`. Die Unterstellung
+       * greift „zugelassen" aus der Vorzeile auf, das Gestaendnis danach geht
+       * am ganzen Gespraech vorbei. Zusammen sind die beiden 67 Zeichen und
+       * damit weit unter der Grenze von `redelauf`.
        */
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Die Rechner dort oben waren längst zugelassen. Zugelassen? Also Beziehungen.',
+      sprechtext:
+        'Fünf Jahre? Das glaubt dir keiner. Die Rechner oben waren längst zugelassen. Zugelassen? Also Beziehungen. Und ich rege mich über Ladezeiten auf.',
       rede: [
-        { sprecher: 'nachleser', text: 'Die Rechner dort oben waren längst zugelassen.' },
-        { sprecher: 'zeiger', text: 'Zugelassen? Also Beziehungen.', machart: 'empoerung' },
+        {
+          sprecher: 'zeiger',
+          zug: 'widersprechen',
+          text: 'Fünf Jahre? Das glaubt dir keiner.',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'gegenbeispiel',
+          text: 'Die Rechner oben waren längst zugelassen.',
+          quelleId: 'esa-iss-laptops',
+          belegId: 'thinkpads-already-qualified',
+        },
+        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Zugelassen? Also Beziehungen.', machart: 'empoerung' },
+        {
+          sprecher: 'zeiger',
+          zug: 'abbiegen',
+          text: 'Und ich rege mich über Ladezeiten auf.',
+          machart: 'gestaendnis',
+        },
       ],
       text: 'Schon zugelassen.',
       buehne: {
         art: 'figur',
-        von: 'nachdenken',
+        von: 'stutzen',
+        zwischen: ['nachdenken'],
         nach: 'lesen',
-        gegenueber: { von: 'stutzen', nach: 'staunen' },
+        requisite: 'blatt',
+        gegenueber: { von: 'hochschauen', zwischen: ['stutzen'], nach: 'nachdenken' },
       },
       quelleId: 'esa-iss-laptops',
       belegId: 'thinkpads-already-qualified',
     },
     {
       /*
-       * **Watti traegt hier den Beleg, nicht Volti.** Die Rollen sind fest,
-       * die Besetzung nicht — und dies ist die Stelle, an der der Wechsel
-       * etwas leistet: Watti zieht die Folgerung zum ersten Mal selbst, und im
-       * naechsten Atemzug zieht er die falsche.
-       *
-       * Zugleich loest der Wechsel die dritte Naht. Szene 6 und 7 liefen beide
-       * einstimmig hintereinander, zusammen 9,4 Sekunden Volti.
+       * Der Kipppunkt liegt an der zweiten Quelle, und er beantwortet eine
+       * Frage, die Watti selbst stellt. Vorher stand hier dieselbe Physik als
+       * zwei aufeinanderfolgende Behauptungen — richtig, belegt, und ohne
+       * jeden Grund, warum sie an dieser Stelle faellt.
        */
       art: 'text',
       position: 'kipppunkt',
       sprechtext:
-        'Neuere Chips sind kleiner geworden und arbeiten mit weniger Ladung. Und deshalb bringen geladene Teilchen sie leichter durcheinander.',
+        'Die Strukturen auf Chips sind kleiner und brauchen weniger Ladung. Kleiner ist schlechter, Volti? Geladene Teilchen bringen sie leichter durcheinander.',
       rede: [
         {
           sprecher: 'nachleser',
-          text: 'Neuere Chips sind kleiner geworden und arbeiten mit weniger Ladung.',
+          zug: 'nachlegen',
+          text: 'Die Strukturen auf Chips sind kleiner und brauchen weniger Ladung.',
           quelleId: 'esa-strahlung-elektronik',
           belegId: 'smaller-and-less-charge',
         },
         {
           sprecher: 'zeiger',
-          text: 'Und deshalb bringen geladene Teilchen sie leichter durcheinander.',
+          zug: 'nachhaken',
+          text: 'Kleiner ist schlechter, Volti?',
+          machart: 'ratlosigkeit',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Geladene Teilchen bringen sie leichter durcheinander.',
           quelleId: 'esa-strahlung-elektronik',
           belegId: 'more-vulnerable-to-disruption',
         },
@@ -203,8 +248,10 @@ export const raumstationAlteRechner: Short = {
       buehne: {
         art: 'figur',
         von: 'lesen',
+        zwischen: ['stutzen'],
         nach: 'staunen',
-        gegenueber: { von: 'staunen', nach: 'lesen' },
+        requisite: 'blatt',
+        gegenueber: { von: 'nachdenken', zwischen: ['staunen'], nach: 'lesen' },
       },
       hervorhebung: 'leichter',
       quelleId: 'esa-strahlung-elektronik',
@@ -213,17 +260,32 @@ export const raumstationAlteRechner: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Satelliten brauchen strahlungsfeste Bauteile. Meiner ist uralt. Ich bin quasi Astronaut, Volti.',
+      sprechtext:
+        'Und das soll ein Grund sein? Bei Satelliten sind strahlungsfeste Bauteile unverzichtbar. Mit meinem alten Handy bin ich Astronaut.',
       rede: [
-        { sprecher: 'nachleser', text: 'Satelliten brauchen strahlungsfeste Bauteile.' },
-        { sprecher: 'zeiger', text: 'Meiner ist uralt. Ich bin quasi Astronaut, Volti.', machart: 'falscherschluss' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Und das soll ein Grund sein?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Bei Satelliten sind strahlungsfeste Bauteile unverzichtbar.',
+          quelleId: 'esa-strahlung-elektronik',
+          belegId: 'radiation-hardened-essential',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'einlenken',
+          text: 'Mit meinem alten Handy bin ich Astronaut.',
+          machart: 'falscherschluss',
+        },
       ],
       text: 'Strahlungsfest zählt.',
       buehne: {
         art: 'figur',
         von: 'staunen',
+        zwischen: ['lesen'],
         nach: 'stutzen',
-        gegenueber: { von: 'lesen', nach: 'staunen' },
+        requisite: 'blatt',
+        gegenueber: { von: 'lesen', zwischen: ['stutzen'], nach: 'staunen' },
       },
       quelleId: 'esa-strahlung-elektronik',
       belegId: 'radiation-hardened-essential',
@@ -232,7 +294,13 @@ export const raumstationAlteRechner: Short = {
       art: 'schluss',
       position: 'nachschlag',
       sprechtext: 'Im Weltraum gewinnt nicht der schnellste Chip.',
-      rede: [{ sprecher: 'nachleser', text: 'Im Weltraum gewinnt nicht der schnellste Chip.' }],
+      rede: [
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Im Weltraum gewinnt nicht der schnellste Chip.',
+        },
+      ],
       satz: 'Im Weltraum gewinnt nicht der schnellste Chip.',
       rundlauf:
         'Beim zweiten Sehen ist „zu modern" keine Übertreibung mehr, sondern die genaue Beschreibung des Problems.',

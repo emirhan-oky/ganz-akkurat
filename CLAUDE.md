@@ -241,8 +241,13 @@ ihnen. Man abonniert Leute, keine Fakten.
 **Eine Reaktion behauptet nichts über die Welt und braucht deshalb keine
 Quelle.** Genau dort darf der Kanal frech sein, während der Beleg sonst zwingt,
 dicht am Zitat zu bleiben. Die Trennung liegt in der Rolle, nicht in einer
-Prüfung: Wer `machart` trägt, ist eine Reaktion und darf keine Quelle nennen —
-das Schema lehnt die Kombination ab.
+Prüfung: Wer einen Zug trägt, der **nichts behauptet**, darf keine Quelle
+nennen — das Schema lehnt die Kombination ab.
+
+**Bis zum 01.09.2026 hing dieselbe Sperre an `machart`, und das war eine
+Lücke.** Eine quellenlose Zeile ohne Machart entkam ihr vollständig; drei
+solche Zeilen standen in `ersatzteil-freischalten`. Der Zug ist Pflicht, die
+Machart nicht — **eine Wache gehört an das Feld, das immer da ist.**
 
 **Die Formsperre** fängt die eine Lücke, die bleibt: Eine Reaktion könnte
 heimlich eine Tatsachenbehauptung sein. Verboten sind Jahreszahlen und Zahlen
@@ -426,6 +431,12 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   **Zugtripel**: Zugpaare wiederholen sich rund dreißigmal je Woche, das ist
   Sprache; bei Tripeln liegt die Erwartung bei 1,1 je drei gesehenen Shorts,
   und das ist die Schwelle, ab der jemand den Takt bemerkt.
+
+  Laufweit kommt **`zugtripel`** dazu: kein gleiches Zugtripel in zwei
+  aufeinanderfolgenden Shorts (Hinweis). Sie hat beim ersten Lauf dreimal
+  gemeldet und dreimal recht gehabt — drei von vier Entwürfen eröffneten mit
+  „Behaupten → Nachhaken → Beantworten", und **gesehen hat das nicht mein Auge,
+  sondern die Regel**, eine Stunde nachdem sie gebaut war.
 
   Der Anlass war ein Befund, der eine ältere Wache widerlegt: `rueckbezug` war
   am ersten vertonten Video **weit übererfüllt** (fünf von zehn Zeilen), und es
@@ -639,6 +650,20 @@ Gegenstand steht. Eine Fundstelle, deren Bedeutung an Wörtern außerhalb des
 Zitats hängt, wird **still** falsch, wenn die Seite umformuliert wird. Also
 mitschneiden: „ein pauschaler Passwortwechsel jedoch keine zeitgemäße
 Schutzmaßnahme mehr".
+
+**Das Subjekt ist nicht immer ein Substantiv.** Am 01.09.2026 stand im
+Ersatzteil-Short der Satz „Nicht, wenn du dein Handy vorher gekauft hast",
+gebunden an „gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen
+wurden". Der volle Satz beginnt mit **„Artikel 16 dieser Richtlinie"**, und
+Artikel 16 ändert die Warenkaufrichtlinie — das Softwareverbot steht in Artikel
+5 Absatz 6 und kennt die Übergangsregel nicht. **Der Short behauptete nicht zu
+viel, sondern das Gegenteil**, und `quellen-pruefen` war dabei grün.
+
+Gefunden hat es der `belegpruefer`. Von elf Befunden desselben Durchgangs
+hingen **neun an einem Wort außerhalb der geprüften Zeichenkette** — davor
+(„All equipment flown aboard the ISS", „Ideal ist es zudem"), dahinter („es sei
+denn, dies ist durch legitime und objektive Faktoren … gerechtfertigt") oder
+eben in einer Artikelnummer.
 
 **Die Regel zielt auf Fragmente, deren Bedeutung außerhalb der Zeichenkette
 hängt — nicht auf jedes Fragment.** „Ersatzteilen, die mittels 3D-Druck

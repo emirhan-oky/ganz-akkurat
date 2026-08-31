@@ -605,10 +605,15 @@ void _zugartenDeckenSich;
  * **Reaktion behauptet nichts ueber die Welt** und braucht deshalb keine
  * Quelle — genau dort darf der Kanal frech sein.
  *
- * Die Trennung liegt in der Rolle, nicht in einer Pruefung: Wer `machart`
- * traegt, ist eine Reaktion und darf keine Quelle nennen. Dieselbe Bauart wie
- * „`presse` fehlt im Enum" — was sich nicht ausdruecken laesst, laesst sich
- * nicht brechen.
+ * Die Trennung liegt in der Rolle, nicht in einer Pruefung: Wer einen Zug
+ * traegt, der **nichts behauptet**, darf keine Quelle nennen. Dieselbe Bauart
+ * wie „`presse` fehlt im Enum" — was sich nicht ausdruecken laesst, laesst
+ * sich nicht brechen.
+ *
+ * **Bis zum 01.09.2026 hing dieselbe Sperre an `machart`, und das war eine
+ * Luecke.** Eine quellenlose Zeile ohne Machart entkam ihr vollstaendig — drei
+ * solche Zeilen standen in `ersatzteil-freischalten`. Der Zug ist Pflicht, die
+ * Machart nicht; eine Wache gehoert an das Feld, das immer da ist.
  *
  * **Die Formsperre daneben** faengt die eine Luecke, die bleibt: Eine Reaktion
  * koennte heimlich eine Tatsachenbehauptung sein. Keine Zahl, keine
@@ -623,14 +628,13 @@ export const Redeanteil = z
     /**
      * Was dieser Zug im Gespraech tut. Aus `ZUGARTEN`.
      *
-     * **Noch optional, und das ist ein Zwischenzustand.** Die Regeln darauf
-     * ueberspringen Anteile ohne `zug`, damit die vier bestehenden Entwuerfe
-     * einzeln umgestellt werden koennen, statt alle auf einmal zu brechen.
-     * Sobald der letzte migriert ist, wird das Feld Pflicht — nach dem Muster
-     * von `belegId`, `weitererzaehlt` und `suchbegriff`: **Die Frage faellt
-     * beim Schreiben an, nicht in der Durchsicht.**
+     * **Pflicht seit dem 01.09.2026**, nachdem alle vier Entwuerfe umgestellt
+     * waren — nach dem Muster von `belegId`, `weitererzaehlt` und
+     * `suchbegriff`: **Die Frage faellt beim Schreiben an, nicht in der
+     * Durchsicht.** Ein optionales Feld beantwortet die Frage „wem antwortet
+     * diese Zeile?" genau dann nicht, wenn sie unbequem ist.
      */
-    zug: Zug.optional(),
+    zug: Zug,
     /**
      * Nur an Reaktionszeilen. Aus `REAKTIONS_MACHARTEN` — der Entwurf muss
      * eine waehlen, statt in den zusammenfassenden Kommentar zu fallen.

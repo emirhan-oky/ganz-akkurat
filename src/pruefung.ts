@@ -1763,14 +1763,14 @@ const STIMMANTEIL_MAX = 2 / 3;
    * (`einstimmig`, der einzelne Zielwert, „immer beide Stimmen"). Ein Maximum
    * laesst sich nicht ansteuern.
    *
-   * Solange `zug` optional ist, ueberspringen alle Regeln Anteile ohne ihn —
-   * so laesst sich Entwurf fuer Entwurf umstellen, statt alle auf einmal zu
-   * brechen.
+   * **`zug` ist seit dem 01.09.2026 Pflicht**, und damit ist der
+   * Uebersprungzweig weg, der die Umstellung Entwurf fuer Entwurf erlaubt hat.
+   * Er war ein Zwischenzustand mit Ablaufdatum: Eine Regel, die Zeilen ohne
+   * Angabe stillschweigend durchlaesst, ist genau dann still, wenn jemand die
+   * Angabe weggelassen hat.
    */
   {
-    const mitZug = short.szenen
-      .flatMap((sz) => sz.rede ?? [])
-      .filter((r): r is typeof r & { zug: Zug } => r.zug !== undefined);
+    const mitZug = short.szenen.flatMap((sz) => sz.rede ?? []);
 
     if (mitZug.length > 0) {
       const zuege = mitZug.map((r) => r.zug);
@@ -1911,8 +1911,7 @@ const STIMMANTEIL_MAX = 2 / 3;
        */
       const letzter = zuege[zuege.length - 1]!;
       const bogen = GESPRAECHSBOEGEN[short.format];
-      if (zuege.length === short.szenen.flatMap((sz) => sz.rede ?? []).length &&
-          !bogen.schluss.includes(letzter)) {
+      if (!bogen.schluss.includes(letzter)) {
         melde(
           'hinweis',
           'bogen',
@@ -2299,6 +2298,72 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
         });
       }
     }
+  }
+
+  /* ── Kein Zugtripel in zwei Shorts hintereinander ────────────────── */
+
+  /*
+   * **Die einzige Gespraechsregel, die ueber den einzelnen Short hinausschaut.**
+   *
+   * Sie sitzt auf dem **Tripel**, und die Ebene ist gerechnet, nicht gewaehlt:
+   *
+   * | Einheit | moegliche | in 3 gesehenen Shorts erwartet |
+   * |---|---|---|
+   * | Zugpaar | 72 | ~30 je Woche — harmlos, das ist Sprache |
+   * | **Zugtripel** | 380 | **~1,1 — die Sichtbarkeitsschwelle** |
+   * | Zugquadrupel | 2.600 | 0,17 — unsichtbar |
+   *
+   * Eine Regel auf Paarebene waere bei sieben Shorts je Woche **unerfuellbar**
+   * — dieselbe Rechnung, an der die Drittelregel fuer Bauformen gekippt ist.
+   * Eine auf Quadrupelebene waere tote Regel. Das ist zugleich das einzige
+   * belastbare Argument fuer zwoelf Zugarten statt zehn: Bei zehn sinkt die
+   * Tripelzahl auf 250 und die Erwartung steigt auf 1,7.
+   *
+   * **Nur benachbarte Shorts**, nicht der ganze Lauf. Ein Tripel, das am
+   * Montag und am Freitag vorkommt, sieht niemand; zwei Videos an
+   * aufeinanderfolgenden Tagen sieht derselbe Zuschauer hintereinander — genau
+   * die Begruendung, aus der auch die Format- und Bauformregel auf Nachbarn
+   * sitzt.
+   *
+   * **Hinweis und kein Fehler.** Alle Zahlen oben sind gerechnet und stehen
+   * unter demselben Vorbehalt wie die Zielwerte in `BAUFORMEN`: Sie sagen,
+   * wie oft eine Wiederholung bei gleichverteilter Wahl auftraete, und die
+   * Wahl ist nicht gleichverteilt. Ein fertiger Lauf soll daran nicht
+   * scheitern.
+   */
+  const tripel = (short: Short): Set<string> => {
+    const zuege = short.szenen.flatMap((sz) => sz.rede ?? []).map((r) => r.zug);
+    const menge = new Set<string>();
+    for (let i = 2; i < zuege.length; i += 1) {
+      menge.add(`${zuege[i - 2]} → ${zuege[i - 1]} → ${zuege[i]}`);
+    }
+    return menge;
+  };
+
+  for (let i = 1; i < shorts.length; i += 1) {
+    const vorher = shorts[i - 1]!;
+    const jetzt = shorts[i]!;
+    const vorherige = tripel(vorher);
+    const doppelt = [...tripel(jetzt)].filter((t) => vorherige.has(t));
+    if (doppelt.length === 0) continue;
+    befunde.push({
+      stufe: 'hinweis',
+      shortId: jetzt.id,
+      regel: 'zugtripel',
+      text:
+        `${doppelt.length === 1 ? 'Die Zugfolge' : `${doppelt.length} Zugfolgen, darunter`} ` +
+        `„${doppelt
+          .slice(0, 2)
+          .map((t) =>
+            t
+              .split(' → ')
+              .map((z) => ZUGARTEN[z as Zug].name)
+              .join(' → '),
+          )
+          .join('", „')}" steht in ${vorher.id} und ${jetzt.id}. ` +
+        'Bei 380 möglichen Tripeln liegt die Erwartung bei rund einer je drei ' +
+        'gesehenen Shorts — an zwei aufeinanderfolgenden Tagen hört man den Takt.',
+    });
   }
 
   /* ── Kein Sachgebiet öfter als zweimal ───────────────────────────── */

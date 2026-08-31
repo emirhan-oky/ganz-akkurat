@@ -14,24 +14,32 @@ import type { Short } from '../../src/typen';
  * kommen, ist kein Mangel, sondern die Folge davon, dass eine Behoerde zum
  * Thema alles an einer Stelle sagt.
  *
- * ## Am 26.08.2026 auf zwei Stimmen umgebaut
+ * ## Am 01.09.2026 auf Zuege umgeschrieben
  *
- * Der erste Entwurf, den die Reaktionsregel zurueckgehalten hat. Er war der
- * Musterfall dessen, wogegen sie gebaut ist: sechs Saetze, alle belegt, alle
- * richtig, und keine Zeile, die ein Mensch sagen wuerde.
+ * Der Entwurf vom 26.08. hatte vier tadellose Reaktionen und trotzdem kein
+ * Gespraech. Der Grund stand im Muster, nicht in den Zeilen: **Fuenfmal
+ * hintereinander griff Watti ein Wort auf, haengte ein Fragezeichen daran und
+ * kommentierte** — „Unterbrechen? …", „Ausgeschaltet? …", „Waerme? …",
+ * „Memory? …". Jede Zeile fuer sich war richtig gebaut; zusammen waren sie
+ * eine Masche.
  *
- * **Vier Reaktionen, vier Macharten**, und keine fasst den Fakt zusammen:
+ * Was der Umbau geaendert hat:
  *
- * - *„Unterbrechen? Und wer weckt mich dafür?"* haengt nicht am Beleg, sondern am Aufschlag:
- *   Wer bei etwa 70 Prozent abbrechen soll, kann nicht ueber Nacht laden. Die
- *   Folgerung bleibt beim Zuschauer.
- * - *„Also lade ich ab jetzt absichtlich schlecht."* ist erkennbar falsch —
- *   ein Schluss, der stimmen koennte, waere eine Behauptung und muesste belegt
- *   sein.
- * - *„Ausgeschaltet? Dann gucke ich die Wand an."* setzt an die Stelle der
- *   Empfehlung eine Szene.
- * - *„Memory? Meine Mutter hat mir das beigebracht!"* zielt auf den Verursacher statt
- *   auf die Sache. Der Mythos hat eine Herkunft, und sie steht nicht im Zitat.
+ * - **Watti verteidigt jetzt das Maerchen, statt es zu kommentieren.** Bei
+ *   `eswareinmal` irrt laut Bogen der Zeiger — also muss er auch etwas
+ *   behaupten duerfen, das falsch ist: „Sonst merkt der Akku sich das doch."
+ *   Der Memory-Effekt ist damit nicht mehr eine weitere Fundstelle in der
+ *   Reihe, sondern der **Konter** auf einen Widerspruch.
+ * - **Volti spricht einmal zwei Zeilen am Stueck** (Szene 4). Die uebrigen
+ *   drei Entwuerfe wechselten sich zu 100 % ab — 14 von 14, 12 von 12, 10 von
+ *   10 —, und ein Wechsel, der nie ausfaellt, ist ein Metronom.
+ * - **Der falsche Schluss steht am Ende und bleibt stehen.** Vorher stand er
+ *   in der Mitte und wurde nicht aufgegriffen; jetzt ist der Nachschlag seine
+ *   Richtigstellung.
+ *
+ * Die vier Fundstellen sind dieselben geblieben. Neu gebunden ist
+ * `eine-vollstaendige-entleerung` — das Maerchen faengt beim Leerlaufen an,
+ * nicht beim Vollmachen, und der Aufschlag nennt beides.
  *
  * **Die Symbole sind dabei verloren gegangen, bis auf zwei.** Bei zwei Figuren
  * steht die rechte auf x = 158 und ein Symbol auf x = 152 — Uhr, Batterie,
@@ -52,7 +60,7 @@ export const erstesLaden: Short = {
   sachgebiet: 'laden',
   bauform: 'wechselrede',
   arbeitstitel: '12 Stunden beim ersten Laden',
-  weitererzaehlt: 'Voll laden war die Regel. Heute ist es der Fehler.',
+  weitererzaehlt: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
   suchbegriff: 'Akku laden',
   /*
    * **„Kaputt" trug keine der sechs Fundstellen** und stand hier bis zum
@@ -78,160 +86,200 @@ export const erstesLaden: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext: 'Erst 12 Stunden laden, sagte man dir.',
-      rede: [{ sprecher: 'nachleser', text: 'Erst 12 Stunden laden, sagte man dir.' }],
+      rede: [
+        { sprecher: 'nachleser', zug: 'behaupten', text: 'Erst 12 Stunden laden, sagte man dir.' },
+      ],
       text: '12 Stunden laden.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'uhr', stand: 'links' },
     },
     {
       /*
-       * **Watti eroeffnet, und das ist der eigentliche Umbau vom 31.08.2026.**
+       * **Watti verteidigt hier das Maerchen.** „Sonst merkt der Akku sich
+       * das doch" ist der Satz, der die alte Regel getragen hat — und er
+       * behauptet nichts ueber die Welt, sondern gibt eine Ueberzeugung
+       * wieder. Deshalb traegt er keine Quelle und darf falsch sein.
        *
-       * Vorher begann Volti hier mit dem Belegsatz — und weil `redebloecke`
-       * gleiche Sprecher ueber Szenengrenzen zusammenklebt, wurde daraus mit
-       * dem Aufschlag ein Block von 6,9 Sekunden. Die Naht war unsichtbar: Der
-       * Aufschlag fuer sich liegt bei 2,9, der Belegsatz bei 4,2, und keiner
-       * von beiden ist zu lang.
-       *
-       * Wattis Gestaendnis davor loest sie ohne einen Umweg: Es bricht den
-       * Block, es bringt den Aufschlag in die Gegenwart, und es macht aus
-       * „Und wer weckt mich dafuer?" eine Antwort auf die eigene Ansage statt
-       * auf den Beleg.
-       *
-       * Drei Anteile in einer Szene — Watti, Volti, Watti. Das ist die Form,
-       * die den vier Entwuerfen bis heute gefehlt hat: Kein Redeanteil kehrte
-       * je zum ersten Sprecher zurueck.
+       * Der Memory-Effekt steht dagegen nicht mehr als vierte Fundstelle in
+       * einer Reihe, sondern als **Konter**: Er beantwortet genau den Einwand,
+       * der eine Zeile vorher gefallen ist.
        */
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Ich stecke es abends rein und schlafe. Watti, das Umweltbundesamt sagt: vorher unterbrechen. Unterbrechen? Und wer weckt mich dafür?',
+        'Und das stimmt nicht mehr, Volti? Wer vorher auflädt, statt leer zu warten, verlängert die Lebensdauer. Sonst merkt der Akku sich das doch. Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.',
       rede: [
-        { sprecher: 'zeiger', text: 'Ich stecke es abends rein und schlafe.', machart: 'gestaendnis' },
-        { sprecher: 'nachleser', text: 'Watti, das Umweltbundesamt sagt: vorher unterbrechen.' },
-        { sprecher: 'zeiger', text: 'Unterbrechen? Und wer weckt mich dafür?', machart: 'rueckfrage' },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          text: 'Und das stimmt nicht mehr, Volti?',
+          machart: 'rueckfrage',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Wer vorher auflädt, statt leer zu warten, verlängert die Lebensdauer.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'wenn-sie-nicht-warten',
+        },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Sonst merkt der Akku sich das doch.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'der-memory-effekt-tritt',
+        },
       ],
-      text: 'Akku vorher vom Kabel.',
+      text: 'Vorher aufladen hilft.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
-        nach: 'lesen',
+        zwischen: ['lesen'],
+        nach: 'nachdenken',
         requisite: 'blatt',
-        gegenueber: { von: 'ruhe', nach: 'stutzen' },
+        gegenueber: { von: 'ruhe', zwischen: ['stutzen'], nach: 'staunen' },
       },
       quelleId: 'uba-akku-laden',
-      belegId: 'siebzig-prozent-unterbrechen',
+      belegId: 'wenn-sie-nicht-warten',
       herausgeber: 'Umweltbundesamt',
     },
     {
       /*
-       * Eine `zahl`-Szene, keine `text`-Szene: Die 70 sind eine technische
-       * Angabe, und die Regel `zahlImBild` verlangt sie im Bild. Eine
-       * gesprochene Zahl ist eine Behauptung, eine gezeigte ist ein Beleg.
-       *
-       * Die Zahl gehoert damit zwingend Volti: Die Formsperre verbietet
-       * Groessen mit Einheit in jeder Zeile, die eine `machart` traegt.
+       * Die Zahlenszene traegt jetzt die Empfehlung, und Wattis Ratlosigkeit
+       * haengt nicht am Beleg, sondern am Aufschlag: Wer bei etwa 70 Prozent
+       * abbrechen soll, kann nicht ueber Nacht laden. Die Folgerung bleibt
+       * beim Zuschauer.
        */
       art: 'zahl',
       position: 'zuspitzung',
-      sprechtext: 'Bei etwa 70 Prozent soll dein Akku vom Kabel. Nicht bei 100. Also lade ich ab jetzt absichtlich schlecht.',
+      sprechtext:
+        'Memory-Effekt? Meine Mutter hat mir das beigebracht. Ideal ist: bei etwa 70 Prozent unterbrechen. Und wer weckt mich dafür nachts?',
       rede: [
-        { sprecher: 'nachleser', text: 'Bei etwa 70 Prozent soll dein Akku vom Kabel. Nicht bei 100.' },
-        { sprecher: 'zeiger', text: 'Also lade ich ab jetzt absichtlich schlecht.', machart: 'falscherschluss' },
+        {
+          sprecher: 'zeiger',
+          zug: 'umdeuten',
+          text: 'Memory-Effekt? Meine Mutter hat mir das beigebracht.',
+          machart: 'empoerung',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Ideal ist: bei etwa 70 Prozent unterbrechen.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'siebzig-prozent-unterbrechen',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          text: 'Und wer weckt mich dafür nachts?',
+          machart: 'ratlosigkeit',
+        },
       ],
       wert: '70',
       einheit: '%',
       bedeutung: 'Hier soll Schluss sein.',
       buehne: {
         art: 'figur',
-        von: 'lesen',
-        nach: 'nachdenken',
-        gegenueber: { von: 'stutzen', nach: 'staunen' },
+        von: 'nachdenken',
+        nach: 'lesen',
+        requisite: 'blatt',
+        gegenueber: { von: 'staunen', zwischen: ['nachdenken'], nach: 'stutzen' },
       },
       quelleId: 'uba-akku-laden',
       belegId: 'siebzig-prozent-unterbrechen',
     },
     {
-      art: 'text',
-      position: 'kipppunkt',
-      sprechtext: 'Laden sollst du am besten ausgeschaltet. Ausgeschaltet? Dann gucke ich die Wand an.',
-      rede: [
-        { sprecher: 'nachleser', text: 'Laden sollst du am besten ausgeschaltet.' },
-        { sprecher: 'zeiger', text: 'Ausgeschaltet? Dann gucke ich die Wand an.', machart: 'bild' },
-      ],
-      text: 'Am besten ausgeschaltet.',
-      buehne: {
-        art: 'figur',
-        von: 'nachdenken',
-        zwischen: ['ruhe'],
-        nach: 'lesen',
-        gegenueber: { von: 'staunen', nach: 'nachdenken' },
-      },
-      quelleId: 'uba-akku-laden',
-      belegId: 'ausgeschalteter-zustand-laden',
-    },
-    {
       /*
-       * **Die Waerme ist neu, und sie traegt die Aufloesung.**
-       *
-       * `u-berma-ssige-erwa` lag seit dem 24.08.2026 ungenutzt in der Quelle.
-       * Der Short redete bis dahin ausschliesslich ueber Ladestaende — und
-       * genau das ist die Frage, die das Maerchen offen laesst: Wenn es weder
-       * voll noch leer sein soll, woran liegt es dann?
-       *
-       * Wattis Ratlosigkeit liefert keine Antwort mit. Sobald sie eine
-       * mitlieferte, waere sie wieder ein Kommentar.
-       *
-       * **Der Satz hiess zuerst „Schlimmer als der Ladestand ist Waerme"**,
-       * und der `belegpruefer` hat ihn am 31.08.2026 kassiert: Das Zitat
-       * vergleicht mit nichts, und es spricht von *uebermaessiger* Erwaermung,
-       * nicht von Waerme ueberhaupt. Dieselbe Quelle empfiehlt zwei Absaetze
-       * weiter einen Ladestand von etwa 70 Prozent — sie sagt also gerade
-       * nicht, dass der Ladestand harmlos ist.
-       *
-       * **Die Rangfolge war meine, nicht die der Behoerde.** Wattis Frage
-       * traegt sie weiterhin, und das darf sie: Eine Frage behauptet nichts.
+       * **Die einzige Stelle im ganzen Lauf, an der eine Figur zweimal
+       * hintereinander spricht.** Sie steht hier und nicht anderswo, weil die
+       * beiden Empfehlungen zusammengehoeren: Wie geladen wird und warum.
+       * Wattis Bild kommt danach und trifft beide auf einmal.
        */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Übermäßige Wärme lässt deinen Akku schneller altern. Wärme? Es ging nie ums Volle?',
+      sprechtext:
+        'Laden sollst du am besten ausgeschaltet. Übermäßige Wärme lässt ihn schneller altern. Kühlschrank. Da altern Sachen langsamer.',
       rede: [
-        { sprecher: 'nachleser', text: 'Übermäßige Wärme lässt deinen Akku schneller altern.' },
-        { sprecher: 'zeiger', text: 'Wärme? Es ging nie ums Volle?', machart: 'ratlosigkeit' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Laden sollst du am besten ausgeschaltet.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'ausgeschalteter-zustand-laden',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Übermäßige Wärme lässt ihn schneller altern.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'u-berma-ssige-erwa',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
+          text: 'Kühlschrank. Da altern Sachen langsamer.',
+          machart: 'bild',
+        },
       ],
       text: 'Wärme altert den Akku.',
       buehne: {
         art: 'figur',
         von: 'lesen',
-        nach: 'staunen',
-        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
+        zwischen: ['ruhe'],
+        nach: 'nachdenken',
+        requisite: 'blatt',
+        gegenueber: { von: 'stutzen', nach: 'staunen' },
       },
       quelleId: 'uba-akku-laden',
       belegId: 'u-berma-ssige-erwa',
     },
     {
+      /*
+       * Der falsche Schluss steht jetzt **am Ende** des Gespraechs und bleibt
+       * stehen — der Nachschlag ist seine Richtigstellung. Vorher stand er in
+       * der Mitte, und niemand ging darauf ein.
+       */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht. Memory? Meine Mutter hat mir das beigebracht!',
+      sprechtext:
+        'Extreme Kälte soll man auch vermeiden. Also lade ich ab jetzt absichtlich schlecht.',
       rede: [
-        { sprecher: 'nachleser', text: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.' },
-        { sprecher: 'zeiger', text: 'Memory? Meine Mutter hat mir das beigebracht!', machart: 'empoerung' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Extreme Kälte soll man auch vermeiden.',
+          quelleId: 'uba-akku-laden',
+          belegId: 'extreme-kaelte-vermieden',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'einlenken',
+          text: 'Also lade ich ab jetzt absichtlich schlecht.',
+          machart: 'falscherschluss',
+        },
       ],
-      text: 'Bei Lithium-Ionen: nein.',
+      text: 'Kälte ist keine Pflege.',
       buehne: {
         art: 'figur',
-        von: 'staunen',
+        von: 'nachdenken',
         nach: 'stutzen',
-        gegenueber: { von: 'stutzen', nach: 'staunen' },
+        gegenueber: { von: 'staunen', nach: 'nachdenken' },
       },
       quelleId: 'uba-akku-laden',
-      belegId: 'der-memory-effekt-tritt',
+      belegId: 'extreme-kaelte-vermieden',
     },
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Voll laden war die Regel. Heute ist es der Fehler.',
-      rede: [{ sprecher: 'nachleser', text: 'Voll laden war die Regel. Heute ist es der Fehler.' }],
-      satz: 'Voll laden war die Regel. Heute ist es der Fehler.',
+      sprechtext: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
+        },
+      ],
+      satz: 'Voll laden war die Regel. Heute ist es nur noch Gewohnheit.',
       rundlauf:
         'Beim zweiten Sehen klingen die 12 Stunden nicht mehr nach Sorgfalt, sondern nach dem, was der Schlusssatz daraus macht.',
     },

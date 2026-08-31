@@ -1675,14 +1675,18 @@ einzigen).
 
 ## Offen aus dem Plan „Aus dem Nebeneinander ein Gespräch machen"
 
-- [ ] **Die drei übrigen Entwürfe migrieren** — Züge setzen, dann als Gespräch
-      neu schreiben. `ersatzteil-freischalten` (13 Anteile), `erstes-laden`
-      (13), `raumstation-alte-rechner` (15)
-- [ ] **`zug` auf Pflicht stellen**, Übersprungzweige in `pruefung.ts` löschen,
-      Quellensperre von `machart` auf `behauptet` umhängen. Zwei Stellen bauen
-      synthetische Redeanteile: `src/stimme.ts` und `src/zeit.ts`
-- [ ] **Die laufweite Tripelregel** in `laufweiteBefunde` — erst ab zwei
-      migrierten Shorts sinnvoll
+- [x] ~~**Die drei übrigen Entwürfe migrieren** — alle vier sind jetzt
+      Gespräche. Gelernt dabei: Das Zugsystem allein macht noch keins. Drei von
+      vier Shorts eröffneten mit derselben Figur „Behaupten → Nachhaken →
+      Beantworten", und **gefunden hat das nicht mein Auge, sondern die
+      Tripelregel** — eine Stunde nachdem ich sie gebaut hatte~~
+- [x] ~~**`zug` auf Pflicht**, Übersprungzweig gelöscht, Quellensperre und
+      Formsperre hängen an `behauptet` statt an `machart`. Das war keine
+      Umbenennung: Eine quellenlose Zeile **ohne** Machart entkam der alten
+      Sperre vollständig~~
+- [x] ~~**Die laufweite Tripelregel** in `laufweiteBefunde`, auf benachbarten
+      Shorts. Sie hat beim ersten Lauf dreimal gemeldet und dreimal recht
+      gehabt~~
 - [ ] **Die vierte Wand**: Pose `ansprechen` plus ein `zuwendung`-Faktor.
       Der eigentliche Fund liegt nicht in der Pose: `BLICK_ZUR_MITTE` und
       `HINLEHNEN` ziehen Volti zu Watti, **während er den Zuschauer
@@ -1700,3 +1704,37 @@ einzigen).
       von 88 Einheiten — **erst ein Standbild in Feed-Größe, dann bauen**
 - [ ] **Der Publikumston** am Kipppunkt, einmal je Short, ein Raunen
 - [ ] **Ein Video mit vollem Ton** — braucht Emirhans Zustimmung
+
+## Der Belegprüfer am 01.09.2026 — elf Stellen, eine davon umgekehrt
+
+Die drei neu geschriebenen Entwürfe gingen an den `belegpruefer`, **bevor**
+vertont wurde. Elf Befunde, und der erste ist der teuerste, den dieses Projekt
+bisher hatte:
+
+**`ersatzteil-freischalten` behauptete das Gegenteil des Belegten.** Der
+Kipppunkt lautete „Nicht, wenn du dein Handy vorher gekauft hast", gebunden an
+„gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden".
+Der volle Satz beginnt mit **„Artikel 16 dieser Richtlinie"** — und Artikel 16
+ändert die Warenkaufrichtlinie. Das Softwareverbot steht in Artikel 5 Absatz 6
+und kennt diese Übergangsregel nicht. Das Verbot gilt für das Gerät in der Hand
+des Zuschauers sehr wohl.
+
+`npm run quellen-pruefen` war dabei grün — die Zeichenkette stand auf der
+Seite. **Die Subjektregel hat gefehlt, weil das Subjekt hier kein Substantiv
+ist, sondern eine Artikelnummer.**
+
+Vier weitere Zitate haben ihr Subjekt bekommen: „All equipment flown aboard the
+ISS", „Ideal ist es zudem", der Vorbehalt „es sei denn …" und der allgemeine
+UBA-Satz zum Ladeverhalten statt des Lagerabsatzes.
+
+**Das Muster über alle elf:** Neun hängen an einem Wort **außerhalb** der
+geprüften Zeichenkette — davor, dahinter oder in der Artikelnummer. Zwei sind
+Verallgemeinerungen im Sprechtext selbst („Deins", „deine Werkstatt darf").
+Keiner wäre von einer Regel zu finden gewesen.
+
+**Und der neue Kipppunkt ist besser als der falsche.** Die Ausnahme im Verbot
+(„es sei denn, dies ist durch legitime und objektive Faktoren wie den Schutz
+der Rechte des geistigen Eigentums … gerechtfertigt") steht unmittelbar hinter
+der Fundstelle, an der der Short ohnehin hing, und ist die Wendung, die
+`absicht` verlangt: Es gibt ein Verbot, und jemand hat eine Tür hineingeschrieben.
+

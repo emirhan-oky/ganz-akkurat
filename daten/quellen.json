@@ -425,8 +425,8 @@
       "belegt": [
         {
           "id": "wenn-sie-nicht-warten",
-          "zitat": "Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist",
-          "stuetzt": "Das Tiefentladen ist keine Pflege, sondern das Gegenteil davon — eine Behörde sagt es, kein Hersteller."
+          "zitat": "Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist (0 %), sondern ihn immer bereits vorher wieder aufladen, verlängert das die Lebensdauer Ihres Lithium-Ionen-Akkus",
+          "stuetzt": "Der allgemeine Satz zum Ladeverhalten. `eine-vollstaendige-entleerung` steht dagegen im Absatz über die Lagerung in der Schublade."
         },
         {
           "id": "u-berma-ssige-erwa",
@@ -441,17 +441,22 @@
         {
           "id": "eine-vollstaendige-entleerung",
           "zitat": "Eine vollständige Entleerung schadet dem Akku",
-          "stuetzt": "Leer laufen lassen ist nicht bloß überflüssig, sondern schädlich — die Umkehr der alten Regel, wörtlich."
+          "stuetzt": "Gilt der **Lagerung** — Gerät ausgeschaltet in der Schublade, nachladen nach sechs Monaten. Fürs tägliche Laden trägt `wenn-sie-nicht-warten`."
         },
         {
           "id": "siebzig-prozent-unterbrechen",
-          "zitat": "den Ladevorgang immer schon dann zu unterbrechen, wenn der Akku etwa 70 % seiner Kapazität erreicht hat",
-          "stuetzt": "Die Behörde empfiehlt ausdrücklich, den Ladevorgang vor dem Vollstand abzubrechen."
+          "zitat": "Ideal ist es zudem, den Ladevorgang immer schon dann zu unterbrechen, wenn der Akku etwa 70 % seiner Kapazität erreicht hat",
+          "stuetzt": "Das UBA nennt den früheren Halt **ideal**, nicht vorgeschrieben. Ohne das Wort im Zitat wurde daraus im Sprechtext ein „soll\"."
         },
         {
           "id": "ausgeschalteter-zustand-laden",
           "zitat": "den Akku möglichst im ausgeschalteten Zustand zu laden",
           "stuetzt": "Auch beim Wie des Ladens weicht die heutige Empfehlung von der alten Regel ab."
+        },
+        {
+          "id": "extreme-kaelte-vermieden",
+          "zitat": "Eine Aufbewahrung bei extremer Kälte sollte ebenfalls vermieden werden",
+          "stuetzt": "Die Gegenrichtung zur Wärme: Kühlen ist keine Pflege. Steht im selben Absatz wie die Erwärmung."
         }
       ]
     },
@@ -737,8 +742,8 @@
         },
         {
           "id": "arduous-safety-and-compatibility-testing",
-          "zitat": "must go through arduous safety and compatibility testing",
-          "stuetzt": "Alles, was zur Raumstation fliegt, durchläuft eine aufwendige Sicherheits- und Verträglichkeitsprüfung."
+          "zitat": "All equipment flown aboard the ISS must go through arduous safety and compatibility testing",
+          "stuetzt": "Jedes Stück an Bord muss durch die Prüfung. Das „All equipment\" stand bis zum 01.09.2026 außerhalb der geprüften Zeichenkette."
         },
         {
           "id": "too-long-to-pass-a-faster-pc",
@@ -790,7 +795,7 @@
         {
           "id": "behindern-verwendung-ersatzteile",
           "zitat": "Die Hersteller behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen, kompatiblen Ersatzteilen oder Ersatzteilen, die mittels 3D-Druck hergestellt wurden, durch unabhängige Reparaturbetriebe nicht",
-          "stuetzt": "Nennt gebrauchte, kompatible und gedruckte Ersatzteile beim Namen — und schützt ihren Einbau durch unabhängige Reparaturbetriebe, nicht die Selbstreparatur."
+          "stuetzt": "Schützt den Einbau durch **unabhängige Reparaturbetriebe**, nicht die Selbstreparatur. Verpflichtet den Hersteller; es erlaubt der Werkstatt nichts."
         },
         {
           "id": "mittels-3d-druck-hergestellt",
@@ -809,8 +814,13 @@
         },
         {
           "id": "gilt-nicht-fu-r",
-          "zitat": "gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden",
-          "stuetzt": "Der Kipppunkt: Das Gerät, das der Zuschauer gerade in der Hand hält, ist nicht dabei."
+          "zitat": "Artikel 16 dieser Richtlinie gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden",
+          "stuetzt": "Gilt **Artikel 16** (Änderung der Warenkaufrichtlinie), nicht dem Softwareverbot aus Artikel 5 Absatz 6. Ohne das Subjekt las es sich als Gegenteil."
+        },
+        {
+          "id": "es-sei-denn-legitime",
+          "zitat": "behindern, es sei denn, dies ist durch legitime und objektive Faktoren wie den Schutz der Rechte des geistigen Eigentums nach Unionsrecht und nationalem Recht gerechtfertigt",
+          "stuetzt": "Die Tür im Verbot. Sie steht unmittelbar hinter `keine-hardware-oder-softwaretechniken` und war dort abgeschnitten — eine Bedingung am Satzende."
         }
       ]
     },

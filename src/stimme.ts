@@ -645,7 +645,13 @@ export const redelaeufe = (short: Short): Redelauf[] => {
     // Die Pause gehoert zur Szene **davor** — sie hat sie bestellt.
     const bestellt = vorherige?.pauseSek;
     const anteile =
-      szene.rede ?? [{ sprecher: 'nachleser' as Sprecher, text: szene.sprechtext.trim() }];
+      szene.rede ??
+      /*
+       * Der einstimmige Notfall: eine Szene ohne `rede`. Sie behauptet ihren
+       * Satz und nichts weiter — `behaupten` ist hier keine Verlegenheitswahl,
+       * sondern die richtige Angabe.
+       */
+      [{ sprecher: 'nachleser' as Sprecher, zug: 'behaupten' as const, text: szene.sprechtext.trim() }];
 
     anteile.forEach((anteil, j) => {
       const letzter = laeufe[laeufe.length - 1];

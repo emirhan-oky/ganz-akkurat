@@ -9,29 +9,49 @@ import type { Short } from '../../src/typen';
  * Was im Amtsblatt steht, ist das **Verbot**. Also traegt das Verbot den Short,
  * und die Praxis steht nur im Aufschlag, wo nichts behauptet wird.
  *
- * Genau das ist die Hausregel von `absicht`: Es muss in einem Dokument stehen.
- * Der Nachschlag zieht die Konsequenz daraus, ohne Wirksamkeit zu behaupten —
- * ein Verbot im Amtsblatt ist noch kein freigeschaltetes Ersatzteil.
+ * ## Am 01.09.2026 auf Zuege umgeschrieben
  *
- * ## Am 26.08.2026 auf zwei Stimmen umgebaut
+ * Vorher war das hier ein Nebeneinander: Volti las vor, Watti kommentierte,
+ * und **keine einzige Zeile bezog sich auf die vorige**. Alle zwoelf
+ * Redeanteile wechselten sich strikt ab, und genau das klang im ersten
+ * fertigen Video wie zwei Monologe.
  *
- * Vier Reaktionen, vier Macharten. `absicht` loest Empoerung aus, und genau
- * deshalb steht hier nur **eine** empoerte Zeile: Vier waeren die Haltung des
- * Kanals und keine Figur.
+ * Drei Aenderungen, die aus dem Nebeneinander ein Gespraech machen:
  *
- * **Der Beleg der dritten Szene ist dabei gewandert.** Der Satz sagt
- * „die Reparatur behindern"; die Fundstelle dafuer ist
- * `behindern-verwendung-ersatzteile` („behindern insbesondere die Verwendung
- * von Originalersatzteilen"), nicht der allgemeine Verbotssatz, an dem er
- * vorher hing. Dieselbe Aussage, aber die Fundstelle traegt jetzt wirklich
- * das Wort, das gesprochen wird.
+ * - **Watti widerspricht, statt zu kommentieren** („Das hat sich doch jemand
+ *   ausgedacht"), und Volti stellt richtig. Der Beleg steht damit nicht mehr
+ *   im Vortrag, sondern im Konter — dieselbe Fundstelle, andere Funktion.
+ * - **Watti traegt einmal selbst den Beleg.** Er liest den Stichtag vom Blatt
+ *   ab. Der Vertrag erlaubt das seit dem 25.08.2026 ausdruecklich („die Rollen
+ *   sind fest, die Besetzung nicht"), und **kein Entwurf hatte es je
+ *   eingeloest**. Es ist zugleich die einzige Stelle, an der zwei Zeilen
+ *   hintereinander derselben Figur gehoeren — die Abweichung vom Metronom.
+ * - **Der Kipppunkt ist ein anderer geworden.** Vorher war er „auch gebrauchte
+ *   Teile stehen drin", also eine zweite Zuspitzung im Gewand einer Wendung.
+ *   Jetzt ist es der Stichtag: Das Verbot gilt, und das Geraet in deiner Hand
+ *   ist trotzdem nicht dabei. Das ist die Wendung, die `absicht` verlangt —
+ *   jemand hat den Stichtag entschieden.
  *
- * **Die Symbole sind bis auf den Schraubenschluessel weg.** Bei zwei Figuren
- * laege ein Symbol in der rechten — geblieben ist das Blatt in Voltis Hand,
- * und im Aufschlag steht er noch allein.
+ * ## Was gleich geblieben ist
  *
- * `erklaeren` faellt hier ebenfalls aus, und das ist gemessen statt geraten:
- * Die drei ausgreifenden Posen legen eine Hand auf das andere Gehaeuse
+ * Die Fundstellen. Sie sind am 31.08.2026 einzeln geprueft worden, und der
+ * Weg dorthin war teuer: Der Satz war erst zu eng am falschen Wort („freie
+ * Werkstaetten" steht in der gebundenen Fundstelle nicht), dann zu breit am
+ * richtigen („duerfen die Verwendung nicht behindern" verbietet das Behindern
+ * ueberhaupt, die Richtlinie verbietet enger).
+ *
+ * Zwei Grenzen, die dabei sichtbar wurden und hier weitergelten:
+ *
+ * - Der Absatz schuetzt den Einbau **durch unabhaengige Reparaturbetriebe**,
+ *   nicht die Selbstreparatur. Deshalb steht dort die Werkstatt.
+ * - Er gilt nur fuer die Waren aus **Anhang II**, Mobiltelefone sind Nummer 8.
+ *   „Deine Reparatur" schlechthin ist zu weit, „deine Handy-Reparatur" ist
+ *   gedeckt.
+ *
+ * **Eine Verallgemeinerung faellt nicht auf, eine Anrede schon.**
+ *
+ * `erklaeren`, `zeigen` und `achselzucken` fallen im Wortwechsel aus, und das
+ * ist gemessen statt geraten: Die drei legen eine Hand auf das andere Gehaeuse
  * (`video/Wortwechselprobe.tsx`).
  */
 export const ersatzteilFreischalten: Short = {
@@ -43,8 +63,8 @@ export const ersatzteilFreischalten: Short = {
   arbeitstitel: 'Das Ersatzteil und das Verbot',
   weitererzaehlt: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
   suchbegriff: 'Ersatzteil Reparatur',
-  vorspann: 'Dein Ersatzteil darf keine Reparatur blockieren',
-  vorspannBelegId: 'keine-hardware-oder-softwaretechniken',
+  vorspann: 'Ein Verbot für Hersteller, und die Ausnahme dazu',
+  vorspannBelegId: 'es-sei-denn-legitime',
 
   szenen: [
     {
@@ -55,27 +75,57 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext: 'Dein Ersatzteil passt. Es tut nichts.',
-      rede: [{ sprecher: 'nachleser', text: 'Dein Ersatzteil passt. Es tut nichts.' }],
-      text: 'Passt. Tut nichts.',
+      rede: [
+        { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Ersatzteil passt. Es tut nichts.' },
+      ],
+      text: 'Ersatzteil passt. Tut nichts.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'schraubenschluessel' },
     },
     {
+      /*
+       * **Der Widerspruch ist der Motor dieser Szene**, nicht der Beleg. Watti
+       * bestreitet, Volti kontert mit der Fundstelle — vorher stand derselbe
+       * Satz als vierte Behauptung in einer Reihe von Behauptungen.
+       *
+       * Wattis Widerspruch behauptet dabei nichts („das hat sich jemand
+       * ausgedacht" ist eine Unterstellung, keine Aussage ueber die Welt) und
+       * traegt deshalb keine Quelle.
+       */
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Und jetzt? Ich hab es doch richtig eingebaut. Watti, im Amtsblatt der EU steht dazu ein Verbot. Verbot? Das weiß mein Handy nicht?',
+        'Dann hast du es falsch eingebaut. Im Amtsblatt der EU steht dazu ein Verbot. Und jetzt? Ich hab es doch richtig eingebaut. Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
       rede: [
-        { sprecher: 'zeiger', text: 'Und jetzt? Ich hab es doch richtig eingebaut.', machart: 'ratlosigkeit' },
-        { sprecher: 'nachleser', text: 'Watti, im Amtsblatt der EU steht dazu ein Verbot.' },
-        { sprecher: 'zeiger', text: 'Verbot? Das weiß mein Handy nicht?', machart: 'rueckfrage' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Dann hast du es falsch eingebaut.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Im Amtsblatt der EU steht dazu ein Verbot.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'keine-hardware-oder-softwaretechniken',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          text: 'Und jetzt? Ich hab es doch richtig eingebaut.',
+          machart: 'ratlosigkeit',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'keine-hardware-oder-softwaretechniken',
+        },
       ],
       text: 'Verboten. Im Amtsblatt.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
-        nach: 'lesen',
+        zwischen: ['lesen'],
+        nach: 'nachdenken',
         requisite: 'blatt',
-        gegenueber: { von: 'ruhe', nach: 'staunen' },
+        gegenueber: { von: 'ruhe', zwischen: ['staunen'], nach: 'stutzen' },
       },
       quelleId: 'eu-reparaturrichtlinie-2024',
       belegId: 'keine-hardware-oder-softwaretechniken',
@@ -83,145 +133,172 @@ export const ersatzteilFreischalten: Short = {
     },
     {
       /*
-       * **Hier stand ein Satz mit 97 Zeichen**, und er war fuer sich allein
-       * schon ein Fehler: Sechs Sekunden sind rund 86 Zeichen, also zwei
-       * mittlere Saetze. Der Satz war einer.
-       *
-       * Zerlegt in vier Anteile, und die Zerlegung folgt der Meldung, die ihn
-       * gefunden hat: **Die Frage gehoert dem anderen.** Wattis Ratlosigkeit
-       * steht dabei nicht am Ende als Kommentar, sondern mitten im Satz —
-       * genau dort, wo der Zuschauer sie hat.
-       *
-       * Naeher am Zitat als vorher. Die alte Fassung sprach von „freien
-       * Werkstaetten", und die stehen in der gebundenen Fundstelle nicht.
-       *
-       * **Dabei ist der Satz erst zu weit geraten**, und der `belegpruefer`
-       * hat es am selben Tag gefunden: „duerfen die Verwendung nicht
-       * behindern" verbietet das Behindern **ueberhaupt**. Die Richtlinie
-       * verbietet enger — den Einsatz von Vertragsklauseln und Hardware- oder
-       * Softwaretechniken, die behindern. Ein Hersteller, der schlicht keine
-       * Teile liefert, ist davon nicht erfasst.
-       *
-       * **Naeher am Zitat heisst nicht automatisch gedeckt.** Der Weg von
-       * „zu eng am falschen Wort" nach „zu breit am richtigen" ist kurz.
-       * Deshalb steht „per Software" jetzt darin, und der Anteil haengt an der
-       * Fundstelle, die Subjekt und Verneinung mitbringt.
-       *
-       * ## Zwei Grenzen, die erst die zweite Person sichtbar gemacht hat
-       *
-       * Beim Umschreiben auf den Gespraechsmassstab wurde aus „die Verwendung
-       * von Ersatzteilen" ein „deine", und **damit fielen zwei Grenzen auf, die
-       * vorher niemand vermisst hatte**:
-       *
-       * - Der Absatz schuetzt den Einbau **durch unabhaengige
-       *   Reparaturbetriebe**. „Deine gebrauchten Teile" machte aus einem
-       *   Werkstattprivileg ein Verbraucherrecht — deshalb steht dort jetzt die
-       *   Werkstatt.
-       * - Er gilt nur fuer die Waren aus **Anhang II**, und Mobiltelefone sind
-       *   Nummer 8. „Deine Reparatur" schlechthin ist zu weit; „deine
-       *   Handy-Reparatur" ist gedeckt.
-       *
-       * **Eine Verallgemeinerung faellt nicht auf, eine Anrede schon.** Solange
-       * der Satz „Hersteller duerfen …" hiess, klang er nach dem Rechtstext.
-       * Sobald er „du" sagt, muss man wissen, wer gemeint ist.
+       * Wattis Zeile greift „Software" aus der Vorzeile auf und dreht es ins
+       * Handfeste — der Zug `umdeuten` verlangt genau das, und `rueckbezug`
+       * prueft es nach. Ein behaupteter Anschluss ohne gemeinsames Wort waere
+       * schlimmer als keiner.
        */
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Hersteller dürfen deine Handy-Reparatur nicht per Software behindern. Dafür hat jemand ein Jahr lang Gehalt bekommen. Auch nicht, wenn deine Werkstatt gebrauchte Ersatzteile einbaut. Erlaubt, und trotzdem tot.',
+        'Software? Ich hab einen Schraubenschlüssel benutzt. Freie Werkstätten dürfen sie bei der Reparatur nicht behindern. Gebrauchte Teile zählen doch nicht, Volti.',
       rede: [
         {
-          sprecher: 'nachleser',
-          text: 'Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
-          quelleId: 'eu-reparaturrichtlinie-2024',
-          belegId: 'keine-hardware-oder-softwaretechniken',
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
+          text: 'Software? Ich hab einen Schraubenschlüssel benutzt.',
+          machart: 'bild',
         },
-        { sprecher: 'zeiger', text: 'Dafür hat jemand ein Jahr lang Gehalt bekommen.', machart: 'empoerung' },
         {
           sprecher: 'nachleser',
-          text: 'Auch nicht, wenn deine Werkstatt gebrauchte Ersatzteile einbaut.',
+          zug: 'gegenbeispiel',
+          text: 'Freie Werkstätten dürfen sie bei der Reparatur nicht behindern.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'behindern-verwendung-ersatzteile',
         },
-        { sprecher: 'zeiger', text: 'Erlaubt, und trotzdem tot.', machart: 'bild' },
+        {
+          sprecher: 'zeiger',
+          zug: 'widersprechen',
+          text: 'Gebrauchte Teile zählen doch nicht, Volti.',
+        },
       ],
       text: 'Einbau bei der Reparatur.',
       buehne: {
         art: 'figur',
-        von: 'lesen',
-        zwischen: ['stutzen'],
-        nach: 'nachdenken',
-        gegenueber: { von: 'staunen', nach: 'nachdenken' },
+        von: 'nachdenken',
+        zwischen: ['lesen'],
+        nach: 'ruhe',
+        requisite: 'blatt',
+        gegenueber: { von: 'stutzen', zwischen: ['nachdenken'], nach: 'hochschauen' },
       },
-      hervorhebung: 'behindern',
+      hervorhebung: 'Reparatur',
       quelleId: 'eu-reparaturrichtlinie-2024',
       belegId: 'behindern-verwendung-ersatzteile',
     },
     {
-      art: 'text',
-      position: 'kipppunkt',
-      sprechtext: 'Gebrauchte und kompatible Ersatzteile stehen ausdrücklich drin. Meins ist vom Flohmarkt. Sag es keinem, Volti.',
-      rede: [
-        { sprecher: 'nachleser', text: 'Gebrauchte und kompatible Ersatzteile stehen ausdrücklich drin.' },
-        { sprecher: 'zeiger', text: 'Meins ist vom Flohmarkt. Sag es keinem, Volti.', machart: 'gestaendnis' },
-      ],
-      text: 'Auch gebrauchte Ersatzteile.',
-      buehne: {
-        art: 'figur',
-        von: 'stutzen',
-        zwischen: ['lesen'],
-        nach: 'nachdenken',
-        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
-      },
-      quelleId: 'eu-reparaturrichtlinie-2024',
-      belegId: 'kompatiblen-ersatzteilen',
-    },
-    {
       /*
-       * Der 3D-Druck stand hier erst ohne eigene Fundstelle — er kam aus der
-       * Zusammenfassung des Abrufs, nicht aus dem gebundenen Zitat. Die
-       * Richtlinie nennt ihn tatsaechlich, an genau einer Stelle, und die
-       * steht jetzt als eigener Beleg daneben.
-       *
-       * ## Warum dieses Fragment ohne Subjekt und Verneinung genuegt
-       *
-       * `mittels-3d-druck-hergestellt` und `kompatiblen-ersatzteilen` sind
-       * Glieder einer Aufzaehlung. Sie tragen weder das Verb „behindern" noch
-       * das „nicht" am Satzende — und sie brauchen es auch nicht, **weil der
-       * Sprechtext nichts weiter behauptet als die Erwaehnung**: „stehen in
-       * der Liste", „stehen ausdruecklich drin".
-       *
-       * Der Unterschied zum Fall, der am 31.08.2026 repariert wurde: Dort
-       * hiess der Satz „duerfen nicht behindern", und das Fragment ohne
-       * Verneinung sagte fuer sich gelesen das Gegenteil. Hier sagt das
-       * Fragment genau so viel, wie der Satz braucht.
-       *
-       * **Die Regel „ein Zitat muss sein Subjekt enthalten" zielt auf
-       * Fragmente, deren Bedeutung ausserhalb der geprueften Zeichenkette
-       * haengt** — nicht auf jedes Fragment.
+       * `mittels-3d-druck-hergestellt` traegt weder Subjekt noch Verneinung,
+       * und das genuegt hier: Der Sprechtext behauptet nichts weiter als die
+       * **Erwaehnung** („stehen in der Liste"). Die Regel „ein Zitat muss sein
+       * Subjekt enthalten" zielt auf Fragmente, deren Bedeutung ausserhalb der
+       * geprueften Zeichenkette haengt — nicht auf jedes Fragment.
        */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Sogar Teile aus dem 3D-Drucker stehen in der Liste. Drucker? Dann drucke ich mir gleich ein neues Handy.',
+      sprechtext:
+        'Teile aus dem 3D-Drucker stehen in der Liste. Drucker? Dann drucke ich mir gleich ein neues Handy.',
       rede: [
-        { sprecher: 'nachleser', text: 'Sogar Teile aus dem 3D-Drucker stehen in der Liste.' },
-        { sprecher: 'zeiger', text: 'Drucker? Dann drucke ich mir gleich ein neues Handy.', machart: 'falscherschluss' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Teile aus dem 3D-Drucker stehen in der Liste.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'mittels-3d-druck-hergestellt',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'umdeuten',
+          text: 'Drucker? Dann drucke ich mir gleich ein neues Handy.',
+          machart: 'falscherschluss',
+        },
       ],
       text: 'Auch gedruckte Teile.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
         nach: 'lesen',
-        gegenueber: { von: 'stutzen', nach: 'staunen' },
+        requisite: 'blatt',
+        gegenueber: { von: 'staunen', nach: 'stutzen' },
       },
       quelleId: 'eu-reparaturrichtlinie-2024',
       belegId: 'mittels-3d-druck-hergestellt',
     },
     {
+      /*
+       * **Der Kipppunkt, und Watti liest ihn selbst vor.** Volti gibt das
+       * Blatt weiter, statt die Antwort zu sprechen — damit traegt der Beleg
+       * hier die Figur, die sonst nur reagiert, und die Redefolge weicht an
+       * genau einer Stelle vom strikten Abwechseln ab.
+       *
+       * ## Hier stand am 01.09.2026 das Gegenteil des Belegten
+       *
+       * Der Kipppunkt lautete „Nicht, wenn du dein Handy vorher gekauft hast"
+       * und hing an `gilt-nicht-fu-r`: „gilt nicht für Kaufverträge, die vor
+       * dem 31. Juli 2026 geschlossen wurden". Der volle Satz beginnt mit
+       * **„Artikel 16 dieser Richtlinie"** — und Artikel 16 aendert die
+       * Warenkaufrichtlinie. Das Softwareverbot steht in Artikel 5 Absatz 6
+       * und kennt diese Uebergangsregel nicht.
+       *
+       * Der Short behauptete damit nicht zu viel, sondern **das Gegenteil**:
+       * Das Verbot gilt fuer das Geraet in der Hand des Zuschauers sehr wohl.
+       * Gefunden hat es der `belegpruefer`, `npm run quellen-pruefen` war
+       * gruen — die Zeichenkette stand ja auf der Seite. Genau der Fall, fuer
+       * den die Subjektregel gebaut ist, und sie hat gefehlt, weil das Subjekt
+       * hier kein Substantiv ist, sondern eine **Artikelnummer**.
+       *
+       * **Der neue Kipppunkt ist die Tuer im Verbot.** Sie steht unmittelbar
+       * hinter der Fundstelle, an der der Short ohnehin schon haengt, und ist
+       * die Wendung, die `absicht` verlangt: Es gibt ein Verbot, und es hat
+       * eine Ausnahme, die jemand hineingeschrieben hat.
+       *
+       * Der Stichtag steht hinter einem Doppelpunkt. Ohne ihn waere „Die
+       * Mitgliedstaaten wenden diese Vorschriften an" Amtsdeutsch im
+       * Sprechtext, und das ist ein Fehler.
+       */
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext:
+        'Lies mal, was hinter dem Verbot steht. Hier steht: es sei denn, es geht um geistiges Eigentum. Also immer. Und gelten tut das erst seit dem 31. Juli 2026. Meins ist von der Schulzeit.',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          zug: 'zuspitzen',
+          text: 'Lies mal, was hinter dem Verbot steht.',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachlegen',
+          text: 'Hier steht: es sei denn, es geht um geistiges Eigentum.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'es-sei-denn-legitime',
+        },
+        { sprecher: 'zeiger', zug: 'zuspitzen', text: 'Also immer.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'einschraenken',
+          text: 'Und gelten tut das erst seit dem 31. Juli 2026.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'die-mitgliedstaaten-wenden-diese',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'einlenken',
+          text: 'Meins ist von der Schulzeit.',
+          machart: 'gestaendnis',
+        },
+      ],
+      text: 'Es sei denn: geistiges Eigentum.',
+      buehne: {
+        art: 'figur',
+        von: 'ruhe',
+        zwischen: ['stutzen'],
+        nach: 'nachdenken',
+        gegenueber: { von: 'hochschauen', zwischen: ['lesen'], nach: 'staunen' },
+      },
+      quelleId: 'eu-reparaturrichtlinie-2024',
+      belegId: 'es-sei-denn-legitime',
+    },
+    {
       art: 'schluss',
       position: 'nachschlag',
       sprechtext: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
-      rede: [{ sprecher: 'nachleser', text: 'Dein Teil passt. Freigeschaltet ist es damit nicht.' }],
+      rede: [
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
+        },
+      ],
       satz: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
       rundlauf:
         'Beim zweiten Sehen ist „es tut trotzdem nichts" keine Klage mehr, sondern der Grund, warum das Verbot überhaupt nötig war.',

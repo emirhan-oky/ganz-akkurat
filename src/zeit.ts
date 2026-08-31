@@ -489,7 +489,8 @@ export const redebloecke = (
 
   short.szenen.forEach((szene, i) => {
     const anteile = szene.rede ?? [
-      { sprecher: 'nachleser' as Sprecher, text: szene.sprechtext.trim() },
+      // Siehe `redelaeufe` in `src/stimme.ts`: ohne `rede` behauptet die Szene ihren Satz.
+      { sprecher: 'nachleser' as Sprecher, zug: 'behaupten' as const, text: szene.sprechtext.trim() },
     ];
     for (const anteil of anteile) {
       const letzter = bloecke[bloecke.length - 1];
