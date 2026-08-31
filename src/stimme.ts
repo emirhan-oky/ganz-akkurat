@@ -1,7 +1,13 @@
 import { Buffer } from 'node:buffer';
 import type { Redeanteil, Short, Sprecher, Untertitelwort } from './typen';
 import { regieVorrat } from './typen';
-import { SPRECHERWECHSEL_SEK, SZENENGRENZE_SEK, VORSPANN_SEK, themaAnsage } from './zeit';
+import {
+  SPRECHERWECHSEL_SEK,
+  SZENENGRENZE_SEK,
+  VORSPANN_SEK,
+  ZEICHEN_PRO_SEKUNDE,
+  themaAnsage,
+} from './zeit';
 
 /**
  * Sprachsynthese und Zeitstempel.
@@ -194,6 +200,98 @@ export const woerterAusAusrichtung = (a: Ausrichtung): Untertitelwort[] => {
   return woerter;
 };
 
+/**
+ * Die Zeichen, die wirklich gesprochen werden.
+ *
+ * Kleine Schwester von `woerterAusAusrichtung` darueber, und sie muss es
+ * bleiben: **Dieselbe Regel, zwei Leser.** Dort werden Break-Tags (`< … >`) und
+ * Regieanweisungen (`[ … ]`) aus dem Untertitel gehalten, hier aus der
+ * Laengenerwartung. Liefe die eine Fassung der anderen davon, waere die
+ * Erwartung fuer jede Zeile mit Regieanweisung zu hoch — und bei einer Zeile
+ * von 26 Zeichen ist `[thoughtful]` rund 40 % des Textes.
+ */
+export const gesprocheneZeichen = (text: string): number =>
+  text.replace(/\[[^\]]*\]/g, '').replace(/<[^>]*>/g, '').length;
+
+/**
+ * Wie lange eine Synthese dieses Textes hoechstens dauern darf.
+ *
+ * ## Der Befund (31.08.2026)
+ *
+ * `eleven_v3` halluziniert bei kurzen Eingaben. Fuenf Laeufe mit identischem
+ * 18-Zeichen-Text ergaben 4,80 · 5,04 · 2,08 · 4,24 · **415,84** Sekunden —
+ * sieben Minuten Ton fuer vier Woerter. Die Zahlen stehen ausfuehrlich an
+ * `VORSPANN_SEK` in `src/zeit.ts` und in `skripte/vorspannton.ts`; hier steht,
+ * was daraus folgt.
+ *
+ * ## Warum die Schwelle aus dem Text kommt und nicht fest ist
+ *
+ * `skripte/vorspannton.ts` durfte eine feste Grenze von 4 Sekunden nehmen: Der
+ * laengste Text dort hat 26 Zeichen. Im Wochenlauf reichen die Redelaeufe von
+ * 20 bis 185 Zeichen — eine feste Sekundenzahl waere fuer den einen zu eng und
+ * fuer den anderen wirkungslos.
+ *
+ * ## Warum Sockel **plus** Faktor
+ *
+ * Gerechnet an den fuenf Messwerten oben (18 Zeichen, erwartet 1,26 s):
+ *
+ * | Regel | Grenze | gesunde durch | Grenze bei 185 Z. |
+ * |---|---|---|---|
+ * | fest 4 s | 4,00 | 1 von 4 | 4,0 — unbrauchbar |
+ * | reiner Faktor 3 | 3,78 | 1 von 4 | 38,8 |
+ * | reiner Faktor 4,5 | 5,66 | 4 von 4 | 58,2 — zu lasch |
+ * | **1,5 × erwartet + 4 s** | **5,89** | **4 von 4** | **23,4** |
+ *
+ * Der feste Anteil ist Ansatz, Endpause und Ausklang. Der **skaliert nicht mit
+ * der Textlaenge**, gehoert also als Summand hinein und nicht als Faktor —
+ * genau daran scheitert der reine Faktor 3 an zwei gesunden Laeufen.
+ *
+ * ## Woher die 1,5 kommt
+ *
+ * `ZEICHEN_PRO_SEKUNDE` streut gemessen zwischen 12,9 und 15,3; der langsamste
+ * Short braucht damit das 1,11-fache. Die 16 Laeufe des bezahlten Laufs vom
+ * 30.08. gehen bis **1,25**. 1,5 laesst darueber hinaus Luft fuer Betonung und
+ * Zeichensetzung.
+ *
+ * ## Warum sie grosszuegig sein darf
+ *
+ * Zwischen dem laengsten gesunden Lauf (5,04 s) und dem kaputten (415,84 s)
+ * liegt **Faktor 82**. Die Wache muss nicht scharf sein, sie muss irgendwo in
+ * dieser Luecke liegen. Jede Schaerfe wird mit Fehlalarmen bezahlt, und ein
+ * Fehlalarm kostet hier echtes Kontingent — fuer einen Gewinn, den es nicht
+ * gibt. An den 16 bezahlten Laeufen erzeugt diese Schwelle **null**
+ * Zusatzaufrufe; der knappste liegt bei Faktor 1,68.
+ *
+ * ## Was sie nicht kann
+ *
+ * Zwei kaputte Laeufe hintereinander faengt sie nicht — deshalb protokolliert
+ * `synthetisieren` den Fall, statt ihn still durchgehen zu lassen.
+ *
+ * ## Und der Vorbehalt zu `pause()`
+ *
+ * `pause()` weiter oben ist seit dem 31.08.2026 **toter Code** (nachgeprueft:
+ * kein Aufrufer) — die Pausen entstehen jetzt ueber `pauseDavorSek` zwischen
+ * den Abschnitten. Solange das so bleibt, enthaelt kein Lauftext bestellte
+ * Stille. Wird der Break-Tag je wiederbelebt, **muss seine Zeit hier addiert
+ * werden**, sonst loest jede Denkpause die Wache aus.
+ */
+const TEMPO_TOLERANZ = 1.5;
+const SOCKEL_SEK = 4.0;
+
+/**
+ * Ab hier ist es keine Streuung mehr, sondern ein kaputter Lauf.
+ *
+ * Bewusst grob: Zwischen „etwas zu lang" und „das Modell redet weiter" liegen
+ * zwei Groessenordnungen, da braucht die Trennlinie keine Praezision.
+ */
+const ABSURD_ZUSCHLAG_SEK = 60;
+
+export const plausibelBisSek = (text: string): number =>
+  (gesprocheneZeichen(text) / ZEICHEN_PRO_SEKUNDE) * TEMPO_TOLERANZ + SOCKEL_SEK;
+
+export const absurdAbSek = (text: string): number =>
+  gesprocheneZeichen(text) / ZEICHEN_PRO_SEKUNDE + ABSURD_ZUSCHLAG_SEK;
+
 /** Startzeit jeder Szene, ermittelt ueber die Zeichenposition im Gesamttext. */
 export const szenenStartzeiten = (a: Ausrichtung, szenenOffsets: number[]): number[] =>
   szenenOffsets.map((offset, i) => {
@@ -233,7 +331,7 @@ const warte = (ms: number) => new Promise((fertig) => setTimeout(fertig, ms));
  * werden beim dritten Mal genauso abgelehnt. Wiederholen wuerde die
  * Fehlermeldung nur um sechs Sekunden verzoegern.
  */
-export const synthetisieren = async (
+const mitWiederholung = async (
   text: string,
   einstellung: Sprecheinstellung,
   schluessel: string,
@@ -256,6 +354,109 @@ export const synthetisieren = async (
 
   throw new Error(`Sprachsynthese nach ${VERSUCHE} Versuchen fehlgeschlagen: ${letzter?.message}`);
 };
+
+/**
+ * Die Plausibilitaetswache um einen Syntheseaufruf herum.
+ *
+ * ## Warum sie ihren Beschaffer als Parameter nimmt
+ *
+ * `hol` ist **kein Testzubehoer**, sondern der Grund, aus dem diese Wache
+ * ueberhaupt pruefbar ist, ohne ElevenLabs zu bezahlen: `skripte/plausibelprobe.ts`
+ * fuettert eine Attrappe mit vorgegebenen Dauern und zaehlt die Aufrufe. Eine
+ * Wache gegen einen Fehler, der Geld kostet, darf zum Pruefen nicht selbst
+ * Geld kosten.
+ *
+ * ## Warum sie ausserhalb der Fehlerwiederholung liegt
+ *
+ * `mitWiederholung` versucht bis zu dreimal. Laege die Wache **innen**,
+ * koennten sich Netzfehler und Verdacht zu neun Aufrufen multiplizieren. Es
+ * sind zwei verschiedene Fragen: „kam eine Antwort?" und „ist die Antwort
+ * plausibel?".
+ *
+ * ## Warum ein Zusatzversuch und nicht drei wie nebenan
+ *
+ * `skripte/vorspannton.ts` synthetisiert **immer** dreimal und nimmt die
+ * kuerzeste. Das ist dort richtig: zehn Aufnahmen, einmal bezahlt, nie wieder.
+ * Hier sind es rund 56 Aufrufe je Wochenlauf — dreimal waere eine
+ * Verdreifachung der laufenden Kosten fuer einen Fall, der bei ueber dreissig
+ * Zeichen selten ist. Der Normalfall bleibt **ein** Aufruf.
+ *
+ * ## Und warum ueber der Grenze weitergemacht wird
+ *
+ * Bleibt auch der zweite Lauf zu lang, ohne absurd zu sein, gewinnt die
+ * kuerzere und der Lauf geht weiter. Ein Abbruch behebt den Fehler nicht,
+ * kostet aber **alle vorher vertonten Shorts noch einmal**: `--ton-behalten`
+ * sucht `props`-Dateien, und die entstehen erst, nachdem alle Shorts vertont
+ * sind. Deshalb Warnung statt Wurf — und deshalb sammelt `shortVertonen` die
+ * Faelle, statt sie nur ins Protokoll zu schreiben.
+ *
+ * Absurd ist die Ausnahme: Bei sieben Minuten Ton ist Weitermachen kein
+ * Entgegenkommen, sondern Schaden. `uhr` waechst mit, `gesamtdauerBilder`
+ * skaliert mit, und der Render brennt Rechenzeit fuer etwas, das niemand
+ * veroeffentlichen wird.
+ */
+export const mitWache = async (
+  hol: () => Promise<Synthese>,
+  text: string,
+  wofuer: string,
+  wache = true,
+): Promise<Synthese & { unplausibel?: string }> => {
+  const erste = await hol();
+  if (!wache) return erste;
+
+  const grenze = plausibelBisSek(text);
+  if (erste.dauerSek <= grenze) return erste;
+
+  console.log(
+    `   ⟳ ${wofuer}: ${erste.dauerSek.toFixed(1)}s statt höchstens ${grenze.toFixed(1)}s ` +
+      `(${gesprocheneZeichen(text)} Zeichen) – Verdacht, zweiter Versuch`,
+  );
+
+  const zweite = await hol();
+  if (zweite.dauerSek <= grenze) return zweite;
+
+  const kuerzere = zweite.dauerSek < erste.dauerSek ? zweite : erste;
+
+  if (kuerzere.dauerSek > absurdAbSek(text)) {
+    throw new Error(
+      `Die Synthese von „${wofuer}" ist zweimal unbrauchbar zurückgekommen: ` +
+        `${erste.dauerSek.toFixed(1)}s und ${zweite.dauerSek.toFixed(1)}s für ` +
+        `${gesprocheneZeichen(text)} Zeichen (erwartet rund ` +
+        `${(gesprocheneZeichen(text) / ZEICHEN_PRO_SEKUNDE).toFixed(1)}s). ` +
+        `Text: „${text.slice(0, 80)}${text.length > 80 ? '…' : ''}"`,
+    );
+  }
+
+  const meldung =
+    `${wofuer}: ${kuerzere.dauerSek.toFixed(1)}s statt höchstens ${grenze.toFixed(1)}s ` +
+    `(${gesprocheneZeichen(text)} Zeichen)`;
+  console.log(`   ⚠ ${meldung} – bleibt unplausibel, die kürzere gewinnt`);
+  return { ...kuerzere, unplausibel: meldung };
+};
+
+/**
+ * Ruft die Sprachsynthese auf und liefert Ton samt Zeitstempeln.
+ *
+ * Wiederholt bei Netz- und Serverfehlern, **nicht** bei 4xx: Ein abgelehnter
+ * Schluessel, ein aufgebrauchtes Kontingent oder eine unbekannte Stimme
+ * werden beim dritten Mal genauso abgelehnt. Wiederholen wuerde die
+ * Fehlermeldung nur um sechs Sekunden verzoegern.
+ *
+ * **`wache` ist ein Schalter und keine Voreinstellung**, und das ist Absicht.
+ * `skripte/stimmproben.ts`, `stimmprobe-v3.ts` und `pausenprobe.ts` rufen diese
+ * Funktion auf, um genau die Streuung zu **messen**, die die Wache abfaengt.
+ * Eine stille Wiederholung dort misst die Wache statt das Modell — und
+ * `vorspannton.ts` hat mit „dreimal, kuerzeste gewinnt" seine eigene, dort gut
+ * begruendete Regel; zwei uebereinandergelegte Wachen waeren undurchschaubar.
+ */
+export const synthetisieren = async (
+  text: string,
+  einstellung: Sprecheinstellung,
+  schluessel: string,
+  wache = false,
+  wofuer = 'Synthese',
+): Promise<Synthese & { unplausibel?: string }> =>
+  mitWache(() => mitWiederholung(text, einstellung, schluessel), text, wofuer, wache);
 
 const einmalSynthetisieren = async (
   text: string,
@@ -510,7 +711,20 @@ export const shortVertonen = async (
   schluessel: string,
   /** Muster fuer die Dateinamen, `%` wird durch die Abschnittsnummer ersetzt. */
   tondateiname: string,
-): Promise<{ short: Short; toene: { datei: string; ton: Buffer }[] }> => {
+): Promise<{
+  short: Short;
+  toene: { datei: string; ton: Buffer }[];
+  /**
+   * Laeufe, die auch beim zweiten Versuch ueber der Plausibilitaetsgrenze
+   * blieben, ohne absurd zu sein.
+   *
+   * **Sie werden durchgereicht und nicht nur protokolliert.** Eine Warnung, die
+   * im Durchlauf von zwoelf Renderzeilen ueberschrieben wird, hat niemand
+   * gesehen — der Wochenlauf fasst sie am Ende zusammen, dort, wo entschieden
+   * wird, ob der Short in die Freigabe geht.
+   */
+  unplausibel: string[];
+}> => {
   const laeufe = redelaeufe(short);
 
   /*
@@ -567,11 +781,16 @@ export const shortVertonen = async (
    * geschrieben klaenge das Video eines Tages anders, als jede Laengenrechnung
    * annimmt.
    */
+  const unplausibel: string[] = [];
+
   const ansage = await synthetisieren(
     themaAnsage(short),
     { stimmeId: stimmen.nachleser, ...KANAL_STIMME },
     schluessel,
+    true,
+    `${short.id} Themenansage`,
   );
+  if (ansage.unplausibel) unplausibel.push(ansage.unplausibel);
   const ansagedatei = tondateiname.replace('%', 'vorspann');
   toene.push({ datei: ansagedatei, ton: ansage.ton });
 
@@ -585,7 +804,10 @@ export const shortVertonen = async (
       lauf.text,
       { stimmeId: stimmen[lauf.sprecher], ...KANAL_STIMME },
       schluessel,
+      true,
+      `${short.id} Lauf ${i + 1} (${lauf.sprecher})`,
     );
+    if (synthese.unplausibel) unplausibel.push(synthese.unplausibel);
     const datei = tondateiname.replace('%', String(i + 1));
     toene.push({ datei, ton: synthese.ton });
     abschnitte.push({ datei, sprecher: lauf.sprecher, startSek: uhr });
@@ -610,6 +832,7 @@ export const shortVertonen = async (
 
   return {
     toene,
+    unplausibel,
     short: {
       ...short,
       tonspur: {

@@ -12,6 +12,7 @@
     "veroeffentlichen": "tsx skripte/veroeffentlichen.ts",
     "stimmproben": "tsx skripte/stimmproben.ts",
     "pausenprobe": "tsx skripte/pausenprobe.ts",
+    "plausibelprobe": "tsx skripte/plausibelprobe.ts",
     "stimmprobe-v3": "tsx skripte/stimmprobe-v3.ts",
     "sprechprobe": "tsx skripte/sprechprobe.ts",
     "belege": "tsx skripte/belege.ts",

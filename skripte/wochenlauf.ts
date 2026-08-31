@@ -245,6 +245,17 @@ const main = async () => {
     return;
   }
   console.log(`   ${shorts.length} Entwürfe entsprechen dem Schema`);
+
+  /*
+   * Die Quellen werden **einmal** gelesen, seit die Pruefung auch vor der
+   * Vertonung laeuft. Zweimal einlesen hiesse, dass ein Lauf mit zwei
+   * verschiedenen Staenden von `quellen.json` arbeiten koennte, falls die
+   * Datei dazwischen geschrieben wird — eine Doppelung ohne Wache.
+   */
+  const rohQuellen = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as {
+    quellen: unknown[];
+  };
+  const quellen = rohQuellen.quellen.map((q) => Quelle.parse(q));
   console.log(`   Zeichenbedarf bei Vertonung: ${shorts.reduce((n, s) => n + zeichenverbrauch(s), 0)}\n`);
 
   /* ── 2  Vertonen (nur mit --mit-ton) ─────────────────────────────── */
@@ -254,9 +265,52 @@ const main = async () => {
     const schluessel = process.env.ELEVENLABS_API_KEY;
     if (!schluessel) throw new Error('ELEVENLABS_API_KEY fehlt in .env');
 
+    /*
+     * **Die Regeln vor dem Bezahlen, nicht danach.**
+     *
+     * Bis zum 31.08.2026 lief das Schema vor der Vertonung und die
+     * inhaltliche Pruefung erst in Schritt 3 — also *nachdem* die Zeichen
+     * abgerechnet waren. Ein Short, der an einer Regel scheiterte, wurde
+     * bezahlt und dann zurueckgehalten.
+     *
+     * Aufgefallen ist es beim Bau der Plausibilitaetswache, und es ist
+     * dieselbe Sorte Fehler: eine Wache, die an der richtigen Stelle steht,
+     * aber zum falschen Zeitpunkt greift.
+     *
+     * Geprueft wird hier gegen die **unvertonten** Entwuerfe. Regeln, die eine
+     * Tonspur brauchen — die Aufschlagmessung an den Wortzeitstempeln, die
+     * Laenge —, fallen dabei auf ihre Schaetzung zurueck und laufen in
+     * Schritt 3 noch einmal scharf. Das ist kein Ersatz fuer die spaetere
+     * Pruefung, sondern ein Filter davor: Was jetzt schon rot ist, wird durch
+     * eine Vertonung nicht gruen.
+     *
+     * Nur Fehler halten auf. Hinweise sind zum Lesen da, nicht zum Anhalten —
+     * und ein Lauf, der an einem Hinweis scheitert, waere in einer Woche
+     * abgeschaltet.
+     */
+    const vorab = laufPruefen(shorts, quellen, [], Boolean(NUR));
+    if (vorab.fehler.length > 0) {
+      console.log('   Vor dem Bezahlen geprüft — und es gibt Fehler:\n');
+      for (const b of vorab.fehler) console.log(`   ✕ ${b.shortId}  [${b.regel}] ${b.text}`);
+      console.log(
+        '\nAbbruch vor der Vertonung. Kein Zeichen verbraucht — ' +
+          'eine Regel, die erst nach der Rechnung greift, ist keine.\n',
+      );
+      return;
+    }
+    console.log(`   Vorprüfung: ${vorab.hinweise.length} Hinweis(e), keine Fehler\n`);
+
     console.log('2  Vertonen');
     await fs.mkdir(path.join('public', 'ton', id), { recursive: true });
     fertige = [];
+    /*
+     * Was die Plausibilitaetswache nicht endgueltig klaeren konnte.
+     *
+     * Gesammelt statt nur gemeldet: Eine Warnung mitten im Vertonungsblock
+     * verschwindet hinter zwoelf Renderzeilen. Sie gehoert dorthin, wo
+     * entschieden wird — vor die Freigabe.
+     */
+    const unplausibel: string[] = [];
     for (const short of shorts) {
       /*
        * `%` wird zur Abschnittsnummer. Bei einem Sprecher entsteht daraus
@@ -264,7 +318,13 @@ const main = async () => {
        * nicht je nach Stimmenzahl anders heisst.
        */
       const muster = `ton/${id}/${short.id}.%.mp3`;
-      const { short: vertont, toene } = await shortVertonen(short, STIMMEN, schluessel, muster);
+      const { short: vertont, toene, unplausibel: verdaechtig } = await shortVertonen(
+        short,
+        STIMMEN,
+        schluessel,
+        muster,
+      );
+      unplausibel.push(...verdaechtig);
 
       // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohen
       // Dateien bleiben liegen, damit sich das Ergebnis nachvollziehen laesst.
@@ -281,6 +341,12 @@ const main = async () => {
           `Lautheit ${pegel.vorher.toFixed(1)} → ${pegel.nachher} LUFS`,
       );
       fertige.push(vertont);
+    }
+    if (unplausibel.length > 0) {
+      console.log(
+        `\n   ⚠ ${unplausibel.length} Lauf/Läufe blieben unplausibel lang. Vor der Freigabe hören:`,
+      );
+      for (const fall of unplausibel) console.log(`     · ${fall}`);
     }
     console.log('');
   } else if (TON_BEHALTEN) {
@@ -442,8 +508,6 @@ const main = async () => {
   /* ── 3  Inhaltliche Pruefung ─────────────────────────────────────── */
 
   console.log('3  Qualität prüfen');
-  const roh = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as { quellen: unknown[] };
-  const quellen = roh.quellen.map((q) => Quelle.parse(q));
   /*
    * Der eigene Lauf zaehlt nicht als Vergangenheit.
    *

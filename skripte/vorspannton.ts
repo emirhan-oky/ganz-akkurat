@@ -72,9 +72,15 @@ import { SPRECHERWECHSEL_SEK, VORSPANN_SEK } from '../src/zeit';
  * Inhalt ist in allen derselbe.
  *
  * **Der Befund gilt nicht nur hier.** Wattis Reaktionszeilen sind 20 bis 40
- * Zeichen lang und laufen im Wochenlauf durch dasselbe Modell. Dort faellt ein
- * kaputter Lauf auf, weil die Laenge geprueft wird — aber er faellt erst
- * **nach** dem Bezahlen auf.
+ * Zeichen lang und laufen im Wochenlauf durch dasselbe Modell. Seit dem
+ * 31.08.2026 haelt `plausibelBisSek` in `src/stimme.ts` sie dort ab.
+ *
+ * **Diese Datei behaelt trotzdem ihre eigene Regel**, und das ist kein
+ * Versehen: Dort sind es rund 56 Aufrufe je Woche, hier zehn Aufnahmen, einmal
+ * bezahlt und nie wieder. Wo Wiederholen nichts kostet, ist dreimal messen und
+ * die kuerzeste nehmen besser als einmal messen und hoffen. Zwei
+ * uebereinandergelegte Wachen waeren dagegen undurchschaubar — deshalb ist die
+ * neue ein Schalter, und er steht hier auf aus.
  */
 
 /**

@@ -349,8 +349,13 @@ export const szenendauerAus = (
  * sechs von dreissig Laeufen fielen durch.
  *
  * Wattis Reaktionszeilen sind 20 bis 40 Zeichen lang und laufen im Wochenlauf
- * durch dasselbe Modell — dort faellt ein kaputter Lauf erst **nach** dem
+ * durch dasselbe Modell — dort fiel ein kaputter Lauf erst **nach** dem
  * Bezahlen auf.
+ *
+ * **Seit dem 31.08.2026 nicht mehr.** `plausibelBisSek` in `src/stimme.ts`
+ * haelt jede Synthese gegen die Laenge ihres Textes und wiederholt bei
+ * Verdacht genau einmal. Der Befund bleibt hier stehen, weil er der Grund
+ * ist: Die Wache ist an diesen fuenf Zahlen kalibriert.
  */
 export const VORSPANN_SEK = 4.8;
 
