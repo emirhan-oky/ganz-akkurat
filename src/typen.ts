@@ -2188,6 +2188,30 @@ export const Tonspur = z.object({
   dauerSek: z.number().positive(),
   woerter: z.array(Untertitelwort),
   /** Startzeit jeder Szene, aus den Sprech-Zeitstempeln abgeleitet. */
+  /**
+   * Die Themenansage des Vorspanns — „Heutiges Thema: …".
+   *
+   * **Der einzige Vorspannton, der je Short wechselt.** Showtitel und Namen
+   * haengen am Format und liegen als feste Dateien unter
+   * `public/ton/marke/vorspann/`; die Themenzeile steht in `short.vorspann` und
+   * ist bei jedem Video eine andere.
+   *
+   * Sie steht **neben** `abschnitte` und nicht darin, und das ist dieselbe
+   * Absicherung wie beim uebrigen Vorspannton: Die Aufschlagmessung filtert
+   * `woerter` gegen `szenenStartSek[1]`. Wanderten die Woerter der Ansage dort
+   * hinein, verlaengerten sie den gemessenen Aufschlag ueber die 3,5 Sekunden
+   * und liessen jeden Short durchfallen.
+   *
+   * `dauerSek` ist gemessen und der Grund, warum es das Feld ueberhaupt gibt:
+   * Ohne sie muesste der Renderer die Laenge einer Tondatei kennen, und das
+   * kann Remotion nicht synchron.
+   */
+  vorspann: z
+    .object({
+      datei: z.string().min(1),
+      dauerSek: z.number().positive(),
+    })
+    .optional(),
   szenenStartSek: z.array(z.number().nonnegative()),
   /**
    * Ein Abschnitt je zusammenhaengendem Redeanteil einer Figur.

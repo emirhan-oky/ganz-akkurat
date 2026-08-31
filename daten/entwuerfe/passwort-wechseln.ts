@@ -56,16 +56,16 @@ export const passwortWechseln: Short = {
        * **gesprochen wird Alltagssprache, gezeigt wird die Behoerdenfassung.**
        */
       sprechtext:
-        'Sagt das eigentlich mal jemand mit Ahnung? Beim BSI steht: Ein Wechsel nach Plan erhöht die Sicherheit nicht automatisch. Also war das alles umsonst?',
+        'Sagt das eigentlich mal jemand mit Ahnung? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch. Sicherheit? Also war das alles umsonst?',
       rede: [
         { sprecher: 'zeiger', text: 'Sagt das eigentlich mal jemand mit Ahnung?', machart: 'rueckfrage' },
         {
           sprecher: 'nachleser',
-          text: 'Beim BSI steht: Ein Wechsel nach Plan erhöht die Sicherheit nicht automatisch.',
+          text: 'Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
         },
-        { sprecher: 'zeiger', text: 'Also war das alles umsonst?', machart: 'ratlosigkeit' },
+        { sprecher: 'zeiger', text: 'Sicherheit? Also war das alles umsonst?', machart: 'ratlosigkeit' },
       ],
       zitat: 'Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
       quelleId: 'bsi-passwortwechsel-2026',
@@ -104,7 +104,7 @@ export const passwortWechseln: Short = {
        * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
        * ohne dass Volti ein Wort abgibt.
        */
-      sprechtext: 'Wichtiger ist, dass es stark ist und nur zu einem Konto gehört. Meins hängt an allem. Wie ein Generalschlüssel.',
+      sprechtext: 'Wichtiger ist, dass es stark ist und nur zu einem Konto gehört. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -112,7 +112,7 @@ export const passwortWechseln: Short = {
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
-        { sprecher: 'zeiger', text: 'Meins hängt an allem. Wie ein Generalschlüssel.', machart: 'bild' },
+        { sprecher: 'zeiger', text: 'Konto? Meins ist der Generalschlüssel für alles.', machart: 'bild' },
       ],
       text: 'Stark. Nur für ein Konto.',
       buehne: { art: 'figur', von: 'erklaeren', nach: 'zeigen', requisite: 'haken' },
@@ -122,7 +122,7 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Wechseln sollst du, wenn es einen Hinweis gibt, dass jemand Fremdes es kennt. Volti, das hat sich jemand ausgedacht.',
+      sprechtext: 'Wechseln sollst du, wenn es einen Hinweis gibt, dass jemand Fremdes es kennt. Hinweis? Volti, das hat sich jemand ausgedacht.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -130,7 +130,7 @@ export const passwortWechseln: Short = {
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
-        { sprecher: 'zeiger', text: 'Volti, das hat sich jemand ausgedacht.', machart: 'falscherschluss' },
+        { sprecher: 'zeiger', text: 'Hinweis? Volti, das hat sich jemand ausgedacht.', machart: 'falscherschluss' },
       ],
       text: 'Beim Hinweis. Dann ja.',
       buehne: { art: 'figur', von: 'zeigen', nach: 'stutzen', requisite: 'warndreieck', stand: 'links' },

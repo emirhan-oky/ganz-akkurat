@@ -29,6 +29,20 @@ tmp/
 *.wav
 *.mp3
 
+# Ausnahme: die festen Vorspannaufnahmen.
+#
+# Alles andere an Ton ist reproduzierbar — `skripte/toene.ts` rechnet die
+# Markentoene deterministisch nach, und Vertonungen entstehen im Wochenlauf neu.
+# Diese zehn nicht: Sie sind einmal bezahlt, und `eleven_v3` ist **nicht
+# deterministisch** — eine neue Synthese ergibt eine andere Aufnahme und kostet
+# wieder. `daten/vorspannton.json` haelt ihre gemessenen Dauern und zeigte ohne
+# sie auf Dateien, die es nicht gibt.
+#
+# Rund 250 KB fuer zehn Dateien. Das ist der Preis dafuer, dass ein frischer
+# Klon einen vollstaendigen Vorspann hat.
+!public/ton/marke/vorspann/
+!public/ton/marke/vorspann/*.mp3
+
 # Zwischenspeicher
 .cache/
 .remotion/

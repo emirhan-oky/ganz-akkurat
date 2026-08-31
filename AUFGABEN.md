@@ -1299,7 +1299,7 @@ ist erstmals seitdem vollständig grün.**
 
 ### Offen
 
-- [ ] ▸ **Ton und Jingle des Vorspanns.** Sechs feste Aufnahmen, rund 210 Zeichen
+- [ ] **Ton und Jingle des Vorspanns.** Sechs feste Aufnahmen, rund 210 Zeichen
       einmalig. `VORSPANN_SEK` steht auf gerechneten 3,8 s und ist **nicht
       gemessen**
 - [ ] **Die Randbreite am Handy prüfen.** 100 Pixel; sichtbar bleiben nach dem
@@ -1310,3 +1310,133 @@ ist erstmals seitdem vollständig grün.**
 - [ ] Die Zitatkartenszene zeigt keine Figuren
 - [ ] Blindwahl für die Regieanweisungen; alle sechs Vorräte sind leer
 - [ ] Eine neue Ideenquelle; der Pillar-Weg ist verworfen
+
+## Der Vorspann hat einen Ton · 31.08.2026 · Nacht
+
+Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
+
+### Der Ton
+
+- [x] ~~**Zehn feste Aufnahmen** je Format, 170 Zeichen einmalig. Showtitel und
+      Namen wechseln nie; durch `shortVertonen` geschickt kostete derselbe Satz
+      rund 11.000 Zeichen im Jahr~~
+- [x] ~~**`eleven_v3` halluziniert bei kurzen Eingaben.** Fünf Läufe mit
+      identischem Text (18 Zeichen): 4,80 · 5,04 · 2,08 · 4,24 · **415,84** s.
+      Bekannt war die Streuung von „rund sechs Prozent" — gemessen an 800
+      Zeichen. Bei achtzehn sind es Faktor 200~~
+- [x] ~~Das Skript läuft dreimal je Aufnahme und verwirft alles über vier
+      Sekunden. **Sechs von dreißig Läufen fielen durch**~~
+- [x] ~~**Die Themenansage** je Short, aus der Vertonung. Sie steht neben
+      `abschnitte`, nicht darin — die Aufschlagmessung filtert gegen
+      `szenenStartSek[1]`~~
+- [x] ~~`VORSPANN_SEK` war eine Konstante und ist eine **Funktion**: Die
+      Themenzeile wechselt je Short, eine Zahl für alle wäre für jeden die
+      falsche~~
+- [x] ~~**Ton und Bild aus einer Zahl.** `ansageAbBild` steuert beides; vorher
+      hing die Einblendung an einem Anteil der Vorspanndauer und lag 1,2
+      Sekunden hinter der Stimme~~
+
+### Drei Anläufe für den Vorhangklang, alle gescheitert
+
+- [x] ~~**Stoffrauschen**: 67 % der Energie über 2 kHz — ein Fön~~
+- [x] ~~**Applaus**: klang nach Knistern. Ein Hochpass lässt alles darüber
+      durch; 5 % lagen im Klatschkörper statt 30~~
+- [x] ~~**Swisch**: sanfter, allein aber fremd~~
+- [x] ~~**Der Ausweg war nicht, das Rauschen wegzulassen, sondern es auf seine
+      Aufgabe zu beschränken.** Es zeigt eine Richtung an, den Rest trägt ein
+      Ton, der ohnehin zur Marke gehört — Hauch plus Grundton D4, RMS 0,019
+      gegen 0,08 der Sprache~~
+- [x] ~~**Alle vier Markenklänge stehen auf D und A.** Nicht geplant: `folgen`
+      stand schon darauf, die Terz war die einzige fehlende Note~~
+
+### Der Vorhang an den Anfang
+
+- [x] ~~**Das Cold Open ist Geschichte.** „Der Anfang ist echt unnötig" —
+      ein Argument aus einer Zahl schlägt keinen Eindruck vom gerenderten Video.
+      Die 71 % stehen trotzdem im Kommentar~~
+- [x] ~~Der Umbau hat die Vertonung **vereinfacht**: aus einem Uhrsprung mitten
+      in der Schleife wurde eine Anfangsbedingung. `VORSPANN_NACH_SZENE` ist weg~~
+- [x] ~~**Er fährt nicht mehr zu.** Der erste Anlauf ließ ihn zufahren, und
+      Bild 0 zeigte eine leere Bühne — die erste Szene beginnt erst nach dem
+      Vorspann~~
+- [x] ~~`ABLAUF` war eine Tabelle fester Anteile und ist eine Funktion: Mit
+      wechselnder Vorspannlänge hätte ein Anteil die Vorhangfahrt mitskaliert,
+      obwohl sie immer zwölf Bilder braucht~~
+
+### Zwei eigene Fehler, beide beim Basteln
+
+- [x] ~~**Die Vorschaudatei spielte die Ansage doppelt.** Ich hatte dieselbe
+      Datei an `tonspur.datei` und `tonspur.vorspann.datei` gehängt — das erste
+      ist die Szenenvertonung und läuft ab Bild 0. Ein Pflichtfeld mit dem
+      erstbesten Wert gefüllt, statt zu prüfen, was es bedeutet~~
+- [x] ~~**Die zehn bezahlten Aufnahmen lagen nicht im Repo.** `*.mp3` ist
+      pauschal ignoriert, und das ist für Vertonungen richtig — die entstehen
+      neu. Diese nicht: `eleven_v3` ist nicht deterministisch, eine neue
+      Synthese ergibt eine andere Aufnahme und kostet wieder~~
+
+### Offen
+
+- [ ] **Der erste Short mit vollem Ton.** Rund 580 Zeichen von 81.000. Dort
+      zeigt sich, ob `VORSPANN_SEK`, die Sprecherpausen und die
+      Aufschlagmessung tragen
+- [ ] **`raumstation-alte-rechner` steht bei 66,9 von 67 Sekunden.** Die
+      Vertonung streut rund sechs Prozent; beim ersten Lauf reißt das
+- [ ] **Kurze Redeanteile im Wochenlauf.** Wattis Reaktionszeilen sind 20 bis 40
+      Zeichen lang und laufen ungeprüft durch dasselbe Modell — dort fällt ein
+      kaputter Lauf erst **nach** dem Bezahlen auf
+
+## Der Hauptteil wird ein Gespräch · 31.08.2026 · Nacht
+
+### Wattis Stimme — geklärt, nicht geändert
+
+- [x] ~~**„Die Stimme von Watti ist nicht mehr die erste Stimme"** stand seit dem
+      Vormittag offen und in keiner Liste. Im Verlauf gibt es **keinen Beleg**
+      dafür, dass Watti je eine andere hatte: `ELEVENLABS_VOICE_ID_ZEIGER` steht
+      seit dem 25.08., 21:36 auf Prayan~~
+- [x] ~~**Die Vereinbarung über „die erste Stimme" betraf Volti**, nicht Watti —
+      „okay wir lassen doch die erste Stimme wieder für Volti" (25.08., 21:21).
+      Watti wurde erst danach gewählt: „Wir nehmen Prayan" (21:35)~~
+- [x] ~~Geändert hat sich nicht die Stimme, sondern **was sie spricht**: v3 statt
+      v2, Regieanweisungen seit dem 26.08., die Stimmeinstellung~~
+- [x] ~~Alle acht Kandidaten von damals gegen die heutige Aufnahme gehört.
+      **Entschieden: es bleibt bei Prayan**~~
+
+### Der Gesprächsmaßstab
+
+- [x] ~~**Emirhans Musterdialog steht wörtlich in `voice.md`.** Er stand bis
+      dahin nur im Chat — und ist heute Abend genau deshalb verlorengegangen:
+      Die vier Entwürfe wurden nach `redelauf` und `stimmanteil` umgeschrieben,
+      grün, und der Maßstab blieb unerfüllt~~
+- [x] ~~Drei Merkmale, alle prüfbar: **Anrede**, **zweite Person**,
+      **Rückbezug** auf ein Wort der Vorzeile~~
+- [x] ~~`ersatzteil-freischalten` umgeschrieben: von **0 Anreden und 0 zweiter
+      Person** auf 3 und 6, dazu drei Rückbezüge (Verbot, erlaubt, Drucker)~~
+- [x] ~~**Die zweite Person hat zwei Grenzen sichtbar gemacht, die vorher
+      niemand vermisst hat:** Das Verbot schützt den Einbau durch *unabhängige
+      Reparaturbetriebe*, und es gilt nur für die Waren aus *Anhang II*. Eine
+      Verallgemeinerung fällt nicht auf, eine Anrede schon~~
+- [x] ~~Ein Zitat endete **vor seinem eigenen Verb** — „behindern" stand
+      außerhalb der geprüften Zeichenkette, obwohl der Sprechtext es spricht~~
+- [x] ~~Drei `stuetzt`-Zeilen nachgezogen. Sie ließen genau die Grenzen weg, die
+      dann im Sprechtext fehlten — **wer beim Umschreiben auf `stuetzt` statt auf
+      `zitat` schaut, bekommt die Verschiebung geliefert**~~
+
+### Offen
+
+- [ ] ▸ **Die drei Regeln bauen** — `anrede`, `zweitePerson`, `rueckbezug`.
+      Ohne sie fragt beim Schreiben wieder nichts danach
+- [ ] **Die restlichen drei Entwürfe** nach dem Musterdialog
+- [ ] **Die Bauform-Zielwerte kennen den Vorspann nicht.** 45 / 52 / 62 sind
+      gesetzt worden, als er 3,8 s gerechnet war; mit Themenansage kostet er
+      9,5. `ersatzteil` steht bei 58 s gegen Ziel 45 — für den Inhalt einer
+      Wechselrede bleiben 35,5 Sekunden
+- [ ] **Vier Szenenarten streichen** — `frage`, `vergleich`, `einschraenkung`,
+      `kaufkriterien` werden von keinem Short benutzt
+- [ ] **Die Zitatkartenszene zeigt keine Figuren**, obwohl der Vertrag sagt
+      „die beiden Figuren reden darüber"
+- [ ] **Die erste Szene nach dem Vorhang zeigt nur eine Figur** — „Da müssen
+      beide drauf". Das Symbol blockiert den zweiten Platz
+- [ ] **Der Freiraum unter dem Satz** — drei Anläufe ohne Wirkung. Erst messen,
+      wo der Platz entsteht
+- [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
+      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*

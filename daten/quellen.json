@@ -784,13 +784,13 @@
       "belegt": [
         {
           "id": "keine-hardware-oder-softwaretechniken",
-          "zitat": "Die Hersteller verwenden keine Vertragsklauseln und setzen keine Hardware- oder Softwaretechniken ein, die die Reparatur von Waren",
-          "stuetzt": "Die Reparaturrichtlinie verbietet Herstellern ausdrücklich technische Sperren gegen Reparatur."
+          "zitat": "setzen keine Hardware- oder Softwaretechniken ein, die die Reparatur von Waren, die unter die in Anhang II aufgeführten Rechtsakte der Union fallen, behindern",
+          "stuetzt": "Das Verbot technischer Sperren gegen Reparatur — begrenzt auf die Warengruppen aus Anhang II, zu denen Mobiltelefone gehören."
         },
         {
           "id": "behindern-verwendung-ersatzteile",
           "zitat": "Die Hersteller behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen, kompatiblen Ersatzteilen oder Ersatzteilen, die mittels 3D-Druck hergestellt wurden, durch unabhängige Reparaturbetriebe nicht",
-          "stuetzt": "Das Verbot nennt das Behindern gebrauchter und kompatibler Ersatzteile beim Namen."
+          "stuetzt": "Nennt gebrauchte, kompatible und gedruckte Ersatzteile beim Namen — und schützt ihren Einbau durch unabhängige Reparaturbetriebe, nicht die Selbstreparatur."
         },
         {
           "id": "mittels-3d-druck-hergestellt",
@@ -800,7 +800,7 @@
         {
           "id": "kompatiblen-ersatzteilen",
           "zitat": "gebrauchten Ersatzteilen, kompatiblen Ersatzteilen",
-          "stuetzt": "Neben gebrauchten nennt die Richtlinie auch kompatible Ersatzteile beim Namen."
+          "stuetzt": "Neben gebrauchten nennt die Richtlinie auch kompatible Ersatzteile beim Namen. Wörtlich stehen dort „Ersatzteile\", nicht „Teile\"."
         },
         {
           "id": "die-mitgliedstaaten-wenden-diese",

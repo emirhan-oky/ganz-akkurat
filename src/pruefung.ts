@@ -1488,6 +1488,156 @@ const STIMMANTEIL_MAX = 2 / 3;
     }
   }
 
+  /* ── Der Gespraechsmassstab ──────────────────────────────────────── */
+
+  /*
+   * ## Drei Regeln, damit aus Zwischenrufen ein Gespraech wird
+   *
+   * `redelauf` und `stimmanteil` sorgen dafuer, dass **beide** sprechen.
+   * Sie sorgen nicht dafuer, dass die beiden **miteinander** sprechen — und
+   * genau das ist am 31.08.2026 aufgeflogen: Alle vier Entwuerfe wurden nach
+   * diesen zwei Regeln umgeschrieben, `npm run pruefen` wurde gruen, und
+   * `ersatzteil-freischalten` hatte danach **null Anreden und null Zeilen in
+   * der zweiten Person**. Formal ein Wortwechsel, gehoert ein Vortrag mit
+   * Zwischenrufen.
+   *
+   * Der Massstab dafuer stand seit dem Vormittag desselben Tages in einem
+   * Chat — Emirhans Musterdialog, jetzt woertlich in `daten/marke/voice.md`.
+   * **Was keine Regel hat, wird beim Schreiben nicht gefragt.** Dieselbe
+   * Lehre wie bei der Belegpflicht, den Positionen und der Reaktionsregel.
+   *
+   * Alle drei pruefen wie `reaktion`: **nicht, ob es gut ist, sondern ob der
+   * Platz benutzt wurde.** Und alle drei sind Mindestmasse, keine Muster — bei
+   * „immer" entsteht in vier Wochen wieder eine Schablone.
+   */
+  {
+    const alleAnteile = short.szenen.flatMap((sz) => sz.rede ?? []);
+    const gesprochen = alleAnteile.map((r) => r.text);
+
+    /*
+     * **Anrede.** „Volti, …" — jemand spricht *jemanden* an. Ohne sie steht
+     * ein Satz im Raum, und die Antwort darauf ist ein Zwischenruf.
+     *
+     * Eine reicht. Die Namen fallen laut `voice.md` ohnehin nur ein- bis
+     * zweimal je Video; oefter wird es zur Floskel und kostet Sprechzeit.
+     */
+    const namen = Object.values(FIGURENNAMEN);
+    const mitAnrede = gesprochen.filter((t) =>
+      namen.some((n) => new RegExp(`\\b${n}\\b`).test(t)),
+    ).length;
+    if (mitAnrede === 0) {
+      melde(
+        'fehler',
+        'anrede',
+        'Keine Zeile spricht den anderen mit Namen an. Ohne Anrede steht ein Satz im ' +
+          'Raum, und was darauf folgt, ist ein Zwischenruf statt einer Antwort.',
+      );
+    }
+
+    /*
+     * **Zweite Person.** Der Belegsatz redet *zu* einem Gegenueber, nicht
+     * *ueber* die Welt. Das ist der Unterschied zwischen einem Vortrag und
+     * einer Erklaerung — und nebenbei zwischen „Hersteller duerfen die
+     * Verwendung von Ersatzteilen nicht behindern" und „Hersteller duerfen
+     * deine Handy-Reparatur nicht per Software behindern".
+     *
+     * **Der Nebeneffekt ist der eigentliche Gewinn:** Eine Verallgemeinerung
+     * faellt nicht auf, eine Anrede schon. Solange ein Satz „Hersteller
+     * duerfen …" heisst, klingt er nach dem Rechtstext; sobald er „du" sagt,
+     * muss man wissen, wer gemeint ist. Am 31.08.2026 hat genau das zwei
+     * Grenzen sichtbar gemacht, die in keinem Zitat standen.
+     *
+     * Zwei Zeilen als Mindestmass: eine kann Zufall sein.
+     */
+    /* `deins` gehoert dazu und fehlte im ersten Anlauf — es ist die Form, die
+       tatsaechlich gesprochen wird. */
+    const DUFORM = /\b(du|dir|dich|dein|deins|deine|deiner|deinen|deinem|deines)\b/i;
+    const mitDu = gesprochen.filter((t) => DUFORM.test(t)).length;
+    if (mitDu < 2) {
+      melde(
+        'fehler',
+        'zweitePerson',
+        `Nur ${mitDu} Zeile(n) reden in der zweiten Person, mindestens zwei sind nötig. ` +
+          'Wer über die Welt redet, hält einen Vortrag; wer „du" sagt, erklärt es jemandem.',
+      );
+    }
+
+    /*
+     * **Rueckbezug.** Die Antwort greift ein Wort der Vorzeile auf: „wenn du
+     * einen Verdacht **spuerst**" → „jetzt **spuere** ich einen Verdacht".
+     * **Daran erkennt man, dass zugehoert wurde** — ohne ihn koennten die
+     * Zeilen in beliebiger Reihenfolge stehen.
+     *
+     * Verglichen werden Wortstaemme grob ueber die ersten sechs Buchstaben.
+     * Das ist ungenau in beide Richtungen und trotzdem der richtige Schnitt:
+     * Eine echte Stammformerkennung braeuchte ein Woerterbuch, und die Regel
+     * soll den Platz pruefen, nicht die Sprache. Deshalb **Hinweis statt
+     * Fehler** — wo sie danebenliegt, kostet sie niemanden einen Lauf.
+     *
+     * Kurze und haeufige Woerter zaehlen nicht mit: „nicht", „steht", „einen"
+     * kommen in jedem zweiten Satz vor und wuerden jeden Short gruen machen.
+     */
+    const HAEUFIG = new Set([
+      'nicht',
+      'steht',
+      'einen',
+      'eine',
+      'sind',
+      'wird',
+      'werden',
+      'haben',
+      'jemand',
+      'sollst',
+      'stehen',
+      'meine',
+      'meins',
+      'schon',
+      'immer',
+      'jetzt',
+      'wieder',
+    ]);
+    /*
+     * **Umlaute werden aufgeloest, bevor abgeschnitten wird.** „Passwoertern"
+     * und „Passwort" haben denselben Stamm, aber nicht dieselben ersten sechs
+     * Buchstaben — `passwoe` gegen `passwo`. Ohne diesen Schritt uebersieht die
+     * Regel genau die Rueckbezuege, die auf einer Beugung beruhen, und das sind
+     * im Deutschen die meisten.
+     */
+    const staemme = (t: string) =>
+      new Set(
+        t
+          .toLowerCase()
+          .replace(/ä/g, 'a')
+          .replace(/ö/g, 'o')
+          .replace(/ü/g, 'u')
+          .replace(/ß/g, 'ss')
+          .replace(/[^a-z\s]/g, ' ')
+          .split(/\s+/)
+          .filter((w) => w.length >= 5 && !HAEUFIG.has(w))
+          .map((w) => w.slice(0, 6)),
+      );
+
+    let rueckbezuege = 0;
+    for (let i = 1; i < alleAnteile.length; i++) {
+      const vorher = staemme(alleAnteile[i - 1]!.text);
+      for (const wort of staemme(alleAnteile[i]!.text)) {
+        if (vorher.has(wort)) {
+          rueckbezuege += 1;
+          break;
+        }
+      }
+    }
+    if (rueckbezuege < 2) {
+      melde(
+        'hinweis',
+        'rueckbezug',
+        `Nur ${rueckbezuege} Zeile(n) greifen ein Wort ihrer Vorzeile auf, zwei wären das ` +
+          'Mindestmaß. Daran erkennt man, dass zugehört wurde — ohne es könnten die Zeilen ' +
+          'in beliebiger Reihenfolge stehen.',
+      );
+    }
+  }
+
   /* ── Behoerdendeutsch ────────────────────────────────────────────── */
 
   /*

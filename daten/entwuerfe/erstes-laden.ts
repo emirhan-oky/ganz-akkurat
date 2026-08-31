@@ -22,15 +22,15 @@ import type { Short } from '../../src/typen';
  *
  * **Vier Reaktionen, vier Macharten**, und keine fasst den Fakt zusammen:
  *
- * - *„Und wer weckt mich dafür?"* haengt nicht am Beleg, sondern am Aufschlag:
+ * - *„Unterbrechen? Und wer weckt mich dafür?"* haengt nicht am Beleg, sondern am Aufschlag:
  *   Wer bei etwa 70 Prozent abbrechen soll, kann nicht ueber Nacht laden. Die
  *   Folgerung bleibt beim Zuschauer.
  * - *„Also lade ich ab jetzt absichtlich schlecht."* ist erkennbar falsch —
  *   ein Schluss, der stimmen koennte, waere eine Behauptung und muesste belegt
  *   sein.
- * - *„Aus? Dann gucke ich solange die Wand an."* setzt an die Stelle der
+ * - *„Ausgeschaltet? Dann gucke ich die Wand an."* setzt an die Stelle der
  *   Empfehlung eine Szene.
- * - *„Meine Mutter hat mir das beigebracht!"* zielt auf den Verursacher statt
+ * - *„Memory? Meine Mutter hat mir das beigebracht!"* zielt auf den Verursacher statt
  *   auf die Sache. Der Mythos hat eine Herkunft, und sie steht nicht im Zitat.
  *
  * **Die Symbole sind dabei verloren gegangen, bis auf zwei.** Bei zwei Figuren
@@ -65,8 +65,8 @@ export const erstesLaden: Short = {
        */
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Erst 12 Stunden laden, hieß es früher.',
-      rede: [{ sprecher: 'nachleser', text: 'Erst 12 Stunden laden, hieß es früher.' }],
+      sprechtext: 'Erst 12 Stunden laden, sagte man dir.',
+      rede: [{ sprecher: 'nachleser', text: 'Erst 12 Stunden laden, sagte man dir.' }],
       text: '12 Stunden laden.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'uhr', stand: 'links' },
     },
@@ -92,11 +92,11 @@ export const erstesLaden: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Ich stecke es abends rein und schlafe. Das Umweltbundesamt sagt: vorher unterbrechen. Und wer weckt mich dafür?',
+        'Ich stecke es abends rein und schlafe. Watti, das Umweltbundesamt sagt: vorher unterbrechen. Unterbrechen? Und wer weckt mich dafür?',
       rede: [
         { sprecher: 'zeiger', text: 'Ich stecke es abends rein und schlafe.', machart: 'gestaendnis' },
-        { sprecher: 'nachleser', text: 'Das Umweltbundesamt sagt: vorher unterbrechen.' },
-        { sprecher: 'zeiger', text: 'Und wer weckt mich dafür?', machart: 'rueckfrage' },
+        { sprecher: 'nachleser', text: 'Watti, das Umweltbundesamt sagt: vorher unterbrechen.' },
+        { sprecher: 'zeiger', text: 'Unterbrechen? Und wer weckt mich dafür?', machart: 'rueckfrage' },
       ],
       text: 'Akku vorher vom Kabel.',
       buehne: {
@@ -121,9 +121,9 @@ export const erstesLaden: Short = {
        */
       art: 'zahl',
       position: 'zuspitzung',
-      sprechtext: 'Bei etwa 70 Prozent soll der Akku vom Kabel. Nicht bei 100. Also lade ich ab jetzt absichtlich schlecht.',
+      sprechtext: 'Bei etwa 70 Prozent soll dein Akku vom Kabel. Nicht bei 100. Also lade ich ab jetzt absichtlich schlecht.',
       rede: [
-        { sprecher: 'nachleser', text: 'Bei etwa 70 Prozent soll der Akku vom Kabel. Nicht bei 100.' },
+        { sprecher: 'nachleser', text: 'Bei etwa 70 Prozent soll dein Akku vom Kabel. Nicht bei 100.' },
         { sprecher: 'zeiger', text: 'Also lade ich ab jetzt absichtlich schlecht.', machart: 'falscherschluss' },
       ],
       wert: '70',
@@ -141,10 +141,10 @@ export const erstesLaden: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Laden sollst du am besten, wenn das Handy aus ist. Aus? Dann gucke ich solange die Wand an.',
+      sprechtext: 'Laden sollst du am besten ausgeschaltet. Ausgeschaltet? Dann gucke ich die Wand an.',
       rede: [
-        { sprecher: 'nachleser', text: 'Laden sollst du am besten, wenn das Handy aus ist.' },
-        { sprecher: 'zeiger', text: 'Aus? Dann gucke ich solange die Wand an.', machart: 'bild' },
+        { sprecher: 'nachleser', text: 'Laden sollst du am besten ausgeschaltet.' },
+        { sprecher: 'zeiger', text: 'Ausgeschaltet? Dann gucke ich die Wand an.', machart: 'bild' },
       ],
       text: 'Am besten ausgeschaltet.',
       buehne: {
@@ -181,10 +181,10 @@ export const erstesLaden: Short = {
        */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Übermäßige Wärme lässt den Akku schneller altern. Moment. Es ging nie ums Volle?',
+      sprechtext: 'Übermäßige Wärme lässt deinen Akku schneller altern. Wärme? Es ging nie ums Volle?',
       rede: [
-        { sprecher: 'nachleser', text: 'Übermäßige Wärme lässt den Akku schneller altern.' },
-        { sprecher: 'zeiger', text: 'Moment. Es ging nie ums Volle?', machart: 'ratlosigkeit' },
+        { sprecher: 'nachleser', text: 'Übermäßige Wärme lässt deinen Akku schneller altern.' },
+        { sprecher: 'zeiger', text: 'Wärme? Es ging nie ums Volle?', machart: 'ratlosigkeit' },
       ],
       text: 'Wärme altert den Akku.',
       buehne: {
@@ -199,10 +199,10 @@ export const erstesLaden: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht. Meine Mutter hat mir das beigebracht!',
+      sprechtext: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht. Memory? Meine Mutter hat mir das beigebracht!',
       rede: [
         { sprecher: 'nachleser', text: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.' },
-        { sprecher: 'zeiger', text: 'Meine Mutter hat mir das beigebracht!', machart: 'empoerung' },
+        { sprecher: 'zeiger', text: 'Memory? Meine Mutter hat mir das beigebracht!', machart: 'empoerung' },
       ],
       text: 'Bei Lithium-Ionen: nein.',
       buehne: {

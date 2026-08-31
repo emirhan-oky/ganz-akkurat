@@ -76,12 +76,12 @@ export const raumstationAlteRechner: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Zu modern? Wie geht das denn? Auf der Raumstation liefen 2009 Laptops, die älter als 5 Jahre waren. Ich hätte da oben Raumschiff erwartet.',
+        'Zu modern? Wie geht das denn? 2009 liefen dort Laptops, älter als 5 Jahre. Ich hätte da oben Raumschiff erwartet.',
       rede: [
         { sprecher: 'zeiger', text: 'Zu modern? Wie geht das denn?', machart: 'ratlosigkeit' },
         {
           sprecher: 'nachleser',
-          text: 'Auf der Raumstation liefen 2009 Laptops, die älter als 5 Jahre waren.',
+          text: '2009 liefen dort Laptops, älter als 5 Jahre.',
         },
         { sprecher: 'zeiger', text: 'Ich hätte da oben Raumschiff erwartet.', machart: 'bild' },
       ],
@@ -99,10 +99,10 @@ export const raumstationAlteRechner: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Alles, was zur Raumstation fliegt, muss durch eine aufwendige Sicherheitsprüfung. Auch die Zahnbürste?',
+      sprechtext: 'Watti, alles was zur Raumstation fliegt, muss durch eine Sicherheitsprüfung. Sicherheitsprüfung? Auch die Zahnbürste?',
       rede: [
-        { sprecher: 'nachleser', text: 'Alles, was zur Raumstation fliegt, muss durch eine aufwendige Sicherheitsprüfung.' },
-        { sprecher: 'zeiger', text: 'Auch die Zahnbürste?', machart: 'rueckfrage' },
+        { sprecher: 'nachleser', text: 'Watti, alles was zur Raumstation fliegt, muss durch eine Sicherheitsprüfung.' },
+        { sprecher: 'zeiger', text: 'Sicherheitsprüfung? Auch die Zahnbürste?', machart: 'rueckfrage' },
       ],
       text: 'Raumstation: erst die Prüfung.',
       buehne: {
@@ -117,9 +117,9 @@ export const raumstationAlteRechner: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Ein schnelleres Gerät zuzulassen hätte damals zu lange gedauert. Und ich rege mich über Ladezeiten auf.',
+      sprechtext: 'Ein Gerät wie deins zuzulassen hätte damals zu lange gedauert. Und ich rege mich über Ladezeiten auf.',
       rede: [
-        { sprecher: 'nachleser', text: 'Ein schnelleres Gerät zuzulassen hätte damals zu lange gedauert.' },
+        { sprecher: 'nachleser', text: 'Ein Gerät wie deins zuzulassen hätte damals zu lange gedauert.' },
         { sprecher: 'zeiger', text: 'Und ich rege mich über Ladezeiten auf.', machart: 'gestaendnis' },
       ],
       text: 'Zulassung dauert.',
@@ -146,10 +146,10 @@ export const raumstationAlteRechner: Short = {
        */
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Die Rechner dort oben waren längst zugelassen. Da kommt man nur mit Beziehungen rein.',
+      sprechtext: 'Die Rechner dort oben waren längst zugelassen. Zugelassen? Also Beziehungen.',
       rede: [
         { sprecher: 'nachleser', text: 'Die Rechner dort oben waren längst zugelassen.' },
-        { sprecher: 'zeiger', text: 'Da kommt man nur mit Beziehungen rein.', machart: 'empoerung' },
+        { sprecher: 'zeiger', text: 'Zugelassen? Also Beziehungen.', machart: 'empoerung' },
       ],
       text: 'Schon zugelassen.',
       buehne: {
@@ -203,10 +203,10 @@ export const raumstationAlteRechner: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Für Satelliten sind besonders strahlungsfeste Bauteile unverzichtbar. Meiner ist uralt. Ich bin quasi Astronaut.',
+      sprechtext: 'Satelliten brauchen strahlungsfeste Bauteile. Meiner ist uralt. Ich bin quasi Astronaut, Volti.',
       rede: [
-        { sprecher: 'nachleser', text: 'Für Satelliten sind besonders strahlungsfeste Bauteile unverzichtbar.' },
-        { sprecher: 'zeiger', text: 'Meiner ist uralt. Ich bin quasi Astronaut.', machart: 'falscherschluss' },
+        { sprecher: 'nachleser', text: 'Satelliten brauchen strahlungsfeste Bauteile.' },
+        { sprecher: 'zeiger', text: 'Meiner ist uralt. Ich bin quasi Astronaut, Volti.', machart: 'falscherschluss' },
       ],
       text: 'Strahlungsfest zählt.',
       buehne: {

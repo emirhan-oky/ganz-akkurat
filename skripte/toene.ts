@@ -84,6 +84,88 @@ const ton = (
   return proben;
 };
 
+/* ─────────────────────────── Stoff statt Ton ──────────────────────────── */
+
+/**
+ * Weisses Rauschen.
+ *
+ * Der Rohstoff fuer alles, was **reibt** statt zu klingen. Ein Vorhang hat
+ * keine Tonhoehe: Schwerer Stoff, der ueber sich selbst gleitet, ist ein
+ * Geraeusch, und ein Geraeusch faengt hier an.
+ */
+const rauschen = (dauerSek: number): Float32Array => {
+  const proben = new Float32Array(Math.round(dauerSek * RATE));
+  for (let i = 0; i < proben.length; i++) proben[i] = Math.random() * 2 - 1;
+  return proben;
+};
+
+/**
+ * Einpoliger Tiefpass. `hz` darf ueber die Zeit wandern.
+ *
+ * `y += a * (x - y)` — mehr ist ein Tiefpass erster Ordnung nicht. Die
+ * Grenzfrequenz als Funktion der Zeit zu fuehren ist der ganze Trick am
+ * Vorhang: Waehrend der Stoff Fahrt aufnimmt, wandert sie nach oben, und genau
+ * das hoert man als **Zug**. Eine feste Grenze klaenge wie ein Windstoss.
+ */
+const tiefpass = (ein: Float32Array, hz: (t: number) => number): Float32Array => {
+  const aus = new Float32Array(ein.length);
+  let y = 0;
+  for (let i = 0; i < ein.length; i++) {
+    const a = Math.min(1, (2 * Math.PI * hz(i / RATE)) / RATE);
+    y += a * (ein[i]! - y);
+    aus[i] = y;
+  }
+  return aus;
+};
+
+/**
+ * Hochpass durch Abzug: was der Tiefpass durchlaesst, fehlt danach.
+ *
+ * Braucht es, weil weisses Rauschen unter 150 Hz ein Rumpeln hat, das auf
+ * Handylautsprechern nicht klingt, sondern nur Pegel kostet.
+ */
+const hochpass = (ein: Float32Array, hz: number): Float32Array => {
+  const tief = tiefpass(ein, () => hz);
+  const aus = new Float32Array(ein.length);
+  for (let i = 0; i < ein.length; i++) aus[i] = ein[i]! - tief[i]!;
+  return aus;
+};
+
+/** Gleichmaessig leiser — `ton` bringt einen festen Pegel mit, der fuer ein
+    Begleitgeraeusch zu hoch ist. */
+const leiser = (ein: Float32Array, faktor: number): Float32Array => {
+  const aus = new Float32Array(ein.length);
+  for (let i = 0; i < ein.length; i++) aus[i] = ein[i]! * faktor;
+  return aus;
+};
+
+/** Punktweise Lautstaerke — die Huellkurve, die aus Rauschen eine Bewegung macht. */
+const huelle = (ein: Float32Array, f: (t: number) => number): Float32Array => {
+  const aus = new Float32Array(ein.length);
+  for (let i = 0; i < ein.length; i++) aus[i] = ein[i]! * f(i / RATE);
+  return aus;
+};
+
+/**
+ * Die Rollen auf der Schiene: unregelmaessige kurze Anschlaege.
+ *
+ * **Unregelmaessig ist die halbe Miete.** Gleichmaessige Abstaende klingen nach
+ * Maschine; ein Vorhang haengt an Ringen, die sich verhaken und nachrutschen.
+ * Die Streuung kommt aus demselben Generator, mit dem der Vorhang seine Falten
+ * verteilt — gleicher Startwert, gleiches Geraeusch.
+ */
+const schiene = (dauerSek: number, anzahl: number, saat: number): Float32Array => {
+  let s = saat;
+  const wurf = () => ((s = (s * 1664525 + 1013904223) % 4294967296), s / 4294967296);
+  const teile: { ab: number; proben: Float32Array }[] = [];
+  for (let i = 0; i < anzahl; i++) {
+    const ab = (i / anzahl) * dauerSek * (0.8 + wurf() * 0.4);
+    const klick = huelle(hochpass(rauschen(0.02), 900), (t) => Math.exp(-260 * t) * 0.5);
+    teile.push({ ab: Math.min(ab, dauerSek - 0.02), proben: klick });
+  }
+  return nacheinander(teile);
+};
+
 /** Zwei Toene hintereinander, der zweite versetzt. */
 const nacheinander = (teile: { ab: number; proben: Float32Array }[]): Float32Array => {
   const laenge = Math.max(...teile.map((s) => Math.round(s.ab * RATE) + s.proben.length));
@@ -97,7 +179,258 @@ const nacheinander = (teile: { ab: number; proben: Float32Array }[]): Float32Arr
   return misch;
 };
 
+/**
+ * Ein Swisch: schmales Rauschband, das ueber die Frequenz wandert.
+ *
+ * **Der Unterschied zum gescheiterten Stoffklang ist die Breite.** Jener lief
+ * von 150 bis 2500 Hz — ein breites Rauschband, und das ist per Definition ein
+ * Foen. Ein Swisch ist ein **schmaler** Streifen, der wandert; erst die
+ * Schmalheit macht aus Rauschen eine Bewegung, weil das Ohr die wandernde
+ * Mitte als Richtung liest.
+ *
+ * Schmal heisst hier: mehrfach tiefpassen und danach hochpassen, beides mit
+ * derselben wandernden Mitte. Jeder Durchgang halbiert, was daneben liegt.
+ *
+ * `richtung` ist der ganze Unterschied zwischen Zufahren und Oeffnen: Beim
+ * Aufziehen entfernt sich der Stoff, beim Schliessen kommt er auf einen zu.
+ */
+const swisch = (opts: {
+  dauerSek: number;
+  vonHz: number;
+  bisHz: number;
+  pegel: number;
+  /** Wie schmal das Band ist — mehr Durchgaenge, schmaler. */
+  schaerfe?: number;
+}): Float32Array => {
+  const { dauerSek, vonHz, bisHz, pegel, schaerfe = 3 } = opts;
+  const mitte = (t: number) => vonHz + (bisHz - vonHz) * (t / dauerSek);
+
+  let band: Float32Array = rauschen(dauerSek);
+  for (let i = 0; i < schaerfe; i++) band = tiefpass(band, (t) => mitte(t) * 1.35);
+  for (let i = 0; i < schaerfe; i++) {
+    const tief = tiefpass(band, (t) => mitte(t) * 0.7);
+    const aus = new Float32Array(band.length);
+    for (let k = 0; k < band.length; k++) aus[k] = band[k]! - tief[k]!;
+    band = aus;
+  }
+
+  /*
+   * Weich an und weich ab: Ein Swisch hat keinen Anschlag, sonst ist es ein
+   * Schlag.
+   *
+   * **Der Pegel ist die zweite Haelfte von „sanft".** Jeder Filterdurchgang
+   * nimmt Energie weg, und der erste Anlauf glich das mit Faktor 26 aus — das
+   * Ergebnis lag bei RMS 0,55 und damit **fuenfmal ueber der Sprache** (0,08).
+   * Sanft ist messbar: deutlich leiser als das, was es begleitet.
+   */
+  return huelle(band, (t) => {
+    const a = t / dauerSek;
+    return Math.sin(Math.PI * a) ** 1.3 * pegel;
+  });
+};
+
+/* ────────────────────────── Der Vorhang faehrt ────────────────────────── */
+
+/** Wie lange eine Vorhangfahrt dauert: `FAHRT_BILDER` = 12 bei 30 fps. */
+const FAHRT_SEK = 0.4;
+
+/**
+ * Eine Vorhangfahrt als Geraeusch.
+ *
+ * Drei Dinge machen aus Rauschen einen Vorhang, und alle drei haengen an der
+ * **Bewegung**, die man gleichzeitig sieht:
+ *
+ * 1. **Die Grenzfrequenz wandert nach oben.** Der Stoff nimmt Fahrt auf, und
+ *    mit der Geschwindigkeit wird das Reiben heller. Eine feste Grenze klaenge
+ *    nach Windstoss.
+ * 2. **Die Huellkurve folgt der Fahrt**, nicht einem Anschlag. Ein Vorhang hat
+ *    keinen Einsatz wie ein Schlag — er wird lauter, waehrend er laeuft.
+ * 3. **Unten wird abgeschnitten.** Weisses Rauschen rumpelt unter 150 Hz, und
+ *    das kommt auf einem Handylautsprecher nicht an, kostet aber Pegel.
+ */
+const fahrt = (opts: {
+  vonHz: number;
+  bisHz: number;
+  /** Wie die Lautstaerke ueber die Fahrt laeuft, 0 bis 1. */
+  lautheit: (t: number) => number;
+  dauerSek?: number;
+  unten?: number;
+}): Float32Array => {
+  const { vonHz, bisHz, lautheit, dauerSek = FAHRT_SEK, unten = 150 } = opts;
+  const roh = hochpass(rauschen(dauerSek), unten);
+  const gefiltert = tiefpass(roh, (t) => vonHz + (bisHz - vonHz) * (t / dauerSek));
+  return huelle(gefiltert, (t) => lautheit(t / dauerSek) * 0.9);
+};
+
+/** Anschwellen und wieder weg — die Grundform jeder Fahrt. */
+const bogen = (a: number) => Math.sin(Math.PI * Math.min(1, Math.max(0, a))) ** 0.7;
+
+/**
+ * Sechs Fassungen zum Abhoeren, mit `--proben`.
+ *
+ * **Klang laesst sich nicht beschreiben.** Dieselbe Entscheidung wie bei der
+ * Vorhangfarbe, den Randbreiten und den Stimmen: mehrere Fassungen
+ * nebeneinander, und die Wahl faellt am Ohr.
+ */
+/**
+ * Fassungen fuer das Oeffnen, mit `--swisch`.
+ *
+ * Die erste Runde war zu laut (RMS 0,55 gegen 0,08 Sprache), die zweite
+ * lag bei 0,024 bis 0,039 und war immer noch nicht sanft genug. Diese Runde
+ * geht zwei Wege zugleich: **noch leiser** und **kein Rauschen mehr**.
+ *
+ * Der zweite Weg kommt aus dem Auftakt. Der ist ein D-Dur-Dreiklang, und beim
+ * Oeffnen laesst sich derselbe Akkord als Gegenbewegung lesen: absteigend
+ * statt aufsteigend, oder nur der Grundton als Aufloesung. **Ein Klang, der
+ * schon zur Marke gehoert, passt per Konstruktion** — und ein einzelner Ton
+ * kann leiser sein als Rauschen und trotzdem da.
+ */
+const SWISCHPROBEN = () => [
+  {
+    name: '1-aufsteigend',
+    was: 'Wandert nach oben, 600 → 2400 Hz. Der Stoff nimmt Fahrt auf.',
+    proben: swisch({ dauerSek: 0.4, vonHz: 600, bisHz: 2400, pegel: 1.4 }),
+  },
+  {
+    name: '2-absteigend',
+    was: 'Wandert nach unten, 2400 → 600 Hz. Der Stoff zieht sich weg.',
+    proben: swisch({ dauerSek: 0.4, vonHz: 2400, bisHz: 600, pegel: 1.4 }),
+  },
+  {
+    name: '3-sanft-lang',
+    was: 'Leiser und länger, 700 → 1800 Hz über 0,55 s. Kaum bemerkt.',
+    proben: swisch({ dauerSek: 0.55, vonHz: 700, bisHz: 1800, pegel: 0.9 }),
+  },
+  {
+    name: '4-doppelt',
+    was: 'Zwei Bahnen, leicht versetzt — links und rechts ziehen nicht gleich.',
+    proben: nacheinander([
+      { ab: 0, proben: swisch({ dauerSek: 0.42, vonHz: 650, bisHz: 2200, pegel: 1.1 }) },
+      { ab: 0.05, proben: swisch({ dauerSek: 0.4, vonHz: 800, bisHz: 2600, pegel: 0.8 }) },
+    ]),
+  },
+  {
+    name: '5-hauch',
+    was: 'Dasselbe Swisch, nur halb so laut. Ein Hauch statt eines Zuges.',
+    proben: swisch({ dauerSek: 0.5, vonHz: 700, bisHz: 1700, pegel: 0.42 }),
+  },
+  {
+    /*
+     * Der Grundton des Auftakts, eine Oktave tiefer. Der Akkord hat
+     * aufgemacht, die Tonika schliesst — **eine Klammer, kein zweites Signal.**
+     */
+    name: '6-grundton',
+    was: 'D4, der Grundton des Auftakts eine Oktave tiefer. Weich an, lang aus.',
+    proben: leiser(ton(1.1, () => 293.66, { anstiegSek: 0.09, abfall: 4.2, oktave: 0.3 }), 0.3),
+  },
+  {
+    /*
+     * Der Auftakt rueckwaerts. Aufsteigend kuendigt an, absteigend loest auf —
+     * dieselben drei Toene, die Gegenbewegung.
+     */
+    name: '7-dreiklang-abwaerts',
+    was: 'Der Auftakt rückwärts: A5, Fis5, D5, sehr leise. Die Gegenbewegung.',
+    proben: nacheinander([
+      { ab: 0, proben: leiser(ton(0.55, () => 880, { anstiegSek: 0.05, abfall: 8, oktave: 0.2 }), 0.2) },
+      { ab: 0.07, proben: leiser(ton(0.6, () => 739.99, { anstiegSek: 0.05, abfall: 7, oktave: 0.2 }), 0.2) },
+      { ab: 0.14, proben: leiser(ton(0.8, () => 587.33, { anstiegSek: 0.05, abfall: 5, oktave: 0.24 }), 0.2) },
+    ]),
+  },
+  {
+    /*
+     * Beides zugleich: Der Hauch traegt die Bewegung, der Ton die Aufloesung.
+     * Zusammen sind sie leiser als jeder fuer sich es sein muesste.
+     */
+    name: '8-hauch-und-ton',
+    was: 'Hauch und Grundton übereinander — Bewegung plus Auflösung.',
+    proben: nacheinander([
+      { ab: 0, proben: swisch({ dauerSek: 0.45, vonHz: 700, bisHz: 1700, pegel: 0.3 }) },
+      { ab: 0.06, proben: leiser(ton(0.9, () => 293.66, { anstiegSek: 0.09, abfall: 5, oktave: 0.28 }), 0.25) },
+    ]),
+  },
+];
+
+const VORHANGPROBEN = () => [
+  {
+    name: '1-samt-dumpf',
+    was: 'Schwerer Samt, nur Stoff. Tiefpass 400 → 900 Hz.',
+    proben: fahrt({ vonHz: 400, bisHz: 900, lautheit: bogen }),
+  },
+  {
+    name: '2-samt-hell',
+    was: 'Leichterer Stoff, mehr Zug. 900 → 2500 Hz.',
+    proben: fahrt({ vonHz: 900, bisHz: 2500, lautheit: bogen }),
+  },
+  {
+    name: '3-samt-schiene',
+    was: 'Dumpfer Stoff plus die Rollen auf der Stange.',
+    proben: nacheinander([
+      { ab: 0, proben: fahrt({ vonHz: 400, bisHz: 900, lautheit: bogen }) },
+      { ab: 0.02, proben: schiene(FAHRT_SEK, 7, 20260831) },
+    ]),
+  },
+  {
+    name: '4-hell-schiene',
+    was: 'Hellerer Stoff plus Rollen.',
+    proben: nacheinander([
+      { ab: 0, proben: fahrt({ vonHz: 900, bisHz: 2500, lautheit: bogen }) },
+      { ab: 0.02, proben: schiene(FAHRT_SEK, 7, 20260831) },
+    ]),
+  },
+  {
+    /*
+     * Zufahren endet mit einem Treffer: Die beiden Haelften stossen in der
+     * Mitte zusammen. Physikalisch ist das der einzige Moment der ganzen
+     * Bewegung mit einem echten Anschlag.
+     */
+    name: '5-zu-mit-anschlag',
+    was: 'Dumpf, und am Ende stossen die Hälften zusammen.',
+    proben: nacheinander([
+      { ab: 0, proben: fahrt({ vonHz: 400, bisHz: 1100, lautheit: (a) => bogen(a) * (0.6 + 0.4 * a) }) },
+      { ab: FAHRT_SEK - 0.03, proben: huelle(hochpass(rauschen(0.16), 120), (t) => Math.exp(-22 * t) * 0.75) },
+    ]),
+  },
+  {
+    /*
+     * Oeffnen ist die Gegenbewegung: kein Ziel, an dem etwas anstoesst. Der
+     * Stoff zieht sich zur Seite und laeuft aus — deshalb laenger und ohne
+     * Anschlag.
+     */
+    name: '6-auf-auslaufend',
+    was: 'Dumpf, zieht sich weg und läuft aus. Kein Anschlag.',
+    proben: fahrt({
+      vonHz: 500,
+      bisHz: 800,
+      dauerSek: 0.55,
+      lautheit: (a) => bogen(Math.min(1, a * 1.5)) * (1 - a * 0.35),
+    }),
+  },
+];
+
 const main = async () => {
+  if (process.argv.includes('--swisch')) {
+    const ordner = path.join('laeufe', 'swischproben');
+    await fs.mkdir(ordner, { recursive: true });
+    console.log('   Swischproben — kostet kein Kontingent\n');
+    for (const { name, was, proben } of SWISCHPROBEN()) {
+      await fs.writeFile(path.join(ordner, `${name}.wav`), wav(proben));
+      console.log(`   ${name.padEnd(18)} ${(proben.length / RATE).toFixed(2)}s  ${was}`);
+    }
+    return;
+  }
+
+  if (process.argv.includes('--proben')) {
+    const ordner = path.join('laeufe', 'vorhangproben');
+    await fs.mkdir(ordner, { recursive: true });
+    console.log('   Vorhangproben — kostet kein Kontingent\n');
+    for (const { name, was, proben } of VORHANGPROBEN()) {
+      const ziel = path.join(ordner, `${name}.wav`);
+      await fs.writeFile(ziel, wav(proben));
+      console.log(`   ${name.padEnd(20)} ${(proben.length / RATE).toFixed(2)}s  ${was}`);
+    }
+    return;
+  }
+
   const ordner = path.join('public', 'ton', 'marke');
   await fs.mkdir(ordner, { recursive: true });
 
@@ -121,9 +454,77 @@ const main = async () => {
     { ab: 0.09, proben: ton(0.42, () => 880, { abfall: 11 }) }, // A5
   ]);
 
+  /*
+   * **auftakt** — der Dreiklang, mit dem die Show beginnt.
+   *
+   * D-Dur: D5, Fis5, A5, je 70 Millisekunden versetzt. Er stand am 31.08.2026
+   * schon einmal hier, als **Jingle beim Oeffnen**, und ist dort abgelehnt
+   * worden: „Ein Jingle kuendigt an, ein Vorhang bewegt sich."
+   *
+   * **Der Einwand war richtig, der Platz war falsch.** Ankuendigen ist genau
+   * die Aufgabe an dieser Stelle: Er steht auf Bild null, vor dem geschlossenen
+   * Vorhang, und sagt, dass jetzt etwas anfaengt.
+   *
+   * Er hiess bis zum 31.08.2026 `vorhang-zu`, und der Name stimmte auch nur
+   * einen Abend lang — seit der Vorhang schon geschlossen beginnt, faehrt
+   * nichts mehr zu. **Ein Name, der eine Bewegung nennt, die es nicht gibt, ist
+   * die Sorte Altlast, die spaeter niemand mehr aufloest.**
+   *
+   * Er endet auf demselben A5 wie `folgen` und teilt dessen Grundton D5. Die
+   * Markentoene sind damit **derselbe Akkord in mehreren Rollen**: ein Pop beim
+   * Hinweis, eine Quinte beim Schluss, der volle Dreiklang beim Auftritt. Das
+   * war nicht der Ausgangspunkt — `folgen` stand schon auf D und A, die Terz
+   * dazwischen war die einzige Note, die fehlte.
+   */
+  const auftakt = nacheinander([
+    { ab: 0, proben: ton(0.5, () => 587.33, { abfall: 9, oktave: 0.24 }) }, // D5
+    { ab: 0.07, proben: ton(0.5, () => 739.99, { abfall: 9, oktave: 0.24 }) }, // Fis5
+    { ab: 0.14, proben: ton(0.52, () => 880, { abfall: 8, oktave: 0.26 }) }, // A5
+  ]);
+
+  /*
+   * **oeffnung** — Hauch und Grundton, wenn der Vorhang aufgeht.
+   *
+   * **Zwei Schichten, zwei Aufgaben.** Ein Hauch — schmales Rauschband, das
+   * von 700 nach 1700 Hz wandert — traegt die **Bewegung**; darunter D4, der
+   * Grundton des Auftakts eine Oktave tiefer, traegt die **Aufloesung**. Der
+   * Akkord hat aufgemacht, die Tonika schliesst.
+   *
+   * ## Was daran gemessen ist
+   *
+   * Der Vorhang sollte zuerst ein Stoffgeraeusch bekommen, und zwei Anlaeufe
+   * sind daran gescheitert: Ein breites Rauschband klingt nach Foen (67 % der
+   * Energie ueber 2 kHz), ein schmales wandernden nach Swisch — sanfter, aber
+   * allein immer noch fremd. **Synthese baut Klaenge gut und Texturen
+   * schlecht**, und ein Vorhang ist eine Textur.
+   *
+   * Der Ausweg war nicht, das Rauschen wegzulassen, sondern es **auf seine
+   * Aufgabe zu beschraenken**: Es muss nicht nach Stoff klingen, es muss nur
+   * eine Richtung anzeigen. Den Rest traegt ein Ton, der ohnehin zur Marke
+   * gehoert.
+   *
+   * **Zusammen sind sie leiser, als jeder fuer sich sein muesste** — RMS 0,019
+   * gegen 0,08 der Sprache, das leiseste aller acht Kandidaten mit Ausnahme des
+   * blossen Hauchs. Zwei Schichten decken einander, eine allein muesste sich
+   * durchsetzen.
+   *
+   * Der Tongenerator bringt einen festen Pegel mit, der fuer ein
+   * Begleitgeraeusch zu hoch ist — daher `leiser`. Ohne ihn laege der Ton bei
+   * 0,08 und damit genau auf Sprachniveau.
+   *
+   * Es dauert 0,96 Sekunden und damit laenger als die Fahrt (0,4). Das ist
+   * Absicht: Es klingt in die erste Szene hinein und traegt den Uebergang.
+   */
+  const oeffnung = nacheinander([
+    { ab: 0, proben: swisch({ dauerSek: 0.45, vonHz: 700, bisHz: 1700, pegel: 0.3 }) },
+    { ab: 0.06, proben: leiser(ton(0.9, () => 293.66, { anstiegSek: 0.09, abfall: 5, oktave: 0.28 }), 0.25) }, // D4
+  ]);
+
   for (const [name, proben] of [
     ['gefaellt', gefaellt],
     ['folgen', folgen],
+    ['auftakt', auftakt],
+    ['oeffnung', oeffnung],
   ] as const) {
     const ziel = path.join(ordner, `${name}.wav`);
     await fs.writeFile(ziel, wav(proben));

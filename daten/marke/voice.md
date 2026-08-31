@@ -151,6 +151,44 @@ zur Floskel und kostet Sprechzeit, die es bei diesem Zielwert nicht gibt. Eine R
 Welt, braucht also keine Quelle — und darf deshalb frech sein, wo der Beleg
 zwingt, nah am Zitat zu bleiben.
 
+### Der Gesprächsmaßstab — Emirhans Musterdialog vom 31.08.2026
+
+Am Vormittag des 31.08.2026 in einem Plankommentar aufgeschrieben, **wörtlich**:
+
+> Hier brauchen wir einen neuen Maßstab, der dafür sorgt, dass eine direkte
+> Konversation zwischen Watti und Volti stattfindet, statt dass Watti einfach
+> offen spricht und Volti ganz unangenehm einfach daraus reagiert. Ein
+> Vorschlag ist:
+>
+> **N:** Volti, dieselbe Behörde sagt, dass ein routinemäßiger Wechsel dir
+> Sicherheit nicht erhöht.
+> **Z:** Kacke, was dann?
+> **N:** Du sollst erst wechseln, wenn du einen Verdacht spürst.
+> **Z:** Na super, jetzt spüre ich einen Verdacht auf meine Dummheit.
+
+Drei Dinge machen daraus ein Gespräch, und keins davon ist Geschmack:
+
+1. **Anrede.** „Volti, …" — jemand spricht *jemanden* an. Ohne sie steht ein
+   Satz im Raum, und die Antwort darauf ist ein Zwischenruf.
+2. **Zweite Person.** „dir", „du sollst". Der Belegsatz redet **zu** einem
+   Gegenüber, nicht **über** die Welt. Genau das ist der Unterschied zwischen
+   einem Vortrag und einer Erklärung.
+3. **Rückbezug.** „wenn du einen Verdacht **spürst**" → „jetzt **spüre** ich
+   einen Verdacht". Die Antwort greift ein Wort der Vorzeile auf. **Daran
+   erkennt man, dass zugehört wurde** — und ohne es könnten die Zeilen in
+   beliebiger Reihenfolge stehen.
+
+Die vierte Zeile zeigt noch etwas: Sie dreht das aufgegriffene Wort gegen den
+Sprecher selbst („Verdacht auf meine Dummheit"). Das ist ein Geständnis, das
+sich als Folgerung tarnt — dieselbe Machart, die `REAKTIONS_MACHARTEN` unter
+`gestaendnis` führt, nur mit dem Rückbezug als Träger.
+
+**Warum das hier steht und nicht nur im Chat.** Am Abend desselben Tages sind
+alle vier Entwürfe umgeschrieben worden — nach `redelauf` und `stimmanteil`, den
+beiden Regeln, die es gab. `npm run pruefen` wurde grün, und der Maßstab blieb
+unerfüllt: `ersatzteil-freischalten` hatte danach **null Anrede und null zweite
+Person**. Was keine Regel hat, wird beim Schreiben nicht gefragt.
+
 ### Die eine Regel, an der alles scheitert
 
 **Eine Reaktion, die den Fakt zusammenfasst, ist keine Reaktion.**

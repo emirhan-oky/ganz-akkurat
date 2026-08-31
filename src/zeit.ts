@@ -321,24 +321,81 @@ export const szenendauerAus = (
  * `tonspur.woerter`, also liefert der Filter weiterhin genau die Woerter der
  * ersten Szene.
  *
- * ## Diese Zahl ist noch nicht gemessen
+ * ## Gemessen am 31.08.2026, an den Tondateien
  *
- * Sie ist gerechnet: 0,4 s Vorhang zu, rund 2,6 s fuer „Facts, mit Watti…" und
- * „…und Volti!" samt Sprecherwechsel, 0,6 s Jingle und Vorhang auf. **Sobald
- * die Tondatei existiert, wird sie an ihr abgelesen und hier ersetzt** — so wie
- * `ZEICHEN_PRO_SEKUNDE` und die Denkpause auch. Eine geratene Zahl, die als
- * gemessene stehenbleibt, hat dieses Projekt schon zweimal Geld gekostet.
+ * Hier stand **3,8**, und die Zahl war gerechnet: 0,4 s Vorhang zu, rund 2,6 s
+ * Sprache, 0,6 s Jingle. Der Kommentar versprach, sie an der Tondatei
+ * abzulesen, sobald es eine gibt. Es gibt sie, und die Rechnung lag um eine
+ * ganze Sekunde daneben.
+ *
+ * Gerechnet wird mit der **laengsten** Show, nicht mit der mittleren: Die Zahl
+ * gilt fuer jeden Short, also muss die langsamste hineinpassen. Ein Mittelwert
+ * liesse „Empfehlungen" ueber die Karte hinauslaufen.
+ *
+ * | | |
+ * |---|---|
+ * | Voltis Ansage („Empfehlungen. Mit Volti …") | 2,59 s |
+ * | Sprecherwechsel | 0,28 s |
+ * | Wattis Einwurf („… und Watti!") | 1,15 s |
+ * | Vorhang zu und auf, je 12 Bilder | 0,80 s |
+ * | **zusammen** | **4,8 s** |
+ *
+ * ## Was die Messung nebenbei gefunden hat
+ *
+ * `eleven_v3` **halluziniert bei kurzen Eingaben**. Fuenf Laeufe mit identischem
+ * Text (18 Zeichen) ergaben 4,80 · 5,04 · 2,08 · 4,24 · **415,84** Sekunden —
+ * sieben Minuten Ton fuer vier Woerter. Das Modell ist auf lange Eingaben
+ * gebaut und faengt unterhalb einiger Dutzend Zeichen an weiterzureden.
+ *
+ * Bekannt war nur die Streuung von „rund sechs Prozent", und die ist an 800
+ * Zeichen gemessen. **Bei achtzehn sind es Faktor 200.** `skripte/vorspannton.ts`
+ * laeuft deshalb dreimal je Aufnahme und verwirft alles ueber vier Sekunden;
+ * sechs von dreissig Laeufen fielen durch.
+ *
+ * Wattis Reaktionszeilen sind 20 bis 40 Zeichen lang und laufen im Wochenlauf
+ * durch dasselbe Modell — dort faellt ein kaputter Lauf erst **nach** dem
+ * Bezahlen auf.
  */
-export const VORSPANN_SEK = 3.8;
+export const VORSPANN_SEK = 4.8;
 
 /**
- * Der Vorspann liegt nach dieser Szene. Feste Null: nach dem Aufschlag.
+ * Was Volti nach Wattis Einwurf sagt.
  *
- * Kein Feld im Schema, und das ist Absicht — eine Schnittstelle je Short waere
- * eine Frage, die bei jedem Entwurf neu auftaucht und die nichts anleitet.
- * Dieselbe Ueberlegung, aus der das Pflichtfeld `position` existiert.
+ * **An genau einer Stelle**, weil zwei Leser danach greifen: die Synthese in
+ * `src/stimme.ts` und die Schaetzung hier darunter. Stuende der Wortlaut
+ * zweimal da, klaenge das Video eines Tages anders, als jede Laengenrechnung
+ * annimmt — und niemand saehe es, weil beide fuer sich richtig waeren.
  */
-export const VORSPANN_NACH_SZENE = 0;
+export const themaAnsage = (short: Pick<Short, 'vorspann'>): string =>
+  `Heutiges Thema: ${short.vorspann}.`;
+
+/**
+ * Wie lange der Vorspann dieses Shorts dauert.
+ *
+ * **War bis zum 31.08.2026 eine Konstante, und das ging nur, solange jedes Wort
+ * fest war.** Mit der Themenansage wechselt der laengste Teil je Short: 51 bis
+ * 63 Zeichen, rund vier Sekunden. Eine Zahl fuer alle waere fuer jeden Short
+ * die falsche.
+ *
+ * Zwei Faelle, dieselbe Zweiteilung wie ueberall in dieser Datei:
+ *
+ * - **Mit Tonspur** steht die Dauer gemessen darin. Sie gilt, denn im fertigen
+ *   Video zaehlt, was wirklich gesprochen wurde.
+ * - **Ohne Tonspur** wird ueber `ZEICHEN_PRO_SEKUNDE` geschaetzt, wie bei jeder
+ *   anderen Szene auch. Das ist die Zahl, mit der die Laengenpruefung vor der
+ *   Vertonung arbeitet — und sie muss dieselbe Groesse meinen, sonst entstehen
+ *   zwei Wahrheiten ueber dieselbe Laenge.
+ *
+ * `VORSPANN_SEK` bleibt als **feste Basis**: Showtitel, Namen, Vorhangfahrt.
+ * Diese Zahl ist gemessen und wechselt nur, wenn neue Aufnahmen entstehen.
+ */
+export const vorspannSek = (short: Pick<Short, 'vorspann' | 'tonspur'>): number =>
+  VORSPANN_SEK +
+  (short.tonspur?.vorspann
+    ? short.tonspur.vorspann.dauerSek
+    : themaAnsage(short).length / ZEICHEN_PRO_SEKUNDE) +
+  SPRECHERWECHSEL_SEK;
+
 
 /**
  * Wie lange eine Figur **am Stueck** redet — ueber Szenengrenzen hinweg.
@@ -445,21 +502,28 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
     });
   }
 
-  let laufend = 0;
+  /*
+   * **Der Vorspann ist der Vorlauf, nicht ein Einschub.**
+   *
+   * Bis zum 31.08.2026 sass er zwischen Szene 0 und 1, und die Dauer wurde der
+   * Szene davor zugeschlagen — waehrend er lief, war die Buehne dahinter vom
+   * Vorhang gedeckt. Der Short begann mit dem Aufschlag als Cold Open.
+   *
+   * Am fertigen Video hat sich das nicht bewaehrt („der Anfang ist echt
+   * unnoetig"), und seither steht der Vorhang am Anfang. Damit beginnt jede
+   * Szene um dieselbe Spanne spaeter — **eine Anfangsbedingung statt einer
+   * Sonderbehandlung mitten in der Schleife.**
+   *
+   * Was dabei erhalten bleibt: Alle Abstaende zwischen den Szenen sind
+   * unveraendert, also misst die Aufschlagregel weiter dieselbe Differenz.
+   */
+  let laufend = vorspannSek(short);
   return short.szenen.map((szene, i) => {
     /*
      * Die Sprecherpausen gehoeren in die Szene, in der gewechselt wird —
      * sonst laufen Zeitplan und Gesamtdauer auseinander.
-     *
-     * Der Vorspann haengt an der Szene, **nach** der er sitzt: Waehrend er
-     * laeuft, ist die Buehne dahinter vom Vorhang gedeckt, die Szene bleibt
-     * also gemountet. Im Tonspur-Zweig oben faellt dasselbe von selbst an,
-     * weil `szenenStartSek[i + 1]` die Vorspanndauer schon enthaelt.
      */
-    const dauer =
-      geschaetzteSzenendauer(szene) +
-      zusatzpausenSzene(short, i) +
-      (i === VORSPANN_NACH_SZENE ? VORSPANN_SEK : 0);
+    const dauer = geschaetzteSzenendauer(szene) + zusatzpausenSzene(short, i);
     const eintrag = {
       startBild: Math.round(laufend * fps),
       dauerBilder: Math.max(1, Math.round(dauer * fps)),
@@ -626,4 +690,4 @@ export const geschaetzteDauerSek = (short: Short): number =>
   zusatzpausenSek(short) +
   // Der Vorspann zaehlt mit. Das Laengenfenster misst, wie lange der Zuschauer
   // zusieht — nicht, wie lange geredet wird.
-  VORSPANN_SEK;
+  vorspannSek(short);

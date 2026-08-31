@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer';
 import type { Redeanteil, Short, Sprecher, Untertitelwort } from './typen';
 import { regieVorrat } from './typen';
-import { SPRECHERWECHSEL_SEK, SZENENGRENZE_SEK, VORSPANN_NACH_SZENE, VORSPANN_SEK } from './zeit';
+import { SPRECHERWECHSEL_SEK, SZENENGRENZE_SEK, VORSPANN_SEK, themaAnsage } from './zeit';
 
 /**
  * Sprachsynthese und Zeitstempel.
@@ -533,26 +533,53 @@ export const shortVertonen = async (
   const abschnitte: NonNullable<Short['tonspur']>['abschnitte'] = [];
   const woerter: Untertitelwort[] = [];
   const szenenStartSek: number[] = [];
+  /*
+   * **Die Uhr startet beim Vorspann, nicht bei null.**
+   *
+   * Hier stand bis zum 31.08.2026 ein Sprung mitten in der Schleife: Beginnt
+   * dieser Lauf die Szene nach dem Vorspann, springt die Uhr vor. Das war die
+   * kniffligste Stelle der ganzen Vertonung, weil sie genau einmal und genau
+   * dort greifen musste.
+   *
+   * Seit der Vorhang am Anfang steht, ist es eine Anfangsbedingung. **Ein Wert,
+   * der einmal am Anfang gesetzt wird, kann nicht an der falschen Stelle
+   * einsteigen.** Alles Weitere — Abschnittsstarts, Szenenstarts, Wortzeiten,
+   * `dauerSek` — rechnet von selbst richtig weiter, weil alles auf dieser Uhr
+   * liegt.
+   */
   let uhr = 0;
 
+  /*
+   * **Die Themenansage — der einzige Vorspannton, der je Short wechselt.**
+   *
+   * Showtitel und Namen haengen am Format und liegen als feste Dateien unter
+   * `public/ton/marke/vorspann/`; sie kosten einmal und nie wieder. „Heutiges
+   * Thema: …" steht in `short.vorspann` und ist bei jedem Video ein anderer
+   * Satz — also gehoert sie hierher.
+   *
+   * Sie geht **nicht** in `abschnitte` und ihre Woerter nicht in `woerter`,
+   * genau wie der uebrige Vorspannton: Die Aufschlagmessung filtert gegen
+   * `szenenStartSek[1]`, und Woerter aus dem Vorspann verlaengerten dort den
+   * gemessenen Aufschlag ueber die 3,5 Sekunden.
+   *
+   * Der Wortlaut kommt aus `themaAnsage` in `src/zeit.ts` — derselben
+   * Funktion, aus der auch die Schaetzung vor der Vertonung rechnet. Zweimal
+   * geschrieben klaenge das Video eines Tages anders, als jede Laengenrechnung
+   * annimmt.
+   */
+  const ansage = await synthetisieren(
+    themaAnsage(short),
+    { stimmeId: stimmen.nachleser, ...KANAL_STIMME },
+    schluessel,
+  );
+  const ansagedatei = tondateiname.replace('%', 'vorspann');
+  toene.push({ datei: ansagedatei, ton: ansage.ton });
+
+  /* Die **gemessene** Dauer, nicht die geschaetzte: Ton und Bild liefen sonst
+     um genau die Differenz auseinander. */
+  uhr = VORSPANN_SEK + SPRECHERWECHSEL_SEK + ansage.dauerSek;
+
   for (const [i, lauf] of laeufe.entries()) {
-    /*
-     * **Hier steigt der Vorspann in die Zeitachse ein — an genau einer
-     * Stelle.**
-     *
-     * Er sitzt als Cold Open nach der ersten Szene. Beginnt dieser Lauf die
-     * Szene danach, springt die Uhr vor; alles Weitere — Abschnittsstarts,
-     * Szenenstarts, Wortzeiten, `dauerSek` — rechnet von selbst richtig
-     * weiter, weil alles auf dieser Uhr liegt.
-     *
-     * Der Vorspannton selbst geht **nicht** in `abschnitte` und seine Woerter
-     * nicht in `woerter`: Er ist eine feste Datei mit eigener Wortliste. Genau
-     * das haelt die Aufschlagmessung heil, die gegen `szenenStartSek[1]`
-     * filtert.
-     */
-    if (lauf.szenenOffsets.some((o) => o.szene === VORSPANN_NACH_SZENE + 1)) {
-      uhr += VORSPANN_SEK;
-    }
     uhr += lauf.pauseDavorSek;
     const synthese = await synthetisieren(
       lauf.text,
@@ -590,6 +617,7 @@ export const shortVertonen = async (
         dauerSek: uhr,
         woerter,
         szenenStartSek,
+        vorspann: { datei: ansagedatei, dauerSek: ansage.dauerSek },
         ...(abschnitte.length > 1 ? { abschnitte } : {}),
       },
     },

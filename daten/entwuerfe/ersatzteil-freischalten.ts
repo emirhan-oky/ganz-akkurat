@@ -41,7 +41,7 @@ export const ersatzteilFreischalten: Short = {
   sachgebiet: 'recht',
   bauform: 'wechselrede',
   arbeitstitel: 'Das Ersatzteil und das Verbot',
-  weitererzaehlt: 'Das Teil passt. Freigeschaltet ist es damit nicht.',
+  weitererzaehlt: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
   suchbegriff: 'Ersatzteil Reparatur',
   vorspann: 'Dein Ersatzteil darf keine Reparatur blockieren',
 
@@ -53,18 +53,20 @@ export const ersatzteilFreischalten: Short = {
        */
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Das Ersatzteil passt. Es tut nichts.',
-      rede: [{ sprecher: 'nachleser', text: 'Das Ersatzteil passt. Es tut nichts.' }],
+      sprechtext: 'Dein Ersatzteil passt. Es tut nichts.',
+      rede: [{ sprecher: 'nachleser', text: 'Dein Ersatzteil passt. Es tut nichts.' }],
       text: 'Passt. Tut nichts.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'schraubenschluessel' },
     },
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Im Amtsblatt der EU steht dazu ein Verbot. Und das weiß mein Handy nicht?',
+      sprechtext:
+        'Und jetzt? Ich hab es doch richtig eingebaut. Watti, im Amtsblatt der EU steht dazu ein Verbot. Verbot? Das weiß mein Handy nicht?',
       rede: [
-        { sprecher: 'nachleser', text: 'Im Amtsblatt der EU steht dazu ein Verbot.' },
-        { sprecher: 'zeiger', text: 'Und das weiß mein Handy nicht?', machart: 'rueckfrage' },
+        { sprecher: 'zeiger', text: 'Und jetzt? Ich hab es doch richtig eingebaut.', machart: 'ratlosigkeit' },
+        { sprecher: 'nachleser', text: 'Watti, im Amtsblatt der EU steht dazu ein Verbot.' },
+        { sprecher: 'zeiger', text: 'Verbot? Das weiß mein Handy nicht?', machart: 'rueckfrage' },
       ],
       text: 'Verboten. Im Amtsblatt.',
       buehne: {
@@ -103,26 +105,44 @@ export const ersatzteilFreischalten: Short = {
        * „zu eng am falschen Wort" nach „zu breit am richtigen" ist kurz.
        * Deshalb steht „per Software" jetzt darin, und der Anteil haengt an der
        * Fundstelle, die Subjekt und Verneinung mitbringt.
+       *
+       * ## Zwei Grenzen, die erst die zweite Person sichtbar gemacht hat
+       *
+       * Beim Umschreiben auf den Gespraechsmassstab wurde aus „die Verwendung
+       * von Ersatzteilen" ein „deine", und **damit fielen zwei Grenzen auf, die
+       * vorher niemand vermisst hatte**:
+       *
+       * - Der Absatz schuetzt den Einbau **durch unabhaengige
+       *   Reparaturbetriebe**. „Deine gebrauchten Teile" machte aus einem
+       *   Werkstattprivileg ein Verbraucherrecht — deshalb steht dort jetzt die
+       *   Werkstatt.
+       * - Er gilt nur fuer die Waren aus **Anhang II**, und Mobiltelefone sind
+       *   Nummer 8. „Deine Reparatur" schlechthin ist zu weit; „deine
+       *   Handy-Reparatur" ist gedeckt.
+       *
+       * **Eine Verallgemeinerung faellt nicht auf, eine Anrede schon.** Solange
+       * der Satz „Hersteller duerfen …" hiess, klang er nach dem Rechtstext.
+       * Sobald er „du" sagt, muss man wissen, wer gemeint ist.
        */
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Hersteller dürfen die Verwendung von Ersatzteilen nicht per Software behindern. Da hat jemand ein Jahr lang Gehalt bekommen, um das aufzuschreiben. Auch gebrauchte nicht. Moment. Die Reparatur ist erlaubt und geht trotzdem nicht?',
+        'Hersteller dürfen deine Handy-Reparatur nicht per Software behindern. Dafür hat jemand ein Jahr lang Gehalt bekommen. Auch nicht, wenn deine Werkstatt gebrauchte Ersatzteile einbaut. Erlaubt, und trotzdem tot.',
       rede: [
         {
           sprecher: 'nachleser',
-          text: 'Hersteller dürfen die Verwendung von Ersatzteilen nicht per Software behindern.',
+          text: 'Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'keine-hardware-oder-softwaretechniken',
         },
-        { sprecher: 'zeiger', text: 'Da hat jemand ein Jahr lang Gehalt bekommen, um das aufzuschreiben.', machart: 'empoerung' },
+        { sprecher: 'zeiger', text: 'Dafür hat jemand ein Jahr lang Gehalt bekommen.', machart: 'empoerung' },
         {
           sprecher: 'nachleser',
-          text: 'Auch gebrauchte nicht.',
+          text: 'Auch nicht, wenn deine Werkstatt gebrauchte Ersatzteile einbaut.',
           quelleId: 'eu-reparaturrichtlinie-2024',
           belegId: 'behindern-verwendung-ersatzteile',
         },
-        { sprecher: 'zeiger', text: 'Moment. Die Reparatur ist erlaubt und geht trotzdem nicht?', machart: 'ratlosigkeit' },
+        { sprecher: 'zeiger', text: 'Erlaubt, und trotzdem tot.', machart: 'bild' },
       ],
       text: 'Einbau bei der Reparatur.',
       buehne: {
@@ -139,10 +159,10 @@ export const ersatzteilFreischalten: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Gebrauchte und kompatible Ersatzteile stehen ausdrücklich drin. Meins ist vom Flohmarkt. Sagt keinem was.',
+      sprechtext: 'Gebrauchte und kompatible Ersatzteile stehen ausdrücklich drin. Meins ist vom Flohmarkt. Sag es keinem, Volti.',
       rede: [
         { sprecher: 'nachleser', text: 'Gebrauchte und kompatible Ersatzteile stehen ausdrücklich drin.' },
-        { sprecher: 'zeiger', text: 'Meins ist vom Flohmarkt. Sagt keinem was.', machart: 'gestaendnis' },
+        { sprecher: 'zeiger', text: 'Meins ist vom Flohmarkt. Sag es keinem, Volti.', machart: 'gestaendnis' },
       ],
       text: 'Auch gebrauchte Ersatzteile.',
       buehne: {
@@ -181,10 +201,10 @@ export const ersatzteilFreischalten: Short = {
        */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Sogar Teile aus dem 3D-Drucker stehen in der Liste. Ich drucke mir jetzt ein neues Handy.',
+      sprechtext: 'Sogar Teile aus dem 3D-Drucker stehen in der Liste. Drucker? Dann drucke ich mir gleich ein neues Handy.',
       rede: [
         { sprecher: 'nachleser', text: 'Sogar Teile aus dem 3D-Drucker stehen in der Liste.' },
-        { sprecher: 'zeiger', text: 'Ich drucke mir jetzt ein neues Handy.', machart: 'falscherschluss' },
+        { sprecher: 'zeiger', text: 'Drucker? Dann drucke ich mir gleich ein neues Handy.', machart: 'falscherschluss' },
       ],
       text: 'Auch gedruckte Teile.',
       buehne: {
@@ -199,9 +219,9 @@ export const ersatzteilFreischalten: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Das Teil passt. Freigeschaltet ist es damit nicht.',
-      rede: [{ sprecher: 'nachleser', text: 'Das Teil passt. Freigeschaltet ist es damit nicht.' }],
-      satz: 'Das Teil passt. Freigeschaltet ist es damit nicht.',
+      sprechtext: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
+      rede: [{ sprecher: 'nachleser', text: 'Dein Teil passt. Freigeschaltet ist es damit nicht.' }],
+      satz: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
       rundlauf:
         'Beim zweiten Sehen ist „es tut trotzdem nichts" keine Klage mehr, sondern der Grund, warum das Verbot überhaupt nötig war.',
     },

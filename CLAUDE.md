@@ -745,16 +745,77 @@ ohne eine umgerechnete Koordinate.
 
 ### Der Vorhang
 
-Seit dem 31.08.2026 beginnt jeder Short als **Show**: Nach dem Aufschlag fährt
-ein Theatervorhang zu, auf ihm stehen Showtitel und Themenzeile, die beiden
-Figuren nennen ihre Namen, dann öffnet er sich auf das Gespräch.
+Seit dem 31.08.2026 beginnt jeder Short als **Show**: Der Vorhang ist von Bild
+null an geschlossen, auf ihm stehen Showtitel und Themenzeile, die beiden
+Figuren nennen ihre Namen, dann öffnet er sich auf den Aufschlag.
 
-**Warum er nach dem Aufschlag sitzt und nicht davor.** Cold Open, wie in jeder
-Sitcom, aus zwei Gründen dieses Projekts: Der Aufschlag hat 3,5 Sekunden, weil
-71 % dort entscheiden — ein Vorspann davor verbraucht sie. Und ein Short läuft
-von selbst wieder an; ein Vorhang am Anfang säße in der Schleife unmittelbar
-hinter dem Schluss, also genau dort, wo am 18.08.2026 schon einmal einer
-abgehängt wurde.
+**Er stand einen Abend lang nach dem Aufschlag**, als Cold Open, und die
+Begründung war gut: Der Aufschlag hat 3,5 Sekunden, weil 71 % dort entscheiden
+— ein Vorspann davor verbraucht sie. Und ein Short läuft von selbst wieder an;
+ein Vorhang am Anfang sitzt in der Schleife unmittelbar hinter dem Schluss, also
+genau dort, wo am 18.08.2026 schon einmal einer abgehängt wurde.
+
+**Am fertigen Video hat das nicht getragen** („der Anfang ist echt unnötig").
+Das Argument ist nicht falsch geworden, es ist gegen den Eindruck angetreten und
+hat verloren — **ein Argument aus einer Zahl schlägt keinen Eindruck vom
+gerenderten Video.** Die Zahl steht trotzdem hier, damit beim nächsten Umbau
+niemand dieselbe Runde noch einmal dreht.
+
+Der Umbau hat die Vertonung nebenbei vereinfacht: Der Vorspann war ein Einschub
+zwischen Szene 0 und 1, und die kniffligste Stelle der ganzen Vertonung war ein
+Uhrsprung mitten in der Schleife, der genau einmal und genau dort greifen
+musste. Jetzt startet die Uhr bei der Vorspanndauer. **Ein Wert, der einmal am
+Anfang gesetzt wird, kann nicht an der falschen Stelle einsteigen.**
+
+Und er **fährt nicht mehr zu**: Am Anfang gibt es nichts zuzudecken. Der erste
+Anlauf ließ ihn trotzdem zufahren, und das Standbild bei Bild 0 zeigte es
+sofort — eine **leere Bühne**, weil die erste Szene erst nach dem Vorspann
+beginnt.
+
+### Der Ton des Vorspanns
+
+Vier Klänge, und drei davon kosten nichts.
+
+| | was | woher |
+|---|---|---|
+| **Auftakt** | D-Dur-Dreiklang aufsteigend, bei Bild 0 | `skripte/toene.ts`, berechnet |
+| **Showtitel** | „Facts. Mit Volti …" | feste Aufnahme je Format |
+| **Einwurf** | „… und Watti!" | feste Aufnahme je Format |
+| **Themenansage** | „Heutiges Thema: …" | aus der Vertonung, je Short |
+| **Öffnung** | Hauch plus Grundton D4 | berechnet |
+
+**Zehn feste Aufnahmen, einmal bezahlt.** Showtitel und Namen hängen am Format
+und wechseln nie; durch `shortVertonen` geschickt kostete derselbe Satz bei vier
+Videos die Woche rund 11.000 Zeichen im Jahr. `skripte/vorspannton.ts` nimmt sie
+auf, `daten/vorspannton.json` hält ihre gemessenen Dauern — **Remotion kann die
+Länge einer Tondatei nicht synchron lesen**, und Wattis Einsatz hängt daran.
+
+**Die Themenansage ist der einzige Vorspannton je Short.** Sie steht deshalb in
+der Tonspur und **nicht** in `abschnitte`: Die Aufschlagmessung filtert `woerter`
+gegen `szenenStartSek[1]`, und Vorspannwörter dort verlängerten den gemessenen
+Aufschlag über die 3,5 Sekunden.
+
+**Ton und Bild kommen aus einer Zahl.** `ansageAbBild` steuert den Toneinsatz
+und die Einblendung der Zeile. Vorher hing die Einblendung an einem Anteil der
+Vorspanndauer — die Stimme kam 1,2 Sekunden vor dem Bild. Ein Anteil beschreibt
+eine Position im Ganzen; der Ansagebeginn hängt an der Länge der beiden Sätze
+davor.
+
+**Synthese baut Klänge gut und Texturen schlecht.** Der Vorhang sollte ein
+Stoffgeräusch bekommen, und drei Anläufe sind gescheitert: ein breites
+Rauschband (67 % der Energie über 2 kHz — ein Fön), ein Applaus, der nach
+Knistern klang (5 % im Klatschkörper statt 30), ein schmales Swisch (sanfter,
+allein aber fremd). Der Ausweg war nicht, das Rauschen wegzulassen, sondern es
+**auf seine Aufgabe zu beschränken**: Es zeigt eine Richtung an, den Rest trägt
+ein Ton, der ohnehin zur Marke gehört.
+
+**Alle vier Klänge stehen auf D und A.** Das war nicht der Ausgangspunkt —
+`folgen` stand schon darauf, die Terz dazwischen war die einzige Note, die
+fehlte.
+
+**„Sanft" ist messbar.** Die Sprache im Vorspann liegt bei RMS 0,08; die
+Öffnung bei 0,019. Der erste Swisch-Anlauf lag bei 0,55, also fünfmal über der
+Sprache — der Ausgleich für die Filterdurchgänge war zu hoch gegriffen.
 
 **Er reicht bis an den oberen Bildrand.** Zuerst deckte er nur die Bühne, unter
 dem Satz „Der Kanal oben, die Show darunter" — das galt einem Vorhang, den man

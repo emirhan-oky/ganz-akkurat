@@ -75,19 +75,32 @@ const FAHRT_BILDER = 12;
 /**
  * Der Zeitverlauf über die Vorspanndauer, als Anteile von 0 bis 1.
  *
- * Der Deckel von rund vier Sekunden wird **hier** gehalten und nirgends sonst:
- * Die Themenzeile setzt beim zweiten gesprochenen Namen ein, nicht danach.
- * Hinter die Sprache gestellt kostete sie eine ganze Sekunde extra — und der
- * gesprochene Teil ist in jedem Video gleich lang, weil nur die Themenzeile
- * wechselt und die gelesen wird.
+ * ## Warum `oeffnen` und `vergehen` gerechnet werden statt festzustehen
+ *
+ * Bis zum 31.08.2026 stand hier `oeffnen: 0.86`, und das ging, solange der
+ * Vorspann immer **4,8 Sekunden** dauerte. Mit der Themenansage wechselt seine
+ * Länge je Short — 51 bis 63 Zeichen, rund vier Sekunden Unterschied.
+ *
+ * Ein fester Anteil hätte dann **mitskaliert**: Bei einem längeren Vorspann
+ * öffnete der Vorhang später und ließe hinterher Leerlauf stehen, obwohl die
+ * Fahrt physisch immer dieselben zwölf Bilder braucht. **Ein Anteil beschreibt
+ * eine Bewegung nur so lange richtig, wie das Ganze gleich lang bleibt.**
+ *
+ * Also von hinten gerechnet: Der Vorhang öffnet so, dass er mit dem Vorspann
+ * fertig wird — egal wie lang der ist.
  */
-const ABLAUF = {
-  schliessen: 0,
-  titel: 0.14,
-  zeile: 0.5,
-  vergehen: 0.78,
-  oeffnen: 0.86,
-} as const;
+export const ablauf = (dauer: number) => {
+  const fahrt = FAHRT_BILDER / Math.max(1, dauer);
+  const oeffnen = 1 - fahrt;
+  return {
+    titel: 0,
+    /* Sie steht, bis der Vorhang aufgeht: Solange die Ansage läuft, gehört das
+       Thema ins Bild. Vorher stand hier ein fester Vorlauf, und der schnitt die
+       Zeile mitten in ihrer eigenen Ansage weg. */
+    vergehen: oeffnen - fahrt,
+    oeffnen,
+  };
+};
 
 const anteil = (frame: number, dauer: number) => frame / Math.max(1, dauer);
 
@@ -138,29 +151,41 @@ const BEHANG_RUHE = 64;
  */
 export const vorhangstand = (frame: number, dauer: number): number => {
   const t = anteil(frame, dauer);
+  const A = ablauf(dauer);
   const spanne = FAHRT_BILDER / Math.max(1, dauer);
-  const zu = interpolate(t, [ABLAUF.schliessen, ABLAUF.schliessen + spanne], [RUHE, 1], {
+
+  /*
+   * **Der Vorhang ist von Bild null an geschlossen — er faehrt nicht mehr zu.**
+   *
+   * Bis zum 31.08.2026 sass der Vorspann zwischen Aufschlag und Gespraech, und
+   * dort war das Zufahren die halbe Geste: Man sah eine Buehne, dann deckte
+   * sich der Vorhang darueber.
+   *
+   * Am Anfang gibt es nichts zuzudecken. Der erste Anlauf liess ihn trotzdem
+   * zufahren, und das Standbild bei Bild 0 zeigte es sofort: **eine leere
+   * Buehne** — hinter dem noch offenen Vorhang lag keine Szene, weil die erste
+   * erst nach dem Vorspann beginnt. Derselbe Fehler wie die leere Buehne am
+   * Videoende, nur am anderen Ende.
+   */
+  return interpolate(t, [A.oeffnen, A.oeffnen + spanne], [1, RUHE], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
     easing: Easing.inOut(Easing.sin),
   });
-  const auf = interpolate(t, [ABLAUF.oeffnen, ABLAUF.oeffnen + spanne], [1, RUHE], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.inOut(Easing.sin),
-  });
-  return Math.min(zu, auf);
 };
 
 /** Wie sichtbar die Titelkarte ist: 0 bis 1. */
 export const titelstand = (frame: number, dauer: number): number => {
   const t = anteil(frame, dauer);
+  const A = ablauf(dauer);
   return Math.min(
-    interpolate(t, [ABLAUF.titel, ABLAUF.titel + 0.08], [0, 1], {
+    /* Schnell, nicht sanft: Bei Bild null steht sonst 0,7 Sekunden lang ein
+       leerer Vorhang, und der Short faengt mit nichts an. */
+    interpolate(t, [A.titel, A.titel + 0.02], [0, 1], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     }),
-    interpolate(t, [ABLAUF.vergehen, ABLAUF.oeffnen], [1, 0], {
+    interpolate(t, [A.vergehen, A.oeffnen], [1, 0], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     }),
@@ -456,13 +481,28 @@ export const Vorspannkarte: React.FC<{
   zeile: string;
   /** Laufzeit des Vorspanns in Bildern. */
   dauer: number;
+  /**
+   * Ab welchem Bild die Themenzeile steht — **derselbe Wert, ab dem sie
+   * gesprochen wird.**
+   *
+   * Er kommt von aussen und wird hier nicht gerechnet, weil er aus den
+   * gemessenen Dauern der festen Aufnahmen faellt (`daten/vorspannton.json`)
+   * und die kennt nur `Short.tsx`. Zweimal gerechnet liefen Bild und Ton
+   * auseinander — genau das war am 31.08.2026 der Fall: **Die Stimme kam 1,2
+   * Sekunden vor der Einblendung.**
+   *
+   * Ein Anteil der Vorspanndauer hat es nicht getan. Er beschreibt eine
+   * Position im Ganzen, und die Ansage haengt an der Laenge der beiden Saetze
+   * davor — zwei Groessen, die nichts miteinander zu tun haben.
+   */
+  zeileAbBild: number;
   /** Höhe der Fläche in Pixeln — für den unteren Rand. */
   hoehe: number;
-}> = ({ show, zeile, dauer, hoehe }) => {
+}> = ({ show, zeile, dauer, hoehe, zeileAbBild }) => {
   const frame = useCurrentFrame();
   const sichtbar = titelstand(frame, dauer);
   const t = anteil(frame, dauer);
-  const zeileAuf = interpolate(t, [ABLAUF.zeile, ABLAUF.zeile + 0.08], [0, 1], {
+  const zeileAuf = interpolate(frame, [zeileAbBild, zeileAbBild + 6], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });

@@ -3,9 +3,10 @@ import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT
 
 import type { Short as ShortDaten } from '../src/typen';
 import { FORMATE } from '../src/typen';
-import { VORSPANN_NACH_SZENE, VORSPANN_SEK, szenenZeitplan } from '../src/zeit';
+import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannSek } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
-import { RUHE, Vorhangstoff, Vorspannkarte, aufVorhang, vorhangstand } from './bausteine/Vorhang';
+import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } from './bausteine/Vorhang';
+import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { Sprechblase } from './bausteine/Sprechblase';
@@ -255,21 +256,38 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   /*
    * **Der Vorhangstand wird genau einmal gerechnet, hier.**
    *
-   * Das Startbild faellt **rueckwaerts** aus der Folgeszene: Vorwaerts
-   * muesste man die Sprechdauer der ersten Szene kennen, rueckwaerts steht sie
-   * schon im Zeitplan — und wenn sich `VORSPANN_SEK` je aendert, wandert alles
-   * von selbst mit.
+   * Das Startbild ist seit dem 31.08.2026 schlicht **null**. Vorher sass der
+   * Vorspann zwischen Szene 0 und 1 und sein Beginn wurde rueckwaerts aus der
+   * Folgeszene gerechnet — die Sprechdauer der ersten Szene stand ja schon im
+   * Zeitplan. Am Anfang braucht es diese Rechnung nicht mehr.
    *
    * Ausserhalb der Vorspannspanne braucht es keinen Sonderfall: `vorhangstand`
-   * klemmt an beiden Enden auf `RUHE`, die beiden stehenden Streifen. Nur wenn
-   * es gar keine Folgeszene gibt, faellt der Vorspann aus — dann steht der
-   * Vorhang die ganze Zeit in Ruhe.
+   * klemmt an beiden Enden auf `RUHE`, die beiden stehenden Streifen.
    */
-  const vorspannBilder = Math.round(VORSPANN_SEK * bilderProSekunde);
-  const vorspannFolge = plan[VORSPANN_NACH_SZENE + 1];
-  const vorspannStart = vorspannFolge ? vorspannFolge.startBild - vorspannBilder : undefined;
-  const vorhangZu =
-    vorspannStart === undefined ? RUHE : vorhangstand(frame - vorspannStart, vorspannBilder);
+  const vorspannBilder = Math.round(vorspannSek(daten) * bilderProSekunde);
+
+  /*
+   * **Wann die Themenansage einsetzt — eine Zahl, zwei Verwendungen.**
+   *
+   * Sie folgt auf Voltis Showtitel und Wattis Einwurf, beide mit der Pause
+   * dazwischen, die `src/zeit.ts` fuer jeden Sprecherwechsel ansetzt. Die
+   * Dauern sind gemessen und stehen in `daten/vorspannton.json`.
+   *
+   * Derselbe Wert steuert den Toneinsatz **und** die Einblendung der Zeile.
+   * Vorher hing die Einblendung an einem Anteil der Vorspanndauer, und das ging
+   * schief: **Die Stimme kam 1,2 Sekunden vor dem Bild.** Ein Anteil beschreibt
+   * eine Position im Ganzen; der Ansagebeginn haengt an der Laenge der beiden
+   * Saetze davor — zwei Groessen, die nichts miteinander zu tun haben.
+   */
+  const ansageAbBild = Math.round(
+    (vorspannDauern[daten.format].volti +
+      SPRECHERWECHSEL_SEK +
+      vorspannDauern[daten.format].watti +
+      SPRECHERWECHSEL_SEK) *
+      bilderProSekunde,
+  );
+  const vorspannStart = 0;
+  const vorhangZu = vorhangstand(frame - vorspannStart, vorspannBilder);
   /*
    * Wie stark der Vorhang hinter der Kopfzeile steht. Sie liegt ueber dem
    * Stoff und bleibt sichtbar, wechselt aber auf helle Farben, solange er zu
@@ -376,18 +394,109 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         Bauteile, ein Stand: Eine zweite Zeichnung desselben Vorhangs waere die
         Doppelung ohne Wache.
       */}
-      {vorspannStart !== undefined && (
+      {
         <Sequence from={vorspannStart} durationInFrames={vorspannBilder} name="Vorspann">
           <div style={KARTENFLAECHE}>
             <Vorspannkarte
               show={FORMATE[daten.format].show}
               zeile={daten.vorspann}
               dauer={vorspannBilder}
+              zeileAbBild={ansageAbBild}
               hoehe={FORMAT.hoehe - VORHANG.karte}
             />
           </div>
+
+          {/*
+            **Der Ton des Vorspanns — vier feste Dateien, keine Vertonung.**
+
+            Der Wortlaut wechselt nie, also wird er einmal bezahlt und liegt
+            unter `public/ton/marke/`. Durch `shortVertonen` geschickt kostete
+            derselbe Satz bei vier Videos die Woche rund 11.000 Zeichen im Jahr.
+
+            **Alle Einsaetze haengen an `ablauf()`**, dem Zeitplan, der auch
+            den Vorhang steuert. Danebengeschriebene Zahlen liefen beim ersten
+            Umbau am Ablauf lautlos auseinander, und ein Geraeusch, das 0,1
+            Sekunden neben seiner Bewegung sitzt, klingt wie ein Fehler.
+          */}
+          <Audio src={staticFile('ton/marke/auftakt.wav')} />
+
+          {/*
+            Voltis Ansage setzt ein, wenn der Titel steht — nicht davor: Der
+            Vorhang faehrt noch, und eine Stimme hinter einem fahrenden Vorhang
+            klingt, als haette jemand zu frueh angefangen.
+
+            Wattis Einwurf haengt an Voltis **gemessener** Dauer plus der Pause,
+            die `src/zeit.ts` fuer jeden Sprecherwechsel ansetzt. Die Dauern
+            stehen in `daten/vorspannton.json` und werden vom Aufnahmeskript
+            geschrieben — Remotion kann die Laenge einer Tondatei nicht synchron
+            lesen, und von Hand gepflegt liefe die Tabelle auseinander.
+          */}
+          <Sequence
+            from={Math.round(ablauf(vorspannBilder).titel * vorspannBilder)}
+            layout="none"
+            name="Vorspann Volti"
+          >
+            <Audio src={staticFile(`ton/marke/vorspann/${daten.format}.volti.mp3`)} />
+            <Sequence
+              from={Math.round(
+                (vorspannDauern[daten.format].volti + SPRECHERWECHSEL_SEK) * bilderProSekunde,
+              )}
+              layout="none"
+              name="Vorspann Watti"
+            >
+              <Audio src={staticFile(`ton/marke/vorspann/${daten.format}.watti.mp3`)} />
+
+              {/*
+                **Die Themenansage — der einzige Vorspannton je Short.**
+
+                Sie kommt aus der Vertonung und nicht aus `public/ton/marke/`:
+                „Heutiges Thema: …" wechselt mit jedem Video, waehrend Showtitel
+                und Namen am Format haengen und einmal bezahlt sind.
+
+                Ohne Tonspur laeuft der Vorspann stumm weiter — die Laenge
+                stimmt trotzdem, weil `vorspannSek` sie dann schaetzt.
+              */}
+            </Sequence>
+          </Sequence>
+
+          {/*
+            **Die Themenansage — der einzige Vorspannton je Short.**
+
+            Sie kommt aus der Vertonung und nicht aus `public/ton/marke/`:
+            „Heutiges Thema: …" wechselt mit jedem Video, waehrend Showtitel und
+            Namen am Format haengen und einmal bezahlt sind.
+
+            Sie haengt an `ansageAbBild` — **derselben Zahl, mit der die Zeile
+            im Bild erscheint.** Ohne Tonspur laeuft der Vorspann stumm weiter;
+            die Laenge stimmt trotzdem, weil `vorspannSek` sie dann schaetzt.
+          */}
+          {daten.tonspur?.vorspann && (
+            <Sequence from={ansageAbBild} layout="none" name="Vorspann Thema">
+              <Audio src={staticFile(daten.tonspur.vorspann.datei)} />
+            </Sequence>
+          )}
         </Sequence>
-      )}
+      }
+
+      {/*
+        **Die Aufloesung liegt ausserhalb der Vorspann-`Sequence`.**
+
+        Sie klingt 0,94 Sekunden, der Vorhang faehrt in 0,4 — und sie setzt beim
+        Oeffnen ein, also kurz vor Schluss des Vorspanns. Innen gemountet haette
+        die `Sequence` sie nach wenigen Bildern abgeschnitten, und ein Ton, der
+        mitten im Ausklingen aufhoert, klingt wie ein Kabelbruch.
+
+        Draussen laeuft sie in die erste Szene hinein und traegt den Uebergang.
+        Ihr Startbild kommt aus demselben `ablauf().oeffnen` wie die
+        Vorhangbewegung.
+      */}
+      <Sequence
+        from={Math.round(ablauf(vorspannBilder).oeffnen * vorspannBilder)}
+        layout="none"
+        name="Vorhang auf"
+      >
+        <Audio src={staticFile('ton/marke/oeffnung.wav')} />
+      </Sequence>
 
       {/*
         Der Like-Hinweis haengt an einer Szene, nicht an einer Uhrzeit — siehe
