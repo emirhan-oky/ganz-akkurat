@@ -165,6 +165,23 @@ const Illustration = (
            */
           minWidth: 0,
           /*
+           * **Und dasselbe noch einmal gespiegelt.** `minWidth: 0` allein hat
+           * nur die halbe Kopplung geloest: Das `<svg>` leitet aus seiner
+           * **Breite** genauso eine Mindesthoehe ab wie umgekehrt — bei 710
+           * Pixeln Breite sind das 532 Pixel Hoehe, und damit brauchte der
+           * Inhalt 1240 Pixel auf einer Buehne von 1000. Die `passung`-Bremse
+           * schrumpfte daraufhin **alles** auf 0,806: Karte und Figuren wurden
+           * kleiner, obwohl reichlich Platz da war.
+           *
+           * `relative` plus `overflow: hidden` hier und `absolute` am `<svg>`
+           * darunter schneiden die Kette durch: Der Kasten bestimmt seine
+           * Groesse aus dem Flex-Layout, das SVG folgt ihm — und nie
+           * andersherum. Das ist zugleich die Beschneidung, die vorher fehlte,
+           * als die Kamerafahrt den Inhalt herausdrueckte.
+           */
+          position: 'relative',
+          overflow: 'hidden',
+          /*
            * `alignSelf: stretch` ist die Zeile, auf die es ankommt.
            *
            * `Buehne.tsx` wickelt die Illustration in einen eigenen Kasten mit
@@ -847,9 +864,44 @@ const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
           style={{
             ...grundtext,
             ...text,
-            fontSize: GROESSEN.aussage,
+            /*
+             * **`ueberschrift` statt `aussage`, seit dem 31.08.2026.**
+             *
+             * Die Karte traegt jetzt hoechstens 90 Zeichen statt 180, und
+             * damit ist Platz fuer die Groesse, die ein Beleg im Feed braucht.
+             * Vorher stand hier ein Textblock in Aussagengroesse, ueber den
+             * das Urteil lautete: „Niemand wuerde sich das oben durchlesen."
+             *
+             * Ein Zitat, das man liest, ist ein Zitat, das man **sieht** —
+             * gehoert wird es ohnehin.
+             */
+            /*
+             * **Die Groesse richtet sich nach der Laenge**, wie beim Satz in
+             * `Text` — dort nach dem laengsten Wort, hier nach der Zeichenzahl.
+             *
+             * Eine feste Groesse hat beides falsch gemacht: In
+             * Aussagengroesse war die Karte ein Textblock, ueber den das Urteil
+             * lautete „niemand wuerde sich das oben durchlesen"; in
+             * Ueberschriftgroesse brach ein Zitat von 79 Zeichen auf sechs
+             * Zeilen um, die `passung`-Bremse griff, und **alles** wurde
+             * kleiner — Karte und Figuren zusammen. Die Bremse hat richtig
+             * gearbeitet und das Bild trotzdem verschlechtert.
+             *
+             * Der Kernsatz steht gross, ein laengerer Ausschnitt kleiner. Wer
+             * die Karte gross will, kuerzt das Zitat — und genau diese
+             * Entscheidung gehoert beim Schreiben getroffen.
+             *
+             * **Die Schwelle liegt bei 40 Zeichen und nicht bei 62**, und der
+             * Grund ist ein Zielkonflikt, den man erst am Bild sieht: Karte und
+             * Figuren teilen sich dieselbe Hoehe. Bei 62 Zeichen in
+             * Ueberschriftgroesse fuellt die Karte vier grosse Zeilen, und die
+             * Figuren schrumpfen auf ein Drittel — genau die Groessenordnung,
+             * ueber die das Urteil lautete, sie sehe „wirklich schrecklich"
+             * aus. **Das Zitat soll beglaubigen, nicht das Bild fuehren.**
+             */
+            fontSize: szene.zitat.length <= 40 ? GROESSEN.ueberschrift : GROESSEN.aussage,
             fontStyle: 'italic',
-            lineHeight: 1.32,
+            lineHeight: 1.24,
             color: FARBEN.tinte,
             margin: 0,
           }}

@@ -917,7 +917,10 @@ const Figurenbuehne: React.FC<{
       <svg
         viewBox="0 0 200 150"
         preserveAspectRatio="xMidYMid meet"
-        style={{ flex: 1, minWidth: 0, minHeight: 0, alignSelf: 'stretch' }}
+        /* `absolute` statt `flex`: Das SVG darf seine Groesse nicht selbst
+           bestimmen — sonst leitet es aus einer Seite die andere ab und
+           treibt den Inhalt ueber die Buehne. Siehe `video/szenen/index.tsx`. */
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       >
         {/*
           Die Kamera faehrt langsam heran. Sie richtet sich nach dem, was zu
@@ -1195,7 +1198,7 @@ const Gegenueber: React.FC<{
       <svg
         viewBox="0 0 200 150"
         preserveAspectRatio="xMidYMid meet"
-        style={{ flex: 1, minWidth: 0, minHeight: 0, alignSelf: 'stretch' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       >
         <Haelfte seite={buehne.oben} y={0} auf={1} />
 

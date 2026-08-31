@@ -1185,8 +1185,31 @@ const SzeneFrage = SzeneBasis.extend({
  */
 const SzeneZitatkarte = SzeneBasis.extend({
   art: z.literal('zitatkarte'),
-  /** Der Wortlaut, wie er in der Quelle steht. Wird nie umgeschrieben. */
-  zitat: z.string().max(180),
+  /**
+   * Der Wortlaut auf der Karte — **hoechstens 90 Zeichen, seit dem 31.08.2026.**
+   *
+   * Vorher waren es 180, und das Urteil am ersten fertigen Video war deutlich:
+   * „Niemand wuerde sich das oben durchlesen." Es stimmt, und zwar aus einem
+   * Grund, der im Bau liegt und nicht im Geschmack: **Das Zitat wird ohnehin
+   * gesprochen.** Wer es zusaetzlich als Block hinstellt, verlangt, dass
+   * jemand dasselbe gleichzeitig hoert und liest — und nimmt dafuer den
+   * Figuren die Buehne. Bei 180 Zeichen blieben ihnen 108 Pixel.
+   *
+   * Im Bild muss das Zitat **beglaubigen**, nicht gelesen werden. Dafuer
+   * reicht der Kernsatz: „erhoeht die Sicherheit nicht automatisch" statt des
+   * ganzen Behoerdensatzes.
+   *
+   * **Der volle Wortlaut geht dabei nicht verloren** — er steht in
+   * `quellen.json` unter `belegId`, wird von `npm run quellen-pruefen` gegen
+   * die Seite gehalten und steht in der Beschreibung unter dem Video. Was hier
+   * kuerzer wird, ist die Anzeige, nicht der Beleg.
+   *
+   * Er muss trotzdem **woertlich** aus der Quelle stammen: 90 Zeichen sind
+   * eine Kuerzung, keine Umschrift. Wo das Kuerzen die Bedeutung dreht — die
+   * Verneinung am Satzende, das Subjekt am Anfang —, gehoert ein anderer
+   * Ausschnitt gewaehlt und nicht ein laengerer erzwungen.
+   */
+  zitat: z.string().max(90),
   quelleId: z.string(),
   belegId: z.string(),
   ...mitBelegeinblendung,

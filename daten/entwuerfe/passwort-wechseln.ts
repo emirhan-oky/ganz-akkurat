@@ -83,7 +83,16 @@ export const passwortWechseln: Short = {
         },
         { sprecher: 'zeiger', text: 'Sicherheit? Also war das alles umsonst?', machart: 'ratlosigkeit' },
       ],
-      zitat: 'Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
+      /*
+       * **Der Kernsatz, nicht der ganze Satz** — seit dem 31.08.2026.
+       *
+       * Woertlich aus derselben Fundstelle, nur der tragende Ausschnitt: Er
+       * beginnt beim Subjekt und endet hinter der Verneinung, und damit steht
+       * er gross im Bild statt als sechszeiliger Block. Der vollstaendige
+       * Wortlaut steht weiterhin in `quellen.json` und wird dort gegen die
+       * Seite geprueft.
+       */
+      zitat: 'Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
       /*
        * **Die Zitatkarte traegt seit dem 31.08.2026 eine Buehne.** Der Vertrag
        * verlangt sie seit einer Woche — „die beiden Figuren reden darueber" —,
