@@ -186,7 +186,7 @@ export const passwortWechseln: Short = {
        * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
        * ohne dass Volti ein Wort abgibt.
        */
-      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Fremde es haben.',
+      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Unbefugte es haben.',
       rede: [
         /*
          * **Wattis Irrtum wird ausgesprochen, bevor er kassiert wird.** Der
@@ -198,12 +198,12 @@ export const passwortWechseln: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Fremde es haben.',
+          text: 'Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Unbefugte es haben.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
       ],
-      text: 'Erst bei einem Hinweis.',
+      text: 'Bei einem Hinweis.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
@@ -234,13 +234,13 @@ export const passwortWechseln: Short = {
        * „Verdacht" auf — es kostet den Short nichts und gibt ihm einen
        * Rueckbezug mehr.
        */
-      sprechtext: 'Also erst bei einem Hinweis. Und jedes Konto braucht ein eigenes Passwort. Konto? Meins ist der Generalschlüssel für alles.',
+      sprechtext: 'Also nicht nach Kalender. Und einzigartig heißt: ein eigenes Passwort je Konto. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
-        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also erst bei einem Hinweis.' },
+        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also nicht nach Kalender.' },
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Und jedes Konto braucht ein eigenes Passwort.',
+          text: 'Und einzigartig heißt: ein eigenes Passwort je Konto.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
