@@ -11,6 +11,9 @@ import { BAUFORMEN,
   type Short,
   type Szene,
   FIGURENNAMEN,
+  ZUGARTEN,
+  type Zug,
+  GESPRAECHSBOEGEN,
 } from './typen';
 import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
 import {
@@ -1731,6 +1734,193 @@ const STIMMANTEIL_MAX = 2 / 3;
           'Mindestmaß. Daran erkennt man, dass zugehört wurde — ohne es könnten die Zeilen ' +
           'in beliebiger Reihenfolge stehen.',
       );
+    }
+  }
+
+  /* ── Die Zuege: ob eine Zeile der anderen antwortet ──────────────── */
+
+  /*
+   * **Warum es diese Ebene ueberhaupt gibt.**
+   *
+   * `rueckbezug` daruber war beim ersten fertigen Video **weit uebererfuellt**
+   * — fuenf von zehn Zeilen greifen ein Wort der Vorzeile auf, verlangt sind
+   * zwei — und das Urteil lautete trotzdem: „Die beiden fuehren einfach kein
+   * Gespraech miteinander."
+   *
+   * Der Grund steht in einer einzigen Zeile des Shorts: „Sicherheit? Also war
+   * das alles umsonst?" enthaelt „Sicherheit" und **antwortet trotzdem nicht
+   * Volti, sondern dem Fakt.** Ein Mass, das eine Zeichenkette zaehlt, kann
+   * eine Beziehung nicht sehen. Die Schwelle zu erhoehen haette nichts
+   * gebracht; gebraucht wird eine andere Art von Angabe.
+   *
+   * Deshalb `zug` am Redeanteil und diese vier Regeln darauf. Sie pruefen
+   * **deklarierte Felder** und koennen nicht danebenliegen — anders als
+   * `rueckbezug` mit seiner groben Stammformerkennung. Eine Wache, die nie
+   * falsch meldet, darf hart sein.
+   *
+   * **Alle Zaehlregeln sind Obergrenzen, keine Mindestmasse.** Das Projekt hat
+   * dreimal erlebt, dass eine vorschreibende Regel selbst zur Schablone wird
+   * (`einstimmig`, der einzelne Zielwert, „immer beide Stimmen"). Ein Maximum
+   * laesst sich nicht ansteuern.
+   *
+   * Solange `zug` optional ist, ueberspringen alle Regeln Anteile ohne ihn —
+   * so laesst sich Entwurf fuer Entwurf umstellen, statt alle auf einmal zu
+   * brechen.
+   */
+  {
+    const mitZug = short.szenen
+      .flatMap((sz) => sz.rede ?? [])
+      .filter((r): r is typeof r & { zug: Zug } => r.zug !== undefined);
+
+    if (mitZug.length > 0) {
+      const zuege = mitZug.map((r) => r.zug);
+
+      /*
+       * **Die Antwortpflicht.** `widersprechen` verlangt einen Konter,
+       * `nachhaken` eine Auskunft — geschlossen vom naechsten Zug der
+       * **anderen** Figur.
+       *
+       * Drei Vorkehrungen, damit daraus kein Ping-Pong-Muster wird:
+       *
+       * 1. **Nicht die unmittelbar naechste Zeile**, sondern hoechstens zwei
+       *    Positionen weiter. Der Fragende darf noch einen Satz nachschieben,
+       *    der Antwortende erst reagieren und dann antworten.
+       * 2. **Vier Zuege schliessen einen Konter**, nicht einer. Auf einen
+       *    Widerspruch gibt es mehrere richtige Antworten; bei einer waere die
+       *    Regel eine Vorschrift.
+       * 3. **Ein Zug derselben Figur zaehlt nie.** Wer nachhakt und sich
+       *    selbst beantwortet, fuehrt kein Gespraech.
+       *
+       * Die Pflicht laeuft ueber Szenengrenzen weiter: Eine Szenengrenze ist
+       * ein **Schnitt, kein Raumwechsel** — Frage am Szenenende, Antwort nach
+       * dem Schnitt ist ein Spannungsbogen und kein Fehler.
+       */
+      let offen: { art: 'konter' | 'antwort'; von: number } | undefined;
+      const unerfuellt: { art: 'konter' | 'antwort'; von: number }[] = [];
+
+      mitZug.forEach((anteil, i) => {
+        const art = ZUGARTEN[anteil.zug];
+        if (offen !== undefined) {
+          const andere = mitZug[offen.von]!.sprecher !== anteil.sprecher;
+          if (andere && art.schliesst.includes(offen.art)) {
+            offen = undefined;
+          } else if (i - offen.von > 2) {
+            unerfuellt.push(offen);
+            offen = undefined;
+          }
+        }
+        // Erst danach, damit ein Konter, der selbst nachhakt, sofort neu aufmacht.
+        if (art.verlangt !== undefined && offen === undefined) {
+          offen = { art: art.verlangt, von: i };
+        }
+      });
+
+      /*
+       * Am Short-Ende darf nur offen bleiben, wessen Bogen es zusagt — und das
+       * ist faktisch nur `werhatrecht` mit seiner Restfrage. Damit ist die
+       * Ausnahme eingetragen statt geduldet.
+       */
+      const darfOffenEnden = GESPRAECHSBOEGEN[short.format].schluss.some(
+        (z) => ZUGARTEN[z].verlangt !== undefined,
+      );
+      if (offen !== undefined && !darfOffenEnden) unerfuellt.push(offen);
+
+      for (const p of unerfuellt) {
+        const a = mitZug[p.von]!;
+        const anderer = a.sprecher === 'zeiger' ? 'nachleser' : 'zeiger';
+        melde(
+          'fehler',
+          'antwortpflicht',
+          `„${a.text}" ist ein ${ZUGARTEN[a.zug].name} und bleibt unbeantwortet. ` +
+            `${FIGURENNAMEN[anderer]} redet weiter, statt darauf einzugehen — genau daran ` +
+            'hat man im ersten fertigen Video gehört, dass die beiden kein Gespräch führen.',
+        );
+      }
+
+      /*
+       * **`abbiegen` hoechstens einmal.** Die Regel, die den diagnostizierten
+       * Fall direkt trifft: In `passwort-wechseln` sprach Volti Watti dreimal
+       * an und bekam dreimal keine Antwort. Jede Zeile fuer sich war witzig
+       * und bezog sich auf nichts.
+       *
+       * Fehler und nicht Hinweis: Als Hinweis gaebe es wieder ein gruenes
+       * `npm run pruefen` bei einem Video ohne Gespraech.
+       */
+      const abgebogen = zuege.filter((z) => z === 'abbiegen').length;
+      if (abgebogen > 1) {
+        melde(
+          'fehler',
+          'abbiegen',
+          `${abgebogen} Zeilen gehen am Gesagten vorbei, erlaubt ist eine. Ab der zweiten ` +
+            'führen die beiden zwei Monologe nebeneinander.',
+        );
+      }
+
+      /*
+       * **Die Anschlussquote** schliesst das Schlupfloch der Antwortpflicht:
+       * Wer nie widerspricht und nie nachhakt, hat nichts offen — und besteht
+       * dann aus lauter `behaupten`. Genau das war der erste Short.
+       *
+       * Die erste Zeile ist ausgenommen, sie kann nichts aufgreifen.
+       *
+       * **Als Maximum formuliert und nicht als „mindestens zwei Drittel
+       * anschliessende"**, damit niemand auf die Mindestzahl hin schreibt.
+       */
+      const ANSCHLUSSLOS_MAX = 1 / 3;
+      const ohneAnschluss = zuege
+        .slice(1)
+        .filter((z) => ZUGARTEN[z].schliesst.length === 0 && ZUGARTEN[z].verlangt === undefined)
+        .length;
+      if (zuege.length > 1 && ohneAnschluss / (zuege.length - 1) > ANSCHLUSSLOS_MAX) {
+        melde(
+          'fehler',
+          'anschluss',
+          `${ohneAnschluss} von ${zuege.length - 1} Zeilen gehen auf nichts ein, erlaubt ist ` +
+            'ein Drittel. Wer nur behauptet und nachlegt, hält einen Vortrag zu zweit.',
+        );
+      }
+
+      /*
+       * **Kein Zugpaar dreimal.** Zwei gleiche Wechsel in einem Short sind
+       * Zufall — bei elf Paaren aus 72 moeglichen liegt der Erwartungswert bei
+       * 0,76. Drei sind der Takt, an dem der Zuschauer die Mechanik hoert.
+       *
+       * `(behaupten → abbiegen)` dreimal ist die Bauform des ersten Videos in
+       * einer Zeile.
+       */
+      const paare = new Map<string, number>();
+      for (let i = 1; i < zuege.length; i++) {
+        const paar = `${ZUGARTEN[zuege[i - 1]!].name} → ${ZUGARTEN[zuege[i]!].name}`;
+        paare.set(paar, (paare.get(paar) ?? 0) + 1);
+      }
+      for (const [paar, anzahl] of paare) {
+        if (anzahl < 3) continue;
+        melde(
+          'fehler',
+          'zugpaar',
+          `Der Wechsel „${paar}" steht ${anzahl}-mal im selben Short. Zweimal ist Zufall, ` +
+            'dreimal ist der Takt, an dem der Zuschauer die Mechanik hört.',
+        );
+      }
+
+      /*
+       * **Der Bogen sagt zu, wie es ausgeht.** Das einzige Feld aus
+       * `GESPRAECHSBOEGEN`, das eine Pruefung traegt — alles andere darin ist
+       * Handreichung fuer den Entwurf und wird ausdruecklich von keinem Skript
+       * gelesen.
+       */
+      const letzter = zuege[zuege.length - 1]!;
+      const bogen = GESPRAECHSBOEGEN[short.format];
+      if (zuege.length === short.szenen.flatMap((sz) => sz.rede ?? []).length &&
+          !bogen.schluss.includes(letzter)) {
+        melde(
+          'hinweis',
+          'bogen',
+          `Der Short endet auf „${ZUGARTEN[letzter].name}". ${FORMATE[short.format].show} ` +
+            `endet laut Bogen auf ${bogen.schluss.map((z) => ZUGARTEN[z].name).join(', ')} — ` +
+            `die Wendung ist ${bogen.wendung.toLowerCase()}`,
+        );
+      }
     }
   }
 

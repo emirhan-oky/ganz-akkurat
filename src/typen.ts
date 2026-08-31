@@ -403,6 +403,200 @@ export const FIGURENNAMEN: Record<Sprecher, string> = {
 export type Sprecher = z.infer<typeof Sprecher>;
 
 /**
+ * Was ein Redezug im Gespraech **tut** — die zweite Achse neben der Machart.
+ *
+ * ## Warum es sie gibt
+ *
+ * Am 31.08.2026 lag der erste vertonte Short im neuen Bau vor, und das Urteil
+ * war eindeutig: „Die beiden fuehren einfach kein Gespraech miteinander. Volti
+ * erklaert irgendwas und Watti gibt einfach dumme Kommentare ab."
+ *
+ * Die Ursache stand hier im Schema. `REAKTIONS_MACHARTEN` kennt Gestaendnis,
+ * falschen Schluss, Bild, Ratlosigkeit, Empoerung, Rueckfrage — und **keine
+ * einzige Beziehung zum Vorredner**. Ein Redeanteil konnte gar nicht auf einen
+ * anderen zeigen, also konnte kein Entwurf es tun und keine Pruefung sein
+ * Fehlen melden.
+ *
+ * ## Machart und Zug sind zwei Achsen, nicht eine
+ *
+ * Die Machart beantwortet **„was fuegt diese Zeile dem Fakt hinzu?"**, der Zug
+ * **„was tut diese Zeile dem anderen an?"**. „Ich bin bei Passwort7." ist ein
+ * tadelloses Gestaendnis **und** geht am Vorredner vorbei — beides ist
+ * gleichzeitig wahr, weil die Fragen verschieden sind.
+ *
+ * Deshalb steht hier kein Eintrag, der eine Machart nachbaut: kein
+ * `bebildern`, kein `sich-verraten`, kein `ratlos-werden`. Zwei Felder, die
+ * beinahe dasselbe sagen, sind die Doppelung ohne Wache — der Fehler, den
+ * dieses Projekt am haeufigsten teuer bezahlt hat.
+ *
+ * **Der Nebengewinn ist der entscheidende:** `regieVorrat` und `syntheseText`
+ * haengen weiter an der Machart und bleiben unberuehrt. Die geplante Blindwahl
+ * fuer die Regieanweisungen bleibt gueltig.
+ *
+ * ## `abbiegen` ist der wichtigste Eintrag
+ *
+ * Es ist der Zug, der das erste Video ruiniert hat: am Gesagten vorbei. Er
+ * steht trotzdem im Vorrat, und zwar aus dem Satz, der einmal `einstimmig` in
+ * `BAUFORMEN` gehalten hat — **was keinen Namen hat, kann keine Regel
+ * begrenzen.** Dort war die Begruendung an der falschen Sache; hier traegt
+ * sie: `abbiegen` darf hoechstens einmal je Short vorkommen, und das laesst
+ * sich nur zaehlen, weil es heisst, wie es heisst.
+ */
+export const Zug = z.enum([
+  'behaupten',
+  'nachlegen',
+  'beantworten',
+  'richtigstellen',
+  'gegenbeispiel',
+  'einschraenken',
+  'widersprechen',
+  'nachhaken',
+  'umdeuten',
+  'einlenken',
+  'zuspitzen',
+  'abbiegen',
+]);
+export type Zug = z.infer<typeof Zug>;
+
+/** Was ein Zug offenlaesst und was er schliesst. */
+type Offenheit = 'konter' | 'antwort';
+
+export const ZUGARTEN: Record<
+  Zug,
+  {
+    name: string;
+    tut: string;
+    achtung: string;
+    beispiele: readonly string[];
+    /**
+     * Ob der Zug etwas ueber die Welt behauptet.
+     *
+     * **Traegt seit dem 01.09.2026 die Belegpflicht**, die vorher an
+     * `machart !== undefined` hing. Das ist keine Umbenennung, sondern eine
+     * Verschaerfung: Eine quellenlose Zeile **ohne** Machart entkam der Sperre
+     * bisher vollstaendig, und drei solche Zeilen stehen in
+     * `ersatzteil-freischalten`.
+     */
+    behauptet: boolean;
+    /** Was der Zug offenlaesst. Der naechste Zug der **anderen** Figur schliesst es. */
+    verlangt?: Offenheit;
+    /** Welche offene Pflicht dieser Zug schliesst. Leer heisst: er schliesst keine. */
+    schliesst: readonly Offenheit[];
+  }
+> = {
+  behaupten: {
+    name: 'Behaupten',
+    tut: 'Stellt den Fakt hin. Der Zug, der ein Gespraech eroeffnet.',
+    achtung: 'Ein Short aus lauter Behauptungen ist ein Vortrag zu zweit — siehe die Anschlussquote.',
+    beispiele: ['Beim BSI steht: Ein Wechsel nach Plan erhoeht die Sicherheit nicht automatisch.'],
+    behauptet: true,
+    schliesst: [],
+  },
+  nachlegen: {
+    name: 'Nachlegen',
+    tut: 'Legt in derselben Richtung nach. Macht es schlimmer, nicht anders.',
+    achtung: 'Nicht dasselbe zweimal. Wer nachlegt, bringt eine zweite Tatsache, keine zweite Formulierung.',
+    beispiele: ['Und die Liste gilt erst ab Juli 2026.'],
+    behauptet: true,
+    schliesst: [],
+  },
+  beantworten: {
+    name: 'Beantworten',
+    tut: 'Beantwortet, was gefragt wurde.',
+    achtung: 'Die Antwort muss die Frage treffen. Wer daneben antwortet, biegt ab — und das ist ein anderer Zug.',
+    beispiele: ['Wechseln sollst du, wenn es einen Hinweis gibt.'],
+    behauptet: true,
+    schliesst: ['antwort'],
+  },
+  richtigstellen: {
+    name: 'Richtigstellen',
+    tut: 'Sagt, was am Gesagten falsch war.',
+    achtung: 'Richtigstellen heisst widerlegen, nicht wiederholen. Ohne neuen Inhalt ist es ein Nachlegen.',
+    beispiele: ['Nicht der Kalender entscheidet, sondern der Verdacht.'],
+    behauptet: true,
+    schliesst: ['konter', 'antwort'],
+  },
+  gegenbeispiel: {
+    name: 'Gegenbeispiel',
+    tut: 'Haelt einen Fall dagegen, statt zu widersprechen. Ein Beispiel schlaegt ein Argument.',
+    achtung: 'Der Fall muss belegt sein — er behauptet etwas ueber die Welt.',
+    beispiele: ['Auf der ISS liefen 2009 Laptops, die aelter als fuenf Jahre waren.'],
+    behauptet: true,
+    schliesst: ['konter'],
+  },
+  einschraenken: {
+    name: 'Einschraenken',
+    tut: 'Nimmt zurueck: nicht immer, nur wenn.',
+    achtung:
+      'Der haeufigste Ort fuer eine stille Ueberdehnung in der Gegenrichtung — wer einschraenkt, muss die Grenze belegen koennen.',
+    beispiele: ['Nur, wenn das Teil den Anforderungen entspricht.'],
+    behauptet: true,
+    schliesst: ['konter'],
+  },
+  widersprechen: {
+    name: 'Widersprechen',
+    tut: 'Bestreitet, was gerade gesagt wurde. Der Motor eines Streits.',
+    achtung:
+      'Er bestreitet, er behauptet nicht. „Das stimmt nicht, weil X" ist kein Widerspruch, sondern ein Gegenbeispiel — und dann belegpflichtig.',
+    beispiele: ['Das hat sich doch jemand ausgedacht.'],
+    behauptet: false,
+    verlangt: 'konter',
+    schliesst: [],
+  },
+  nachhaken: {
+    name: 'Nachhaken',
+    tut: 'Fragt nach dem, was offen blieb.',
+    achtung: 'Eine echte Frage, keine rhetorische. Wer die Antwort mitliefert, hakt nicht nach.',
+    beispiele: ['Kacke, was dann?', 'Sagt das eigentlich mal jemand mit Ahnung?'],
+    behauptet: false,
+    verlangt: 'antwort',
+    schliesst: [],
+  },
+  umdeuten: {
+    name: 'Umdeuten',
+    tut: 'Greift ein Wort auf und dreht seine Bedeutung.',
+    achtung:
+      'Das aufgegriffene Wort muss wirklich in der Vorzeile stehen — `rueckbezug` prueft das nach. Ein behaupteter Anschluss ohne Deckung ist schlimmer als keiner.',
+    beispiele: ['Jetzt spuere ich einen Verdacht auf meine Dummheit.', 'Konto? Meins ist der Generalschluessel.'],
+    behauptet: false,
+    schliesst: ['konter', 'antwort'],
+  },
+  einlenken: {
+    name: 'Einlenken',
+    tut: 'Gibt nach.',
+    achtung: 'Widerwillig, nicht einsichtig. Wer freundlich einlenkt, beendet den Streit statt ihn aufzuloesen.',
+    beispiele: ['Na super.', 'Also war das alles umsonst.'],
+    behauptet: false,
+    schliesst: ['konter'],
+  },
+  zuspitzen: {
+    name: 'Zuspitzen',
+    tut: 'Treibt weiter, ohne etwas zu behaupten.',
+    achtung: 'Zuspitzen ist keine Steigerung derselben Zeile. Es muss eine Ecke weiter gehen, nicht lauter werden.',
+    beispiele: ['Auch die Zahnbuerste?'],
+    behauptet: false,
+    schliesst: [],
+  },
+  abbiegen: {
+    name: 'Abbiegen',
+    tut: 'Geht am Gesagten vorbei. Der eine spricht, der andere ist woanders — und manchmal liegt genau darin der Witz.',
+    achtung:
+      'Der Zug, der das erste fertige Video ruiniert hat. Volti sprach Watti dreimal direkt an und bekam dreimal keine Antwort; jede Zeile fuer sich war witzig und bezog sich auf nichts. **Hoechstens einer je Short**, und nie mit einem Pronomen am Anfang: „Das …" behauptet einen Bezug, den dieser Zug gerade bestreitet.',
+    beispiele: ['Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen.'],
+    behauptet: false,
+    schliesst: [],
+  },
+};
+
+/*
+ * Typwache nach dem Vorbild von `_machartenDeckenSich`: Der Record oben muss
+ * jeden Zug aus dem Enum kennen. Ohne sie faellt ein neuer Zug hier still
+ * durch und wirft erst zur Laufzeit.
+ */
+const _zugartenDeckenSich: Record<Zug, unknown> = ZUGARTEN;
+void _zugartenDeckenSich;
+
+/**
  * Ein Redeanteil — eine Figur, ein Satz.
  *
  * **Warum es die Reaktionszeile ueberhaupt gibt.** Die Belegpflicht zwingt
@@ -427,8 +621,22 @@ export const Redeanteil = z
     sprecher: Sprecher,
     text: z.string().min(1),
     /**
+     * Was dieser Zug im Gespraech tut. Aus `ZUGARTEN`.
+     *
+     * **Noch optional, und das ist ein Zwischenzustand.** Die Regeln darauf
+     * ueberspringen Anteile ohne `zug`, damit die vier bestehenden Entwuerfe
+     * einzeln umgestellt werden koennen, statt alle auf einmal zu brechen.
+     * Sobald der letzte migriert ist, wird das Feld Pflicht — nach dem Muster
+     * von `belegId`, `weitererzaehlt` und `suchbegriff`: **Die Frage faellt
+     * beim Schreiben an, nicht in der Durchsicht.**
+     */
+    zug: Zug.optional(),
+    /**
      * Nur an Reaktionszeilen. Aus `REAKTIONS_MACHARTEN` — der Entwurf muss
      * eine waehlen, statt in den zusammenfassenden Kommentar zu fallen.
+     *
+     * **Die zweite Achse neben `zug`**, nicht dieselbe: Diese sagt, was die
+     * Zeile dem **Fakt** hinzufuegt, jene, was sie dem **anderen** antut.
      */
     machart: z
       .enum(['gestaendnis', 'falscherschluss', 'bild', 'ratlosigkeit', 'empoerung', 'rueckfrage'])
@@ -462,6 +670,24 @@ export const Redeanteil = z
         code: z.ZodIssueCode.custom,
         message: 'Eine Reaktion nennt keine Quelle. Sie behauptet nichts über die Welt.',
         path: ['quelleId'],
+      });
+    }
+    /*
+     * **Die Wache ueber den zwei Achsen.** Eine Machart beschreibt, wie eine
+     * Reaktion witzig ist; ein behauptender Zug traegt einen Fakt.
+     * `richtigstellen` und `gestaendnis` schliessen einander aus.
+     *
+     * Ohne sie driften die beiden Felder auseinander wie `rede` und
+     * `sprechtext` ohne ihre Gleichheitswache — jedes fuer sich gueltig, und
+     * zusammen sagen sie zwei verschiedene Dinge ueber dieselbe Zeile.
+     */
+    if (r.zug !== undefined && r.machart !== undefined && ZUGARTEN[r.zug].behauptet) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          `„${ZUGARTEN[r.zug].name}" behauptet etwas über die Welt und trägt deshalb keine ` +
+          'Machart. Die Machart gehört der Reaktion, nicht dem Beleg.',
+        path: ['machart'],
       });
     }
     if ((r.quelleId === undefined) !== (r.belegId === undefined)) {
@@ -1911,6 +2137,96 @@ export const FORMATE: Record<
     reaktion: 'Das nehme ich',
     kipppunkt: 'Das Merkmal, an dem es haengt.',
     opener: ['Worauf du achtest, wenn du eins kaufst.'],
+  },
+};
+
+/**
+ * Die Grundspannung je Show — **wer irrt, worueber gestritten wird, wie es
+ * ausgeht.**
+ *
+ * ## Warum das nicht in `FORMATE` steht
+ *
+ * `FORMATE` traegt Produktionsdaten: Pille, Farben, Sendezeit, Showtitel. Der
+ * Bogen ist Dramaturgie. Zwei Dinge, die zusammen in einem Record wohnen,
+ * laufen beim ersten Umbau auseinander — dieselbe Begruendung, aus der `RUHE`
+ * nicht in `ABLAUF` steht.
+ *
+ * ## Warum vier der fuenf Felder von keinem Skript gelesen werden
+ *
+ * **Und das steht hier ausdruecklich, damit es niemand fuer ein Versehen
+ * haelt.** Ob ein Streit wirklich um `streitfrage` geht und ob die `wendung`
+ * traegt, kann kein Skript beurteilen. Ihr Leser ist der Entwurfsprompt und
+ * der `belegpruefer` — genau wie bei `FORMATE.haltung`, das ebenfalls seit dem
+ * 20.08.2026 von keiner Regel gelesen wird.
+ *
+ * Die Gefahr daran ist bekannt: „Ein Zielwert, der nur im Kommentar steht, ist
+ * keine Wache." Deshalb traegt **genau ein Feld** eine Pruefung — `schluss`,
+ * gegen den Zug des letzten Redeanteils. Alles andere ist Handreichung.
+ *
+ * ## Und warum die Mitte frei bleibt
+ *
+ * Der Bogen setzt Anfang und Aufloesung. Schriebe er die Mitte vor, waere er
+ * in vier Wochen die Schablone, gegen die der ganze Umbau laeuft — `frei`
+ * haelt fest, was er ausdruecklich **nicht** bestimmt.
+ *
+ * `schaetzmal` fehlt, weil es die Show nicht gibt: Die Schaetzfrage ist am
+ * 20.08.2026 vom Sendeplatz zur Machart herabgestuft worden. Der Record-Typ
+ * erzwingt ihren Bogen von selbst, sobald sie je angelegt wird.
+ */
+export type Gespraechsbogen = {
+  /** Worueber die beiden uneins sind. Als Frage, damit sie offen bleibt. */
+  streitfrage: string;
+  /** Wer irrt — und ausdruecklich auch: ob ueberhaupt jemand irrt. */
+  irrtum: Sprecher | 'beide' | 'keiner';
+  /** Woran der Irrtum kippt. Haengt am `kipppunkt` des Formats. */
+  wendung: string;
+  /** Wie es ausgeht. **Das einzige gepruefte Feld.** */
+  schluss: readonly Zug[];
+  /** Was der Bogen offenlaesst. Steht hier, damit niemand die Mitte festschreibt. */
+  frei: string;
+};
+
+export const GESPRAECHSBOEGEN: Record<Format, Gespraechsbogen> = {
+  gibtswirklich: {
+    streitfrage: 'Kann das stimmen?',
+    irrtum: 'keiner',
+    wendung: 'Die Sache selbst. Niemand hat sich geirrt, die Welt ist so.',
+    schluss: ['richtigstellen', 'zuspitzen', 'einlenken'],
+    frei: 'Wer staunt und wer nachlegt. Beide duerfen unglaeubig sein, und es darf wechseln.',
+  },
+  werhatrecht: {
+    streitfrage: 'Wer von beiden Lagern hat recht?',
+    irrtum: 'beide',
+    wendung: 'Das Dritte, das beide Lager uebersehen.',
+    /*
+     * **Der einzige Bogen, der offen enden darf.** `FORMATE.werhatrecht`
+     * verlangt die Restfrage seit dem 20.08.2026 — hier steht sie als
+     * eingetragene Zusage und nicht als geduldete Luecke, damit die
+     * Antwortpflicht sie kennt statt sie zu melden.
+     */
+    schluss: ['nachhaken', 'einschraenken', 'widersprechen'],
+    frei: 'Welches Lager welche Figur vertritt. Es darf innerhalb des Shorts wechseln.',
+  },
+  eswareinmal: {
+    streitfrage: 'Gilt das noch?',
+    irrtum: 'zeiger',
+    wendung: 'Das „und heute".',
+    schluss: ['einlenken', 'richtigstellen'],
+    frei: 'Ob der Irrende es merkt. Er darf auch bei seiner alten Weisheit bleiben.',
+  },
+  absicht: {
+    streitfrage: 'Ist das kaputt oder so gebaut?',
+    irrtum: 'nachleser',
+    wendung: 'Wer es entschieden hat.',
+    schluss: ['richtigstellen', 'zuspitzen'],
+    frei: 'Gegen wen sich die Empoerung richtet, solange ein Beleg danebensteht.',
+  },
+  empfehlung: {
+    streitfrage: 'Woran haengt es beim Kauf?',
+    irrtum: 'zeiger',
+    wendung: 'Das Merkmal, an dem es haengt.',
+    schluss: ['beantworten', 'einlenken'],
+    frei: 'Wer fragt und wer empfiehlt.',
   },
 };
 
