@@ -28,10 +28,8 @@ const behauptung = (szene: Szene): string => {
       return szene.frage;
     case 'schluss':
       return szene.satz;
-    case 'einschraenkung':
-      return `${szene.bedingung} — ${szene.folge}`;
-    default:
-      return '';
+    case 'zitatkarte':
+      return szene.zitat;
   }
 };
 

@@ -1457,9 +1457,55 @@ passwort 48 (52) · erstes-laden 45 (45). Gesamtlängen 54 bis 64 s.
 
 ### Offen
 
-- [ ] ▸ **Das Bild der Gesprächsszenen** — vier tote Szenenarten streichen, die
+- [ ] **Das Bild der Gesprächsszenen** — vier tote Szenenarten streichen, die
       Zitatkarte mit Bühne, die erste Szene mit beiden Figuren, der Freiraum
       unter dem Satz
 - [ ] **Der erste Short mit vollem Ton** — rund 580 Zeichen von 81.000
 - [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
       einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*
+
+## Das Bild der Gesprächsszenen · 31.08.2026 · Nacht
+
+### Der Freiraum — gemessen statt vermutet
+
+- [x] ~~**Die Notiz stand falsch herum.** „Die Figuren sitzen tief, darüber
+      steht viel Leere" — gemessen an vier Szenen sitzen sie **hoch**: über dem
+      Inhalt sind 1 bis 13 Pixel frei, **darunter rund 790** (41 % des Bildes)~~
+- [x] ~~**Zwei eigene Fehlrechnungen**, beide vor dem Bauen gefunden: Ein
+      viewBox-Beschnitt macht die Letterbox **größer** (203 → 327 px), weil die
+      Skala an der Breite hängt. Und die größere Schrift hat **drei Pixel**
+      gebracht~~
+- [x] ~~**Die Letterbox ist strukturell.** Bei 710 px Bühnenbreite ist die
+      Zeichnung 532 px hoch und bekommt 736. Sie verschwindet nur, wenn die
+      Bühne breiter wird — und das kostet sichere Zone~~
+- [x] ~~Die Schriftgrößen sind trotzdem gestiegen (76 → 92, Aufschlag 86 → 96):
+      besser lesbar im Feed, auch wenn es die Leere nicht löst~~
+
+### Vier Szenenarten gestrichen
+
+- [x] ~~`vergleich`, `einschraenkung`, `kaufkriterien` — von keinem Short je
+      benutzt. Fünf Arten bleiben: `text`, `zahl`, `frage`, `zitatkarte`,
+      `schluss`~~
+- [x] ~~**`frage` bekommt eine Gnadenfrist:** Sie ist der Baustein für das
+      Format `schaetzmal`, das auf der Liste steht. Was gebraucht wird, streicht
+      man nicht, weil es heute niemand benutzt~~
+
+### Beide auf die Bühne, wo beide reden
+
+- [x] ~~**`passwort-wechseln` zeigte in drei von sechs Szenen eine einzelne
+      Figur**, während beide miteinander redeten. Die anderen drei Entwürfe
+      waren sauber~~
+- [x] ~~**Der Grund war der Weg des geringsten Widerstands:** Die drei Szenen
+      trugen `erklaeren`, `zeigen` und zwei Requisiten — alles bei zwei Figuren
+      verboten. Wer die Sperre nicht lösen will, lässt die zweite Figur weg~~
+- [x] ~~**Neue Wache `zweiImBild`.** Sperren verbieten, sie verlangen nichts —
+      dieselbe Lücke wie bei `zweistimmigkeit` und `reaktion`~~
+- [x] ~~Gemessen: Die Bühnenzone ist jetzt zu **14,7 %** gefüllt statt zu 8,2 %~~
+
+### Offen
+
+- [ ] ▸ **Die Zitatkartenszene zeigt keine Figuren** — bei `passwort-wechseln`
+      ist das Szene 2, und der Vertrag sagt „die beiden Figuren reden darüber".
+      Im Standbild ist die untere Hälfte leer
+- [ ] **Die Letterbox** — nur über mehr Bühnenbreite lösbar
+- [ ] **Der erste Short mit vollem Ton** — rund 580 Zeichen von 81.000

@@ -189,34 +189,50 @@ const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
   const laengstesWort = Math.max(...szene.text.split(/\s+/).map((w) => w.length));
 
   /*
-   * Ein Aufschlag mit Buehne steht eine Stufe kleiner.
+   * ## Die Groessen sind am 31.08.2026 gestiegen, und der Grund ist gemessen
    *
-   * Der Grund ist gemessen: `BUEHNE.hoehe` betraegt **730 Pixel** — von den
-   * 1920 des Formats gehen 420 an die sichere Zone oben, 500 an die unten und
-   * 270 an die Untertitelzone. Ein dreizeiliger Aufschlag in 104 Pixeln
-   * braucht davon mit dem blauen Balken rund 400, und fuer die Zeichnung
-   * bleiben 330. Die Figur wurde dadurch zum Daumennagel.
+   * Hier stand die Rechnung fuer `BUEHNE.hoehe` = **730 Pixel**, und sie war
+   * richtig, solange unten die Untertitelzone lag. Seit zweistimmige Shorts
+   * keinen Untertitel mehr tragen, sind es **1000** — und die 270 Pixel
+   * Differenz sind niemandem zugutegekommen.
    *
-   * Bei 86 Pixeln passt derselbe Satz auf zwei Zeilen: rund 250 Pixel statt
-   * 400, und die Buehne bekommt 480 statt 330. Das ist der Tausch, um den es
-   * geht — der Aufschlag verliert ein Sechstel Schriftgroesse, die Zeichnung
-   * gewinnt die Haelfte an Flaeche.
+   * Nachgemessen am fertigen Video, vier Szenen: Der Inhalt endet bei y ≈ 1130,
+   * **darunter sind rund 790 Pixel leer** — 41 % des Bildes. Ueber dem Inhalt
+   * ist nichts frei.
    *
-   * Ohne Buehne bleibt es bei 104: Dort ist der ganze Platz seiner.
+   * Der Platz landet in der **Letterbox** des Buehnen-SVG: Es ist 200 × 150
+   * Einheiten gross und passt sich mit `meet` der schmaleren Seite an. Bei 710
+   * Pixeln Breite sind das 3,55 Pixel je Einheit, die Zeichnung wird 532 Pixel
+   * hoch — und bekommt 736. Die Differenz verteilt `xMidYMid` gleichmaessig
+   * ueber und unter die Zeichnung.
+   *
+   * **Zwei Wege, die nicht funktionieren**, damit sie niemand erneut versucht:
+   *
+   * - `preserveAspectRatio` und `alignItems` bewegen nur die Letterbox. Drei
+   *   Anlaeufe blieben deshalb wirkungslos.
+   * - Die viewBox oben zu beschneiden macht es **schlimmer**: Die Skala haengt
+   *   an der Breite und bleibt bei 3,55, die Zeichnung wird nur kuerzer, und
+   *   die Letterbox waechst von 203 auf 327 Pixel.
+   *
+   * Was wirkt, ist die Groesse des Satzes. Er bekommt die Differenz, die
+   * Letterbox faellt weg, und die Figuren bleiben, wie sie sind — **die
+   * einzige Stellschraube, die keine sichere Zone anfasst.**
+   *
+   * Ohne Buehne bleibt der Aufschlag bei 104: Dort ist der ganze Platz seiner.
    */
-  const grosseStufe = aufschlag && !szene.buehne ? GROESSEN.hook : 86;
+  const grosseStufe = aufschlag && !szene.buehne ? GROESSEN.hook : 96;
 
   const groesse = aufschlag
     ? laengstesWort <= 11
       ? grosseStufe
       : laengstesWort <= 14
-        ? 86
+        ? 96
         : laengstesWort <= 17
-          ? 72
-          : 62
+          ? 82
+          : 70
     : laengstesWort <= 15
-      ? GROESSEN.ueberschrift
-      : 62;
+      ? 92
+      : 76;
 
   // Das hervorgehobene Wort bekommt Signalblau — der Rest bleibt ruhig.
   const teile = szene.hervorhebung
@@ -445,171 +461,6 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
 };
 
 /* ───────────────────────────── Vergleich ───────────────────────────── */
-
-/**
- * Im Hochformat werden die beiden Seiten uebereinander gestapelt, nicht
- * nebeneinander. Nebeneinander blieben je Spalte rund 400 Pixel — zu wenig
- * fuer lesbare Spezifikationszeilen.
- */
-const Vergleich: React.FC<SzenenProps<'vergleich'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  // Die zweite Karte erscheint erst, wenn die Stimme bei ihr angekommen ist.
-  // Beide gleichzeitig zu zeigen nimmt dem Vergleich die Spannung.
-  const Karte: React.FC<{ seite: typeof szene.links; index: number }> = ({ seite, index }) => {
-    const farben = bewertungsfarben(seite.bewertung);
-    return (
-      <div
-        style={{
-          ...auftrittImSprechrhythmus(frame, fps, index, 2, dauer),
-          backgroundColor: seite.bewertung ? farben.hinten : FARBEN.grundRein,
-          border: `3px solid ${seite.bewertung ? farben.vorne : FARBEN.flaeche}`,
-          borderRadius: RADIUS.l,
-          padding: ABSTAND.l,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: ABSTAND.s, marginBottom: ABSTAND.m }}>
-          {seite.bewertung && (
-            <span
-              style={{
-                ...grundtext,
-                fontWeight: SCHRIFT.schwarz,
-                fontSize: 40,
-                color: FARBEN.grundRein,
-                backgroundColor: farben.vorne,
-                width: 56,
-                height: 56,
-                borderRadius: RADIUS.rund,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              {farben.zeichen}
-            </span>
-          )}
-          <span style={{ ...grundtext, fontWeight: SCHRIFT.schwarz, fontSize: GROESSEN.aussage }}>{seite.titel}</span>
-        </div>
-
-        {seite.zeilen.map((zeile, i) => (
-          <div
-            key={i}
-            style={{
-              ...grundtext,
-              ...auftrittGestaffelt(frame, fps, i, 6),
-              fontWeight: SCHRIFT.normal,
-              fontSize: GROESSEN.fliesstext,
-              color: FARBEN.tinteWeich,
-              lineHeight: 1.5,
-              letterSpacing: -0.3,
-            }}
-          >
-            {zeile}
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  return (
-    <Buehne dauerBilder={dauer}>
-      {szene.ueberschrift && (
-        <h2
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            margin: `0 0 ${ABSTAND.l}px`,
-          }}
-        >
-          {szene.ueberschrift}
-        </h2>
-      )}
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.m }}>
-        <Karte seite={szene.links} index={0} />
-        <Karte seite={szene.rechts} index={1} />
-      </div>
-    </Buehne>
-  );
-};
-
-/* ─────────────────────────── Einschraenkung ────────────────────────── */
-
-/**
- * Die Kehrseite — Grenzfall oder Folgekosten.
- *
- * Bewusst ruhig gehalten und **nicht** in Warnrot: Das hier ist keine
- * Warnung, sondern eine Praezisierung. Wer die Ausnahme in Alarmfarbe setzt,
- * macht aus „so genau ist es" ein „Achtung, Gefahr" — und verschenkt genau
- * die Souveraenitaet, wegen der die Szene ueberhaupt existiert.
- */
-const Einschraenkung: React.FC<SzenenProps<'einschraenkung'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
-      {szene.ueberschrift && (
-        <p
-          style={{
-            ...grundtext,
-            ...auftritt(frame, fps, 0),
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.aussage,
-            color: FARBEN.tinteWeich,
-            margin: `0 0 ${ABSTAND.l}px 0`,
-          }}
-        >
-          {szene.ueberschrift}
-        </p>
-      )}
-
-      {/*
-       * Bedingung und Folge sind zwei Gedanken und bekommen je einen
-       * Abschnitt der Szene. Vorher standen beide nach 0,2 und 1,1 Sekunden
-       * fest — die Folge war da, bevor die Stimme die Bedingung zu Ende
-       * gesprochen hatte.
-       */}
-      <div
-        style={{
-          ...auftrittImSprechrhythmus(frame, fps, 0, 2, dauer),
-          borderLeft: `10px solid ${FARBEN.blau}`,
-          paddingLeft: ABSTAND.l,
-        }}
-      >
-        <p
-          style={{
-            ...grundtext,
-            fontWeight: SCHRIFT.fett,
-            fontSize: GROESSEN.ueberschrift,
-            lineHeight: 1.16,
-            margin: 0,
-          }}
-        >
-          {szene.bedingung}
-        </p>
-        <p
-          style={{
-            ...grundtext,
-            opacity: einblenden(frame, abschnitt(1, 2, dauer).start),
-            fontSize: GROESSEN.fliesstext,
-            color: FARBEN.tinteWeich,
-            lineHeight: 1.3,
-            margin: `${ABSTAND.m}px 0 0 0`,
-          }}
-        >
-          {szene.folge}
-        </p>
-      </div>
-    </Buehne>
-  );
-};
-
-/* ───────────────────────────── Schluss ─────────────────────────────── */
 
 /**
  * Der Nachschlag: **ein** Satz. Sonst nichts.
@@ -897,144 +748,6 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
 /* ──────────────────────────── Kaufkriterien ─────────────────────────── */
 
 /**
- * Die Erntekarte des Kaufwinkels.
- *
- * Sie sieht der Endkarte bewusst aehnlich — gleicher Rahmen, gleiche
- * Nummernkreise —, weil sie dieselbe Aufgabe hat: als Standbild ueberleben.
- * Der Unterschied liegt im `pruefen`-Detail unter jedem Kriterium und im
- * abgesetzten Verweis am Fuss. Wer das Video anhaelt, hat eine Einkaufsliste
- * statt eines Merksatzes.
- */
-const Kaufkriterien: React.FC<SzenenProps<'kaufkriterien'>> = ({ szene, dauer }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  // Wie bei der Endkarte: Einlauf im ersten Drittel, danach steht die Karte.
-  const einlaufzeit = Math.round(dauer * 0.34);
-
-  return (
-    <Buehne>
-      <div
-        style={{
-          ...auftritt(frame, fps, 0),
-          backgroundColor: FARBEN.grundRein,
-          border: `4px solid ${FARBEN.tinte}`,
-          borderRadius: RADIUS.l,
-          padding: ABSTAND.xl,
-          boxShadow: '0 18px 48px rgba(17,24,32,0.10)',
-        }}
-      >
-        <h2
-          style={{
-            ...grundtext,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: GROESSEN.ueberschrift,
-            lineHeight: 1.12,
-            margin: `0 0 ${ABSTAND.l}px`,
-          }}
-        >
-          {szene.ueberschrift}
-        </h2>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.l }}>
-          {szene.kriterien.map((kriterium, i) => (
-            <div
-              key={i}
-              style={{
-                ...auftrittImSprechrhythmus(frame, fps, i, szene.kriterien.length, einlaufzeit),
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: ABSTAND.m,
-              }}
-            >
-              <span
-                style={{
-                  ...grundtext,
-                  fontWeight: SCHRIFT.schwarz,
-                  fontSize: 34,
-                  color: FARBEN.grundRein,
-                  backgroundColor: FARBEN.blau,
-                  minWidth: 52,
-                  height: 52,
-                  borderRadius: RADIUS.rund,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {i + 1}
-              </span>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: ABSTAND.xs, paddingTop: 2 }}>
-                <span
-                  style={{
-                    ...grundtext,
-                    fontWeight: SCHRIFT.halbfett,
-                    fontSize: GROESSEN.fliesstext,
-                    lineHeight: 1.32,
-                  }}
-                >
-                  {kriterium.text}
-                </span>
-
-                {/* Wo das Merkmal nachzulesen ist — macht das Kriterium pruefbar
-                    statt zu einer Behauptung, der man glauben muss. */}
-                {kriterium.pruefen && (
-                  <span
-                    style={{
-                      ...grundtext,
-                      fontWeight: SCHRIFT.normal,
-                      fontSize: GROESSEN.detail,
-                      color: FARBEN.tinteWeich,
-                      letterSpacing: 0,
-                      lineHeight: 1.28,
-                    }}
-                  >
-                    {kriterium.pruefen}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Der Verweis loest die Werbekennzeichnung aus (siehe Short-Schema).
-            Deshalb steht er sichtbar abgesetzt und nicht als Nebensatz. */}
-        {szene.verweis && (
-          <div
-            style={{
-              ...auftritt(frame, fps, einlaufzeit + TEMPO.einblenden),
-              marginTop: ABSTAND.xl,
-              backgroundColor: FARBEN.blauHell,
-              borderRadius: RADIUS.m,
-              padding: `${ABSTAND.m}px ${ABSTAND.l}px`,
-              display: 'flex',
-              alignItems: 'center',
-              gap: ABSTAND.m,
-            }}
-          >
-            <span style={{ ...grundtext, fontSize: 40, color: FARBEN.blau, flexShrink: 0 }}>↓</span>
-            <span
-              style={{
-                ...grundtext,
-                fontWeight: SCHRIFT.halbfett,
-                fontSize: GROESSEN.detail,
-                color: FARBEN.blau,
-                letterSpacing: 0,
-                lineHeight: 1.28,
-              }}
-            >
-              {szene.verweis}
-            </span>
-          </div>
-        )}
-      </div>
-    </Buehne>
-  );
-};
-
-/**
  * Die Zitatkarte — der Wortlaut steht im Bild, in Anfuehrungszeichen und auf
  * einer eigenen Flaeche.
  *
@@ -1119,16 +832,10 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Diens
       return <Zahl szene={szene} dauer={dauer} />;
     case 'frage':
       return <Frage szene={szene} dauer={dauer} />;
-    case 'vergleich':
-      return <Vergleich szene={szene} dauer={dauer} />;
-    case 'einschraenkung':
-      return <Einschraenkung szene={szene} dauer={dauer} />;
     case 'zitatkarte':
       return <Zitatkarte szene={szene} dauer={dauer} />;
     case 'schluss':
       return <Schluss szene={szene} dienst={dienst} />;
-    case 'kaufkriterien':
-      return <Kaufkriterien szene={szene} dauer={dauer} />;
   }
 
   /*

@@ -1080,9 +1080,6 @@ const mitBelegeinblendung = {
  */
 export const QUELLENPFLICHT = {
   zahl: 'pflicht',
-  vergleich: 'pflicht',
-  einschraenkung: 'pflicht',
-  kaufkriterien: 'pflicht',
   /** Haengt an der Position — geprueft im `superRefine` des Shorts. */
   text: 'nachPosition',
   /** Eine Frage behauptet nichts. Die Antwort kommt in der naechsten Szene. */
@@ -1156,51 +1153,7 @@ const SzeneFrage = SzeneBasis.extend({
   ...mitIllustration,
 });
 
-/**
- * Zwei Lager nebeneinander — praktisch nur noch am Sonntag.
- *
- * Die Art war frueher die Kaufentscheidung („dieses Kabel oder jenes"). Was
- * davon bleibt, ist der Streitfall: Die einen sagen das, die anderen das. Fuer
- * die Kaufberatung ist sie nicht mehr da, dafuer gibt es `kaufkriterien`.
- */
-const SzeneVergleich = SzeneBasis.extend({
-  art: z.literal('vergleich'),
-  ueberschrift: z.string().max(50).optional(),
-  /** Ein Vergleich behauptet ueber beide Seiten. Ohne Beleg ist er eine Meinung. */
-  quelleId: z.string(),
-  belegId: z.string(),
-  links: z.object({
-    titel: z.string().max(28),
-    zeilen: z.array(z.string().max(40)).min(1).max(4),
-    bewertung: z.enum(['ja', 'nein', 'achtung']).optional(),
-  }),
-  rechts: z.object({
-    titel: z.string().max(28),
-    zeilen: z.array(z.string().max(40)).min(1).max(4),
-    bewertung: z.enum(['ja', 'nein', 'achtung']).optional(),
-  }),
-  ...mitBelegeinblendung,
-});
 
-/**
- * Das „aber" — der Kipppunkt des Sonntags.
- *
- * Am Sonntag haben **beide** Lager etwas uebersehen, und die Aufloesung hat
- * deshalb zwei Haelften: die Bedingung, unter der es kippt, und was dann
- * folgt. Das ist zugleich die Art, die den Sonntag offen enden laesst — er
- * schliesst als einziger Sendeplatz auf einer Restfrage statt auf einer
- * Pointe, weil es sonst nichts zu kommentieren gibt.
- */
-const SzeneEinschraenkung = SzeneBasis.extend({
-  art: z.literal('einschraenkung'),
-  ueberschrift: z.string().max(50).optional(),
-  bedingung: z.string().max(70),
-  folge: z.string().max(90),
-  quelleId: z.string(),
-  belegId: z.string(),
-  ...mitIllustration,
-  ...mitBelegeinblendung,
-});
 
 /**
  * Die Zitatkarte — das Zitat **steht** im Bild, statt zitiert zu werden.
@@ -1281,39 +1234,6 @@ const SzeneSchluss = SzeneBasis.extend({
   rundlauf: z.string().min(15).max(160),
 });
 
-/**
- * Kaufkriterien — die Bruecke vom Problem zum Produkt.
- *
- * Ruht bis zu den Affiliate-Links und laeuft dann nur im Format `empfehlung`.
- * Sie nennt bewusst kein Modell, sondern das Merkmal — das bleibt richtig,
- * wenn das Geraet laengst abgeloest ist, und macht den Link in der
- * Beschreibung erst nachvollziehbar.
- *
- * Sobald `verweis` gesetzt ist, verweist das Video selbst auf die Beschreibung
- * und wird damit kommerzielle Kommunikation (§ 5a Abs. 4 UWG, § 6 DDG). Die
- * Werbekennzeichnung im Bild ist dann Pflicht — das erzwingt das Short-Schema
- * weiter unten, damit sie nicht vergessen werden kann.
- */
-const SzeneKaufkriterien = SzeneBasis.extend({
-  art: z.literal('kaufkriterien'),
-  ueberschrift: z.string().max(46),
-  kriterien: z
-    .array(
-      z.object({
-        text: z.string().max(58),
-        /** Woran sich das Merkmal im Datenblatt erkennen laesst. */
-        pruefen: z.string().max(44).optional(),
-      }),
-    )
-    .min(2)
-    .max(3),
-  /** Hinweis auf die Beschreibung. Loest die Kennzeichnungspflicht aus. */
-  verweis: z.string().max(52).optional(),
-  /** Kaufkriterien sind Tatsachen ueber Geraeteklassen, keine Meinungen. */
-  quelleId: z.string(),
-  belegId: z.string(),
-  ...mitBelegeinblendung,
-});
 
 /*
  * Sieben Arten statt zehn. Was am 17.08.2026 gestrichen wurde und warum:
@@ -1336,11 +1256,8 @@ export const Szene = z.discriminatedUnion('art', [
   SzeneText,
   SzeneZahl,
   SzeneFrage,
-  SzeneVergleich,
-  SzeneEinschraenkung,
   SzeneZitatkarte,
   SzeneSchluss,
-  SzeneKaufkriterien,
 ]);
 export type Szene = z.infer<typeof Szene>;
 export type SzenenArt = Szene['art'];
@@ -2554,7 +2471,7 @@ export const Short = z.object({
     /* ── Der Schluss ist eine `schluss`-Szene, und zwar die letzte ─ */
 
     const letzte = short.szenen[short.szenen.length - 1];
-    if (letzte !== undefined && letzte.art !== 'schluss' && letzte.art !== 'kaufkriterien') {
+    if (letzte !== undefined && letzte.art !== 'schluss') {
       ctx.addIssue({
         code: 'custom',
         path: ['szenen'],
@@ -2723,27 +2640,6 @@ export const Short = z.object({
       }
     });
 
-    /* ── Wo verwiesen wird, muss auch gekennzeichnet werden ──────── */
-
-    const verweist = short.szenen.some((s) => s.art === 'kaufkriterien' && s.verweis);
-    if (verweist && short.kennzeichnung.werbung !== 'video') {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['kennzeichnung', 'werbung'],
-        message:
-          'Die Kaufkriterien verweisen auf die Beschreibung. Damit ist das Video selbst kommerzielle ' +
-          'Kommunikation (§ 5a Abs. 4 UWG) und braucht werbung: "video".',
-      });
-    }
-    /*
-     * Die Regel gilt bewusst nur in eine Richtung.
-     *
-     * Ein Verweis erzwingt das Label — das ist Pflicht. Umgekehrt ist ein
-     * Label ohne Verweis kein Fehler, sondern die vorsichtige Wahl: Ob eine
-     * Kennzeichnung allein in der Beschreibung fuer ein Video genuegt, ist
-     * ungeklaert; die Praxisliteratur empfiehlt fuer YouTube die Einblendung.
-     * Wer sie ohne Not setzt, kennzeichnet zu viel — nie ein Rechtsproblem.
-     */
   });
 export type Short = z.infer<typeof Short>;
 

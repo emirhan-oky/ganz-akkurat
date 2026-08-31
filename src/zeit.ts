@@ -220,8 +220,6 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
    * Die Denkzeit kommt danach.
    */
   frage: 1.5,
-  vergleich: 2.6,
-  einschraenkung: 2.2,
   /**
    * Der Nachschlag traegt einen Satz, die Wortmarke und den Spruch.
    *
@@ -230,8 +228,6 @@ const MINDESTDAUER_SEK: Record<Szene['art'], number> = {
    * ist in zweieinhalb Sekunden gelesen.
    */
   schluss: 2.5,
-  /** Nur im Format `empfehlung`, das erst mit Affiliate-Links kommt. */
-  kaufkriterien: 4.5,
 };
 
 /**

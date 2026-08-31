@@ -1490,6 +1490,52 @@ const STIMMANTEIL_MAX = 2 / 3;
     }
   }
 
+  /* ── Wer redet, steht auch im Bild ───────────────────────────────── */
+
+  /*
+   * **Sprechen zwei, stehen zwei auf der Buehne.**
+   *
+   * `zweistimmigkeit` verlangt zwei Szenen mit beiden Stimmen und meint den
+   * **Text**. Ob dabei auch zwei Figuren zu sehen sind, hat bis zum 31.08.2026
+   * niemand geprueft — und `passwort-wechseln` zeigte in **drei von sechs**
+   * Szenen eine einzelne Figur, waehrend beide miteinander redeten.
+   *
+   * Das war nicht Nachlaessigkeit, sondern der Weg des geringsten Widerstands:
+   * Die drei Szenen trugen `erklaeren`, `zeigen` und zwei Requisiten — alles
+   * Dinge, die bei zwei Figuren **verboten** sind. Wer die Sperre nicht loesen
+   * will, laesst die zweite Figur weg, und keine Regel merkt es.
+   *
+   * **Sperren verbieten, sie verlangen nichts.** Genau diese Luecke schliesst
+   * die Regel hier — dasselbe Muster wie bei `zweistimmigkeit` und `reaktion`,
+   * die beide aus demselben Grund entstanden sind.
+   *
+   * Hinweis und nicht Fehler: Es gibt Szenen, in denen eine einzelne Figur die
+   * bessere Wahl ist — der Aufschlag mit Kontextsymbol etwa, wo das Symbol den
+   * Platz der zweiten Figur braucht. Die Regel soll fragen, nicht zwingen.
+   */
+  {
+    const einsam = short.szenen.filter((sz) => {
+      const sprecher = new Set((sz.rede ?? []).map((r) => r.sprecher));
+      if (sprecher.size < 2) return false;
+      const buehne = 'buehne' in sz ? sz.buehne : undefined;
+      return buehne !== undefined && buehne.art === 'figur' && buehne.gegenueber === undefined;
+    });
+
+    if (einsam.length > 0) {
+      const wo = short.szenen
+        .map((sz, i) => (einsam.includes(sz) ? i + 1 : 0))
+        .filter((n) => n > 0)
+        .join(', ');
+      melde(
+        'hinweis',
+        'zweiImBild',
+        `In Szene ${wo} sprechen beide, aber nur eine Figur steht auf der Bühne. ` +
+          'Wo ein Gespräch läuft, gehören beide ins Bild — eine einzelne Figur füllt ' +
+          '52 % der Bühnenbreite, zwei füllen 76 %.',
+      );
+    }
+  }
+
   /* ── Der Gespraechsmassstab ──────────────────────────────────────── */
 
   /*
