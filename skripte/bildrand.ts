@@ -154,8 +154,45 @@ const main = async () => {
   try {
     for (const short of WOCHENLAUF as Short[]) {
       const props = path.join(ordner, `${short.id}.json`);
-      await fs.writeFile(props, JSON.stringify({ daten: short, dienst: 'tiktok' }));
-      const plan = szenenZeitplan(short);
+      /*
+       * **Die Probe braucht eine Tonspur-Attrappe, sonst prueft sie das
+       * falsche Layout.** `Sprecherstand` haelt einen Short ohne `abschnitte`
+       * fuer einstimmig, und dann reserviert `Buehne` unten 270 Pixel fuer den
+       * Untertitel. Die Buehne ist damit niedriger, die Figuren sind kleiner —
+       * und eine Probe, die kleinere Figuren misst, kann nicht sehen, dass die
+       * grossen herausragen. Sie waere genau dort still, wo sie gebraucht wird.
+       *
+       * Nur `abschnitte` zaehlen; `woerter` bleibt leer, weil der Lippensync
+       * die Umrisse nicht veraendert. Die Sprecher wechseln je Szene, damit
+       * beide Figuren einmal mit voller Sprechstaerke gemessen werden —
+       * `HINLEHNEN` neigt sie, und geneigt reichen sie weiter.
+       */
+      const roh = szenenZeitplan(short);
+      const letzte = roh[roh.length - 1]!;
+      const mitTon: Short = {
+        ...short,
+        tonspur: {
+          datei: '',
+          dauerSek: (letzte.startBild + letzte.dauerBilder) / 30,
+          woerter: [],
+          szenenStartSek: roh.map((p) => p.startBild / 30),
+          abschnitte: roh.map((p, i) => ({
+            datei: '',
+            sprecher: i % 2 === 0 ? ('nachleser' as const) : ('zeiger' as const),
+            startSek: p.startBild / 30,
+          })),
+        },
+      };
+      await fs.writeFile(props, JSON.stringify({ daten: mitTon, dienst: 'tiktok' }));
+      /*
+       * **Der Zeitplan kommt aus dem Short mit Attrappe, nicht ohne.** Mit
+       * Tonspur rechnet `szenenZeitplan` die Laengen aus den Startsekunden
+       * statt aus der Zeichenzahl; die Komposition wurde dadurch acht Bilder
+       * kuerzer, und die Probe forderte ein Bild hinter dem Ende an. Der
+       * Renderer hat es gemeldet — beide Zahlen muessen aus derselben Quelle
+       * kommen, sonst prueft die Probe ein anderes Video als sie rendert.
+       */
+      const plan = szenenZeitplan(mitTon);
 
       for (const [i, szene] of plan.entries()) {
         /*

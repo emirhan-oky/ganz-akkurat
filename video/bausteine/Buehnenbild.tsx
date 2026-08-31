@@ -283,6 +283,38 @@ export const WORTWECHSEL: Wortwechselstand = {
 };
 
 /**
+ * Der Wortwechsel im **Schluss** — dieselbe Anordnung, groessere Figuren.
+ *
+ * ## Warum der Schluss mehr vertraegt
+ *
+ * Die 0,73 oben sind an `staunen` gemessen: 63,9 Einheiten Aussenreichweite
+ * muessen ins Feld passen, und `erklaeren` gegen `zeigen` greift von beiden
+ * Seiten in die Luecke. **Im Schluss gibt es beides nicht.** Dort stehen
+ * `ansprechen` (52, beide Arme nach innen) und die ruhigen Posen daneben, alle
+ * bei 52 — die Grenze, die 0,73 erzwingt, liegt in dieser Szene gar nicht an.
+ *
+ * 0,92 statt 0,77, weil 52 statt 63,9 zu decken sind: 0,77 × 63,9 / 52 ≈ 0,95,
+ * und drei Prozent Abstand zur Rechnung bleiben, wie oben die vier Einheiten
+ * Luft zur Luecke.
+ *
+ * ## Warum es ueberhaupt sein muss
+ *
+ * Der Schluss hat keinen Untertitel und keine Zitatkarte, also die hoechste
+ * Buehne im ganzen Short — und trotzdem standen die Figuren dort am
+ * kleinsten. Der Grund ist das Seitenverhaeltnis: Das Buehnen-SVG ist 200 zu
+ * 150, der Kasten im Schluss ist hoeher als breit, also deckelt die **Breite**
+ * und die zusaetzliche Hoehe bleibt ungenutzt. Mehr Platz nach unten haette
+ * daran nichts geaendert.
+ *
+ * `npm run bildrand` rechnet die Kanten am Standbild nach — und seit heute am
+ * zweistimmigen Layout, also an dem, das im Video wirklich laeuft.
+ */
+export const WORTWECHSEL_SCHLUSS: Wortwechselstand = {
+  ...WORTWECHSEL,
+  groesse: 0.92,
+};
+
+/**
  * Die Transformationskette einer Wortwechselfigur.
  *
  * **Die Reihenfolge ist die ganze Rechnung**, und sie liest sich von rechts

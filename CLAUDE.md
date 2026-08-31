@@ -724,6 +724,16 @@ sie lässt die Fläche leer, und im Feed fällt das auf.
 **Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein Datenblatt
 behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben.
 
+**Eine Probe ohne Tonspur prüft ein anderes Bild.** `Sprecherstand` hält einen
+Short ohne `abschnitte` für einstimmig, und dann reserviert die Bühne unten
+270 Pixel für den Untertitel — die im zweistimmigen Video niemand braucht, weil
+dort die Sprechblase steht. `npm run bildrand` hat so 75 Standbilder mit zu
+kleinen Figuren gemessen und für gut befunden. **Eine Probe, die kleinere
+Figuren misst, kann nicht sehen, dass die großen herausragen**; sie ist genau
+dort still, wo sie gebraucht wird. Sie legt seit dem 01.09.2026 eine
+Tonspur-Attrappe in die Props — und liest ihre Bildnummern aus **demselben**
+angereicherten Short, weil `szenenZeitplan` mit Tonspur anders rechnet als ohne.
+
 **Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
 Regel hat sich zehnmal bewährt, und jedes Mal sah der Code vorher richtig aus.
 Zusätzlich gehört das **letzte** Bild gezogen — dort fiel die leere Bühne am
@@ -812,6 +822,16 @@ zeigte die Probe dasselbe wie ihre eigene Gegenprobe. **Die Gegenprobe gehört
 dazu**: Ohne eine Kachel mit `ruhe`, in der Blick und Neigung da sein *müssen*,
 beweist die Probe nur, dass die Zuwendung noch anliegt — nicht, dass die Pose
 sie ausnimmt.
+
+**Im Schluss stehen die Figuren größer** — `WORTWECHSEL_SCHLUSS` mit 0,92
+statt 0,73. Die 0,73 sind an `staunen` gemessen (63,9 Einheiten) und an
+`erklaeren` gegen `zeigen`, die von beiden Seiten in die Lücke greifen; im
+Schluss steht keine Pose weiter als 52, die Grenze liegt dort gar nicht an.
+
+**Mehr Höhe hätte nichts gebracht.** Das Bühnen-SVG ist 200 zu 150 Einheiten,
+der Kasten im Schluss ist höher als breit — es deckelt die **Breite**, und die
+zusätzliche Höhe bleibt ungenutzt. Das ist der Grund, warum die Figuren
+ausgerechnet in der höchsten Bühne des Shorts am kleinsten standen.
 
 ### Die Sprechblase
 

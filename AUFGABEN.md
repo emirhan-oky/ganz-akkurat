@@ -1782,8 +1782,28 @@ stand eine **relative Zeitangabe** („Er liegt drei Wochen zurück"). Das Kapit
       elf Posen zu zweit — die Pose war seit dem 23.08.2026 im Vokabular und
       **in allen vier Entwürfen benutzt**. Unterarm 60 → 38~~
 
-**Offen am Bild, gesehen im Schlussstandbild:** Die beiden Figuren stehen im
-Nachschlag sehr klein und im unteren Drittel, darunter bleibt rund ein Viertel
-des Bildes leer. Das ist derselbe Eindruck, der am 31.08. schon einmal gemeldet
-wurde. Braucht eine Entscheidung am Bild, nicht im Code.
+- [x] ~~**Die Figuren im Schluss größer.** `WORTWECHSEL_SCHLUSS` mit 0,92 statt
+      0,73 — die 0,73 sind an `staunen` (63,9) und an `erklaeren` gegen
+      `zeigen` gemessen, und im Schluss steht keine Pose weiter als 52~~
+
+**Zwei Befunde auf dem Weg dorthin, beide an der Prüfung selbst:**
+
+Ein guter Teil des Eindrucks war das **Standbild**. Ohne Tonspur gilt ein Short
+als einstimmig, und dann reserviert die Bühne 270 Pixel für den Untertitel, die
+im zweistimmigen Video niemand braucht. `npm run bildrand` rendert genau so —
+sie hat 75 Standbilder mit zu kleinen Figuren gemessen und für gut befunden.
+**Eine Probe, die kleinere Figuren misst, kann nicht sehen, dass die großen
+herausragen.** Sie legt jetzt eine Tonspur-Attrappe in die Props.
+
+Und die Attrappe hat sofort einen zweiten gezeigt: Mit Tonspur rechnet
+`szenenZeitplan` die Szenenlängen aus den Startsekunden statt aus der
+Zeichenzahl, die Komposition wurde acht Bilder kürzer, und die Probe forderte
+ein Bild hinter dem Ende an. Der Renderer hat es gemeldet. **Beide Zahlen
+müssen aus derselben Quelle kommen, sonst prüft die Probe ein anderes Video,
+als sie rendert.**
+
+Und was die Vergrößerung überhaupt nötig machte: Das Bühnen-SVG ist 200 zu 150,
+der Kasten im Schluss ist höher als breit — es deckelt die **Breite**. Deshalb
+standen die Figuren ausgerechnet in der höchsten Bühne des Shorts am kleinsten,
+und mehr Platz nach unten hätte daran nichts geändert.
 

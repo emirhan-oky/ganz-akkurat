@@ -6,7 +6,11 @@ import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
 import { zeiger } from '../../daten/figur/zeiger';
 import { FOLGEPOSEN, POSEN } from '../bausteine/posen';
-import { Buehnenbild } from '../bausteine/Buehnenbild';
+import {
+  Buehnenbild,
+  WORTWECHSEL_SCHLUSS,
+  type Wortwechselstand,
+} from '../bausteine/Buehnenbild';
 import type { Dienst } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
@@ -76,6 +80,12 @@ const Illustration = (
   frame: number,
   fps: number,
   dauer: number,
+  /**
+   * Abweichende Anordnung fuer den Wortwechsel. Nur der Schluss nutzt sie:
+   * Dort reicht keine Pose weit genug, um die Groesse von `WORTWECHSEL` zu
+   * rechtfertigen — siehe `WORTWECHSEL_SCHLUSS`.
+   */
+  stand?: Wortwechselstand,
 ): React.ReactNode | undefined => {
   /*
    * Die Buehne geht vor. Sie ist der Nachfolger von `symbol` — eine Szene, die
@@ -204,7 +214,7 @@ const Illustration = (
           alignSelf: 'stretch',
         }}
       >
-        <Buehnenbild buehne={szene.buehne} dauer={dauer} />
+        <Buehnenbild buehne={szene.buehne} dauer={dauer} stand={stand} />
       </div>
     );
   }
@@ -684,7 +694,10 @@ const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
         verschwunden. Sie stehen jetzt darunter, und die kleine Signaturfigur
         entfaellt dafuer: Drei Figuren in einem Bild sind zwei zu viel.
       */}
-      <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
+      <Buehne
+        dauerBilder={dauer}
+        illustration={Illustration(szene, frame, fps, dauer, WORTWECHSEL_SCHLUSS)}
+      >
       <p
         style={{
           ...grundtext,
