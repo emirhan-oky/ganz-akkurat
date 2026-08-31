@@ -610,6 +610,54 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     belegtVonSzenen.set(schluessel, [...(belegtVonSzenen.get(schluessel) ?? []), i + 1]);
   }
 
+  /* ── Die Themenzeile traegt ihre Behauptung ──────────────────────── */
+
+  /*
+   * **Der Vorspann ist seit dem 31.08.2026 belegpflichtig.**
+   *
+   * Er war das einzige gesprochene Feld ohne Deckung, und zwar nicht aus
+   * Absicht, sondern weil er neu war: Als er gebaut wurde, hat keine Regel ihn
+   * angesehen. Der Preis stand in drei von vier Entwuerfen — am haertesten
+   * „Passwort wechseln bringt gar nichts" gegen das BSI-Zitat „erhoeht die
+   * Sicherheit **nicht automatisch**". Der Schritt von „nicht automatisch" zu
+   * „nicht" ist derselbe, den CLAUDE.md als teuersten Fehler dieses Projekts
+   * fuehrt.
+   *
+   * **Geprueft wird die Fundstelle, nicht der Satz.** Ob das Zitat die
+   * Themenzeile wirklich traegt, kann kein Skript beurteilen — dasselbe gilt
+   * fuer jede Szene, und dafuer gibt es `npm run belege` und den
+   * `belegpruefer`. Was hier geprueft wird, ist das, was pruefbar ist: dass es
+   * die Fundstelle gibt und dass sie zu einer Quelle **dieses** Shorts gehoert.
+   * Genau so arbeitet die Belegregel ueberall: Sie prueft nicht, ob das Zitat
+   * ueberzeugt, sondern ob eins da ist.
+   *
+   * Die Bindung an die Quellen des Shorts ist der Teil, der wirklich haelt.
+   * Ohne sie koennte die Themenzeile sich auf ein Zitat berufen, das im Video
+   * nirgends vorkommt — belegt waere sie dann nur auf dem Papier.
+   */
+  const belegQuellen = short.szenen
+    .map((szene) => ('quelleId' in szene ? szene.quelleId : undefined))
+    .filter((id): id is string => id !== undefined);
+
+  const traegerQuelle = quellen.find(
+    (q) => belegQuellen.includes(q.id) && q.belegt.some((b) => b.id === short.vorspannBelegId),
+  );
+
+  if (!traegerQuelle) {
+    const vorhanden = quellen
+      .filter((q) => belegQuellen.includes(q.id))
+      .flatMap((q) => q.belegt.map((b) => `${q.id}#${b.id}`));
+    melde(
+      'fehler',
+      'beleg',
+      `Die Themenzeile „${short.vorspann}" beruft sich auf die Fundstelle ` +
+        `„${short.vorspannBelegId}", die es in keiner Quelle dieses Shorts gibt. ` +
+        (vorhanden.length > 0
+          ? `Vorhanden: ${vorhanden.join(', ')}.`
+          : 'Der Short nennt bisher gar keine Quelle.'),
+    );
+  }
+
   /*
    * Ein Zitat, das drei Szenen tragen soll, traegt meistens eine.
    *

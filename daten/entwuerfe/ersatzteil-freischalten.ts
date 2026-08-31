@@ -44,6 +44,7 @@ export const ersatzteilFreischalten: Short = {
   weitererzaehlt: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
   suchbegriff: 'Ersatzteil Reparatur',
   vorspann: 'Dein Ersatzteil darf keine Reparatur blockieren',
+  vorspannBelegId: 'keine-hardware-oder-softwaretechniken',
 
   szenen: [
     {

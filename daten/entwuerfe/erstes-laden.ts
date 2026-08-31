@@ -54,7 +54,19 @@ export const erstesLaden: Short = {
   arbeitstitel: '12 Stunden beim ersten Laden',
   weitererzaehlt: 'Voll laden war die Regel. Heute ist es der Fehler.',
   suchbegriff: 'Akku laden',
-  vorspann: 'Voll laden macht deinen Akku kaputt',
+  /*
+   * **„Kaputt" trug keine der sechs Fundstellen** und stand hier bis zum
+   * 31.08.2026. Das Umweltbundesamt nennt genau zwei Dinge schaedlich —
+   * uebermaessige Erwaermung und vollstaendige Entleerung —, und den frueheren
+   * Halt bei 70 % nennt es „ideal". Der Weg von „nicht ideal" zu „kaputt" ist
+   * derselbe Schritt wie „nicht automatisch" zu „nicht", nur in der anderen
+   * Richtung.
+   *
+   * Die neue Zeile behauptet weiterhin — sie sagt nur das, was die Quelle
+   * hergibt: Nicht das Volle ist das Ziel, sondern die 70 %.
+   */
+  vorspann: 'Dein Akku will gar nicht voll geladen werden',
+  vorspannBelegId: 'siebzig-prozent-unterbrechen',
 
   szenen: [
     {

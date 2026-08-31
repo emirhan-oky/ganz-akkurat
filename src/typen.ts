@@ -2234,6 +2234,41 @@ export const Short = z.object({
   vorspann: z.string().min(12).max(60),
 
   /**
+   * Die Fundstelle, die die Themenzeile traegt.
+   *
+   * **Seit dem 31.08.2026, und der Anlass steht in der eigenen Doku.** Der
+   * `vorspann` behauptet — das verlangt der Absatz darueber ausdruecklich, und
+   * das bleibt so. Nur war er das einzige gesprochene Feld **ohne**
+   * Belegpflicht, weil er neu war und keine Regel ihn angesehen hat. Drei von
+   * vier Themenzeilen trugen ihre Behauptung nicht:
+   *
+   * - „Passwort wechseln bringt gar nichts", waehrend das BSI „erhoeht die
+   *   Sicherheit **nicht automatisch**" sagt. Das ist der Schritt von „nicht
+   *   automatisch" zu „nicht" — derselbe, den CLAUDE.md als teuersten Fehler
+   *   dieses Projekts fuehrt, und er stand ausgerechnet im Short, der als
+   *   erster vertont werden sollte.
+   * - „Voll laden macht deinen Akku kaputt" — „kaputt" trug keine der sechs
+   *   Fundstellen des Umweltbundesamts.
+   * - „Auf der Raumstation laufen uralte Laptops" im Praesens, an einem Beleg
+   *   von 2009. Zeitangaben altern, der Short nicht.
+   *
+   * **Die Befreiung des Aufschlags gilt hier nicht.** Er ist befreit, weil er
+   * die Erzaehlung setzt und nichts behauptet. Die Themenzeile behauptet — und
+   * sie ist das Erste, was gesagt und gelesen wird, im Feed oft das Einzige,
+   * was haengenbleibt. Von allen Saetzen eines Shorts ist sie der letzte, der
+   * ungedeckt sein darf.
+   *
+   * Pflichtfeld nach dem Muster von `belegId` an der Szene, und aus demselben
+   * Grund: **Die Frage „welches Zitat traegt das?" faellt beim Schreiben an,
+   * nicht in der Durchsicht.** Eine Themenzeile ohne Fundstelle ist beim
+   * Schreiben ein leeres Feld statt spaeter eine Diskussion.
+   *
+   * Dass die Fundstelle wirklich existiert und in einer Quelle **dieses**
+   * Shorts steht, prueft `shortPruefen` — hier liegt `quellen.json` nicht vor.
+   */
+  vorspannBelegId: z.string().min(1),
+
+  /**
    * Der Satz, den jemand am Tisch weitererzaehlt.
    *
    * Hier stand bis zum 17.08.2026 `merksatz` — „der Satz, der ueber den

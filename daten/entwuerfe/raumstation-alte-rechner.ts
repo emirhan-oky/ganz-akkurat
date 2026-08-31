@@ -47,7 +47,17 @@ export const raumstationAlteRechner: Short = {
   arbeitstitel: 'Laptops auf der Raumstation',
   weitererzaehlt: 'Im Weltraum gewinnt nicht der schnellste Chip.',
   suchbegriff: 'Laptops Raumstation',
-  vorspann: 'Auf der Raumstation laufen uralte Laptops',
+  /*
+   * **Praesens an einem Beleg von 2009** — bis zum 31.08.2026 stand hier „Auf
+   * der Raumstation laufen uralte Laptops". Die ESA-Seite ist auf den
+   * 22.09.2009 datiert; was heute dort laeuft, weiss sie nicht.
+   *
+   * Das ist genau der Fehler, vor dem das Kapitel „Zeitangaben altern — der
+   * Short nicht" warnt, nur in der unauffaelligsten Form: kein „seit heute",
+   * sondern ein blosses Verb im Praesens. **Absolute Daten altern nicht.**
+   */
+  vorspann: '2009 liefen auf der ISS 5 Jahre alte Laptops',
+  vorspannBelegId: 'laptops-more-than-five-years-old',
 
   szenen: [
     {

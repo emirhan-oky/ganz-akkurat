@@ -830,13 +830,13 @@
         },
         {
           "id": "schwache-vorhersehbare-passwoerter",
-          "zitat": "vermehrt zu schwachen, z. B. leicht vorhersehbaren Passwörtern greifen",
-          "stuetzt": "Der erzwungene Wechsel führt laut BSI zu schwächeren Passwörtern."
+          "zitat": "Stattdessen führen wiederkehrende Änderungen des Passworts oftmals dazu, dass Verbraucherinnen und Verbraucher vermehrt zu schwachen, z. B. leicht vorhersehbaren Passwörtern greifen",
+          "stuetzt": "Das BSI nennt die wiederkehrende Änderung als Ursache dafür, dass Verbraucher zu schwächeren Passwörtern greifen."
         },
         {
           "id": "stark-und-einzigartig",
-          "zitat": "Wichtiger ist, dass ein Passwort stark und einzigartig ist",
-          "stuetzt": "Das BSI nennt Stärke und Einzigartigkeit als das, worauf es stattdessen ankommt."
+          "zitat": "Einzigartigkeit bedeutet hier, dass für jedes Benutzerkonto ein eigenes Passwort gewählt wird",
+          "stuetzt": "Das BSI definiert Einzigartigkeit als ein eigenes Passwort je Benutzerkonto."
         },
         {
           "id": "keine-zeitgemaesse-schutzmassnahme",

@@ -25,7 +25,23 @@ export const passwortWechseln: Short = {
   arbeitstitel: 'Das Passwort und der Kalender',
   weitererzaehlt: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
   suchbegriff: 'Passwort wechseln',
-  vorspann: 'Passwort wechseln bringt gar nichts',
+  /*
+   * **„Bringt gar nichts" stand hier bis zum 31.08.2026** — und war der
+   * teuerste Fehler dieses Projekts in seiner reinsten Form: Das BSI sagt
+   * „erhoeht die Sicherheit **nicht automatisch**", und daraus wurde „gar
+   * nichts". Derselbe Schritt von „nicht automatisch" zu „nicht", den
+   * CLAUDE.md am Nachschlag dieses Shorts schon einmal beschreibt.
+   *
+   * Er stand hier, weil der `vorspann` das einzige gesprochene Feld ohne
+   * Belegpflicht war. Nicht aus Absicht, sondern weil er neu war.
+   *
+   * Die neue Zeile haengt an `keine-zeitgemaesse-schutzmassnahme` und traegt
+   * das **„pauschal"** mit: Das BSI verwirft den Wechsel nach Zeitplan, nicht
+   * das Wechseln ueberhaupt — sonst widerspraeche die Themenzeile dem eigenen
+   * Kipppunkt, der genau sagt, wann man wechseln soll.
+   */
+  vorspann: 'Passwort regelmäßig wechseln ist überholt',
+  vorspannBelegId: 'keine-zeitgemaesse-schutzmassnahme',
 
   szenen: [
     {
@@ -90,11 +106,11 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Watti, wer ständig wechseln muss, greift oft zu schwächeren Passwörtern. Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen.',
+      sprechtext: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern. Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen.',
       rede: [
         {
           sprecher: 'nachleser',
-          text: 'Watti, wer ständig wechseln muss, greift oft zu schwächeren Passwörtern.',
+          text: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'schwache-vorhersehbare-passwoerter',
         },
@@ -124,17 +140,17 @@ export const passwortWechseln: Short = {
        * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
        * ohne dass Volti ein Wort abgibt.
        */
-      sprechtext: 'Wichtiger ist, dass es stark ist und nur zu einem Konto gehört. Konto? Meins ist der Generalschlüssel für alles.',
+      sprechtext: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
         {
           sprecher: 'nachleser',
-          text: 'Wichtiger ist, dass es stark ist und nur zu einem Konto gehört.',
+          text: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
         { sprecher: 'zeiger', text: 'Konto? Meins ist der Generalschlüssel für alles.', machart: 'bild' },
       ],
-      text: 'Stark. Nur für ein Konto.',
+      text: 'Ein Konto, ein Passwort.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
