@@ -1608,3 +1608,95 @@ zu tun ist, steht ab hier.
       unangetastet auf der Liste. Erst entscheiden, ob sie noch gewollt sind
 - [ ] Den Tagesstand pushen
 - [ ] Die nächste Woche bauen
+
+---
+
+# Die Nacht auf den 01.09.2026 — was gemessen wurde
+
+Das erste vertonte Video im neuen Bau lag vor, und das Urteil war: **„Es wirkt
+so sehr nach KI-Slop, dass man sich das einfach nicht angucken möchte."** Sechs
+Punkte davon waren messbar, alle sechs haben sich bestätigt, und drei waren
+schlimmer als vermutet.
+
+**Diese Zahlen stehen hier, weil sie sonst nirgends stehen.** Die meisten sind
+inzwischen in Codekommentare gewandert; die aus dieser Tabelle nicht.
+
+| Befund | gemessen |
+|---|---|
+| Stille an den Sprecherwechseln | **4,19 s auf 53 s = 7,9 %**, Mittel 0,42, Spitze 0,61 |
+| Loch im Vorspann vor Szene 1 | **1,53 s** — von niemandem gemeldet |
+| Lücke im Opener | 0,382 s statt 0,28, plus 0,445 s **in** der volti-Aufnahme |
+| Zoom-Überlagerung | Bühne +4,5 % × Kamera +24 % = **+29,6 %** |
+| Zitatkarte | driftet 11 px nach oben, jedes Bild neu subpixel-gerastert |
+| Figurenkasten | **856 px breit auf einer Bühne von 719** |
+| `passung`-Bremse | griff dauerhaft auf **0,806**, unbemerkt seit dem Umbau |
+
+**Zwei Befunde, die nur die Messung zeigt:** Der Bühnenzoom sprang an **jedem
+Schnitt** um 4,5 % zurück. Und Blinzeln und Atmen liefen bei beiden Figuren
+**exakt synchron** — `poseDerKette` reichte den Versatz nie weiter. Zwei
+Figuren, die gleich atmen, sind ein Objekt, das zweimal gezeichnet wurde.
+
+## Der Rhythmus war eine Schablone, und niemand hatte sie entschieden
+
+Nachgezählt über **alle vier** Entwürfe: `VWVWVWVWVWVWVWV`, `VWVWVWVWVWVWV`,
+`VWVWVWVWVWV`, `VWVWVWVWVWVWV` — **14/14, 12/12, 10/10, 12/12 Wechsel.** Kein
+einziger Redeanteil wich ab.
+
+Und zwei Regeln trieben aktiv hinein: `redelauf` verbietet lange Blöcke,
+`stimmanteil` verlangt ausgeglichene Anteile — der kürzeste Weg, beide zu
+erfüllen, ist striktes Abwechseln.
+
+**`rueckbezug` war dabei weit übererfüllt:** fünf von zehn Zeilen greifen ein
+Wort der Vorzeile auf, verlangt sind zwei. Trotzdem war es kein Gespräch.
+**Ein Maß, das eine Zeichenkette zählt, kann eine Beziehung nicht sehen** — die
+Schwelle zu erhöhen hätte nichts gebracht.
+
+## Die Kombinatorik der Zugarten, gerechnet
+
+| Einheit | mögliche | in 3 gesehenen Shorts erwartet |
+|---|---|---|
+| Zugpaar | 72 | ~30 Wiederholungen je Woche — harmlos, das ist Sprache |
+| **Zugtripel** | 380 | **~1,1 — die Sichtbarkeitsschwelle** |
+| Zugquadrupel | 2.600 | 0,17 — unsichtbar |
+
+Deshalb sitzt die laufweite Regel auf dem Tripel. Bei zehn statt zwölf Zugarten
+sänke die Tripelzahl auf 250 und die Erwartung stiege auf 1,7 — das ist das
+einzige belastbare Argument für zwölf. **Alle Zahlen sind gerechnet, nicht
+gemessen**, und fallen, sobald zwölf Shorts mit Zügen vorliegen.
+
+## Was der Belegprüfer fand — acht Stellen in zwei Durchgängen
+
+**Keine davon hätte eine Regel gefunden.** Alle acht sind
+Bedeutungsverschiebungen innerhalb korrekter Zeichenketten. Zwei waren aus
+meinen eigenen Korrekturen: die gekürzte Zitatkarte ohne „routinemäßiger", und
+beim Beheben des Verdacht-Problems der Tausch des **Wortes** statt der
+**Logik** („erst bei einem Hinweis" macht aus einem hinreichenden Anlass den
+einzigen).
+
+## Offen aus dem Plan „Aus dem Nebeneinander ein Gespräch machen"
+
+- [ ] **Die drei übrigen Entwürfe migrieren** — Züge setzen, dann als Gespräch
+      neu schreiben. `ersatzteil-freischalten` (13 Anteile), `erstes-laden`
+      (13), `raumstation-alte-rechner` (15)
+- [ ] **`zug` auf Pflicht stellen**, Übersprungzweige in `pruefung.ts` löschen,
+      Quellensperre von `machart` auf `behauptet` umhängen. Zwei Stellen bauen
+      synthetische Redeanteile: `src/stimme.ts` und `src/zeit.ts`
+- [ ] **Die laufweite Tripelregel** in `laufweiteBefunde` — erst ab zwei
+      migrierten Shorts sinnvoll
+- [ ] **Die vierte Wand**: Pose `ansprechen` plus ein `zuwendung`-Faktor.
+      Der eigentliche Fund liegt nicht in der Pose: `BLICK_ZUR_MITTE` und
+      `HINLEHNEN` ziehen Volti zu Watti, **während er den Zuschauer
+      anspricht** — eine neue Pose allein löst das nicht.
+      `Wortwechselprobe` rendert ohne `Sprecherstand` und zeigt deshalb
+      ausgerechnet diese beiden Größen nicht
+- [ ] **Der Zug an der Tonspur** — `Redelauf.zug` → `abschnitte[].zug`, plus
+      eine Wache: `src/stimme.ts:679` verschmilzt zwei Anteile derselben Figur
+      **innerhalb einer Szene**, und dabei geht der zweite Zug still verloren
+- [ ] **Die Haltungsprobe vor dem Bau.** Der Körperwinkel ist als Träger
+      blockiert — `drehung.koerper` klemmt bei ±9, und `stutzen` 8 plus
+      Gewicht 1,65 plus `HINLEHNEN` 1,5 ergeben **11,15**, was `winkelKlemmen`
+      schon heute still abschneidet. Die Haltung gehört auf Hub, Stauchung und
+      Beine; der Pivot bei y = 138 lässt die Füße stehen. Ausschlag rund 2,9
+      von 88 Einheiten — **erst ein Standbild in Feed-Größe, dann bauen**
+- [ ] **Der Publikumston** am Kipppunkt, einmal je Short, ein Raunen
+- [ ] **Ein Video mit vollem Ton** — braucht Emirhans Zustimmung
