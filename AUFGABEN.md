@@ -5,6 +5,10 @@ Antwort im Chat — die Statuszeile bleibt dafür frei. Erledigtes wird
 durchgestrichen, nicht gelöscht: So bleibt sichtbar, was der Umbau alles
 berührt hat.
 
+**Die Abschnitte sind Historie, die Liste am Ende ist der Stand.** Bis zum
+31.08.2026 hatte fast jeder Abschnitt eine eigene „Offen"-Sektion; offen ist
+seitdem nur noch, was unter `# Offen · Stand 31.08.2026` steht.
+
 ## Der große Umbau · 16.–17.08.2026
 
 Der Kanal wird **Unterhaltung, die nebenbei hilft** — nicht Hilfe im
@@ -140,6 +144,8 @@ sie lässt die Fläche leer.
 
 ## Offen
 
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
 - [x] ~~**Vorschaubild bei TikTok: nichts zu machen.** Buffer schreibt es ins
       eigene Schema — die Netze nehmen keine hochgeladenen Titelbilder an und
       lehnen jedes Video ab, das eines mitschickt. Was geht, tun wir schon:
@@ -147,9 +153,6 @@ sie lässt die Fläche leer.
       Instagram hält sich daran, TikTok sucht sich trotzdem sein eigenes. Der
       Befund steht an der Codestelle~~
 
-- [ ] Den Tagesstand pushen — seit dem letzten Push sind Markenbilder,
-      Kanaltexte und die drei Werkzeugkorrekturen dazugekommen
-- [ ] Nächste Woche bauen. Der Vorrat trägt acht Wochen
 
 ## Neues Fundament · 19.08.2026 · läuft
 
@@ -198,11 +201,6 @@ im Skill steht — hätte das den Vertragsteil mitgenommen (Quellenrangfolge,
 Belegpflicht im Aufschlag, `rundlauf`). Ausgelagert ist jetzt der **Ablauf**,
 geblieben ist, **was gilt**.
 
-- [ ] Offen und noch nicht entschieden: ein fünfter Skill für die
-      **Bebilderung**. „Die Prüfung hat die Richtung zweimal gewechselt"
-      (59 Zeilen) plus Bühnenmaße und Symbolwahl sind Produktionswissen und
-      kein Vertrag — das wären noch einmal rund 90 Zeilen. Nicht gebaut, weil
-      es eine Strukturentscheidung ist
 
 ### Stop-Hook: die Prüfung erinnert sich selbst · 19.08.2026
 
@@ -222,21 +220,19 @@ die man nicht vergessen kann.
       einer weggeworfenen Datei mit Typfehler. Danach der Befehl noch einmal
       **aus der JSON heraus** ausgeführt — Escaping ist die Stelle, an der so
       etwas still kaputtgeht. `permissions` unversehrt, `jq -e` grün~~
-- [ ] **Einmal `/hooks` öffnen oder die Sitzung neu starten.** Der
-      Settings-Watcher beobachtet `.claude/` nur, wenn dort beim Sitzungsstart
-      schon eine Settings-Datei lag. Das kann nur Emirhan tun
 
 ### Danach
 
-- [ ] Stufe 2: `LAENGE_SEK.ziel` in `src/zeit.ts:175` von `[18, 28]` auf
-      `[18, 30]`. Zielwert wird die Mitte bei 24. Den Kommentar
-      **fortschreiben**, nicht überschreiben — dass das Fenster einmal 28–40
-      war und warum es verengt wurde, muss lesbar bleiben
-- [ ] Stufe 3.1: Kamera-Layer über `video/bausteine/Buehne.tsx` und Übergänge
-      (Push-in bei der Zuspitzung, Punch auf den Kipppunkt). Grenze: Die
-      Denkpause bleibt eine Pause
-- [ ] Stufe 3.2: Typografie und Farbe · 3.3: Zeichnungen als Zustände
-- [ ] Stufe 4: `EINGEFROREN.md` in `~/Desktop/horizont-bench`
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~Stufe 2: `LAENGE_SEK.ziel` von `[18, 28]` auf `[18, 30]` — **überholt**.
+      Das Fenster steht heute bei 42–67 s mit vier Zielwerten je Bauform~~
+- [x] ~~Stufe 3.1: Kamera-Layer und Übergänge — **verworfen**, gerechnet:
+      Ein Schwenk kostete elf Prozent Figurengröße. Ersatz ist das Hinlehnen~~
+- [x] ~~Stufe 3.2: Typografie und Farbe · 3.3: Zeichnungen als Zustände —
+      erledigt im Theaterrot und im Figurenumbau vom 31.08.~~
+- [x] ~~Stufe 4: `EINGEFROREN.md` in `~/Desktop/horizont-bench` — der Bench
+      existiert nicht mehr~~
 
 **Bedienung, ab sofort:** `cd ~/Documents/Youtube && claude` — sonst wird
 diese Datei und die CLAUDE.md gar nicht geladen. Plan-Modus vor allem, was
@@ -289,15 +285,12 @@ soll; bisher hätte sie niemand bemerkt.
 
 ### Offen aus demselben Plan
 
-- [ ] `daten/benchmarks.md` — die vier fremden Shorts-Kennzahlen, jede gegen
-      die YouTube-Dokumentation geprüft und als **unbelegt** markiert. Sie
-      taugen zur Kalibrierung und dürfen nie in einem Video vorkommen
-- [ ] `npm run nachfrage` — läuft ein Thema woanders schon? Braucht einen
-      Data-API-Schlüssel; der bestehende Scope ist nur `yt-analytics.readonly`
-- [ ] Arbeitsstruktur: Skill „Beleg holen", Subagent „Belegprüfer",
-      CLAUDE.md von 928 auf etwa 400 Zeilen
-- [ ] In drei bis vier Wochen wiederkommen. Jetzt liegen zwei Videos und keine
-      einzige Haltekurve vor — das Instrument steht, die Aussage nicht
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~Arbeitsstruktur: Skill „Beleg holen", Subagent „Belegprüfer",
+      CLAUDE.md gekürzt — alle drei stehen~~
+- [x] ~~In drei bis vier Wochen wiederkommen: 15 Videos draußen, 11 mit
+      Haltekurve. Die Aussage steht, und sie hat den Nordstern gewechselt~~
 
 ## Der Mittwoch ist automatisiert · 17.08.2026, nachts
 
@@ -470,10 +463,11 @@ Regel, dass eine Begründung verschoben statt gelöscht wird.
       Anzeige in der Kopfzeile, zwei Bühnen (`figur`, `gegenueber`) nach der
       Regel „Vorgang statt Zustand", Kamera-Layer. Probe-Render: 1080×1920,
       30/1, beide Ströme, 23,06 s~~
-- [ ] Stufe 4: ein Video ganz durch, Aufwand messen, **dann** den Takt festlegen
-- [ ] Stufe 5: `thema-finden` und `rueckblick-lesen` schrumpfen, CLAUDE.md
-- [ ] Stufe 6: aufräumen — `laeufe/` (68 MB), tote Felder und Regeln, Skripte
-      ohne Aufgabe, und die Frage, ob die vier eigenen Skills dann noch tragen
+- [x] ~~Stufe 4: ein Video ganz durch, Aufwand messen, dann den Takt festlegen
+      — erledigt am 24.08., der Takt steht bei vier je Woche~~
+- [x] ~~Stufe 5: `thema-finden` und `rueckblick-lesen` schrumpfen, CLAUDE.md~~
+- [x] ~~Stufe 6: aufräumen — teilweise. Was übrig ist, steht in der Liste am
+      Ende: `laeufe/` ist inzwischen 235 MB in einem einzigen Ordner~~
 
 ## Nachbesserung aus der ersten Sichtung · 24.08.2026
 
@@ -544,8 +538,6 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
       die Produktion schaffte 26 und ElevenLabs 240. **Die Grenze ist der
       Vorrat, nicht die Produktion** — und damit ist die offene Frage aus
       Stufe 4 beantwortet~~
-- [ ] Vorrat nachfüllen, sobald ein Format unter sechs offene Ideen fällt.
-      `eswareinmal` und `werhatrecht` stehen bei zehn
 
 ## Stufe 5 · Doku entdoppelt · 24.08.2026
 
@@ -572,10 +564,6 @@ Muster: Was formal grün ist, sieht deshalb noch nicht richtig aus.
 - [x] ~~**Szenenart `hook` gestrichen.** Sie stand seit dem 17.08. als
       erledigt im Vertrag, trotzdem weiter im Schema — und ohne Zweig im
       Renderer. Ein Short mit `art: 'hook'` wäre durch die Prüfung gegangen~~
-- [ ] `kaufkriterien` und `einschraenkung` sind ungenutzt, bleiben aber:
-      `kaufkriterien` trägt die Werberegel für Phase 2, `einschraenkung` ist
-      eine Erzählform und kein Erklärvideo-Rest
-- [ ] Alle Skripte hängen an einem npm-Eintrag; nichts verwaist
 
 ## Banner auf der Handyansicht · 25.08.2026
 
@@ -607,11 +595,6 @@ Katalogsprache.
       nachliest. / Wir schon 📄"~~
 - [x] ~~`marke-texte.md` nachgezogen: TikTok, Instagram, YouTube, Name-Feld,
       Kontakt, die überholte Takt-Regel~~
-- [ ] Eintragen: Instagram-Bio, **Name-Feld auf „Ganz akkurat · Technikfakten"**,
-      Kategorie weg von „KI-Creator" (YouTube ist erledigt)
-- [ ] TikTok-Bio eintragen
-- [ ] Die restlichen ~900 Zeichen der YouTube-Beschreibung sind Suchfläche —
-      ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird
 
 ## Die erste fordernde Regel · 26.08.2026
 
@@ -691,9 +674,6 @@ Katalogsprache.
       gegengeprüft~~
 - [x] ~~`npm run laengen` zeigt jetzt auch „je Format", eindimensional. Format
       mal Länge wären zwölf Felder mit je drei Videos bis Oktober — Rauschen~~
-- [ ] Ab Oktober: `npm run laengen` lesen, sobald zwei Klassen belegt sind.
-      **Dann fallen die vier Zielwerte** — vorher nicht, sonst ersetzt eine
-      geratene Zahl die andere
 - [x] ~~**Sprecherwechsel-Pausen zählen mit.** Es waren 1,2 bis 1,6 s je Short,
       nicht 1,1: 0,28 s je Wechsel innerhalb einer Szene plus 0,13 s Aufschlag
       an jeder Szenengrenze mit Wechsel, wo die Vertonung schneidet statt zu
@@ -769,17 +749,20 @@ Katalogsprache.
       Jetzt einstimmig; Wattis „Bin bei Passwort7." steht in Szene 3, wo
       „Passwort8 kriegt ein Ausrufezeichen" ohnehin erst dadurch Sinn ergibt~~
 - [x] ~~Drei verbotene Posen im Wortwechsel von `passwort-wechseln`~~
-- [ ] Zweiter Lauf mit Ton. `passwort-wechseln` hat einen neuen Sprechtext,
-      also greift `--ton-behalten` nicht — der Lauf synthetisiert alle vier neu
-- [ ] **Die Zitatkartenszene zeigt keine Figuren.** Der Vertrag sagt über die
+- [x] ~~Zweiter Lauf mit Ton. `passwort-wechseln` hat einen neuen Sprechtext,
+      also greift `--ton-behalten` nicht — der Lauf synthetisiert alle vier neu~~
+      *(zusammengefasst in „Der erste Short mit vollem Ton" am Ende)*
+- [x] ~~**Die Zitatkartenszene zeigt keine Figuren.** Der Vertrag sagt über die
       Bauform „die beiden Figuren reden darüber"; `SzeneZitatkarte` nimmt kein
       `buehne`, und der Renderer zeichnet nur die Karte. Zweistimmig ist die
       Szene trotzdem — man hört beide und sieht sie nicht. Dieselbe Sorte
       Lücke wie seinerzeit `hook`: im Vertrag beschrieben, im Renderer nicht
-      gebaut
-- [ ] Erst dann die Blindwahl (`regieprobe`, neu zu schreiben): je Machart die
+      gebaut~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
+- [x] ~~Erst dann die Blindwahl (`regieprobe`, neu zu schreiben): je Machart die
       echte Zeile und eine tonlos geschriebene, vier unbeschriftete Fassungen
-      samt der ohne Ansage, zweiter Durchgang für die Überlebenden
+      samt der ohne Ansage, zweiter Durchgang für die Überlebenden~~
+      *(steht als „Blindwahl für die Regieanweisungen" in der Liste am Ende)*
 - [x] ~~Die Bauform `stationen` an einem echten Thema gebaut~~
 - [x] ~~Bildtexte von `passwort-wechseln` an den neuen Sprechtext angeglichen:
       „Oft schwächere Passwörter" → „Vorhersehbare Passwörter" (das gesprochene
@@ -865,20 +848,21 @@ entscheidet, wie Gespräche geschrieben werden — nicht umgekehrt.
 
 ### Offen
 
-- [ ] **Die vier Entwürfe nach dem neuen Maßstab umschreiben.** Anrede
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Die vier Entwürfe nach dem neuen Maßstab umschreiben.** Anrede
       („Watti, …"), zweite Person, Rückbezug auf ein Wort der Vorzeile,
       Reaktionspartikel. Voltis lange Belegsätze zerfallen in Frage und
-      Antwort; die Frage gehört Watti
-- [ ] `CLAUDE.md` steht an sieben Stellen auf altem Stand: Längenfenster,
-      Sprechblase, `WORTWECHSEL` mit 116 Einheiten, Szenentrenner, die drei
-      gesperrten Posen, die Pausenwerte, die neuen Regeln
-- [ ] **Die Zitatkartenszene zeigt keine Figuren.** Der Vertrag sagt „die
-      beiden Figuren reden darüber"; `SzeneZitatkarte` nimmt kein `buehne`
-- [ ] Zweiter Lauf mit Ton, erst nach dem Umschreiben
-- [ ] Die Bauformen gegen das neue Fenster: 25 / 35 / 45 / 60 liegen zu drei
-      Vierteln darunter. Entschieden wird, wenn das Bild steht
-- [ ] Blindwahl für die Regieanweisungen (`regieprobe` neu schreiben)
-- [ ] Eine neue Ideenquelle — der Pillar-Weg ist verworfen
+      Antwort; die Frage gehört Watti~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Die Zitatkartenszene zeigt keine Figuren.** Der Vertrag sagt „die
+      beiden Figuren reden darüber"; `SzeneZitatkarte` nimmt kein `buehne`~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
+- [x] ~~Zweiter Lauf mit Ton, erst nach dem Umschreiben~~
+      *(zusammengefasst in „Der erste Short mit vollem Ton" am Ende)*
+- [x] ~~Die Bauformen gegen das neue Fenster: 25 / 35 / 45 / 60 liegen zu drei
+      Vierteln darunter. Entschieden wird, wenn das Bild steht~~
+      *(erledigt 31.08. nachts: 45 / 52 / 62 gegen 42–67 s)*
 
 ## Das Maximum des Figurenstils · 31.08.2026, abends
 
@@ -943,13 +927,21 @@ Bewegungen?" **Nein — es war etwa ein Drittel.**
 
 ### Offen
 
-- [ ] **Entscheidung an der Bewegungsprobe:** Welche Feder, wie viel
-      Overlapping und Anticipation, Gewicht und Atemvolumen ja oder nein
-- [ ] Danach wandert das Gewählte in `TEMPO.feder` und in `Figurenbuehne`;
-      was nicht bleibt, wird aus der Probe gelöscht statt liegen zu lassen
-- [ ] Die Kamera folgt dem Sprecher — entschieden, noch nicht gebaut
-- [ ] Die vier Entwürfe nach dem neuen Maßstab umschreiben
-- [ ] `CLAUDE.md` steht an sieben Stellen auf altem Stand
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Entscheidung an der Bewegungsprobe:** Welche Feder, wie viel
+      Overlapping und Anticipation, Gewicht und Atemvolumen ja oder nein~~
+      *(erledigt 31.08. abends — der Bewegungsstil steht in Produktion)*
+- [x] ~~Danach wandert das Gewählte in `TEMPO.feder` und in `Figurenbuehne`;
+      was nicht bleibt, wird aus der Probe gelöscht statt liegen zu lassen~~
+      *(erledigt 31.08. abends)*
+- [x] ~~Die Kamera folgt dem Sprecher — **verworfen**, und zwar gerechnet:
+      Ein Schwenk von zehn Einheiten bräuchte `groesse` 0,55 statt 0,62. Der
+      Ersatz steht im Abschnitt darunter: Der Sprechende lehnt sich um 1,5°
+      hin. Dieser Punkt stand danach noch als *entschieden, noch nicht gebaut*
+      hier und widersprach der eigenen Rechnung zwei Abschnitte weiter~~
+- [x] ~~Die vier Entwürfe nach dem neuen Maßstab umschreiben~~
+      *(erledigt 31.08. nachts)*
 
 ## Volti umgebaut, Bewegungsstil in Produktion · 31.08.2026, abends
 
@@ -1018,22 +1010,18 @@ oben als neuem Unterscheidungsmerkmal.
 
 ### Offen
 
-- [ ] **Der Freiraum unter dem Satz.** Die Figuren sitzen tief, darüber steht
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Der Freiraum unter dem Satz.** Die Figuren sitzen tief, darüber steht
       viel Leere. Drei Anläufe über `preserveAspectRatio` und `alignItems`
       haben **nichts** bewirkt und sind zurückgenommen — der Platz entsteht
-      woanders als vermutet. Erst messen, wo, dann ändern
-- [ ] `video/Marke.tsx` — der Banner braucht breitere, flachere Kästen;
-      `npm run markenbilder` neu rendern
-- [ ] `CLAUDE.md`, Kapitel „Die Figuren", steht komplett auf altem Stand; dazu
-      `.claude/skills/bild-bauen/SKILL.md`
-- [ ] Das Logozeichen: einpolig und aufrecht, während die Figuren gestaucht sind
-      — entschieden wird am Bild
-- [ ] Das Szenensymbol `batterie` liegt quer, „weil eine zweite Batterie in
-      derselben Haltung eine Dopplung wäre" — mit zwei querformatigen Figuren
-      daneben ist genau das der Fall
-- [ ] Die vier Entwürfe nach dem Gesprächsmaßstab umschreiben
-- [ ] Zitatkartenszene zeigt keine Figuren; zweiter Lauf mit Ton; Bauformen
-      gegen das Fenster 42–67 s; Blindwahl; neue Ideenquelle
+      woanders als vermutet. Erst messen, wo, dann ändern~~
+      *(gemessen 31.08. nachts: Die Letterbox ist strukturell — nur mehr Bühnenbreite hilft, und die kostet sichere Zone. Steht als solche in der Liste am Ende)*
+- [x] ~~Die vier Entwürfe nach dem Gesprächsmaßstab umschreiben~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~Zitatkartenszene zeigt keine Figuren; zweiter Lauf mit Ton; Bauformen
+      gegen das Fenster 42–67 s; Blindwahl; neue Ideenquelle~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
 
 
 ## Korrektur am selben Abend · 31.08.2026
@@ -1066,12 +1054,16 @@ Ich hätte nicht gedacht, dass jetzt beide so klein und dickförmig aussehen."
 
 ### Weiter offen
 
-- [ ] Der Freiraum unter dem Satz — drei Anläufe ohne Wirkung, zurückgenommen.
-      Mit 88 statt 55 Einheiten Figurenhöhe ist er kleiner geworden
-- [ ] `CLAUDE.md`, Kapitel „Die Figuren", und `.claude/skills/bild-bauen/`
-- [ ] Die vier Entwürfe nach dem Gesprächsmaßstab umschreiben
-- [ ] Zitatkartenszene; zweiter Lauf mit Ton; Bauformen gegen 42–67 s;
-      Blindwahl; neue Ideenquelle
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~Der Freiraum unter dem Satz — drei Anläufe ohne Wirkung, zurückgenommen.
+      Mit 88 statt 55 Einheiten Figurenhöhe ist er kleiner geworden~~
+      *(gemessen 31.08. nachts: Die Letterbox ist strukturell — nur mehr Bühnenbreite hilft, und die kostet sichere Zone. Steht als solche in der Liste am Ende)*
+- [x] ~~Die vier Entwürfe nach dem Gesprächsmaßstab umschreiben~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~Zitatkartenszene; zweiter Lauf mit Ton; Bauformen gegen 42–67 s;
+      Blindwahl; neue Ideenquelle~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
 
 
 ## Der Vorspann: aus vier Rubriken werden sechs Shows · 31.08.2026, nachts
@@ -1128,22 +1120,21 @@ neu: `schaetzmal` **Schätz mal**
 
 ### Offen — der Vorspann ist noch stumm
 
-- [ ] **Ton und Jingle.** Sechs feste Aufnahmen („Facts, mit Watti…" / „…und
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Ton und Jingle.** Sechs feste Aufnahmen („Facts, mit Watti…" / „…und
       Volti!"), einmal vertont, rund 210 Zeichen, danach null laufende Kosten.
       Dazu ein aufsteigender Dreiklang in `skripte/toene.ts`, von Hand
-      geschrieben wie `gefaellt.wav`
-- [ ] **`VORSPANN_SEK` steht auf gerechneten 3,8 s** und ist noch nicht
-      gemessen. Sobald die Tondatei existiert, wird sie an ihr abgelesen
-- [ ] **Lippensync im Vorspann** — die Wortzeiten kommen aus derselben einmaligen
-      Vertonung
-- [ ] **Beef umbauen:** neue MATRIX-Prüffrage „Ist der Fakt belegt und die
-      Folgerung trotzdem strittig?" statt „übersehen beide etwas Drittes?".
-      Die alte Frage traf beim Sammeln fast nie zu — daher nur 10 Ideen
-- [ ] **`schaetzmal`** als sechstes Format: Enum, `FORMATE`, `MATRIX`, eigene
-      Ideendatei. Sendet erst, wenn der Vorrat steht
-- [ ] **Die Formatpille raus** aus der Kopfzeile. „KI-Stimme" bleibt in jedem
-      Fall; was sonst oben stehen soll, wird am fertigen Video entschieden
-- [ ] **Bauform `einstimmig` streichen** — Zielwert 25 s, Fenster ab 42 s
+      geschrieben wie `gefaellt.wav`~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**`VORSPANN_SEK` steht auf gerechneten 3,8 s** und ist noch nicht
+      gemessen. Sobald die Tondatei existiert, wird sie an ihr abgelesen~~
+      *(erledigt 31.08. nachts: gemessen an zehn festen Aufnahmen, `daten/vorspannton.json`)*
+- [x] ~~**Lippensync im Vorspann** — die Wortzeiten kommen aus derselben einmaligen
+      Vertonung~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Bauform `einstimmig` streichen** — Zielwert 25 s, Fenster ab 42 s~~
+      *(erledigt 31.08. nachts)*
 - [x] ~~**Die Bauform-Zielwerte gegen das Fenster 42–67 s.**~~ 45 / 52 / 62 am
       31.08.2026 abends, `einstimmig` gestrichen. 25 / 35 / 45 / 60
       liegen zu drei Vierteln darunter
@@ -1203,11 +1194,8 @@ Nach drei Vergleichsseiten sind alle Werte entschieden und eingebaut.
 
 ### Offen
 
-- [ ] Die Pille bei Briefmarkengröße prüfen: Facts `#4C61B0` und Kein Zufall
-      `#303C6C` sind beide blau
-- [ ] `npm run markenbilder` — Profilbild und Banner neu ablegen
-- [ ] Beef umbauen, `schaetzmal` anlegen
-- [ ] `CLAUDE.md` und `.claude/skills/bild-bauen/` nachziehen
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
 
 ## Die Bühne steht von Anfang an · 31.08.2026 · Abend
 
@@ -1299,17 +1287,14 @@ ist erstmals seitdem vollständig grün.**
 
 ### Offen
 
-- [ ] **Ton und Jingle des Vorspanns.** Sechs feste Aufnahmen, rund 210 Zeichen
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Ton und Jingle des Vorspanns.** Sechs feste Aufnahmen, rund 210 Zeichen
       einmalig. `VORSPANN_SEK` steht auf gerechneten 3,8 s und ist **nicht
-      gemessen**
-- [ ] **Die Randbreite am Handy prüfen.** 100 Pixel; sichtbar bleiben nach dem
-      gemessenen Beschnitt 48 links und 44 rechts. Ob das als Kulisse liest oder
-      als Rahmen, entscheidet kein Standbild
-- [ ] `CLAUDE.md` und `.claude/skills/bild-bauen/` nachziehen — Vorhang,
-      Bauformen, Zielwerte, `einstimmig`, Zitatlänge
-- [ ] Die Zitatkartenszene zeigt keine Figuren
-- [ ] Blindwahl für die Regieanweisungen; alle sechs Vorräte sind leer
-- [ ] Eine neue Ideenquelle; der Pillar-Weg ist verworfen
+      gemessen**~~
+      *(erledigt 31.08. nachts: „Hauch und Grundton" ist gewählt und liegt in `skripte/toene.ts`)*
+- [x] ~~Die Zitatkartenszene zeigt keine Figuren~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
 
 ## Der Vorspann hat einen Ton · 31.08.2026 · Nacht
 
@@ -1376,14 +1361,8 @@ Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
 
 ### Offen
 
-- [ ] **Der erste Short mit vollem Ton.** Rund 580 Zeichen von 81.000. Dort
-      zeigt sich, ob `VORSPANN_SEK`, die Sprecherpausen und die
-      Aufschlagmessung tragen
-- [ ] **`raumstation-alte-rechner` steht bei 66,9 von 67 Sekunden.** Die
-      Vertonung streut rund sechs Prozent; beim ersten Lauf reißt das
-- [ ] **Kurze Redeanteile im Wochenlauf.** Wattis Reaktionszeilen sind 20 bis 40
-      Zeichen lang und laufen ungeprüft durch dasselbe Modell — dort fällt ein
-      kaputter Lauf erst **nach** dem Bezahlen auf
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
 
 ## Der Hauptteil wird ein Gespräch · 31.08.2026 · Nacht
 
@@ -1423,23 +1402,33 @@ Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
 
 ### Offen
 
-- [ ] **Die drei Regeln bauen** — `anrede`, `zweitePerson`, `rueckbezug`.
-      Ohne sie fragt beim Schreiben wieder nichts danach
-- [ ] **Die restlichen drei Entwürfe** nach dem Musterdialog
-- [ ] **Die Bauform-Zielwerte kennen den Vorspann nicht.** 45 / 52 / 62 sind
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Die drei Regeln bauen** — `anrede`, `zweitePerson`, `rueckbezug`.
+      Ohne sie fragt beim Schreiben wieder nichts danach~~
+      *(erledigt 31.08. nachts: `anrede`, `zweitePerson`, `rueckbezug` stehen in `src/pruefung.ts`)*
+- [x] ~~**Die restlichen drei Entwürfe** nach dem Musterdialog~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Die Bauform-Zielwerte kennen den Vorspann nicht.** 45 / 52 / 62 sind
       gesetzt worden, als er 3,8 s gerechnet war; mit Themenansage kostet er
       9,5. `ersatzteil` steht bei 58 s gegen Ziel 45 — für den Inhalt einer
-      Wechselrede bleiben 35,5 Sekunden
-- [ ] **Vier Szenenarten streichen** — `frage`, `vergleich`, `einschraenkung`,
-      `kaufkriterien` werden von keinem Short benutzt
-- [ ] **Die Zitatkartenszene zeigt keine Figuren**, obwohl der Vertrag sagt
-      „die beiden Figuren reden darüber"
-- [ ] **Die erste Szene nach dem Vorhang zeigt nur eine Figur** — „Da müssen
-      beide drauf". Das Symbol blockiert den zweiten Platz
-- [ ] **Der Freiraum unter dem Satz** — drei Anläufe ohne Wirkung. Erst messen,
-      wo der Platz entsteht
-- [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
-      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*
+      Wechselrede bleiben 35,5 Sekunden~~
+      *(erledigt 31.08. nachts: `geschaetzteInhaltSek` rechnet ohne Vorspann)*
+- [x] ~~**Vier Szenenarten streichen** — `frage`, `vergleich`, `einschraenkung`,
+      `kaufkriterien` werden von keinem Short benutzt~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Die Zitatkartenszene zeigt keine Figuren**, obwohl der Vertrag sagt
+      „die beiden Figuren reden darüber"~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
+- [x] ~~**Die erste Szene nach dem Vorhang zeigt nur eine Figur** — „Da müssen
+      beide drauf". Das Symbol blockiert den zweiten Platz~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Der Freiraum unter dem Satz** — drei Anläufe ohne Wirkung. Erst messen,
+      wo der Platz entsteht~~
+      *(gemessen 31.08. nachts: Die Letterbox ist strukturell — nur mehr Bühnenbreite hilft, und die kostet sichere Zone. Steht als solche in der Liste am Ende)*
+- [x] ~~**Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
+      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*~~
+      *(aufgelöst 31.08. nachts — siehe oben im Bewegungsstil-Abschnitt)*
 
 ## Zielwert und Fenster messen Verschiedenes · 31.08.2026 · Nacht
 
@@ -1457,12 +1446,15 @@ passwort 48 (52) · erstes-laden 45 (45). Gesamtlängen 54 bis 64 s.
 
 ### Offen
 
-- [ ] **Das Bild der Gesprächsszenen** — vier tote Szenenarten streichen, die
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Das Bild der Gesprächsszenen** — vier tote Szenenarten streichen, die
       Zitatkarte mit Bühne, die erste Szene mit beiden Figuren, der Freiraum
-      unter dem Satz
-- [ ] **Der erste Short mit vollem Ton** — rund 580 Zeichen von 81.000
-- [ ] **Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
-      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*
+      unter dem Satz~~
+      *(erledigt 31.08. nachts)*
+- [x] ~~**Widerspruch in dieser Datei:** „Die Kamera folgt dem Sprecher" steht
+      einmal als *entschieden, noch nicht gebaut* und einmal als *verworfen*~~
+      *(aufgelöst 31.08. nachts — siehe oben im Bewegungsstil-Abschnitt)*
 
 ## Das Bild der Gesprächsszenen · 31.08.2026 · Nacht
 
@@ -1504,8 +1496,115 @@ passwort 48 (52) · erstes-laden 45 (45). Gesamtlängen 54 bis 64 s.
 
 ### Offen
 
-- [ ] ▸ **Die Zitatkartenszene zeigt keine Figuren** — bei `passwort-wechseln`
+*Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
+
+- [x] ~~**Die Zitatkartenszene zeigt keine Figuren** — bei `passwort-wechseln`
       ist das Szene 2, und der Vertrag sagt „die beiden Figuren reden darüber".
-      Im Standbild ist die untere Hälfte leer
-- [ ] **Die Letterbox** — nur über mehr Bühnenbreite lösbar
-- [ ] **Der erste Short mit vollem Ton** — rund 580 Zeichen von 81.000
+      Im Standbild ist die untere Hälfte leer~~
+      *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
+
+---
+
+# Offen · Stand 31.08.2026
+
+**Die einzige Liste.** Bis heute Nacht hatte fast jeder Abschnitt seine eigene
+„Offen"-Sektion — acht Stück, mit denselben Punkten in verschiedenen Fassungen
+und einem Widerspruch darin. *„Eine Liste, in der dieselbe Sache zweimal
+gegensätzlich steht, ist schlechter als keine"* stand am selben Tag über der
+Kamerafrage und galt am Ende für die Liste selbst.
+
+Die Abschnitte darüber bleiben Historie: was gebaut wurde und warum. Was noch
+zu tun ist, steht ab hier.
+
+## Als Nächstes
+
+- [ ] ▸ **Der erste Short mit vollem Ton.** Rund 580 Zeichen von 81.000.
+      **Kostet Kontingent und braucht Emirhans Zustimmung.** Dort zeigt sich,
+      ob `VORSPANN_SEK`, die Sprecherpausen und die Aufschlagmessung tragen —
+      bisher sind das gerechnete Zahlen an gemessenen Bausteinen
+- [ ] **`raumstation-alte-rechner` liegt bei rund 64 von 67 Sekunden.** Die
+      Vertonung streut sechs Prozent, das sind ±3,9 s. Beim ersten Lauf kann
+      das reißen
+- [ ] **Kurze Redeanteile im Wochenlauf.** Wattis Reaktionszeilen sind 20 bis
+      40 Zeichen lang und laufen ungeprüft durch dasselbe Modell, das im
+      Vorspann 415 Sekunden für 18 Zeichen ausgegeben hat. Dort fällt ein
+      kaputter Lauf erst **nach** dem Bezahlen auf
+
+## Am fertigen Video zu entscheiden
+
+- [ ] **Die Letterbox** — 203 Pixel, strukturell. Zweimal gemessen statt
+      geraten: Ein engerer viewBox macht sie größer (203 → 327), eine größere
+      Schrift gewinnt drei Pixel. Nur mehr Bühnenbreite hilft, und die kostet
+      sichere Zone
+- [ ] **Die Randbreite am Handy.** 100 Pixel Vorhang; sichtbar bleiben nach dem
+      gemessenen Beschnitt 48 links und 44 rechts. Ob das als Kulisse liest
+      oder als Rahmen, entscheidet kein Standbild
+- [ ] **Die Formatpille in der Kopfzeile** — bleibt sie? „KI-Stimme" bleibt in
+      jedem Fall
+- [ ] **Facts `#4C61B0` und Kein Zufall `#303C6C` sind beide blau.** Bei
+      Briefmarkengröße prüfen
+- [ ] **Das Logozeichen** ist einpolig und aufrecht, während Watti gestaucht
+      ist. Entschieden wird am Bild
+- [ ] **Das Szenensymbol `batterie` liegt quer** — „weil eine zweite Batterie
+      in derselben Haltung eine Dopplung wäre". Mit zwei querformatigen Figuren
+      daneben ist genau das jetzt der Fall
+
+## Ton
+
+- [ ] **Blindwahl für die Regieanweisungen.** Alle sechs Vorräte in
+      `REAKTIONS_MACHARTEN` sind leer, und das ist der beabsichtigte Zustand:
+      Vorher standen dort sechs Tags aus dem Gedächtnis, einer davon existiert
+      nicht. Je Machart die echte Zeile und eine tonlos geschriebene, vier
+      unbeschriftete Fassungen samt der ohne Ansage, zweiter Durchgang für die
+      Überlebenden. `regieprobe` ist neu zu schreiben
+
+## Formate und Vorrat
+
+- [ ] **Beef umbauen:** neue MATRIX-Prüffrage „Ist der Fakt belegt und die
+      Folgerung trotzdem strittig?" statt „übersehen beide etwas Drittes?". Die
+      alte Frage traf beim Sammeln fast nie zu — daher nur zehn Ideen
+- [ ] **`schaetzmal` als sechstes Format:** Enum, `FORMATE`, `MATRIX`, eigene
+      Ideendatei. Erst dann fehlt die sechste Vorspannaufnahme. Sendet, wenn
+      der Vorrat steht
+- [ ] **Eine neue Ideenquelle** — der Pillar-Weg ist verworfen
+- [ ] **Vorrat nachfüllen**, sobald ein Format unter sechs offene Ideen fällt.
+      `eswareinmal` und `werhatrecht` stehen bei zehn
+- [ ] **Ab Oktober `npm run laengen` lesen**, sobald zwei Längenklassen belegt
+      sind. **Dann fallen die vier Zielwerte** — vorher nicht, sonst ersetzt
+      eine geratene Zahl die andere
+
+## Marke und Kanaltexte — nur Emirhan
+
+- [ ] Instagram-Bio eintragen, **Name-Feld auf „Ganz akkurat · Technikfakten"**,
+      Kategorie weg von „KI-Creator" (YouTube ist erledigt)
+- [ ] TikTok-Bio eintragen
+- [ ] Die restlichen rund 900 Zeichen der YouTube-Beschreibung sind Suchfläche
+      — ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird
+- [ ] Einmal `/hooks` öffnen oder die Sitzung neu starten: Der Settings-Watcher
+      beobachtet `.claude/` nur, wenn dort beim Sitzungsstart schon eine
+      Settings-Datei lag
+- [ ] `video/Marke.tsx` — der Banner braucht breitere, flachere Kästen, dann
+      `npm run markenbilder` neu ablegen
+
+## Dokumentation
+
+- [ ] **`CLAUDE.md` steht an mehreren Stellen auf altem Stand:** Längenfenster
+      und Zielwerte, Vorhang und Vorspann, Sprechblase, `WORTWECHSEL` mit 116
+      Einheiten, Szenentrenner, die drei gesperrten Posen, die Pausenwerte, die
+      neuen Regeln, `einstimmig`, die Zitatlänge — und ein Kapitel „Die
+      Figuren", das den Umbau vom 31.08. gar nicht kennt
+- [ ] **`.claude/skills/bild-bauen/SKILL.md`** dazu nachziehen
+- [ ] **Ein fünfter Skill für die Bebilderung?** Bühnenmaße, Symbolwahl und
+      „die Prüfung hat die Richtung zweimal gewechselt" sind Produktionswissen
+      und kein Vertrag — rund 90 Zeilen. Nicht gebaut, weil es eine
+      Strukturentscheidung ist
+
+## Aufräumen
+
+- [ ] **`laeufe/` liegt bei 235 MB in einem einzigen Ordner**, und 115 von 209
+      versionierten Dateien sind fremde Skills. Am 30.08. besprochen, nichts
+      umgesetzt
+- [ ] **`daten/benchmarks.md` und `npm run nachfrage`** stehen seit dem 19.08.
+      unangetastet auf der Liste. Erst entscheiden, ob sie noch gewollt sind
+- [ ] Den Tagesstand pushen
+- [ ] Die nächste Woche bauen
