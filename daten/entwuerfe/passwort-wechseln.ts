@@ -48,7 +48,7 @@ export const passwortWechseln: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext: '90 Tage, dann neues Passwort.',
-      rede: [{ sprecher: 'nachleser', text: '90 Tage, dann neues Passwort.' }],
+      rede: [{ sprecher: 'nachleser', zug: 'behaupten', text: '90 Tage, dann neues Passwort.' }],
       text: 'Passwort wechseln?',
       /*
        * „90 Tage" **ist** ein Kalender, keine Uebertragung — `uhr` waere die
@@ -72,16 +72,35 @@ export const passwortWechseln: Short = {
        * **gesprochen wird Alltagssprache, gezeigt wird die Behoerdenfassung.**
        */
       sprechtext:
-        'Sagt das eigentlich mal jemand mit Ahnung? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch. Sicherheit? Also war das alles umsonst?',
+        'Sagt das eigentlich mal jemand mit Ahnung? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch. Nicht automatisch? Dann lasse ich es ganz.',
       rede: [
-        { sprecher: 'zeiger', text: 'Sagt das eigentlich mal jemand mit Ahnung?', machart: 'rueckfrage' },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          text: 'Sagt das eigentlich mal jemand mit Ahnung?',
+          machart: 'rueckfrage',
+        },
         {
           sprecher: 'nachleser',
+          zug: 'beantworten',
           text: 'Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
         },
-        { sprecher: 'zeiger', text: 'Sicherheit? Also war das alles umsonst?', machart: 'ratlosigkeit' },
+        /*
+         * **Hier stand „Sicherheit? Also war das alles umsonst?"** — eine
+         * tadellose Ratlosigkeit, die auf den *Fakt* reagierte und nicht auf
+         * Volti. Der neue Satz greift „automatisch" auf und zieht daraus den
+         * Schluss, der Wattis halbes Lager vertritt: gar nicht mehr wechseln.
+         * **Das ist der Irrtum, den der Kipppunkt spaeter kassiert** — und
+         * damit tut die Zeile etwas fuer den Short, statt nur witzig zu sein.
+         */
+        {
+          sprecher: 'zeiger',
+          zug: 'umdeuten',
+          text: 'Nicht automatisch? Dann lasse ich es ganz.',
+          machart: 'falscherschluss',
+        },
       ],
       /*
        * **Der Kernsatz, nicht der ganze Satz** — seit dem 31.08.2026.
@@ -115,17 +134,26 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern. Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen.',
+      sprechtext: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern. Ertappt. Ich bin bei Passwort7.',
       rede: [
         {
           sprecher: 'nachleser',
+          zug: 'gegenbeispiel',
           text: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'schwache-vorhersehbare-passwoerter',
         },
+        /*
+         * **„Ertappt." ist die ganze Aenderung**, und sie ist der Unterschied
+         * zwischen einem Gestaendnis und einem Einlenken: Vorher stand hier
+         * „Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen." — fuer
+         * sich witzig, und es bezog sich auf nichts. Ein Wort davor macht die
+         * Zeile zur Antwort auf Voltis Satz, ohne ihr die Pointe zu nehmen.
+         */
         {
           sprecher: 'zeiger',
-          text: 'Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen.',
+          zug: 'einlenken',
+          text: 'Ertappt. Ich bin bei Passwort7.',
           machart: 'gestaendnis',
         },
       ],
@@ -149,60 +177,108 @@ export const passwortWechseln: Short = {
        * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
        * ohne dass Volti ein Wort abgibt.
        */
-      sprechtext: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat. Konto? Meins ist der Generalschlüssel für alles.',
+      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn jemand Fremdes dein Passwort kennt.',
       rede: [
+        /*
+         * **Wattis Irrtum wird ausgesprochen, bevor er kassiert wird.** Der
+         * Bogen von „Beef" sagt, dass **beide** Lager etwas uebersehen — das
+         * eine wechselt nach Kalender, das andere gar nicht. Ohne diese Zeile
+         * gibt es nur ein Lager im Bild, und der Kipppunkt kippt nichts.
+         */
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Also nie wechseln, verstanden.' },
         {
           sprecher: 'nachleser',
-          text: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat.',
-          quelleId: 'bsi-passwortwechsel-2026',
-          belegId: 'stark-und-einzigartig',
+          zug: 'richtigstellen',
+          text: 'Nein. Wechseln sollst du, wenn jemand Fremdes dein Passwort kennt.',
+          quelleId: 'bsi-umgang-mit-passwoertern',
+          belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
-        { sprecher: 'zeiger', text: 'Konto? Meins ist der Generalschlüssel für alles.', machart: 'bild' },
       ],
-      text: 'Ein Konto, ein Passwort.',
+      text: 'Nur bei Verdacht.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
         nach: 'lesen',
         gegenueber: { von: 'stutzen', nach: 'staunen' },
       },
-      quelleId: 'bsi-passwortwechsel-2026',
-      belegId: 'stark-und-einzigartig',
+      quelleId: 'bsi-umgang-mit-passwoertern',
+      belegId: 'geaendert-wenn-hinweis-unbefugte',
     },
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Wechseln sollst du, wenn es einen Hinweis gibt, dass jemand Fremdes es kennt. Hinweis? Volti, das hat sich jemand ausgedacht.',
+      /*
+       * **Diese Szene und die davor haben den Platz getauscht.** Vorher stand
+       * hier der Hinweis-Beleg und in Szene 4 die Einzigartigkeit — mit dem
+       * Ergebnis, dass Wattis Irrtum („also nie wechseln") erst nach seiner
+       * Aufloesung kam. Ein Kipppunkt, der vor dem Irrtum steht, kippt nichts.
+       */
+      /*
+       * **Watti eroeffnet, und zwar nicht aus Dramaturgie, sondern weil
+       * `redelauf` es verlangt.** Vorher endete Szene 4 mit Voltis
+       * Richtigstellung und Szene 5 begann mit seinem naechsten Belegsatz —
+       * `redebloecke` klebt das ueber die Szenengrenze zu **8,6 Sekunden**
+       * Volti am Stueck zusammen, erlaubt sind sechs.
+       *
+       * Die Naht lag zwischen den Saetzen, nicht in ihnen: Beide sind fuer
+       * sich unauffaellig. Wattis Einlenken loest den Block und greift dabei
+       * „Verdacht" auf — es kostet den Short nichts und gibt ihm einen
+       * Rueckbezug mehr.
+       */
+      sprechtext: 'Also erst bei Verdacht. Wichtiger ist, dass jedes Konto ein eigenes Passwort hat. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
+        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also erst bei Verdacht.' },
         {
           sprecher: 'nachleser',
-          text: 'Wechseln sollst du, wenn es einen Hinweis gibt, dass jemand Fremdes es kennt.',
-          quelleId: 'bsi-umgang-mit-passwoertern',
-          belegId: 'geaendert-wenn-hinweis-unbefugte',
+          zug: 'nachlegen',
+          text: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat.',
+          quelleId: 'bsi-passwortwechsel-2026',
+          belegId: 'stark-und-einzigartig',
         },
-        { sprecher: 'zeiger', text: 'Hinweis? Volti, das hat sich jemand ausgedacht.', machart: 'falscherschluss' },
+        {
+          sprecher: 'zeiger',
+          zug: 'umdeuten',
+          text: 'Konto? Meins ist der Generalschlüssel für alles.',
+          machart: 'bild',
+        },
       ],
-      text: 'Beim Hinweis. Dann ja.',
+      text: 'Ein Konto, ein Passwort.',
       buehne: {
         art: 'figur',
         von: 'lesen',
         nach: 'stutzen',
         gegenueber: { von: 'staunen', nach: 'nachdenken' },
       },
-      quelleId: 'bsi-umgang-mit-passwoertern',
-      belegId: 'geaendert-wenn-hinweis-unbefugte',
+      quelleId: 'bsi-passwortwechsel-2026',
+      belegId: 'stark-und-einzigartig',
     },
     {
       art: 'schluss',
       position: 'nachschlag',
-      sprechtext: 'Nicht der Kalender entscheidet, sondern der Verdacht. Wann war deiner?',
+      /*
+       * **Die Restfrage gehoert Watti, nicht Volti** — und das ist keine
+       * Geschmacksfrage, sondern folgt aus zwei Dingen.
+       *
+       * Der Bogen von „Beef" endet auf `nachhaken`, `einschraenken` oder
+       * `widersprechen`; der Short soll also mit einer offenen Frage schliessen.
+       * Ein `nachhaken` behauptet nichts und darf deshalb keine Quelle tragen —
+       * Voltis Belegsatz und die Frage koennen nicht derselbe Zug sein.
+       *
+       * Und wenn beide von Volti kaemen, wuerde `redelaeufe` sie zu einem
+       * Abschnitt verschmelzen: Der zweite Zug erreichte das Bild nie. Watti
+       * ist ohnehin die Figur, die fuer den Zuschauer steht — die Frage an ihn
+       * ist bei ihm richtig aufgehoben.
+       */
+      sprechtext: 'Nicht der Kalender entscheidet, sondern der Verdacht. Und wann war deiner?',
       rede: [
         {
           sprecher: 'nachleser',
-          text: 'Nicht der Kalender entscheidet, sondern der Verdacht. Wann war deiner?',
+          zug: 'richtigstellen',
+          text: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'keine-zeitgemaesse-schutzmassnahme',
         },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wann war deiner?' },
       ],
       satz: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
       /*
