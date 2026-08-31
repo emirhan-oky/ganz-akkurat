@@ -409,6 +409,29 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   Machart kommt zweimal im selben Short vor. Geprüft wird nicht, ob es witzig
   ist — geprüft wird, ob der Platz benutzt wurde. Genau so arbeitet die
   Belegregel: Sie prüft nicht, ob das Zitat überzeugt, sondern ob eins da ist.
+- **`antwortpflicht`**, **`abbiegen`**, **`anschluss`**, **`zugpaar`** — die
+  Gesprächsebene, seit dem 01.09.2026. Jeder Redeanteil trägt einen **Zug** aus
+  `ZUGARTEN`, und der beantwortet eine andere Frage als die Machart: Die
+  Machart sagt, was die Zeile dem **Fakt** hinzufügt, der Zug, was sie dem
+  **anderen** antut. Beides gilt gleichzeitig — „Ich bin bei Passwort7" ist ein
+  tadelloses Geständnis *und* geht am Vorredner vorbei.
+
+  Auf `widersprechen` muss ein Konter folgen, auf `nachhaken` eine Auskunft —
+  vom anderen, höchstens zwei Zeilen später. `abbiegen` höchstens einmal je
+  Short, anschlusslose Züge höchstens ein Drittel, kein Zugpaar dreimal.
+
+  **Alle vier sind Obergrenzen, keine Mindestmaße.** Das Projekt hat dreimal
+  erlebt, dass eine vorschreibende Regel selbst zur Schablone wird — ein
+  Maximum lässt sich nicht ansteuern. Und die laufweite Regel sitzt auf dem
+  **Zugtripel**: Zugpaare wiederholen sich rund dreißigmal je Woche, das ist
+  Sprache; bei Tripeln liegt die Erwartung bei 1,1 je drei gesehenen Shorts,
+  und das ist die Schwelle, ab der jemand den Takt bemerkt.
+
+  Der Anlass war ein Befund, der eine ältere Wache widerlegt: `rueckbezug` war
+  am ersten vertonten Video **weit übererfüllt** (fünf von zehn Zeilen), und es
+  war trotzdem kein Gespräch. **Ein Maß, das eine Zeichenkette zählt, kann eine
+  Beziehung nicht sehen.** Er bleibt trotzdem — als Gegenprobe: Der Zug ist eine
+  *erklärte* Beziehung, der Rückbezug misst die *tatsächlichen* Wörter.
 - **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
 - **`suchbegriff`** — jedes Wort steht im Sprechtext und in allen drei
   Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Ein Zwang

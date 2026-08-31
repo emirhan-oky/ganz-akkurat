@@ -183,6 +183,50 @@ Sprecher selbst („Verdacht auf meine Dummheit"). Das ist ein Geständnis, das
 sich als Folgerung tarnt — dieselbe Machart, die `REAKTIONS_MACHARTEN` unter
 `gestaendnis` führt, nur mit dem Rückbezug als Träger.
 
+### Die vierte Ebene: der Zug — seit dem 01.09.2026
+
+Anrede, zweite Person und Rückbezug haben nicht gereicht. Am ersten vertonten
+Short waren **fünf von zehn Zeilen** mit einem Rückbezug versehen — weit über
+dem Mindestmaß von zwei — und das Urteil lautete trotzdem: „Die beiden führen
+einfach kein Gespräch miteinander."
+
+Der Grund steht in einer einzigen Zeile: „Sicherheit? Also war das alles
+umsonst?" enthält „Sicherheit" und **antwortet trotzdem nicht Volti, sondern
+dem Fakt**. Ein Maß, das eine Zeichenkette zählt, kann eine Beziehung nicht
+sehen.
+
+Deshalb trägt jeder Redeanteil jetzt einen **Zug** aus `ZUGARTEN`
+(`src/typen.ts`). Er beantwortet eine andere Frage als die Machart:
+
+| | Frage |
+|---|---|
+| `machart` | Was fügt diese Zeile dem **Fakt** hinzu? |
+| `zug` | Was tut diese Zeile dem **anderen** an? |
+
+**Beides gilt gleichzeitig.** „Ich bin bei Passwort7." ist ein tadelloses
+Geständnis *und* geht am Vorredner vorbei — die zwei Felder widersprechen sich
+nicht, sie messen Verschiedenes.
+
+Zwei Züge verlangen eine Antwort: Auf `widersprechen` muss ein Konter folgen,
+auf `nachhaken` eine Auskunft — vom **anderen**, höchstens zwei Zeilen später.
+Und `abbiegen` — am Gesagten vorbei — darf **höchstens einmal je Short**
+vorkommen. Es ist der Zug, der das erste Video ruiniert hat, und er steht
+trotzdem im Vorrat: **Was keinen Namen hat, kann keine Regel begrenzen.**
+
+Der Musterdialog oben lässt sich Zeile für Zeile auszeichnen, und er geht durch
+alle vier Regeln:
+
+| Zeile | Zug | Machart |
+|---|---|---|
+| „Volti, dieselbe Behörde sagt …" | `behaupten` | — |
+| „Kacke, was dann?" | `nachhaken` | Ratlosigkeit |
+| „Du sollst erst wechseln, wenn …" | `beantworten` | — |
+| „Na super, jetzt spüre ich …" | `umdeuten` | Geständnis |
+
+**Vier Zeilen, zwei Achsen, kein Feld doppelt.** Dass der Maßstab, der hier seit
+dem 31.08. steht, sich im Schema restlos ausdrücken lässt, ist der beste
+verfügbare Beleg dafür, dass die Aufteilung stimmt.
+
 **Warum das hier steht und nicht nur im Chat.** Am Abend desselben Tages sind
 alle vier Entwürfe umgeschrieben worden — nach `redelauf` und `stimmanteil`, den
 beiden Regeln, die es gab. `npm run pruefen` wurde grün, und der Maßstab blieb

@@ -23,7 +23,7 @@ export const passwortWechseln: Short = {
   sachgebiet: 'netz',
   bauform: 'zitatkarte',
   arbeitstitel: 'Das Passwort und der Kalender',
-  weitererzaehlt: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
+  weitererzaehlt: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
   suchbegriff: 'Passwort wechseln',
   /*
    * **„Bringt gar nichts" stand hier bis zum 31.08.2026** — und war der
@@ -103,15 +103,24 @@ export const passwortWechseln: Short = {
         },
       ],
       /*
-       * **Der Kernsatz, nicht der ganze Satz** — seit dem 31.08.2026.
+       * **Der Kernsatz, und er beginnt bei „routinemaessiger".**
        *
-       * Woertlich aus derselben Fundstelle, nur der tragende Ausschnitt: Er
-       * beginnt beim Subjekt und endet hinter der Verneinung, und damit steht
-       * er gross im Bild statt als sechszeiliger Block. Der vollstaendige
-       * Wortlaut steht weiterhin in `quellen.json` und wird dort gegen die
-       * Seite geprueft.
+       * Der erste Anlauf am 31.08. kuerzte auf „Passwortwechsel aber erhoeht
+       * die Sicherheit nicht automatisch" — mit der Begruendung, der
+       * Ausschnitt „beginne beim Subjekt". Das Subjekt ist aber **„Ein
+       * routinemaessiger Passwortwechsel"**, und ohne das Adjektiv behauptet
+       * die Karte ueber *jeden* Wechsel, was das BSI nur ueber den
+       * routinemaessigen sagt — auch ueber den, zu dem Volti zwei Szenen
+       * spaeter ausdruecklich raet. **Die Kuerzung widersprach dem eigenen
+       * Short.**
+       *
+       * Gefunden vom `belegpruefer`, nicht von einer Regel: Die Zitatlaenge
+       * war eingehalten, die Zeichenkette stand woertlich auf der Seite, und
+       * `quellen-pruefen` fand sie. Was fehlte, war ein Wort, dessen
+       * Weglassen die Bedeutung dreht — genau der Fall, fuer den der
+       * Kommentar an `zitat` in `src/typen.ts` warnt.
        */
-      zitat: 'Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
+      zitat: 'Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
       /*
        * **Die Zitatkarte traegt seit dem 31.08.2026 eine Buehne.** Der Vertrag
        * verlangt sie seit einer Woche — „die beiden Figuren reden darueber" —,
@@ -177,7 +186,7 @@ export const passwortWechseln: Short = {
        * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
        * ohne dass Volti ein Wort abgibt.
        */
-      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn jemand Fremdes dein Passwort kennt.',
+      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Fremde es haben.',
       rede: [
         /*
          * **Wattis Irrtum wird ausgesprochen, bevor er kassiert wird.** Der
@@ -189,12 +198,12 @@ export const passwortWechseln: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Nein. Wechseln sollst du, wenn jemand Fremdes dein Passwort kennt.',
+          text: 'Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Fremde es haben.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
       ],
-      text: 'Nur bei Verdacht.',
+      text: 'Erst bei einem Hinweis.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
@@ -225,13 +234,13 @@ export const passwortWechseln: Short = {
        * „Verdacht" auf — es kostet den Short nichts und gibt ihm einen
        * Rueckbezug mehr.
        */
-      sprechtext: 'Also erst bei Verdacht. Wichtiger ist, dass jedes Konto ein eigenes Passwort hat. Konto? Meins ist der Generalschlüssel für alles.',
+      sprechtext: 'Also erst bei einem Hinweis. Und jedes Konto braucht ein eigenes Passwort. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
-        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also erst bei Verdacht.' },
+        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also erst bei einem Hinweis.' },
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Wichtiger ist, dass jedes Konto ein eigenes Passwort hat.',
+          text: 'Und jedes Konto braucht ein eigenes Passwort.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
@@ -269,18 +278,18 @@ export const passwortWechseln: Short = {
        * ist ohnehin die Figur, die fuer den Zuschauer steht — die Frage an ihn
        * ist bei ihm richtig aufgehoben.
        */
-      sprechtext: 'Nicht der Kalender entscheidet, sondern der Verdacht. Und wann war deiner?',
+      sprechtext: 'Nicht der Kalender entscheidet, sondern der Hinweis. Und wann kam deiner?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
+          text: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'keine-zeitgemaesse-schutzmassnahme',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wann war deiner?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wann kam deiner?' },
       ],
-      satz: 'Nicht der Kalender entscheidet, sondern der Verdacht.',
+      satz: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
       /*
        * Der Nachschlag traegt eine `belegId`, obwohl seine Position von der
        * Belegpflicht befreit ist. Grund ist ein Befund des `belegpruefer` vom
@@ -295,6 +304,16 @@ export const passwortWechseln: Short = {
        * einzige Satz des Shorts, dessen Deckung ausserhalb der gebundenen
        * Belege lag, und die Befreiung ist fuer Pointen gedacht, nicht fuer
        * Behauptungen, die zufaellig am Ende stehen.
+       *
+       * **Am 01.09.2026 ein zweites Mal derselbe Befund, an derselben Zeile.**
+       * Nach dem Umschreiben stand dort „sondern der Verdacht" — ein Wort, das
+       * in **keiner** gebundenen Fundstelle vorkommt: Die Quelle nennt einen
+       * „Hinweis darauf, dass es in die Haende von unbefugten Dritten gelangt
+       * ist". „Verdacht" klingt griffiger und war eine halbe Behauptung mehr.
+       *
+       * Der Short sagt jetzt durchgehend „Hinweis" — im Belegsatz, in Wattis
+       * Einlenken, im Bildtext und hier. **Ein Wort, das nur an einer Stelle
+       * belegt ist, darf nicht an vier Stellen stehen.**
        */
       rundlauf:
         'Beim zweiten Sehen streiten die beiden Lager nicht mehr um dasselbe – jedes hat die Hälfte, die dem anderen fehlt.',
@@ -327,7 +346,7 @@ export const passwortWechseln: Short = {
       hashtags: ['#passwortsicherheit', '#onlinesicherheit', '#bsi', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Das Passwort und der Verdacht',
+      titel: 'Das Passwort und der Hinweis',
       beschreibung: 'Passwort wechseln nach BSI: Warum der Routinewechsel die Sicherheit nicht automatisch erhöht.',
       hashtags: ['#passwort', '#bsi', '#itsicherheit', '#ganzakkurat'],
     },
