@@ -1,6 +1,6 @@
 import { FARBEN } from '../../src/marke';
 import type { Rig, Stil } from '../../src/figur';
-import { nachleser } from './nachleser';
+import { POL_DOPPELT, mitPolen, nachleser } from './nachleser';
 
 /**
  * Der zweite Akku — derselbe Koerper, andere Rolle.
@@ -62,43 +62,57 @@ export const eingefaerbt = (rig: Rig, karte: Record<string, string>): Rig => ({
 });
 
 /**
- * Getauscht wird genau eine Farbe: die des **Ladebalkens**.
+ * **Zwei Unterschiede, beide abgeleitet: zwei Pole statt eines, Altrosa statt
+ * Blau.**
  *
- * Koerper, Augen, Mund, Groesse, Haltung — alles identisch. Die beiden sind
- * dasselbe Geraet, und was sie trennt, ist die Anzeige darauf: blau beim
- * Nachleser, rot beim Zeiger.
+ * Koerper, Gesicht, Gelenke, Groesse, Haltung — alles identisch und alles vom
+ * `nachleser` uebernommen. Ein zweites Rig von Hand liefe beim ersten Umbau am
+ * Koerper auseinander, und zwar lautlos: Die Schemapruefung saehe zwei gueltige
+ * Rigs und nicht zwei verschiedene.
  *
- * **Der erste Anlauf faerbte den Koerper**, und das war falsch. Ein zweiter
- * Avatar in anderer Koerperfarbe ist eine zweite Figur; ein zweiter mit
- * anderem Balken ist derselbe in einer anderen Rolle. Genau das ist gemeint.
+ * **Die Pole kamen am 31.08.2026 dazu.** Bis dahin trennte die beiden allein
+ * die Balkenfarbe, dazu ab dem 25.08. eine Stauchung, die aus Watti eine
+ * Knopfzelle machte. Beides trug zu wenig: Der Farbfleck ist im Feed
+ * briefmarkengross, und die Stauchung ist am selben Abend wieder gefallen —
+ * „ich haette nicht gedacht, dass jetzt beide so klein und dickfoermig
+ * aussehen".
+ *
+ * **Was trennt, ist die Oberkante.** Watti traegt zwei Pole wie ein
+ * 9-Volt-Block, Volti den einen, den der Kanal seit dem 24.08.2026 fuehrt und
+ * den auch das Logozeichen der Wortmarke zeigt. Ein Unterschied in der
+ * Silhouette liest sich auch klein; ein Farbfleck tut das nicht.
+ *
+ * **Die Reihenfolge zaehlt.** Erst die Pole tauschen, dann faerben — nicht
+ * umgekehrt: `eingefaerbt` greift auf jede Form durch, und ein danach
+ * eingesetzter Pol traege noch die alte Farbe.
+ *
+ * Zur Farbe: Der erste Anlauf faerbte den ganzen Koerper, und das war falsch.
+ * Ein zweiter Avatar in anderer Koerperfarbe ist eine fremde Figur; einer mit
+ * anderer Anzeige ist derselbe Bautyp in einer anderen Rolle.
  */
-export const zeiger: Rig = eingefaerbt(nachleser, {
+export const zeiger: Rig = eingefaerbt(mitPolen(nachleser, POL_DOPPELT), {
   [FARBEN.anzeigeEins]: FARBEN.anzeigeZwei,
 });
 
 /**
- * Wattis Umriss: eine **Knopfzelle**, breiter als hoch.
+ * **Die Stauchung ist am 31.08.2026 ersatzlos gefallen** — hier stand bis dahin
+ * `ZEIGER_STAUCHUNG` mit `scale(1.2 0.74)` um die Standlinie.
  *
- * **Warum die Balkenfarbe nicht mehr genuegt.** Sie war richtig, solange es
- * eine Figur in zwei Rollen war — der Kommentar oben sagt das noch. Seit dem
- * 25.08.2026 sind es zwei Charaktere mit Namen, die miteinander reden, und im
- * ersten Standbild zu zweit waren sie nicht auseinanderzuhalten: gleicher
- * Koerper, gleiches Gesicht, gleiche Groesse, dazwischen ein Farbfleck, der im
- * Feed briefmarkengross ist. Wiedererkennung ist der ganze Grund fuer den
- * Umbau — bei 0 Abonnenten baut sie niemand mit einem Detail auf.
+ * Sie kam am 25.08.2026 aus einem Notbehelf: Im ersten Standbild zu zweit waren
+ * die beiden nicht auseinanderzuhalten, und eine gestauchte Knopfzelle neben
+ * einer schlanken Zelle war der schnellste sichtbare Unterschied.
  *
- * **Gestaucht statt umgebaut.** Ein zweites Rig von Hand liefe beim ersten
- * Umbau am Koerper auseinander, und ein veraendertes Gehaeuse zoege Gelenke,
- * Arme und Beine hinter sich her: Die Armgelenke sitzen bei x = 68 und 132,
- * ein breiteres Gehaeuse liesse die Arme aus dem Rumpf wachsen. Die Stauchung
- * nimmt alles mit — Koerper, Gesicht, Glieder — und bleibt eine Zeile.
+ * **Sie hat das Problem geloest und ein zweites gemacht.** Am 31.08. wurde sie
+ * erst auf beide Figuren ausgeweitet und am selben Abend ganz gestrichen: Zwei
+ * breite Figuren brauchen mehr Buehne, also musste jede kleiner werden — von
+ * 84 auf 55 von 150 Einheiten Hoehe. „Klein und dickfoermig" war das Urteil,
+ * und beides stimmte.
  *
- * Um die **Standlinie** bei y = 140, nicht um die Mitte: Eine Figur, die um
- * ihren Mittelpunkt gestaucht wird, versinkt im Boden. Dieselbe Rechnung wie
- * bei `PLAETZE` in `Buehnenbild.tsx`.
+ * **Die Aufgabe hat jetzt die Oberkante**, und sie erledigt sie besser: ein Pol
+ * gegen zwei ist ein Unterschied in der Silhouette und kostet keine Breite.
+ * Ohne Stauchung passen beide Figuren auf **88** von 150 Einheiten — groesser,
+ * als Volti je war.
  *
- * Zwei Klischee-Wege wurden vorher verworfen: eine eigene Koerperfarbe (macht
- * aus der Rolle eine fremde Figur) und Geschlechtszeichen wie Wimpern (sagen
- * nichts ueber eine Figur, die alles falsch macht und nichts lernt).
+ * Wer sie wieder einbauen will, weil zwei Figuren sich zu aehnlich sehen: Das
+ * war ihr Zweck, und dafuer gibt es jetzt ein besseres Mittel.
  */
-export const ZEIGER_STAUCHUNG = 'translate(100 140) scale(1.2 0.74) translate(-100 -140)';

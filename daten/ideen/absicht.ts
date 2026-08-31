@@ -208,7 +208,7 @@ export const absichtIdeen: Idee[] = [
       },
     ],
     quellenIds: [
-      "eu-recht-auf-reparatur",
+      "eu-reparaturrichtlinie-2024",
     ],
     notiz: "Die Quelle liegt schon geprüft in quellen.json. Vor dem Bauen die Abgrenzung klären: Das Verbot zielt auf Reparatur und Ersatzteile, nicht ausdrücklich auf Tinte. Wenn es nicht trägt, ist das Thema tot — nicht halb.",
   },

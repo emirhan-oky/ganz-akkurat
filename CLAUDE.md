@@ -18,7 +18,7 @@ npm run belege            # stellt Sprechtext und Zitat nebeneinander
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt
 npm run stimmproben       # Hörproben mehrerer Stimmen, `--paar` für beide Rollen
-npm run regieprobe        # was die Regieanweisung mit der Zeile macht (~600 Zeichen)
+npm run stimmprobe-v3     # legt Reglerstufen und Tags als Hörproben ab
 npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf
 npm run markenbilder      # Profilbild und Banner aus video/Marke.tsx
 npm run rueckblick        # holt, was aus den Videos geworden ist
@@ -158,15 +158,14 @@ Sortierachse, kein Suchwort.
 
 ### `bauform` — wie der Short gebaut ist
 
-Seit dem 25.08.2026. Vier Einträge in `BAUFORMEN`, jeder mit einem eigenen
+Seit dem 25.08.2026. Drei Einträge in `BAUFORMEN`, jeder mit einem eigenen
 Zielwert für die Länge:
 
 | Bauform | tut | Ziel |
 |---|---|---|
-| `wechselrede` | einer trägt den Beleg, der andere reagiert | 35 s |
-| `zitatkarte` | das Zitat steht als Karte im Bild, beide reden darüber | 45 s |
-| `stationen` | vier bis fünf Stationen, steigend, dann die Landung | 60 s |
-| `einstimmig` | ein Sprecher, Untertitel unten — der alte Bau | 25 s |
+| `wechselrede` | einer trägt den Beleg, der andere reagiert | 45 s |
+| `zitatkarte` | das Zitat steht als Karte im Bild, beide reden darüber | 52 s |
+| `stationen` | vier bis fünf Stationen, steigend, dann die Landung | 62 s |
 
 **Warum es die Ebene gibt.** Am 25.08. wurde gemessen, was die Gattung
 „faceless" als Standard fährt: KI-Stimme, ein Erzähler, wortweise animierte
@@ -174,15 +173,26 @@ Untertitel. Das war Wort für Wort unser Bau — wir waren nicht eigen, sondern
 die **Voreinstellung**. Und dieselbe Gattung prüft YouTube seit Juli 2025 auf
 Schablonenhaftigkeit, was Reichweite und Monetarisierung kostet.
 
-**`einstimmig` steht bewusst mit im Katalog.** Was keinen Namen hat, kann keine
-Regel begrenzen. Ihn zu verschweigen hieße, ihn unbegrenzt weiterlaufen zu
-lassen; ihn zu benennen setzt ihn unter dieselbe Drittelregel wie alles andere.
+**`einstimmig` ist am 31.08.2026 gestrichen.** Er stand mit einer guten
+Begründung im Katalog: Was keinen Namen hat, kann keine Regel begrenzen — ihn
+zu benennen setzte ihn unter dieselbe Drittelregel wie alles andere.
+
+Das Fenster hat die Begründung überholt. Bei einer Untergrenze von 42 Sekunden
+ist der einstimmige Bau kein kurzer Sonderfall mehr, sondern ein **Monolog von
+dreiviertel Minute** — genau der Bau, gegen den der Umbau läuft. Die neun
+Videos in diesem Bau haben 2.212 Aufrufe, 0-mal geteilt und 0 Abonnenten
+gebracht, und sie waren dabei halb so lang. **Eine Begrenzung, die den
+begrenzten Fall zugleich verschlimmert, ist keine Begrenzung mehr.**
+
+Die alte Sorge bleibt richtig, und sie ist anders beantwortet: Er ist jetzt
+nicht mehr benannt, sondern **unmöglich** — `zweistimmigkeit` verlangt zwei
+Szenen mit beiden Stimmen, ohne Ausnahme.
 
 **Und die Bauform darf nicht lügen.** `shortPruefen` prüft, ob die Mittel da
-sind, die den Namen tragen — mindestens zwei zweistimmige Szenen für die
-Wechselrede, mindestens eine Zitatkartenszene, mindestens drei Zuspitzungen für
-Stationen, und **keine** zweistimmige Szene bei `einstimmig`. Ohne diese Regel
-zählte die Drittelregel Etiketten statt Unterschiede.
+sind, die den Namen tragen — mindestens eine Zitatkartenszene, mindestens drei
+Zuspitzungen für Stationen. Ohne diese Regel zählte die Drittelregel Etiketten
+statt Unterschiede. Für die Wechselrede gibt es keine eigene Deckungsprüfung;
+sie wird über `zweistimmigkeit`, `redelauf` und `stimmanteil` gehalten.
 
 Format und Bauform sind unabhängig: Ein Märchen kann eine Wechselrede oder eine
 Reihe von Stationen sein.
@@ -308,7 +318,7 @@ sich angeblich nicht messen lässt, ist das verdächtigste Bauteil überhaupt.
 `woerterAusAusrichtung` filtert deshalb, was gesprochen aussieht, aber nicht
 gesprochen wird: alles zwischen `<` und `>` (Break-Tags) **und** alles zwischen
 `[` und `]` (die Regieanweisungen von `eleven_v3`). Ohne den zweiten Filter
-stünde „[confused]" groß über der Bühne.
+stünde „[thoughtful]" groß über der Bühne.
 
 ### `suchbegriff` — gefunden wird über das Wort, nicht über die Tags
 
@@ -384,14 +394,18 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   „jedes Format genau einmal je Lauf" und stand hinter einer Zahlengleichheit —
   sie war deshalb genau dann still, wenn sie gebraucht wurde. **Eine Wache, die
   sich bei Abweichung selbst abschaltet, ist keine Wache.**
-- **`bauform`** — keine zweimal hintereinander (Fehler), ab sechs Shorts keine
-  über ein Drittel je Lauf, und die Deckungsregel oben. Die Drittelregel greift
-  erst ab sechs, weil sie bei vier Shorts vier verschiedene Bauformen erzwänge
-  — derselbe Zwang, an dem die alte Formatregel gescheitert ist.
+- **`bauform`** — keine zweimal hintereinander (Fehler), ab vier Shorts keine
+  über die **Hälfte** je Lauf, und die Deckungsregel oben. Es war einmal ein
+  Drittel ab sechs Shorts, und das war richtig, solange es vier Bauformen gab.
+  Mit dreien kippt dieselbe Rechnung: Bei sechs Shorts erlaubt ein Drittel genau
+  zwei je Bauform, also 2/2/2 und sonst nichts; bei sieben wäre die Regel
+  **unerfüllbar**, und sieben ist die Obergrenze des Takts. Dieselbe Lehre wie
+  bei der Formatregel, nur von der anderen Seite: Eine Wache, die bei sieben
+  Shorts nicht mehr erfüllbar ist, ist keine Wache.
 - **`zweistimmigkeit`** und **`reaktion`** — die beiden einzigen Regeln, die
   etwas **verlangen** statt etwas zu verbieten, seit dem 26.08.2026. Jeder
-  Short braucht mindestens zwei Szenen mit beiden Stimmen (außer `einstimmig`,
-  den die Drittelregel begrenzt) und mindestens eine Zeile mit `machart`; keine
+  Short braucht mindestens zwei Szenen mit beiden Stimmen — **ohne Ausnahme,
+  seit `einstimmig` weg ist** — und mindestens eine Zeile mit `machart`; keine
   Machart kommt zweimal im selben Short vor. Geprüft wird nicht, ob es witzig
   ist — geprüft wird, ob der Platz benutzt wurde. Genau so arbeitet die
   Belegregel: Sie prüft nicht, ob das Zitat überzeugt, sondern ob eins da ist.
@@ -418,7 +432,7 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   Schema hart ablehnt: „heute geht es um", „in diesem Video", „ich zeige dir".
 - **`sprache`** — Amtsdeutsch im Sprechtext ist ein Fehler, **außer** hinter
   einem Doppelpunkt. Siehe „Sprache und Humor".
-- **`laenge`** — 20 bis 65 Sekunden hart, dazu ein Hinweis bei mehr als einem
+- **`laenge`** — 42 bis 67 Sekunden hart, dazu ein Hinweis bei mehr als einem
   Fünftel Abweichung vom Zielwert der Bauform. Laufweit ein zweiter Hinweis,
   wenn ab drei Shorts **alle in derselben Längenklasse** liegen: Bis Oktober
   läuft der Versuch, verschiedene Längen zu senden.
@@ -489,27 +503,55 @@ synthetisiert und vermessen, und keine überzeugte. Bei der Trefferquote liegt
 der Fehler nicht in der Auswahl. Dieselbe Stimme durch v3 war nicht eine
 andere, sondern eine bessere.
 
-v3 versteht **Regieanweisungen** in eckigen Klammern (`[confused]`, `[sighs]`).
-Für Watti ist das keine Spielerei: Seine Macharten heißen Ratlosigkeit,
-Geständnis und falscher Schluss, und die lassen sich damit ansagen statt hoffen.
+v3 versteht **Regieanweisungen** in eckigen Klammern. Für Watti ist das keine
+Spielerei: Seine Macharten heißen Ratlosigkeit, Geständnis und falscher
+Schluss, und die lassen sich damit ansagen statt hoffen.
 
-**Seit dem 26.08.2026 hängt die Anweisung an der Machart** — `regie` in
-`REAKTIONS_MACHARTEN`, gesetzt von `redelaeufe`. Sie steht **nur im
-Synthesetext**: `sprechtext` bleibt unberührt, damit Untertitel,
+**Seit dem 26.08.2026 hängt ein Vorrat an Anweisungen an der Machart** —
+`regie` in `REAKTIONS_MACHARTEN`, gewählt von `syntheseText`. Die Anweisung
+steht **nur im Synthesetext**: `sprechtext` bleibt unberührt, damit Untertitel,
 Längenschätzung und die Gleichheitswache `rede` ↔ `sprechtext` nichts davon
 mitbekommen, und `woerterAusAusrichtung` filtert die Klammer hinterher ohnehin
-wieder heraus.
+wieder heraus. Das Schema lehnt eckige Klammern im Sprechtext ab — von Hand
+geschrieben zählte `ZEICHEN_PRO_SEKUNDE` sie als gesprochen.
 
-**Zwei der sechs bekommen bewusst keine.** Eine Regieanweisung sagt an, wie
-etwas klingt; wo der Witz im Wort liegt und nicht im Ton, überspielt sie ihn.
-`bild` trägt sich selbst, und die banale Rückfrage lebt davon, banal zu klingen
-— jede Ansage macht daraus eine Pointe mit Unterstreichung.
+**Ein Vorrat, kein fester Tag.** Ein fester Marker je Machart wäre nach vier
+Wochen eine Schablone; genau das steht hier schon beim Ausruf. Gewählt wird
+deterministisch aus `id` und Machart — nicht über die Listenposition, die den
+ersten Short jedes Laufs immer gleich klingen ließe, und nicht per Zufall,
+weil derselbe Short beim zweiten Render gleich klingen muss.
 
-**Die sechs Zuordnungen sind geraten.** `npm run regieprobe` misst, ob die
-Klammer Ton erzeugt, ob sie mitgesprochen wird und was sie an Sprechzeit
-kostet; ob es besser klingt, entscheidet das Ohr an den Dateien. Solange das
-nicht gelaufen ist, steht dort eine Vermutung — dieselbe Sorte wie bei
-`ZEICHEN_PRO_SEKUNDE` und der Denkpause.
+**Nur nicht-hörbare Anweisungen.** Ein Seufzer erzeugt Ton, den keine
+Schätzung sieht — derselbe Fehler wie die Sprecherwechselpausen, am selben Tag
+eingebaut, an dem sie eingefangen wurden.
+
+**Was hörbar ist, entscheidet das Ohr** — die Klammerspanne aus der
+Zeichenausrichtung kann es nicht. Sie war als Sieb vor die Blindwahl gebaut und
+hat sich am 26.08.2026 selbst widerlegt: zwei Läufe, zwei Ordnungen
+(`[snorts]` 1,20 dann 0,44), und `[laughs]` stand auf „still". Ein Lachen ist
+per Definition Ton. **Eine Größe, die bei Wiederholung ihre Ordnung verliert,
+misst nichts** — und eine dritte Schwelle zu erfinden wäre dasselbe Spiel
+gewesen. Gemessen wird erst wieder die Dauer der zwei bis drei Tags, die
+tatsächlich in einen Vorrat kommen; die wandert dann als Konstante nach
+`src/zeit.ts`.
+
+**Die Stimmeinstellung steht seit dem 30.08.2026 auf einem Vergleich.**
+`stabilitaet: 0.45` stammte aus der v2-Zeit, wo der Regler stufenlos war; v3
+kennt drei Stufen, und die robuste dämpft Regieanweisungen. Vier Stufen wurden
+an derselben Zeile abgelegt und gehört — 0,45 klingt am besten, die Zahl bleibt
+also. Die Zahlen daneben trugen wieder nichts bei: Dieselbe Zeile ergab 2,56
+bis 3,12 Sekunden, und `speed 0.8` kam kürzer heraus als `speed 1.0`.
+
+**Alle sechs Vorräte sind leer, und das ist der beabsichtigte Zustand.** Was
+darin steht, entscheidet eine Blindwahl an Wattis Stimme — je Machart die echte
+Zeile und eine tonlos geschriebene, dazu vier unbeschriftete Fassungen samt
+der ohne Ansage. Vorher standen dort sechs Tags, die ich aus dem Gedächtnis
+gewählt hatte; einer davon existiert nicht.
+
+**Und die Regel, die die Ansage nicht aushebeln darf:** Die Zeile muss ohne
+Anweisung funktionieren. Der Tag verstärkt, er ersetzt nie — sonst lässt er
+einen zusammenfassenden Kommentar klingen wie Ratlosigkeit, ohne dass er eine
+wird, und `npm run pruefen` wird dabei grün.
 
 **Zwei Stimmen, zwei Aufrufe je Lauf.** ElevenLabs synthetisiert mit genau
 einer Stimme. `redelaeufe` in `src/stimme.ts` bildet je zusammenhängendem Stück
@@ -565,6 +607,48 @@ Seite, und `npm run quellen-pruefen` holt die Seite und sucht die Zeichenkette
 — stumpf, ohne Sprachmodell. `stuetzt` daneben ist die Folgerung in unseren
 Worten und wird **nie** geprüft. Genau dort saß der teuerste Fehler dieses
 Projekts; `npm run belege` ist die Durchsicht dagegen.
+
+**Ein Zitat muss sein Subjekt enthalten.** Seit dem 30.08.2026, aus einem Fall,
+der die Wache selbst betrifft: „keine zeitgemäße Schutzmaßnahme mehr" sagt
+nicht, wovon die Rede ist — das steht außerhalb der geprüften Zeichenkette.
+`quellen-pruefen` findet sie und kann nicht sehen, ob sie noch beim selben
+Gegenstand steht. Eine Fundstelle, deren Bedeutung an Wörtern außerhalb des
+Zitats hängt, wird **still** falsch, wenn die Seite umformuliert wird. Also
+mitschneiden: „ein pauschaler Passwortwechsel jedoch keine zeitgemäße
+Schutzmaßnahme mehr".
+
+**Die Regel zielt auf Fragmente, deren Bedeutung außerhalb der Zeichenkette
+hängt — nicht auf jedes Fragment.** „Ersatzteilen, die mittels 3D-Druck
+hergestellt wurden" trägt kein Subjekt und kein Verb, und es genügt trotzdem:
+Der Satz darüber behauptet nur die Erwähnung („stehen in der Liste").
+Gefährlich wird es, wo die **Verneinung** außerhalb steht. Bei der
+EU-Reparaturrichtlinie sagt das gekürzte Fragment für sich gelesen das
+Gegenteil, weil das „nicht" am Satzende steht.
+
+**Deshalb ist die Zitatlänge am 31.08.2026 von 180 auf 240 Zeichen gestiegen.**
+Subjekt und Verneinung stehen dort an den beiden Enden eines Satzes mit einer
+Aufzählung dazwischen — auf 180 gekürzt fällt die Verneinung weg. Die 180 waren
+nie eine gemessene Bruchgrenze, sondern Vorsicht nach einem Fall, der an
+**Sonderzeichen** scheiterte; das 231-Zeichen-Zitat wurde im Volltext als
+Zeichenkette gefunden. **Von zwei Regeln, die sich widersprechen, gewinnt die
+mit dem besseren Grund** — ein zu langes Zitat fällt sofort auf, ein zu kurzes
+wird still falsch. Kurz halten bleibt trotzdem die Empfehlung.
+
+**EUR-Lex braucht einen Umweg, und der hängt an der Schreibweise.** Seit dem
+17.08.2026 beantwortet die Seite jeden automatischen Abruf mit HTTP 202 und
+leerem Rumpf (`x-amzn-waf-action: challenge`). `quellen-pruefen` leitet deshalb
+über **Cellar** um, das Dokumentenarchiv dahinter. EUR-Lex adressiert denselben
+Rechtsakt aber auf zwei Arten — über die CELEX-Nummer und über die
+Amtsblatt-Kennung —, und bis zum 31.08.2026 erkannte die Umleitung nur die
+erste. Sieben EU-Quellen gingen durch, die achte nicht. **Eine Wache, die an
+einer Schreibweise hängt, prüft die Schreibweise und nicht die Sache.**
+
+**Die Positionsbefreiung gilt Pointen, nicht Behauptungen.** Der Nachschlag
+muss nichts belegen, und deshalb stand „Nicht der Kalender entscheidet" lange
+ohne Deckung da, während das gebundene Zitat nur „erhöht die Sicherheit nicht
+automatisch" sagte. Der Schritt von „nicht automatisch" zu „nicht" war zwei
+Absätze entfernt zu haben. Wenn ein befreiter Satz etwas behauptet, gehört er
+belegt — die Befreiung ist kein Grund, es zu lassen.
 
 | Rang | Arten | Rolle |
 |---|---|---|
@@ -658,6 +742,51 @@ der wenigen belegten Stärken wegzuwerfen.
 im SVG-Raum der Bühne, während der Text HTML ist. An dieser Kopplung ist die
 Symbolposition dreimal gescheitert. Seite und Farbe beantworten dieselbe Frage
 ohne eine umgerechnete Koordinate.
+
+### Der Vorhang
+
+Seit dem 31.08.2026 beginnt jeder Short als **Show**: Nach dem Aufschlag fährt
+ein Theatervorhang zu, auf ihm stehen Showtitel und Themenzeile, die beiden
+Figuren nennen ihre Namen, dann öffnet er sich auf das Gespräch.
+
+**Warum er nach dem Aufschlag sitzt und nicht davor.** Cold Open, wie in jeder
+Sitcom, aus zwei Gründen dieses Projekts: Der Aufschlag hat 3,5 Sekunden, weil
+71 % dort entscheiden — ein Vorspann davor verbraucht sie. Und ein Short läuft
+von selbst wieder an; ein Vorhang am Anfang säße in der Schleife unmittelbar
+hinter dem Schluss, also genau dort, wo am 18.08.2026 schon einmal einer
+abgehängt wurde.
+
+**Er reicht bis an den oberen Bildrand.** Zuerst deckte er nur die Bühne, unter
+dem Satz „Der Kanal oben, die Show darunter" — das galt einem Vorhang, den man
+nur im Vorspann sah. Seit die Streifen dauerhaft stehen, ist dieselbe Kante ein
+Schnitt mitten durchs Bild: **Ein Vorhang hängt von der Decke; fängt er auf
+halber Höhe an, hängt er an nichts.** Die Kopfzeile liegt darüber und wechselt
+auf helle Farben, solange er zu ist — damit reißt die KI-Kennzeichnung nie ab,
+und genau dafür stand die alte Kante.
+
+**Links und rechts bleibt gerafftes Tuch stehen**, über die ganze Laufzeit.
+`VORHANG.rand` = 100 Pixel, am Bild gewählt und nicht gerechnet: Die Herleitung
+hätte 130 ergeben, das war die größtmögliche Breite. Die **Untergrenze** ist
+gemessen — der Beschnitt der Apps liegt bei 52 Pixeln links und 56 rechts, ein
+50-Pixel-Streifen läge vollständig in dem, was am Handy gar nicht ankommt.
+
+**Gestaucht, nicht hinausgeschoben.** Ein gerafft aufgezogener Vorhang staucht
+sein Tuch. Verschoben wäre von acht Falten eine dreiviertel übriggeblieben —
+ein flacher roter Balken.
+
+**Ein Stoff, ein Mount.** `Vorhangstoff` läuft dauerhaft und nimmt seinen Stand
+als Prop, `Vorspannkarte` läuft in der Sequence. Beide lesen denselben Wert, aus
+dem auch die Farbumschaltung der Kopfzeile fällt — eine zweite Zeichnung
+desselben Vorhangs wäre die Doppelung ohne Wache.
+
+**Zwei Kontrastfehler derselben Sorte, beide am selben Tag.** Der weiße Rand um
+die Arme kam vom **Saum des Rigs**, nicht von einem Umriss; verteidigt hatte ich
+ihn mit Kontrast 1,26 — gerechnet gegen den Körper der Figur statt gegen die
+Figur, deren Gesicht mit 17,1 darauf steht. Und die Kennfarben auf dem Vorhang
+standen bei 1,76 und 2,37 statt bei den dokumentierten 3,23 und 4,36: Die alten
+Zahlen sind gegen die Grundfarbe gerechnet, und der Stoff ist **gefaltet**.
+**Der Kontrast gegen einen Farbverlauf ist der gegen seinen ungünstigsten Ton,
+nicht gegen seinen mittleren.**
 
 ### Die Bühne
 
@@ -762,7 +891,7 @@ passende. Der Teillauf `--nur=<id>` bleibt einfassig.
 
 ## Länge
 
-**Fenster 20 bis 65 Sekunden, hart. Zielwert je Bauform.**
+**Fenster 42 bis 67 Sekunden, hart. Zielwert je Bauform.**
 
 Ein einziger Zielwert für alle Bauformen war der eigentliche Fehler, nicht seine
 Höhe: Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil sie mehr
@@ -777,27 +906,33 @@ Zwei Korrekturen an fremden Videos, beide gegen die eigene Vermutung:
   61, das stärkste bei 51. **Kein einziges lag im alten Fenster.**
 
 **Der Zielwert ist erstmals eine Wache statt eines Kommentars.** Bis zum
-25.08.2026 stand er nur im Text; geprüft wurde allein das Fenster. Mit 65 als
-Obergrenze liefe eine Wechselrede von 60 Sekunden stumm durch.
+25.08.2026 stand er nur im Text; geprüft wurde allein das Fenster.
 
-### Die vier Zielwerte sind ein Versuchsaufbau
+**Woher die 42 und die 67 kommen.** Die **67** sind gemessen, aber an einem
+fremden Kanal (`@dr_data_dr`, zwölf Shorts, Median 61) — übertragbar ist die
+Größenordnung, nicht mehr. Die **42** sind eine Entscheidung vom 31.08.2026:
+Unter 42 Sekunden bleibt bei zwei Sprechern kaum mehr als ein Beleg und eine
+Reaktion, und genau das war der Bau, der 0-mal geteilt wurde.
 
-**25 / 35 / 45 / 60 seit dem 26.08.2026, und keine dieser Zahlen ist gemessen.**
+### Die drei Zielwerte sind ein Versuchsaufbau
+
+**45 / 52 / 62 seit dem 31.08.2026, und keine dieser Zahlen ist gemessen.**
 Gemessen ist bisher eine einzige Länge: Alle neun veröffentlichten Videos sind
 20 bis 23 Sekunden lang, zu allem darüber gibt es keine eigene Zahl.
 
-Vorher lagen sie bei 30 / 35 / 35 / 55, und damit fielen **drei von vier
-Bauformen in dieselbe Längenklasse**. Ein Versuch über Längen war so nicht
-möglich — die Streuung hing allein daran, wie oft `stationen` drankam.
-Gespreizt trägt jede Bauform eine eigene Klasse, und die Drittelregel für
-Bauformen streut die Länge von selbst. Es braucht dafür keine zweite Ebene im
-Schema: Die Ebene, die sagt, wie ein Short gebaut ist, sagt ohnehin, wie lang
-er wird.
+Sie sind zweimal gewandert, aus zwei verschiedenen Gründen. Der erste Umbau
+(26.08., auf 25 / 35 / 45 / 60) **spreizte** sie, weil drei von vier in
+dieselbe Längenklasse fielen und ein Versuch über Längen so nicht möglich war.
+
+Der zweite hatte einen anderen Anlass: Mit dem Fenster ab 42 Sekunden lagen
+**drei von vier Zielwerten unter der Untergrenze.** Eine Wechselrede konnte ihr
+eigenes Ziel nicht treffen, ohne durchzufallen — **ein Zielwert, der den
+eigenen Short ungültig macht, ist keine Vorgabe, sondern eine Falle.**
 
 **Die Längenklassen werden aus `BAUFORMEN` abgeleitet** (`LAENGENKLASSEN` in
-`src/zeit.ts`), Grenze jeweils in der Mitte zwischen zwei Zielwerten: bis 30,
-30–40, 40–53, über 53. Eine danebengeschriebene zweite Einteilung wäre eine
-Doppelung ohne Wache und liefe beim ersten Umbau lautlos auseinander.
+`src/zeit.ts`), Grenze jeweils in der Mitte zwischen zwei Zielwerten. Eine
+danebengeschriebene zweite Einteilung wäre eine Doppelung ohne Wache und liefe
+beim ersten Umbau lautlos auseinander.
 
 Der Einwand gehört daneben: Das „zu lang" der ersten Zuschauer galt Videos von
 28 bis 40 Sekunden. Wir halten Langeweile für die Ursache und wissen es nicht
@@ -946,15 +1081,28 @@ R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env`. Die laufende Aufgabenliste steht in `AUFGABEN.md`.
 
 **Seit dem 25.08.2026 läuft der Umbau auf zwei Stimmen.** Schema, Vertonung,
-Sprechblase, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen; die
-Pillar-Ebene aus Stufe 6 fehlt. **Kein Video im neuen Bau ist bisher
-veröffentlicht** — alle Zahlen oben stammen aus der einstimmigen Zeit.
+Sprechblase, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen.
+**Kein Video im neuen Bau ist bisher veröffentlicht** — alle Zahlen oben
+stammen aus der einstimmigen Zeit.
 
-Die drei Entwürfe, die der neue Bau zurückgehalten hatte —
-`raumstation-alte-rechner`, `ersatzteil-freischalten` und `erstes-laden` —
-sind auf zwei Stimmen umgeschrieben; `npm run pruefen` ist seit dem 26.08.2026
-wieder grün. Ausgenommen wurde keiner: Eine Regel, die den alten Bestand
+**Seit dem 31.08.2026 beginnt jeder Short als Show.** Ein Theatervorhang deckt
+die Bühne, links und rechts bleibt gerafftes Tuch über die ganze Laufzeit
+stehen, und die Kopfzeile wechselt auf helle Farben, solange er zu ist. Aus vier
+Rubriken sind sechs benannte Sendungen geworden — Facts, Beef, Märchenstunde,
+Kein Zufall, Schätz mal, Empfehlungen. Was fehlt, ist der **Ton**: sechs feste
+Aufnahmen; `VORSPANN_SEK` steht auf gerechneten 3,8 Sekunden.
+
+**Alle vier Entwürfe sind auf ein Zwiegespräch umgeschrieben**, und
+`npm run pruefen` ist am selben Abend erstmals seit dem 26.08. wieder
+vollständig grün. Ausgenommen wurde keiner: Eine Regel, die den alten Bestand
 durchwinkt, wäre keine.
+
+Was der Umbau dabei über sich selbst gezeigt hat: **Die Nähte lagen zwischen
+den Sätzen, nicht in ihnen.** Ein Aufschlag von 2,9 Sekunden und ein Belegsatz
+von 4,2 sind beide unauffällig — `redebloecke` klebt sie über die Szenengrenze
+zu 6,9 zusammen. Und **jede Kürzung nimmt ein Wort mit, das gedeckt war**: Der
+`belegpruefer` fand sechs Stellen, alle sechs in Sätzen, die gerade erst
+angefasst worden waren.
 
 ## Arbeitsweise
 

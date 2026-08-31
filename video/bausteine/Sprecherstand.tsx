@@ -1,0 +1,112 @@
+import React, { createContext, useContext } from 'react';
+import { useCurrentFrame, useVideoConfig } from 'remotion';
+import type { Sprecher, Tonspur, Untertitelwort } from '../../src/typen';
+
+/**
+ * Wer gerade spricht — auf der **absoluten** Zeitachse des Shorts.
+ *
+ * ## Warum ein Context und keine Prop
+ *
+ * Der Weg von `Short.tsx` bis zur Figur ist vier Ebenen lang: Short →
+ * `SzeneRendern` → `Illustration` → `Buehnenbild` → `Figurenbuehne`. Drei
+ * dieser Ebenen haetten eine Angabe durchgereicht, die sie nichts angeht, und
+ * jede kuenftige Zwischenebene muesste daran denken. Genau die Sorte Kopplung,
+ * an der hier schon die Symbolposition dreimal gescheitert ist.
+ *
+ * ## Warum der Stand oben gerechnet wird
+ *
+ * `useCurrentFrame()` liefert **innerhalb** einer `Sequence` das Bild seit
+ * deren Beginn, nicht seit dem Anfang des Videos. Die Abschnitte der Tonspur
+ * tragen aber absolute Startsekunden. Wer den Sprecher in der Szene rechnete,
+ * vergliche zwei verschiedene Uhren — der Fehler faellt bei der ersten Szene
+ * nicht auf und bei jeder weiteren umso mehr.
+ *
+ * Der Provider sitzt deshalb dort, wo `Short.tsx` ohnehin schon mit dem
+ * absoluten Bild rechnet: neben der sichtbaren Zaehlung, aus demselben Grund.
+ */
+const SprecherContext = createContext<Sprecher | undefined>(undefined);
+
+/**
+ * Ob dieser Short unten eine Untertitelzone braucht.
+ *
+ * **Eine Eigenschaft des Shorts, nicht des Bildes.** Sie steht deshalb hier
+ * und nicht in `Buehne.tsx`: Dort waere sie eine Prop, die drei Ebenen
+ * durchgereicht werden muesste, und sie aendert sich innerhalb eines Shorts
+ * nie — im Gegensatz zum Sprecher, der mit jedem Bild wechseln kann.
+ *
+ * Die Vorgabe ist `true`, also die alte Aufteilung. Wer `Buehne` ausserhalb
+ * eines Shorts rendert — jede Probe tut das —, bekommt damit das Verhalten von
+ * vor dem 31.08.2026 und nicht versehentlich eine andere Geometrie.
+ */
+const UntertitelzoneContext = createContext<boolean>(true);
+
+/**
+ * Die Wortzeitstempel des Shorts, fuer den Lippensync.
+ *
+ * **Absolut, nicht je Szene.** `useCurrentFrame()` zaehlt innerhalb einer
+ * `Sequence` ab deren Beginn; die Woerter tragen die Zeit seit Videostart. Wer
+ * beides mischt, bekommt einen Mund, der in der ersten Szene passt und in
+ * jeder weiteren um die Szenenlaenge daneben liegt.
+ *
+ * Deshalb liegt hier **die Liste** und nicht das Ergebnis: Der Vergleich muss
+ * dort passieren, wo das absolute Bild bekannt ist, und die Buehne kennt nur
+ * ihr eigenes. Sie bekommt die Sekunde ueber `useSprechsekunde`.
+ */
+const WoerterContext = createContext<Untertitelwort[] | undefined>(undefined);
+const SekundeContext = createContext<number>(0);
+
+/**
+ * Der Sprecher zu dieser Sekunde: der letzte Abschnitt, dessen Start erreicht
+ * ist.
+ *
+ * Zwischen zwei Abschnitten liegt eine Pause. In ihr bleibt der **vorige**
+ * Sprecher stehen — sonst erlischt in jeder Atempause der Name, und ein
+ * Namensschild, das blinkt, sieht nach Fehler aus statt nach Wechsel.
+ */
+export const sprecherZu = (
+  abschnitte: NonNullable<Tonspur['abschnitte']>,
+  sekunde: number,
+): Sprecher => {
+  let wer = abschnitte[0]!.sprecher;
+  for (const a of abschnitte) if (sekunde >= a.startSek) wer = a.sprecher;
+  return wer;
+};
+
+export const Sprecherstand: React.FC<{
+  abschnitte?: Tonspur['abschnitte'];
+  /** Die Wortzeitstempel des ganzen Shorts. Ohne sie klappt der Mund blind. */
+  woerter?: Untertitelwort[];
+  children: React.ReactNode;
+}> = ({ abschnitte, woerter, children }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  /*
+   * Ohne Abschnitte gibt es keinen Wechsel, also auch keinen Stand. Der
+   * einstimmige Fall bekommt `undefined` und nicht etwa `nachleser`: Ein
+   * Name, der dauerhaft leuchtet, behauptet einen Sprecherwechsel, den es
+   * nicht gibt.
+   */
+  const zweistimmig = (abschnitte?.length ?? 1) > 1;
+  const wer = zweistimmig && abschnitte ? sprecherZu(abschnitte, frame / fps) : undefined;
+  return (
+    <UntertitelzoneContext.Provider value={!zweistimmig}>
+      <WoerterContext.Provider value={woerter}>
+        <SekundeContext.Provider value={frame / fps}>
+          <SprecherContext.Provider value={wer}>{children}</SprecherContext.Provider>
+        </SekundeContext.Provider>
+      </WoerterContext.Provider>
+    </UntertitelzoneContext.Provider>
+  );
+};
+
+/** `undefined`, solange der Short einstimmig ist. */
+export const useSprecher = (): Sprecher | undefined => useContext(SprecherContext);
+
+/** `true`, solange unten ein Untertitel steht und Platz braucht. */
+export const useUntertitelzone = (): boolean => useContext(UntertitelzoneContext);
+
+/** Die Wortzeitstempel — `undefined` ohne Tonspur, also in jeder Probe. */
+export const useWoerter = (): Untertitelwort[] | undefined => useContext(WoerterContext);
+
+/** Die Sekunde seit Videostart, nicht seit Szenenstart. */
+export const useSprechsekunde = (): number => useContext(SekundeContext);

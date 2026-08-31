@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { AbsoluteFill, continueRender, delayRender, interpolate, useCurrentFrame } from 'remotion';
 import { BUEHNE, SICHERE_ZONE, UNTERTITEL_ZONE } from '../../src/marke';
+import { useUntertitelzone } from './Sprecherstand';
 
 /**
  * Nutzflaeche innerhalb der sicheren Zone.
@@ -68,6 +69,26 @@ export const Buehne: React.FC<{
 }> = ({ children, ausrichtung = 'mitte', dauerBilder, illustration }) => {
   const frame = useCurrentFrame();
 
+  /*
+   * **Die Buehne ist seit dem 31.08.2026 unterschiedlich hoch.**
+   *
+   * Zweistimmige Shorts tragen unten keinen Text mehr, und die reservierten
+   * 270 Pixel standen danach leer im Bild — genau der Fehler, den der
+   * Kommentar an `UNTERTITEL_ZONE` schon einmal beschreibt.
+   *
+   * **Die Ueberlaufmessung darunter ist unveraendert.** Sie rechnet weiter
+   * „Platz gegen Bedarf" mit denselben zwei Knoten und derselben Wache gegen
+   * Null; nur der Platz kommt jetzt von aussen statt aus einer Konstante. Das
+   * ist die kleinstmoegliche Aenderung an einer Datei, deren Kommentare drei
+   * gescheiterte Anlaeufe dieser Messung dokumentieren — einer rechnete
+   * `passung = 0` und machte jede Szene leer.
+   *
+   * Die Vorgabe im Context ist `true`, also die alte Aufteilung: Jede Probe,
+   * die `Buehne` ausserhalb eines Shorts rendert, behaelt ihre Geometrie.
+   */
+  const untertitelzone = useUntertitelzone();
+  const hoehe = untertitelzone ? BUEHNE.hoehe : BUEHNE.hoeheOhneUntertitel;
+
   const inhaltRef = useRef<HTMLDivElement>(null);
   const [passung, setPassung] = useState(1);
   const [gemessen, setGemessen] = useState(false);
@@ -112,7 +133,7 @@ export const Buehne: React.FC<{
      * Layoutfehler, der Text verschiebt, ist unangenehm; einer, der ihn
      * verschwinden laesst, ist schlimmer als das Problem, das er loesen soll.
      */
-    const vorhanden = BUEHNE.hoehe;
+    const vorhanden = hoehe;
     const gebraucht = inhalt.offsetHeight;
     if (gebraucht <= 0 || gebraucht <= vorhanden) {
       setGemessen(true);
@@ -142,7 +163,7 @@ export const Buehne: React.FC<{
         paddingTop: SICHERE_ZONE.oben,
         // Der Untertitel wohnt unten in der sicheren Zone mit, seit er nicht
         // mehr im verdeckten Bereich sitzt. Die Buehne rendert nicht hinein.
-        paddingBottom: SICHERE_ZONE.unten + UNTERTITEL_ZONE,
+        paddingBottom: SICHERE_ZONE.unten + (untertitelzone ? UNTERTITEL_ZONE : 0),
         paddingLeft: SICHERE_ZONE.links,
         paddingRight: SICHERE_ZONE.rechts,
         width: BUEHNE.breite + SICHERE_ZONE.links + SICHERE_ZONE.rechts,
@@ -165,7 +186,7 @@ export const Buehne: React.FC<{
           sondern dieselbe Quelle. */}
       <div
         style={{
-          height: BUEHNE.hoehe,
+          height: hoehe,
           display: 'flex',
           flexDirection: 'column',
           // Mit Illustration steht der Text oben und die Zeichnung fuellt den

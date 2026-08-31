@@ -48,6 +48,16 @@
           "haltequote": 115.79000000000002,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 123,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 71.57,
+          "haltequote": 115.79000000000002,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -98,6 +108,16 @@
           "haltequote": null,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 35,
+          "likes": 2,
+          "kommentare": 0,
+          "durchsicht": 54.89000000000001,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -138,6 +158,16 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 527,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 64.27,
+          "haltequote": 105.63,
+          "geteilt": 0,
+          "neueAbos": 1
         }
       ]
     },
@@ -178,6 +208,16 @@
           "haltequote": 100,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 377,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 58.5,
+          "haltequote": 102.60000000000001,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -215,6 +255,16 @@
           "likes": 0,
           "kommentare": 0,
           "durchsicht": 81.9,
+          "haltequote": null,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 7,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 69.05,
           "haltequote": null,
           "geteilt": 0,
           "neueAbos": 0
@@ -258,6 +308,16 @@
           "haltequote": 100,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 175,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 64.43,
+          "haltequote": 96,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -296,6 +356,16 @@
           "kommentare": 0,
           "durchsicht": 73.92,
           "haltequote": 110.94,
+          "geteilt": 0,
+          "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 291,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 74.04,
+          "haltequote": 110.77,
           "geteilt": 0,
           "neueAbos": 0
         }
@@ -338,6 +408,16 @@
           "haltequote": 111.33999999999999,
           "geteilt": 0,
           "neueAbos": 0
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 690,
+          "likes": 4,
+          "kommentare": 2,
+          "durchsicht": 67.48,
+          "haltequote": 111.55999999999999,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     },
@@ -358,6 +438,136 @@
           "haltequote": null,
           "geteilt": null,
           "neueAbos": null
+        },
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 348,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": 70.08,
+          "haltequote": 109.62,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "passwort-wechseln": {
+      "shortId": "passwort-wechseln",
+      "titel": "Das Passwort und der Verdacht",
+      "online": "2026-08-30T16:03:10Z",
+      "laengeSek": 29,
+      "videoId": "Ojon0kF23o4",
+      "link": "https://www.youtube.com/shorts/Ojon0kF23o4",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 146,
+          "likes": 0,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "erstes-laden": {
+      "shortId": "erstes-laden",
+      "titel": "Warum das erste Laden nicht 12 Stunden dauern muss",
+      "online": "2026-08-29T16:04:00Z",
+      "laengeSek": 27,
+      "videoId": "cKp0p2iW9rY",
+      "link": "https://www.youtube.com/shorts/cKp0p2iW9rY",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 701,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": null,
+          "haltequote": null,
+          "geteilt": null,
+          "neueAbos": null
+        }
+      ]
+    },
+    "raumstation-alte-rechner": {
+      "shortId": "raumstation-alte-rechner",
+      "titel": "Laptops auf der Raumstation",
+      "online": "2026-08-27T16:04:03Z",
+      "laengeSek": 31,
+      "videoId": "OgR4LdZK9EI",
+      "link": "https://www.youtube.com/shorts/OgR4LdZK9EI",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 344,
+          "likes": 3,
+          "kommentare": 0,
+          "durchsicht": 59.11,
+          "haltequote": 106.49,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "flugmodus-maerchen": {
+      "shortId": "flugmodus-maerchen",
+      "titel": "Das Problem stand am Boden, nicht im Flugzeug",
+      "online": "2026-08-25T16:04:44Z",
+      "laengeSek": 20,
+      "videoId": "bP6uMfwHuYw",
+      "link": "https://www.youtube.com/shorts/bP6uMfwHuYw",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 268,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 64.07,
+          "haltequote": 103.32999999999998,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "produktpass-register": {
+      "shortId": "produktpass-register",
+      "titel": "Der Code auf der Batterie führt zum Register",
+      "online": "2026-08-26T10:01:58Z",
+      "laengeSek": 20,
+      "videoId": "61SzN5bFr0M",
+      "link": "https://www.youtube.com/shorts/61SzN5bFr0M",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 142,
+          "likes": 1,
+          "kommentare": 0,
+          "durchsicht": 64.3,
+          "haltequote": 100,
+          "geteilt": 0,
+          "neueAbos": 0
+        }
+      ]
+    },
+    "akku-loesungsmittel": {
+      "shortId": "akku-loesungsmittel",
+      "titel": "Warum Lösungsmittel verboten werden musste",
+      "online": "2026-08-26T16:06:11Z",
+      "laengeSek": 20,
+      "videoId": "KhRnGMDhNzI",
+      "link": "https://www.youtube.com/shorts/KhRnGMDhNzI",
+      "messungen": [
+        {
+          "gemessenAm": "2026-08-31",
+          "aufrufe": 140,
+          "likes": 3,
+          "kommentare": 0,
+          "durchsicht": 68.19,
+          "haltequote": 96,
+          "geteilt": 0,
+          "neueAbos": 0
         }
       ]
     }

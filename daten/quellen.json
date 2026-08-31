@@ -546,32 +546,6 @@
       ]
     },
     {
-      "id": "eu-recht-auf-reparatur",
-      "titel": "Richtlinie (EU) 2024/1799 über gemeinsame Regeln zur Förderung der Reparatur von Waren",
-      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32024L1799",
-      "herausgeber": "Europäische Union",
-      "geprueftAm": "2026-08-17",
-      "art": "behoerde",
-      "abrufart": "automatisch",
-      "belegt": [
-        {
-          "id": "die-mitgliedstaaten-wenden-diese",
-          "zitat": "Die Mitgliedstaaten wenden diese Vorschriften ab dem 31. Juli 2026 an",
-          "stuetzt": "Der Stichtag. Er liegt drei Wochen zurück und ist damit der aktuellste belegbare Fakt im Vorrat."
-        },
-        {
-          "id": "setzen-keine-hardware-oder",
-          "zitat": "setzen keine Hardware- oder Softwaretechniken ein, die die Reparatur von Waren",
-          "stuetzt": "Das Verbot, Reparaturen per Software zu blockieren — das Ende des Parts Pairing, im Rechtstext."
-        },
-        {
-          "id": "gilt-nicht-fu-r",
-          "zitat": "gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden",
-          "stuetzt": "Der Kipppunkt: Das Gerät, das der Zuschauer gerade in der Hand hält, ist nicht dabei."
-        }
-      ]
-    },
-    {
       "id": "eu-mca-5g-an-bord",
       "titel": "Durchführungsbeschluss (EU) 2022/2324 — Mobilfunkdienste an Bord von Luftfahrzeugen",
       "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32022D2324",
@@ -802,20 +776,20 @@
     {
       "id": "eu-reparaturrichtlinie-2024",
       "titel": "Richtlinie (EU) 2024/1799 über gemeinsame Vorschriften zur Förderung der Reparatur von Waren",
-      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=OJ:L_202401799",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32024L1799",
       "herausgeber": "Europäische Union",
-      "geprueftAm": "2026-08-24",
+      "geprueftAm": "2026-08-31",
       "art": "behoerde",
       "abrufart": "automatisch",
       "belegt": [
         {
           "id": "keine-hardware-oder-softwaretechniken",
-          "zitat": "Hersteller verwenden keine Vertragsklauseln und setzen keine Hardware- oder Softwaretechniken ein",
+          "zitat": "Die Hersteller verwenden keine Vertragsklauseln und setzen keine Hardware- oder Softwaretechniken ein, die die Reparatur von Waren",
           "stuetzt": "Die Reparaturrichtlinie verbietet Herstellern ausdrücklich technische Sperren gegen Reparatur."
         },
         {
           "id": "behindern-verwendung-ersatzteile",
-          "zitat": "behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen",
+          "zitat": "Die Hersteller behindern insbesondere die Verwendung von Originalersatzteilen, gebrauchten Ersatzteilen, kompatiblen Ersatzteilen oder Ersatzteilen, die mittels 3D-Druck hergestellt wurden, durch unabhängige Reparaturbetriebe nicht",
           "stuetzt": "Das Verbot nennt das Behindern gebrauchter und kompatibler Ersatzteile beim Namen."
         },
         {
@@ -827,6 +801,16 @@
           "id": "kompatiblen-ersatzteilen",
           "zitat": "gebrauchten Ersatzteilen, kompatiblen Ersatzteilen",
           "stuetzt": "Neben gebrauchten nennt die Richtlinie auch kompatible Ersatzteile beim Namen."
+        },
+        {
+          "id": "die-mitgliedstaaten-wenden-diese",
+          "zitat": "Die Mitgliedstaaten wenden diese Vorschriften ab dem 31. Juli 2026 an",
+          "stuetzt": "Der Stichtag. Er liegt drei Wochen zurück und ist damit der aktuellste belegbare Fakt im Vorrat."
+        },
+        {
+          "id": "gilt-nicht-fu-r",
+          "zitat": "gilt nicht für Kaufverträge, die vor dem 31. Juli 2026 geschlossen wurden",
+          "stuetzt": "Der Kipppunkt: Das Gerät, das der Zuschauer gerade in der Hand hält, ist nicht dabei."
         }
       ]
     },
@@ -853,6 +837,11 @@
           "id": "stark-und-einzigartig",
           "zitat": "Wichtiger ist, dass ein Passwort stark und einzigartig ist",
           "stuetzt": "Das BSI nennt Stärke und Einzigartigkeit als das, worauf es stattdessen ankommt."
+        },
+        {
+          "id": "keine-zeitgemaesse-schutzmassnahme",
+          "zitat": "ein pauschaler Passwortwechsel jedoch keine zeitgemäße Schutzmaßnahme mehr",
+          "stuetzt": "Das BSI verwirft den pauschalen Wechsel nach Zeitplan, nicht nur seinen automatischen Nutzen."
         }
       ]
     },

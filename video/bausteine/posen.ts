@@ -1,6 +1,6 @@
-import { interpolate, spring } from 'remotion';
+import { interpolate, spring, type SpringConfig } from 'remotion';
 import { Pose, type PosenName, type Rig } from '../../src/figur';
-import { TEMPO } from '../../src/marke';
+import { FIGURENFEDERN } from '../../src/marke';
 
 /**
  * Der Posenwortschatz und seine Zeitsteuerung.
@@ -50,6 +50,8 @@ export const POSEN: Record<PosenName, Pose> = {
    */
   lesen: p({
     drehung: {
+      braue_links: -6,
+      braue_rechts: 6,
       oberarm_rechts: 38,
       unterarm_rechts: 8,
       oberarm_links: -38,
@@ -61,7 +63,7 @@ export const POSEN: Record<PosenName, Pose> = {
 
   /** Zeigen. Der Unterarm steht unabhaengig, sonst zeigt die Figur schraeg. */
   zeigen: p({
-    drehung: { oberarm_rechts: -68, unterarm_rechts: -10, koerper: 4 },
+    drehung: { oberarm_rechts: -68, unterarm_rechts: -10, koerper: 4, braue_links: -9, braue_rechts: 9 },
     blick: [2.6, -1.4],
     mund: 'laecheln',
   }),
@@ -74,14 +76,14 @@ export const POSEN: Record<PosenName, Pose> = {
    * sieht ein Akku nicht nachdenklich aus, sondern umkippend.
    */
   stutzen: p({
-    drehung: { koerper: 8, oberarm_rechts: -12 },
+    drehung: { koerper: 8, oberarm_rechts: -12, braue_links: 14, braue_rechts: -6 },
     blick: [-2.8, 0.4],
     mund: 'schmal',
   }),
 
   /** Offener Mund, leicht zurueckgelehnt, Arme etwas ab. */
   staunen: p({
-    drehung: { koerper: -4, oberarm_rechts: -20, oberarm_links: 20 },
+    drehung: { koerper: -4, oberarm_rechts: -20, oberarm_links: 20, braue_links: 16, braue_rechts: -16 },
     blick: [0, -1.8],
     mund: 'offen',
   }),
@@ -97,6 +99,8 @@ export const POSEN: Record<PosenName, Pose> = {
    */
   achselzucken: p({
     drehung: {
+      braue_links: 10,
+      braue_rechts: -10,
       oberarm_rechts: -22,
       unterarm_rechts: -40,
       oberarm_links: 22,
@@ -124,7 +128,7 @@ export const POSEN: Record<PosenName, Pose> = {
    * Stab freie Bahn.
    */
   erklaeren: p({
-    drehung: { oberarm_rechts: -78, unterarm_rechts: -12, koerper: 3 },
+    drehung: { oberarm_rechts: -78, unterarm_rechts: -12, koerper: 3, braue_links: -8, braue_rechts: 8 },
     blick: [2.8, -2.2],
     mund: 'laecheln',
   }),
@@ -138,7 +142,7 @@ export const POSEN: Record<PosenName, Pose> = {
    * Blickrichtung zu zeigen, die nicht nur in den Augen steckt.
    */
   hochschauen: p({
-    drehung: { koerper: -7, oberarm_rechts: -16, oberarm_links: 16 },
+    drehung: { koerper: -7, oberarm_rechts: -16, oberarm_links: 16, braue_links: 13, braue_rechts: -13 },
     // Nach oben **rechts**, nicht gerade nach oben: Dort steht bei
     // `stand: 'klein'` das Symbol. Ein Blick, der daran vorbeigeht, ist keiner.
     blick: [2, -2.8],
@@ -152,7 +156,7 @@ export const POSEN: Record<PosenName, Pose> = {
    * waere es ein Abschied — genau das, was der Rundlauf verhindern soll.
    */
   winken: p({
-    drehung: { oberarm_rechts: -92, unterarm_rechts: -28, koerper: -2 },
+    drehung: { oberarm_rechts: -92, unterarm_rechts: -28, koerper: -2, braue_links: -5, braue_rechts: 5 },
     blick: [1.6, -0.8],
     mund: 'laecheln',
   }),
@@ -175,7 +179,7 @@ export const POSEN: Record<PosenName, Pose> = {
    * das Bild.
    */
   nachdenken: p({
-    drehung: { oberarm_rechts: 20, unterarm_rechts: 60, koerper: 5 },
+    drehung: { oberarm_rechts: 20, unterarm_rechts: 60, koerper: 5, braue_links: -14, braue_rechts: 6 },
     blick: [-1.8, 1.2],
     mund: 'schmal',
   }),
@@ -189,11 +193,45 @@ export const POSEN: Record<PosenName, Pose> = {
  * niemand gezeichnet hat. Der Umschlag liegt bei 0,5 — vorher die alte Form,
  * danach die neue.
  */
-export const poseMischen = (von: Pose, nach: Pose, t: number): Pose => {
+/**
+ * Wie viele Bilder ein Gelenk seinem Elternteil hinterherlaeuft.
+ *
+ * **Overlapping action** — eines der zwoelf Prinzipien und der Unterschied
+ * zwischen einer Gliederpuppe und einem Arm: Wenn die Schulter sich dreht,
+ * kommt der Unterarm etwas spaeter mit und die Hand noch spaeter. Bis zum
+ * 31.08.2026 bewegte sich der ganze Arm in einem Stueck, als waere er
+ * angeschweisst.
+ *
+ * Die Zahlen folgen der Gelenkkette im Rig: Oberarm sofort, Unterarm zwei
+ * Bilder, Hand vier. Bei 30 Bildern je Sekunde sind das 0,07 und 0,13
+ * Sekunden — zu wenig, um es zu benennen, genug, um es zu sehen.
+ *
+ * **Ein Gelenk ohne Eintrag laeuft ohne Versatz**, also wie bisher. Der
+ * Koerper und die Beine gehoeren dazu: Wer sich neigt, neigt sich als Ganzes.
+ */
+export const NACHZUG_BILDER: Record<string, number> = {
+  unterarm_links: 2,
+  unterarm_rechts: 2,
+  hand_links: 4,
+  hand_rechts: 4,
+  braue_links: 1,
+  braue_rechts: 1,
+};
+
+export const poseMischen = (
+  von: Pose,
+  nach: Pose,
+  t: number,
+  /**
+   * Der Fortschritt je Gelenk, wenn er sich unterscheiden soll. Ohne diese
+   * Angabe gilt `t` fuer alles — das Verhalten vor dem 31.08.2026.
+   */
+  tFuer?: (id: string) => number,
+): Pose => {
   const mischeFeld = (a: Record<string, number>, b: Record<string, number>, ruhe: number) => {
     const ergebnis: Record<string, number> = {};
     for (const id of new Set([...Object.keys(a), ...Object.keys(b)])) {
-      ergebnis[id] = interpolate(t, [0, 1], [a[id] ?? ruhe, b[id] ?? ruhe]);
+      ergebnis[id] = interpolate(tFuer?.(id) ?? t, [0, 1], [a[id] ?? ruhe, b[id] ?? ruhe]);
     }
     return ergebnis;
   };
@@ -205,6 +243,9 @@ export const poseMischen = (von: Pose, nach: Pose, t: number): Pose => {
     // `0` waere jedes Auge, das nur in einer der beiden Posen vorkommt,
     // beim Uebergang zugefallen.
     stauchung: mischeFeld(von.stauchung, nach.stauchung, 1),
+    // Derselbe Ruhewert 1 und aus demselben Grund: Ein Teil, das nur in einer
+    // der beiden Posen genannt wird, ist in der anderen ungedehnt.
+    dehnung: mischeFeld(von.dehnung, nach.dehnung, 1),
     blick: [
       interpolate(t, [0, 1], [von.blick[0], nach.blick[0]]),
       interpolate(t, [0, 1], [von.blick[1], nach.blick[1]]),
@@ -215,6 +256,18 @@ export const poseMischen = (von: Pose, nach: Pose, t: number): Pose => {
 };
 
 /** Ruhiges Heben und Senken. Amplitude in Buehneneinheiten, nicht in Pixeln. */
+/** Wie viele Bilder vor dem Uebergang die Figur ausholt. */
+const ANTIZIPATION_BILDER = 6;
+
+/**
+ * Wie weit sie dabei zurueckholt, als Anteil der Bewegung.
+ *
+ * Am 31.08.2026 an der Bewegungsprobe gewaehlt. Die Zahl ist gesetzt und nicht
+ * gemessen — messbar ist an Anticipation nichts, sie wirkt oder sie wirkt
+ * nicht.
+ */
+const ANTIZIPATION = 0.12;
+
 const atmen = (frame: number, fps: number) => Math.sin((frame / fps) * 1.6) * 0.7;
 
 /**
@@ -273,6 +326,9 @@ export const poseAus = ({
   vorherigePose = 'ruhe',
   versatz = 0,
   abBild = 0,
+  feder = FIGURENFEDERN.cartoon,
+  nachzug = true,
+  ausholung = ANTIZIPATION,
 }: {
   frame: number;
   fps: number;
@@ -296,12 +352,55 @@ export const poseAus = ({
    * sind eine zu viel.
    */
   abBild?: number;
+  /**
+   * Welche Feder den Uebergang traegt.
+   *
+   * **Vorgabe ist seit dem 31.08.2026 `FIGURENFEDERN.cartoon`** — an der
+   * Bewegungsprobe gewaehlt: „Es wirkt weitaus dynamischer als alles, was wir
+   * jemals hatten."
+   *
+   * **`TEMPO.feder` bleibt unangetastet, und das ist keine Vorsicht, sondern
+   * die richtige Trennung.** Sie traegt Einblender, Kartenauftritte und den
+   * Auftritt in `bewegung.ts`. `Kamera.tsx` sagt den Grund seit Wochen: „Bei
+   * einer Figur ist die Feder richtig — ein Arm, der federt, wirkt lebendig.
+   * Bei der Kamera ist sie falsch." Dasselbe gilt fuer eine Textkarte: Was
+   * ueber sein Ziel hinausschiesst und zurueckschwingt, ist eine Geste — und
+   * eine Zahl, die eine Geste macht, ist ein Fehler.
+   */
+  feder?: Partial<SpringConfig>;
+  /**
+   * Laesst Unterarme, Haende und Brauen ihren Eltern hinterherlaufen
+   * (**Overlapping action**). Vorgabe an, seit dem 31.08.2026.
+   */
+  nachzug?: boolean;
+  /**
+   * Wie weit die Figur vor dem Uebergang zurueckholt (**Anticipation**), als
+   * Anteil der Bewegung. 0 ist aus.
+   */
+  ausholung?: number;
 }): Pose => {
   const ziel = POSEN[pose];
   const start = POSEN[vorherigePose];
 
-  const t = spring({ frame: frame - abBild, fps, config: TEMPO.feder });
-  const gemischt = poseMischen(start, ziel, t);
+  /*
+   * **Anticipation** — das erste der zwoelf Prinzipien: Wer zeigt, holt vorher
+   * eine Spur zurueck. Ohne sie beginnt jede Bewegung aus dem Stand, und genau
+   * das sieht nach Maschine aus.
+   *
+   * Gebaut als negatives `t` in den sechs Bildern **vor** dem Uebergang: Die
+   * Mischung extrapoliert dann ueber die Startpose hinaus, in die
+   * Gegenrichtung des Ziels. Kein zweiter Zeitverlauf, keine zusaetzliche
+   * Pose — dieselbe Rechnung, nur mit einem Vorlauf.
+   */
+  const vor = Math.max(0, Math.min(1, (abBild - frame) / ANTIZIPATION_BILDER));
+  const ausholen = ausholung === 0 ? 0 : -ausholung * Math.sin(vor * Math.PI);
+
+  const federung = (versatz: number) =>
+    spring({ frame: frame - abBild - versatz, fps, config: feder });
+  const t = federung(0) + ausholen;
+  const gemischt = poseMischen(start, ziel, t, (id) =>
+    nachzug ? federung(NACHZUG_BILDER[id] ?? 0) + ausholen : t,
+  );
 
   const zu = lidschluss(frame, versatz);
 
@@ -415,13 +514,78 @@ export const FOLGEPOSEN = {
  * schlaegt ihn nach, findet nichts und zeichnet die Ruhelage. Die Figur wirkt
  * dann steif, und niemand sucht die Ursache in einem Buchstaben.
  */
+/**
+ * Wie weit eine Pose **nach aussen** reicht, in Buehneneinheiten ab der
+ * Figurenmitte.
+ *
+ * ## Warum diese Groesse und nicht die Breite
+ *
+ * Im Wortwechsel steht eine Figur links und eine rechts, die rechte
+ * gespiegelt. Was zur **Mitte** greift, hat dort die andere Figur und die
+ * Luecke; was nach **aussen** greift, hat den Bildrand. Beides sind
+ * verschiedene Fragen, und die Gesamtbreite beantwortet keine davon.
+ *
+ * `zeigen` und `erklaeren` sind mit 80 Einheiten die breitesten Posen ueberhaupt
+ * — und harmlos, weil sie **einen** Arm zur Mitte strecken. `achselzucken`
+ * spreizt beide nach aussen und ist damit das Problem.
+ *
+ * ## Gerechnet, nicht geschaetzt
+ *
+ * Aus der Gelenkkette: Handmitte bei (56 | 99), gedreht erst um den Ellenbogen
+ * (56 | 76), dann um die Schulter (68 | 62), plus Handradius 8. Gemessen am
+ * 31.08.2026, nachdem drei Posen im Wortwechsel am Bildrand abgeschnitten
+ * waren — zwei davon schon vor dem Weiten der Gelenkgrenzen, ohne dass es
+ * jemandem aufgefallen waere.
+ *
+ * **Der Fehler dahinter ist eine Stufe tiefer als der vom 26.08.2026.** Damals
+ * stand hier: „Gerechnet wird nicht mit der breitesten Pose, sondern mit der
+ * weitesten." Am 31.08. habe ich mit der **Ruhepose** gerechnet, also noch
+ * darunter.
+ */
+export const AUSSENREICHWEITE: Record<PosenName, number> = {
+  ruhe: 52,
+  lesen: 24.3,
+  zeigen: 52,
+  stutzen: 52,
+  staunen: 63.9,
+  achselzucken: 76.7,
+  erklaeren: 52,
+  hochschauen: 61.7,
+  winken: 52,
+  nachdenken: 52,
+};
+
 export const posenPruefen = (rig: Rig): string[] => {
   const bekannt = new Set(Object.keys(rig.gelenke));
   const befunde: string[] = [];
 
   for (const [name, pose] of [...Object.entries(POSEN), ...Object.entries(FOLGEPOSEN)]) {
-    for (const id of Object.keys(pose.drehung)) {
-      if (!bekannt.has(id)) befunde.push(`Pose „${name}" dreht „${id}" — kein Gelenk im Rig.`);
+    for (const [id, winkel] of Object.entries(pose.drehung)) {
+      if (!bekannt.has(id)) {
+        befunde.push(`Pose „${name}" dreht „${id}" — kein Gelenk im Rig.`);
+        continue;
+      }
+      /*
+       * **Die Luecke, die am 31.08.2026 aufgefallen ist.**
+       *
+       * Geprueft wurde bis dahin nur, ob das Gelenk existiert — nicht, ob der
+       * Winkel hineinpasst. `winkelKlemmen` in `Figur.tsx` schneidet stumm ab,
+       * und drei Posen standen deshalb seit Wochen mit Zahlen da, die nie im
+       * Bild ankamen: `achselzucken` wollte ±40 an den Unterarmen und bekam
+       * ±15, `winken` wollte −28 und bekam −15.
+       *
+       * **Wer eine Pose am Standbild justiert, dreht die Zahl weiter und sieht
+       * nichts.** Genau dann ist eine stumme Klemmung teuer: Sie sieht aus wie
+       * eine Figur, die nicht mehr weiter kann, und ist eine Zahl, die nicht
+       * ankommt.
+       */
+      const [lo, hi] = rig.gelenke[id]!.drehung;
+      if (winkel < lo || winkel > hi) {
+        befunde.push(
+          `Pose „${name}" dreht „${id}" auf ${winkel}°, das Rig erlaubt ${lo}° bis ${hi}° — ` +
+            'der Rest wird stumm abgeschnitten.',
+        );
+      }
     }
     for (const id of Object.keys(pose.stauchung)) {
       if (!bekannt.has(id)) befunde.push(`Pose „${name}" staucht „${id}" — kein Gelenk im Rig.`);

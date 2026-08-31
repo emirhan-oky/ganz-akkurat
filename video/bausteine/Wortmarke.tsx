@@ -1,5 +1,5 @@
 import { interpolate, useCurrentFrame } from 'remotion';
-import { FARBEN, SCHRIFT, SPRUCH } from '../../src/marke';
+import { FARBEN, SCHRIFT, SPRUCH, mische } from '../../src/marke';
 import { FORMATE, type Format } from '../../src/typen';
 
 /**
@@ -12,9 +12,25 @@ import { FORMATE, type Format } from '../../src/typen';
  * und den **Rat** hinten. Das Bauprinzip der Marke bleibt unveraendert, nur
  * der Text darin ist ausgetauscht.
  */
-export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
+export const Wortmarke: React.FC<{
+  groesse?: number;
+  farbe?: string;
+  /**
+   * Die zweite Farbe fuer „akkurat". Ohne Angabe traegt das ganze Wort
+   * `farbe` — so rendert jede Probe unveraendert weiter.
+   *
+   * **Zweifarbig seit dem 31.08.2026**, in den *gedaempften* Kennfarben
+   * `kennVoltiTief` und `kennWattiTief`. Der erste Anlauf nahm `anzeigeEins`
+   * und `anzeigeZwei` und wirkte flau: Das sind **Anzeigefarben**, aufgehellt
+   * fuer den fast schwarzen Figurenkoerper. Auf hellem Grund braucht Schrift
+   * die dunkle Fassung — dieselbe Trennung, die es fuer Blau seit dem
+   * 24.08.2026 gibt.
+   */
+  farbeZwei?: string;
+}> = ({
   groesse = 38,
   farbe = FARBEN.tinte,
+  farbeZwei,
 }) => (
   <span
     style={{
@@ -27,7 +43,7 @@ export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
     }}
   >
     <span style={{ fontWeight: SCHRIFT.duenn }}>Ganz&#8202;</span>
-    <span style={{ fontWeight: SCHRIFT.fett }}>akkurat</span>
+    <span style={{ fontWeight: SCHRIFT.fett, color: farbeZwei ?? farbe }}>akkurat</span>
   </span>
 );
 
@@ -44,22 +60,46 @@ export const Wortmarke: React.FC<{ groesse?: number; farbe?: string }> = ({
  * gebaut, damit es in jeder Groesse scharf bleibt und keine PNG-Datei in den
  * Renderprozess muss.
  */
-export const Logozeichen: React.FC<{ groesse?: number; ladung?: string }> = ({
-  groesse = 44,
-  ladung = FARBEN.anzeigeEins,
+/**
+ * Die Formen des Zeichens, ohne eigenen SVG-Rahmen.
+ *
+ * **Herausgezogen, damit `Doppelzeichen` sie nicht abschreiben muss.** Zwei
+ * Akkus nebeneinander brauchen ein gemeinsames SVG mit eigener `viewBox` —
+ * zwei verschachtelte gingen zwar, ergaeben aber zwei Koordinatenraeume, die
+ * beim ersten Umbau lautlos auseinanderlaufen. Dieselbe Ueberlegung, aus der
+ * `daten/figur/zeiger.ts` vom `nachleser` ableitet, statt ihn abzuschreiben.
+ */
+const Zeichenformen: React.FC<{ ladung: string; pole: 1 | 2; gehaeuse: string }> = ({
+  ladung,
+  pole,
+  gehaeuse,
 }) => (
-  <svg width={groesse} height={groesse} viewBox="0 0 100 100" style={{ display: 'block' }}>
+  <>
     {/*
       * Hochkant statt quer. Die erste Fassung lag waagerecht wie das
       * Batteriesymbol im Display und nutzte damit nur die halbe Hoehe des
       * Quadrats — im gerenderten Standbild las sie sich als dunkler Fleck
-      * neben der Wortmarke, nicht als Akku. Aufrecht fuellt das Zeichen
-      * seinen Platz und bleibt bei 40 Pixeln erkennbar.
+      * neben der Wortmarke, nicht als Akku.
       */}
-    {/* Pluspol */}
-    <rect x="38" y="4" width="24" height="12" rx="4" fill={FARBEN.tinte} />
-    {/* Gehaeuse */}
-    <rect x="16" y="16" width="68" height="80" rx="14" fill={FARBEN.tinte} />
+    {/*
+      * **Ein Pol oder zwei — seit dem 31.08.2026 die Unterscheidung der beiden
+      * Figuren.** Volti traegt den einen mittigen, Watti zwei nebeneinander
+      * wie ein 9-Volt-Block.
+      *
+      * Die Masze sind dieselben wie am Rig und gehen ohne Rest auf: Das
+      * Gehaeuse ist 68 breit, zwei Pole zu je 22 ergeben mit 8 Rand aussen und
+      * 8 Luecke innen genau 68. Wer die Gehaeusebreite aendert, sieht sofort,
+      * dass die Rechnung nicht mehr stimmt.
+      */}
+    {pole === 2 ? (
+      <>
+        <rect x="24" y="4" width="22" height="12" rx="4" fill={gehaeuse} />
+        <rect x="54" y="4" width="22" height="12" rx="4" fill={gehaeuse} />
+      </>
+    ) : (
+      <rect x="38" y="4" width="24" height="12" rx="4" fill={gehaeuse} />
+    )}
+    <rect x="16" y="16" width="68" height="80" rx="14" fill={gehaeuse} />
     {/*
       * Ladung — in `anzeigeEins`, nicht im Akzent.
       *
@@ -69,8 +109,96 @@ export const Logozeichen: React.FC<{ groesse?: number; ladung?: string }> = ({
       * Pixeln Kanalbild waere das ein schwarzer Fleck ohne Ladestand.
       */}
     <rect x="28" y="52" width="44" height="34" rx="7" fill={ladung} />
+  </>
+);
+
+export const Logozeichen: React.FC<{
+  groesse?: number;
+  ladung?: string;
+  pole?: 1 | 2;
+  gehaeuse?: string;
+}> = ({ groesse = 44, ladung = FARBEN.anzeigeEins, pole = 1, gehaeuse = FARBEN.tinte }) => (
+  <svg width={groesse} height={groesse} viewBox="0 0 100 100" style={{ display: 'block' }}>
+    <Zeichenformen ladung={ladung} pole={pole} gehaeuse={gehaeuse} />
   </svg>
 );
+
+/**
+ * Die Kopfzeile auf dem Vorhang — welche Farbe wovon ablöst.
+ *
+ * Solange der Vorhang zu ist, steht die Kopfzeile auf Theaterrot statt auf
+ * hellem Grund. **Ein Wert, der einen Hintergrund meint, wechselt mit ihm** —
+ * derselbe Satz steht am Saum der Figuren und an den Kennfarben.
+ *
+ * Gerechnet ist gegen den **hellsten** Faltenton `#9D5555`, nicht gegen die
+ * Grundfarbe. Genau dort saß der Fehler, den diese Tabelle mitbehebt: Die
+ * dokumentierten 3,23 und 4,36 der Kennfarben galten der Grundfarbe; gegen den
+ * hellsten Ton fallen sie auf 1,76 und 2,37 und reißen die 3,0.
+ *
+ * | Element | hell | Kontrast |
+ * |---|---|---|
+ * | Gehäuse der Akkus | `grundRein` | 5,21 |
+ * | „Ganz" | `blauHell` | 4,19 |
+ * | „akkurat" | `anzeigeZweiHell` | 4,49 |
+ * | Zählung, Belegzeile | `flaeche` | 3,70 |
+ *
+ * **Nicht in der Tabelle stehen die Pillen.** Formatpille und „KI-Stimme"
+ * haben eine opake helle Füllung und tragen mit 3,70 bis 12,5 unverändert —
+ * eine Fläche bringt ihren eigenen Hintergrund mit.
+ *
+ * Die Ladungen bleiben ebenfalls: Sie liegen im Gehäuse, nicht auf dem Stoff.
+ */
+const AUF_VORHANG = {
+  gehaeuse: FARBEN.grundRein,
+  eins: FARBEN.blauHell,
+  zwei: FARBEN.anzeigeZweiHell,
+  leise: FARBEN.flaeche,
+} as const;
+
+/**
+ * Beide Akkus nebeneinander — das Kanalzeichen seit dem 31.08.2026.
+ *
+ * Vorher stand oben in jedem Bild **ein** Akku, und seine Ladung war blau:
+ * Voltis Kennfarbe. Das groesste Markenzeichen des Kanals gehoerte damit einer
+ * der beiden Figuren. Zwei Zeichen loesen das und sagen nebenbei, worum es
+ * geht — zwei, die miteinander reden.
+ *
+ * ## Der Versatz ist gemessen
+ *
+ * Das zweite Zeichen sitzt bei **78** von 100 Einheiten. Weil jedes Zeichen
+ * links und rechts 16 Einheiten Rand mitbringt, stossen die Gehaeuse bei 84
+ * zusammen; 78 laesst sechs Einheiten Luft zwischen ihnen.
+ *
+ * Am 31.08.2026 stand hier 105 — **37 Einheiten Luecke bei 68 Einheiten
+ * Gehaeusebreite.** Im Standbild waren das zwei Zeichen und nicht eines. Vier
+ * Abstaende standen daraufhin nebeneinander, jeder zweimal: gross und bei
+ * Briefmarkengroesse, weil sich dort entscheidet, ob zwei Akkus zwei bleiben
+ * oder ein Fleck werden.
+ */
+const DOPPEL_VERSATZ = 78;
+
+export const Doppelzeichen: React.FC<{ hoehe?: number; aufVorhang?: number }> = ({
+  hoehe = 40,
+  aufVorhang = 0,
+}) => {
+  const breite = DOPPEL_VERSATZ + 100;
+  const gehaeuse = mische(FARBEN.tinte, AUF_VORHANG.gehaeuse, aufVorhang);
+  return (
+    <svg
+      width={(hoehe * breite) / 100}
+      height={hoehe}
+      viewBox={`0 0 ${breite} 100`}
+      style={{ display: 'block', flex: 'none' }}
+    >
+      <g>
+        <Zeichenformen ladung={FARBEN.anzeigeEins} pole={1} gehaeuse={gehaeuse} />
+      </g>
+      <g transform={`translate(${DOPPEL_VERSATZ} 0)`}>
+        <Zeichenformen ladung={FARBEN.anzeigeZwei} pole={2} gehaeuse={gehaeuse} />
+      </g>
+    </svg>
+  );
+};
 
 /**
  * Kopfzeile: Logozeichen, Wortmarke und das Format des Shorts.
@@ -96,13 +224,19 @@ export const Logozeichen: React.FC<{ groesse?: number; ladung?: string }> = ({
  * Sie erscheint nur, wenn der Short zaehlt. Warum das eine Ausnahme bleiben
  * muss und keine Schablone werden darf, steht am Feld in `src/typen.ts`.
  */
-export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; von: number } }> = ({
-  format,
-  zaehlung,
-}) => (
+export const Kopfzeile: React.FC<{
+  format: Format;
+  zaehlung?: { nummer: number; von: number };
+  /** Wie stark der Vorhang dahintersteht: 0 heller Grund, 1 Theaterrot. */
+  aufVorhang?: number;
+}> = ({ format, zaehlung, aufVorhang = 0 }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-    <Logozeichen groesse={40} />
-    <Wortmarke groesse={34} />
+    <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} />
+    <Wortmarke
+      groesse={34}
+      farbe={mische(FARBEN.kennVoltiTief, AUF_VORHANG.eins, aufVorhang)}
+      farbeZwei={mische(FARBEN.kennWattiTief, AUF_VORHANG.zwei, aufVorhang)}
+    />
     <span
       style={{
         fontFamily: SCHRIFT.wortmarke,
@@ -111,8 +245,8 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
         padding: '8px 18px',
         borderRadius: 999,
         letterSpacing: 0.2,
-        color: FARBEN.blau,
-        backgroundColor: FARBEN.blauHell,
+        color: FORMATE[format].farbe,
+        backgroundColor: FORMATE[format].farbeHell,
         /*
          * Nie umbrechen. „Hallo 21. Jahrhundert" brach auf zwei Zeilen und zog
          * die ganze Kopfzeile in die Hoehe — die Pille sah damit aus wie ein
@@ -124,7 +258,7 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
         whiteSpace: 'nowrap',
       }}
     >
-      {FORMATE[format].pille}
+      {FORMATE[format].show}
     </span>
 
     {zaehlung && (
@@ -136,7 +270,7 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
           fontFamily: SCHRIFT.wortmarke,
           fontWeight: SCHRIFT.fett,
           fontSize: 26,
-          color: FARBEN.tinteWeich,
+          color: mische(FARBEN.tinteWeich, AUF_VORHANG.leise, aufVorhang),
           letterSpacing: 0.4,
           whiteSpace: 'nowrap',
           /*
@@ -148,7 +282,15 @@ export const Kopfzeile: React.FC<{ format: Format; zaehlung?: { nummer: number; 
         }}
       >
         {zaehlung.nummer}
-        <span style={{ color: FARBEN.linie, fontWeight: SCHRIFT.normal }}> / {zaehlung.von}</span>
+        <span
+          style={{
+            color: mische(FARBEN.linie, AUF_VORHANG.leise, aufVorhang),
+            fontWeight: SCHRIFT.normal,
+          }}
+        >
+          {' '}
+          / {zaehlung.von}
+        </span>
       </span>
     )}
   </div>
@@ -215,7 +357,10 @@ export const Spruchzeile: React.FC = () => {
  * hereinschiebt und wieder hinaus, zieht mehr Aufmerksamkeit als der Satz, den
  * es belegt.
  */
-export const Belegzeile: React.FC<{ herausgeber: string }> = ({ herausgeber }) => {
+export const Belegzeile: React.FC<{ herausgeber: string; aufVorhang?: number }> = ({
+  herausgeber,
+  aufVorhang = 0,
+}) => {
   const frame = useCurrentFrame();
   const auf = interpolate(frame, [0, 6], [0, 1], { extrapolateRight: 'clamp' });
 
@@ -230,13 +375,13 @@ export const Belegzeile: React.FC<{ herausgeber: string }> = ({ herausgeber }) =
       }}
     >
       {/* Der blaue Punkt ersetzt das Wort „Quelle" — er kostet keine Zeile. */}
-      <span style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: FARBEN.blau, flex: 'none' }} />
+      <span style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: mische(FARBEN.blau, AUF_VORHANG.eins, aufVorhang), flex: 'none' }} />
       <span
         style={{
           fontFamily: SCHRIFT.wortmarke,
           fontWeight: SCHRIFT.halbfett,
           fontSize: 26,
-          color: FARBEN.tinteWeich,
+          color: mische(FARBEN.tinteWeich, AUF_VORHANG.leise, aufVorhang),
           letterSpacing: 0.2,
           whiteSpace: 'nowrap',
           overflow: 'hidden',

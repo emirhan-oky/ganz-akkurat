@@ -296,6 +296,48 @@ verdeckt.
 
 **Auf dem Handy ansehen, nicht am Rechner.**
 
+### Der Beschnitt ist gemessen: 52 links, 56 rechts
+
+Am 15.08.2026 an einem veröffentlichten Beitrag nachgemessen (`BESCHNITT` in
+`video/Anordnungsprobe.tsx`): Alle drei Apps zeigen 9:16 auf den heute üblichen
+langen Displays **formatfüllend** und schneiden seitlich ab.
+
+Diese Zahl entscheidet mehr, als sie aussieht. Der Vorhangstreifen sollte
+zuerst 50 Pixel breit werden — er hätte **vollständig im Beschnitt gelegen**.
+Am Schreibtisch sichtbar, im Feed nie. Der Kommentar dort sagt es genau: *Was
+dort steht, ist nicht verdeckt, es ist nicht da.*
+
+## Der Vorhang
+
+Seit dem 31.08.2026 liegt über der Bühne ein Theatervorhang
+(`video/bausteine/Vorhang.tsx`). Er reicht von **y = 0** bis zum unteren
+Bildrand — die Kopfzeile liegt darüber, nicht daneben.
+
+**Links und rechts bleiben 100 Pixel gerafftes Tuch stehen**, über die ganze
+Laufzeit. Alles, was am Bildrand steht, rückt darum ein: Untertitel und
+Sprechblase links, der Like-Zeiger und der Schluss-Zeiger `tiktok` rechts. Wer
+`VORHANG.rand` erhöht, sieht den `tiktok`-Zeiger als Erstes klemmen — er reicht
+bis 908 Pixel.
+
+**Die Szenen selbst sind nicht betroffen**, und das ist keine Umsicht, sondern
+Geometrie: Jede Szene rendert im Bühnen-SVG von x = 170 bis 880, auch bei
+Kamera-Zoom. Ein Streifen bei 0–100 und 980–1080 kann sie nicht erreichen.
+
+### Kontrast gegen einen Verlauf
+
+Auf dem Vorhang gilt nicht die Grundfarbe, sondern der **ungünstigste Ton des
+Verlaufs**. Der Stoff hat drei: `grund`, `tief` (46 % Schwarz) und `licht`
+(24 % Weiß). Zweimal an einem Tag ist genau daran gerechnet worden:
+
+- Ein weißer Umriss um die Figuren, verteidigt mit Kontrast **1,26** — gerechnet
+  gegen den **Körper** der Figur statt gegen die Figur. Ihr Gesicht steht mit
+  **17,1** auf dem Körper; der Rand, den man sah, war der Saum des Rigs.
+- Die Kennfarben mit dokumentierten **3,23** und **4,36** — gegen `grund`
+  gerechnet. Gegen `licht` fallen sie auf **1,76** und **2,37**.
+
+**Der Kontrast gegen einen Farbverlauf ist der gegen seinen ungünstigsten Ton,
+nicht gegen seinen mittleren.**
+
 ## Werkzeug
 
 `skripte/ff` kapselt ffmpeg und ffprobe. Beide liefert Remotion mit (Fassung

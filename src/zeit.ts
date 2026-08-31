@@ -1,5 +1,5 @@
 import { FORMAT } from './marke';
-import { BAUFORMEN, type Short, type Szene } from './typen';
+import { BAUFORMEN, type Short, type Sprecher, type Szene } from './typen';
 
 /**
  * Zeitberechnung eines Shorts.
@@ -99,8 +99,40 @@ import { BAUFORMEN, type Short, type Szene } from './typen';
  *
  * Die Basis bleibt duenn — 800 Zeichen gegen die 2.479, auf denen die 15,4
  * standen. Nachmessen, sobald vier Shorts auf v3 vertont sind.
+ *
+ * ## 14,3 statt 13,0 — 30.08.2026, die angekuendigte Nachmessung
+ *
+ * Die Bedingung von oben ist eingetreten: Am 30.08.2026 sind vier Shorts im
+ * neuen, zweistimmigen Bau auf v3 vertont worden. **2.111 Zeichen gegen die
+ * 800, auf denen die 13,0 standen.**
+ *
+ * | Short | Zeichen | gesprochen | Rate |
+ * |---|---|---|---|
+ * | `ersatzteil-freischalten` | 492 | 32,1 s | 15,33 |
+ * | `erstes-laden` | 480 | 32,1 s | 14,95 |
+ * | `raumstation-alte-rechner` | 606 | 41,7 s | 14,53 |
+ * | `passwort-wechseln` | 533 | 41,2 s | 12,94 |
+ * | **zusammen** | **2.111** | **147,1 s** | **14,35** |
+ *
+ * Genommen wird **14,3**, gerechnet als Summe durch Summe und nicht als
+ * Mittel der vier Raten: Ein langer Short soll mehr wiegen als ein kurzer.
+ *
+ * **Was die 13,0 gekostet hat, war sichtbar:** `raumstation-alte-rechner` kam
+ * mit 49,9 Sekunden geschaetzt aus der Sprechprobe und mit 43,2 Sekunden aus
+ * dem Render. Die Schaetzung lag durchweg rund ein Zehntel zu hoch, und daran
+ * haengen der Zielwert je Bauform und die Laengenklassen — also die beiden
+ * Groessen, an denen der Laengenversuch bis Oktober gemessen wird.
+ *
+ * **Die Streuung bleibt und ist der ehrliche Teil dieses Kommentars:** 12,9
+ * bis 15,3, also rund ein Fuenftel zwischen dem langsamsten und dem
+ * schnellsten Short. `passwort-wechseln` ist der Ausreisser nach unten, und
+ * die naechstliegende Erklaerung ist seine Zeichensetzung — er hat die
+ * kuerzesten Saetze im Lauf, und jeder Punkt ist eine Pause. Das ist derselbe
+ * Verdacht wie oben beim Telegrammstil, nur diesmal an vier Shorts sichtbar
+ * statt an einem. **Eine einzelne Konstante kann das nicht abbilden**; sie
+ * bleibt eine Schaetzung, und die Tonspur bleibt die Wahrheit.
  */
-export const ZEICHEN_PRO_SEKUNDE = 13.0;
+export const ZEICHEN_PRO_SEKUNDE = 14.3;
 
 /**
  * Stille nach dem letzten Wort, in der die Signatur stehen bleibt.
@@ -124,9 +156,30 @@ export const NACHLAUF_SEK = 1.5;
 const PAUSE_NACH_SZENE_SEK = 0.32;
 
 /**
+ * Die Pause an einer Szenengrenze — **seit dem 31.08.2026 unabhaengig davon,
+ * ob der Sprecher dabei wechselt.**
+ *
+ * Vorher gab es zwei Faelle. Mit Sprecherwechsel schnitt die Vertonung, und
+ * hier stand 0,45. Ohne Wechsel lief der Lauf weiter und die Pause entstand
+ * ueber ` ... ` im Text — die Schaetzung rechnete dafuer die Atempause von
+ * 0,32, **gehoert wurden 0,85 bis 2,19 Sekunden.**
+ *
+ * Seit `redelaeufe` an jeder Szenengrenze schneidet, gibt es nur noch einen
+ * Fall und nur noch eine Zahl. Die 0,45 sind mitgegangen: Sie waren der
+ * gemessene Wert des Trenners, den es nicht mehr gibt, und eine geerbte Zahl
+ * ohne Gegenstand ist die Sorte Bauteil, die dieses Projekt am haeufigsten
+ * teuer zu stehen kam.
+ *
+ * **Die 0,32 sind ein Startwert, kein Ergebnis.** Sie sind jetzt aber die
+ * erste Groesse hier, die sich ohne Kontingent nachjustieren laesst: Die
+ * Tondateien bleiben, nur die `startSek` der Abschnitte verschieben sich.
+ */
+export const SZENENGRENZE_SEK = PAUSE_NACH_SZENE_SEK;
+
+/**
  * Wie lange zwischen zwei Sprechern geschwiegen wird.
  *
- * Kuerzer als der Szenentrenner: Ein Wortwechsel ist eine Reaktion, und eine
+ * Kuerzer als die Szenengrenze: Ein Wortwechsel ist eine Reaktion, und eine
  * Reaktion kommt schnell. Zu lang, und aus dem Schlagabtausch werden zwei
  * Monologe.
  *
@@ -135,16 +188,6 @@ const PAUSE_NACH_SZENE_SEK = 0.32;
  * nur drueben — und die Schaetzung wusste deshalb nichts von ihr.
  */
 export const SPRECHERWECHSEL_SEK = 0.28;
-
-/**
- * Die Pause zwischen zwei Szenen, wenn der Sprecher dabei wechselt.
- *
- * Innerhalb eines Laufs entsteht die Szenenpause ueber den Trenner im Text;
- * nur wo die Vertonung schneidet, muss sie als Zahl danebenstehen. Die 0,45
- * sind der gemessene Wert des Trenners aus `npm run pausenprobe`, gerundet:
- * ` ... ` ergab 0,38 s, drei davon 0,86 s.
- */
-export const SZENENTRENNER_SEK = 0.45;
 
 /**
  * Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der
@@ -229,11 +272,14 @@ export const szenendauerAus = (
  * und sie fehlten in der Sprechprobe, in der Laengenpruefung und im
  * Szenenzeitplan der Vorschau.
  *
- * Dazu die kleinere Haelfte: Faellt der Sprecherwechsel auf eine
- * **Szenengrenze**, schneidet die Vertonung und legt `SZENENTRENNER_SEK` ein
- * statt der Atempause von 0,32 — also 0,13 Sekunden mehr, die hier
- * nachgetragen werden. Eine bestellte `pauseSek` bleibt aussen vor: Die zaehlt
- * `szenendauerAus` bereits.
+ * **Die zweite Haelfte ist am 31.08.2026 entfallen.** Bis dahin stand hier ein
+ * Zuschlag fuer den Fall, dass der Sprecherwechsel auf eine Szenengrenze
+ * faellt: Dort schnitt die Vertonung und legte 0,45 statt 0,32 ein. Seit
+ * `redelaeufe` an **jeder** Szenengrenze schneidet, kostet jede gleich viel —
+ * `SZENENGRENZE_SEK` ist `PAUSE_NACH_SZENE_SEK`, der Zuschlag ist null.
+ *
+ * Uebrig bleibt der Fall, den `szenendauerAus` nicht sehen kann: der Wechsel
+ * **innerhalb** einer Szene.
  *
  * ## Warum sie `redelaeufe` nicht aufruft
  *
@@ -247,6 +293,100 @@ export const szenendauerAus = (
  * beide Rechnungen je Short nebeneinander und meldet jede Abweichung. Eine
  * Doppelung ohne Wache waere der eigentliche Fehler.
  */
+/**
+ * Wie lange der Vorspann dauert — Vorhang zu, Titelkarte, zwei gesprochene
+ * Namen, Jingle, Vorhang auf.
+ *
+ * ## Warum er eine einzige Zahl ist und keine Rechnung
+ *
+ * Sein gesprochener Teil ist in jedem Video **derselbe** und wird deshalb nur
+ * einmal vertont und als feste Datei abgelegt (wie `gefaellt.wav`). Was je
+ * Short wechselt, ist allein die Themenzeile — und die wird gelesen, nicht
+ * gesprochen. Der Vorspann kostet also in jedem Video gleich viel Zeit.
+ *
+ * ## Wo sie einsteigt
+ *
+ * Der Vorspann sitzt als **Cold Open** nach der ersten Szene, nicht davor. Die
+ * ganze Verrechnung passiert an genau einer Stelle: `shortVertonen` in
+ * `src/stimme.ts` addiert diese Zahl auf die Uhr, bevor die zweite Szene
+ * beginnt. Damit stimmen `szenenStartSek`, `tonspur.dauerSek`,
+ * `szenenZeitplan` und `gesamtdauerBilder` **von selbst** — kein Offset muss
+ * an fuenf Orten mitgedacht werden.
+ *
+ * Zwei Stellen sahen dabei kritisch aus und sind es nicht:
+ * `gesamtdauerBilder` kuerzt bei vorhandener Tonspur auf `dauerSek +
+ * NACHLAUF_SEK`, und die Vorspanndauer steckt in `dauerSek`. Und die
+ * Aufschlagmessung filtert Woerter gegen `szenenStartSek[1]` — der
+ * Vorspanntext liegt in einer **eigenen** Wortliste und nie in
+ * `tonspur.woerter`, also liefert der Filter weiterhin genau die Woerter der
+ * ersten Szene.
+ *
+ * ## Diese Zahl ist noch nicht gemessen
+ *
+ * Sie ist gerechnet: 0,4 s Vorhang zu, rund 2,6 s fuer „Facts, mit Watti…" und
+ * „…und Volti!" samt Sprecherwechsel, 0,6 s Jingle und Vorhang auf. **Sobald
+ * die Tondatei existiert, wird sie an ihr abgelesen und hier ersetzt** — so wie
+ * `ZEICHEN_PRO_SEKUNDE` und die Denkpause auch. Eine geratene Zahl, die als
+ * gemessene stehenbleibt, hat dieses Projekt schon zweimal Geld gekostet.
+ */
+export const VORSPANN_SEK = 3.8;
+
+/**
+ * Der Vorspann liegt nach dieser Szene. Feste Null: nach dem Aufschlag.
+ *
+ * Kein Feld im Schema, und das ist Absicht — eine Schnittstelle je Short waere
+ * eine Frage, die bei jedem Entwurf neu auftaucht und die nichts anleitet.
+ * Dieselbe Ueberlegung, aus der das Pflichtfeld `position` existiert.
+ */
+export const VORSPANN_NACH_SZENE = 0;
+
+/**
+ * Wie lange eine Figur **am Stueck** redet — ueber Szenengrenzen hinweg.
+ *
+ * ## Warum das eine eigene Groesse ist
+ *
+ * Der Befund vom 31.08.2026 an den ersten zwei fertigen Videos: In
+ * `raumstation-alte-rechner` spricht Volti **13,9 Sekunden**, bevor Watti das
+ * erste Mal etwas sagt. Alle Regeln waren dabei gruen — `zweistimmigkeit`
+ * verlangt zwei Szenen mit beiden Stimmen, und die gab es. Das Minimum war
+ * erfuellt und es war zu niedrig.
+ *
+ * ## Warum nicht ueber `redelaeufe`
+ *
+ * `redelaeufe` in `src/stimme.ts` gruppiert nach **Syntheseaufrufen**: Ein
+ * Lauf ist, was in einem Stueck an ElevenLabs geht, und seit dem 31.08.2026
+ * endet er an jeder Szenengrenze. Diese Funktion gruppiert nach
+ * **zusammenhaengender Rede**, und die laeuft ueber Szenengrenzen weiter.
+ *
+ * Zwei verschiedene Fragen, zwei Funktionen — keine Doppelung. Waeren es
+ * dieselben Bloecke, gehoerte eine der beiden geloescht.
+ *
+ * Dazu kommt die alte Sperre: `stimme.ts` importiert `node:buffer` und laesst
+ * sich aus dem Browser-Kontext nicht aufrufen. Diese Datei kann es.
+ */
+export const redebloecke = (
+  short: Short,
+): { sprecher: Sprecher; zeichen: number; szenen: number[] }[] => {
+  const bloecke: { sprecher: Sprecher; zeichen: number; szenen: number[] }[] = [];
+
+  short.szenen.forEach((szene, i) => {
+    const anteile = szene.rede ?? [
+      { sprecher: 'nachleser' as Sprecher, text: szene.sprechtext.trim() },
+    ];
+    for (const anteil of anteile) {
+      const letzter = bloecke[bloecke.length - 1];
+      if (letzter !== undefined && letzter.sprecher === anteil.sprecher) {
+        letzter.zeichen += anteil.text.trim().length;
+        if (letzter.szenen[letzter.szenen.length - 1] !== i) letzter.szenen.push(i);
+        continue;
+      }
+      bloecke.push({ sprecher: anteil.sprecher, zeichen: anteil.text.trim().length, szenen: [i] });
+    }
+  });
+
+  return bloecke;
+};
+
 export const zusatzpausenSzene = (short: Short, i: number): number => {
   const szene = short.szenen[i];
   const anteile = szene?.rede;
@@ -259,16 +399,11 @@ export const zusatzpausenSzene = (short: Short, i: number): number => {
     if (anteile[j]!.sprecher !== anteile[j - 1]!.sprecher) summe += SPRECHERWECHSEL_SEK;
   }
 
-  // Und der Wechsel **an** der hinteren Grenze, der einen Schnitt erzwingt.
-  const naechste = short.szenen[i + 1];
-  if (naechste) {
-    const letzter = anteile[anteile.length - 1]?.sprecher;
-    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
-    if (letzter !== undefined && letzter !== erster && szene.pauseSek === undefined) {
-      summe += SZENENTRENNER_SEK - PAUSE_NACH_SZENE_SEK;
-    }
-  }
-
+  /*
+   * An der hinteren Szenengrenze faellt nichts mehr an: Sie kostet
+   * `SZENENGRENZE_SEK`, und das ist genau die Atempause, die `szenendauerAus`
+   * ohnehin schon addiert — mit Sprecherwechsel wie ohne.
+   */
   return summe;
 };
 
@@ -312,9 +447,19 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
 
   let laufend = 0;
   return short.szenen.map((szene, i) => {
-    // Die Sprecherpausen gehoeren in die Szene, in der gewechselt wird —
-    // sonst laufen Zeitplan und Gesamtdauer auseinander.
-    const dauer = geschaetzteSzenendauer(szene) + zusatzpausenSzene(short, i);
+    /*
+     * Die Sprecherpausen gehoeren in die Szene, in der gewechselt wird —
+     * sonst laufen Zeitplan und Gesamtdauer auseinander.
+     *
+     * Der Vorspann haengt an der Szene, **nach** der er sitzt: Waehrend er
+     * laeuft, ist die Buehne dahinter vom Vorhang gedeckt, die Szene bleibt
+     * also gemountet. Im Tonspur-Zweig oben faellt dasselbe von selbst an,
+     * weil `szenenStartSek[i + 1]` die Vorspanndauer schon enthaelt.
+     */
+    const dauer =
+      geschaetzteSzenendauer(szene) +
+      zusatzpausenSzene(short, i) +
+      (i === VORSPANN_NACH_SZENE ? VORSPANN_SEK : 0);
     const eintrag = {
       startBild: Math.round(laufend * fps),
       dauerBilder: Math.max(1, Math.round(dauer * fps)),
@@ -355,89 +500,59 @@ export const gesamtdauerBilder = (short: Short): number => {
  */
 export const LAENGE_SEK = {
   /**
-   * Das Zielfenster. **Seit dem 16.08.2026 eine Stufe statt dreier.**
+   * Das Zielfenster. **42 bis 67 Sekunden seit dem 31.08.2026.**
    *
-   * Hier standen bis dahin drei Zahlen fuer eine Frage: ein Fenster von 28
-   * bis 40 Sekunden, eine „ausnahmslose" Grenze bei 45 und ein Minimum bei
-   * 15. Die zweite Stufe war ein Rest aus der Zeit mit zwei Fenstern (mit und
-   * ohne Vertiefung) — mit nur einem Fenster ist sie eine Regel ohne Aufgabe.
+   * Vorher 20 bis 65, davor 20 bis 36, davor 28 bis 40. Die Zwischenstaende
+   * stehen hier nicht mehr — was von ihnen bleibt, sind drei Lehren, die jede
+   * kuenftige Aenderung binden:
    *
-   * Die Zahlen kommen aus zwei Messungen und einer Rechnung:
+   * - **Zielwert ist die Mitte, nicht der Rand.** Die Vertonung streut rund
+   *   sechs Prozent (derselbe Text ergab 75,3 und 70,5 Sekunden). Wer an der
+   *   Obergrenze baut, faellt beim naechsten Lauf heraus, ohne ein Wort
+   *   geaendert zu haben.
+   * - **Laenge ist keine Ursache, sondern eine Folge davon, wie viel es zu
+   *   zeigen gibt.** Ein Fenster, das die Obergrenze zur Aussage ueber
+   *   Qualitaet macht, misst die falsche Groesse.
+   * - **Ein zu enger Zielwert verstuemmelt die Sprache.** Bei 23 Sekunden auf
+   *   sechs Szenen blieben je Satz vier Sekunden, und es entstand „Laptops,
+   *   aelter als fuenf Jahre." Kein Satz, kein Verb, ein Telegramm. Der Zwang
+   *   kam nicht vom Fenster, sondern vom Zielwert, an dem geschrieben wird.
    *
-   * - **15 bis 30 Sekunden** haben die hoechste Abschlussrate. Erklaerendes
-   *   darf 35 bis 45, aber nur wenn der Nutzen frueh sichtbar ist — und
-   *   „frueh sichtbar" ist bei einem Fakt je Video ohnehin die ganze Anlage.
-   * - **Die Vertonung streut rund sechs Prozent.** Derselbe Text ergab bei
-   *   zwei Laeufen 75,3 und 70,5 Sekunden; ElevenLabs liefert nicht zweimal
-   *   dieselbe Aufnahme. Bei 23 Sekunden sind das ±1,4 s.
-   * - Fuenf Szenen mit rund 370 Zeichen ergeben bei 17,4 Zeichen je Sekunde
-   *   21,4 s Sprechzeit plus 1,6 s Pausen — also 23 s.
+   * ## Woher die 42 und die 67 kommen
    *
-   * Daraus folgt die Regel, die wichtiger ist als die Grenzen selbst:
-   * **Zielwert ist die Mitte, nicht der Rand.** Wer an der Obergrenze baut,
-   * faellt beim naechsten Lauf heraus, ohne ein Wort geaendert zu haben. Der
-   * Zielwert steht seit dem 24.08.2026 bei 30 s; siehe unten.
+   * Die **67** sind gemessen, aber an einem fremden Kanal: `@dr_data_dr`
+   * (91.000 Abonnenten, 44 Mio. Aufrufe), zwoelf Shorts zwischen 48 und 67
+   * Sekunden, Median rund 61, das staerkste bei 51. Englisch, einstimmig,
+   * anderes Publikum — uebertragbar ist die Groessenordnung, nicht mehr.
    *
-   * ## Die Obergrenze steht seit dem 20.08.2026 auf 34 statt 28
+   * Die **42** sind eine Entscheidung vom 31.08.2026 und keine Messung. Sie
+   * hebt die Untergrenze so weit an, dass ein Gespraech ueberhaupt Platz hat:
+   * Unter 42 Sekunden bleibt bei zwei Sprechern kaum mehr als ein Beleg und
+   * eine Reaktion, und genau das war der Bau, der 0-mal geteilt wurde.
    *
-   * Zwoelf fremde Tech-Shorts wurden angesehen und vermessen. Die drei mit den
-   * meisten Aufrufen sind **41, 29 und 31 Sekunden** lang — das alte Fenster
-   * haette alle drei abgelehnt. Der Median der Sammlung liegt bei rund 28 s,
-   * also genau auf der alten Obergrenze.
+   * **Was die Zahlen nicht sind: gemessen an eigenen Videos.** Alle neun
+   * veroeffentlichten liegen bei 20 bis 23 Sekunden; zu jeder Laenge darueber
+   * gibt es keine eigene Zahl. `npm run laengen` schweigt deshalb weiter.
    *
-   * Die Gegenprobe steht in derselben Sammlung: 4,1 Mio Aufrufe bei 19 s,
-   * 1,75 Mio bei 7 s. **Laenge ist keine Ursache, sondern eine Folge davon,
-   * wie viel es zu zeigen gibt.** Ein Fenster, das die Obergrenze zur Aussage
-   * ueber Qualitaet macht, misst die falsche Groesse.
+   * ## Die Zielwerte je Bauform sind nachgezogen
    *
-   * Der naheliegende Einwand — das „zu lang" der ersten Zuschauer — trifft die
-   * Shorts mit dem alten Fenster von 28 bis 40 Sekunden, nicht eine Obergrenze
-   * von 34. Und er kam von unserem Publikum, waehrend diese zwoelf Videos von
-   * fremden Kanaelen stammen und ausdruecklich als Treffer ausgewaehlt wurden.
+   * Hier stand am 31.08.2026 morgens, die vier Zielwerte (25 / 35 / 45 / 60)
+   * laegen zu drei Vierteln unter der neuen Untergrenze und die Entscheidung
+   * sei offen gelassen, „bis feststeht, was zwei Figuren im Bild koennen".
    *
-   * ## Zielwert 30 statt 23, Fenster 20 bis 36 — seit dem 24.08.2026
+   * Das steht seit dem Abend desselben Tages fest, und die Vermutung von
+   * morgens hat sich bestaetigt: **`einstimmig` ist gestrichen.** Bei einer
+   * Untergrenze von 42 Sekunden ist der einstimmige Bau kein kurzer
+   * Sonderfall, sondern ein Monolog von dreiviertel Minute — genau der Bau,
+   * gegen den der Umbau laeuft.
    *
-   * **Der Zielwert war die Ursache fuer eine Sprache, die niemand spricht.**
-   * Aufgefallen ist es am ersten Video im neuen Bau: „Laptops, aelter als
-   * fuenf Jahre." Kein Satz, kein Verb, ein Telegramm. Bei 23 Sekunden auf
-   * sechs Szenen bleiben je Satz rund vier Sekunden, und dann wird gestrichen,
-   * bis nur noch Stichworte stehen. Der Zwang kam nicht vom Fenster — 23 lag
-   * bequem darin — sondern vom Zielwert, an dem tatsaechlich geschrieben wird.
-   *
-   * Dieselben zwoelf fremden Videos stuetzen die Verschiebung: Ihr Median
-   * liegt bei rund 28 Sekunden, die drei staerksten bei 41, 31 und 29.
-   *
-   * Die Obergrenze geht mit, und zwar aus der Streuungsrechnung: Bei 30 s sind
-   * sechs Prozent ±1,8 s, und die alte Grenze von 34 laege damit im
-   * Wurfbereich. **Zielwert ist die Mitte, nicht der Rand** — 36 haelt den
-   * Abstand, den die Regel verlangt.
+   * Die drei verbliebenen zielen auf **45 / 52 / 62** und liegen damit im
+   * Fenster. Sie sind so gesetzt, dass sie es ausspannen: Die Klassen unten
+   * fallen daraus ab, und ein Versuch ueber Laengen hat wieder etwas zu
+   * messen. Gemessen ist keine der drei Zahlen — die Begruendung steht bei
+   * `BAUFORMEN`.
    */
-  /*
-   * ## Fenster 20 bis 65 — seit dem 25.08.2026
-   *
-   * Zwoelf Shorts eines laufenden Kanals wurden vermessen (`@dr_data_dr`,
-   * 91.000 Abonnenten, 44 Mio. Aufrufe): **48 bis 67 Sekunden**, Median rund
-   * 61, das staerkste Video (3,2 Mio.) bei 51. **Kein einziges lag in unserem
-   * alten Fenster.**
-   *
-   * Wichtiger als die neue Obergrenze ist aber, was daneben passiert ist: Der
-   * **Zielwert haengt jetzt an der Bauform** (`BAUFORMEN[...].zielSek`), nicht
-   * mehr einmal an allem. Vier Stationen brauchen mehr Zeit als ein
-   * Wortwechsel, weil sie mehr Inhalt haben — „Laenge ist keine Ursache,
-   * sondern eine Folge davon, wie viel es zu zeigen gibt" stand schon oben,
-   * nur fehlte die Folgerung.
-   *
-   * **Und der Zielwert ist erstmals eine Wache statt eines Kommentars.** Bis
-   * hierher stand er nur in diesem Text; geprueft wurde allein das Fenster.
-   * Mit 65 als Obergrenze liefe eine Wechselrede von 60 Sekunden stumm durch,
-   * deshalb meldet `shortPruefen` jede Abweichung von mehr als einem Fuenftel
-   * vom Zielwert der jeweiligen Bauform.
-   *
-   * Der Einwand gehoert daneben: Das „zu lang" der ersten Zuschauer galt
-   * Videos von 28 bis 40 Sekunden. Wir halten Langeweile fuer die Ursache und
-   * wissen es nicht sicher — eine Bauform mit 55 Sekunden ist eine Wette.
-   */
-  ziel: [20, 65] as const,
+  ziel: [42, 67] as const,
   /**
    * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *
@@ -508,4 +623,7 @@ export const laengenklasseVon = (sek: number): Laengenklasse =>
  */
 export const geschaetzteDauerSek = (short: Short): number =>
   short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0) +
-  zusatzpausenSek(short);
+  zusatzpausenSek(short) +
+  // Der Vorspann zaehlt mit. Das Laengenfenster misst, wie lange der Zuschauer
+  // zusieht — nicht, wie lange geredet wird.
+  VORSPANN_SEK;

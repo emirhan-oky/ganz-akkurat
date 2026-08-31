@@ -54,6 +54,7 @@ export const erstesLaden: Short = {
   arbeitstitel: '12 Stunden beim ersten Laden',
   weitererzaehlt: 'Voll laden war die Regel. Heute ist es der Fehler.',
   suchbegriff: 'Akku laden',
+  vorspann: 'Voll laden macht deinen Akku kaputt',
 
   szenen: [
     {
@@ -61,7 +62,6 @@ export const erstesLaden: Short = {
        * Der Aufschlag bleibt einstimmig, und das ist gerechnet: Er darf
        * hoechstens 3,5 Sekunden sprechen, und die 38 Zeichen liegen bei rund
        * 2,9. Eine Reaktion daneben — auch eine kurze — spraenge die Grenze.
-       * Watti steht ab der zweiten Szene daneben.
        */
       art: 'text',
       position: 'aufschlag',
@@ -71,11 +71,31 @@ export const erstesLaden: Short = {
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'uhr', stand: 'links' },
     },
     {
+      /*
+       * **Watti eroeffnet, und das ist der eigentliche Umbau vom 31.08.2026.**
+       *
+       * Vorher begann Volti hier mit dem Belegsatz — und weil `redebloecke`
+       * gleiche Sprecher ueber Szenengrenzen zusammenklebt, wurde daraus mit
+       * dem Aufschlag ein Block von 6,9 Sekunden. Die Naht war unsichtbar: Der
+       * Aufschlag fuer sich liegt bei 2,9, der Belegsatz bei 4,2, und keiner
+       * von beiden ist zu lang.
+       *
+       * Wattis Gestaendnis davor loest sie ohne einen Umweg: Es bricht den
+       * Block, es bringt den Aufschlag in die Gegenwart, und es macht aus
+       * „Und wer weckt mich dafuer?" eine Antwort auf die eigene Ansage statt
+       * auf den Beleg.
+       *
+       * Drei Anteile in einer Szene — Watti, Volti, Watti. Das ist die Form,
+       * die den vier Entwuerfen bis heute gefehlt hat: Kein Redeanteil kehrte
+       * je zum ersten Sprecher zurueck.
+       */
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Das Umweltbundesamt empfiehlt heute, vorher zu unterbrechen. Und wer weckt mich dafür?',
+      sprechtext:
+        'Ich stecke es abends rein und schlafe. Das Umweltbundesamt sagt: vorher unterbrechen. Und wer weckt mich dafür?',
       rede: [
-        { sprecher: 'nachleser', text: 'Das Umweltbundesamt empfiehlt heute, vorher zu unterbrechen.' },
+        { sprecher: 'zeiger', text: 'Ich stecke es abends rein und schlafe.', machart: 'gestaendnis' },
+        { sprecher: 'nachleser', text: 'Das Umweltbundesamt sagt: vorher unterbrechen.' },
         { sprecher: 'zeiger', text: 'Und wer weckt mich dafür?', machart: 'rueckfrage' },
       ],
       text: 'Akku vorher vom Kabel.',
@@ -96,16 +116,14 @@ export const erstesLaden: Short = {
        * Angabe, und die Regel `zahlImBild` verlangt sie im Bild. Eine
        * gesprochene Zahl ist eine Behauptung, eine gezeigte ist ein Beleg.
        *
-       * „vom Kabel" statt „den Ladevorgang unterbrechen": Das Zitat bleibt
-       * woertlich in der Einblendung, gesprochen wird Alltagssprache. Der Satz
-       * bringt zugleich das Suchwort „Akku" unter, das in der alten Fassung
-       * nur in „Lithium-Ionen-Akkus" steckte.
+       * Die Zahl gehoert damit zwingend Volti: Die Formsperre verbietet
+       * Groessen mit Einheit in jeder Zeile, die eine `machart` traegt.
        */
       art: 'zahl',
       position: 'zuspitzung',
-      sprechtext: 'Der Akku soll bei etwa 70 Prozent vom Kabel. Nicht bei 100. Also lade ich ab jetzt absichtlich schlecht.',
+      sprechtext: 'Bei etwa 70 Prozent soll der Akku vom Kabel. Nicht bei 100. Also lade ich ab jetzt absichtlich schlecht.',
       rede: [
-        { sprecher: 'nachleser', text: 'Der Akku soll bei etwa 70 Prozent vom Kabel. Nicht bei 100.' },
+        { sprecher: 'nachleser', text: 'Bei etwa 70 Prozent soll der Akku vom Kabel. Nicht bei 100.' },
         { sprecher: 'zeiger', text: 'Also lade ich ab jetzt absichtlich schlecht.', machart: 'falscherschluss' },
       ],
       wert: '70',
@@ -123,9 +141,9 @@ export const erstesLaden: Short = {
     {
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Und laden sollst du am besten, wenn das Handy aus ist. Aus? Dann gucke ich solange die Wand an.',
+      sprechtext: 'Laden sollst du am besten, wenn das Handy aus ist. Aus? Dann gucke ich solange die Wand an.',
       rede: [
-        { sprecher: 'nachleser', text: 'Und laden sollst du am besten, wenn das Handy aus ist.' },
+        { sprecher: 'nachleser', text: 'Laden sollst du am besten, wenn das Handy aus ist.' },
         { sprecher: 'zeiger', text: 'Aus? Dann gucke ich solange die Wand an.', machart: 'bild' },
       ],
       text: 'Am besten ausgeschaltet.',
@@ -140,19 +158,58 @@ export const erstesLaden: Short = {
       belegId: 'ausgeschalteter-zustand-laden',
     },
     {
+      /*
+       * **Die Waerme ist neu, und sie traegt die Aufloesung.**
+       *
+       * `u-berma-ssige-erwa` lag seit dem 24.08.2026 ungenutzt in der Quelle.
+       * Der Short redete bis dahin ausschliesslich ueber Ladestaende — und
+       * genau das ist die Frage, die das Maerchen offen laesst: Wenn es weder
+       * voll noch leer sein soll, woran liegt es dann?
+       *
+       * Wattis Ratlosigkeit liefert keine Antwort mit. Sobald sie eine
+       * mitlieferte, waere sie wieder ein Kommentar.
+       *
+       * **Der Satz hiess zuerst „Schlimmer als der Ladestand ist Waerme"**,
+       * und der `belegpruefer` hat ihn am 31.08.2026 kassiert: Das Zitat
+       * vergleicht mit nichts, und es spricht von *uebermaessiger* Erwaermung,
+       * nicht von Waerme ueberhaupt. Dieselbe Quelle empfiehlt zwei Absaetze
+       * weiter einen Ladestand von etwa 70 Prozent — sie sagt also gerade
+       * nicht, dass der Ladestand harmlos ist.
+       *
+       * **Die Rangfolge war meine, nicht die der Behoerde.** Wattis Frage
+       * traegt sie weiterhin, und das darf sie: Eine Frage behauptet nichts.
+       */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Den Memory-Effekt, den die alte Regel meinte, gibt es bei Lithium-Ionen-Akkus nicht. Meine Mutter hat mir das beigebracht!',
+      sprechtext: 'Übermäßige Wärme lässt den Akku schneller altern. Moment. Es ging nie ums Volle?',
       rede: [
-        { sprecher: 'nachleser', text: 'Den Memory-Effekt, den die alte Regel meinte, gibt es bei Lithium-Ionen-Akkus nicht.' },
+        { sprecher: 'nachleser', text: 'Übermäßige Wärme lässt den Akku schneller altern.' },
+        { sprecher: 'zeiger', text: 'Moment. Es ging nie ums Volle?', machart: 'ratlosigkeit' },
+      ],
+      text: 'Wärme altert den Akku.',
+      buehne: {
+        art: 'figur',
+        von: 'lesen',
+        nach: 'staunen',
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
+      },
+      quelleId: 'uba-akku-laden',
+      belegId: 'u-berma-ssige-erwa',
+    },
+    {
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht. Meine Mutter hat mir das beigebracht!',
+      rede: [
+        { sprecher: 'nachleser', text: 'Den Memory-Effekt gibt es bei Lithium-Ionen gar nicht.' },
         { sprecher: 'zeiger', text: 'Meine Mutter hat mir das beigebracht!', machart: 'empoerung' },
       ],
       text: 'Bei Lithium-Ionen: nein.',
       buehne: {
         art: 'figur',
-        von: 'lesen',
+        von: 'staunen',
         nach: 'stutzen',
-        gegenueber: { von: 'nachdenken', nach: 'staunen' },
+        gegenueber: { von: 'stutzen', nach: 'staunen' },
       },
       quelleId: 'uba-akku-laden',
       belegId: 'der-memory-effekt-tritt',

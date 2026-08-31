@@ -12,7 +12,8 @@ import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
-import { Wortwechselprobe } from './Wortwechselprobe';
+import { Wortwechselprobe, Wortwechselstaende } from './Wortwechselprobe';
+import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
 import { Gestenprobe } from './Gestenprobe';
 import { Anordnungsprobe, AnordnungsprobeProps } from './Anordnungsprobe';
 
@@ -78,7 +79,9 @@ export const RemotionRoot: React.FC = () => (
     fps={30}
     durationInFrames={1}
   />
-  <Composition id="Wortwechselprobe" component={Wortwechselprobe} width={1900} height={3760} fps={30} durationInFrames={1} />
+  <Composition id="Bewegungsprobe" component={Bewegungsprobe} width={1920} height={1080} fps={30} durationInFrames={BEWEGUNGSPROBE_BILDER} />
+  <Composition id="Wortwechselstaende" component={Wortwechselstaende} width={1888} height={1436} fps={30} durationInFrames={1} />
+  <Composition id="Wortwechselprobe" component={Wortwechselprobe} width={1900} height={3300} fps={30} durationInFrames={1} />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition
     id="Short"

@@ -1,6 +1,6 @@
 import { FARBEN, SCHRIFT, SPRUCH } from '../src/marke';
 import { FORMATE, type Format } from '../src/typen';
-import { Logozeichen } from './bausteine/Wortmarke';
+import { Doppelzeichen, Logozeichen } from './bausteine/Wortmarke';
 import { Muster } from './bausteine/Muster';
 import { Figur } from './bausteine/Figur';
 import { nachleser } from '../daten/figur/nachleser';
@@ -69,10 +69,13 @@ export const ProfilbildHell: React.FC = () => (
      * ueberlappen.
      */}
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Logozeichen groesse={460} ladung={FARBEN.anzeigeEins} />
-      <div style={{ marginLeft: -120 }}>
-        <Logozeichen groesse={460} ladung={FARBEN.anzeigeZwei} />
-      </div>
+      {/*
+        Die Paarung kommt seit dem 31.08.2026 aus `Doppelzeichen` und wird
+        hier nicht mehr von Hand gebaut. Die Rechnung dafuer — 16 Einheiten
+        Rand je Seite, daraus der Versatz — stand vorher an zwei Orten und
+        waere beim ersten Umbau auseinandergelaufen.
+      */}
+      <Doppelzeichen hoehe={460} />
     </div>
   </div>
 );

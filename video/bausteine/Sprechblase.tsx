@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT, SICHERE_ZONE } from '../../src/marke';
+import { ABSTAND, FARBEN, GROESSEN, RADIUS, SCHRIFT, SICHERE_ZONE, VORHANG } from '../../src/marke';
 import { FIGURENNAMEN, type Sprecher, type Tonspur, type Untertitelwort } from '../../src/typen';
 import { gruppiere } from './Untertitel';
 
@@ -92,7 +92,17 @@ export const Sprechblase: React.FC<{
     <div
       style={{
         position: 'absolute',
-        left: links ? ABSTAND.l : undefined,
+        /*
+         * Links raeumt der Untertitel dem gerafften Vorhangstreifen, der seit
+         * dem 31.08.2026 dauerhaft am Bildrand steht. Rechts ist nichts zu
+         * tun: `SICHERE_ZONE.rechts - ABSTAND.m` endet bei 912 und laesst dem
+         * Streifen dort 38 Pixel.
+         *
+         * Ein Nebeneffekt spricht dafuer: Die Mitte des Textblocks wandert von
+         * 484 auf 529 — auf die Bildmitte, die der Kommentar an
+         * `SICHERE_ZONE.rechts` ohnehin anstrebt.
+         */
+        left: links ? VORHANG.rand + ABSTAND.s : undefined,
         right: links ? undefined : SICHERE_ZONE.rechts - ABSTAND.m,
         // Auf derselben Hoehe wie der einstimmige Untertitel — die Zone ist
         // vermessen und liegt ueber TikToks Bedienleiste.

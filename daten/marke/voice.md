@@ -167,21 +167,27 @@ fällt jeder Entwurf auf den zusammenfassenden Kommentar zurück.
 | Das Teil funktioniert. Es darf nur nicht. | Also haben Einzelteile jetzt Herrchen. |
 | Ich mache das seit zehn Jahren. | Wie? Ich mache das seit zehn Jahren. |
 
-### Den Ton sagt die Machart an, nicht der Text
+### Die Zeile muss ohne Anweisung funktionieren
 
-Seit dem 26.08.2026 trägt jede Machart eine Regieanweisung für `eleven_v3`
-(`regie` in `REAKTIONS_MACHARTEN`): Ratlosigkeit klingt ratlos, weil
-`[confused]` davorsteht, nicht weil die Zeile es beschreibt.
+Seit dem 26.08.2026 kann die Vertonung den Ton ansagen: `eleven_v3` versteht
+Regieanweisungen in eckigen Klammern, und jede Machart trägt dafür einen Vorrat
+(`regie` in `REAKTIONS_MACHARTEN`).
 
 **Geschrieben wird die Klammer nie.** Sie entsteht beim Vertonen; das Schema
-lehnt eckige Klammern im Sprechtext ab. Für den Entwurf ändert sich damit
-nichts außer einem Freibrief: Eine Zeile muss ihren Ton nicht mehr in Worten
-mitliefern. „Also war das alles umsonst?" reicht — „fragt Watti ratlos" wäre
-Regieanweisung im Untertitel.
+lehnt eckige Klammern im Sprechtext ab.
 
-Zwei Macharten bekommen bewusst keine: `bild` und `rueckfrage`. Wo der Witz im
-Wort liegt und nicht im Ton, überspielt die Ansage ihn — die banale Rückfrage
-lebt davon, banal zu klingen.
+**Und sie ist kein Freibrief.** Hier stand am selben Tag der Satz, eine Zeile
+müsse ihren Ton nicht mehr in Worten mitliefern — das ist falsch herum. Ein Tag
+kann einen zusammenfassenden Kommentar *klingen* lassen wie Ratlosigkeit, ohne
+dass er eine wird, und `npm run pruefen` wird dabei grün, genau wie bei jeder
+flachen Reaktionszeile. Damit unterliefe die Anweisung die eine Regel, an der
+alles scheitert.
+
+Also: **Der Tag verstärkt, er ersetzt nie.** Die Probe darauf ist einfach —
+lies die Zeile ohne Ansage. Trägt sie dann nicht, trägt sie gar nicht.
+
+„fragt Watti ratlos" bleibt trotzdem falsch: Eine Regieanweisung im Sprechtext
+landet im Untertitel.
 
 ### Sieben Regeln, am 25.08.2026 an fünfzehn Zeilen gemessen
 

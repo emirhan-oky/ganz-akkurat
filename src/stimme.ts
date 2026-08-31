@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer';
 import type { Redeanteil, Short, Sprecher, Untertitelwort } from './typen';
-import { regieVon } from './typen';
-import { SPRECHERWECHSEL_SEK, SZENENTRENNER_SEK } from './zeit';
+import { regieVorrat } from './typen';
+import { SPRECHERWECHSEL_SEK, SZENENGRENZE_SEK, VORSPANN_NACH_SZENE, VORSPANN_SEK } from './zeit';
 
 /**
  * Sprachsynthese und Zeitstempel.
@@ -34,11 +34,18 @@ const API = 'https://api.elevenlabs.io/v1';
  *
  * ## Was v3 zusaetzlich kann
  *
- * **Regieanweisungen im Text**, in eckigen Klammern: `[confused]`, `[sighs]`,
- * `[laughs]`. Fuer Watti ist das keine Spielerei — seine Macharten heissen
- * Ratlosigkeit, Gestaendnis und falscher Schluss (`REAKTIONS_MACHARTEN` in
- * `src/typen.ts`), und die lassen sich damit **ansagen**, statt zu hoffen,
- * dass die Stimme sie errät. Kein aelteres Modell kann das.
+ * **Regieanweisungen im Text**, in eckigen Klammern: `[thoughtful]`,
+ * `[annoyed]`, `[surprised]`. Fuer Watti ist das keine Spielerei — seine
+ * Macharten heissen Ratlosigkeit, Gestaendnis und falscher Schluss
+ * (`REAKTIONS_MACHARTEN` in `src/typen.ts`), und die lassen sich damit
+ * **ansagen**, statt zu hoffen, dass die Stimme sie errät. Kein aelteres
+ * Modell kann das.
+ *
+ * **Welche es gibt, steht in der Doku und nicht im Gedaechtnis.** Am
+ * 26.08.2026 wurden hier sechs Tags an die Macharten gebunden, die ich aus dem
+ * Kopf gewaehlt hatte — einer davon, `[confused]`, existiert gar nicht, und er
+ * stand seit dem 25.08. an dieser Stelle als Beispiel. Bei Quellen verbietet
+ * dieses Projekt genau das.
  *
  * ## Was es kostet
  *
@@ -70,12 +77,30 @@ export type Sprecheinstellung = {
 
 /**
  * Voreinstellung fuer Ganz akkurat: maennlich, locker, erklaerend.
- * Etwas unter Normaltempo, weil technische Begriffe sonst untergehen.
+ *
+ * ## Die 0,45 ist seit dem 30.08.2026 gehoert, nicht geerbt
+ *
+ * Sie stand hier aus der v2-Zeit, mit einem Kommentar, der einen stufenlosen
+ * Regler beschrieb — v3 kennt drei Stufen, und die robuste daempft
+ * Regieanweisungen. Damit war offen, wo unsere Zahl ueberhaupt landet, und
+ * eine Tag-Probe haette gegen eine Einstellung gemessen, die den Tag
+ * womoeglich gerade wegregelt.
+ *
+ * `npm run stimmprobe-v3` hat vier Stufen an derselben Zeile abgelegt
+ * (`laeufe/stimmprobe-v3/`). **Entschieden wurde am Ohr: 0,45 klingt ideal.**
+ * Die Zahl bleibt also, aber sie steht jetzt auf einem Vergleich statt auf
+ * einer Uebernahme.
+ *
+ * **Die Messung selbst hat nichts beigetragen, und das gehoert dazu.** Dauer
+ * und Klammerspanne streuen so stark, dass keine Reglerwirkung ablesbar war —
+ * dieselbe Zeile ergab 2,56 bis 3,12 Sekunden, und `speed 0.8` kam kuerzer
+ * heraus als `speed 1.0`. Wer die Regler nachmisst, misst die Streuung.
  */
 export const KANAL_STIMME: Omit<Sprecheinstellung, 'stimmeId'> = {
   stabilitaet: 0.45,
   aehnlichkeit: 0.75,
   ausdruck: 0.35,
+  /** Normaltempo. Langsamer wurde am 30.08.2026 gehoert und nicht gewaehlt. */
   tempo: 1.0,
 };
 
@@ -94,14 +119,6 @@ export type Synthese = {
 };
 
 /**
- * Trennt zwei Szenen im Sprechtext. Erzeugt zugleich eine hoerbare Pause.
- *
- * Die Voreinstellung sind drei Auslassungspunkte — gemessene 0,86 Sekunden,
- * gerade genug, dass ein Schnitt nicht auf dem Wort sitzt.
- */
-const SZENENTRENNER = ' ... ';
-
-/**
  * Eine bestellte Pause. Nur wo eine Szene ausdruecklich `pauseSek` setzt.
  *
  * ElevenLabs haelt die Zeit auf ein Zehntel genau ein (2,5 s bestellt, 2,60 s
@@ -114,27 +131,6 @@ const SZENENTRENNER = ' ... ';
  * sonst stuende „time=2.5s" im Untertitel.
  */
 const pause = (sek: number): string => ` <break time="${sek.toFixed(1)}s" /> `;
-
-/**
- * Fuegt die Sprechtexte aller Szenen zu einem Text zusammen und merkt sich,
- * an welchem Zeichen jede Szene beginnt.
- */
-export const sprechtextZusammenfuegen = (short: Short): { text: string; szenenOffsets: number[] } => {
-  const szenenOffsets: number[] = [];
-  let text = '';
-
-  short.szenen.forEach((szene, i) => {
-    // Die Pause gehoert zur Szene **davor** — sie hat sie bestellt.
-    const vorherige = short.szenen[i - 1];
-    if (vorherige !== undefined) {
-      text += vorherige.pauseSek === undefined ? SZENENTRENNER : pause(vorherige.pauseSek);
-    }
-    szenenOffsets.push(text.length);
-    text += szene.sprechtext.trim();
-  });
-
-  return { text, szenenOffsets };
-};
 
 /**
  * Wandelt die zeichenweise Ausrichtung in Woerter um.
@@ -161,11 +157,11 @@ export const woerterAusAusrichtung = (a: Ausrichtung): Untertitelwort[] => {
    * „<break", „time=1.8s" und „/>" als drei Woerter im Untertitel — die
    * Zeichenausrichtung liefert sie mit, obwohl die Stimme sie nicht spricht.
    *
-   * `[confused]`, `[sighs]`, `[laughs]` sind die **Regieanweisungen von
+   * `[thoughtful]`, `[sighs]`, `[laughs]` sind die **Regieanweisungen von
    * `eleven_v3`**. Sie kamen am 25.08.2026 mit dem Modellwechsel dazu, und der
    * Filter kannte sie nicht: Die eckige Klammer waere Wort fuer Wort im
    * Untertitel gelandet. Aufgefallen beim Nachsehen, nicht im fertigen Video —
-   * dort haette „[confused]" gross ueber der Buehne gestanden.
+   * dort haette „[thoughtful]" gross ueber der Buehne gestanden.
    */
   let imTag = false;
   let schluss = '>';
@@ -377,7 +373,7 @@ export type Redelauf = {
  * sie sind: die Fassung, die im Untertitel steht und an der die Laenge
  * geschaetzt wird. Die Klammer entsteht erst beim Vertonen und verschwindet
  * hinterher wieder — `woerterAusAusrichtung` filtert alles zwischen `[` und
- * `]`, sonst stuende „[confused]" gross ueber der Buehne.
+ * `]`, sonst stuende die Klammer gross ueber der Buehne.
  *
  * Damit rechnet auch die Schaetzung weiter richtig: Die zusaetzlichen Zeichen
  * werden nicht gesprochen, und `ZEICHEN_PRO_SEKUNDE` sieht sie nie.
@@ -385,10 +381,57 @@ export type Redelauf = {
  * Welche Anweisung zu welcher Machart gehoert, steht in `REAKTIONS_MACHARTEN`
  * — zwei der sechs haben bewusst keine.
  */
-const syntheseText = (anteil: Pick<Redeanteil, 'text' | 'machart'>): string => {
+/**
+ * Deterministischer Streuwert aus einer Zeichenkette (djb2).
+ *
+ * Nicht `Math.random`: Derselbe Short muss beim zweiten Render gleich klingen,
+ * sonst waere ein Neurendern ein anderes Video. Und nicht die Listenposition —
+ * die machte den ersten Short jedes Laufs immer gleich, also genau die
+ * Schablone, die beim Wochentag gestrichen wurde.
+ */
+const streuwert = (text: string): number => {
+  let wert = 5381;
+  for (let i = 0; i < text.length; i += 1) {
+    wert = ((wert << 5) + wert + text.charCodeAt(i)) >>> 0;
+  }
+  return wert;
+};
+
+/**
+ * Der Text eines Redeanteils, wie ihn die Synthese bekommt — mit einer
+ * Regieanweisung aus dem Vorrat seiner Machart davor.
+ *
+ * **Nur hier, nicht im Schema.** `sprechtext` und `rede[].text` bleiben, was
+ * sie sind: die Fassung, die im Untertitel steht und an der die Laenge
+ * geschaetzt wird. Die Klammer entsteht erst beim Vertonen und verschwindet
+ * hinterher wieder — `woerterAusAusrichtung` filtert alles zwischen `[` und
+ * `]`, sonst stuende sie gross ueber der Buehne.
+ *
+ * Damit rechnet auch die Schaetzung weiter richtig: Die zusaetzlichen Zeichen
+ * werden nicht gesprochen, und `ZEICHEN_PRO_SEKUNDE` sieht sie nie. **Das gilt
+ * nur, solange keine hoerbare Anweisung im Vorrat steht** — ein Seufzer
+ * erzeugt Ton, und der fehlte dann in jeder Zahl, so wie die
+ * Sprecherwechselpausen bis zum 26.08.2026 in jeder Zahl fehlten.
+ *
+ * **Gestreut wird ueber `id` und Machart zusammen.** Nur ueber die `id` naehmen
+ * alle Macharten eines Shorts denselben Listenplatz — dann klaenge ein Short
+ * durchgehend nach Vorrat A und der naechste durchgehend nach Vorrat B, was
+ * die Streuung wieder zu einem Muster machte.
+ *
+ * Welche Anweisungen es je Machart gibt, steht in `REAKTIONS_MACHARTEN`. Ein
+ * leerer Vorrat heisst: keine Ansage — ein gueltiges Ergebnis der Blindwahl
+ * und kein fehlender Eintrag.
+ */
+const syntheseText = (
+  anteil: Pick<Redeanteil, 'text' | 'machart'>,
+  shortId: string,
+): string => {
   const rein = anteil.text.trim();
-  const regie = anteil.machart === undefined ? undefined : regieVon(anteil.machart);
-  return regie === undefined ? rein : `${regie} ${rein}`;
+  if (anteil.machart === undefined) return rein;
+  const vorrat = regieVorrat(anteil.machart);
+  if (vorrat.length === 0) return rein;
+  const regie = vorrat[streuwert(`${shortId}:${anteil.machart}`) % vorrat.length]!;
+  return regie === '' ? rein : `${regie} ${rein}`;
 };
 
 export const redelaeufe = (short: Short): Redelauf[] => {
@@ -407,31 +450,48 @@ export const redelaeufe = (short: Short): Redelauf[] => {
       const gleicherSprecher = letzter !== undefined && letzter.sprecher === anteil.sprecher;
 
       /*
-       * Anhaengen, wenn dieselbe Figur weiterspricht. Bei einer neuen Szene
-       * kommt der Trenner mit in den Text — er erzeugt die Pause **innerhalb**
-       * der Synthese, so wie bisher. Nur beim Sprecherwechsel entsteht die
-       * Pause zwischen zwei Aufrufen.
+       * **Angehaengt wird nur innerhalb einer Szene.**
+       *
+       * Bis zum 31.08.2026 lief ein Lauf ueber Szenengrenzen weiter, solange
+       * dieselbe Figur sprach; die Pause entstand dann durch ` ... ` im Text.
+       * Der Kommentar dazu nannte „gemessene 0,86 Sekunden" — gemessen an
+       * `eleven_multilingual_v2`. Unter `eleven_v3` waren es **0,85 bis 2,19**,
+       * und in `raumstation-alte-rechner` standen dadurch 5,9 von 41,7 Sekunden
+       * still: **14 % des Videos**, waehrend `src/zeit.ts` 0,32 rechnete.
+       *
+       * Dieselbe Geschichte wie bei `ZEICHEN_PRO_SEKUNDE`: fuer ein Modell
+       * gemessen, das nicht mehr laeuft. Der Vertrag hatte die Antwort schon
+       * danebenstehen — **ein Break-Tag ist eine Bitte an die Synthese, ein
+       * Versatz im Schnitt ist eine Tatsache.**
+       *
+       * Der Grund fuer die Verkettung, durchgehende Betonung, gilt weiter: Zwei
+       * Redeanteile derselben Figur **innerhalb** einer Szene werden nach wie
+       * vor zusammengezogen. Ueber eine Szenengrenze war ohnehin schon
+       * geschnitten, nur in Textform statt im Ton.
+       *
+       * Der Nebengewinn ist der eigentliche: Ein Versatz laesst sich aendern,
+       * ohne neu zu vertonen. Die Pausenlaenge ist damit die erste Groesse in
+       * diesem Projekt, die **kostenlos** nachjustierbar ist.
        */
-      if (gleicherSprecher) {
-        if (neueSzene) {
-          letzter.text += bestellt === undefined ? SZENENTRENNER : pause(bestellt);
-          letzter.szenenOffsets.push({ szene: i, offset: letzter.text.length });
-        } else {
-          letzter.text += ' ';
-        }
-        letzter.text += syntheseText(anteil);
+      if (gleicherSprecher && !neueSzene) {
+        letzter.text += ` ${syntheseText(anteil, short.id)}`;
         return;
       }
 
       laeufe.push({
         sprecher: anteil.sprecher,
-        text: syntheseText(anteil),
+        text: syntheseText(anteil, short.id),
+        /*
+         * Ein Lauf traegt damit hoechstens **eine** Szenengrenze, und zwar an
+         * Zeichen 0. Vorher konnte ein Lauf mehrere Szenen umfassen, und
+         * `szenenStartzeiten` musste sie aus der Ausrichtung herauslesen.
+         */
         szenenOffsets: neueSzene ? [{ szene: i, offset: 0 }] : [],
         pauseDavorSek:
           laeufe.length === 0
             ? 0
             : neueSzene
-              ? (bestellt ?? SZENENTRENNER_SEK)
+              ? (bestellt ?? SZENENGRENZE_SEK)
               : SPRECHERWECHSEL_SEK,
       });
     });
@@ -476,6 +536,23 @@ export const shortVertonen = async (
   let uhr = 0;
 
   for (const [i, lauf] of laeufe.entries()) {
+    /*
+     * **Hier steigt der Vorspann in die Zeitachse ein — an genau einer
+     * Stelle.**
+     *
+     * Er sitzt als Cold Open nach der ersten Szene. Beginnt dieser Lauf die
+     * Szene danach, springt die Uhr vor; alles Weitere — Abschnittsstarts,
+     * Szenenstarts, Wortzeiten, `dauerSek` — rechnet von selbst richtig
+     * weiter, weil alles auf dieser Uhr liegt.
+     *
+     * Der Vorspannton selbst geht **nicht** in `abschnitte` und seine Woerter
+     * nicht in `woerter`: Er ist eine feste Datei mit eigener Wortliste. Genau
+     * das haelt die Aufschlagmessung heil, die gegen `szenenStartSek[1]`
+     * filtert.
+     */
+    if (lauf.szenenOffsets.some((o) => o.szene === VORSPANN_NACH_SZENE + 1)) {
+      uhr += VORSPANN_SEK;
+    }
     uhr += lauf.pauseDavorSek;
     const synthese = await synthetisieren(
       lauf.text,
@@ -519,5 +596,18 @@ export const shortVertonen = async (
   };
 };
 
-/** Zeichenverbrauch eines Shorts — die Abrechnungsgroesse bei ElevenLabs. */
-export const zeichenverbrauch = (short: Short): number => sprechtextZusammenfuegen(short).text.length;
+/**
+ * Zeichenverbrauch eines Shorts — die Abrechnungsgroesse bei ElevenLabs.
+ *
+ * **Ueber `redelaeufe` gerechnet, seit dem 31.08.2026.** Vorher lief die Zahl
+ * ueber `sprechtextZusammenfuegen`, das den ganzen Short zu einem Text mit
+ * ` ... ` als Szenentrenner zusammenzog. Diese Funktion hat zuletzt **nichts
+ * mehr vertont** — sie war nur noch diese Zaehlung — und zaehlte dabei
+ * Trennerpunkte mit, die nie an die Synthese gingen.
+ *
+ * Jetzt wird gezaehlt, was wirklich abgeschickt wird: die Laufttexte samt
+ * ihrer Regieanweisungen. Die kosten Zeichen, und ein Vorrat, der spaeter
+ * gefuellt wird, taucht damit von selbst in der Abrechnung auf.
+ */
+export const zeichenverbrauch = (short: Short): number =>
+  redelaeufe(short).reduce((summe, lauf) => summe + lauf.text.length, 0);

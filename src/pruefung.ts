@@ -10,6 +10,7 @@ import { BAUFORMEN,
   type Quelle,
   type Short,
   type Szene,
+  FIGURENNAMEN,
 } from './typen';
 import { gelaufeneThemen, type Verlaufslauf } from './verlauf';
 import {
@@ -17,6 +18,7 @@ import {
   laengenklasseVon,
   LAENGE_SEK,
   ZEICHEN_PRO_SEKUNDE,
+  redebloecke,
   zielfenster,
 } from './zeit';
 
@@ -298,6 +300,47 @@ const kommtImVideoVor = (wort: string, videotext: string): boolean =>
   [wort, ...wort.split('-')]
     .filter((teil) => teil.length >= 4)
     .some((teil) => videotext.includes(teil));
+
+/*
+ * **Die Sperre ist am 31.08.2026 zweimal umgezogen — und der Weg ist die
+ * eigentliche Lehre.**
+ *
+ * *Bis dahin:* `zeigen`, `erklaeren`, `achselzucken` waren gesperrt, weil
+ * sie im Wortwechsel eine Hand auf das andere Gehaeuse legten. Gemessen
+ * am 26.08.2026 in `Wortwechselprobe`, und richtig — fuer die damalige
+ * Anordnung.
+ *
+ * *Vormittags:* Die Anordnung ging von voller Groesse auf 0,75, weil
+ * beide Figuren am Bildrand ihre aeussere Hand verloren; die Luecke in
+ * der Mitte wuchs dabei von 1,6 auf 20,2 Einheiten. Die drei Posen
+ * greifen seither nicht mehr hinueber, **die Sperre fiel.**
+ *
+ * *Abends:* Drei **andere** Posen ragten aus dem Bild, und zwar zwei
+ * davon schon vorher. Die Kantenrechnung lief gegen die **Ruhepose** —
+ * `achselzucken` reicht aber 76,7 Einheiten nach aussen statt 52.
+ *
+ * ## Was daraus folgt
+ *
+ * **Die Liste hier ist abgeleitet und nicht geschrieben.**
+ * `zuBreiteWortwechselposen` in `Buehnenbild.tsx` rechnet sie aus der
+ * Anordnung und `AUSSENREICHWEITE` in `posen.ts`;
+ * `skripte/schemapruefung.ts` haelt beide gegeneinander und meldet jede
+ * Abweichung. Ohne diese Wache waere es die dritte handgeschriebene
+ * Liste in einer Woche, und jede der beiden vorigen war irgendwann
+ * still falsch.
+ *
+ * ## Die Grenze ist geometrisch und nicht verhandelbar
+ *
+ * Zwei Figuren nebeneinander brauchen `228,8 x groesse + luecke` von 200
+ * Einheiten. Wer beide Arme ausbreitet, braucht noch einmal 50 mehr. Das
+ * geht bei **keiner** Groesse auf: Bei 0,70 bliebe eine Luecke von 1,8
+ * Einheiten, und bei 10,5 lag die Hand schon auf dem fremden Gehaeuse.
+ *
+ * `staunen`, `achselzucken` und `hochschauen` bleiben deshalb Posen fuer
+ * **eine** Figur im Bild. Sie sind nicht schlechter geworden — sie
+ * brauchen Platz, den es zu zweit nicht gibt.
+ */
+export const ZU_BREIT_IM_WORTWECHSEL = new Set(['achselzucken']);
 
 export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const befunde: Befund[] = [];
@@ -1227,6 +1270,101 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
   }
 
+/**
+ * Wie lange eine Figur hoechstens am Stueck reden darf.
+ *
+ * **Gesetzt, nicht gemessen — und das steht hier, weil der Vertrag verlangt,
+ * dass eine geratene Zahl sich als geraten zu erkennen gibt.** Sechs Sekunden
+ * sind rund 90 Zeichen, also zwei mittlere Saetze; danach muss der andere dran
+ * sein.
+ *
+ * Der Bestand am 31.08.2026, geschaetzt ueber `ZEICHEN_PRO_SEKUNDE`:
+ * `raumstation` 12,8 s, `passwort` 10,3 s, `erstes-laden` 6,9 s,
+ * `ersatzteil` 6,8 s. **Alle vier fallen durch, und das ist der Zweck** —
+ * eine Regel, die den Bestand gruen laesst, haette nichts gefunden.
+ *
+ * Sie faellt, sobald vier Videos im Gespraechsbau gemessen sind.
+ */
+const REDEBLOCK_MAX_SEK = 6;
+
+/**
+ * Wie viel des Textes hoechstens auf eine Figur entfallen darf.
+ *
+ * **Rollenneutral formuliert und nicht auf Watti gemuenzt.** Die Besetzung
+ * darf laut Vertrag wechseln — wer den Beleg traegt und wer reagiert, ist eine
+ * Rolle und keine Figur. Eine Regel, die „Watti" naeme, machte aus der Rolle
+ * wieder eine feste Besetzung, und das ist genau die Schablone, gegen die der
+ * Umbau laeuft.
+ *
+ * Der Bestand am 31.08.2026: 83 %, 77 %, 70 %, 69 % fuer die tragende Stimme.
+ * Ebenfalls gesetzt und nicht gemessen.
+ */
+const STIMMANTEIL_MAX = 2 / 3;
+
+  /* ── Aus dem Vortrag ein Gespraech ───────────────────────────────── */
+
+  /*
+   * **Die beiden Regeln, die aus dem ersten fertigen Video folgen.**
+   *
+   * Am 31.08.2026 lagen `raumstation-alte-rechner` und
+   * `ersatzteil-freischalten` gerendert vor. Zwei Figuren im Bild, alle Regeln
+   * gruen — und trotzdem kein Gespraech: Volti spricht in `raumstation`
+   * **13,9 Sekunden am Stueck**, bevor Watti das erste Mal etwas sagt, und
+   * traegt 83 % der Zeichen.
+   *
+   * `zweistimmigkeit` verlangt zwei Szenen mit beiden Stimmen. Die gab es. Das
+   * Minimum war erfuellt und es war zu niedrig — dieselbe Schwaeche, die der
+   * Vertrag bei dieser Regelsorte selbst benennt: geprueft wird, „ob der Platz
+   * benutzt wurde".
+   *
+   * **Zwei Wachen, weil sie verschiedene Fehler fangen.** `redelauf` faengt
+   * den Vortrag: einer redet lange, der andere wirft ein. `stimmanteil` faengt
+   * die Statistenrolle: viele kurze Wechsel, aber einer traegt fast alles.
+   * Eine allein liesse die jeweils andere Form durch.
+   *
+   * **Beide ohne Ton pruefbar**, ueber `ZEICHEN_PRO_SEKUNDE`. Sonst griffen
+   * sie erst nach der bezahlten Vertonung — derselbe Grund, aus dem am
+   * 30.08.2026 die laufweiten Regeln nach `npm run pruefen` gewandert sind.
+   */
+  {
+    const bloecke = redebloecke(short);
+    const laengster = bloecke.reduce(
+      (m, b) => (b.zeichen > m.zeichen ? b : m),
+      bloecke[0] ?? { sprecher: 'nachleser' as const, zeichen: 0, szenen: [] },
+    );
+    const sekunden = laengster.zeichen / ZEICHEN_PRO_SEKUNDE;
+
+    if (sekunden > REDEBLOCK_MAX_SEK) {
+      melde(
+        'fehler',
+        'redelauf',
+        `${FIGURENNAMEN[laengster.sprecher]} spricht ${sekunden.toFixed(1)}s am Stück ` +
+          `(Szene ${laengster.szenen.map((i) => i + 1).join(', ')}), erlaubt sind ` +
+          `${REDEBLOCK_MAX_SEK}s. Der lange Belegsatz zerfällt in Frage und Antwort – ` +
+          'die Frage gehört dem anderen.',
+      );
+    }
+
+    const gesamt = bloecke.reduce((summe, b) => summe + b.zeichen, 0);
+    if (gesamt > 0) {
+      for (const sprecher of ['nachleser', 'zeiger'] as const) {
+        const eigen = bloecke
+          .filter((b) => b.sprecher === sprecher)
+          .reduce((summe, b) => summe + b.zeichen, 0);
+        const anteil = eigen / gesamt;
+        if (anteil > STIMMANTEIL_MAX) {
+          melde(
+            'fehler',
+            'stimmanteil',
+            `${FIGURENNAMEN[sprecher]} trägt ${Math.round(anteil * 100)} % des Textes, ` +
+              `erlaubt sind ${Math.round(STIMMANTEIL_MAX * 100)} %. Der andere ist dann ` +
+              'kein Gegenüber mehr, sondern ein Requisit mit Stimme.',
+          );
+        }
+      }
+    }
+  }
+
   /* ── Die Bauform darf nicht luegen ───────────────────────────────── */
 
   /*
@@ -1262,17 +1400,14 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
       );
     }
     /*
-     * Umgekehrt ebenso: Wer die Mittel benutzt, soll sie auch anmelden. Sonst
-     * stuenden zwei gleich gebaute Shorts unter verschiedenen Etiketten, und
-     * die Drittelregel liesse beide durch.
+     * Hier stand die Gegenprobe fuer `einstimmig`: Wer die Mittel benutzt, soll
+     * sie auch anmelden. Die Bauform ist am 31.08.2026 gestrichen, und mit ihr
+     * faellt die Regel — nicht aus Nachlaessigkeit, sondern weil
+     * `zweistimmigkeit` denselben Fall jetzt haerter fasst. Sie verlangt zwei
+     * Szenen mit beiden Stimmen von **jedem** Short, ohne Ausnahme; ein
+     * einstimmiger Bau ist damit nicht mehr falsch angemeldet, sondern
+     * unmoeglich.
      */
-    if (short.bauform === 'einstimmig' && zweistimmig > 0) {
-      melde(
-        'fehler',
-        'bauform',
-        'Als einstimmig angemeldet, hat aber Szenen mit zwei Stimmen.',
-      );
-    }
   }
 
   /* ── Zwei Stimmen: das Mindestmass ───────────────────────────────── */
@@ -1287,9 +1422,14 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    *
    * **Zweistimmigkeit.** Mindestens zwei Szenen tragen beide Stimmen. Ein
    * Mindestmass, kein Muster: „immer beide" waere nach vier Videos wieder die
-   * Schablone, gegen die der Umbau laeuft. Ausgenommen ist `einstimmig` —
-   * dort ist es der angemeldete Bau, und begrenzt wird er von der Drittelregel
-   * im Lauf, nicht hier.
+   * Schablone, gegen die der Umbau laeuft.
+   *
+   * **Ohne Ausnahme, seit dem 31.08.2026.** Bis dahin war `einstimmig` als
+   * angemeldeter Bau befreit und wurde nur von der Drittelregel im Lauf
+   * begrenzt. Mit einem Fenster ab 42 Sekunden ist der einstimmige Bau aber
+   * kein kurzer Sonderfall mehr, sondern ein Monolog von dreiviertel Minute.
+   * Er ist deshalb gestrichen — und diese Regel ist die Stelle, an der das
+   * durchgesetzt wird.
    *
    * **Eine Reaktion.** Mindestens eine Zeile traegt eine `machart`, also eine
    * Aeusserung, die nichts ueber die Welt behauptet. Geprueft wird nicht, ob
@@ -1297,16 +1437,13 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * wurde, genau wie bei der Belegregel: Sie prueft nicht, ob das Zitat
    * ueberzeugt, sondern ob eins da ist.
    *
-   * Auch `einstimmig` braucht sie. Der gemessene Vergleichskanal setzt seinen
-   * Humor eingestreut statt in einem Slot — funktional dieselbe Zeile, nur vom
-   * selben Sprecher.
    */
   {
     const zweistimmig = short.szenen.filter(
       (sz) => new Set((sz.rede ?? []).map((r) => r.sprecher)).size > 1,
     ).length;
 
-    if (short.bauform !== 'einstimmig' && zweistimmig < 2) {
+    if (zweistimmig < 2) {
       melde(
         'fehler',
         'zweistimmigkeit',
@@ -1620,13 +1757,28 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    * Der Anlass steht nicht im Geschmack, sondern bei YouTube: Seit Juli 2025
    * wird schablonenhaftes KI-Material unterdrueckt, und die Machart, die wir
    * neun Videos lang gefahren haben, ist die Voreinstellung einer ganzen
-   * Gattung. `einstimmig` ist deshalb ausdruecklich mitgezaehlt — was keinen
-   * Namen hat, kann keine Regel begrenzen.
+   * Gattung.
    *
-   * Die Drittelregel greift erst ab sechs Shorts. Darunter erzwaenge sie
-   * lauter verschiedene Bauformen: Bei vier Shorts waere ein Drittel eine
-   * einzige, also vier verschiedene je Woche — genau der Zwang, an dem die
-   * alte Formatregel gescheitert ist.
+   * ## Aus dem Drittel ist die Haelfte geworden (31.08.2026)
+   *
+   * Die Regel hiess „hoechstens ein Drittel je Lauf, ab sechs Shorts", und sie
+   * war richtig, solange es **vier** Bauformen gab. Mit dem Wegfall von
+   * `einstimmig` sind es drei, und dieselbe Rechnung kippt:
+   *
+   * - Bei sechs Shorts erlaubt ein Drittel genau zwei je Bauform. Das ist
+   *   **2/2/2 und sonst nichts** — keine Wache mehr, sondern ein Stundenplan.
+   * - Bei sieben Shorts erlaubt sie weiterhin zwei, also hoechstens sechs
+   *   insgesamt. **Die Regel waere unerfuellbar**, und sieben ist die
+   *   Obergrenze des Takts.
+   *
+   * Beides ist derselbe Zwang, an dem die alte Formatregel gescheitert ist,
+   * nur von der anderen Seite. Die Lehre daraus stand schon einmal hier: **Eine
+   * Wache, die sich bei Abweichung selbst abschaltet, ist keine Wache** — und
+   * eine, die bei sieben Shorts nicht mehr erfuellbar ist, ebenso wenig.
+   *
+   * Jetzt gilt dieselbe Schwelle wie beim Format: **mehr als die Haelfte**, ab
+   * vier Shorts. Bei sieben laesst das 3/2/2 zu und meldet erst, wenn eine
+   * Bauform wirklich dominiert.
    */
   const proBauform = new Map<Bauform, Short[]>();
   for (const short of shorts) {
@@ -1648,17 +1800,17 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     });
   }
 
-  if (shorts.length >= 6) {
+  if (shorts.length >= 4) {
     for (const [bauform, gruppe] of proBauform) {
       const erster = gruppe[0];
-      if (!erster || gruppe.length * 3 <= shorts.length) continue;
+      if (!erster || gruppe.length * 2 <= shorts.length) continue;
       befunde.push({
         stufe: 'fehler',
         shortId: erster.id,
         regel: 'bauform',
         text:
           `${gruppe.length} von ${shorts.length} Shorts sind „${BAUFORMEN[bauform].titel}" ` +
-          `(${gruppe.map((s) => s.id).join(', ')}). Höchstens ein Drittel je Lauf.`,
+          `(${gruppe.map((s) => s.id).join(', ')}). Höchstens die Hälfte je Lauf.`,
       });
     }
   }
@@ -1970,29 +2122,6 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
         });
       }
 
-      /*
-       * **Drei Posen greifen bei zwei Figuren in die andere hinein.**
-       *
-       * Das ist gemessen, nicht geschaetzt: `video/Wortwechselprobe.tsx`
-       * stellt alle zehn Posen einzeln neben eine ruhende Figur, in derselben
-       * Anordnung wie im Video. `zeigen`, `erklaeren` und `achselzucken`
-       * legen eine Hand auf das andere Gehaeuse, die uebrigen sieben bleiben
-       * frei. Die Seite spielt keine Rolle — die rechte Figur ist gespiegelt
-       * und greift spiegelbildlich.
-       *
-       * **Der Weg dahin gehoert dazu.** Am 26.08.2026 sind nacheinander drei
-       * Faelle im fertigen Standbild aufgefallen, jeder an einer anderen Pose,
-       * und nach jedem stand eine engere Regel da: erst „nicht beide
-       * gleichzeitig", dann „kein `zeigen`". Beide waren zu eng, weil sie aus
-       * je einem Bild geschlossen haben. Erst die Probe hat die Frage fuer das
-       * ganze Vokabular beantwortet — **eine Messung ist billiger als drei
-       * Regeln, die nacheinander zu eng waren.**
-       *
-       * Mehr Abstand loest es nicht: Die 116 Einheiten sind an zwei gleich
-       * breiten Rigs gemessen, Wattis Stauchung macht ihn ein Fuenftel
-       * breiter, und bei x = 158 plus halber Breite steht er am Buehnenrand.
-       */
-      const GREIFT_HINUEBER = new Set(['zeigen', 'erklaeren', 'achselzucken']);
       if (szene.buehne.gegenueber) {
         const ketten = [
           ...[szene.buehne.von, ...(szene.buehne.zwischen ?? []), szene.buehne.nach],
@@ -2002,16 +2131,16 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
             szene.buehne.gegenueber.nach,
           ],
         ];
-        const treffer = [...new Set(ketten.filter((p) => GREIFT_HINUEBER.has(p)))];
+        const treffer = [...new Set(ketten.filter((p) => ZU_BREIT_IM_WORTWECHSEL.has(p)))];
         if (treffer.length > 0) {
           befunde.push({
             stufe: 'fehler',
             shortId: short.id,
             regel: 'bildvielfalt',
             text:
-              `„${treffer.join('", „')}" im Wortwechsel: Die Hand landet auf dem anderen ` +
-              'Gehäuse. Frei sind ruhe, lesen, stutzen, staunen, hochschauen, winken und ' +
-              'nachdenken — gemessen in `Wortwechselprobe`.',
+              `„${treffer.join('", „')}" im Wortwechsel: Der äußere Arm ragt aus dem Bild. ` +
+              'Diese Posen breiten beide Arme aus und brauchen die ganze Bühnenbreite – ' +
+              'zu zweit gibt es die nicht. Für eine Figur allein bleiben sie erlaubt.',
           });
         }
       }

@@ -18,6 +18,9 @@ node_modules/
 laeufe/
 out/
 output/
+
+# Werkzeugausgabe des graphify-Skills — 3 MB, jederzeit neu erzeugbar
+graphify-out/
 outputs/
 .artifacts/
 tmp/

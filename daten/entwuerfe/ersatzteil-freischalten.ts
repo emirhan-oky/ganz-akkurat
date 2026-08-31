@@ -43,6 +43,7 @@ export const ersatzteilFreischalten: Short = {
   arbeitstitel: 'Das Ersatzteil und das Verbot',
   weitererzaehlt: 'Das Teil passt. Freigeschaltet ist es damit nicht.',
   suchbegriff: 'Ersatzteil Reparatur',
+  vorspann: 'Dein Ersatzteil darf keine Reparatur blockieren',
 
   szenen: [
     {
@@ -78,18 +79,57 @@ export const ersatzteilFreischalten: Short = {
       herausgeber: 'Europäische Union',
     },
     {
+      /*
+       * **Hier stand ein Satz mit 97 Zeichen**, und er war fuer sich allein
+       * schon ein Fehler: Sechs Sekunden sind rund 86 Zeichen, also zwei
+       * mittlere Saetze. Der Satz war einer.
+       *
+       * Zerlegt in vier Anteile, und die Zerlegung folgt der Meldung, die ihn
+       * gefunden hat: **Die Frage gehoert dem anderen.** Wattis Ratlosigkeit
+       * steht dabei nicht am Ende als Kommentar, sondern mitten im Satz —
+       * genau dort, wo der Zuschauer sie hat.
+       *
+       * Naeher am Zitat als vorher. Die alte Fassung sprach von „freien
+       * Werkstaetten", und die stehen in der gebundenen Fundstelle nicht.
+       *
+       * **Dabei ist der Satz erst zu weit geraten**, und der `belegpruefer`
+       * hat es am selben Tag gefunden: „duerfen die Verwendung nicht
+       * behindern" verbietet das Behindern **ueberhaupt**. Die Richtlinie
+       * verbietet enger — den Einsatz von Vertragsklauseln und Hardware- oder
+       * Softwaretechniken, die behindern. Ein Hersteller, der schlicht keine
+       * Teile liefert, ist davon nicht erfasst.
+       *
+       * **Naeher am Zitat heisst nicht automatisch gedeckt.** Der Weg von
+       * „zu eng am falschen Wort" nach „zu breit am richtigen" ist kurz.
+       * Deshalb steht „per Software" jetzt darin, und der Anteil haengt an der
+       * Fundstelle, die Subjekt und Verneinung mitbringt.
+       */
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Hersteller dürfen die Reparatur nicht per Software behindern. Da hat jemand dafür Gehalt bekommen.',
+      sprechtext:
+        'Hersteller dürfen die Verwendung von Ersatzteilen nicht per Software behindern. Da hat jemand ein Jahr lang Gehalt bekommen, um das aufzuschreiben. Auch gebrauchte nicht. Moment. Die Reparatur ist erlaubt und geht trotzdem nicht?',
       rede: [
-        { sprecher: 'nachleser', text: 'Hersteller dürfen die Reparatur nicht per Software behindern.' },
-        { sprecher: 'zeiger', text: 'Da hat jemand dafür Gehalt bekommen.', machart: 'empoerung' },
+        {
+          sprecher: 'nachleser',
+          text: 'Hersteller dürfen die Verwendung von Ersatzteilen nicht per Software behindern.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'keine-hardware-oder-softwaretechniken',
+        },
+        { sprecher: 'zeiger', text: 'Da hat jemand ein Jahr lang Gehalt bekommen, um das aufzuschreiben.', machart: 'empoerung' },
+        {
+          sprecher: 'nachleser',
+          text: 'Auch gebrauchte nicht.',
+          quelleId: 'eu-reparaturrichtlinie-2024',
+          belegId: 'behindern-verwendung-ersatzteile',
+        },
+        { sprecher: 'zeiger', text: 'Moment. Die Reparatur ist erlaubt und geht trotzdem nicht?', machart: 'ratlosigkeit' },
       ],
-      text: 'Reparatur nicht sperren.',
+      text: 'Einbau bei der Reparatur.',
       buehne: {
         art: 'figur',
         von: 'lesen',
-        nach: 'stutzen',
+        zwischen: ['stutzen'],
+        nach: 'nachdenken',
         gegenueber: { von: 'staunen', nach: 'nachdenken' },
       },
       hervorhebung: 'behindern',
@@ -121,6 +161,23 @@ export const ersatzteilFreischalten: Short = {
        * Zusammenfassung des Abrufs, nicht aus dem gebundenen Zitat. Die
        * Richtlinie nennt ihn tatsaechlich, an genau einer Stelle, und die
        * steht jetzt als eigener Beleg daneben.
+       *
+       * ## Warum dieses Fragment ohne Subjekt und Verneinung genuegt
+       *
+       * `mittels-3d-druck-hergestellt` und `kompatiblen-ersatzteilen` sind
+       * Glieder einer Aufzaehlung. Sie tragen weder das Verb „behindern" noch
+       * das „nicht" am Satzende — und sie brauchen es auch nicht, **weil der
+       * Sprechtext nichts weiter behauptet als die Erwaehnung**: „stehen in
+       * der Liste", „stehen ausdruecklich drin".
+       *
+       * Der Unterschied zum Fall, der am 31.08.2026 repariert wurde: Dort
+       * hiess der Satz „duerfen nicht behindern", und das Fragment ohne
+       * Verneinung sagte fuer sich gelesen das Gegenteil. Hier sagt das
+       * Fragment genau so viel, wie der Satz braucht.
+       *
+       * **Die Regel „ein Zitat muss sein Subjekt enthalten" zielt auf
+       * Fragmente, deren Bedeutung ausserhalb der geprueften Zeichenkette
+       * haengt** — nicht auf jedes Fragment.
        */
       art: 'text',
       position: 'kipppunkt',

@@ -70,6 +70,7 @@ const pose = (k: Kandidat): Pose => ({
     ...(k.rechts != null ? { oberarm_rechts: k.rechts } : {}),
   },
   stauchung: {},
+  dehnung: {},
   blick: k.blick,
   mund: 'laecheln',
   hub: 0,

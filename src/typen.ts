@@ -61,8 +61,29 @@ export const Beleg = z.object({
    * Kurz halten. Lange Zitate brechen an Zeilenumbruechen, geschuetzten
    * Leerzeichen und typografischen Anfuehrungszeichen — der Dell-Eintrag
    * riss beim Test genau daran.
+   *
+   * ## Warum die Grenze am 31.08.2026 von 180 auf 240 gestiegen ist
+   *
+   * Sie geriet mit der juengeren Regel aneinander: **Ein Zitat muss sein
+   * Subjekt enthalten** (30.08.2026). Bei der EU-Reparaturrichtlinie stehen
+   * Subjekt und Verneinung an den beiden Enden eines Satzes mit einer
+   * Aufzaehlung dazwischen — „Die Hersteller behindern insbesondere die
+   * Verwendung von … durch unabhaengige Reparaturbetriebe **nicht**". Wer
+   * ihn auf 180 Zeichen kuerzt, schneidet die Verneinung ab, und das Fragment
+   * sagt fuer sich gelesen **das Gegenteil**.
+   *
+   * Die 180 waren nie eine gemessene Bruchgrenze, sondern die Vorsicht nach
+   * einem Fall, der an **Sonderzeichen** gescheitert ist und nicht an der
+   * Laenge. Das 231-Zeichen-Zitat ist am 31.08.2026 im Volltext der Richtlinie
+   * als Zeichenkette gefunden worden — gemessen, nicht angenommen.
+   *
+   * **Von zwei Regeln, die sich widersprechen, gewinnt die mit dem besseren
+   * Grund.** Ein zu langes Zitat faellt bei `npm run quellen-pruefen` sofort
+   * auf; ein zu kurzes wird still falsch, sobald die Seite umformuliert.
+   * Kurz halten bleibt trotzdem die Empfehlung — 240 ist der Rand, nicht das
+   * Ziel.
    */
-  zitat: z.string().min(15).max(180),
+  zitat: z.string().min(15).max(240),
   /** Was daraus folgt, in unseren Worten. Wird nicht maschinell geprueft. */
   stuetzt: z.string().max(160),
 });
@@ -263,7 +284,7 @@ export const POSITIONEN: Record<Position, { titel: string; tut: string; verboten
  * Fuenf bis sieben sind das Ziel — fuenf ist das Minimum, bei dem die
  * Drittelregel bei sieben Videos je Woche ueberhaupt etwas zu sagen hat.
  */
-export const Bauform = z.enum(['einstimmig', 'wechselrede', 'zitatkarte', 'stationen']);
+export const Bauform = z.enum(['wechselrede', 'zitatkarte', 'stationen']);
 export type Bauform = z.infer<typeof Bauform>;
 
 /**
@@ -284,62 +305,67 @@ export type Bauform = z.infer<typeof Bauform>;
  *   Fuenftel vom Zielwert seiner Bauform abweicht.
  */
 /*
- * ## Die vier Zielwerte sind ein Versuchsaufbau, keine Erkenntnis
+ * ## Drei Zielwerte, und sie sind ein Versuchsaufbau
  *
- * Am 26.08.2026 auf **25 / 35 / 45 / 60** gespreizt. Wer sie liest, muss das
- * wissen: Sie sind nicht gemessen. Gemessen ist bisher **eine einzige
- * Laenge** — alle neun veroeffentlichten Videos sind 20 bis 23 Sekunden lang,
- * und zu allem darueber gibt es keine eigene Zahl.
+ * **45 / 52 / 62 seit dem 31.08.2026.** Wer sie liest, muss wissen: Sie sind
+ * nicht gemessen. Gemessen ist bisher **eine einzige Laenge** — alle neun
+ * veroeffentlichten Videos sind 20 bis 23 Sekunden lang, und zu allem darueber
+ * gibt es keine eigene Zahl.
  *
- * Vorher lagen sie bei 30 / 35 / 35 / 55, und damit fielen **drei von vier
- * Bauformen in dieselbe Laengenklasse**. Egal wie oft die Bauform wechselte,
- * es entstanden zwei Klassen, und die Streuung hing allein daran, wie oft
- * `stationen` drankam. Ein Versuch ueber Laengen war so nicht moeglich.
+ * ## Warum sie schon wieder wandern
  *
- * Gespreizt heisst: Jede Bauform traegt jetzt eine eigene Klasse, und die
- * schon vorhandene Drittelregel fuer Bauformen streut die Laenge von selbst.
- * Es braucht dafuer keine zweite Ebene im Schema — die Ebene, die sagt, wie
- * ein Short gebaut ist, sagt ohnehin, wie lang er wird.
+ * Am 26.08. standen sie auf 25 / 35 / 45 / 60, davor auf 30 / 35 / 35 / 55.
+ * Der erste Umbau spreizte sie, weil drei von vier in dieselbe Laengenklasse
+ * fielen und ein Versuch ueber Laengen so nicht moeglich war.
  *
- * Die Mitte des Feldes ist absichtlich geblieben, wo sie war. Die einzige
- * fremde Messung (`@dr_data_dr`, zwoelf Shorts, 48–67 s, Median 61) haette
- * hoehere Werte nahegelegt; eine geratene Zahl durch eine uebertragene zu
- * ersetzen, macht sie aber nicht gemessen — der Kanal ist englisch,
- * einstimmig und hat ein Publikum, das wir nicht haben.
+ * Der zweite hatte einen anderen Grund: Am 31.08. ist das harte Fenster auf
+ * **42 bis 67 Sekunden** gestiegen, und damit lagen **drei von vier
+ * Zielwerten unter der Untergrenze.** Eine Wechselrede konnte ihr eigenes Ziel
+ * nicht treffen, ohne durchzufallen — ein Zielwert, der den eigenen Short
+ * ungueltig macht, ist keine Vorgabe, sondern eine Falle.
+ *
+ * ## `einstimmig` ist gestrichen
+ *
+ * Er stand hier mit einer guten Begruendung: **Was keinen Namen hat, kann
+ * keine Regel begrenzen.** Ein Erzaehler, wortweise Untertitel — die
+ * Voreinstellung der ganzen „faceless"-Gattung, und ihn zu benennen setzte ihn
+ * unter dieselbe Drittelregel wie alles andere.
+ *
+ * Das Fenster hat die Begruendung ueberholt. Bei einer Untergrenze von 42
+ * Sekunden ist der einstimmige Bau kein kurzer Sonderfall mehr, sondern ein
+ * **Monolog von dreiviertel Minute** — genau der Bau, gegen den der ganze
+ * Umbau laeuft. Die neun Videos in diesem Bau haben 2.212 Aufrufe, 0-mal
+ * geteilt und 0 Abonnenten gebracht, und sie waren dabei halb so lang.
+ *
+ * **Eine Begrenzung, die den begrenzten Fall zugleich verschlimmert, ist keine
+ * Begrenzung mehr.** Was bleibt, ist die alte Sorge: Ohne Namen laesst er sich
+ * nicht verbieten. Er ist jetzt nicht mehr benannt, sondern **unmoeglich** —
+ * `zweistimmigkeit` verlangt zwei Szenen mit beiden Stimmen, ohne Ausnahme.
+ *
+ * ## Was die Zahlen nicht sind
+ *
+ * Die einzige fremde Messung (`@dr_data_dr`, zwoelf Shorts, 48–67 s, Median
+ * 61) haette hoehere Werte nahegelegt; eine geratene Zahl durch eine
+ * uebertragene zu ersetzen, macht sie aber nicht gemessen — der Kanal ist
+ * englisch, einstimmig und hat ein Publikum, das wir nicht haben.
  *
  * **Diese Zahlen fallen, sobald `npm run laengen` zwei belegte Klassen zeigt.**
  */
 export const BAUFORMEN: Record<Bauform, { titel: string; tut: string; zielSek: number }> = {
-  /*
-   * Der alte Bau, und er steht hier aus einem Grund: **Was keinen Namen hat,
-   * kann keine Regel begrenzen.** Ein Erzaehler, wortweise Untertitel — das
-   * ist die Voreinstellung der ganzen „faceless"-Gattung und damit genau das,
-   * was YouTubes Anti-Repetition seit Juli 2025 sucht. Ihn zu verschweigen
-   * hiesse, ihn unbegrenzt weiterlaufen zu lassen; ihn zu benennen setzt ihn
-   * unter dieselbe Drittelregel wie alles andere.
-   *
-   * Die neun Videos bis zum 25.08.2026 sind alle so gebaut. Sie haben 2.212
-   * Aufrufe, 0-mal geteilt und 0 Abonnenten gebracht.
-   */
-  einstimmig: {
-    titel: 'Einstimmig',
-    tut: 'Ein Sprecher, Untertitel unten. Der alte Bau und die Voreinstellung der Gattung — sparsam einsetzen.',
-    zielSek: 25,
-  },
   wechselrede: {
     titel: 'Wechselrede',
     tut: 'Einer traegt den Beleg, der andere reagiert. Vier Runden, dichter Sprecherwechsel.',
-    zielSek: 35,
+    zielSek: 45,
   },
   zitatkarte: {
     titel: 'Zitatkarte',
     tut: 'Das Zitat steht als Karte im Bild, beide unterhalten sich darueber.',
-    zielSek: 45,
+    zielSek: 52,
   },
   stationen: {
     titel: 'Stationen',
     tut: 'Vier bis fuenf Stationen, steigend, dann die Landung. Die Stationen sind Zuspitzungen, die letzte ist der Kipppunkt.',
-    zielSek: 60,
+    zielSek: 62,
   },
 };
 
@@ -952,7 +978,7 @@ const Buehnenbild = z.discriminatedUnion('art', [
       code: 'custom',
       path: ['requisite'],
       message:
-        `„${buehne.requisite}" steht auf x = 152, die zweite Figur auf x = 158 — ` +
+        `„${buehne.requisite}" steht auf x = 152, die zweite Figur auf x = 150 — ` +
         'das Symbol laege in ihr. Bei zwei Figuren traegt nur `blatt`.',
     });
   }
@@ -1494,7 +1520,7 @@ export const HOOK_MACHARTEN = [
  * Schablone — bei KI-Material seit Juli 2025 ein Reichweiten- und
  * Monetarisierungsrisiko.
  *
- * ## `regie` — die Ansage an die Stimme
+ * ## `regie` — der Vorrat an Ansagen fuer die Stimme
  *
  * Seit dem 26.08.2026. `eleven_v3` versteht Regieanweisungen in eckigen
  * Klammern, und das war der **Grund** fuer den Modellwechsel: Wattis Macharten
@@ -1502,24 +1528,66 @@ export const HOOK_MACHARTEN = [
  * statt zu hoffen, dass die Stimme sie erraet. Der Ertrag lag seit dem 25.08.
  * ungenutzt da — das Modell konnte es, niemand hat es bestellt.
  *
- * `redelaeufe` in `src/stimme.ts` setzt die Anweisung vor die Zeile. Sie steht
- * **nur im Synthesetext**: `sprechtext` bleibt unberuehrt, damit Untertitel,
- * Laengenschaetzung und die Gleichheitswache `rede` ↔ `sprechtext` nichts
- * davon mitbekommen. `woerterAusAusrichtung` filtert eckige Klammern ohnehin
- * schon heraus — ohne diesen Filter stuende „[confused]" gross ueber der
- * Buehne.
+ * `syntheseText` in `src/stimme.ts` setzt die Anweisung vor die Zeile. Sie
+ * steht **nur im Synthesetext**: `sprechtext` bleibt unberuehrt, damit
+ * Untertitel, Laengenschaetzung und die Gleichheitswache `rede` ↔
+ * `sprechtext` nichts davon mitbekommen. `woerterAusAusrichtung` filtert
+ * eckige Klammern ohnehin schon heraus — ohne diesen Filter stuende die
+ * Klammer gross ueber der Buehne.
  *
- * **Nicht jede Machart bekommt eine, und das ist die eigentliche Regel:** Eine
- * Regieanweisung sagt an, wie etwas klingt. Wo der Witz im Wort liegt und
- * nicht im Ton, ueberspielt sie ihn. `bild` und `rueckfrage` bleiben deshalb
- * leer — die banale Rueckfrage lebt davon, banal zu klingen, und eine Ansage
- * macht daraus eine Pointe mit Unterstreichung.
+ * ## Warum eine Liste und kein einzelner Wert
  *
- * **Die sechs Anweisungen sind geraten und gehoeren gemessen.**
- * `npm run regieprobe` synthetisiert jede Reaktionszeile einmal mit und einmal
- * ohne Anweisung und misst, ob die Klammer Ton erzeugt. Solange das nicht
- * gelaufen ist, steht hier eine Vermutung — dieselbe Sorte, die bei
- * `ZEICHEN_PRO_SEKUNDE` und der Denkpause schon zweimal Geld gekostet hat.
+ * **Ein fester Tag je Machart waere die Schablone, gegen die der ganze Umbau
+ * laeuft.** Bis Ende Oktober sind es rund 36 Reaktionszeilen; klingt jede
+ * Ratlosigkeit mit demselben Tag angesagt, ist die Tonlage in vier Wochen ein
+ * Markenzeichen. Der Vertrag sagt genau das beim Ausruf — „Ein fester Marker
+ * ist in vier Wochen eine Schablone. Es gibt einen Vorrat, aus dem gewaehlt
+ * wird" —, und es gibt keinen Grund, warum das fuer „Watt?" gelten soll und
+ * nicht fuer den Ton, in dem er es sagt.
+ *
+ * Gewaehlt wird **deterministisch aus der Short-`id`**, nicht ueber die
+ * Listenposition und nicht per Zufall. Die Listenposition machte den ersten
+ * Short jedes Laufs immer gleich — dieselbe Schablone, die beim Wochentag
+ * gestrichen wurde. Ein Zufallsgriff waere nicht reproduzierbar, und derselbe
+ * Short muss beim zweiten Render gleich klingen. Ein Feld am Entwurf haette
+ * das Raten zurueck ins Schreiben verlagert.
+ *
+ * **Ein leerer Vorrat heisst: keine Ansage.** Das ist ein gueltiges Ergebnis,
+ * kein fehlender Eintrag — deshalb steht die leere Fassung in der Blindwahl
+ * als vollwertiger Kandidat. Kommt nur ein Tag durch, gehoert `''` als
+ * zweiter Eintrag daneben: dann wechselt die Machart zwischen Ansage und
+ * keiner, statt einen festen Marker zu tragen.
+ *
+ * ## Stand: alle sechs leer, und das ist Absicht
+ *
+ * Am 26.08.2026 standen hier sechs geratene Tags, von mir aus dem Gedaechtnis
+ * gewaehlt — bei Quellen verbietet dieses Projekt genau das. Das Nachlesen der
+ * ElevenLabs-Doku hat einen davon sofort erledigt: **`[confused]` existiert
+ * nicht.** Es stand seit dem 25.08. in `src/stimme.ts` und in `AUFGABEN.md`
+ * als *das* Beispiel, ausgerechnet fuer die Machart, fuer die der
+ * Modellwechsel gemacht wurde.
+ *
+ * Die Vorraete fuellt `npm run regieprobe`, und zwar als **Blindwahl**: je
+ * Machart zwei Zeilen — die echte aus dem Entwurf und eine bewusst tonlos
+ * geschriebene —, dazu vier unbeschriftete Fassungen, darunter die ohne
+ * Ansage. Was den ersten Durchgang uebersteht, wird ein zweites Mal
+ * synthetisiert; die Synthese ist nicht deterministisch, und aus n = 1 wuerde
+ * hier sonst eine Konstante im Code.
+ *
+ * **Nur nicht-hoerbare Ansagen sind zugelassen.** Ein Seufzer erzeugt Ton, den
+ * **keine** Schaetzung sieht — derselbe Fehler wie die Sprecherwechselpausen,
+ * die am 26.08. mit 1,2 bis 1,6 Sekunden je Short nachgetragen werden mussten.
+ * Was hoerbar ist, entscheidet die Klammerspanne aus der Zeichenausrichtung
+ * und nicht das Gefuehl. Gewinnt spaeter doch ein hoerbarer Tag, wird seine
+ * Dauer gemessen und wandert als Konstante nach `src/zeit.ts`.
+ *
+ * ## Die Regel, die die Ansage nicht aushebeln darf
+ *
+ * **Die Zeile muss ohne Anweisung funktionieren.** Der Tag verstaerkt, er
+ * ersetzt nie. Sonst laesst er einen zusammenfassenden Kommentar *klingen* wie
+ * Ratlosigkeit, ohne dass er eine wird — und `npm run pruefen` wird dabei
+ * gruen, genau wie bei der flachen Reaktionszeile. Damit unterliefe diese
+ * Ebene die eine Regel, an der alles haengt.
  */
 export const REAKTIONS_MACHARTEN = [
   {
@@ -1530,13 +1598,11 @@ export const REAKTIONS_MACHARTEN = [
       'Im Moment gesprochen, nicht rueckblickend. „Ich mache das seit zehn Jahren." ist ein Protokoll; „Wie? Ich mache das seit zehn Jahren." ist der Augenblick, in dem es auffaellt.',
     beispiele: ['Wie? Ich mache das seit zehn Jahren.', 'Passwort3 ist meins.', 'Ich habe in der Schule vier gekonnt.'],
     /*
-     * Der Seufzer ist das Ertapptwerden. **Und er ist der einzige Tag hier,
-     * der selbst Ton erzeugt** — ein Seufzer ist hoerbar, „[confused]" ist nur
-     * eine Anweisung. Das faellt in der Probe auf, nicht im Video: Der Seufzer
-     * steht in keinem Untertitel, weil `woerterAusAusrichtung` alles zwischen
-     * eckigen Klammern wegfiltert.
+     * Gesucht wird das Ertapptwerden — kleiner werden, nicht lauter. Der
+     * naechstliegende Tag waere ein Seufzer, und genau der faellt vorerst aus:
+     * Er erzeugt Ton, den keine Schaetzung sieht.
      */
-    regie: '[sighs]',
+    regie: [],
   },
   {
     schluessel: 'falscherschluss',
@@ -1546,11 +1612,11 @@ export const REAKTIONS_MACHARTEN = [
       'Er muss erkennbar falsch sein. Ein Schluss, der stimmen koennte, ist eine Behauptung ueber die Welt und damit belegpflichtig.',
     beispiele: ['Meiner ist 7. Ich bin quasi Astronaut.', 'Mein Laptop ist also weltraumtauglich.'],
     /*
-     * Der falsche Schluss lebt davon, dass Watti ihn fuer richtig haelt.
-     * Zoegernd vorgetragen waere er ein Vorschlag; ueberzeugt vorgetragen ist
-     * er der Fehler, den der Zuschauer im Kopf berichtigt.
+     * Gesucht wird Ueberzeugung. Zoegernd vorgetragen waere der Schluss ein
+     * Vorschlag; ueberzeugt vorgetragen ist er der Fehler, den der Zuschauer
+     * im Kopf berichtigt.
      */
-    regie: '[excited]',
+    regie: [],
   },
   {
     schluessel: 'bild',
@@ -1560,10 +1626,12 @@ export const REAKTIONS_MACHARTEN = [
       'Nie an einem Wort haengen, das die Zielgruppe 18–30 nicht benutzt. „Roehre" und „Ladeziegel" sind daran gescheitert: Wer ein Wort erklaeren muss, hat keinen Witz mehr.',
     beispiele: ['Also haben Einzelteile jetzt Herrchen.', 'Meins liegt seit drei Jahren hinterm Sofa.'],
     /*
-     * Keine. Ein Bild traegt sich selbst — „Meins liegt seit drei Jahren
-     * hinterm Sofa." braucht keinen Ton, der ansagt, dass es lustig ist.
+     * Der Verdacht ist, dass hier nichts hingehoert: Ein Bild traegt sich
+     * selbst, und „Meins liegt seit drei Jahren hinterm Sofa." braucht keinen
+     * Ton, der ansagt, dass es lustig ist. Der Verdacht wird geprueft und
+     * nicht geglaubt — deshalb laeuft die Machart in der Blindwahl mit.
      */
-    regie: undefined,
+    regie: [],
   },
   {
     schluessel: 'ratlosigkeit',
@@ -1574,9 +1642,10 @@ export const REAKTIONS_MACHARTEN = [
     /*
      * Der Fall, fuer den der Modellwechsel gemacht wurde. Ratlosigkeit ist
      * ganz Ton: „Kacke, was dann?" gelesen wie eine Frage ist rhetorisch,
-     * gelesen wie Hilflosigkeit ist es die Machart.
+     * gelesen wie Hilflosigkeit ist es die Machart. Wenn hier nichts wirkt,
+     * wirkt die ganze Ebene nicht.
      */
-    regie: '[confused]',
+    regie: [],
   },
   {
     schluessel: 'empoerung',
@@ -1586,11 +1655,12 @@ export const REAKTIONS_MACHARTEN = [
       'Firmen und Behoerden duerfen getroffen werden, wenn ein Beleg danebensteht. Gruppen und Personen des oeffentlichen Lebens nie.',
     beispiele: ['Die EU kann also doch was?!', 'Dreizehn Jahre. Für ein Loch.', 'Mein Hintern ist jetzt ein Geschäftsmodell.'],
     /*
-     * Gespielte Empoerung, nicht echte. Sie zielt auf den Verursacher, und der
-     * Ton macht den Unterschied zwischen einem Vorwurf und einem Witz ueber
-     * einen Vorwurf.
+     * Gesucht wird gespielte Empoerung, nicht echte — der Ton macht den
+     * Unterschied zwischen einem Vorwurf und einem Witz ueber einen Vorwurf.
+     * Schwierig zu messen, weil die Zeilen das Ausrufezeichen schon tragen;
+     * dafuer laeuft die tonlose Vergleichszeile mit.
      */
-    regie: '[angry]',
+    regie: [],
   },
   {
     schluessel: 'rueckfrage',
@@ -1600,11 +1670,12 @@ export const REAKTIONS_MACHARTEN = [
       'Sofort verstaendlich, nicht nach einem Takt. Wer erst ueberlegen muss, lacht nicht mehr — im Zweifel banaler.',
     beispiele: ['Warum heißt er dann so?', 'Also vor meiner Mutter.', 'Wie, vier Stück?!'],
     /*
-     * Keine, und zwar bewusst. Die banale Rueckfrage wirkt, weil sie banal
-     * klingt. Jede Ansage — neugierig, empoert, verwundert — macht aus der
-     * Banalitaet eine Pointe mit Unterstreichung, und dann ist sie keine mehr.
+     * Wie bei `bild` der Verdacht, dass nichts hingehoert: Die banale
+     * Rueckfrage wirkt, weil sie banal klingt, und jede Ansage — neugierig,
+     * empoert, verwundert — macht aus der Banalitaet eine Pointe mit
+     * Unterstreichung. Auch dieser Verdacht wird geprueft.
      */
-    regie: undefined,
+    regie: [],
   },
 ] as const;
 
@@ -1633,14 +1704,14 @@ const _machartenDeckenSich: [MachartSchluessel, MachartImSchema] extends [
 void _machartenDeckenSich;
 
 /**
- * Die Regieanweisung zu einer Machart, oder `undefined`.
+ * Der Vorrat an Ansagen zu einer Machart. Leer heisst: keine.
  *
  * Steht hier statt in `src/stimme.ts`, weil die Vertonung nicht die einzige
- * Stelle bleiben muss, die sie liest — die Freigabeseite koennte sie zeigen,
+ * Stelle bleiben muss, die ihn liest — die Freigabeseite koennte ihn zeigen,
  * und eine zweite `find`-Schleife waere die naechste Doppelung.
  */
-export const regieVon = (machart: MachartImSchema): string | undefined =>
-  REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.regie;
+export const regieVorrat = (machart: MachartImSchema): readonly string[] =>
+  REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.regie ?? [];
 
 /**
  * Die Wochentage — nur noch fuer Anzeige und Datumsrechnung.
@@ -1674,6 +1745,41 @@ export const FORMATE: Record<
      */
     pille: string;
     /**
+     * Der Showtitel im Vorspann — „Facts", „Beef", „Maerchenstunde".
+     *
+     * **Seit dem 31.08.2026 ist ein Format eine Sendung.** Der Kanal ist der
+     * Sender, das Format die Show darin: Jeder Short beginnt nach dem Aufschlag
+     * mit einem Vorhang, auf dem dieser Titel steht und hinter dem sich die
+     * beiden Figuren vorstellen.
+     *
+     * **Sechs verschiedene Vorspaenne sind keine Schablone, einer waere eine.**
+     * Genau das ist der Grund, warum der Titel hier steht und nicht als
+     * Konstante im Renderer: Er wechselt mit dem Format, und die Regel „kein
+     * Format zweimal hintereinander" streut ihn damit von selbst.
+     *
+     * Kurz halten. Er steht mit „mit Watti und Volti" in einer Zeile.
+     */
+    show: string;
+    /**
+     * Die Farbe der Rubrik — in der Kopfzeilenpille und am Belegpunkt.
+     *
+     * **Seit dem 31.08.2026 traegt jede Sendung eine eigene.** Vorher war die
+     * Pille durchgehend blau, und blau ist Voltis Kennfarbe: Das groesste
+     * farbige Element im Bild gehoerte damit einer der beiden Figuren.
+     *
+     * Alle sechs sind gerechnet und nicht gewaehlt: Der Ton steht mit
+     * mindestens **4,5** auf seiner hellen Flaeche. Pink und Orange mussten
+     * dafuer nachgedunkelt werden — `#B0417A` lag bei 4,26 und `#B8642A` bei
+     * 3,47.
+     *
+     * **Ein Einwand steht offen**, damit ihn niemand uebersieht: `gibtswirklich`
+     * und `absicht` tragen beide Blau, in zwei Toenen. Gross nebeneinander sind
+     * sie zu trennen; in der kleinen Pille oben im Video vermutlich nicht mehr.
+     * Das entscheidet ein Standbild bei Briefmarkengroesse.
+     */
+    farbe: string;
+    farbeHell: string;
+    /**
      * Sendezeit als volle Stunde.
      *
      * Stand bis zum 17.08.2026 als Konstante `UHRZEIT = 18` in
@@ -1704,15 +1810,27 @@ export const FORMATE: Record<
   gibtswirklich: {
     titel: 'Das gibt es wirklich',
     pille: 'Gibt es wirklich',
+    show: 'Facts',
+    farbe: '#4C61B0',
+    farbeHell: '#E3E5ED',
     uhrzeit: 18,
+    /*
+     * **Hier stand bis zum 31.08.2026 ein Freibrief.** Der Wortlaut war: „Sie
+     * brauchen keine Pointe — die Sache selbst ist die Pointe." Damit schrumpfte
+     * der Humor-Etat dieses Formats auf den Nachschlag, und der soll trocken
+     * sein. Der Satz hat den Umbau auf zwei Stimmen am 25.08.2026 unangetastet
+     * ueberlebt, obwohl der ganze Umbau gegen ihn lief.
+     *
+     * Die Sache traegt das **Staunen**. Die Pointe traegt die **Reaktion** —
+     * und die ist seit dem 26.08.2026 Pflicht, in jedem Format
+     * (`reaktion` in `src/pruefung.ts`). Ein Format, das sich von der Pointe
+     * freispricht, spricht sich von einer Regel frei, die fuer alle gilt.
+     */
     haltung:
-      'Tatsachen, die absurd klingen und trotzdem dokumentiert sind. Sie ' +
-      'brauchen keine Pointe — die Sache selbst ist die Pointe. Der staerkste ' +
-      'Vorrat des Kanals, und seit dem 20.08.2026 der breiteste: Die Zahlen ' +
-      'aus dem alten `dubistdumm` sind hierher gewandert, und die ' +
-      'Nischenverbreiterung wirkt hier am staerksten. Raumstation, ' +
-      'Radioastronomie, Schaltsekunde — kein Geraet, kein Paragraf, reines ' +
-      'Staunen.',
+      'Tatsachen, die absurd klingen und trotzdem dokumentiert sind. Die Sache ' +
+      'traegt das Staunen, die Reaktion traegt die Pointe — beides gehoert ' +
+      'hinein. Der breiteste Vorrat des Kanals: Raumstation, Radioastronomie, ' +
+      'Schaltsekunde — kein Geraet, kein Paragraf, reines Staunen.',
     reaktion: 'Das kann nicht stimmen',
     kipppunkt: 'Die Sache selbst.',
     opener: ['Das gibt es wirklich.', 'Ich habe das dreimal nachgelesen.', 'Das ist kein Witz.'],
@@ -1720,6 +1838,9 @@ export const FORMATE: Record<
   eswareinmal: {
     titel: 'Es war einmal',
     pille: 'Es war einmal',
+    show: 'Märchenstunde',
+    farbe: '#992F68',
+    farbeHell: '#EDDEE3',
     uhrzeit: 18,
     haltung:
       'Die Regel, die einmal richtig war, als Maerchen erzaehlt. Der Reiz liegt ' +
@@ -1733,6 +1854,9 @@ export const FORMATE: Record<
   absicht: {
     titel: 'Das ist Absicht',
     pille: 'Das ist Absicht',
+    show: 'Kein Zufall',
+    farbe: '#303C6C',
+    farbeHell: '#DFDFE4',
     uhrzeit: 18,
     haltung:
       'Nichts davon ist kaputt, es ist so gebaut. Der Unterschied zur blossen ' +
@@ -1794,6 +1918,9 @@ export const FORMATE: Record<
   werhatrecht: {
     titel: 'Wer hat recht?',
     pille: 'Wer hat recht?',
+    show: 'Beef',
+    farbe: '#A33B2E',
+    farbeHell: '#EFDFDB',
     uhrzeit: 18,
     haltung:
       'Zwei benennbare Lager, und **beide** uebersehen etwas. Der einzige ' +
@@ -1807,6 +1934,9 @@ export const FORMATE: Record<
   empfehlung: {
     titel: 'Empfehlung',
     pille: 'Empfehlung',
+    show: 'Empfehlungen',
+    farbe: '#9C5220',
+    farbeHell: '#EEE2D9',
     uhrzeit: 18,
     haltung:
       'Kaufhilfe mit Label im Bild. Der einzige Sendeplatz mit Partnerlinks ' +
@@ -2119,6 +2249,37 @@ export const Short = z.object({
   arbeitstitel: z.string(),
 
   /**
+   * Die Themenzeile auf dem Vorhang — **das einzige, was am Vorspann je Short
+   * wechselt.**
+   *
+   * ## Warum nur eine Zeile im Schema steht
+   *
+   * Der Vorspann besteht aus Vorhang, Showtitel, zwei gesprochenen Namen und
+   * einem Jingle. Nichts davon ist eine Entscheidung beim Schreiben: Der
+   * Showtitel folgt aus `format` (`FORMATE[...].show`), der Ton ist eine feste
+   * Datei, der Rest ist Bild. Ein Feld fuer den Titel waere eine Frage, die
+   * bei jedem Entwurf neu auftaucht und nur eine richtige Antwort hat.
+   *
+   * ## Eine Behauptung, keine Ankuendigung
+   *
+   * Nicht „Heute: Passwoerter", sondern „Dein Passwortwechsel ist sinnlos".
+   * Der Unterschied ist derselbe, den `POSITIONEN.aufschlag` beim Aufschlag
+   * macht: Eine Ankuendigung gibt dem Zuschauer die Erlaubnis zu entscheiden,
+   * ob ihn das Thema interessiert — und im Feed entscheidet er dann gegen
+   * dich. Deshalb gilt hier dieselbe Sperre wie fuer den Aufschlag; siehe das
+   * `superRefine` weiter unten.
+   *
+   * ## Und der beste Platz fuer den Suchbegriff, den es je gab
+   *
+   * Der `suchbegriff` soll im Bildtext stehen und tut es oft nicht — die Regel
+   * ist deshalb bis heute nur ein Hinweis. Diese Zeile ist gross, frueh und in
+   * jedem Video da. Sie bleibt trotzdem ein Hinweis und wird kein Fehler: Als
+   * der Suchbegriff im Sprechtext erzwungen wurde, sind Saetze verstuemmelt
+   * worden — dieselbe Sorte Zwang wie der alte Zielwert von 23 Sekunden.
+   */
+  vorspann: z.string().min(12).max(60),
+
+  /**
    * Der Satz, den jemand am Tisch weitererzaehlt.
    *
    * Hier stand bis zum 17.08.2026 `merksatz` — „der Satz, der ueber den
@@ -2397,6 +2558,29 @@ export const Short = z.object({
           message: `Der Aufschlag sagt „${treffer}" — das kündigt an, statt zuzugreifen.`,
         });
       }
+    }
+
+    /*
+     * **Dieselbe Sperre auf der Themenzeile**, seit dem 31.08.2026.
+     *
+     * Sie steht gross auf dem Vorhang und ist damit das Erste, was gelesen
+     * wird. Eine Ankuendigung dort waere schlimmer als eine im Aufschlag: Der
+     * Aufschlag ist gesprochen und vorbei, die Themenzeile steht.
+     *
+     * `heute:` steht zusaetzlich in der Liste — als Etikett ist es genau die
+     * Form, die hier nicht hingehoert, waehrend „heute geht es um" schon vom
+     * Aufschlag her gesperrt ist.
+     */
+    const zeile = short.vorspann.toLowerCase();
+    const zeilentreffer = [...ansagen, 'heute:', 'heutiges thema'].find((a) => zeile.includes(a));
+    if (zeilentreffer !== undefined) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['vorspann'],
+        message:
+          `Die Themenzeile sagt „${zeilentreffer}" — sie soll behaupten, nicht ankündigen. ` +
+          'Nicht „Heute: Passwörter", sondern „Dein Passwortwechsel ist sinnlos".',
+      });
     }
 
     /* ── Genau eine Belegeinblendung, und sie trägt eine Quelle ──── */

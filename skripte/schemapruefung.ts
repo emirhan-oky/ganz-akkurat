@@ -3,11 +3,15 @@ import { Idee, Short, type Quelle } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
-import { shortPruefen } from '../src/pruefung';
+import { laufPruefen,
+  ZU_BREIT_IM_WORTWECHSEL,
+} from '../src/pruefung';
 import { redelaeufe } from '../src/stimme';
-import { zusatzpausenSek } from '../src/zeit';
+import { SZENENGRENZE_SEK, zusatzpausenSek } from '../src/zeit';
 import { nachleser } from '../daten/figur/nachleser';
-import { POSEN, posenPruefen } from '../video/bausteine/posen';
+import { AUSSENREICHWEITE, POSEN, posenPruefen } from '../video/bausteine/posen';
+import { WORTWECHSEL, zuBreiteWortwechselposen } from '../video/bausteine/Buehnenbild';
+import { SICHERE_ZONE, VORHANG } from '../src/marke';
 import {
   GENUG_FUER_MEDIAN,
   herkuenfteLesen,
@@ -102,6 +106,30 @@ for (const idee of IDEEN) {
  * gerendert.** Die Regeln kosten hier nichts und finden dort alles, was
  * keine Tonspur braucht; die tonspurabhaengigen Bloecke in `shortPruefen`
  * ueberspringen sich von selbst, solange keine vorliegt.
+ *
+ * ## Und seit dem 30.08.2026 auch die laufweiten Regeln
+ *
+ * Hier stand `shortPruefen` je Short — also genau die Haelfte. Die andere
+ * Haelfte, `laufweiteBefunde`, lief weiterhin nur im Wochenlauf, und der ruft
+ * sie **nach** der Vertonung auf.
+ *
+ * Am 30.08.2026 hat das 2.199 Zeichen gekostet: `npm run pruefen` war gruen,
+ * und der bezahlte Lauf meldete danach vier Fehler — dreimal `Wechselrede`
+ * hintereinander und drei verbotene Posen im Wortwechsel. Beides braucht
+ * keine Tonspur. Beides war vorher zu haben.
+ *
+ * **Der Kommentar darueber beschrieb die Regel richtig und der Code hielt sie
+ * halb** — das ist die teuerste Sorte Luecke, weil sie beim Lesen wie ein
+ * geschlossener Fall aussieht.
+ *
+ * `nurEinzeln` bleibt `false`: Wir pruefen hier immer den ganzen Lauf. Der
+ * Teillauf schaltet die laufweiten Regeln bewusst ab, aber das ist eine
+ * Ansicht auf einen Short — diese Datei sieht die Liste.
+ *
+ * Ohne Verlauf laeuft es, und das ist Absicht: Die Wiederholungsregel braucht
+ * ihn und meldet ohne ihn nichts. Sie ist ein Hinweis, haelt also nichts
+ * zurueck; ihn hier zu laden hiesse, die Freigabe-Uebersicht in die
+ * Vorabpruefung zu ziehen.
  */
 const quellen = (
   JSON.parse(readFileSync('daten/quellen.json', 'utf8')) as { quellen?: Quelle[] } | Quelle[]
@@ -109,15 +137,13 @@ const quellen = (
 const quellenliste = Array.isArray(quellen) ? quellen : (quellen.quellen ?? []);
 
 let hinweise = 0;
-for (const eintrag of WOCHENLAUF) {
-  for (const befund of shortPruefen(eintrag, quellenliste)) {
-    if (befund.stufe === 'fehler') {
-      fehler++;
-      console.error(`✕ Regel · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
-    } else {
-      hinweise++;
-      console.warn(`· Hinweis · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
-    }
+for (const befund of laufPruefen(WOCHENLAUF, quellenliste).befunde) {
+  if (befund.stufe === 'fehler') {
+    fehler++;
+    console.error(`✕ Regel · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
+  } else {
+    hinweise++;
+    console.warn(`· Hinweis · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
   }
 }
 
@@ -140,6 +166,80 @@ for (const befund of figurenbefunde) console.error(`✗ Fehler  · [figur] ${bef
 fehler += figurenbefunde.length;
 
 /*
+ * ## Die Wache über der Wortwechsel-Sperre
+ *
+ * `src/pruefung.ts` sperrt Posen, die im Wortwechsel aus dem Bild ragen. Die
+ * Liste dort ist **abgeleitet und nicht geschrieben** — welche Posen das sind,
+ * folgt aus der Anordnung (`WORTWECHSEL`) und der gemessenen Reichweite
+ * (`AUSSENREICHWEITE`), und beides steht in `video/`.
+ *
+ * **Warum die Liste trotzdem in `src/pruefung.ts` steht:** Die Prüfregeln
+ * dürfen nicht aus `video/` importieren, sonst zöge der Renderer an der
+ * Datenprüfung. Also eine Doppelung — und eine Doppelung ohne Wache ist der
+ * eigentliche Fehler, nicht die Doppelung.
+ *
+ * **Der Anlass ist frisch.** Am 31.08.2026 stand dieselbe Sperre binnen eines
+ * Tages zweimal falsch da: erst zu eng (die Anordnung hatte sich geändert und
+ * die Liste nicht), dann leer (die Kantenrechnung lief gegen die Ruhepose und
+ * übersah drei ausgreifende Posen). Zwei handgeschriebene Listen, beide still
+ * falsch.
+ */
+const erwartet = zuBreiteWortwechselposen(WORTWECHSEL, AUSSENREICHWEITE).sort();
+const gesetzt = [...ZU_BREIT_IM_WORTWECHSEL].sort();
+if (erwartet.join(',') !== gesetzt.join(',')) {
+  console.error(
+    `✗ Fehler  · [figur] Die Wortwechsel-Sperre in \`src/pruefung.ts\` steht auf ` +
+      `[${gesetzt.join(', ') || '—'}], gerechnet sind [${erwartet.join(', ') || '—'}]. ` +
+      'Die Anordnung oder die Reichweiten haben sich geändert.',
+  );
+  fehler += 1;
+}
+
+/*
+ * ## Die zwei Wachen über den Geometriezahlen
+ *
+ * Beide bewachen eine Zahl, die an einem Ort steht und an einem anderen
+ * gebraucht wird — dieselbe Bauart wie die Wortwechsel-Sperre darüber.
+ */
+
+/*
+ * **Der Vorhangstreifen darf nicht in die Bühne wachsen.**
+ *
+ * `VORHANG.rand` ist aus `SICHERE_ZONE.links` hergeleitet (170 − 40 Reserve).
+ * Wer die sichere Zone anfasst, ändert damit stillschweigend den Abstand mit —
+ * und ein Streifen, der über die Bühnenkante läuft, verdeckt Szeneninhalt,
+ * ohne dass irgendetwas meldet.
+ */
+const zonenrand = Math.min(SICHERE_ZONE.links, SICHERE_ZONE.rechts);
+if (VORHANG.rand + 40 > zonenrand) {
+  console.error(
+    `✗ Fehler  · [vorhang] Der Vorhangstreifen ist ${VORHANG.rand} Pixel breit, ` +
+      `die Bühne beginnt bei ${zonenrand}. Es bleiben ${zonenrand - VORHANG.rand} ` +
+      'Pixel Reserve statt der geforderten 40 — der Streifen liegt auf dem Szeneninhalt.',
+  );
+  fehler += 1;
+}
+
+/*
+ * **Die Fehlermeldung zur Symbolsperre nennt eine Zahl aus dem Renderer.**
+ *
+ * `src/typen.ts` darf nicht aus `video/` importieren, also steht dort
+ * `WORTWECHSEL.rechts` als Text in der Meldung. Am 31.08.2026 stand die Zahl
+ * ein halbes Jahr nach dem Umbau noch auf 158, während der Renderer längst auf
+ * 150 lief — eine Meldung, die eine falsche Begründung liefert, ist schlimmer
+ * als keine.
+ */
+const WORTWECHSEL_RECHTS_IN_MELDUNG = 150;
+if (WORTWECHSEL.rechts !== WORTWECHSEL_RECHTS_IN_MELDUNG) {
+  console.error(
+    `✗ Fehler  · [figur] Die zweite Figur steht auf x = ${WORTWECHSEL.rechts}, ` +
+      `die Fehlermeldung zur Symbolsperre in \`src/typen.ts\` nennt ` +
+      `${WORTWECHSEL_RECHTS_IN_MELDUNG}. Beide Zahlen nachziehen.`,
+  );
+  fehler += 1;
+}
+
+/*
  * ## Die Wache über der Pausenrechnung
  *
  * `zusatzpausenSek` in `src/zeit.ts` bildet nach, welche Pausen `redelaeufe`
@@ -153,33 +253,42 @@ fehler += figurenbefunde.length;
  * `herausgeber`: Hier läuft beides je Short gegeneinander, und jede Abweichung
  * über einer Millisekunde hält den Lauf zurück.
  *
- * Verglichen wird nur, was `redelaeufe` als Zahl ausweist: die Pause vor jedem
- * Lauf. Der Szenentrenner **innerhalb** eines Laufs steckt im Text und nicht
- * in `pauseDavorSek` — die Schätzung zählt ihn als Atempause, und genau um
- * deren Differenz korrigiert `zusatzpausenSek` an der Szenengrenze.
+ * Verglichen wird, was `redelaeufe` als Zahl ausweist: die Pause vor jedem
+ * Lauf. **Seit dem 31.08.2026 ist das alles** — vorher konnte eine Pause auch
+ * im Text stecken (` ... `), und dort sah die Wache sie nicht. Genau dort
+ * saßen bis zu 2,19 Sekunden je Szenengrenze, während beide Seiten 0,32
+ * rechneten und die Wache zufrieden schwieg.
+ *
+ * **Eine Wache prüft nur, was sie sehen kann.** Was in einer Datei entsteht,
+ * statt in einer Zahl zu stehen, entzieht sich ihr — das ist der Grund, aus
+ * dem die Pause jetzt ein Versatz im Schnitt ist und keine Bitte an die
+ * Synthese.
  */
 for (const short of [...WOCHENLAUF, ...GEPARKT, beispielShort]) {
   const ausRede = redelaeufe(short).reduce((summe, lauf) => summe + lauf.pauseDavorSek, 0);
 
-  const bestellte = short.szenen.reduce((summe, szene, i) => {
-    const naechste = short.szenen[i + 1];
-    if (!naechste || szene.pauseSek === undefined) return summe;
-    const letzter = szene.rede?.[szene.rede.length - 1]?.sprecher ?? 'nachleser';
-    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
-    return letzter === erster ? summe : summe + szene.pauseSek;
-  }, 0);
+  /*
+   * **Seit dem 31.08.2026 zählt jede Szenengrenze, nicht nur die mit
+   * Sprecherwechsel.** `redelaeufe` schneidet dort jetzt immer; vorher lief
+   * ein Lauf über die Grenze weiter, wenn dieselbe Figur weitersprach, und die
+   * Pause entstand über ` ... ` im Text — also nicht als Zahl in
+   * `pauseDavorSek`, sondern in der Datei.
+   *
+   * Das war der Fehler, den diese Wache **nicht** finden konnte: Was im Text
+   * steckt, weist `redelaeufe` nicht aus, und beide Seiten waren sich einig,
+   * dass dort 0,32 anfallen. Gehört wurden 0,85 bis 2,19.
+   */
+  const grenzen = short.szenen.slice(0, -1);
+  const bestellte = grenzen.reduce((summe, szene) => summe + (szene.pauseSek ?? 0), 0);
+  const ohneBestellung = grenzen.filter((szene) => szene.pauseSek === undefined).length;
 
-  const grenzwechsel = short.szenen.reduce((n, szene, i) => {
-    const naechste = short.szenen[i + 1];
-    if (!naechste || szene.pauseSek !== undefined) return n;
-    const letzter = szene.rede?.[szene.rede.length - 1]?.sprecher ?? 'nachleser';
-    const erster = naechste.rede?.[0]?.sprecher ?? 'nachleser';
-    return letzter === erster ? n : n + 1;
-  }, 0);
-
-  // `zusatzpausenSek` zieht an jeder Szenengrenze die Atempause ab, die
-  // `szenendauerAus` dort schon zählt. Für den Vergleich kommt sie zurück.
-  const nachgerechnet = zusatzpausenSek(short) + grenzwechsel * 0.32 + bestellte;
+  /*
+   * `zusatzpausenSek` zieht an jeder Szenengrenze die Atempause ab, die
+   * `szenendauerAus` dort schon zählt. Für den Vergleich kommt sie zurück —
+   * über `SZENENGRENZE_SEK` und nicht über eine abgeschriebene 0,32, sonst
+   * stünde hier eine dritte Kopie derselben Zahl.
+   */
+  const nachgerechnet = zusatzpausenSek(short) + ohneBestellung * SZENENGRENZE_SEK + bestellte;
 
   if (Math.abs(ausRede - nachgerechnet) > 0.001) {
     console.error(

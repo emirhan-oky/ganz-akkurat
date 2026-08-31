@@ -1,11 +1,15 @@
 import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE } from '../src/marke';
+import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
+
 import type { Short as ShortDaten } from '../src/typen';
-import { szenenZeitplan } from '../src/zeit';
+import { FORMATE } from '../src/typen';
+import { VORSPANN_NACH_SZENE, VORSPANN_SEK, szenenZeitplan } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
+import { RUHE, Vorhangstoff, Vorspannkarte, aufVorhang, vorhangstand } from './bausteine/Vorhang';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
 import { Sprechblase } from './bausteine/Sprechblase';
+import { Sprecherstand } from './bausteine/Sprecherstand';
 import { SzeneRendern } from './szenen';
 import type { Dienst } from './bausteine/Geraete';
 import { Figur } from './bausteine/Figur';
@@ -56,7 +60,10 @@ const Gefaelltmir: React.FC = () => {
     <div
       style={{
         position: 'absolute',
-        right: -14,
+        /* Der Streifen des Vorhangs liegt am Bildrand, und der Zeiger deutet
+           aus dem Bild heraus — nicht auf eine Kulisse. Er rueckt um dessen
+           Breite ein, die Einlaufbewegung bleibt davon unberuehrt. */
+        right: VORHANG.rand - 14,
         bottom: SICHERE_ZONE.unten + UNTERTITEL_ZONE + 20,
         width: 180,
         height: 135,
@@ -171,6 +178,36 @@ const BELEG_MAXBILDER = 90;
  * Schema — und dann bleibt Remotion in einem unerfuellten Promise stehen, ohne
  * Fehlermeldung, bis jemand abbricht.
  */
+/**
+ * Die Flaeche des Stoffs — bis an alle vier Bildraender.
+ *
+ * Er beginnt bei y = 0 und laeuft hinter der Kopfzeile durch. Ein Vorhang
+ * haengt von der Decke; faengt er auf halber Hoehe an, haengt er an nichts.
+ */
+const STOFFFLAECHE = {
+  position: 'absolute',
+  top: VORHANG.oben,
+  bottom: 0,
+  left: 0,
+  right: 0,
+} as const;
+
+/**
+ * Die Flaeche der Titelkarte — sie setzt unter der Kopfzeile an.
+ *
+ * **Nicht dieselbe wie die des Stoffs**, obwohl beide denselben Vorhang
+ * meinen. Der Stoff soll bis an den Bildrand, die Karte nicht: Sie zentriert
+ * ihren Titelblock in ihrer Flaeche, und mit den zusaetzlichen 376 Pixeln
+ * stand „Facts" quer durch die Wortmarke.
+ */
+const KARTENFLAECHE = {
+  position: 'absolute',
+  top: VORHANG.karte,
+  bottom: 0,
+  left: 0,
+  right: 0,
+} as const;
+
 export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   daten,
   dienst = 'tiktok',
@@ -215,6 +252,36 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   const frame = useCurrentFrame();
   const gesamtZaehlung = daten.szenen.reduce((max, s) => Math.max(max, s.zaehlung ?? 0), 0);
 
+  /*
+   * **Der Vorhangstand wird genau einmal gerechnet, hier.**
+   *
+   * Das Startbild faellt **rueckwaerts** aus der Folgeszene: Vorwaerts
+   * muesste man die Sprechdauer der ersten Szene kennen, rueckwaerts steht sie
+   * schon im Zeitplan — und wenn sich `VORSPANN_SEK` je aendert, wandert alles
+   * von selbst mit.
+   *
+   * Ausserhalb der Vorspannspanne braucht es keinen Sonderfall: `vorhangstand`
+   * klemmt an beiden Enden auf `RUHE`, die beiden stehenden Streifen. Nur wenn
+   * es gar keine Folgeszene gibt, faellt der Vorspann aus — dann steht der
+   * Vorhang die ganze Zeit in Ruhe.
+   */
+  const vorspannBilder = Math.round(VORSPANN_SEK * bilderProSekunde);
+  const vorspannFolge = plan[VORSPANN_NACH_SZENE + 1];
+  const vorspannStart = vorspannFolge ? vorspannFolge.startBild - vorspannBilder : undefined;
+  const vorhangZu =
+    vorspannStart === undefined ? RUHE : vorhangstand(frame - vorspannStart, vorspannBilder);
+  /*
+   * Wie stark der Vorhang hinter der Kopfzeile steht. Sie liegt ueber dem
+   * Stoff und bleibt sichtbar, wechselt aber auf helle Farben, solange er zu
+   * ist — sonst stuenden Wortmarke und Belegzeile mit Kontrast 1,0 bis 1,9 auf
+   * Theaterrot.
+   *
+   * **Aus demselben Stand gerechnet wie der Vorhang selbst.** Ein zweiter
+   * Zeitvergleich daneben liefe beim naechsten Umbau am Ablauf lautlos
+   * auseinander.
+   */
+  const kopfzeileAufRot = aufVorhang(vorhangZu);
+
   const aktuelleZaehlung = (() => {
     if (gesamtZaehlung === 0) return undefined;
     let stand: number | undefined;
@@ -227,6 +294,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   })();
 
   return (
+    <Sprecherstand abschnitte={daten.tonspur?.abschnitte} woerter={daten.tonspur?.woerter}>
     <AbsoluteFill>
       <Hintergrund />
 
@@ -262,6 +330,64 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
           </Sequence>
         );
       })}
+
+      {/*
+        **Der Vorhang liegt ueber den Szenen und deckt die Buehne.**
+
+        Er ist **dauerhaft** gemountet, nicht nur waehrend des Vorspanns: Seit
+        dem 31.08.2026 bleiben links und rechts geraffte Streifen stehen, damit
+        der Zuschauer ab Sekunde null eine Buehne sieht. Der Vorspannvorhang
+        waechst dann aus ihnen heraus, statt aus dem Nichts zu erscheinen.
+
+        Die Szene dahinter bleibt gemountet, auch wenn er geschlossen ist —
+        deshalb reicht die Szene davor ueber die Vorspanndauer hinweg
+        (`szenenZeitplan` gibt ihr die Dauer bis zum Start der naechsten, und
+        dort steckt der Vorspann schon drin).
+
+        **Ein einfaches `div`, kein `AbsoluteFill`.** Dessen Voreinstellung
+        `inset: 0` hat `right` und `bottom` ueberschrieben; der Vorhang lief im
+        Standbild ueber den rechten Bildrand hinaus, waehrend `left` und `top`
+        griffen. Wer nur eine Seite prueft, sieht das nicht.
+
+        **Seitlich bis zum Bildrand, oben unter der Kopfzeile.** Der erste
+        Anlauf hielt sich an die sichere Zone und liess links wie rechts einen
+        Streifen frei — durch den die Szene dahinter durchschaute. Ein Vorhang
+        mit Rand ist kein Vorhang, sondern ein Bild im Bild.
+
+        Die Flaeche wird hier gesetzt und nicht ueber `Buehne` geholt. `Buehne`
+        misst die Hoehe ihres Inhalts und skaliert ihn; ein Kind mit
+        `position: absolute` hat keine Hoehe, und die Transformation darueber
+        macht sie zugleich zum Bezugsrahmen — der Vorhang war dadurch null
+        Pixel hoch und im Standbild unsichtbar.
+      */}
+      <div style={STOFFFLAECHE}>
+        <Vorhangstoff
+          zu={vorhangZu}
+          breite={FORMAT.breite}
+          hoehe={FORMAT.hoehe - VORHANG.oben}
+        />
+      </div>
+
+      {/*
+        **Die Titelkarte — Cold Open nach dem Aufschlag.**
+
+        Sie laeuft nur waehrend des Vorspanns und liegt deshalb in einer
+        eigenen `Sequence`, waehrend der Stoff darueber dauerhaft steht. Zwei
+        Bauteile, ein Stand: Eine zweite Zeichnung desselben Vorhangs waere die
+        Doppelung ohne Wache.
+      */}
+      {vorspannStart !== undefined && (
+        <Sequence from={vorspannStart} durationInFrames={vorspannBilder} name="Vorspann">
+          <div style={KARTENFLAECHE}>
+            <Vorspannkarte
+              show={FORMATE[daten.format].show}
+              zeile={daten.vorspann}
+              dauer={vorspannBilder}
+              hoehe={FORMAT.hoehe - VORHANG.karte}
+            />
+          </div>
+        </Sequence>
+      )}
 
       {/*
         Der Like-Hinweis haengt an einer Szene, nicht an einer Uhrzeit — siehe
@@ -308,7 +434,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
                 Kopfzeile nur so breit wie ihr Inhalt, und die Zahl klebte an
                 der Formatpille — dort liest sie sich als Teil des Etiketts. */}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <Kopfzeile format={daten.format} zaehlung={aktuelleZaehlung} />
+              <Kopfzeile format={daten.format} zaehlung={aktuelleZaehlung} aufVorhang={kopfzeileAufRot} />
             </div>
             <Kennzeichnung werbung={daten.kennzeichnung.werbung} kiStimme={daten.kennzeichnung.kiStimme} />
           </div>
@@ -326,7 +452,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
                 layout="none"
                 name="Beleg"
               >
-                <Belegzeile herausgeber={herausgeber} />
+                <Belegzeile herausgeber={herausgeber} aufVorhang={kopfzeileAufRot} />
               </Sequence>
             )}
 
@@ -334,16 +460,29 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         </div>
 
         {/*
-          Zwei Stimmen bekommen die Sprechblase, eine den Untertitel. Der
-          Unterschied ist nicht Zierde: Ohne Ton muss im Bild stehen, wer
-          gerade redet — sonst ist ein Wortwechsel keiner.
+          ## Zweistimmige Shorts tragen seit dem 31.08.2026 keinen Text unten
+
+          Bis dahin stand hier die `Sprechblase`: Text auf der Seite des
+          Sprechers, sein Name als farbiges Schild darueber. Im fertigen Video
+          zu zweit war das Urteil eindeutig — „das sieht mit den Untertiteln so
+          unfassbar scheisse aus, wenn beide Charaktere im Bild sind".
+
+          **Die Zuordnung traegt jetzt der Name ueber der Figur** (`Namensschild`
+          in `Buehnenbild.tsx`): beide dauerhaft im Bild, der Sprechende in
+          seiner Kennfarbe. Damit ist die eine Sache, die die Blase konnte und
+          der Untertitel nicht, an einen anderen Ort gewandert statt verloren.
+
+          **Der Preis gehoert danebengeschrieben.** Wer ohne Ton schaut,
+          versteht in genau den Szenen nichts, die den Umbau tragen — und der
+          Untertitel war das einzige, was die ersten Zuschauer ausdruecklich
+          gelobt haben. Deshalb bleibt `Sprechblase.tsx` vollstaendig stehen:
+          Diese Zeile zurueckzudrehen ist eine Zeile Arbeit, nicht ein Neubau.
         */}
-        {daten.tonspur?.abschnitte && daten.tonspur.abschnitte.length > 1 ? (
-          <Sprechblase woerter={daten.tonspur.woerter} abschnitte={daten.tonspur.abschnitte} />
-        ) : (
-          daten.tonspur && <Untertitel woerter={daten.tonspur.woerter} />
+        {daten.tonspur && (daten.tonspur.abschnitte?.length ?? 1) <= 1 && (
+          <Untertitel woerter={daten.tonspur.woerter} />
         )}
       </AbsoluteFill>
     </AbsoluteFill>
+    </Sprecherstand>
   );
 };

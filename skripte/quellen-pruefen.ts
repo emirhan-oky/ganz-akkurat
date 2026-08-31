@@ -64,21 +64,56 @@ const normalisieren = (text: string): string =>
  * - `Accept-Language: deu` — dreibuchstabig, **nicht** `de`. Die Sprache ist
  *   Pflicht, weil ein Rechtsakt in 24 Fassungen vorliegt.
  *
- * Die CELEX-Nummer steht in der EUR-Lex-Adresse und wird hier herausgezogen,
- * damit in `quellen.json` weiter die lesbare, zitierfaehige URL steht. Wer die
+ * Die Kennung steht in der EUR-Lex-Adresse und wird hier herausgezogen, damit
+ * in `quellen.json` weiter die lesbare, zitierfaehige URL steht. Wer die
  * Quelle nachschlaegt, soll bei EUR-Lex landen und nicht bei einer
  * Archivkennung.
+ *
+ * ## Zwei Adressformen, und die zweite fiel ein Jahr lang durch
+ *
+ * EUR-Lex adressiert denselben Rechtsakt auf zwei Arten: ueber die
+ * **CELEX-Nummer** (`?uri=CELEX:32024L1799`) und ueber die
+ * **Amtsblatt-Kennung** (`?uri=OJ:L_202401799`). Beide sind gueltig, beide
+ * werden von der Weboberflaeche vergeben — welche man kopiert, haengt daran,
+ * ueber welche Seite man hereinkommt.
+ *
+ * Bis zum 31.08.2026 erkannte die Umleitung nur die erste. Die zweite lief
+ * ungebremst in die Botabwehr, und `quellen-pruefen` meldete „Seite lieferte
+ * nur 0 Zeichen" — was wie ein Problem der Quelle aussah und keines war.
+ * Sieben EU-Quellen gingen durch, die achte nicht, und der Unterschied lag
+ * allein in der Form der Adresse.
+ *
+ * **Eine Wache, die an einer Schreibweise haengt, prueft die Schreibweise und
+ * nicht die Sache.** Cellar kennt beide Wege und liefert byte-genau dieselbe
+ * Datei — nachgemessen, nicht angenommen: 199.351 Bytes ueber beide Pfade,
+ * `cmp` meldet keinen Unterschied.
+ *
+ * Die OJ-Kennung wandert dabei **ohne** ihr `OJ:`-Praefix in den Pfad
+ * (`resource/oj/L_202401799`); mit Praefix antwortet Cellar 404.
  */
 const CELEX = /eur-lex\.europa\.eu\/.*CELEX(?::|%3A)([0-9][0-9A-Z]+)/i;
+const AMTSBLATT = /eur-lex\.europa\.eu\/.*uri=OJ(?::|%3A)([A-Z]_\d+)/i;
+
+/** Der Kopf, den Cellar braucht — beide Zeilen sind gemessen, siehe oben. */
+const CELLAR_KOPF = { Accept: 'application/xhtml+xml', 'Accept-Language': 'deu' };
 
 const abrufziel = (url: string): { url: string; kopf: Record<string, string> } => {
-  const treffer = CELEX.exec(url);
-  if (treffer?.[1]) {
+  const celex = CELEX.exec(url);
+  if (celex?.[1]) {
     return {
-      url: `http://publications.europa.eu/resource/celex/${treffer[1]}`,
-      kopf: { Accept: 'application/xhtml+xml', 'Accept-Language': 'deu' },
+      url: `http://publications.europa.eu/resource/celex/${celex[1]}`,
+      kopf: CELLAR_KOPF,
     };
   }
+
+  const amtsblatt = AMTSBLATT.exec(url);
+  if (amtsblatt?.[1]) {
+    return {
+      url: `http://publications.europa.eu/resource/oj/${amtsblatt[1]}`,
+      kopf: CELLAR_KOPF,
+    };
+  }
+
   return { url, kopf: {} };
 };
 

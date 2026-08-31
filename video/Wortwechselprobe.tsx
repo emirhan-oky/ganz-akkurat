@@ -2,51 +2,131 @@ import React from 'react';
 import { AbsoluteFill } from 'remotion';
 import { FARBEN } from '../src/marke';
 import { PosenName } from '../src/figur';
-import { Buehnenbild } from './bausteine/Buehnenbild';
+import {
+  Buehnenbild,
+  WORTWECHSEL,
+  wortwechselKanten,
+  type Wortwechselstand,
+} from './bausteine/Buehnenbild';
 
 /**
  * Der Prueftisch fuer den Wortwechsel. Kein Sendeinhalt.
  *
- * **Warum es ihn gibt.** Am 26.08.2026 sind in zwei Shorts nacheinander
- * Haende im Gehaeuse der anderen Figur gelandet, jedes Mal erst im fertigen
- * Standbild und jedes Mal an einer anderen Pose: `achselzucken` rechts,
- * `zeigen` links, dann `erklaeren` links. Nach dem dritten Fall war klar,
- * dass die Frage nicht je Short beantwortet wird, sondern einmal fuer das
- * ganze Posenvokabular.
- *
- * Zwanzig Kacheln, zwei Reihen: **oben** traegt die linke Figur je eine Pose
- * und die rechte ruht, **unten** umgekehrt. Damit ist abzulesen, welche Pose
- * allein schon in die andere Figur greift — der Fall, in dem beide
- * gleichzeitig ausgreifen, ist schon eine Regel in `src/pruefung.ts`.
- *
- * **Gerendert wird durch `Buehnenbild` selbst**, nicht durch einen Nachbau der
- * Anordnung. Ein Nachbau waere eine zweite Geometrie neben der echten, und die
- * liefe beim ersten Umbau lautlos auseinander — dieselbe Ueberlegung, aus der
+ * **Gerendert wird durch `Buehnenbild` selbst**, mit `stand` als Prop. Ein
+ * Nachbau der Anordnung waere eine zweite Geometrie neben der echten und liefe
+ * beim ersten Umbau lautlos auseinander — dieselbe Ueberlegung, aus der
  * `daten/figur/zeiger.ts` vom `nachleser` ableitet, statt ihn abzuschreiben.
  *
- * **Das Ergebnis vom 26.08.2026**, an allen zehn Posen abgelesen: `zeigen`,
- * `erklaeren` und `achselzucken` legen eine Hand auf das andere Gehaeuse, die
- * uebrigen sieben bleiben frei. Es haengt nicht an der Seite — die rechte
- * Figur ist gespiegelt und greift spiegelbildlich. `src/pruefung.ts` sperrt
- * die drei seither im Wortwechsel.
- *
  *     npx remotion still video/index.ts Wortwechselprobe probe.png
+ *
+ * ## Zwei Fragen, zwei Bloecke
+ *
+ * **Block 1 — passen sie ueberhaupt ins Bild?** Am 31.08.2026 war die Antwort
+ * nein, und zwar rechnerisch zwingend: Bei `links: 42`, `rechts: 158`, voller
+ * Groesse und Zoom 1,06 lag Voltis linke Kante bei −10 und Wattis rechte bei
+ * 220, waehrend das Feld von 5,7 bis 194,3 reicht. **Beide verloren ihre
+ * aeussere Hand**, und in der Mitte blieben zugleich zwei Einheiten Luft.
+ *
+ * Die Rechnung dahinter ist eine Zeile: Zwei Figuren nebeneinander brauchen
+ * `228,8 × groesse + luecke` Einheiten, das Feld ist `200 / zoom` breit. Bei
+ * voller Groesse sind das 228,8 gegen 188,7 — es geht nicht auf, egal wie man
+ * die beiden hinstellt. **Der fehlende Freiheitsgrad war die Groesse.**
+ *
+ * Jede Kachel traegt ihre gerechneten Kanten als Zeile darunter, damit das
+ * Auge die Rechnung gegenpruefen kann statt sie zu ersetzen.
+ *
+ * **Block 2 — welche Pose passt zu zweit?** Am 26.08.2026 sind in zwei Shorts
+ * nacheinander Haende im Gehaeuse der anderen Figur gelandet, jedes Mal erst im
+ * fertigen Standbild. Die Antwort hat seither dreimal gewechselt, weil sie an
+ * der Anordnung haengt und nicht an der Pose: erst drei gesperrt, dann keine,
+ * dann drei andere, seit dem Umbau auf zwei gestauchte Figuren nur noch
+ * `achselzucken`.
+ *
+ * **Deshalb steht die Liste nirgends geschrieben.**
+ * `zuBreiteWortwechselposen` rechnet sie aus `AUSSENREICHWEITE` und dem
+ * aktuellen Stand; `skripte/schemapruefung.ts` haelt sie gegen die Sperre in
+ * `src/pruefung.ts`. Drei handgeschriebene Listen in einer Woche waeren drei
+ * still falsche gewesen.
+ *
+ * **Und dieser Prueftisch beantwortet die andere Haelfte**, die keine Rechnung
+ * kann: ob eine Pose, die rechnerisch passt, auch aussieht, als paesse sie.
  */
 
 const POSEN = PosenName.options;
 
-const Kachel: React.FC<{ links: string; rechts: string; titel: string }> = ({
-  links,
-  rechts,
-  titel,
-}) => (
+/** Die Kandidaten aus der Rechnung. Der erste ist der laufende Stand. */
+const KANDIDATEN: { titel: string; stand: Wortwechselstand }[] = [
+  { titel: 'laufend', stand: WORTWECHSEL },
+  {
+    titel: 'groesser',
+    stand: { links: 51, rechts: 149, groesse: 0.75, ziel: { x: 100, y: 84, zoom: 1.0 } },
+  },
+  {
+    titel: 'wie Volti frueher',
+    stand: { links: 48, rechts: 152, groesse: 0.7, ziel: { x: 100, y: 84, zoom: 1.0 } },
+  },
+  {
+    titel: 'zu klein (verworfen)',
+    stand: { links: 49, rechts: 151, groesse: 0.62, ziel: { x: 100, y: 84, zoom: 1.0 } },
+  },
+];
+
+const Zahlenzeile: React.FC<{ stand: Wortwechselstand }> = ({ stand }) => {
+  const k = wortwechselKanten(stand);
+  const eng = (wert: number, min: number) => (wert < min ? FARBEN.anzeigeZwei : FARBEN.tinte);
+  const z = (n: number) => n.toFixed(1);
+  return (
+    <div
+      style={{
+        fontFamily: 'Inter',
+        fontSize: 15,
+        color: FARBEN.tinte,
+        padding: '4px 12px',
+        display: 'flex',
+        gap: 14,
+      }}
+    >
+      <span>g {stand.groesse.toFixed(2)}</span>
+      <span>zoom {stand.ziel.zoom.toFixed(2)}</span>
+      <span>Feld {z(k.feld.von)}–{z(k.feld.bis)}</span>
+      <span style={{ color: eng(k.linksAussen - k.feld.von, 0) }}>links {z(k.linksAussen)}</span>
+      <span style={{ color: eng(k.feld.bis - k.rechtsAussen, 0) }}>rechts {z(k.rechtsAussen)}</span>
+      <span style={{ color: eng(k.luecke, 10) }}>Lücke {z(k.luecke)}</span>
+    </div>
+  );
+};
+
+const Kachel: React.FC<{
+  links: string;
+  rechts: string;
+  titel: string;
+  stand?: Wortwechselstand;
+  breite?: number;
+  hoehe?: number;
+  mitZahlen?: boolean;
+}> = ({ links, rechts, titel, stand, breite = 618, hoehe = 464, mitZahlen = false }) => (
+  /*
+   * **Die Kachel ist ein Flex-Kasten, und das ist keine Zierde.** Das `<svg>`
+   * der Buehne traegt `flex: 1` mit `alignSelf: 'stretch'` — in einem Kasten
+   * ohne `display: flex` greift beides nicht, und das SVG nimmt seine
+   * Eigengroesse und laeuft unten aus der Kachel heraus. Im ersten Anlauf am
+   * 31.08.2026 sah der Prueftisch dadurch aus, als waeren die Figuren viel zu
+   * gross — gemessen wurde die Kachel, nicht die Anordnung.
+   *
+   * `overflow: hidden` daneben, damit ein Ueberlauf wieder auffaellt, statt
+   * die Nachbarkachel zu ueberdecken. Und die Vorgabehoehe steht auf 464 statt
+   * 372: Das ist die Buehne 200 x 150 auf 618 Breite, also **ihr** Verhaeltnis
+   * statt eines gegriffenen.
+   */
   <div
     style={{
-      width: 618,
-      height: 372,
+      width: breite,
+      height: hoehe,
       border: `2px solid ${FARBEN.gitter}`,
       boxSizing: 'border-box',
       position: 'relative',
+      display: 'flex',
+      overflow: 'hidden',
       backgroundColor: FARBEN.grund,
     }}
   >
@@ -64,6 +144,11 @@ const Kachel: React.FC<{ links: string; rechts: string; titel: string }> = ({
     >
       {titel}
     </div>
+    {mitZahlen && stand && (
+      <div style={{ position: 'absolute', bottom: 2, left: 0, zIndex: 2 }}>
+        <Zahlenzeile stand={stand} />
+      </div>
+    )}
     <Buehnenbild
       buehne={{
         art: 'figur',
@@ -72,10 +157,46 @@ const Kachel: React.FC<{ links: string; rechts: string; titel: string }> = ({
         gegenueber: { von: rechts as never, nach: rechts as never },
       }}
       dauer={120}
+      stand={stand}
     />
   </div>
 );
 
+/**
+ * **Frage 1: passen sie ueberhaupt ins Bild?**
+ *
+ * Dieselbe Pose, vier Anordnungen. `erklaeren` links gegen `zeigen` rechts ist
+ * der haerteste Fall — beide strecken einen Arm ueber die eigene Mitte,
+ * greifen also gleichzeitig aufeinander zu.
+ *
+ *     npx remotion still video/index.ts Wortwechselstaende staende.png
+ */
+export const Wortwechselstaende: React.FC = () => (
+  <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 20 }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      {KANDIDATEN.map((k) => (
+        <Kachel
+          key={`a-${k.titel}`}
+          links="erklaeren"
+          rechts="zeigen"
+          titel={k.titel}
+          stand={k.stand}
+          breite={920}
+          hoehe={690}
+          mitZahlen
+        />
+      ))}
+    </div>
+  </AbsoluteFill>
+);
+
+/**
+ * **Frage 2: welche Pose greift in die andere Figur?**
+ *
+ * Alle Posen im laufenden Stand, oben je links, unten je rechts.
+ *
+ *     npx remotion still video/index.ts Wortwechselprobe probe.png
+ */
 export const Wortwechselprobe: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: FARBEN.grund, padding: 20 }}>
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>

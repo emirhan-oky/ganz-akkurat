@@ -43,8 +43,8 @@ import { passwortWechseln } from './passwort-wechseln';
 export const WOCHENLAUF: Short[] = [
   raumstationAlteRechner,
   ersatzteilFreischalten,
-  erstesLaden,
   passwortWechseln,
+  erstesLaden,
 ];
 
 /**

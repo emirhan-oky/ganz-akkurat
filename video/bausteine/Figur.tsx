@@ -92,12 +92,19 @@ const transformkette = (rig: Rig, teilId: string, pose: Pose): string => {
     if (gelenk) {
       const [px, py] = gelenk.pivot;
       const stauchung = pose.stauchung[id];
-      if (typeof stauchung === 'number' && stauchung !== 1) {
+      const dehnung = pose.dehnung[id];
+      const hoch = typeof stauchung === 'number' ? stauchung : 1;
+      const breit = typeof dehnung === 'number' ? dehnung : 1;
+      if (hoch !== 1 || breit !== 1) {
         // Kein `transform-origin`, sondern die ausgeschriebene Rechnung:
         // Der Ursprung eines SVG-Elements ist browserabhaengig, sobald
         // Gruppen ineinanderliegen. Zwei Verschiebungen um einen Punkt sind
         // ueberall dasselbe.
-        kette.unshift(`translate(${px} ${py}) scale(1 ${stauchung}) translate(${-px} ${-py})`);
+        //
+        // Beide Achsen in **einer** Skalierung: Zwei getrennte `scale` um
+        // denselben Punkt waeren dasselbe Ergebnis mit doppelter Kette, und
+        // die Kette wird je Teil und je Bild neu gebaut.
+        kette.unshift(`translate(${px} ${py}) scale(${breit} ${hoch}) translate(${-px} ${-py})`);
       }
       const winkel = pose.drehung[id];
       if (typeof winkel === 'number' && winkel !== 0) {
@@ -169,6 +176,17 @@ export const Figur: React.FC<{
       height="100%"
       style={{ overflow: 'visible' }}
     >
+      {/*
+        **Hier sass am 31.08.2026 einen Abend lang die Stauchung**, mit der
+        Begruendung, die weiter gilt: Was jede Aufrufstelle mitschreiben muss,
+        vergisst irgendwann eine. Vier Stellen hatten sie vergessen und
+        zeichneten schlanke neben gestauchten Figuren.
+
+        Die Stauchung selbst ist noch am selben Abend gefallen (siehe
+        `daten/figur/zeiger.ts`), der Merksatz nicht: **Was die Form der Figur
+        betrifft, gehoert in die Figur** und nicht an die zwanzig Orte, an
+        denen eine gezeichnet wird.
+      */}
       {/* Hub hebt die ganze Figur, ohne ein Gelenk zu bemuehen. Das Atmen
           gehoert nicht in ein Gelenk: Wer es dem Koerper gibt, laesst die
           Fuesse mitwandern. */}

@@ -190,7 +190,9 @@ export const Pose = z.object({
    * `zug`. Eine Figur, die in acht von zehn Posen nicht laechelt, laechelt im
    * Video nie.
    */
-  mund: z.enum(['strich', 'offen', 'schmal', 'zug', 'laecheln']).default('strich'),
+  mund: z
+    .enum(['strich', 'spalt', 'offen', 'weit', 'schmal', 'zug', 'laecheln'])
+    .default('strich'),
   /**
    * Senkrechte Stauchung je Teil, um dessen Pivot. `1` ist unveraendert,
    * `0` ist zugedrueckt.
@@ -203,6 +205,19 @@ export const Pose = z.object({
    * das Rig einen Pivot in der Augenmitte gibt.
    */
   stauchung: z.record(z.string(), z.number()).default({}),
+  /**
+   * Waagerechte Dehnung je Teil, um dessen Pivot. `1` ist unveraendert.
+   *
+   * **Ein eigenes Feld und keine Erweiterung von `stauchung`** — seit dem
+   * 31.08.2026. Squash & Stretch braucht beide Achsen gegenlaeufig: Was
+   * flacher wird, wird breiter, sonst schrumpft das Volumen und die Figur
+   * sieht aus, als ginge sie kaputt.
+   *
+   * `stauchung` hat aber genau einen Nutzer, und der braucht das Gegenteil:
+   * Ein blinzelndes Auge wird flach und **nicht** breit. Beides in ein Feld zu
+   * legen hiesse, den einen Fall zu brechen, um den anderen zu bauen.
+   */
+  dehnung: z.record(z.string(), z.number()).default({}),
   /** Hebt die ganze Figur, ohne ein Gelenk zu bemuehen — fuer Atmen. */
   hub: z.number().default(0),
 });

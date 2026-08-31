@@ -147,6 +147,99 @@ export const SICHERE_ZONE = {
 export const KOPFZEILE_OBEN = 280;
 
 /**
+ * Der Theatervorhang: wo er oben ansetzt, und wie breit er im Ruhezustand
+ * links und rechts stehen bleibt.
+ *
+ * ## `oben` — er reicht bis an den oberen Bildrand
+ *
+ * Hier stand einmal `KOPFZEILE_OBEN + 96`, und der Satz dazu hiess **„Der
+ * Kanal oben, die Show darunter."** Er galt einem Vorhang, den man nur im
+ * Vorspann sah: Dort deckt er die Buehne und laesst die Kennzeichnung frei.
+ *
+ * Seit die Streifen **dauerhaft** stehen, ist dieselbe Kante keine Trennung
+ * mehr, sondern ein Schnitt mitten durchs Bild — der Vorhang begann
+ * unvermittelt unter einer Zeile. **Ein Vorhang haengt von der Decke; faengt
+ * er auf halber Hoehe an, haengt er an nichts.**
+ *
+ * Die Kopfzeile bleibt trotzdem sichtbar: Sie liegt in `Short.tsx` im
+ * abschliessenden Block der dauerhaften Elemente und damit **ueber** dem
+ * Stoff. Solange der Vorhang zu ist, wechselt sie auf helle Farben — dieselbe
+ * Bauart wie beim Saum der Figuren: **Ein Wert, der einen Hintergrund meint,
+ * wechselt mit ihm.** Die KI-Kennzeichnung reisst damit nie ab, und genau
+ * dafuer stand die alte Kante.
+ *
+ * ## `rand` — warum 130 und nicht 50
+ *
+ * Der Vorhang faehrt nicht ganz auf. Links und rechts bleibt ein geraffter
+ * Streifen stehen, damit der Zuschauer **ab Sekunde null eine Buehne sieht**
+ * und der Vorspannvorhang aus etwas herauswaechst, das schon da war.
+ *
+ * Der erste Wert dafuer waren 50 Pixel, und die waeren **unsichtbar**
+ * gewesen. `video/Anordnungsprobe.tsx` haelt den am 15.08.2026 an einem
+ * veroeffentlichten Beitrag gemessenen Beschnitt fest: 52 Pixel links, 56
+ * rechts. Alle drei Apps zeigen 9:16 auf langen Displays formatfuellend und
+ * schneiden seitlich ab. Ein 50-Pixel-Streifen laege vollstaendig in dem, was
+ * am Handy gar nicht erst ankommt — am Schreibtisch sichtbar, im Feed nie.
+ * Genau der Fehler, den der Kommentar dort benennt: „Was dort steht, ist nicht
+ * verdeckt, es ist nicht da."
+ *
+ * Das setzt die **Untergrenze**, nicht den Wert. Drei Breiten wurden am
+ * 31.08.2026 als vollstaendige Standbilder nebeneinandergestellt — 100, 130,
+ * 160 —, und **die Wahl fiel am Bild auf 100.** Die Herleitung haette 130
+ * ergeben (`SICHERE_ZONE.links` minus 40 Reserve); gerechnet war das die
+ * groesstmoegliche Breite, nicht die richtige. Eine Kulisse soll den Blick
+ * rahmen und nicht die Buehne verengen.
+ *
+ * Sichtbar bleiben damit 100 − 52 = **48 Pixel links** und 100 − 56 = **44
+ * rechts**, je rund 4,5 % der 972, die tatsaechlich ankommen. Das ist knapp
+ * ueber dem Beschnitt, und knapp ist hier Absicht: Der Streifen soll am Rand
+ * stehen, nicht ins Bild ragen.
+ *
+ * **Was diese Zahl nicht entscheidet:** wie sie auf anderen Geraeten
+ * ankommt. Die 52/56 sind eine Messung an *einem* Beitrag, kein Gesetz — auf
+ * einem Display mit mehr Beschnitt bleibt weniger als die Haelfte davon uebrig.
+ *
+ * Wer sie erhoeht, sieht als Erstes den Schluss-Zeiger `tiktok` klemmen: Er
+ * reicht bis 908 Pixel und rueckt um genau diese Breite ein.
+ * `skripte/schemapruefung.ts` bewacht den Abstand zur sicheren Zone.
+ */
+/**
+ * Zwei Hex-Farben mischen, `t` von 0 (nur `a`) bis 1 (nur `b`).
+ *
+ * Steht hier und nicht im Renderer, weil zwei Bauteile sie brauchen: Der
+ * Vorhang leitet daraus seine drei Stofftoene ab, und die Kopfzeile blendet
+ * damit zwischen ihrer dunklen und ihrer hellen Fassung, waehrend er faehrt.
+ * **Eine Doppelung ohne Wache ist der eigentliche Fehler**, und bei einer
+ * Rechenfunktion ist die Wache schlicht: Es gibt sie nur einmal.
+ */
+export const mische = (a: string, b: string, t: number): string => {
+  const zerlege = (h: string) => [1, 3, 5].map((i) => parseInt(h.substr(i, 2), 16));
+  const [x, y] = [zerlege(a), zerlege(b)];
+  return (
+    '#' +
+    x.map((v, i) => Math.round(v * (1 - t) + y[i]! * t).toString(16).padStart(2, '0')).join('')
+  );
+};
+
+export const VORHANG = {
+  oben: 0,
+  /**
+   * Wo die **Titelkarte** des Vorspanns ansetzt — unter der Kopfzeile samt
+   * Belegzeile.
+   *
+   * Das ist der Wert, auf dem `oben` einmal stand, und hier ist er weiterhin
+   * richtig: Der **Stoff** soll bis an den Bildrand, die **Karte** nicht. Ohne
+   * die Trennung stand „Facts" im ersten Standbild quer durch die Wortmarke —
+   * der Titelblock zentriert sich in seiner Flaeche, und die war ploetzlich
+   * 376 Pixel groesser.
+   *
+   * **Zwei Dinge, die dieselbe Farbe teilen, teilen nicht ihre Masze.**
+   */
+  karte: KOPFZEILE_OBEN + 96,
+  rand: 100,
+} as const;
+
+/**
  * Hoehe, die der Untertitel unten belegt.
  *
  * Zwei Zeilen à 66 Pixel plus Abstand. Der Wert ist eine Reservierung, kein
@@ -177,6 +270,24 @@ export const BUEHNE = {
   y: SICHERE_ZONE.oben,
   breite: FORMAT.breite - SICHERE_ZONE.links - SICHERE_ZONE.rechts,
   hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten - UNTERTITEL_ZONE,
+  /**
+   * Die Hoehe **ohne** reservierte Untertitelzone — seit dem 31.08.2026.
+   *
+   * Zweistimmige Shorts tragen unten keinen Text mehr (siehe `Short.tsx`), und
+   * die 270 Pixel standen im ersten Standbild danach leer im Bild. Genau der
+   * Fehler, den der Kommentar an `UNTERTITEL_ZONE` schon einmal beschreibt:
+   * „die 280 Pixel dazwischen konnten von keiner Szene bespielt werden — sie
+   * waren per Konstruktion leer."
+   *
+   * **Der Gewinn ist groesser als die Zahl.** Das Buehnen-SVG ist 200 x 150
+   * Einheiten und passt sich mit `meet` der kleineren Seite an. Bei 972 Pixeln
+   * Breite und der alten Hoehe war die **Hoehe** die Grenze — die Figuren
+   * nutzten die Breite nicht aus. Mit den 270 zusaetzlichen Pixeln wandert die
+   * Grenze auf die Breite, und die Figuren werden deutlich groesser, ohne dass
+   * an ihrer Skalierung etwas geaendert wird.
+   */
+  hoeheOhneUntertitel:
+    FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten,
 } as const;
 
 /**
@@ -306,6 +417,105 @@ export const FARBEN = {
    */
   anzeigeEins: '#4C61B0',
   anzeigeZwei: '#BE8A7A',
+
+  /**
+   * Das fehlende Gegenstueck zu `blauHell` — Wattis Altrosa als Flaeche.
+   *
+   * Fuer Blau gab es seit jeher zwei Werte: einen fuer Schrift und einen fuer
+   * die Flaeche darunter. Fuer Altrosa gab es nur den Ton selbst, und
+   * deshalb konnte Wattis Farbe nirgends als Hintergrund auftreten. Am
+   * 31.08.2026 aufgefallen, als die Formatpille beide Kennfarben tragen
+   * sollte.
+   */
+  anzeigeZweiHell: '#F3E7E2',
+
+  /* ────────────────────── Die Kennfarben als Schrift ───────────────────── */
+
+  /**
+   * ## Dieselben zwei Farben, drei Helligkeiten
+   *
+   * `anzeigeEins` und `anzeigeZwei` sind **Anzeigefarben**: aufgehellt, damit
+   * sie auf dem fast schwarzen Figurenkoerper leuchten. Als Schrift auf hellem
+   * Grund sind sie dadurch flau — im Wortmarken-Vergleich vom 31.08.2026 war
+   * das der Befund, an dem die erste zweifarbige Fassung gescheitert ist.
+   *
+   * Es gibt deshalb je Figur drei Werte, und die Regel dahinter steht seit dem
+   * 24.08.2026 eine Ebene hoeher: **zwei Rollen, zwei Werte.** Hier sind es
+   * drei Gruende:
+   *
+   * | | fuer | Volti | Watti |
+   * |---|---|---|---|
+   * | Anzeige | dunkler Figurenkoerper | `anzeigeEins` | `anzeigeZwei` |
+   * | Schrift | heller Grund | `kennVoltiTief` | `kennWattiTief` |
+   * | Schrift | roter Vorhang | `kennVoltiHell` | `kennWattiHell` |
+   *
+   * **Die dritte Zeile ist gemessen und nicht gewaehlt.** Auf Theaterrot
+   * `#7E1F1F` hat `kennVoltiTief` einen Kontrast von **1,06** und
+   * `kennWattiTief` von **1,90** — beides unsichtbar. Aufgehellt tragen sie
+   * mit 3,23 und 4,36.
+   *
+   * **Und genau dort steckte ein Messfehler, gefunden am 31.08.2026.** Die
+   * 3,23 und 4,36 sind gegen `vorhang` gerechnet — gegen die *Grundfarbe*.
+   * Der Stoff ist aber **gefaltet** und hat drei Toene: Gegen den hellsten
+   * (24 % Weiss beigemischt) fallen dieselben Werte auf **1,76** und **2,37**
+   * und reissen die Schwelle von 3,0.
+   *
+   * Dieselbe Sorte Fehler wie beim Saum der Figuren: Dort war gegen den
+   * Koerper gerechnet statt gegen die Figur, hier gegen die Grundfarbe statt
+   * gegen den Stoff. **Ein Kontrast gegen einen Farbverlauf ist der Kontrast
+   * gegen seinen unguenstigsten Ton, nicht gegen seinen mittleren.**
+   *
+   * Die Rolle „Schrift auf rotem Vorhang" traegt deshalb `blauHell` und
+   * `anzeigeZweiHell` — die vorhandenen Flaechenfassungen, mit **4,19** und
+   * **4,49** gegen den hellsten Faltenton. Keine neuen Werte: dieselben
+   * Farbtoene, eine Stufe heller.
+   *
+   * `kennVoltiHell` und `kennWattiHell` bleiben, wo eine Flaeche dahinter
+   * liegt und der Verlauf keine Rolle spielt.
+   */
+  kennVoltiTief: '#303C6C',
+  kennWattiTief: '#896358',
+  kennVoltiHell: '#8B92AB',
+  kennWattiHell: '#BCA7A0',
+
+  /* ──────────────────────────── Der Vorhang ────────────────────────────── */
+
+  /**
+   * ## Theaterrot — die erste Flaechenfarbe der Marke
+   *
+   * Seit dem 31.08.2026 beginnt jeder Short als Show, und dafuer faehrt nach
+   * dem Aufschlag ein Vorhang zu. Ein Marken-Rot gab es bis dahin nicht: Bei
+   * Wattis Farbwahl war Rot als „zu grell" verworfen worden — **das galt aber
+   * einer Figur, nicht einer Flaeche.** Ein Ton, der auf einem Koerper von
+   * 68 Einheiten Breite schreit, traegt ueber eine ganze Buehne ruhig.
+   *
+   * Gewaehlt an einer Vergleichsseite mit drei Kandidaten, jeder als
+   * vollstaendiger Opener. Bordeaux `#6B1D24` war tiefer und Ziegelrot
+   * `#A33B2E` heller; Theaterrot liegt dazwischen und ist der klassische
+   * Buehnenton.
+   *
+   * **Weiss traegt darauf mit 9,6.** Die Figuren dagegen nicht: Ihr Koerper
+   * hat gegen den dunkelsten Faltenton nur **1,26** — deshalb bekommen sie im
+   * Opener einen hellen Umriss, und nur dort.
+   */
+  vorhang: '#7E1F1F',
+
+  /**
+   * Theatergold — die Schrift, die auf dem Vorhang herausstechen soll.
+   *
+   * **Gelb war einmal verworfen worden, und der Grund gilt hier nicht.** Bei
+   * Wattis Farbwahl fiel es mit einer Luminanz von 1,1 durch — *auf hellem
+   * Grund*. Auf Theaterrot traegt es mit **5,16**, und es kommt aus dem
+   * Gegenstand statt aus dem Farbkreis: Ein Buehnenvorhang hat goldene Borten
+   * und Quasten.
+   *
+   * Dieselbe Unterscheidung wie beim Rot selbst: Ein Urteil ueber eine Farbe
+   * gilt immer nur fuer den Grund, auf dem gemessen wurde.
+   *
+   * **Nur auf dem Vorhang.** Auf dem hellen Grund des Videos hat Gold nichts
+   * verloren — dort gilt weiter, woran es gescheitert ist.
+   */
+  gold: '#E8B23A',
 
   /** Bedeutungsfarben fuer Kompatibilitaetsaussagen. */
   jaGruen: '#1F9D68',
@@ -458,6 +668,52 @@ export const TEMPO = {
   /** Feder fuer Einfluege: knapp, ohne sichtbares Nachschwingen. */
   feder: { damping: 200, stiffness: 120, mass: 0.6 },
 } as const;
+
+/**
+ * Federn fuer Figurenbewegungen — **die Kandidaten der Probe vom 31.08.2026.**
+ *
+ * ## Der Befund
+ *
+ * `TEMPO.feder` traegt jeden Posenwechsel des Kanals, und sie **federt nicht.**
+ * Nachgerechnet: Bei `stiffness: 120` und `mass: 0.6` liegt die kritische
+ * Daempfung bei 17,0; gesetzt sind 200, also **11,8-fach ueberdaempft**. Ueber
+ * 90 Bilder erreicht sie nie mehr als 100,00 % — kein Ueberschwingen, an
+ * keiner Stelle. Das ist eine Rampe.
+ *
+ * In `Kamera.tsx` steht die Begruendung, warum die Kamera **keine** Feder
+ * benutzt: „Bei einer Figur ist die Feder richtig — ein Arm, der federt, wirkt
+ * lebendig." Die Feder, fuer die dieser Satz geschrieben wurde, hat noch nie
+ * gefedert. Der Kommentar beschreibt die Absicht, der Wert tut das Gegenteil —
+ * dieselbe Sorte Bauteil wie der Szenentrenner.
+ *
+ * ## Die Kandidaten, gemessen
+ *
+ * | | zeta | Ziel bei | Maximum | ruhig ab |
+ * |---|---|---|---|---|
+ * | `heute` | 11,79 | nie erreicht | 100,0 % | 0,53 s |
+ * | `gefasst` | 0,71 | Bild 8 | 104,2 % | 0,50 s |
+ * | `cartoon` | 0,47 | Bild 5 | 118,3 % | 0,83 s |
+ *
+ * **`heute` steht hier als Kandidat und nicht als Erbe.** Ohne sie im
+ * Vergleich misst die Probe nur, *welches* Ueberschwingen — nicht *ob*.
+ * Dasselbe Prinzip wie die Fassung ohne Regieanweisung in der Blindwahl.
+ *
+ * ## Was das Ueberschwingen kostet
+ *
+ * Es laeuft ueber das Ziel hinaus, und `winkelKlemmen` in `Figur.tsx`
+ * schneidet dort stumm ab. Bei `cartoon` reissen vier Uebergaenge eine
+ * Gelenkgrenze, bei `gefasst` zwei — nachgemessen ueber alle 90 Posenpaare.
+ * Ein Ueberschwinger, der in die Grenze laeuft, wird dort flach: Das sieht aus
+ * wie ein Ruckeln und ist keins. Deshalb gehoeren die Grenzen geweitet und
+ * nicht die Bewegung gedaempft.
+ */
+export const FIGURENFEDERN = {
+  heute: { damping: 200, stiffness: 120, mass: 0.6 },
+  gefasst: { damping: 12, stiffness: 120, mass: 0.6 },
+  cartoon: { damping: 8, stiffness: 120, mass: 0.6 },
+} as const;
+
+export type Federname = keyof typeof FIGURENFEDERN;
 
 /** Isometrie des Bannerstils: 30-Grad-Achsen. */
 export const ISOMETRIE = {

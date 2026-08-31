@@ -129,6 +129,23 @@
           "dauerSek": 24.6
         }
       ]
+    },
+    {
+      "lauf": "2026-08-30",
+      "shorts": [
+        {
+          "format": "gibtswirklich",
+          "sachgebiet": "raumfahrt",
+          "themaId": "raumstation-alte-rechner",
+          "dauerSek": 41.7
+        },
+        {
+          "format": "absicht",
+          "sachgebiet": "recht",
+          "themaId": "parts-pairing",
+          "dauerSek": 32.1
+        }
+      ]
     }
   ]
 }

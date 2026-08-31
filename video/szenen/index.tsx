@@ -1,10 +1,10 @@
 import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO } from '../../src/marke';
+import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO, VORHANG } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
-import { ZEIGER_STAUCHUNG, zeiger } from '../../daten/figur/zeiger';
+import { zeiger } from '../../daten/figur/zeiger';
 import { FOLGEPOSEN, POSEN } from '../bausteine/posen';
 import { Buehnenbild } from '../bausteine/Buehnenbild';
 import type { Dienst } from '../bausteine/Geraete';
@@ -354,7 +354,40 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
    * also genau dorthin, wo TikTok seine Bedienleiste einblendet.
    */
   const zeichen = szene.wert.length + (szene.einheit?.length ?? 0);
-  const wertGroesse = zeichen <= 4 ? 220 : zeichen <= 7 ? 180 : zeichen <= 10 ? 140 : 112;
+  const grundGroesse = zeichen <= 4 ? 220 : zeichen <= 7 ? 180 : zeichen <= 10 ? 140 : 112;
+
+  /*
+   * ## Steht eine Zeichnung darunter, wird die Zahl kleiner
+   *
+   * Die Zeichnung bekommt in `Buehne.tsx` nur `flex: 1`, also **den Rest**.
+   * Eine Zahl auf 220 Pixel plus `bedeutung` plus `ABSTAND.l` nimmt rund
+   * hundert Pixel mehr als eine zweizeilige Ueberschrift — und weil beide
+   * Figuren sich in die verbleibende Hoehe einpassen, schlaegt das dort
+   * doppelt durch: In `erstes-laden` standen sie in der `zahl`-Szene 230
+   * Pixel hoch, in der Textszene daneben 400.
+   *
+   * Derselbe Restplatz-Fehler wie seinerzeit bei den 60-Pixel-Symbolen: Wer
+   * zuerst den Text setzt und der Zeichnung gibt, was uebrig bleibt, bekommt
+   * eine Zeichnung in Briefmarkengroesse — und im Feed ist das Bild ohnehin
+   * schon briefmarkengross.
+   *
+   * **Die Ueberlaufmessung in `Buehne.tsx` wird dafuer nicht angefasst.** Ein
+   * Mindestanteil fuer die Zeichnung liesse den Inhalt ueberlaufen, und die
+   * Messung skalierte daraufhin **alles** herunter, Zahl inbegriffen. Der
+   * Tausch waere schlechter als das Problem; die Kommentare dort zaehlen drei
+   * gescheiterte Anlaeufe, einer machte jede Szene leer.
+   *
+   * **Die 0,68 schliesst die Luecke nicht ganz, und das ist Absicht.** Am
+   * Standbild gemessen: 230 Pixel vorher, 290 nachher, gegen 400 in den
+   * Textszenen desselben Shorts. Weiter zu gehen lohnt nicht — das `<svg>`
+   * fuellt seinen Kasten nur zu rund drei Fuenfteln (die Figuren stehen in
+   * einer viewBox von 200 x 150 auf der Standlinie bei y = 146), jeder
+   * gewonnene Pixel Kasten bringt also nur 0,6 Pixel Figur. Fuer die
+   * restlichen 110 muesste die Zahl auf gut hundert Pixel schrumpfen, und
+   * dann traegt die `zahl`-Szene ihren eigenen Gegenstand nicht mehr.
+   */
+  const hatZeichnung = szene.buehne !== undefined;
+  const wertGroesse = hatZeichnung ? Math.round(grundGroesse * 0.68) : grundGroesse;
   const einheitGroesse = Math.round(wertGroesse * 0.38);
 
   return (
@@ -402,7 +435,7 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
           fontWeight: SCHRIFT.halbfett,
           fontSize: GROESSEN.aussage,
           lineHeight: 1.25,
-          marginTop: ABSTAND.l,
+          marginTop: hatZeichnung ? ABSTAND.m : ABSTAND.l,
         }}
       >
         {szene.bedeutung}
@@ -656,7 +689,17 @@ type ZeigerPlatz =
   | { art: 'frei'; links: number; unten: number; breite: number };
 
 const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
-  tiktok: { art: 'zeile', versatz: -86 },
+  /*
+   * Der Versatz war einmal glatte −86 und richtete sich am **Bildrand** aus.
+   * Seit dem 31.08.2026 steht dort der geraffte Vorhangstreifen, und der liegt
+   * ueber den Szenen — die Figur waere hinter ihm verschwunden.
+   *
+   * Sie rueckt deshalb um dessen Breite ein und steht zur **Innenkante des
+   * Vorhangs** jetzt so, wie sie vorher zum Bildrand stand. Die Geste bleibt
+   * dieselbe: Sie deutet aus dem Bild heraus, und es war ohnehin nie ein
+   * Zielen, sondern eine Richtung.
+   */
+  tiktok: { art: 'zeile', versatz: -86 + VORHANG.rand },
   instagram: { art: 'frei', links: 290, unten: 348, breite: 240 },
   youtube: { art: 'frei', links: 580, unten: 348, breite: 240 },
 };
@@ -695,11 +738,7 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
    * und mitten im Video eine Knopfzelle — zwei Umrisse fuer dieselbe Figur
    * heben genau die Wiedererkennung wieder auf, fuer die die Stauchung da ist.
    */
-  const figur = (
-    <g transform={ZEIGER_STAUCHUNG}>
-      <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />
-    </g>
-  );
+  const figur = <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />;
 
   return (
     <>
