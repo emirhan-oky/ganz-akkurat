@@ -1268,6 +1268,20 @@ const SzeneSchluss = SzeneBasis.extend({
    * bleibt.
    */
   rundlauf: z.string().min(15).max(160),
+  /*
+   * **Auch der Schluss hat eine Buehne — seit dem 01.09.2026.**
+   *
+   * Vorher stand hier nur Text: Satz, Strich, Spruch, und rechts eine kleine
+   * Figur, die auf den Folgen-Knopf zeigt. Das Urteil am ersten fertigen Video
+   * war „wieso werden die beiden am Ende nicht animiert dargestellt?", und es
+   * trifft einen Bruch im Bau: Der ganze Short ist ein Gespraech zwischen
+   * zwei Figuren — und in dem Moment, in dem die Pointe faellt, sind sie weg.
+   *
+   * Der Schluss ist damit eine Szene wie jede andere. Was ihn unterscheidet,
+   * bleibt: die Restfrage, der Strich, der Spruch — und die eine Stelle, an
+   * der eine Figur den Zuschauer direkt ansieht.
+   */
+  ...mitIllustration,
 });
 
 

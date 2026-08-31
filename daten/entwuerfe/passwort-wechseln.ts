@@ -222,6 +222,18 @@ export const passwortWechseln: Short = {
        */
       rundlauf:
         'Beim zweiten Sehen streiten die beiden Lager nicht mehr um dasselbe – jedes hat die Hälfte, die dem anderen fehlt.',
+      /*
+       * **Beide stehen auch im Schluss auf der Buehne.** `zeigen` fuer Volti,
+       * weil er die Restfrage an den Zuschauer richtet; `achselzucken` fuer
+       * Watti, der sie nicht beantworten kann — das ist die Haltung, mit der
+       * ein Streitfall bei „Wer hat recht?" endet.
+       */
+      buehne: {
+        art: 'figur',
+        von: 'lesen',
+        nach: 'zeigen',
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
+      },
     },
   ],
 

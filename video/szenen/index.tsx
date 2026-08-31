@@ -615,8 +615,9 @@ const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
   youtube: { art: 'frei', links: 580, unten: 348, breite: 240 },
 };
 
-const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst }> = ({
+const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
   szene,
+  dauer,
   dienst,
 }) => {
   const frame = useCurrentFrame();
@@ -659,7 +660,7 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
        * steht **vor** der Buehne im Markup, damit die Figur hinter dem Text
        * liegt, falls beide sich je beruehren.
        */}
-      {platz.art === 'frei' && (
+      {platz.art === 'frei' && szene.buehne === undefined && (
         <AbsoluteFill>
           <div
             style={{
@@ -676,7 +677,14 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
         </AbsoluteFill>
       )}
 
-      <Buehne>
+      {/*
+        **Seit dem 01.09.2026 traegt der Schluss dieselbe Buehne wie jede andere
+        Szene.** Vorher standen hier Satz, Strich und Spruch — und die beiden
+        Figuren, die den ganzen Short getragen haben, waren im Moment der Pointe
+        verschwunden. Sie stehen jetzt darunter, und die kleine Signaturfigur
+        entfaellt dafuer: Drei Figuren in einem Bild sind zwei zu viel.
+      */}
+      <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
       <p
         style={{
           ...grundtext,
@@ -774,7 +782,7 @@ const Schluss: React.FC<Omit<SzenenProps<'schluss'>, 'dauer'> & { dienst: Dienst
          * frei, ist diese Stelle leer und die Zeile traegt allein den Spruch —
          * `space-between` schadet dabei nicht, weil nur noch ein Kind da ist.
          */}
-        {platz.art === 'zeile' && (
+        {platz.art === 'zeile' && szene.buehne === undefined && (
           <div
             style={{
               ...auftritt(frame, fps, 12),
@@ -943,7 +951,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Diens
     case 'zitatkarte':
       return <Zitatkarte szene={szene} dauer={dauer} />;
     case 'schluss':
-      return <Schluss szene={szene} dienst={dienst} />;
+      return <Schluss szene={szene} dauer={dauer} dienst={dienst} />;
   }
 
   /*

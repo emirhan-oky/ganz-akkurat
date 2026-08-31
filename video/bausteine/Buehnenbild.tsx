@@ -992,16 +992,48 @@ const Figurenbuehne: React.FC<{
               {/* Zwei Figuren, zwei gleich breite Schatten. Einer ueber beide
                   behauptete einen gemeinsamen Sockel, auf dem sie nicht
                   stehen. */}
-              {[stand.links, stand.rechts].map((x) => (
-                <ellipse
-                  key={x}
-                  cx={x}
-                  cy="140"
-                  rx={34 * stand.groesse}
-                  ry={9 * stand.groesse}
-                  fill={FARBEN.flaeche}
-                  opacity={0.5}
-                />
+              {[
+                { x: stand.links, rolle: eigeneRolle },
+                { x: stand.rechts, rolle: andereRolle },
+              ].map(({ x, rolle }) => (
+                <g key={x}>
+                  {/*
+                    **Der Lichtkegel des Sprechenden**, seit dem 31.08.2026.
+
+                    Er beantwortet dieselbe Frage wie das Namensschild — wer ist
+                    dran? —, aber er beantwortet sie **auf einen Blick und ohne
+                    Lesen**. Im Feed, briefmarkengross und oft ohne Ton, ist das
+                    der Unterschied zwischen zwei Figuren, die dastehen, und
+                    einem Gespraech, dem man folgen kann.
+
+                    In der Kennfarbe der Figur, nicht in Weiss: Sie ist ohnehin
+                    die Zuordnung, die der Kanal benutzt, und ein farbloser
+                    Kegel waere nur Helligkeit. Sehr schwach (0,3 mal Staerke) —
+                    ein Buehnenlicht, das auffaellt, nimmt der Figur die
+                    Aufmerksamkeit, statt sie ihr zu geben.
+
+                    Er haengt an derselben `sprechstaerke` wie Hinlehnen und
+                    Namensschild und blendet deshalb mit ihnen zusammen ueber.
+                    Drei Dinge, ein Wert — sonst laufen sie beim naechsten Umbau
+                    auseinander.
+                  */}
+                  <ellipse
+                    cx={x}
+                    cy="138"
+                    rx={46 * stand.groesse}
+                    ry={16 * stand.groesse}
+                    fill={rolle === 'zeiger' ? FARBEN.anzeigeZwei : FARBEN.anzeigeEins}
+                    opacity={0.3 * staerkeVon(rolle)}
+                  />
+                  <ellipse
+                    cx={x}
+                    cy="140"
+                    rx={34 * stand.groesse}
+                    ry={9 * stand.groesse}
+                    fill={FARBEN.flaeche}
+                    opacity={0.5}
+                  />
+                </g>
               ))}
             </>
           )}

@@ -1,4 +1,4 @@
-import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
 
 import type { Short as ShortDaten } from '../src/typen';
@@ -214,7 +214,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   dienst = 'tiktok',
 }) => {
   const plan = szenenZeitplan(daten);
-  const { fps: bilderProSekunde } = useVideoConfig();
+  const { fps: bilderProSekunde, durationInFrames } = useVideoConfig();
 
   const hinweisIndex = hinweisSzene(daten);
 
@@ -289,7 +289,37 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    */
   const ansageAbBild = Math.round(vorspannFestSek(daten.format) * bilderProSekunde);
   const vorspannStart = 0;
-  const vorhangZu = vorhangstand(frame - vorspannStart, vorspannBilder);
+  /*
+   * **Am Ende faehrt der Vorhang wieder zu — seit dem 01.09.2026.**
+   *
+   * Meine eigene Warnung dagegen lautete, ein zufahrender Vorhang sage optisch
+   * „fertig" und arbeite damit gegen den Rundlauf. Sie war falsch, und zwar aus
+   * einem Grund, den man erst sieht, wenn beide Enden nebeneinanderliegen:
+   * **Das Video beginnt mit geschlossenem Vorhang.** Faehrt er am Ende zu, ist
+   * der Uebergang in die Wiederholung nahtlos statt ein Schnitt — der Rundlauf
+   * wird staerker, nicht schwaecher.
+   *
+   * Die Fahrt liegt in den letzten `VORHANG.fahrtBilder` und damit **innerhalb**
+   * der Schlussszene, die den Nachlauf ohnehin traegt. Sie kostet also keine
+   * zusaetzliche Sekunde.
+   */
+  const schlussfahrt = interpolate(
+    frame,
+    /*
+     * **Bis `durationInFrames - 1`, nicht bis `durationInFrames`.** Das letzte
+     * gerenderte Bild ist eines vor der Gesamtlaenge; wer bis zur Laenge selbst
+     * interpoliert, kommt nie ganz an. Im Standbild war das ein weisser Spalt
+     * von wenigen Pixeln zwischen den beiden Vorhanghaelften — genau in dem
+     * Bild, das im Rundlauf an das geschlossene Bild 0 anschliesst.
+     *
+     * Derselbe Off-by-one wie bei `gesamtdauerBilder` gestern Abend, und
+     * dieselbe Stelle: das letzte Bild.
+     */
+    [durationInFrames - 1 - VORHANG.fahrtBilder, durationInFrames - 1],
+    [RUHE, 1],
+    { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.sin) },
+  );
+  const vorhangZu = Math.max(vorhangstand(frame - vorspannStart, vorspannBilder), schlussfahrt);
   /*
    * Wie stark der Vorhang hinter der Kopfzeile steht. Sie liegt ueber dem
    * Stoff und bleibt sichtbar, wechselt aber auf helle Farben, solange er zu
