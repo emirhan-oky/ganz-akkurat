@@ -1,4 +1,8 @@
 import { execFile } from 'node:child_process';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { Buffer } from 'node:buffer';
 import { promisify } from 'node:util';
 import ffmpegPfad from 'ffmpeg-static';
 import ffprobePaket from 'ffprobe-static';
@@ -65,6 +69,146 @@ export const lautheitAngleichen = async (quelle: string, ziel: string): Promise<
   ]);
 
   return { vorher: Number(gemessen.input_i), nachher: LAUTHEIT.ziel };
+};
+
+/**
+ * Wie leise es sein muss, um als Stille zu gelten, und wie kurz es sein darf.
+ *
+ * -40 dB ist die Schwelle, mit der die Luecken am 31.08.2026 gemessen wurden;
+ * darunter liegt bei diesen Aufnahmen nur Grundrauschen. 0,03 s ist kurz genug,
+ * um auch den Vorlauf zu erwischen, und lang genug, um nicht in einer Pause
+ * zwischen zwei Woertern anzuschlagen.
+ */
+const STILLE_DB = -40;
+const STILLE_MIN_SEK = 0.03;
+
+/**
+ * Schneidet Vorlauf- und Endstille einer Sprachaufnahme weg.
+ *
+ * ## Warum das noetig ist
+ *
+ * **ElevenLabs legt in jede Datei Stille**, und niemand hat sie je entfernt.
+ * Gemessen am ersten fertigen Video (31.08.2026, `passwort-wechseln`, elf
+ * Abschnitte): Vorlauf 0 bis 0,12 s, Endstille 0,03 bis **2,07 s**.
+ *
+ * Die Folge stand im Vertrag als 0,28 s Sprecherwechsel und war in Wirklichkeit
+ * im Mittel **0,42 s, in der Spitze 0,61** — zusammen **4,19 Sekunden Stille in
+ * einem Video von 53 Sekunden**, also 7,9 %. Das Urteil dazu lautete „das
+ * klingt sehr schlimm", und es war richtig: Die bestellte Pause war der
+ * **kleinere** Teil der Luecke.
+ *
+ * **Die Wortzeitstempel zeigen es nicht.** Die Zeichenausrichtung dehnt das
+ * letzte Wort ueber die Endstille — „deiner?" steht dort mit 3,57 bis 6,08 s,
+ * real endet die Sprache bei 4,04. Wer nach `woerter` rechnet, bekommt ueberall
+ * saubere 0,28 s heraus und misst ein Artefakt. Deshalb wird hier an der Datei
+ * gemessen und nicht an der Ausrichtung.
+ *
+ * ## Was hier nicht passiert
+ *
+ * **Stille im Inneren bleibt.** Beschnitten werden nur die beiden Enden. Eine
+ * Pause mitten im Satz ist Betonung, und `<break>`-Tags bestellen sie
+ * ausdruecklich — sie herauszuschneiden hiesse, die Denkpause abzuschaffen.
+ *
+ * Gibt die neue Dauer zurueck, denn die Uhr in `shortVertonen` rechnet mit ihr
+ * weiter. Findet ffmpeg keine Stille, bleibt die Datei unveraendert.
+ */
+export const stilleBeschneiden = async (
+  datei: string,
+): Promise<{ vorherSek: number; nachherSek: number; vornSek: number; hintenSek: number }> => {
+  const dauer = async (d: string) =>
+    Number(
+      (
+        await ausfuehren(FFPROBE, [
+          '-v', 'error', '-show_entries', 'format=duration',
+          '-of', 'default=noprint_wrappers=1:nokey=1', d,
+        ])
+      ).stdout.trim(),
+    );
+
+  const vorher = await dauer(datei);
+
+  const erkennen = await ausfuehren(FFMPEG, [
+    '-i', datei,
+    '-af', `silencedetect=noise=${STILLE_DB}dB:d=${STILLE_MIN_SEK}`,
+    '-f', 'null', '-',
+  ]).catch((f: { stderr?: string }) => ({ stdout: '', stderr: f.stderr ?? '' }));
+
+  /*
+   * ffmpeg meldet Anfang und Ende jeder Stille als eigene Zeile. Gesucht sind
+   * nur zwei davon: eine, die bei 0 beginnt, und eine, die bis zum Dateiende
+   * laeuft. Alles dazwischen bleibt stehen.
+   */
+  const zeilen = erkennen.stderr;
+  const starts = [...zeilen.matchAll(/silence_start: ([\d.]+)/g)].map((m) => Number(m[1]));
+  const enden = [...zeilen.matchAll(/silence_end: ([\d.]+)/g)].map((m) => Number(m[1]));
+
+  const vornSek = starts.length > 0 && starts[0]! < 0.001 ? (enden[0] ?? 0) : 0;
+  /*
+   * **Die Toleranz war zuerst 0,02 s und hat um 0,01 danebengelegen.**
+   * ffmpeg meldet das Ende einer Stille am letzten ausgewerteten Block, nicht
+   * am Dateiende: Bei `passwort-wechseln.11.mp3` laeuft sie bis 6,08, die Datei
+   * ist 6,11 lang. Mit 0,02 galt sie deshalb als Stille *im Inneren* und blieb
+   * stehen — ausgerechnet die laengste, 2,04 Sekunden.
+   *
+   * 0,06 s sind knapp zwei Bilder. Was kuerzer ist, kann kein gesprochenes
+   * Wort mehr sein.
+   */
+  const ENDE_TOLERANZ_SEK = 0.06;
+  const letzterStart = starts[starts.length - 1] ?? Number.POSITIVE_INFINITY;
+  const letztesEnde = enden.length === starts.length ? enden[enden.length - 1]! : vorher;
+  const hintenSek =
+    letztesEnde >= vorher - ENDE_TOLERANZ_SEK ? Math.max(0, vorher - letzterStart) : 0;
+
+  if (vornSek < 0.005 && hintenSek < 0.005) {
+    return { vorherSek: vorher, nachherSek: vorher, vornSek: 0, hintenSek: 0 };
+  }
+
+  /*
+   * Ein Sicherheitssaum von 20 ms an beiden Enden. Ohne ihn schneidet der
+   * Schnitt in den Anlaut oder laesst den Nachhall abreissen — beides hoert
+   * man deutlicher als die Stille, die man loswerden wollte.
+   */
+  const saum = 0.02;
+  const von = Math.max(0, vornSek - saum);
+  const bis = Math.max(von + 0.1, vorher - Math.max(0, hintenSek - saum));
+
+  const zwischen = datei.replace(/\.mp3$/, '.beschnitten.mp3');
+  await ausfuehren(FFMPEG, [
+    '-y', '-i', datei,
+    '-ss', von.toFixed(3), '-to', bis.toFixed(3),
+    '-ar', '44100', '-b:a', '192k',
+    zwischen,
+  ]);
+  await fs.rename(zwischen, datei);
+
+  return { vorherSek: vorher, nachherSek: await dauer(datei), vornSek, hintenSek };
+};
+
+/**
+ * Dasselbe fuer einen Puffer, der noch keine Datei ist.
+ *
+ * **Warum es diese zweite Fassung gibt.** Beschnitten werden muss, **bevor**
+ * die Zeiten gerechnet werden: Wer vorn 0,12 s wegnimmt, verschiebt jedes Wort
+ * dieses Abschnitts um 0,12 s — und an den Wortzeiten haengen Untertitel,
+ * Lippensync und die Aufschlagmessung. `shortVertonen` ist die einzige Stelle,
+ * an der Ton und Zeiten zusammen vorliegen, und dort gibt es noch keine
+ * Dateien, nur Puffer.
+ *
+ * Der Umweg ueber eine temporaere Datei ist Absicht: ffmpeg braucht bei mp3
+ * eine seekbare Quelle, ueber `pipe:0` kennt es die Laenge nicht.
+ */
+export const stilleBeschneidenPuffer = async (
+  ton: Buffer,
+): Promise<{ ton: Buffer; vornSek: number; hintenSek: number }> => {
+  const ordner = await fs.mkdtemp(path.join(os.tmpdir(), 'ganzakkurat-ton-'));
+  const datei = path.join(ordner, 'stueck.mp3');
+  try {
+    await fs.writeFile(datei, ton);
+    const { vornSek, hintenSek } = await stilleBeschneiden(datei);
+    return { ton: await fs.readFile(datei), vornSek, hintenSek };
+  } finally {
+    await fs.rm(ordner, { recursive: true, force: true });
+  }
 };
 
 export type Videobefund = { stufe: 'fehler' | 'hinweis'; text: string };

@@ -1,10 +1,12 @@
 import { Buffer } from 'node:buffer';
+import { stilleBeschneidenPuffer } from './medien';
 import type { Redeanteil, Short, Sprecher, Untertitelwort } from './typen';
 import { regieVorrat } from './typen';
 import {
   SPRECHERWECHSEL_SEK,
   SZENENGRENZE_SEK,
-  VORSPANN_SEK,
+  vorspannFestSek,
+  VORHANGFAHRT_SEK,
   ZEICHEN_PRO_SEKUNDE,
   themaAnsage,
 } from './zeit';
@@ -221,7 +223,7 @@ export const gesprocheneZeichen = (text: string): number =>
  * `eleven_v3` halluziniert bei kurzen Eingaben. Fuenf Laeufe mit identischem
  * 18-Zeichen-Text ergaben 4,80 · 5,04 · 2,08 · 4,24 · **415,84** Sekunden —
  * sieben Minuten Ton fuer vier Woerter. Die Zahlen stehen ausfuehrlich an
- * `VORSPANN_SEK` in `src/zeit.ts` und in `skripte/vorspannton.ts`; hier steht,
+ * `vorspannFestSek` in `src/zeit.ts` und in `skripte/vorspannton.ts`; hier steht,
  * was daraus folgt.
  *
  * ## Warum die Schwelle aus dem Text kommt und nicht fest ist
@@ -792,11 +794,23 @@ export const shortVertonen = async (
   );
   if (ansage.unplausibel) unplausibel.push(ansage.unplausibel);
   const ansagedatei = tondateiname.replace('%', 'vorspann');
-  toene.push({ datei: ansagedatei, ton: ansage.ton });
+  /*
+   * **Beschnitten wird vor dem Rechnen, nicht nach dem Schreiben.**
+   *
+   * ElevenLabs legt in jede Datei Stille — am ersten fertigen Video gemessen:
+   * vorn bis 0,12 s, hinten bis 2,07 s. Wer sie erst beim Ablegen entfernt, hat
+   * die Zeiten laengst mit der ungeschnittenen Fassung gerechnet; die
+   * Untertitel liefen dann um genau den Vorlauf hinterher.
+   */
+  const ansageBeschnitten = await stilleBeschneidenPuffer(ansage.ton);
+  toene.push({ datei: ansagedatei, ton: ansageBeschnitten.ton });
 
   /* Die **gemessene** Dauer, nicht die geschaetzte: Ton und Bild liefen sonst
      um genau die Differenz auseinander. */
-  uhr = VORSPANN_SEK + SPRECHERWECHSEL_SEK + ansage.dauerSek;
+  uhr =
+    vorspannFestSek(short.format) +
+    (ansage.dauerSek - ansageBeschnitten.vornSek) +
+    VORHANGFAHRT_SEK;
 
   for (const [i, lauf] of laeufe.entries()) {
     uhr += lauf.pauseDavorSek;
@@ -808,8 +822,22 @@ export const shortVertonen = async (
       `${short.id} Lauf ${i + 1} (${lauf.sprecher})`,
     );
     if (synthese.unplausibel) unplausibel.push(synthese.unplausibel);
+
+    /*
+     * **Der Vorlauf wird abgeschnitten und aus allen Zeiten dieses Abschnitts
+     * herausgerechnet.** Das ist der ganze Trick: Die Ausrichtung zaehlt ab
+     * dem Dateianfang, die beschnittene Datei beginnt aber `vornSek` spaeter —
+     * ohne die Verschiebung liefen Untertitel und Lippensync um genau diesen
+     * Betrag vor.
+     *
+     * Die Endstille braucht keine Korrektur: `dauerSek` ist das Ende der
+     * **Ausrichtung**, nicht der Datei, und liegt ohnehin vor ihr.
+     */
+    const beschnitten = await stilleBeschneidenPuffer(synthese.ton);
+    const vorn = beschnitten.vornSek;
+
     const datei = tondateiname.replace('%', String(i + 1));
-    toene.push({ datei, ton: synthese.ton });
+    toene.push({ datei, ton: beschnitten.ton });
     abschnitte.push({ datei, sprecher: lauf.sprecher, startSek: uhr });
 
     /*
@@ -822,12 +850,17 @@ export const shortVertonen = async (
       synthese.ausrichtung,
       lauf.szenenOffsets.map((o) => o.offset),
     );
-    innen.forEach((sek) => szenenStartSek.push(sek + uhr));
-    // Die Wortzeiten kommen je Aufruf ab 0 und wandern auf die gemeinsame Uhr.
+    innen.forEach((sek) => szenenStartSek.push(Math.max(uhr, sek - vorn + uhr)));
+    // Die Wortzeiten kommen je Aufruf ab 0 und wandern auf die gemeinsame Uhr —
+    // abzueglich des weggeschnittenen Vorlaufs.
     for (const w of synthese.woerter) {
-      woerter.push({ wort: w.wort, startSek: w.startSek + uhr, endeSek: w.endeSek + uhr });
+      woerter.push({
+        wort: w.wort,
+        startSek: Math.max(uhr, w.startSek - vorn + uhr),
+        endeSek: Math.max(uhr, w.endeSek - vorn + uhr),
+      });
     }
-    uhr += synthese.dauerSek;
+    uhr += synthese.dauerSek - vorn;
   }
 
   return {

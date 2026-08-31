@@ -70,7 +70,9 @@ import { poseAus } from './posen';
 /* ─────────────────────────────── Der Ablauf ───────────────────────────── */
 
 /** Wie lange die Hälften brauchen, in Bildern bei 30 fps. */
-const FAHRT_BILDER = 12;
+/* Die Zahl steht seit dem 31.08.2026 in `VORHANG`, weil `vorspannSek` sie
+   ebenfalls braucht. Hier bleibt nur der Name. */
+const FAHRT_BILDER = VORHANG.fahrtBilder;
 
 /**
  * Der Zeitverlauf über die Vorspanndauer, als Anteile von 0 bis 1.

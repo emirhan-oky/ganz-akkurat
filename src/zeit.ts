@@ -1,5 +1,13 @@
-import { FORMAT } from './marke';
-import { BAUFORMEN, type Short, type Sprecher, type Szene } from './typen';
+import { FORMAT, VORHANG } from './marke';
+import { BAUFORMEN, type Format, type Short, type Sprecher, type Szene } from './typen';
+/*
+ * Die gemessenen Dauern der zehn festen Vorspannaufnahmen.
+ *
+ * Sie kommen aus `skripte/vorspannton.ts` und sind der Grund, warum der
+ * Vorspann nicht mehr eine Konstante ist: Jede Show ist verschieden lang, und
+ * eine Zahl fuer alle war fuer jede einzelne die falsche.
+ */
+import VORSPANNTON from '../daten/vorspannton.json';
 
 /**
  * Zeitberechnung eines Shorts.
@@ -152,8 +160,20 @@ export const ZEICHEN_PRO_SEKUNDE = 14.3;
  */
 export const NACHLAUF_SEK = 1.5;
 
-/** Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen. */
-const PAUSE_NACH_SZENE_SEK = 0.32;
+/**
+ * Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen.
+ *
+ * **0,20 statt 0,32 seit dem 31.08.2026, und die Zahl ist erst jetzt ehrlich.**
+ * Vorher stand hier eine Pause, die niemand so gehoert hat: Zu den bestellten
+ * 0,32 kamen Vorlauf- und Endstille aus den Tondateien, und die tatsaechlichen
+ * Luecken lagen zwischen 0,28 und **0,61 Sekunden** — im Mittel 0,42, in der
+ * Summe 4,19 Sekunden auf ein Video von 53. Erst seit `stilleBeschneidenPuffer`
+ * die Enden abschneidet, ist die bestellte Pause auch die gehoerte.
+ *
+ * Damit war die alte Zahl nicht mehr richtig: Sie war als Atempause gedacht und
+ * hat als Atempause **plus** Dateirand gewirkt.
+ */
+const PAUSE_NACH_SZENE_SEK = 0.2;
 
 /**
  * Die Pause an einer Szenengrenze — **seit dem 31.08.2026 unabhaengig davon,
@@ -187,7 +207,22 @@ export const SZENENGRENZE_SEK = PAUSE_NACH_SZENE_SEK;
  * Sie ist eine Laenge, und Laengen wohnen in dieser Datei. Vorher stand sie
  * nur drueben — und die Schaetzung wusste deshalb nichts von ihr.
  */
-export const SPRECHERWECHSEL_SEK = 0.28;
+export const SPRECHERWECHSEL_SEK = 0.15;
+
+/*
+ * **0,15 statt 0,28 seit dem 31.08.2026 — und das ist eine geratene Zahl.**
+ *
+ * Sie steht hier so ausdruecklich, weil dieses Projekt zweimal Geld dafuer
+ * bezahlt hat, eine geratene Groesse fuer eine gemessene zu halten. Gemessen
+ * ist nur, was die alte Zahl in Wirklichkeit erzeugt hat: 0,42 s im Mittel,
+ * weil der Dateirand dazukam. Dass 0,15 die richtige Antwort ist, ist eine
+ * Annahme — ein Gespraechswechsel kommt schneller als eine Atempause, und im
+ * Streit fallen sich Leute sogar ins Wort.
+ *
+ * **Sie faellt am naechsten fertigen Video**, so wie `ZEICHEN_PRO_SEKUNDE`
+ * gefallen ist. Nachjustieren kostet nichts: Die Tondateien bleiben, nur die
+ * `startSek` der Abschnitte verschieben sich.
+ */
 
 /**
  * Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der
@@ -357,7 +392,30 @@ export const szenendauerAus = (
  * Verdacht genau einmal. Der Befund bleibt hier stehen, weil er der Grund
  * ist: Die Wache ist an diesen fuenf Zahlen kalibriert.
  */
-export const VORSPANN_SEK = 4.8;
+/**
+ * Wie lange der feste Teil des Vorspanns dauert — je Show, aus den Aufnahmen.
+ *
+ * **`VORSPANN_SEK = 4,8` ist am 31.08.2026 gestrichen.** Es war eine feste
+ * Zahl fuer die laengste Show, und daneben rechnete `ansageAbBild` in
+ * `video/Short.tsx` dieselbe Sache **je Format**. Zwei Zahlen fuer denselben
+ * Zeitpunkt, 1,57 s auseinander — und zwischen dem Ende der Themenansage und
+ * dem ersten gesprochenen Wort klaffte deshalb ein Loch von **1,53 Sekunden**,
+ * das keine Pruefung sehen konnte und das erst am fertigen Video auffiel.
+ *
+ * Dass die feste Zahl fuer die *laengste* Show gerechnet war, machte es
+ * schlimmer statt besser: Sie war fuer jede andere Show zu gross, und genau
+ * diese Differenz stand als Stille im Video.
+ *
+ * Jetzt faellt die Laenge aus den gemessenen Dauern: Showtitel, Pause, Einwurf,
+ * Pause — je Show verschieden, **und das ist richtig, weil die Aufnahmen es
+ * sind.** Eine Quelle statt zwei; dieselbe Lehre wie bei `gesamtdauerBilder`
+ * am selben Abend.
+ */
+export const vorspannFestSek = (format: Format): number =>
+  VORSPANNTON[format].volti + SPRECHERWECHSEL_SEK + VORSPANNTON[format].watti + SPRECHERWECHSEL_SEK;
+
+/** Die Vorhangfahrt am Ende des Vorspanns, in Sekunden. */
+export const VORHANGFAHRT_SEK = VORHANG.fahrtBilder / FORMAT.bilderProSekunde;
 
 /**
  * Was Volti nach Wattis Einwurf sagt.
@@ -387,15 +445,17 @@ export const themaAnsage = (short: Pick<Short, 'vorspann'>): string =>
  *   Vertonung arbeitet — und sie muss dieselbe Groesse meinen, sonst entstehen
  *   zwei Wahrheiten ueber dieselbe Laenge.
  *
- * `VORSPANN_SEK` bleibt als **feste Basis**: Showtitel, Namen, Vorhangfahrt.
- * Diese Zahl ist gemessen und wechselt nur, wenn neue Aufnahmen entstehen.
+ * Der feste Teil kommt aus `vorspannFestSek` — Showtitel und Einwurf, je Show
+ * gemessen. Dahinter steht die Vorhangfahrt, denn `ablauf` in `Vorhang.tsx`
+ * rechnet sie von hinten: Der Vorhang soll mit dem Vorspann fertig werden, und
+ * solange die Ansage laeuft, gehoert das Thema ins Bild.
  */
-export const vorspannSek = (short: Pick<Short, 'vorspann' | 'tonspur'>): number =>
-  VORSPANN_SEK +
+export const vorspannSek = (short: Pick<Short, 'vorspann' | 'tonspur' | 'format'>): number =>
+  vorspannFestSek(short.format) +
   (short.tonspur?.vorspann
     ? short.tonspur.vorspann.dauerSek
     : themaAnsage(short).length / ZEICHEN_PRO_SEKUNDE) +
-  SPRECHERWECHSEL_SEK;
+  VORHANGFAHRT_SEK;
 
 
 /**

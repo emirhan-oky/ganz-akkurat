@@ -3,7 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { KANAL_STIMME, synthetisieren } from '../src/stimme';
 import { FORMATE, FIGURENNAMEN, Format } from '../src/typen';
-import { SPRECHERWECHSEL_SEK, VORSPANN_SEK } from '../src/zeit';
+import { SPRECHERWECHSEL_SEK } from '../src/zeit';
 
 /**
  * Die festen Sprachaufnahmen des Vorspanns — **einmal bezahlt, nie wieder.**
@@ -251,7 +251,8 @@ const main = async () => {
     console.log(
       `\n   Laengste Show: ${laengste.name} mit ${laengste.dauer.toFixed(2)}s Sprache.\n` +
         `   Plus ${fahrt.toFixed(2)}s Vorhangfahrt ⇒ VORSPANN_SEK = ${empfohlen.toFixed(1)}\n` +
-        `   (steht in \`src/zeit.ts\` bisher auf ${VORSPANN_SEK} — gerechnet, nicht gemessen)\n`,
+        '   Seit dem 31.08.2026 rechnet `vorspannFestSek` das je Show aus dieser Datei —\n' +
+        '   die eine feste Zahl fuer alle Shows gibt es nicht mehr.\n',
     );
   }
 };

@@ -237,6 +237,20 @@ export const VORHANG = {
    */
   karte: KOPFZEILE_OBEN + 96,
   rand: 100,
+  /**
+   * Wie lange die Vorhangfahrt dauert, in Bildern.
+   *
+   * **Stand bis zum 31.08.2026 in `video/bausteine/Vorhang.tsx`** und war dort
+   * richtig aufgehoben, solange nur der Renderer sie brauchte. Seit
+   * `vorspannSek` die Vorspannlaenge aus den gemessenen Tondauern zusammensetzt,
+   * braucht sie die Fahrt mit — und zwei Zahlen fuer dieselbe Bewegung waeren
+   * die Doppelung, an der in dieser Nacht schon `gesamtdauerBilder` und
+   * `VORSPANN_SEK` gescheitert sind.
+   *
+   * Die Fahrt liegt **innerhalb** des Vorspanns: `ablauf` rechnet sie von
+   * hinten, damit der Vorhang mit dem Vorspann fertig wird.
+   */
+  fahrtBilder: 12,
 } as const;
 
 /**

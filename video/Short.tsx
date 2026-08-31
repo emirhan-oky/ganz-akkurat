@@ -3,7 +3,7 @@ import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT
 
 import type { Short as ShortDaten } from '../src/typen';
 import { FORMATE } from '../src/typen';
-import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannSek } from '../src/zeit';
+import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannFestSek, vorspannSek } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
 import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } from './bausteine/Vorhang';
 import vorspannDauern from '../daten/vorspannton.json';
@@ -279,13 +279,15 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    * eine Position im Ganzen; der Ansagebeginn haengt an der Laenge der beiden
    * Saetze davor — zwei Groessen, die nichts miteinander zu tun haben.
    */
-  const ansageAbBild = Math.round(
-    (vorspannDauern[daten.format].volti +
-      SPRECHERWECHSEL_SEK +
-      vorspannDauern[daten.format].watti +
-      SPRECHERWECHSEL_SEK) *
-      bilderProSekunde,
-  );
+  /*
+   * **Seit dem 31.08.2026 aus `vorspannFestSek`, nicht hier gerechnet.**
+   *
+   * Diese Zeilen standen wortgleich in `src/zeit.ts` noch einmal — dort als
+   * feste 4,8 Sekunden fuer die laengste Show, hier je Format. Zwei Zahlen fuer
+   * denselben Zeitpunkt, und zwischen ihnen lag im fertigen Video ein Loch von
+   * **1,53 Sekunden Stille**, das keine Pruefung sehen konnte.
+   */
+  const ansageAbBild = Math.round(vorspannFestSek(daten.format) * bilderProSekunde);
   const vorspannStart = 0;
   const vorhangZu = vorhangstand(frame - vorspannStart, vorspannBilder);
   /*
