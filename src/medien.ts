@@ -39,6 +39,23 @@ const LAUTHEIT = { ziel: -14, spitze: -1.5, umfang: 11 } as const;
  * Zwei Durchgaenge: Der erste misst, der zweite korrigiert mit den
  * gemessenen Werten. Ein einzelner Durchgang schaetzt nur und trifft den
  * Zielwert bei kurzen Aufnahmen oft um mehrere Dezibel daneben.
+ *
+ * ## Warum es einen zweiten Weg fuer kurze Abschnitte gibt
+ *
+ * **`loudnorm` misst nach EBU R128, und das braucht mehrere Sekunden.** Die
+ * Norm verwirft alle Bloecke unter einer Schwelle; bei einer halben Sekunde
+ * bleibt nichts uebrig, `input_i` kommt als `-inf` zurueck, und der zweite
+ * Durchgang bricht ab: „Value -inf for parameter 'measured_I' out of range".
+ *
+ * **Gefunden am 01.09.2026 an dem Wort „Watt?"** — 0,44 Sekunden, 5 Zeichen.
+ * Bis dahin war jeder Abschnitt lang genug; erst der Streit hat Zeilen
+ * hervorgebracht, die kuerzer sind als das Messfenster. Der ganze Lauf ist
+ * daran gescheitert, **nachdem** die Vertonung bezahlt war.
+ *
+ * Fuer solche Abschnitte misst `volumedetect` den mittleren Pegel und ein
+ * `volume`-Filter hebt ihn an. Das ist nicht EBU-konform und muss es nicht
+ * sein: Bei einer halben Sekunde hoert niemand einen Lautheitsverlauf, nur ob
+ * das Wort neben den anderen zu leise ist.
  */
 export const lautheitAngleichen = async (quelle: string, ziel: string): Promise<{ vorher: number; nachher: number }> => {
   const messen = await ausfuehren(FFMPEG, [
@@ -56,6 +73,48 @@ export const lautheitAngleichen = async (quelle: string, ziel: string): Promise<
     input_thresh: string;
     target_offset: string;
   };
+
+  /*
+   * `-inf` heisst: zu kurz fuer die Norm. Dann ueber den mittleren Pegel.
+   * Der Vergleichswert ist ein anderer — `volumedetect` misst den
+   * Durchschnitt der Abtastwerte, `loudnorm` die wahrgenommene Lautheit —,
+   * aber bei einer halben Sekunde ist das der brauchbarere von beiden.
+   */
+  if (!Number.isFinite(Number(gemessen.input_i))) {
+    const pegel = await ausfuehren(FFMPEG, [
+      '-i', quelle, '-af', 'volumedetect', '-f', 'null', '-',
+    ]).catch((f: { stderr?: string }) => ({ stdout: '', stderr: f.stderr ?? '' }));
+    const treffer = /mean_volume:\s*(-?[\d.]+) dB/.exec(pegel.stderr);
+    const mittel = treffer ? Number(treffer[1]) : LAUTHEIT.ziel;
+    /*
+     * **Der Aufschlag ist gemessen, nicht geschaetzt** — und der erste Anlauf
+     * lag um eine Groessenordnung daneben. Ich hatte 9 dB angenommen, weil
+     * „der Durchschnitt die Pausen mitzieht"; das Ergebnis war ein Wort, das
+     * 7 dB zu leise neben den anderen stand.
+     *
+     * An vier Abschnitten desselben Shorts gemessen (2,4 bis 5,4 s, dort
+     * liefert `loudnorm` noch einen Wert):
+     *
+     * | Abschnitt | LUFS | mean_volume | Differenz |
+     * |---|---|---|---|
+     * | 8 (5,4 s) | −19,11 | −19,3 | +0,2 |
+     * | 11 (4,7 s) | −15,20 | −16,3 | +1,1 |
+     * | 12 (2,4 s) | −20,29 | −19,9 | −0,4 |
+     * | 5 (3,1 s) | −14,14 | −15,1 | +1,0 |
+     *
+     * Mittel rund **+0,5 dB**. Bei synthetischer Sprache ohne Atempausen
+     * liegen die beiden Masse also praktisch aufeinander.
+     */
+    const MEAN_ZU_LUFS = 0.5;
+    const gewinn = LAUTHEIT.ziel - (mittel + MEAN_ZU_LUFS);
+    await ausfuehren(FFMPEG, [
+      '-y', '-i', quelle,
+      '-af', `volume=${gewinn.toFixed(1)}dB,alimiter=limit=${(10 ** (LAUTHEIT.spitze / 20)).toFixed(3)}`,
+      '-ar', '44100', '-b:a', '192k',
+      ziel,
+    ]);
+    return { vorher: mittel + MEAN_ZU_LUFS, nachher: LAUTHEIT.ziel };
+  }
 
   await ausfuehren(FFMPEG, [
     '-y', '-i', quelle,
