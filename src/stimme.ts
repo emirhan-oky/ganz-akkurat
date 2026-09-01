@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { stilleBeschneidenPuffer } from './medien';
-import type { Redeanteil, Short, Sprecher, Untertitelwort } from './typen';
+import type { Redeanteil, Short, Sprecher, Untertitelwort, Zug } from './typen';
 import { regieVorrat } from './typen';
 import {
   SPRECHERWECHSEL_SEK,
@@ -538,6 +538,14 @@ const einmalSynthetisieren = async (
  */
 export type Redelauf = {
   sprecher: Sprecher;
+  /**
+   * Der Zug dieses Laufs. Bei verschmolzenen Anteilen der **erste**.
+   *
+   * Er wandert von hier in `abschnitte[].zug` und von dort ueber
+   * `Sprecherstand` in die Haltung der Figur. Warum der erste gewinnt und die
+   * Verschmelzung nicht aufgebrochen wird, steht bei `redelaeufe`.
+   */
+  zug: Zug;
   /** Der fertig verkettete Text dieses Laufs, samt Szenentrennern. */
   text: string;
   /**
@@ -684,11 +692,23 @@ export const redelaeufe = (short: Short): Redelauf[] => {
        */
       if (gleicherSprecher && !neueSzene) {
         letzter.text += ` ${syntheseText(anteil, short.id)}`;
+        /*
+         * **Der Zug des zweiten Anteils faellt hier weg, und das ist gewollt.**
+         * Ein Abschnitt ist ein Syntheseaufruf und traegt genau eine Haltung;
+         * die Verschmelzung aufzubrechen fuegte eine Sprecherpause ein, wo
+         * kein Sprecher wechselt, und kostete einen zusaetzlichen Aufruf.
+         *
+         * Gewollt heisst nicht unbemerkt: `zugverlust` in `src/pruefung.ts`
+         * meldet jeden solchen Fall. Am 01.09.2026 waren das drei von vier
+         * Shorts mit je einer Stelle — der alte Plan hielt den Fall noch fuer
+         * theoretisch, weil damals alle vier Entwuerfe strikt abwechselten.
+         */
         return;
       }
 
       laeufe.push({
         sprecher: anteil.sprecher,
+        zug: anteil.zug,
         text: syntheseText(anteil, short.id),
         /*
          * Ein Lauf traegt damit hoechstens **eine** Szenengrenze, und zwar an
@@ -844,7 +864,7 @@ export const shortVertonen = async (
 
     const datei = tondateiname.replace('%', String(i + 1));
     toene.push({ datei, ton: beschnitten.ton });
-    abschnitte.push({ datei, sprecher: lauf.sprecher, startSek: uhr });
+    abschnitte.push({ datei, sprecher: lauf.sprecher, startSek: uhr, zug: lauf.zug });
 
     /*
      * Ein Lauf kann mehrere Szenen umfassen. Innerhalb des Laufs liegen ihre

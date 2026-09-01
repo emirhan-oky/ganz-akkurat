@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import { useCurrentFrame, useVideoConfig } from 'remotion';
-import type { Sprecher, Tonspur, Untertitelwort } from '../../src/typen';
+import { ZUGARTEN, type Sprecher, type Tonspur, type Untertitelwort } from '../../src/typen';
 
 /**
  * Wer gerade spricht — auf der **absoluten** Zeitachse des Shorts.
@@ -112,7 +112,46 @@ export const sprechstaerke = (
   return wer === laufend ? t : 1 - t;
 };
 
+/**
+ * Wie aufgerichtet diese Figur gerade steht — aus dem Zug ihres letzten
+ * Abschnitts, ueberblendet wie die Sprechstaerke.
+ *
+ * **Der Wert haengt an der Figur, nicht am Zeitpunkt.** Wer schweigt, behaelt
+ * die Haltung seines letzten Zuges: Ein Widerspruch, der beim ersten Wort der
+ * Antwort wieder zusammensinkt, waere kein Widerspruch, sondern ein Zucken.
+ *
+ * Ueberblendet ueber dieselben `UEBERGANG_SEK` wie alles andere am Wechsel.
+ * Ohne die Rampe spraenge die Oberkante um 16 Pixel in einem Bild — genau der
+ * Fehler, den `UEBERGANG_SEK` bei Neigung und Namensschild schon behoben hat.
+ */
+export const aufrichtung = (
+  abschnitte: NonNullable<Tonspur['abschnitte']>,
+  sekunde: number,
+  wer: Sprecher,
+): number => {
+  let ziel = 0;
+  let vorher = 0;
+  let abBei = abschnitte[0]!.startSek;
+  for (const a of abschnitte) {
+    if (sekunde < a.startSek) break;
+    if (a.sprecher !== wer) continue;
+    const neu = ZUGARTEN[a.zug].aufrichtung ?? 0;
+    if (neu !== ziel) {
+      vorher = ziel;
+      ziel = neu;
+      abBei = a.startSek;
+    }
+  }
+  const t = Math.min(1, Math.max(0, (sekunde - abBei) / UEBERGANG_SEK));
+  return vorher + (ziel - vorher) * t;
+};
+
 const StaerkeContext = createContext<((wer: Sprecher) => number) | undefined>(undefined);
+const AufrichtungContext = createContext<((wer: Sprecher) => number) | undefined>(undefined);
+
+/** Die weiche Aufrichtung, oder `undefined` im einstimmigen Fall. */
+export const useAufrichtung = (): ((wer: Sprecher) => number) | undefined =>
+  useContext(AufrichtungContext);
 
 /**
  * Die weiche Sprechstaerke, oder `undefined` im einstimmigen Fall.
@@ -144,13 +183,19 @@ export const Sprecherstand: React.FC<{
     zweistimmig && abschnitte
       ? (figur: Sprecher) => sprechstaerke(abschnitte, frame / fps, figur)
       : undefined;
+  const haltung =
+    zweistimmig && abschnitte
+      ? (figur: Sprecher) => aufrichtung(abschnitte, frame / fps, figur)
+      : undefined;
 
   return (
     <UntertitelzoneContext.Provider value={!zweistimmig}>
       <WoerterContext.Provider value={woerter}>
         <SekundeContext.Provider value={frame / fps}>
           <StaerkeContext.Provider value={staerke}>
-            <SprecherContext.Provider value={wer}>{children}</SprecherContext.Provider>
+            <AufrichtungContext.Provider value={haltung}>
+              <SprecherContext.Provider value={wer}>{children}</SprecherContext.Provider>
+            </AufrichtungContext.Provider>
           </StaerkeContext.Provider>
         </SekundeContext.Provider>
       </WoerterContext.Provider>

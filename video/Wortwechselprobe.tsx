@@ -1,7 +1,8 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
-import { FARBEN } from '../src/marke';
+import { BUEHNE, FARBEN, FORMAT } from '../src/marke';
 import { PosenName } from '../src/figur';
+import { ZUGARTEN, type Zug } from '../src/typen';
 import {
   Buehnenbild,
   WORTWECHSEL,
@@ -237,7 +238,7 @@ export const Wortwechselprobe: React.FC = () => (
  * beweist die Probe nur, dass die Zuwendung ueberhaupt noch anliegt**, nicht
  * dass die Pose sie ausnimmt.
  */
-const spricht = (wer: 'nachleser' | 'zeiger') =>
+const spricht = (wer: 'nachleser' | 'zeiger', zug: Zug = 'behaupten') =>
   [
     /*
      * Zwei Abschnitte mit derselben Startsekunde: `sprecherZu` nimmt den
@@ -246,8 +247,16 @@ const spricht = (wer: 'nachleser' | 'zeiger') =>
      * genuegt nicht — `Sprecherstand` haelt einen Short mit einem Abschnitt
      * fuer einstimmig und liefert gar keine Staerke.
      */
-    { datei: '', sprecher: wer === 'nachleser' ? ('zeiger' as const) : ('nachleser' as const), startSek: 0 },
-    { datei: '', sprecher: wer, startSek: 0 },
+    /*
+     * **Nur der Sprechende bekommt den Zug**, der andere bleibt auf
+     * `behaupten` und damit in Ruhelage. Der erste Anlauf gab beiden denselben
+     * Zug, und dann richteten sich beide Figuren auf — die Probe zeigte einen
+     * Unterschied von 2 Pixeln und haette die Haltung fuer unsichtbar erklaert,
+     * obwohl sie 16 betraegt. Eine Probe, die ihr Messobjekt auf beide Seiten
+     * legt, misst die Differenz von nichts.
+     */
+    { datei: '', sprecher: wer === 'nachleser' ? ('zeiger' as const) : ('nachleser' as const), startSek: 0, zug: 'behaupten' as const },
+    { datei: '', sprecher: wer, startSek: 0, zug },
   ];
 
 const Zuwendungsfeld: React.FC<{
@@ -268,6 +277,95 @@ export const Zuwendungsprobe: React.FC = () => (
       <Zuwendungsfeld titel="Volti spricht · ruhe (Gegenprobe)" links="ruhe" rechts="ruhe" wer="nachleser" />
       <Zuwendungsfeld titel="Watti spricht · ansprechen" links="ruhe" rechts="ansprechen" wer="zeiger" />
       <Zuwendungsfeld titel="Watti spricht · ruhe (Gegenprobe)" links="ruhe" rechts="ruhe" wer="zeiger" />
+    </div>
+  </AbsoluteFill>
+);
+
+
+/**
+ * **Frage 4: sieht man eine Haltung ueberhaupt?**
+ *
+ *     npx remotion still video/index.ts Haltungsprobe h-ruhe.png  --frame=20 --props='{"zug":"behaupten"}'
+ *     npx remotion still video/index.ts Haltungsprobe h-auf.png   --frame=20 --props='{"zug":"widersprechen"}'
+ *     npx remotion still video/index.ts Haltungsprobe h-ein.png   --frame=20 --props='{"zug":"einlenken"}'
+ *
+ * ## Warum sie als einzige Probe in Formatgroesse rendert
+ *
+ * Die anderen drei vergroessern, damit man Haende und Pupillen sieht. Hier ist
+ * die Vergroesserung genau der Fehler: Gefragt ist, ob ein Unterschied von 16
+ * Pixeln auf 1920 im Feed auffaellt. Wer das an einer doppelt so grossen
+ * Kachel beurteilt, hat die Frage beantwortet, die nicht gestellt war —
+ * derselbe Befund wie am 01.09.2026 an `npm run bildrand`, die ohne Tonspur
+ * kleinere Figuren mass und deshalb nicht sehen konnte, dass die grossen
+ * herausragen.
+ *
+ * Der Kasten ist deshalb `BUEHNE.breite` mal `hoeheOhneUntertitel`, also
+ * 710 x 1000 Pixel. Das SVG ist mit 200 Einheiten auf 710 Pixel
+ * **breitenbegrenzt** — 3,55 Pixel je Einheit, genau wie im Video.
+ *
+ * ## Was am 01.09.2026 dabei herauskam
+ *
+ * Vier Fassungen standen gegeneinander, und die Messung hat drei Dinge
+ * gezeigt, die die Rechnung nicht hatte:
+ *
+ * | Fassung | Oberkante | Standbreite |
+ * |---|---|---|
+ * | Gegenprobe, beide neutral | 2 px Unterschied | 189 gegen 190 |
+ * | Streckung des Koerpers | **16 px** | 183 |
+ * | Beine gegenlaeufig | 2 px | **215** |
+ *
+ * **Die Streckung ist doppelt so gross wie vorab gerechnet.** Die Vorabzahl
+ * von 7,5 Pixeln ging von der Gehaeusehoehe 84 aus; die Streckung wirkt aber
+ * auf den Abstand vom Pivot bei y = 138 bis zur Oberkante, und das sind rund
+ * 108. Die Fuesse wandern dabei um einen Pixel, also gar nicht.
+ *
+ * **Die Beine bewegten mehr und sind trotzdem verworfen.** Am Bild las sich
+ * der breite Stand als andere Figur, nicht als andere Haltung. Die Zahl steht
+ * hier, damit niemand sie noch einmal misst.
+ *
+ * **Ein Vorzeichenfehler, den nur die Messung fand:** Der erste Anlauf stellte
+ * die Beine **zusammen** statt breit (189 auf 163). Die Ketten sind gespiegelt
+ * gezeichnet, die Vorzeichen sind seitenabhaengig — dieselbe Falle wie bei den
+ * Armen von `ansprechen`.
+ *
+ * ## Was zu sehen sein muss
+ *
+ * Links spricht Volti mit dem gewaehlten Zug, rechts steht Watti. **Die
+ * Fassung `behaupten` ist die Gegenprobe, und sie ist nicht optional:** Dort
+ * muessen beide gleich hoch stehen. Tun sie es nicht, misst die Probe die
+ * Gewichtsverlagerung — `gewicht` laeuft mit zwei Frequenzen und ist bei Bild
+ * 20 nicht null.
+ *
+ * In jeder Fassung stehen die Fuesse beider Figuren auf derselben Hoehe.
+ * Wandert ein Fuss, sitzt die Streckung am falschen Pivot; sie laeuft um
+ * `koerper` bei y = 138, also praktisch auf der Standlinie.
+ *
+ * **Bild 20, wie bei der Zuwendungsprobe:** Der Uebergang laeuft ueber
+ * `UEBERGANG_SEK` = 0,25, und ohne Sprechstaerke fehlten `HINLEHNEN` und das
+ * Sprechwippen — letzteres liegt mit 1,6 Pixeln in derselben Groessenordnung
+ * wie die Haltung, gegen die sie sich behaupten muss.
+ */
+export const Haltungsprobe: React.FC<{ zug?: Zug }> = ({ zug = 'behaupten' }) => (
+  <AbsoluteFill style={{ backgroundColor: FARBEN.grund, alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ width: BUEHNE.breite, height: BUEHNE.hoeheOhneUntertitel, display: 'flex' }}>
+      <Sprecherstand abschnitte={spricht('nachleser', zug)}>
+        <Buehnenbild
+          buehne={{ art: 'figur', von: 'ruhe', nach: 'ruhe', gegenueber: { von: 'ruhe', nach: 'ruhe' } }}
+          dauer={120}
+        />
+      </Sprecherstand>
+    </div>
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 24,
+        fontFamily: 'Inter',
+        fontSize: 26,
+        color: FARBEN.tinte,
+        opacity: 0.5,
+      }}
+    >
+      {ZUGARTEN[zug].name} · Aufrichtung {ZUGARTEN[zug].aufrichtung ?? 0} · {FORMAT.breite}x{FORMAT.hoehe}
     </div>
   </AbsoluteFill>
 );

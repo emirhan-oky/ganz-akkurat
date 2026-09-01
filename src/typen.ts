@@ -482,6 +482,30 @@ export const ZUGARTEN: Record<
     verlangt?: Offenheit;
     /** Welche offene Pflicht dieser Zug schliesst. Leer heisst: er schliesst keine. */
     schliesst: readonly Offenheit[];
+    /**
+     * Wie die Figur dabei steht: 1 richtet auf, −1 laesst einsinken, 0 ist die
+     * Ruhelage.
+     *
+     * **Gemessen am 01.09.2026, nicht gegriffen.** Eine `Haltungsprobe` in
+     * voller Formatgroesse hat die vier Fassungen gegeneinandergestellt: Die
+     * Streckung des Koerpers um die Standlinie bewegt die Oberkante um **16
+     * Pixel von 1920**, die Fuesse bleiben dabei stehen (1 Pixel, Rundung).
+     * Meine Vorabrechnung hatte 7,5 gesagt und lag um die Haelfte daneben —
+     * sie ging von der Gehaeusehoehe 84 aus, waehrend die Streckung auf den
+     * Abstand vom Pivot bei y = 138 bis zur Oberkante wirkt, und das sind
+     * rund 108.
+     *
+     * **Bewusst nur an vier Zuegen.** Wer jedem Zug eine Haltung gibt, bekommt
+     * keine Koerpersprache, sondern eine zappelnde Figur — dieselbe
+     * Ueberlegung, aus der der Ausruf einen Vorrat hat und keinen festen
+     * Marker. Die vier sind die, bei denen die Haltung im Wort schon steckt.
+     *
+     * Der Weg ins Bild laeuft ueber `abschnitte[].zug` und `Sprecherstand`,
+     * **nicht** ueber ein Posenfeld: Der Zug wechselt je Redeanteil, die Pose
+     * nur einmal je Szene. Ein Posenfeld haette den Wert nie zu sehen
+     * bekommen.
+     */
+    aufrichtung?: number;
   }
 > = {
   behaupten: {
@@ -515,6 +539,7 @@ export const ZUGARTEN: Record<
     beispiele: ['Nicht der Kalender entscheidet, sondern der Verdacht.'],
     behauptet: true,
     schliesst: ['konter', 'antwort'],
+    aufrichtung: 1,
   },
   gegenbeispiel: {
     name: 'Gegenbeispiel',
@@ -542,6 +567,7 @@ export const ZUGARTEN: Record<
     behauptet: false,
     verlangt: 'konter',
     schliesst: [],
+    aufrichtung: 1,
   },
   nachhaken: {
     name: 'Nachhaken',
@@ -551,6 +577,7 @@ export const ZUGARTEN: Record<
     behauptet: false,
     verlangt: 'antwort',
     schliesst: [],
+    aufrichtung: -0.5,
   },
   umdeuten: {
     name: 'Umdeuten',
@@ -568,6 +595,7 @@ export const ZUGARTEN: Record<
     beispiele: ['Na super.', 'Also war das alles umsonst.'],
     behauptet: false,
     schliesst: ['konter'],
+    aufrichtung: -1,
   },
   zuspitzen: {
     name: 'Zuspitzen',
@@ -2522,6 +2550,26 @@ export const Tonspur = z.object({
         datei: z.string(),
         sprecher: Sprecher,
         startSek: z.number().nonnegative(),
+        /**
+         * Der Zug, den dieser Abschnitt spricht.
+         *
+         * **Damit das Bild ihn ueberhaupt sehen kann.** `ZUGARTEN[...]`
+         * traegt eine `aufrichtung`, und der Weg dorthin fuehrt nur hier
+         * entlang: Der Renderer kennt keine Redeanteile, er kennt Abschnitte
+         * und eine Uhr. `Sprecherstand` blendet den Wert genauso ueber wie die
+         * Sprechstaerke — ein harter Wechsel waere ein Ruck in der Figur.
+         *
+         * **Pflicht, nicht optional.** Am Redeanteil ist `zug` seit dem
+         * 01.09.2026 Pflicht, und ein Feld, das auf halbem Weg fehlen darf,
+         * fehlt irgendwann still. Alte Renderdaten kennen es nicht — das ist
+         * kein Problem, weil aus ihnen ohnehin einzelne Stuecke gelesen
+         * werden und nicht die ganze Datei gegen den heutigen Vertrag.
+         *
+         * Verschmilzt `redelaeufe` zwei Anteile derselben Figur innerhalb
+         * einer Szene, **gewinnt der erste**, und `zugverlust` in
+         * `src/pruefung.ts` meldet den Fall.
+         */
+        zug: Zug,
       }),
     )
     .min(1)

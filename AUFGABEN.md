@@ -1693,15 +1693,17 @@ einzigen).
       anspricht** — eine neue Pose allein löst das nicht.
       `Wortwechselprobe` rendert ohne `Sprecherstand` und zeigt deshalb
       ausgerechnet diese beiden Größen nicht
-- [ ] **Der Zug an der Tonspur** — `Redelauf.zug` → `abschnitte[].zug`, plus
-      eine Wache: `src/stimme.ts:679` verschmilzt zwei Anteile derselben Figur
-      **innerhalb einer Szene**, und dabei geht der zweite Zug still verloren
-- [ ] **Die Haltungsprobe vor dem Bau.** Der Körperwinkel ist als Träger
-      blockiert — `drehung.koerper` klemmt bei ±9, und `stutzen` 8 plus
-      Gewicht 1,65 plus `HINLEHNEN` 1,5 ergeben **11,15**, was `winkelKlemmen`
-      schon heute still abschneidet. Die Haltung gehört auf Hub, Stauchung und
-      Beine; der Pivot bei y = 138 lässt die Füße stehen. Ausschlag rund 2,9
-      von 88 Einheiten — **erst ein Standbild in Feed-Größe, dann bauen**
+- [x] ~~**Die Haltungsprobe vor dem Bau.** Sie hat die Reihenfolge des Plans
+      umgedreht, und das war richtig: Der Zug an der Tonspur hatte genau einen
+      geplanten Leser, nämlich die Haltung — ohne sie wäre er ein totes Feld
+      gewesen. Emirhan hat an vier Standbildern in Formatgröße entschieden:
+      **die Streckung trägt, die Beine nicht**~~
+- [x] ~~**Der Zug an der Tonspur** — `abschnitte[].zug` als Pflichtfeld,
+      `aufrichtung` an vier der zwölf Zugarten, `Sprecherstand` blendet sie
+      über dieselben 0,25 s wie die Sprechstärke. Dazu `zugverlust` als
+      Hinweis und eine Höhenwache in der Schemaprüfung, weil
+      `AUSSENREICHWEITE` nur Breite rechnet. **Beide Wachen sind gegengeprüft**
+      — eine Regel, die man nur an ihrem grünen Ergebnis prüft, ist ungeprüft~~
 - [ ] **Der Publikumston** am Kipppunkt, einmal je Short, ein Raunen
 - [ ] **Ein Video mit vollem Ton** — braucht Emirhans Zustimmung
 

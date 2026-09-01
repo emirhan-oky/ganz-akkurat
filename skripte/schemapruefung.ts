@@ -10,7 +10,12 @@ import { redelaeufe } from '../src/stimme';
 import { SZENENGRENZE_SEK, zusatzpausenSek } from '../src/zeit';
 import { nachleser } from '../daten/figur/nachleser';
 import { AUSSENREICHWEITE, POSEN, posenPruefen } from '../video/bausteine/posen';
-import { WORTWECHSEL, zuBreiteWortwechselposen } from '../video/bausteine/Buehnenbild';
+import {
+  AUFRICHTUNG,
+  WORTWECHSEL,
+  WORTWECHSEL_SCHLUSS,
+  zuBreiteWortwechselposen,
+} from '../video/bausteine/Buehnenbild';
 import { SICHERE_ZONE, VORHANG } from '../src/marke';
 import {
   GENUG_FUER_MEDIAN,
@@ -193,6 +198,57 @@ if (erwartet.join(',') !== gesetzt.join(',')) {
       'Die Anordnung oder die Reichweiten haben sich geändert.',
   );
   fehler += 1;
+}
+
+/*
+ * ## Ragt eine aufgerichtete Figur oben aus der Bühne?
+ *
+ * `AUSSENREICHWEITE` und die Sperre darüber rechnen ausschließlich **Breite**
+ * — sie war immer die Grenze, weil das Bühnen-SVG mit 200 zu 150 Einheiten
+ * breitenbegrenzt ist. Seit dem 01.09.2026 gibt es eine Größe, die die Figur
+ * **höher** macht: `ZUGARTEN[...].aufrichtung` streckt den Körper um
+ * `AUFRICHTUNG` um die Standlinie.
+ *
+ * Gerechnet ist heute reichlich Luft: Im Wortwechsel steht die Oberkante bei
+ * 52,4 und gestreckt bei 49,4; im Schluss bei 29,6 und 25,8. Reißen würde es
+ * erst bei einer Figurengröße von rund 1,13.
+ *
+ * **Die Wache steht trotzdem hier, und zwar genau deswegen.** Die 0,92 des
+ * Schlusses sind am 01.09.2026 von 0,73 heraufgesetzt worden, weil die Figuren
+ * zu klein standen — und wer sie das nächste Mal heraufsetzt, hat keinen
+ * Grund, an die Streckung zu denken. Eine Bremse, die still greift, ist
+ * schlimmer als eine, die meldet: `Buehne` skalierte den ganzen Inhalt
+ * kleiner, und niemand wüsste warum.
+ */
+const figurOberkante = Math.min(
+  ...nachleser.teile.flatMap((t) =>
+    t.formen.map((f) => {
+      if (f.art === 'rechteck') return f.y;
+      if (f.art === 'kreis') return f.cy - f.r;
+      if (f.art === 'ellipse') return f.cy - f.ry;
+      /*
+       * Beim Pfad wird jede zweite Zahl als y gelesen. Grob, und das genuegt:
+       * Gefragt ist die oberste Kante, und die liegt in dieser Figur ohnehin
+       * im Gehaeuse — einem Rechteck.
+       */
+      const zahlen = f.d.match(/-?\d+(\.\d+)?/g) ?? [];
+      return Math.min(...zahlen.filter((_, i) => i % 2 === 1).map(Number));
+    }),
+  ),
+);
+for (const [name, stand] of [
+  ['Wortwechsel', WORTWECHSEL],
+  ['Schluss', WORTWECHSEL_SCHLUSS],
+] as const) {
+  const gestreckt = 140 - (140 - figurOberkante) * stand.groesse * (1 + AUFRICHTUNG);
+  if (gestreckt < 0) {
+    console.error(
+      `✗ Fehler  · [figur] Eine aufgerichtete Figur ragt im ${name} bis y = ` +
+        `${gestreckt.toFixed(1)} und damit über den Bühnenrand. Bei groesse ` +
+        `${stand.groesse} und ${(AUFRICHTUNG * 100).toFixed(2)} % Streckung geht das nicht auf.`,
+    );
+    fehler += 1;
+  }
 }
 
 /*

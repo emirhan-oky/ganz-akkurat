@@ -1904,6 +1904,42 @@ const STIMMANTEIL_MAX = 2 / 3;
       }
 
       /*
+       * **Wo ein Zug still verlorengeht.** `redelaeufe` haengt zwei Anteile
+       * derselben Figur **innerhalb einer Szene** zu einem Syntheseaufruf
+       * zusammen, weil sonst eine Sprecherpause entstuende, wo kein Sprecher
+       * wechselt. Ein Abschnitt traegt aber genau einen Zug — der erste
+       * gewinnt, der zweite kommt im Bild nie an.
+       *
+       * **Hinweis und nicht Fehler.** Die Verschmelzung ist richtig, und der
+       * Verlust ist meistens folgenlos: Er faellt nur ins Gewicht, wenn der
+       * zweite Zug eine andere `aufrichtung` traegt als der erste. Genau das
+       * meldet die Regel, statt jeden Fall zu zaehlen.
+       *
+       * Am 01.09.2026 gab es drei solche Stellen in vier Shorts, keine davon
+       * mit unterschiedlicher Haltung. Der alte Plan hielt den Fall noch fuer
+       * theoretisch — damals wechselten alle vier Entwuerfe strikt ab.
+       */
+      short.szenen.forEach((szene, si) => {
+        const anteile = szene.rede ?? [];
+        for (let i = 1; i < anteile.length; i += 1) {
+          const vor = anteile[i - 1]!;
+          const jetzt = anteile[i]!;
+          if (vor.sprecher !== jetzt.sprecher) continue;
+          const a = ZUGARTEN[vor.zug].aufrichtung ?? 0;
+          const b = ZUGARTEN[jetzt.zug].aufrichtung ?? 0;
+          if (a === b) continue;
+          melde(
+            'hinweis',
+            'zugverlust',
+            `Szene ${si + 1}: „${ZUGARTEN[jetzt.zug].name}" folgt auf ` +
+              `„${ZUGARTEN[vor.zug].name}" bei derselben Figur. Beide gehen in einen ` +
+              'Syntheseaufruf, der Zug des ersten gewinnt — die Haltung des zweiten ' +
+              'kommt im Bild nicht an.',
+          );
+        }
+      });
+
+      /*
        * **Der Bogen sagt zu, wie es ausgeht.** Das einzige Feld aus
        * `GESPRAECHSBOEGEN`, das eine Pruefung traegt — alles andere darin ist
        * Handreichung fuer den Entwurf und wird ausdruecklich von keinem Skript

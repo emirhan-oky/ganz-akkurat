@@ -12,7 +12,7 @@ import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
-import { Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
+import { Haltungsprobe, Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
 import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
 import { Gestenprobe } from './Gestenprobe';
 import { Anordnungsprobe, AnordnungsprobeProps } from './Anordnungsprobe';
@@ -84,6 +84,17 @@ export const RemotionRoot: React.FC = () => (
   <Composition id="Wortwechselprobe" component={Wortwechselprobe} width={1900} height={3300} fps={30} durationInFrames={1} />
   {/* 60 Bilder statt 1: Die Sprechstaerke braucht 8 Bilder Anlauf. Standbild bei 20. */}
   <Composition id="Zuwendungsprobe" component={Zuwendungsprobe} width={1300} height={1000} fps={30} durationInFrames={60} />
+  {/* In Formatgroesse, als einzige Probe: Gefragt sind 7,5 Pixel von 1920 — wer
+      das vergroessert beurteilt, beantwortet eine andere Frage. Bild 20 wie oben. */}
+  <Composition
+    id="Haltungsprobe"
+    component={Haltungsprobe}
+    width={FORMAT.breite}
+    height={FORMAT.hoehe}
+    fps={FORMAT.bilderProSekunde}
+    durationInFrames={60}
+    defaultProps={{ traeger: 'keine' as const }}
+  />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition
     id="Short"

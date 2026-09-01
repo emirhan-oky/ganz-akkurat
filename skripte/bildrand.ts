@@ -176,10 +176,19 @@ const main = async () => {
           dauerSek: (letzte.startBild + letzte.dauerBilder) / 30,
           woerter: [],
           szenenStartSek: roh.map((p) => p.startBild / 30),
+          /*
+           * **`widersprechen` und nicht der echte Zug der Szene.** Er traegt
+           * die groesste Aufrichtung, streckt die Figur also am staerksten —
+           * und eine Randprobe misst den unguenstigsten Fall, nicht den
+           * haeufigsten. Der echte Zug haette hier je Szene eine andere und
+           * meist kleinere Figur gemessen, was die Probe genau dort still
+           * machte, wo sie gebraucht wird.
+           */
           abschnitte: roh.map((p, i) => ({
             datei: '',
             sprecher: i % 2 === 0 ? ('nachleser' as const) : ('zeiger' as const),
             startSek: p.startBild / 30,
+            zug: 'widersprechen' as const,
           })),
         },
       };

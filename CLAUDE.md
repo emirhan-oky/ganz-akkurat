@@ -443,6 +443,13 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   war trotzdem kein Gespräch. **Ein Maß, das eine Zeichenkette zählt, kann eine
   Beziehung nicht sehen.** Er bleibt trotzdem — als Gegenprobe: Der Zug ist eine
   *erklärte* Beziehung, der Rückbezug misst die *tatsächlichen* Wörter.
+- **`zugverlust`** — ein Hinweis, wo zwei Anteile derselben Figur in einer
+  Szene **verschiedene Haltungen** tragen. `redelaeufe` klebt sie zu einem
+  Syntheseaufruf zusammen, und ein Abschnitt trägt genau einen Zug: Der erste
+  gewinnt, die Haltung des zweiten kommt im Bild nie an. Die Verschmelzung
+  aufzubrechen wäre falsch — sie fügte eine Sprecherpause ein, wo kein Sprecher
+  wechselt, und kostete einen Aufruf mehr. Gemeldet wird deshalb nur der Fall,
+  in dem der Verlust etwas kostet.
 - **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
 - **`suchbegriff`** — jedes Wort steht im Sprechtext und in allen drei
   Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Ein Zwang
@@ -790,6 +797,64 @@ steht er schon am Bühnenrand.
 Der Satz „Gespiegelt wird nicht" in `platzVon` gilt weiter für Figur plus
 Symbol — ein Symbol läge sonst hinter dem Rücken. Bei zwei Figuren gilt er
 nicht.
+
+### Die Haltung
+
+Seit dem 01.09.2026 steht die Figur nicht immer gleich da: Wer widerspricht
+oder richtigstellt, **richtet sich auf**; wer einlenkt oder nachhakt, sinkt
+ein. Der Wert steht als `aufrichtung` in `ZUGARTEN` — 1, −0,5 oder −1 an genau
+vier der zwölf Züge.
+
+**Bewusst nur an vieren.** Wer jedem Zug eine Haltung gibt, bekommt keine
+Körpersprache, sondern eine zappelnde Figur. Dieselbe Überlegung wie beim
+Ausruf, der einen Vorrat hat und keinen festen Marker.
+
+**Der Weg läuft über die Tonspur und nicht über die Pose.** `abschnitte[].zug`
+ist seit demselben Tag Pflichtfeld, `Sprecherstand` blendet den Wert über
+dieselben 0,25 Sekunden über wie die Sprechstärke. Ein Posenfeld wäre tot
+gewesen: Der Zug wechselt je Redeanteil, die Pose nur einmal je Szene — sie
+hätte den Wert nie zu sehen bekommen.
+
+**Getragen wird die Haltung von der Streckung des Körpers**, volumenerhaltend
+um den Pivot bei y = 138, also praktisch auf der Standlinie. Die Füße bleiben
+stehen.
+
+**Die Zahlen sind gemessen, und die Vorabrechnung lag um die Hälfte daneben.**
+Geplant waren 7,5 Pixel von 1920, gemessen sind es **16**: Die Rechnung ging
+von der Gehäusehöhe 84 aus, während die Streckung auf den Abstand vom Pivot bis
+zur Oberkante wirkt, und das sind rund 108.
+
+| | Ausschlag | in Pixeln |
+|---|---|---|
+| Atem-Squash | ±1 % | 2,2 |
+| Atem-Hub | ±0,7 Einheiten | 1,8 |
+| Sprechwippen | ±0,6 Einheiten | 1,6 |
+| **Aufrichtung** | **3,45 %** | **16** |
+
+**Die Beine sind verworfen, obwohl sie mehr bewegten.** Gegenläufig gestellt
+ändern sie die Standbreite von 189 auf 215 Pixel — mehr als die Streckung. Am
+Bild in Feed-Größe hat die Streckung trotzdem gewonnen: Der breite Stand las
+sich als andere Figur, nicht als andere Haltung. Ein Vorzeichenfehler auf dem
+Weg dorthin ist derselbe wie bei den Armen von `ansprechen`: Die Ketten sind
+gespiegelt gezeichnet, und der erste Anlauf stellte die Beine zusammen statt
+breit.
+
+**Zwei Zusammenführungsfehler mussten vorher weg**, beide in
+`figurenbewegung`. Der Atem wurde über die Posenstauchung *gespreadet* statt
+mit ihr multipliziert, die Gewichtsverlagerung über die Beindrehung gelegt
+statt zu ihr addiert. Beide waren folgenlos, solange keine Pose diese Felder
+setzt — und genau deshalb billig zu beheben, bevor es eine tat.
+
+**Die Probe hatte ihren eigenen Fehler**, und er ist lehrreich: Der erste
+Anlauf gab beiden Figuren denselben Zug. Beide richteten sich auf, die Messung
+zeigte 2 Pixel Unterschied — **eine Probe, die ihr Messobjekt auf beide Seiten
+legt, misst die Differenz von nichts.**
+
+Und weil `AUSSENREICHWEITE` nur **Breite** rechnet, prüft
+`skripte/schemapruefung.ts` jetzt zusätzlich die Höhe: Bei einer Figurengröße
+über rund 1,13 ragte die gestreckte Figur oben aus der Bühne. Heute ist reichlich
+Luft — die Wache steht für den nächsten, der `WORTWECHSEL_SCHLUSS` heraufsetzt,
+so wie es am 01.09. schon einmal geschah.
 
 ### Die vierte Wand
 

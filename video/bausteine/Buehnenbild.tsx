@@ -17,7 +17,7 @@ import { Kamera } from './Kamera';
 import { poseAus } from './posen';
 import { Blatt } from './Requisiten';
 import { atemvolumen, gewicht } from './bewegung';
-import { useSprechsekunde, useSprecher, useSprechstaerke, useWoerter } from './Sprecherstand';
+import { useAufrichtung, useSprechsekunde, useSprecher, useSprechstaerke, useWoerter } from './Sprecherstand';
 
 /**
  * Die Buehne einer Szene: was im Bild **passiert**.
@@ -539,6 +539,23 @@ const BLICK_ZUR_MITTE = 2;
  * Ohne ihn atmen sie im Gleichschritt, und zwei Figuren, die synchron atmen,
  * sind eine Figur in zwei Farben.
  */
+/**
+ * Wie weit sich die Streckung eines aufgerichteten Koerpers auswirkt.
+ *
+ * **Gemessen, nicht gegriffen.** 3,45 % Streckung um den Pivot bei y = 138
+ * bewegen die Oberkante der Figur um **16 Pixel von 1920**, die Fuesse um
+ * einen. Die Vorabrechnung sagte 7,5 und war um die Haelfte daneben: Sie ging
+ * von der Gehaeusehoehe 84 aus, waehrend die Streckung auf den Abstand vom
+ * Pivot bis zur Oberkante wirkt — rund 108 Einheiten.
+ *
+ * **Die Beine sind verworfen, obwohl sie mehr bewegten** (Standbreite 189 auf
+ * 215 Pixel). Am Bild in Feed-Groesse hat die Streckung gewonnen; der breite
+ * Stand las sich als andere Figur, nicht als andere Haltung. Die Zahlen und
+ * die verworfene Fassung stehen in `Haltungsprobe`, damit niemand dieselbe
+ * Runde noch einmal dreht.
+ */
+export const AUFRICHTUNG = 0.0345;
+
 const figurenbewegung = (
   pose: Pose,
   {
@@ -548,6 +565,7 @@ const figurenbewegung = (
     fps,
     woerter,
     sekunde,
+    haltung,
   }: {
     /** Wie stark diese Figur spricht: 0 bis 1, ueberblendet am Wechsel. */
     staerke: number;
@@ -557,6 +575,11 @@ const figurenbewegung = (
     woerter?: readonly Untertitelwort[];
     /** Sekunde seit **Videostart**, nicht seit Szenenstart. */
     sekunde: number;
+    /**
+     * Wie aufgerichtet die Figur steht: 1 bis −1, aus dem Zug ihres letzten
+     * Abschnitts. Siehe `aufrichtung` in `Sprecherstand`.
+     */
+    haltung: number;
   },
 ): Pose => {
   const g = gewicht(frame, fps, versatz);
@@ -575,16 +598,37 @@ const figurenbewegung = (
    * Sinus, der wenigstens nicht nach Metronom aussieht.
    */
   const geredetSynchron = woerter ? { ...geredet, mund: synchron ?? pose.mund } : geredet;
+  /*
+   * **Zusammengelegt statt ueberschrieben, seit dem 01.09.2026.**
+   *
+   * Hier standen zwei Spreads, und beide haetten eine Pose still verschluckt,
+   * die dasselbe Feld setzt:
+   *
+   * - `...g` legte die Gewichtsverlagerung **ueber** `bein_links` und
+   *   `bein_rechts` der Pose. Sie gehoeren addiert, genau wie `koerper` es
+   *   eine Zeile weiter schon wird.
+   * - `...atem.stauchung` legte den Atem **ueber** `stauchung.koerper`. Zwei
+   *   Groessen, die dieselbe Achse skalieren, multiplizieren sich; jede bringt
+   *   ihre eigene Volumenerhaltung mit, und das Produkt bleibt volumenerhaltend.
+   *
+   * Am Bild aendert das heute nichts: Keine der elf Posen setzt eins dieser
+   * Felder. Genau deshalb war es jetzt billig — mit der Haltung im Vokabular
+   * waere es ein Fehler gewesen, den man erst am fertigen Video sieht.
+   */
+  const gestreckt = 1 + haltung * AUFRICHTUNG;
+  const hoch = (geredetSynchron.stauchung.koerper ?? 1) * gestreckt;
+  const breit = (geredetSynchron.dehnung.koerper ?? 1) / gestreckt;
   return {
     ...geredetSynchron,
     drehung: {
       ...geredetSynchron.drehung,
-      ...g,
+      bein_links: (geredetSynchron.drehung.bein_links ?? 0) + g.bein_links,
+      bein_rechts: (geredetSynchron.drehung.bein_rechts ?? 0) + g.bein_rechts,
       koerper:
         (geredetSynchron.drehung.koerper ?? 0) + g.koerper + HINLEHNEN * staerke * pose.zuwendung,
     },
-    stauchung: { ...geredetSynchron.stauchung, ...atem.stauchung },
-    dehnung: { ...geredetSynchron.dehnung, ...atem.dehnung },
+    stauchung: { ...geredetSynchron.stauchung, koerper: hoch * atem.stauchung.koerper },
+    dehnung: { ...geredetSynchron.dehnung, koerper: breit * atem.dehnung.koerper },
   };
 };
 
@@ -815,8 +859,16 @@ const Figurenbuehne: React.FC<{
    * ist der harte Wert richtig.
    */
   const sprechstaerkeFn = useSprechstaerke();
+  const aufrichtungFn = useAufrichtung();
   const staerkeVon = (rolle: Sprecher) =>
     sprechstaerkeFn ? sprechstaerkeFn(rolle) : spricht === rolle ? 1 : 0;
+  /*
+   * Ohne Tonspur gibt es keinen Zug und damit keine Haltung — die Figur steht
+   * in Ruhelage. Das ist derselbe Rueckfall wie bei der Sprechstaerke: Eine
+   * geratene Haltung waere schlimmer als keine, weil sie in jeder Probe und
+   * jeder Vorschau eine Aussage traefe, die die Daten nicht hergeben.
+   */
+  const haltungVon = (rolle: Sprecher) => (aufrichtungFn ? aufrichtungFn(rolle) : 0);
   const woerter = useWoerter();
   const sekunde = useSprechsekunde();
   const eigeneRolle: Sprecher = eigenes === zeiger ? 'zeiger' : 'nachleser';
@@ -1090,7 +1142,7 @@ const Figurenbuehne: React.FC<{
               */}
               <Figur
                 rig={eigenes}
-                pose={figurenbewegung(pose, { staerke: 0, versatz: 0, frame, fps, woerter, sekunde })}
+                pose={figurenbewegung(pose, { staerke: 0, versatz: 0, frame, fps, woerter, sekunde, haltung: 0 })}
                 requisiten={gehalten}
               />
             </g>
@@ -1099,7 +1151,7 @@ const Figurenbuehne: React.FC<{
               <g transform={wortwechselTransform(stand, 'links')}>
                 <Figur
                   rig={eigenes}
-                  pose={figurenbewegung(pose, { staerke: staerkeVon(eigeneRolle), versatz: 0, frame, fps, woerter, sekunde })}
+                  pose={figurenbewegung(pose, { staerke: staerkeVon(eigeneRolle), versatz: 0, frame, fps, woerter, sekunde, haltung: haltungVon(eigeneRolle) })}
                   requisiten={gehalten}
                 />
               </g>
@@ -1119,7 +1171,7 @@ const Figurenbuehne: React.FC<{
               <g transform={wortwechselTransform(stand, 'rechts')}>
                 <Figur
                   rig={anderes}
-                  pose={figurenbewegung(gegenpose, { staerke: staerkeVon(andereRolle), versatz: 1, frame, fps, woerter, sekunde })}
+                  pose={figurenbewegung(gegenpose, { staerke: staerkeVon(andereRolle), versatz: 1, frame, fps, woerter, sekunde, haltung: haltungVon(andereRolle) })}
                 />
               </g>
               {/*
