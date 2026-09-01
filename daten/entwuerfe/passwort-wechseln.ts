@@ -224,7 +224,7 @@ export const passwortWechseln: Short = {
        * sagt mehr ueber ihn als „Ertappt", ohne dass er es merkt.
        */
       sprechtext:
-        'Nicht automatisch? Dann lass ich es ganz. Wechseln nach Plan führt oft zu schwachen Passwörtern. Na und? Immerhin wechsel ich meine Passwörter.',
+        'Nicht automatisch? Dann lass ich es ganz. Wechseln nach Plan führt oft zu schwachen Passwörtern. Na und? Immerhin wechsel ich mein Passwort.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -242,7 +242,17 @@ export const passwortWechseln: Short = {
         {
           sprecher: 'zeiger',
           zug: 'widersprechen',
-          text: 'Na und? Immerhin wechsel ich meine Passwörter.',
+          /*
+           * **Singular, und das ist die halbe Pointe.** „Mein Passwort" sagt
+           * nebenbei, dass Watti genau eines hat — sonst zeigt Voltis
+           * „Besser ist" in Szene 6 auf eine Praxis, die im Short nie
+           * vorkommt. Der `belegpruefer` hat genau das gefunden: Der Vergleich
+           * haette auf nichts gezeigt.
+           *
+           * Watti verraet sich damit ein zweites Mal, ohne es zu merken —
+           * dieselbe Bauart wie „Ertappt", nur ohne das Gestaendnis.
+           */
+          text: 'Na und? Immerhin wechsel ich mein Passwort.',
           machart: 'gestaendnis',
         },
       ],
