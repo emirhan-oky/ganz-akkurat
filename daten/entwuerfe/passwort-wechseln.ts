@@ -3,18 +3,43 @@ import type { Short } from '../../src/typen';
 /**
  * Wer hat recht? · der regelmaessige Passwortwechsel.
  *
- * Die Abgrenzung zu `eswareinmal` haelt, und zwar knapp: Waere die Aufloesung
- * „frueher stimmte es, heute nicht", waere es ein Maerchen. Hier uebersehen
- * **beide** Seiten dasselbe — die IT-Abteilung, dass der erzwungene Wechsel zu
- * schwaecheren Passwoertern fuehrt; die Spoetter, dass es sehr wohl einen
- * Anlass zum Wechseln gibt, naemlich den konkreten Verdacht.
+ * ## Am 01.09.2026 als Geschichte neu geschrieben
  *
- * Der Streitfall selbst steht im Aufschlag und nur dort. Was zwei Lager
- * behaupten, ist keine Aussage ueber die Welt; die Zuspitzung darunter muss
- * eine sein und haengt deshalb am BSI.
+ * Der Befund am ersten fertigen Video: *„Es fuehlt sich immer noch so an, als
+ * ob das alles blindlings reingeworfen wird."* Die Ursache lag nicht im Bild
+ * und nicht im Ton, sondern im **Ausgangspunkt**: Der Short begann beim
+ * Sachverhalt („90 Tage, dann neues Passwort") — bei einer Behauptung, die im
+ * Raum steht und der niemand etwas passiert.
  *
- * Der Nachschlag endet auf einer **Restfrage** statt auf einer Pointe — sonst
- * gibt es bei diesem Format nichts zu kommentieren.
+ * Jetzt beginnt er bei einer **Lage**: Watti sagt, jemand war in seinem Konto.
+ * Volti fragt nach, Watti erzaehlt, und der Beleg kommt als Antwort auf ein
+ * echtes Problem statt als Vortrag.
+ *
+ * **Der Gewinn liegt nicht im Anfang, sondern im Kipppunkt.** Das BSI nennt
+ * als Anlass zum Wechseln „einen Hinweis darauf, dass es in die Haende von
+ * unbefugten Dritten gelangt ist" — und genau den hat Watti seit Szene 1. In
+ * der alten Fassung stand dieser Beleg abstrakt in der Mitte; hier ist er die
+ * Aufloesung einer Lage, die der Zuschauer seit dem ersten Satz kennt.
+ *
+ * **Kein einziges neues Feld war dafuer noetig.** Die Zuege tragen die
+ * Erzaehlung von selbst: `nachhaken` verlangt eine Antwort, `beantworten`
+ * schliesst sie, `richtigstellen` widerlegt. Was fehlte, war keine Technik,
+ * sondern die Entscheidung, wo der Short anfaengt.
+ *
+ * **Die Belege sind unveraendert.** Alle fuenf Fundstellen standen schon in der
+ * alten Fassung und sind geprueft; neu ist allein, wer wem was erzaehlt.
+ *
+ * ## Was bleibt
+ *
+ * Die Abgrenzung zu `eswareinmal` haelt weiter: Hier uebersehen **beide**
+ * Seiten dasselbe. Neu ist, dass beide Lager von **derselben Figur** vertreten
+ * werden — Watti wechselt vom „alle 90 Tage" zum „dann eben nie". Das ist
+ * naeher an einem Menschen als zwei abstrakte Lager, und der Bogen von „Beef"
+ * erlaubt es ausdruecklich: „Welches Lager welche Figur vertritt. Es darf
+ * innerhalb des Shorts wechseln."
+ *
+ * Der Nachschlag endet weiter auf einer **Restfrage** — und sie schliesst
+ * jetzt den Kreis zum Anfang, statt ins Leere zu fragen.
  */
 export const passwortWechseln: Short = {
   id: 'passwort-wechseln',
@@ -23,22 +48,14 @@ export const passwortWechseln: Short = {
   sachgebiet: 'netz',
   bauform: 'zitatkarte',
   arbeitstitel: 'Das Passwort und der Kalender',
-  weitererzaehlt: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
+  weitererzaehlt: 'Nicht der Kalender entscheidet.',
   suchbegriff: 'Passwort wechseln',
   /*
    * **„Bringt gar nichts" stand hier bis zum 31.08.2026** — und war der
    * teuerste Fehler dieses Projekts in seiner reinsten Form: Das BSI sagt
    * „erhoeht die Sicherheit **nicht automatisch**", und daraus wurde „gar
-   * nichts". Derselbe Schritt von „nicht automatisch" zu „nicht", den
-   * CLAUDE.md am Nachschlag dieses Shorts schon einmal beschreibt.
-   *
-   * Er stand hier, weil der `vorspann` das einzige gesprochene Feld ohne
-   * Belegpflicht war. Nicht aus Absicht, sondern weil er neu war.
-   *
-   * Die neue Zeile haengt an `keine-zeitgemaesse-schutzmassnahme` und traegt
-   * das **„pauschal"** mit: Das BSI verwirft den Wechsel nach Zeitplan, nicht
-   * das Wechseln ueberhaupt — sonst widerspraeche die Themenzeile dem eigenen
-   * Kipppunkt, der genau sagt, wann man wechseln soll.
+   * nichts". Die Zeile haengt seitdem an
+   * `keine-zeitgemaesse-schutzmassnahme` und traegt das **„pauschal"** mit.
    */
   vorspann: 'Passwort regelmäßig wechseln ist überholt',
   vorspannBelegId: 'keine-zeitgemaesse-schutzmassnahme',
@@ -47,94 +64,102 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: '90 Tage, dann neues Passwort.',
-      rede: [{ sprecher: 'nachleser', zug: 'behaupten', text: '90 Tage, dann neues Passwort.' }],
-      text: 'Passwort wechseln?',
       /*
-       * „90 Tage" **ist** ein Kalender, keine Uebertragung — `uhr` waere die
-       * Assoziation fuer Zeit, und genau davor warnt der Kommentar an
-       * `KontextArt`. Der Short landet auf „Nicht der Kalender entscheidet":
-       * Das Symbol im Aufschlag stellt auf, was der Nachschlag umwirft.
+       * **Eine Lage, keine Behauptung.** Der Aufschlag hat 3,5 Sekunden, und
+       * eine Lage passt hinein, wo eine Erklaerung es nicht taete: sieben
+       * Woerter, 27 Zeichen, rund 2,1 Sekunden.
+       *
+       * Er traegt keine Quelle und braucht keine — Watti behauptet nichts
+       * ueber die Welt, sondern ueber sein eigenes Konto. Dieselbe Sorte Satz
+       * wie „Ich bin bei Passwort7", nur als Eroeffnung.
+       *
+       * **Ohne Zeitangabe.** „Heute Nacht" waere am Sendetag falsch, ohne dass
+       * jemand etwas geaendert haette.
        */
-      buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'kalender' },
+      sprechtext: 'Jemand war in meinem Konto.',
+      rede: [{ sprecher: 'zeiger', zug: 'behaupten', text: 'Jemand war in meinem Konto.' }],
+      text: 'Jemand war drin.',
+      /*
+       * **Watti allein mit der Meldung.** Ein Symbol ist nur ohne zweite Figur
+       * erlaubt — es steht fest auf x = 152 und laege sonst in ihr. Der
+       * Aufschlag ist die einzige Szene, in der das ohnehin passt: Die Lage
+       * gehoert Watti, Volti kommt erst mit der Nachfrage dazu.
+       *
+       * `browserfenster` und nicht `kalender`: Der Kalender stand hier, solange
+       * der Short bei „90 Tage" anfing. Jetzt faengt er bei einer Meldung an,
+       * und der Kalender kommt spaeter — als Wattis Irrtum, nicht als Aufhaenger.
+       */
+      buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'staunen', requisite: 'browserfenster' },
+    },
+    {
+      art: 'text',
+      position: 'zuspitzung',
+      /*
+       * **Die Nachfrage ist echt, und deshalb traegt sie.** `nachhaken`
+       * verlangt eine Antwort der anderen Figur binnen zwei Zeilen — die Regel
+       * erzwingt hier genau den Anschluss, den die Erzaehlung ohnehin will.
+       *
+       * Wattis Antwort behauptet nichts ueber die Welt, sondern ueber sein
+       * Konto. Sie steht deshalb ohne Quelle in einer Szene, die eine traegt:
+       * Die Belegpflicht haengt an der Szene, nicht an jeder Zeile.
+       */
+      sprechtext:
+        'Woher weißt du das, Watti? Eine Anmeldung mit meinem Passwort, von einem fremden Gerät. Dann wechsel es.',
+      rede: [
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Woher weißt du das, Watti?' },
+        {
+          sprecher: 'zeiger',
+          zug: 'beantworten',
+          text: 'Eine Anmeldung mit meinem Passwort, von einem fremden Gerät.',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Dann wechsel es.',
+          quelleId: 'bsi-umgang-mit-passwoertern',
+          belegId: 'geaendert-wenn-hinweis-unbefugte',
+        },
+      ],
+      text: 'Fremde Anmeldung.',
+      buehne: {
+        art: 'figur',
+        wer: 'zeiger',
+        von: 'staunen',
+        nach: 'nachdenken',
+        gegenueber: { von: 'ruhe', nach: 'lesen' },
+      },
+      quelleId: 'bsi-umgang-mit-passwoertern',
+      belegId: 'geaendert-wenn-hinweis-unbefugte',
     },
     {
       art: 'zitatkarte',
       position: 'zuspitzung',
       /*
-       * **Watti eroeffnet.** Vorher begann Volti hier, und weil `redebloecke`
-       * gleiche Sprecher ueber Szenengrenzen zusammenklebt, wurde daraus mit
-       * dem Aufschlag ein Block von 8,4 Sekunden.
-       *
-       * Sein Belegsatz ist zugleich von 90 auf 77 Zeichen gekuerzt: Sechs
-       * Sekunden sind rund 86, der Satz war fuer sich allein schon zu lang.
-       * Der Wortlaut des Zitats steht ohnehin auf der Karte im Bild —
-       * **gesprochen wird Alltagssprache, gezeigt wird die Behoerdenfassung.**
+       * **Wattis Irrtum kommt aus seinem Mund, nicht aus dem Raum.** In der
+       * alten Fassung stand „90 Tage, dann neues Passwort" im Aufschlag — eine
+       * Behauptung ohne Sprecher, gegen die Volti dann anredete. Hier ist es
+       * Wattis eigene Gewohnheit, und die Zitatkarte widerlegt eine Person
+       * statt einer Meinung.
        */
       sprechtext:
-        'Sagt das eigentlich mal jemand mit Ahnung? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch. Nicht automatisch? Dann lasse ich es ganz.',
+        'Mach ich doch. Alle 90 Tage ein neues Passwort. Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
       rede: [
-        {
-          sprecher: 'zeiger',
-          zug: 'nachhaken',
-          text: 'Sagt das eigentlich mal jemand mit Ahnung?',
-          machart: 'rueckfrage',
-        },
+        { sprecher: 'zeiger', zug: 'nachlegen', text: 'Mach ich doch. Alle 90 Tage ein neues Passwort.' },
         {
           sprecher: 'nachleser',
-          zug: 'beantworten',
+          zug: 'richtigstellen',
           text: 'Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
         },
-        /*
-         * **Hier stand „Sicherheit? Also war das alles umsonst?"** — eine
-         * tadellose Ratlosigkeit, die auf den *Fakt* reagierte und nicht auf
-         * Volti. Der neue Satz greift „automatisch" auf und zieht daraus den
-         * Schluss, der Wattis halbes Lager vertritt: gar nicht mehr wechseln.
-         * **Das ist der Irrtum, den der Kipppunkt spaeter kassiert** — und
-         * damit tut die Zeile etwas fuer den Short, statt nur witzig zu sein.
-         */
-        {
-          sprecher: 'zeiger',
-          zug: 'umdeuten',
-          text: 'Nicht automatisch? Dann lasse ich es ganz.',
-          machart: 'falscherschluss',
-        },
       ],
-      /*
-       * **Der Kernsatz, und er beginnt bei „routinemaessiger".**
-       *
-       * Der erste Anlauf am 31.08. kuerzte auf „Passwortwechsel aber erhoeht
-       * die Sicherheit nicht automatisch" — mit der Begruendung, der
-       * Ausschnitt „beginne beim Subjekt". Das Subjekt ist aber **„Ein
-       * routinemaessiger Passwortwechsel"**, und ohne das Adjektiv behauptet
-       * die Karte ueber *jeden* Wechsel, was das BSI nur ueber den
-       * routinemaessigen sagt — auch ueber den, zu dem Volti zwei Szenen
-       * spaeter ausdruecklich raet. **Die Kuerzung widersprach dem eigenen
-       * Short.**
-       *
-       * Gefunden vom `belegpruefer`, nicht von einer Regel: Die Zitatlaenge
-       * war eingehalten, die Zeichenkette stand woertlich auf der Seite, und
-       * `quellen-pruefen` fand sie. Was fehlte, war ein Wort, dessen
-       * Weglassen die Bedeutung dreht — genau der Fall, fuer den der
-       * Kommentar an `zitat` in `src/typen.ts` warnt.
-       */
       zitat: 'Ein routinemäßiger Passwortwechsel aber erhöht die Sicherheit nicht automatisch',
-      /*
-       * **Die Zitatkarte traegt seit dem 31.08.2026 eine Buehne.** Der Vertrag
-       * verlangt sie seit einer Woche — „die beiden Figuren reden darueber" —,
-       * und das Schema kannte sie nicht. Ausgerechnet die Szene, in der am
-       * ausdruecklichsten geredet wird, war die einzige ohne Figuren.
-       *
-       * `lesen` fuer Volti, weil er vorliest, was auf der Karte steht;
-       * `stutzen → nachdenken` fuer Watti, der es gerade begreift.
-       */
       buehne: {
         art: 'figur',
-        von: 'lesen',
+        wer: 'zeiger',
+        von: 'nachdenken',
         nach: 'stutzen',
-        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
+        gegenueber: { von: 'lesen', nach: 'nachdenken' },
       },
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
@@ -143,22 +168,28 @@ export const passwortWechseln: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      sprechtext: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern. Ertappt. Ich bin bei Passwort7.',
+      /*
+       * **Watti eroeffnet, und das ist keine Geschmacksfrage.** `redebloecke`
+       * klebt gleiche Sprecher ueber Szenengrenzen zusammen: Ohne diese Zeile
+       * folgte Voltis Gegenbeispiel unmittelbar auf seinen Zitatsatz aus der
+       * Szene davor, und daraus wurden **9,9 Sekunden Volti am Stueck** bei
+       * erlaubten sechs. Die Regel hat es beim ersten Lauf gemeldet.
+       *
+       * Der Widerspruch ist zugleich das zweite Lager: Watti hat eben noch
+       * „alle 90 Tage" verteidigt und verteidigt es hier ein letztes Mal,
+       * bevor er es aufgibt.
+       */
+      sprechtext:
+        'Aber öfter wechseln ist doch sicherer. Wer immer wieder wechselt, greift oft zu schwächeren Passwörtern. Ertappt. Ich bin bei Passwort7.',
       rede: [
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Aber öfter wechseln ist doch sicherer.' },
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',
-          text: 'Watti, wer ständig wechselt, greift oft zu schwächeren Passwörtern.',
+          text: 'Wer immer wieder wechselt, greift oft zu schwächeren Passwörtern.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'schwache-vorhersehbare-passwoerter',
         },
-        /*
-         * **„Ertappt." ist die ganze Aenderung**, und sie ist der Unterschied
-         * zwischen einem Gestaendnis und einem Einlenken: Vorher stand hier
-         * „Ich bin bei Passwort7. Passwort8 kriegt ein Ausrufezeichen." — fuer
-         * sich witzig, und es bezog sich auf nichts. Ein Wort davor macht die
-         * Zeile zur Antwort auf Voltis Satz, ohne ihr die Pointe zu nehmen.
-         */
         {
           sprecher: 'zeiger',
           zug: 'einlenken',
@@ -169,9 +200,10 @@ export const passwortWechseln: Short = {
       text: 'Oft schwächere Passwörter.',
       buehne: {
         art: 'figur',
-        von: 'lesen',
+        wer: 'zeiger',
+        von: 'stutzen',
         nach: 'nachdenken',
-        gegenueber: { von: 'ruhe', nach: 'stutzen' },
+        gegenueber: { von: 'nachdenken', nach: 'lesen' },
       },
       hervorhebung: 'schwächeren',
       quelleId: 'bsi-passwortwechsel-2026',
@@ -181,34 +213,31 @@ export const passwortWechseln: Short = {
       art: 'text',
       position: 'kipppunkt',
       /*
-       * **Die einzige Szene ohne Reaktion war zugleich die Naht.** Sie lief
-       * einstimmig in den naechsten Belegsatz, und beide zusammen ergaben
-       * 10,3 Sekunden Volti am Stueck. Eine Zeile fuer Watti loest den Block,
-       * ohne dass Volti ein Wort abgibt.
+       * **Der Kipppunkt ist die Lage aus Szene 1.** Watti springt vom „alle 90
+       * Tage" ins Gegenteil, und Volti dreht ihn zurueck — nicht mit einer
+       * Regel, sondern mit dem, was Watti selbst mitgebracht hat.
+       *
+       * Das ist der Grund, warum diese Fassung existiert: Derselbe Beleg stand
+       * vorher hier und war eine Auskunft. Jetzt ist er eine **Antwort**.
        */
-      sprechtext: 'Also nie wechseln, verstanden. Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Unbefugte es haben.',
+      sprechtext: 'Also nie wechseln. Doch — jetzt.',
       rede: [
-        /*
-         * **Wattis Irrtum wird ausgesprochen, bevor er kassiert wird.** Der
-         * Bogen von „Beef" sagt, dass **beide** Lager etwas uebersehen — das
-         * eine wechselt nach Kalender, das andere gar nicht. Ohne diese Zeile
-         * gibt es nur ein Lager im Bild, und der Kipppunkt kippt nichts.
-         */
-        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Also nie wechseln, verstanden.' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Also nie wechseln.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Nein. Wechseln sollst du, wenn es einen Hinweis gibt, dass Unbefugte es haben.',
+          text: 'Doch — jetzt.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
       ],
-      text: 'Bei einem Hinweis.',
+      text: 'Wechseln bei einem Hinweis.',
       buehne: {
         art: 'figur',
+        wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'lesen',
-        gegenueber: { von: 'stutzen', nach: 'staunen' },
+        nach: 'staunen',
+        gegenueber: { von: 'lesen', nach: 'stutzen' },
       },
       quelleId: 'bsi-umgang-mit-passwoertern',
       belegId: 'geaendert-wenn-hinweis-unbefugte',
@@ -217,30 +246,24 @@ export const passwortWechseln: Short = {
       art: 'text',
       position: 'kipppunkt',
       /*
-       * **Diese Szene und die davor haben den Platz getauscht.** Vorher stand
-       * hier der Hinweis-Beleg und in Szene 4 die Einzigartigkeit — mit dem
-       * Ergebnis, dass Wattis Irrtum („also nie wechseln") erst nach seiner
-       * Aufloesung kam. Ein Kipppunkt, der vor dem Irrtum steht, kippt nichts.
-       */
-      /*
-       * **Watti eroeffnet, und zwar nicht aus Dramaturgie, sondern weil
-       * `redelauf` es verlangt.** Vorher endete Szene 4 mit Voltis
-       * Richtigstellung und Szene 5 begann mit seinem naechsten Belegsatz —
-       * `redebloecke` klebt das ueber die Szenengrenze zu **8,6 Sekunden**
-       * Volti am Stueck zusammen, erlaubt sind sechs.
+       * **Beide Belegsaetze sind gekuerzt, und zwar wegen der Naht.**
+       * `redebloecke` klebt Voltis Kipppunkt aus der Szene davor an sein
+       * Nachlegen hier: 6,9 Sekunden am Stueck bei erlaubten sechs. Statt eine
+       * Zeile einzuschieben — der Short soll nicht wachsen — sind beide Saetze
+       * um zusammen 27 Zeichen kuerzer.
        *
-       * Die Naht lag zwischen den Saetzen, nicht in ihnen: Beide sind fuer
-       * sich unauffaellig. Wattis Einlenken loest den Block und greift dabei
-       * „Verdacht" auf — es kostet den Short nichts und gibt ihm einen
-       * Rueckbezug mehr.
+       * „Einzigartig heisst" faellt dabei weg. Der Satz bleibt gedeckt: Das
+       * Zitat sagt „dass fuer jedes Benutzerkonto ein eigenes Passwort gewaehlt
+       * wird", und genau das steht jetzt da — ohne das Wort, das die Definition
+       * einleitete.
        */
-      sprechtext: 'Also nicht nach Kalender. Und einzigartig heißt: ein eigenes Passwort je Konto. Konto? Meins ist der Generalschlüssel für alles.',
+      sprechtext:
+        'Beim BSI heißt einzigartig: je Konto ein eigenes Passwort. Konto? Meins ist der Generalschlüssel für alles.',
       rede: [
-        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also nicht nach Kalender.' },
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Und einzigartig heißt: ein eigenes Passwort je Konto.',
+          text: 'Beim BSI heißt einzigartig: je Konto ein eigenes Passwort.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
@@ -254,9 +277,10 @@ export const passwortWechseln: Short = {
       text: 'Ein Konto, ein Passwort.',
       buehne: {
         art: 'figur',
-        von: 'lesen',
-        nach: 'stutzen',
-        gegenueber: { von: 'staunen', nach: 'nachdenken' },
+        wer: 'zeiger',
+        von: 'staunen',
+        nach: 'nachdenken',
+        gegenueber: { von: 'stutzen', nach: 'lesen' },
       },
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'stark-und-einzigartig',
@@ -265,77 +289,57 @@ export const passwortWechseln: Short = {
       art: 'schluss',
       position: 'nachschlag',
       /*
-       * **Die Restfrage gehoert Watti, nicht Volti** — und das ist keine
-       * Geschmacksfrage, sondern folgt aus zwei Dingen.
+       * **Die Restfrage schliesst jetzt den Kreis.** Sie gehoert weiter Watti
+       * — der Bogen von „Beef" endet auf `nachhaken`, und ein `nachhaken`
+       * behauptet nichts, kann also nicht derselbe Zug sein wie Voltis
+       * Belegsatz. Kaemen beide von Volti, verschmoelze `redelaeufe` sie zu
+       * einem Abschnitt und der zweite Zug erreichte das Bild nie.
        *
-       * Der Bogen von „Beef" endet auf `nachhaken`, `einschraenken` oder
-       * `widersprechen`; der Short soll also mit einer offenen Frage schliessen.
-       * Ein `nachhaken` behauptet nichts und darf deshalb keine Quelle tragen —
-       * Voltis Belegsatz und die Frage koennen nicht derselbe Zug sein.
-       *
-       * Und wenn beide von Volti kaemen, wuerde `redelaeufe` sie zu einem
-       * Abschnitt verschmelzen: Der zweite Zug erreichte das Bild nie. Watti
-       * ist ohnehin die Figur, die fuer den Zuschauer steht — die Frage an ihn
-       * ist bei ihm richtig aufgehoben.
+       * Neu ist, worauf sie zeigt: In der alten Fassung fragte Watti ins Leere
+       * („Und wann kam deiner?"). Jetzt hat er seinen Hinweis seit dem ersten
+       * Satz — und die Frage gibt sie an den Zuschauer weiter.
        */
-      sprechtext: 'Nicht der Kalender entscheidet, sondern der Hinweis. Und wann kam deiner?',
+      sprechtext: 'Nicht der Kalender entscheidet. Sondern?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
+          text: 'Nicht der Kalender entscheidet.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'keine-zeitgemaesse-schutzmassnahme',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wann kam deiner?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Sondern?' },
       ],
-      satz: 'Nicht der Kalender entscheidet, sondern der Hinweis.',
+      satz: 'Nicht der Kalender entscheidet.',
       /*
        * Der Nachschlag traegt eine `belegId`, obwohl seine Position von der
        * Belegpflicht befreit ist. Grund ist ein Befund des `belegpruefer` vom
        * 30.08.2026: „Nicht der Kalender **entscheidet**" ist absolut, das an
-       * Szene 2 gebundene Zitat sagt „erhoeht die Sicherheit **nicht
+       * der Zitatkarte gebundene Zitat sagt „erhoeht die Sicherheit **nicht
        * automatisch**". Der Schritt von „nicht automatisch" zu „nicht" stand
        * in keinem gebundenen Zitat — er stand zwei Absaetze darueber auf
        * derselben Seite und war damit zwei Zeilen entfernt zu haben.
        *
-       * Formal haette der Satz gehalten, weil der Nachschlag nichts belegen
-       * muss. **Genau das ist der Grund, ihn trotzdem zu belegen:** Es war der
-       * einzige Satz des Shorts, dessen Deckung ausserhalb der gebundenen
-       * Belege lag, und die Befreiung ist fuer Pointen gedacht, nicht fuer
-       * Behauptungen, die zufaellig am Ende stehen.
-       *
        * **Am 01.09.2026 ein zweites Mal derselbe Befund, an derselben Zeile.**
        * Nach dem Umschreiben stand dort „sondern der Verdacht" — ein Wort, das
-       * in **keiner** gebundenen Fundstelle vorkommt: Die Quelle nennt einen
-       * „Hinweis darauf, dass es in die Haende von unbefugten Dritten gelangt
-       * ist". „Verdacht" klingt griffiger und war eine halbe Behauptung mehr.
+       * in **keiner** gebundenen Fundstelle vorkommt. Der Short sagt jetzt
+       * durchgehend „Hinweis": im Belegsatz, in Voltis Kipppunkt, im Bildtext
+       * und hier. **Ein Wort, das nur an einer Stelle belegt ist, darf nicht
+       * an vier Stellen stehen.**
        *
-       * Der Short sagt jetzt durchgehend „Hinweis" — im Belegsatz, in Wattis
-       * Einlenken, im Bildtext und hier. **Ein Wort, das nur an einer Stelle
-       * belegt ist, darf nicht an vier Stellen stehen.**
-       */
-      /*
        * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
-       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0`
-       * und nimmt damit Blick und Neigung zur anderen Figur heraus.
-       *
-       * Der Nachschlag ist der Ort dafuer, weil er der einzige Satz im Short
-       * ist, der niemandem auf der Buehne gilt.
-       *
-       * **Hier stand bis heute `zeigen`**, mit derselben Absicht: Volti
-       * richtet die Restfrage an den Zuschauer. Die Pose zeigte nur hin — sie
-       * konnte die Zuwendung zu Watti nicht abschalten, weil die am
-       * Sprechenden haengt und nicht an der Haltung. `ansprechen` kann es.
+       * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0` und
+       * nimmt damit Blick und Neigung zur anderen Figur heraus.
        */
       buehne: {
         art: 'figur',
-        von: 'lesen',
-        nach: 'ansprechen',
-        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
+        wer: 'zeiger',
+        von: 'nachdenken',
+        nach: 'stutzen',
+        gegenueber: { von: 'lesen', nach: 'ansprechen' },
       },
       rundlauf:
-        'Beim zweiten Sehen streiten die beiden Lager nicht mehr um dasselbe – jedes hat die Hälfte, die dem anderen fehlt.',
+        'Beim zweiten Sehen weiß man von Anfang an, dass Watti seinen Hinweis schon hat – und hört, wie lange er braucht, um es zu merken.',
     },
   ],
 
