@@ -47,6 +47,42 @@ Zurückgesetzt und die vier Änderungen erneut angewandt — das Diff liegt jetz
 bei 74 Zeilen. **Ein Formatierer ohne Konfiguration formatiert nach seiner
 eigenen.**
 
+## Vier Aenderungen am ersten Video mit Raum · 01.09.2026
+
+Vier Ansagen zum gerenderten Video, drei davon mit demselben Grund: **Die
+Fläche unter den Figuren ist leer.**
+
+- [x] ~~**Das Sofa in Gelb statt zwei Sesseln.** Sie standen ineinander, weil
+      links 113 Pixel frei sind und ein Sessel 164 breit ist. `Sofa` stand
+      noch vollständig im Code und wurde von nichts benutzt~~
+- [x] ~~**Die Figurenbühne steht absolut**, in genau der Fläche, aus der
+      `standlinieImBild()` die Bodenkante rechnet. Damit sind die Figuren in
+      jeder Szene gleich groß und stehen auf dem gezeichneten Boden~~
+- [x] ~~**Die Zitatkarte steht unten**, vor den Figuren, in 0,72 der
+      Schriftgröße — in voller Größe deckte sie die beiden bis zum Kopf~~
+- [x] ~~**Die Redespalten** sammeln die Zeilen der laufenden Szene unter der
+      Figur, die sie sagt, in ihrer Farbe~~
+- [x] ~~**Der Abspann auf dem Vorhang** — „WIR HABEN NACHGELESEN", der
+      Schlusssatz, Wattis Zeile aus dem neuen Feld `abspann`. Die Schrift ist
+      dafür von der Bühne verschwunden~~
+
+**Drei Befunde, alle am Standbild:**
+
+Die Zeichnung gehört als `illustration` in die Bühne und **nicht in den
+gemessenen Textstapel**. Als Kind bekam sie den Rest, den der Text übrig ließ —
+in der Zitatkartenszene stand die Figur halb so hoch wie nebenan. Ohne
+gezeichneten Boden fiel das nie auf.
+
+Die Redespalten standen fest links und rechts, aber `wer` an der Figurenbühne
+darf wechseln: **Voltis Satz stand unter Watti.** Sie folgen jetzt der Szene.
+
+Und sie liefen auf dem geschlossenen Vorhang weiter — im letzten Bild lasen sie
+sich als zweite, blasse Schrift neben der Abspannkarte.
+
+**Ein selbst gemachter dazu:** `npx prettier --write` auf die Renderer-Datei hat
+777 Zeilen umformatiert, weil das Projekt keine Prettier-Konfiguration hat.
+Zurückgesetzt und die Änderungen erneut angewandt.
+
 # Offen · Stand 31.08.2026` steht.
 
 ## Der große Umbau · 16.–17.08.2026
@@ -1580,12 +1616,13 @@ zu tun ist, steht ab hier.
       bleibt, ist der Zeitpunkt: Die Wache greift **während** des Bezahlens und
       kostet mit ihrem Zusatzversuch selbst einen Aufruf. `npm run sprechprobe`
       misst Szenen, während Wache und Abrechnung auf Redeläufen arbeiten
-- [ ] **Die Figuren sind je Szene verschieden groß.** In der Textszene stehen
-      sie an der Wandkante, in der Zitatkartenszene halb so hoch mitten auf der
-      Diele — die Karte nimmt den Platz, und die Bühne verteilt den Rest. Ohne
-      Raum fiel das nicht auf; mit einer festen Bodenkante im Rücken sieht man
-      es. Die Kette in `Illustration` ist dicht dokumentiert und dreimal
-      danebengegangen, also nicht nebenbei anzufassen
+- [x] ~~**Die Figuren sind je Szene verschieden groß.** Behoben: Die
+      Figurenbühne steht absolut auf ihrer Standlinie und teilt sich die Höhe
+      nicht mehr mit dem Text~~
+- [ ] **Der Abspann ist stumm.** Voltis „Wir haben nachgelesen." als feste
+      Aufnahme (einmalig) und Wattis Zeile je Short (~40 Zeichen). **Kostet
+      Kontingent.** Mit Ton wird der Abspann länger als der Nachlauf, und dann
+      reißt `raumstation-alte-rechner` bei 64 von 67 Sekunden
 - [ ] **Die drei anderen Shorts auf Streit umschreiben.** `passwort-wechseln`
       ist umgeschrieben, `raumstation-alte-rechner`, `erstes-laden` und
       `ersatzteil-freischalten` sind noch Wechselreden ohne Reibung
