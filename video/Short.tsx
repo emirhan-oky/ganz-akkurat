@@ -2,7 +2,7 @@ import { AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile,
 import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
 
 import type { Short as ShortDaten } from '../src/typen';
-import { FORMATE } from '../src/typen';
+import { FORMATE, ZUGARTEN } from '../src/typen';
 import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannFestSek, vorspannSek } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
 import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } from './bausteine/Vorhang';
@@ -96,6 +96,62 @@ const hinweisSzene = (daten: ShortDaten): number | null => {
     if (frei) return i;
   }
   return null;
+};
+
+/**
+ * Bei welchem Bild der Kipppunktton einsetzt — oder gar nicht.
+ *
+ * Er steht hier neben `hinweisSzene`, weil beide dieselbe Frage beantworten:
+ * **welche Stelle im Short traegt das?** Getrennt aufgeschrieben liefen sie
+ * beim naechsten Umbau auseinander.
+ *
+ * ## Die erste Kipppunkt-Szene, nicht beide
+ *
+ * Alle vier Entwuerfe haben **zwei** Szenen auf `kipppunkt` — das Schema
+ * verlangt nur mindestens eine und deckelt nicht. Der Ton laeuft trotzdem
+ * einmal: Zweimal derselbe Klang macht den zweiten zur Wiederholung des
+ * ersten. Aus genau diesem Grund gibt es `gefaellt` und `folgen` als zwei
+ * verschiedene Toene und nicht einen zweimal.
+ *
+ * ## Nicht am Szenenanfang, sondern am ersten behauptenden Zug
+ *
+ * **Die Kipppunkt-Szene beginnt nicht immer mit der Wendung.** In
+ * `passwort-wechseln` steht dort zuerst Wattis Irrtum — „Also nie wechseln,
+ * verstanden" (`widersprechen`) —, und erst Voltis Richtigstellung danach ist
+ * das, was kippt. Ein Ton am Szenenanfang traefe den Irrtum.
+ *
+ * Nachgezaehlt am 01.09.2026: In drei von vier Entwuerfen ist der erste Zug
+ * der Szene schon behauptend (`nachlegen`, `richtigstellen`, `beantworten`),
+ * im vierten nicht. Die Regel trifft also dreimal den Szenenanfang und einmal
+ * die Zeile danach — genau dort, wo der Unterschied zaehlt.
+ *
+ * Das ist der zweite Leser fuer `abschnitte[].zug`, der am selben Tag fuer die
+ * Haltung der Figuren entstanden ist.
+ *
+ * ## Ohne Tonspur kein Ton
+ *
+ * Der Zug steht nur in `abschnitte`. Faellt die Tonspur weg — tonloser Render,
+ * `npm run bildrand`, Vorschau —, faellt der Ton weg; ein Rueckfall auf den
+ * geschaetzten Zeitplan wuesste nicht, wer was sagt.
+ */
+const kipppunktBild = (
+  daten: ShortDaten,
+  plan: { startBild: number; dauerBilder: number }[],
+  bilderProSekunde: number,
+): number | null => {
+  const abschnitte = daten.tonspur?.abschnitte;
+  if (!abschnitte) return null;
+
+  const szene = daten.szenen.findIndex((sz) => sz.position === 'kipppunkt');
+  const fenster = plan[szene];
+  if (szene < 0 || !fenster) return null;
+
+  const vonSek = fenster.startBild / bilderProSekunde;
+  const bisSek = (fenster.startBild + fenster.dauerBilder) / bilderProSekunde;
+  const treffer = abschnitte.find(
+    (a) => a.startSek >= vonSek && a.startSek < bisSek && ZUGARTEN[a.zug].behauptet,
+  );
+  return treffer ? Math.round(treffer.startSek * bilderProSekunde) : null;
 };
 
 const Fortschritt: React.FC = () => {
@@ -217,6 +273,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
   const { fps: bilderProSekunde, durationInFrames } = useVideoConfig();
 
   const hinweisIndex = hinweisSzene(daten);
+  const kipppunktAb = kipppunktBild(daten, plan, bilderProSekunde);
 
   /*
    * Die Belegszene sass frueher im Szenenstrom und brauchte deshalb keine
@@ -547,6 +604,25 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         >
           <Gefaelltmir />
           <Audio src={staticFile('ton/marke/gefaellt.wav')} volume={0.5} />
+        </Sequence>
+      )}
+
+      {/*
+        Der Kipppunktton — siehe `kipppunktBild` oben, wo steht, warum er an
+        einem Redeanteil haengt und nicht an einer Szene.
+
+        **Ohne `durationInFrames`, und das ist Absicht.** Ein Deckel waere eine
+        zweite Stelle fuer die Tonlaenge; die erste steht als 0,9 im Generator.
+        Denselben Weg ist der Oeffnungston schon gegangen — er wurde
+        ausdruecklich **ausserhalb** der Vorspann-Sequence gemountet, statt
+        seine Laenge irgendwo zu pflegen. Ein Ton, der von selbst ausklingt,
+        braucht kein Ende.
+
+        Der Pegel steht in der Datei und nicht hier: Dort ist er messbar.
+      */}
+      {kipppunktAb !== null && (
+        <Sequence from={kipppunktAb} layout="none" name="Kipppunkt">
+          <Audio src={staticFile('ton/marke/kipppunkt.wav')} />
         </Sequence>
       )}
 

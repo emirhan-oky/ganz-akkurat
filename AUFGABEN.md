@@ -1704,7 +1704,13 @@ einzigen).
       Hinweis und eine Höhenwache in der Schemaprüfung, weil
       `AUSSENREICHWEITE` nur Breite rechnet. **Beide Wachen sind gegengeprüft**
       — eine Regel, die man nur an ihrem grünen Ergebnis prüft, ist ungeprüft~~
-- [ ] **Der Publikumston** am Kipppunkt, einmal je Short, ein Raunen
+- [x] ~~**Der Publikumston** am Kipppunkt — und er ist kein Publikum geworden.
+      Sechs Fassungen, drei davon ein Raunen aus synthetischen Stimmen;
+      gewonnen hat der Ton ohne Publikum. **Der Satz vom Vorhangstoff gilt ein
+      zweites Mal:** Den Klang auf seine Aufgabe beschränken, statt die Textur
+      besser zu bauen. Er hängt am ersten behauptenden Zug der ersten
+      Kipppunkt-Szene, nicht am Szenenanfang — dort steht bei
+      `passwort-wechseln` noch Wattis Irrtum~~
 - [ ] **Ein Video mit vollem Ton** — braucht Emirhans Zustimmung
 
 ## Der Belegprüfer am 01.09.2026 — elf Stellen, eine davon umgekehrt

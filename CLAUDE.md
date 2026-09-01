@@ -989,6 +989,50 @@ fehlte.
 Öffnung bei 0,019. Der erste Swisch-Anlauf lag bei 0,55, also fünfmal über der
 Sprache — der Ausgleich für die Filterdurchgänge war zu hoch gegriffen.
 
+**Und die beiden Maße stehen seit dem 01.09.2026 als `messen` fest im Code.**
+RMS und der Anteil über 2 kHz sind nicht gewählt, sondern übrig geblieben:
+Jedes hat beim Vorhang einmal vorher gesagt, was das Ohr nachher hörte. Eine
+Zahl, die man einmal von Hand rechnet, rechnet beim nächsten Anlauf niemand
+mehr.
+
+### Der Ton am Kipppunkt
+
+Seit dem 01.09.2026 gibt es einen fünften Klang: `kipppunkt`, A2, 0,9 Sekunden,
+langsam anschwellend und wieder weg.
+
+**Er sollte ein Publikum sein und ist keins.** Der Kanal ist eine Show, und
+eine Show hat ein Publikum, das an der Wendung raunt. Sechs Fassungen standen
+zur Wahl, drei davon ein Raunen aus 8 bis 14 synthetischen Stimmen — additiv
+aus Harmonischen mit zwei Formantgipfeln gebaut, weil ein Raunen keine Textur
+ist, sondern viele Stimmen. Gewonnen hat die vierte, die gar keins ist.
+
+**Damit gilt der Satz vom Vorhangstoff ein zweites Mal, und zwar schärfer:**
+Der Ausweg ist nicht, die Textur besser zu bauen, sondern den Klang auf seine
+Aufgabe zu beschränken. Die Aufgabe heißt nicht „ein Publikum", sondern „der
+Kipppunkt ist da".
+
+Die Gegenprobe aus gefiltertem Rauschen stand daneben und hat es bestätigt:
+45 % ihrer Energie über 2 kHz, derselbe Bereich, in dem das breite Rauschband
+mit 67 % als Fön aufflog. Die Stimmenfassung lag bei 6 %.
+
+**Ein Fehler, den erst die Messung fand:** Der Pegel war zuerst ein fester
+Faktor, und damit lag dieselbe Fassung zwischen RMS 0,072 und 0,144 — je
+nachdem, wie die Phasen der Stimmen zufällig zusammenfielen. Bei einer Sprache
+von 0,08 war der Begleitton also lauter als das, was er begleitet. Seitdem ist
+der Pegel ein **gemessener Ziel-RMS**, und erst dadurch waren die sechs
+Fassungen überhaupt vergleichbar: Sonst wäre es eine Lautstärkewahl gewesen und
+keine Klangwahl.
+
+**Er hängt an einem Redeanteil, nicht an einer Szene.** Alle vier Entwürfe
+haben zwei Kipppunkt-Szenen; der Ton läuft in der ersten und nur dort. Und
+nicht an ihrem Anfang: In `passwort-wechseln` steht dort zuerst Wattis Irrtum,
+und erst Voltis Richtigstellung ist das, was kippt. Getroffen wird deshalb der
+**erste Abschnitt mit behauptendem Zug** — dreimal ist das der Szenenanfang,
+einmal die Zeile danach.
+
+Das ist der zweite Leser für `abschnitte[].zug`. Ohne Tonspur entfällt der Ton:
+Der Zug steht nur dort.
+
 **Er reicht bis an den oberen Bildrand.** Zuerst deckte er nur die Bühne, unter
 dem Satz „Der Kanal oben, die Show darunter" — das galt einem Vorhang, den man
 nur im Vorspann sah. Seit die Streifen dauerhaft stehen, ist dieselbe Kante ein

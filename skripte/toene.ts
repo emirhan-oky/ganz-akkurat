@@ -1,5 +1,10 @@
 /**
- * Die zwei Marken-Toene: `gefaellt` und `folgen`.
+ * Die berechneten Marken-Toene.
+ *
+ * Sie stehen unten in `main()` und wandern nach `public/ton/marke/`. **Wie
+ * viele es sind, steht hier bewusst nicht:** Der Kopf sagte bis zum 01.09.2026
+ * „die zwei", als es laengst vier waren. Ein Kommentar, der seine Gegenstaende
+ * zaehlt, veraltet bei jedem neuen.
  *
  * **Warum selbst erzeugt und nicht heruntergeladen.** Dieselbe Begruendung wie
  * bei den Zeichnungen: Ein fremder Klang ist ein Lizenzproblem, und der
@@ -721,11 +726,39 @@ const main = async () => {
     { ab: 0.06, proben: leiser(ton(0.9, () => 293.66, { anstiegSek: 0.09, abfall: 5, oktave: 0.28 }), 0.25) }, // D4
   ]);
 
+  /*
+   * **kipppunkt** — der Ton, an dem die Wendung sitzt. A2, 0,9 Sekunden,
+   * langsam anschwellend und wieder weg.
+   *
+   * **Er sollte ein Publikum sein und ist keins.** Der Kanal ist eine Show mit
+   * Vorhang, und eine Show hat ein Publikum, das an der Stelle raunt, wo der
+   * Fakt kippt. Sechs Fassungen standen zur Wahl (`--raunen`), drei davon ein
+   * Raunen aus 8 bis 14 synthetischen Stimmen — und gewonnen hat die vierte,
+   * die gar keins ist.
+   *
+   * **Damit gilt der Satz vom Vorhangstoff ein zweites Mal**, und zwar
+   * schaerfer: Der Ausweg ist nicht, die Textur besser zu bauen, sondern den
+   * Klang auf seine Aufgabe zu beschraenken. Die Aufgabe heisst hier nicht
+   * „ein Publikum", sondern „der Kipppunkt ist da" — und dafuer genuegt ein
+   * Ton, der ohnehin zur Marke gehoert.
+   *
+   * A2 (110 Hz) und nicht D: Der Auftakt steht auf D-Dur, die Oeffnung auf D4.
+   * Die Quinte darunter traegt, ohne den Dreiklang noch einmal aufzusagen.
+   *
+   * Der Pegel steht **hier** und nicht als `volume` im Renderer: Hier ist er
+   * messbar, dort waere er eine zweite Stellschraube fuer dieselbe Groesse.
+   */
+  const kipppunkt = aufPegel(
+    huelle(ton(0.9, () => 110, { abfall: 1.6, oktave: 0.5, anstiegSek: 0.12 }), (t) => bogen(t / 0.9)),
+    0.03,
+  );
+
   for (const [name, proben] of [
     ['gefaellt', gefaellt],
     ['folgen', folgen],
     ['auftakt', auftakt],
     ['oeffnung', oeffnung],
+    ['kipppunkt', kipppunkt],
   ] as const) {
     const ziel = path.join(ordner, `${name}.wav`);
     await fs.writeFile(ziel, wav(proben));
