@@ -15,6 +15,7 @@ import { Farbprobe } from './Farbprobe';
 import { Haltungsprobe, Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
 import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
 import { Gestenprobe } from './Gestenprobe';
+import { Kulissenprobe } from './Kulissenprobe';
 import { Anordnungsprobe, AnordnungsprobeProps } from './Anordnungsprobe';
 
 /**
@@ -94,6 +95,16 @@ export const RemotionRoot: React.FC = () => (
     fps={FORMAT.bilderProSekunde}
     durationInFrames={60}
     defaultProps={{ traeger: 'keine' as const }}
+  />
+  {/* Die Kulisse in Formatgroesse, mit `--props` gegen den heutigen Stand. */}
+  <Composition
+    id="Kulissenprobe"
+    component={Kulissenprobe}
+    width={FORMAT.breite}
+    height={FORMAT.hoehe}
+    fps={FORMAT.bilderProSekunde}
+    durationInFrames={1}
+    defaultProps={{ mitKulisse: true, mitVorhang: true }}
   />
   <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition

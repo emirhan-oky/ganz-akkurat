@@ -362,6 +362,34 @@ export const BUEHNE = {
 } as const;
 
 /**
+ * Auf welcher Bildzeile die Figuren stehen — **gerechnet, nicht geschrieben**.
+ *
+ * Die Kulisse liegt als eigenes SVG im Hintergrund und muss ihre Bodenkante an
+ * dieselbe Linie legen, auf der die Figuren stehen. Das ist eine Kopplung
+ * zwischen zwei SVG-Raeumen, und genau davor warnt dieses Projekt an drei
+ * Stellen — die Symbolposition ist daran dreimal gescheitert, die Sprechblase
+ * hat deshalb keinen Zipfel, das Namensschild steht deshalb im SVG.
+ *
+ * **Der Unterschied ist, dass es hier eine einzige Zahl ist.** Nicht eine
+ * Position je Gegenstand, sondern eine Hoehe. Sie steht deshalb hier, wird aus
+ * den Konstanten gerechnet, die sie bestimmen, und von beiden Seiten gelesen.
+ * Eine geteilte Konstante kann nicht auseinanderlaufen; eine Zahl, die zweimal
+ * geschrieben steht, tut es beim ersten Umbau.
+ *
+ * Die Rechnung: Das Buehnen-SVG ist 200 zu 150 Einheiten und wird mit `meet`
+ * eingepasst, also **breitenbegrenzt**. Es sitzt vertikal zentriert im
+ * Buehnenkasten; die Standlinie liegt bei y = 140 seiner Einheiten.
+ */
+export const standlinieImBild = (mitUntertitelzone = false): number => {
+  const kastenHoehe = mitUntertitelzone ? BUEHNE.hoehe : BUEHNE.hoeheOhneUntertitel;
+  const proEinheit = BUEHNE.breite / 200;
+  const genutzt = 150 * proEinheit;
+  const oben = BUEHNE.y + (kastenHoehe - genutzt) / 2;
+  return oben + 140 * proEinheit;
+};
+
+
+/**
  * ## Zwei Umwege an einem Abend
  *
  * Der Grund war lange `#F7F8FA` — praktisch Weiss und ohne eigenen Ton. Auf
