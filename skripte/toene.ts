@@ -265,6 +265,133 @@ const fahrt = (opts: {
 /** Anschwellen und wieder weg — die Grundform jeder Fahrt. */
 const bogen = (a: number) => Math.sin(Math.PI * Math.min(1, Math.max(0, a))) ** 0.7;
 
+/* ────────────────────── Das Publikum, 01.09.2026 ──────────────────────── */
+
+/**
+ * Was eine Fassung dem Ohr antut, in Zahlen.
+ *
+ * **Die beiden Groessen sind nicht gewaehlt, sondern uebrig geblieben.** Beim
+ * Vorhangstoff sind drei Anlaeufe gescheitert, und jedes Mal hat genau eine
+ * dieser Zahlen es vorher gesagt: Das breite Rauschband hatte 67 % seiner
+ * Energie ueber 2 kHz und klang wie ein Foen; der erste Swisch lag bei RMS
+ * 0,55 gegen 0,08 Sprache, also fuenfmal ueber ihr.
+ *
+ * Sie stehen hier fest im Code und nicht mehr nebenbei im Terminal, weil eine
+ * Zahl, die man einmal von Hand gerechnet hat, beim naechsten Anlauf niemand
+ * mehr rechnet.
+ */
+const messen = (proben: Float32Array): { rms: number; ueber2k: number } => {
+  let summe = 0;
+  for (const p of proben) summe += p * p;
+  const rms = Math.sqrt(summe / proben.length);
+
+  /*
+   * Der Anteil ueber 2 kHz ohne Fourier: Was der Tiefpass bei 2 kHz
+   * durchlaesst, ist das Tiefe — der Rest ist das Helle. Grob, und fuer die
+   * Frage „klingt das nach Foen" genau genug.
+   */
+  const tief = tiefpass(proben, () => 2000);
+  let tiefSumme = 0;
+  for (const p of tief) tiefSumme += p * p;
+  return { rms, ueber2k: summe === 0 ? 0 : 1 - tiefSumme / summe };
+};
+
+/** Bringt eine Fassung auf einen gemessenen RMS. Siehe `raunen.ziel`. */
+const aufPegel = (proben: Float32Array, ziel: number): Float32Array => {
+  const ist = messen(proben).rms;
+  return ist === 0 ? proben : leiser(proben, ziel / ist);
+};
+
+/**
+ * Eine einzelne gemurmelte Stimme.
+ *
+ * **Additiv und nicht gefiltert, und das ist der ganze Punkt.** Der Vertrag
+ * sagt, dass Synthese Klaenge gut und Texturen schlecht baut — ein Raunen
+ * aus gefiltertem Rauschen waere eine Textur und ginge denselben Weg wie der
+ * Foen. Ein Raunen ist aber gar keine Textur: Es sind viele **Stimmen**, und
+ * eine Stimme ist ein Klang mit Grundton und Formanten.
+ *
+ * Acht Harmonische, gewichtet nach zwei Formantgipfeln bei 500 und 1100 Hz —
+ * das ist ungefaehr ein gemurmeltes „o". Dazu ein langsames Vibrato, denn eine
+ * Stimme ohne Schwankung ist eine Orgelpfeife.
+ */
+const gemurmel = (dauerSek: number, f0: number, saat: number): Float32Array => {
+  const n = Math.round(dauerSek * RATE);
+  const proben = new Float32Array(n);
+  const vibratoHz = 4.2 + (saat % 7) * 0.3;
+  const vibratoTiefe = 0.012;
+
+  for (let h = 1; h <= 8; h++) {
+    const f = f0 * h;
+    // Zwei Formantgipfel, je mit einer weichen Glocke gewichtet.
+    const glocke = (mitte: number, breite: number) => Math.exp(-(((f - mitte) / breite) ** 2));
+    const staerke = (glocke(500, 320) + 0.6 * glocke(1100, 420)) / h ** 0.4;
+    if (staerke < 0.01) continue;
+    let phase = (saat * h) % (2 * Math.PI);
+    for (let i = 0; i < n; i++) {
+      const t = i / RATE;
+      const wackeln = 1 + vibratoTiefe * Math.sin(2 * Math.PI * vibratoHz * t + saat);
+      phase += (2 * Math.PI * f * wackeln) / RATE;
+      proben[i] = proben[i]! + staerke * Math.sin(phase);
+    }
+  }
+  return proben;
+};
+
+/**
+ * Das Raunen: viele Stimmen, versetzt eingesetzt.
+ *
+ * **Versetzt ist die halbe Miete**, aus demselben Grund wie die
+ * unregelmaessigen Rollen auf der Vorhangschiene: Setzen alle gleichzeitig
+ * ein, ist es ein Chor und kein Publikum. Ein Publikum reagiert innerhalb
+ * einer Viertelsekunde, aber nicht im selben Bild.
+ *
+ * Die Grundtoene liegen zwischen 95 und 200 Hz, also im Sprechbereich beider
+ * Geschlechter. Sie sind **nicht** auf D und A gestimmt: Ein Publikum, das
+ * einen Akkord raunt, ist ein Chor.
+ */
+const raunen = (opts: {
+  dauerSek?: number;
+  stimmen?: number;
+  /**
+   * Der **gemessene** RMS, auf den die Summe normiert wird — nicht ein
+   * Multiplikator.
+   *
+   * Ein Faktor waere hier die falsche Groesse: Wie laut die Summe wird, haengt
+   * an der Zahl der Stimmen und daran, wie ihre Phasen zufaellig
+   * zusammenfallen. Mit festem Faktor lag dieselbe Zeile zwischen 0,072 und
+   * 0,144, waehrend die Sprache bei 0,08 liegt — der erste Anlauf war also
+   * lauter als das, was er begleiten soll. Genau der Fehler des ersten
+   * Swisch (0,55 gegen 0,08).
+   */
+  ziel?: number;
+  saat?: number;
+}): Float32Array => {
+  const { dauerSek = 0.9, stimmen = 14, ziel = 0.03, saat = 7 } = opts;
+  let s = saat;
+  const wurf = () => ((s = (s * 1664525 + 1013904223) % 4294967296), s / 4294967296);
+
+  const teile: { ab: number; proben: Float32Array }[] = [];
+  for (let i = 0; i < stimmen; i++) {
+    const f0 = 95 + wurf() * 105;
+    const ab = wurf() * 0.22;
+    const laenge = dauerSek - ab;
+    /*
+     * Jede Stimme bekommt ihren eigenen Bogen. Ein gemeinsamer ueber die
+     * Summe klaenge nach einem Ton, den jemand auf- und zudreht.
+     */
+    const eigen = huelle(gemurmel(laenge, f0, wurf() * 6.28), (t) => bogen(t / laenge));
+    teile.push({ ab, proben: eigen });
+  }
+  /*
+   * Unten abschneiden wie beim Vorhang: Was unter 90 Hz liegt, kommt auf einem
+   * Handylautsprecher nicht an und kostet nur Pegel.
+   */
+  const roh = hochpass(nacheinander(teile), 90);
+  const ist = messen(roh).rms;
+  return leiser(roh, ist === 0 ? 0 : ziel / ist);
+};
+
 /**
  * Sechs Fassungen zum Abhoeren, mit `--proben`.
  *
@@ -407,7 +534,81 @@ const VORHANGPROBEN = () => [
   },
 ];
 
+/**
+ * Fassungen fuer den Publikumston, mit `--raunen`.
+ *
+ * **Die Aufgabe ist nicht „ein Publikum", sondern „der Kipppunkt ist da".**
+ * Das ist die Lehre aus dem Vorhangstoff: Dort sind drei Anlaeufe an einem
+ * Geraeusch gescheitert, und der vierte hat gewonnen, indem er das Geraeusch
+ * auf seine Aufgabe beschraenkte — eine Richtung anzeigen, den Rest traegt ein
+ * Ton, der ohnehin zur Marke gehoert.
+ *
+ * Deshalb stehen hier zwei Wege nebeneinander und nicht einer: das Raunen aus
+ * Stimmen und **der Weg ohne Publikum**, ein tiefer Markenton auf A. Wer nur
+ * die eine Sorte baut, entscheidet die Frage vor dem Hoeren.
+ */
+const RAUNPROBEN = () => [
+  {
+    name: '1-raunen',
+    was: '14 Stimmen, 0,9 s, versetzt. Der direkte Weg.',
+    proben: raunen({}),
+  },
+  {
+    name: '2-raunen-knapp',
+    was: '8 Stimmen, 0,6 s. Kuerzer und duenner — ein Aufmerken, kein Aufruhr.',
+    proben: raunen({ stimmen: 8, dauerSek: 0.6 }),
+  },
+  {
+    name: '3-raunen-leise',
+    was: 'Halb so laut wie 1. Er laeuft deutlich unter der Stimme.',
+    proben: raunen({ ziel: 0.015 }),
+  },
+  {
+    name: '4-nur-ton',
+    was: 'Kein Publikum: A2 mit langsamem Anschwellen. Der Weg, der beim Vorhang gewann.',
+    proben: aufPegel(
+      huelle(ton(0.9, () => 110, { abfall: 1.6, oktave: 0.5, anstiegSek: 0.12 }), (t) => bogen(t / 0.9)),
+      0.03,
+    ),
+  },
+  {
+    name: '5-beides',
+    was: 'Duennes Raunen ueber dem Ton. Das Publikum traegt die Farbe, der Ton den Einsatz.',
+    proben: nacheinander([
+      {
+        ab: 0,
+        proben: aufPegel(
+          huelle(ton(0.9, () => 110, { abfall: 1.6, oktave: 0.5, anstiegSek: 0.12 }), (t) => bogen(t / 0.9)),
+          0.02,
+        ),
+      },
+      { ab: 0.06, proben: raunen({ stimmen: 9, ziel: 0.018 }) },
+    ]),
+  },
+  {
+    name: '6-gegenprobe-rauschen',
+    was: 'Der naive Weg: gefiltertes Rauschen. Steht hier, damit die Wahl nicht blind ist.',
+    proben: aufPegel(huelle(tiefpass(hochpass(rauschen(0.9), 200), () => 1400), (t) => bogen(t / 0.9)), 0.03),
+  },
+];
+
 const main = async () => {
+  if (process.argv.includes('--raunen')) {
+    const ordner = path.join('laeufe', 'raunproben');
+    await fs.mkdir(ordner, { recursive: true });
+    console.log('   Raunproben — kostet kein Kontingent\n');
+    console.log('   Zum Vergleich: Sprache im Vorspann liegt bei RMS 0,08.\n');
+    for (const { name, was, proben } of RAUNPROBEN()) {
+      await fs.writeFile(path.join(ordner, `${name}.wav`), wav(proben));
+      const m = messen(proben);
+      console.log(
+        `   ${name.padEnd(24)} ${(proben.length / RATE).toFixed(2)}s  ` +
+          `RMS ${m.rms.toFixed(3)}  über 2 kHz ${(m.ueber2k * 100).toFixed(0)} %  ${was}`,
+      );
+    }
+    return;
+  }
+
   if (process.argv.includes('--swisch')) {
     const ordner = path.join('laeufe', 'swischproben');
     await fs.mkdir(ordner, { recursive: true });
