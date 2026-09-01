@@ -243,14 +243,19 @@ export const passwortWechseln: Short = {
           sprecher: 'zeiger',
           zug: 'widersprechen',
           /*
-           * **Singular, und das ist die halbe Pointe.** „Mein Passwort" sagt
-           * nebenbei, dass Watti genau eines hat — sonst zeigt Voltis
-           * „Besser ist" in Szene 6 auf eine Praxis, die im Short nie
-           * vorkommt. Der `belegpruefer` hat genau das gefunden: Der Vergleich
-           * haette auf nichts gezeigt.
+           * **Singular, und er verraet Watti nebenbei.** „Mein Passwort" sagt,
+           * dass er eines hat — dieselbe Bauart wie das gestrichene „Ertappt",
+           * nur ohne das Gestaendnis.
            *
-           * Watti verraet sich damit ein zweites Mal, ohne es zu merken —
-           * dieselbe Bauart wie „Ertappt", nur ohne das Gestaendnis.
+           * **Die Verankerung leistet er allerdings nicht allein**, und die
+           * Gegenprobe hat das gleich korrigiert: „mein Passwort" ist im
+           * Deutschen auch generisch lesbar („ich wechsel jeweils meins").
+           * Getragen wird Voltis Vergleich in Szene 6 von Wattis Rueckfrage
+           * unmittelbar danach — „Fuer jedes? Also pro Account ein anderes
+           * Passwort?" macht hoerbar, dass ihm das neu ist.
+           *
+           * Der Singular bleibt trotzdem: Zwei schwache Hinweise an zwei
+           * Stellen sind hier mehr wert als einer, und er kostet nichts.
            */
           text: 'Na und? Immerhin wechsel ich mein Passwort.',
           machart: 'gestaendnis',
