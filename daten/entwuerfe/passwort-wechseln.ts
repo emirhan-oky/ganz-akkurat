@@ -60,6 +60,13 @@ export const passwortWechseln: Short = {
   vorspann: 'Passwort regelmäßig wechseln ist überholt',
   vorspannBelegId: 'keine-zeitgemaesse-schutzmassnahme',
 
+  /*
+   * Wattis letztes Wort auf dem geschlossenen Vorhang. Es antwortet auf
+   * Voltis „Wir haben nachgelesen." und behauptet nichts ueber die Welt —
+   * es sagt etwas ueber Watti.
+   */
+  abspann: 'Ich schreib mir das auf. In eine Datei.',
+
   szenen: [
     {
       art: 'text',

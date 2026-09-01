@@ -3,10 +3,24 @@ import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT
 
 import type { Short as ShortDaten } from '../src/typen';
 import { FORMATE, ZUGARTEN } from '../src/typen';
-import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannFestSek, vorspannSek } from '../src/zeit';
+import {
+  NACHLAUF_SEK,
+  SPRECHERWECHSEL_SEK,
+  szenenZeitplan,
+  vorspannFestSek,
+  vorspannSek,
+} from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
 import { Kulisse } from './bausteine/Kulisse';
-import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } from './bausteine/Vorhang';
+import {
+  Abspannkarte,
+  RUHE,
+  Vorhangstoff,
+  Vorspannkarte,
+  ablauf,
+  aufVorhang,
+  vorhangstand,
+} from './bausteine/Vorhang';
 import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
@@ -364,6 +378,23 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    * der Schlussszene, die den Nachlauf ohnehin traegt. Sie kostet also keine
    * zusaetzliche Sekunde.
    */
+  /*
+   * **Der Abspann beginnt mit dem Nachlauf, nicht erst am letzten Bild.**
+   *
+   * `NACHLAUF_SEK` sind 1,5 Sekunden Stille nach dem letzten Wort. Sie standen
+   * frueher fuer die Signatur auf der Buehne — die ist auf den Vorhang
+   * gewandert, und damit gehoert die Zeit der Karte. Der Stoff faehrt in den
+   * ersten `VORHANG.fahrtBilder` davon zu; die restliche Sekunde steht das
+   * Bild.
+   *
+   * Es kostet **keine zusaetzliche Sekunde**: Die Zeit war schon da, sie war
+   * nur leer.
+   */
+  const abspannAbBild = Math.max(
+    0,
+    durationInFrames - 1 - Math.round(NACHLAUF_SEK * bilderProSekunde),
+  );
+
   const schlussfahrt = interpolate(
     frame,
     /*
@@ -376,7 +407,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
      * Derselbe Off-by-one wie bei `gesamtdauerBilder` gestern Abend, und
      * dieselbe Stelle: das letzte Bild.
      */
-    [durationInFrames - 1 - VORHANG.fahrtBilder, durationInFrames - 1],
+    [abspannAbBild, abspannAbBild + VORHANG.fahrtBilder],
     [RUHE, 1],
     { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.sin) },
   );
@@ -392,6 +423,13 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    * auseinander.
    */
   const kopfzeileAufRot = aufVorhang(vorhangZu);
+
+  /*
+   * Der Satz aus der Schlussszene. Er wird hier gelesen und nicht dort
+   * gezeichnet — die Buehne im Schluss traegt seit dem 01.09.2026 keine
+   * Schrift mehr.
+   */
+  const schlussSatz = daten.szenen.find((s) => s.art === 'schluss')?.satz;
 
   const aktuelleZaehlung = (() => {
     if (gesamtZaehlung === 0) return undefined;
@@ -583,6 +621,26 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
       }
 
       {/*
+        **Die Abspannkarte — die Gegenkarte zum Vorspann.**
+
+        Sie liegt wie die Vorspannkarte in einer eigenen `Sequence` ueber dem
+        Stoff, der dauerhaft steht. Der Schlusssatz kommt aus der letzten Szene
+        und nicht aus einem eigenen Feld: Er stand bis heute auf der Buehne, und
+        zwei Felder fuer denselben Satz waeren die Doppelung ohne Wache.
+      */}
+      {schlussSatz !== undefined && (
+        <Sequence from={abspannAbBild} layout="none" name="Abspann">
+          <div style={KARTENFLAECHE}>
+            <Abspannkarte
+              satz={schlussSatz}
+              wattis={daten.abspann}
+              dauer={durationInFrames - abspannAbBild}
+            />
+          </div>
+        </Sequence>
+      )}
+
+      {/*
         **Die Aufloesung liegt ausserhalb der Vorspann-`Sequence`.**
 
         Sie klingt 0,94 Sekunden, der Vorhang faehrt in 0,4 — und sie setzt beim
@@ -727,7 +785,13 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
           Namensschild und einer Zeile, und zurueckzudrehen ist eine Zeile
           Arbeit.
         */}
+        {/*
+          **Sie enden mit dem Vorhang.** Ohne diese Grenze stehen die letzten
+          Zeilen auf dem geschlossenen Stoff weiter — im ersten Standbild des
+          Abspanns lasen sie sich als zweite, blasse Schrift neben der Karte.
+        */}
         {daten.tonspur?.abschnitte && daten.tonspur.abschnitte.length > 1 && (
+          <Sequence durationInFrames={abspannAbBild} layout="none" name="Redespalten">
           <Redespalten
             woerter={daten.tonspur.woerter}
             abschnitte={daten.tonspur.abschnitte}
@@ -738,6 +802,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
               s.buehne?.art === 'figur' ? (s.buehne.wer ?? 'nachleser') : 'nachleser',
             )}
           />
+          </Sequence>
         )}
       </AbsoluteFill>
     </AbsoluteFill>

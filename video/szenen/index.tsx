@@ -1,5 +1,5 @@
-import { AbsoluteFill, Audio, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, SPRUCH, TEMPO, VORHANG } from '../../src/marke';
+import { AbsoluteFill, useCurrentFrame, useVideoConfig } from 'remotion';
+import { ABSTAND, BUEHNE, FARBEN, GROESSEN, RADIUS, SCHRIFT, VORHANG } from '../../src/marke';
 import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../src/typen';
 import { Buehne } from '../bausteine/Buehne';
 import { Figur } from '../bausteine/Figur';
@@ -640,131 +640,22 @@ const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
         dauerBilder={dauer}
         illustration={Illustration(szene, frame, fps, dauer, WORTWECHSEL_SCHLUSS)}
       >
-      <Textschleier>
-      <p
-        style={{
-          ...grundtext,
-          ...auftritt(frame, fps, 0),
-          /*
-           * Dieselbe Schrift wie der Aufschlag — die Klammer um das Video.
-           *
-           * Das ist keine Symmetrie um ihrer selbst willen: Ein Short laeuft
-           * von selbst wieder an, und das Feld `rundlauf` haelt fest, warum
-           * der erste Satz nach dem letzten wieder passt. Wenn beide Saetze in
-           * derselben Schrift stehen, sieht man den Anschluss, statt ihn nur
-           * aufgeschrieben zu haben.
-           */
-          fontWeight: SCHRIFT.schwarz,
-          fontSize: groesse,
-          lineHeight: 1.12,
-          margin: 0,
-        }}
-      >
-        {szene.satz}
-      </p>
-
       {/*
-       * Die Signatur: Strich, Spruch — und, wo der Knopf auf ihrer Hoehe
-       * liegt, die Figur rechts daneben.
-       *
-       * Sie hat drei Plaetze durchlaufen, und der Weg dorthin ist die
-       * Begruendung: **links** neben dem Spruch nahm sie ihm den Anfang,
-       * **unter** ihm sass sie in einer Ecke, die sonst leer bleibt, und
-       * **direkt daneben** teilte sie sich mit der Textzeile eine Grundlinie,
-       * die zu keinem von beiden gehoert. Rechts aussen, vertikal zentriert
-       * ueber dem ganzen Block, hat sie eine eigene Mitte.
-       *
-       * Sie zeigt auf nichts. Der Spruch traegt sich selbst, und eine Figur,
-       * die auf ihn deutet, macht ihn zur Beschriftung.
-       *
-       * **Der Strich ist bewusst kurz.** Der alte Abspann hatte einen ueber
-       * die ganze Buehnenbreite, und der war das Signal „fertig" — er trennte
-       * die Pointe vom Absender. 96 Pixel trennen nichts, sie zeichnen aus.
-       * Gezogen statt eingeblendet: Eine Linie, die entsteht, ist eine Geste.
-       */}
-      {/*
-       * `justifyContent: space-between` und ein Versatz je Dienst: Der Zeiger
-       * rueckt dorthin, wo der Knopf liegt — bei TikTok an den rechten Rand.
-       * Bei Instagram steht er gar nicht in dieser Zeile, sondern unten in der
-       * Buehne; siehe `ZEIGER_PLATZ`.
-       *
-       * Die Geste allein reicht nicht: Wer nach rechts zeigt und dabei in der
-       * Bildmitte steht, zeigt auf die Buehne. Naeher am Rand zeigt er aus dem
-       * Bild heraus, und genau das ist gemeint.
-       */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: ABSTAND.s,
-          marginTop: ABSTAND.l,
-        }}
-      >
-        <div>
-          <div
-            style={{
-              height: 6,
-              width: interpolate(
-                spring({ frame: frame - 6, fps, config: TEMPO.feder }),
-                [0, 1],
-                [0, 96],
-              ),
-              borderRadius: 999,
-              backgroundColor: FARBEN.blau,
-            }}
-          />
+        **Die Buehne im Schluss traegt keine Schrift mehr — seit dem
+        01.09.2026.**
 
-          <span
-            style={{
-              ...auftritt(frame, fps, 10),
-              ...grundtext,
-              display: 'block',
-              fontWeight: SCHRIFT.fett,
-              fontSize: GROESSEN.detail,
-              color: FARBEN.tinteWeich,
-              letterSpacing: 0.2,
-              marginTop: ABSTAND.s,
-              /* Der Spruch ist eine Zeile. Bricht er, steht dort ein Absatz. */
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {SPRUCH}
-          </span>
-        </div>
+        Hier standen Satz, Strich und Spruch, seit heute Mittag auf einem
+        Schleier, weil sie sonst quer ueber Fenster und Bilderwand lagen. Sie
+        stehen jetzt auf dem geschlossenen Vorhang (`Abspannkarte` in
+        `Vorhang.tsx`) — dort haben sie eine eigene Flaeche und brauchen keinen
+        Schleier.
 
-        {/*
-         * Nur wo der Knopf auf der Hoehe der Signatur liegt. Steht die Figur
-         * frei, ist diese Stelle leer und die Zeile traegt allein den Spruch —
-         * `space-between` schadet dabei nicht, weil nur noch ein Kind da ist.
-         */}
-        {platz.art === 'zeile' && szene.buehne === undefined && (
-          <div
-            style={{
-              ...auftritt(frame, fps, 12),
-              width: 240,
-              height: 180,
-              flex: 'none',
-              marginRight: platz.versatz,
-            }}
-          >
-            {figur}
-          </div>
-        )}
-
-        {/*
-         * Der Ton sitzt auf dem Moment, in dem die Geste steht — nicht auf dem
-         * Auftritt. Ein Klang zum Einblenden waere eine Ankuendigung.
-         *
-         * Eigener Ton (`skripte/toene.ts`), kein Plattformklang: Das
-         * Bediengeraeusch der App ist nirgends veroeffentlicht und nicht zum
-         * Einbrennen lizenziert.
-         */}
-        <Sequence from={22} layout="none" name="Ton folgen">
-          <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
-        </Sequence>
-      </div>
-      </Textschleier>
+        **Der Folgen-Ton ist mit der Signatur gegangen.** Er sass auf dem
+        Moment, in dem der Strich stand; ohne Strich gibt es diesen Moment
+        nicht. Der Zeiger tritt weiterhin mitten im Video auf, wo der
+        Like-Knopf liegt — das ist die Stelle, an der ueberhaupt etwas verlangt
+        wird.
+      */}
       </Buehne>
     </>
   );

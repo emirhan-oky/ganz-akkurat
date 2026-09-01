@@ -71,6 +71,13 @@ export const raumstationAlteRechner: Short = {
   vorspann: '2009 waren die ISS-Laptops über 5 Jahre alt',
   vorspannBelegId: 'laptops-more-than-five-years-old',
 
+  /*
+   * Wattis letztes Wort auf dem geschlossenen Vorhang. Es antwortet auf
+   * Voltis „Wir haben nachgelesen." und behauptet nichts ueber die Welt —
+   * es sagt etwas ueber Watti.
+   */
+  abspann: 'Und mein Rechner ist einfach nur alt.',
+
   szenen: [
     {
       /*

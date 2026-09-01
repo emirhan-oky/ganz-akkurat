@@ -1109,9 +1109,14 @@ nicht gegen seinen mittleren.**
 ### Die Kulisse
 
 Seit dem 01.09.2026 steht die Bühne in einem **Raum**: Wand mit Fenster,
-Katzenbildern und Uhr, Dielenboden, links eine Sitzgruppe, rechts eine
+Katzenbildern und Uhr, Dielenboden, links ein gelbes Sofa, rechts eine
 Kommode (`video/bausteine/Kulisse.tsx`). Sie liegt randlos über dem ganzen
 Bild, hinter Vorhang und Kopfzeile.
+
+**Links steht ein Sofa und keine zwei Sessel.** Zwischen Vorhangkante und
+Voltis Außenkante liegen 113 Pixel, ein Sessel in dieser Größe ist allein 164
+breit — zwei davon standen ineinander und lasen sich als ein Möbel mit einer
+Kante daneben. Ein Sofa darf halb hinter Volti liegen, weil es breit ist.
 
 **Der große Satz über den Figuren ist dafür gestrichen** — `text` und
 `hervorhebung` gibt es im Schema nicht mehr. Der Anlass war ein Satz zum
@@ -1146,6 +1151,69 @@ Befunde stecken darin:
   der Schluss nicht haben darf. Den Platz über Rand und Innenabstand zu holen
   ging nicht: `offsetHeight` zählt den Innenabstand mit, und die
   Überlaufbremse in `Buehne.tsx` misst genau diese Zahl.
+
+### Die Figuren stehen fest, der Text darunter
+
+**Die Figurenbühne steht seit dem 01.09.2026 nicht mehr im gemessenen
+Textstapel.** Sie liegt absolut in genau der Fläche, aus der
+`standlinieImBild()` die Bodenkante der Kulisse rechnet — es ist nicht dieselbe
+Rechnung zweimal, sondern dieselbe Fläche.
+
+Vorher bekamen die Figuren den Rest, den der Text übrig ließ: In der
+Zitatkartenszene standen sie halb so hoch wie nebenan, bei einem langen Zitat
+fast gar nicht mehr. Mit einer gezeichneten Bodenkante im Rücken fällt das
+sofort auf.
+
+**Die Zitatkarte steht deshalb unten**, vor den Figuren auf der Diele, in 0,72
+der Schriftgröße: In voller Größe deckte sie die beiden bis zum Kopf. Sie liest
+sich als Schild, das die zwei vor sich halten. Der alte Zielkonflikt „Karte und
+Figuren teilen sich dieselbe Höhe" ist damit erledigt — was die Karte groß
+macht, macht die Figuren nicht mehr klein.
+
+**Die Redespalten füllen die Fläche unter den Figuren**
+(`video/bausteine/Redespalten.tsx`). Jede gesprochene Zeile bleibt bis zum
+Szenenende stehen, in der Farbe ihres Sprechers, unter dem Standplatz seiner
+Figur; mit dem Schnitt leeren sie sich.
+
+Der Untertitel war am 31.08.2026 abgeschaltet worden — „das sieht mit den
+Untertiteln so unfassbar scheiße aus, wenn beide Charaktere im Bild sind". Der
+Befund war richtig und galt dem **Ort**, nicht dem Text: ein Block unten in der
+Bildmitte. Mit dem Raum dahinter fiel der Preis auf, „wenn die beiden sprechen,
+wirkt es im Bild leer".
+
+**Sie hängen am Standplatz, nicht an der gerenderten Figur.** Die Kamera fährt
+im Bühnen-SVG bis Zoom 1,24 — wer den Text pixelgenau an die Figur bindet,
+rechnet zwischen SVG-Raum und Pixelraum um und lässt ihn bei jeder Fahrt
+mitwandern. Seite und Farbe statt einer umgerechneten Koordinate, wie schon bei
+der Sprechblase.
+
+**Welche Seite, entscheidet die Szene.** `wer` an der Figurenbühne darf
+wechseln, und die Spalten müssen dem folgen — im ersten Standbild stand Voltis
+Satz unter Watti.
+
+### Der Abspann
+
+Der Vorhang fährt am Ende zu, und darauf steht die Gegenkarte zum Vorspann:
+„WIR HABEN NACHGELESEN" in Gold an der Stelle von „HEUTIGES THEMA", darunter
+der **Schlusssatz**, darunter **Wattis Zeile** (`abspann` am Short). Die beiden
+stehen davor wie im Vorspann, nur in Ruhe statt winkend.
+
+**Auf der Bühne trägt der Schluss keine Schrift mehr.** Satz, Strich und Spruch
+standen dort über den Figuren und brauchten einen Schleier, um lesbar zu sein;
+auf dem Vorhang haben sie eine eigene Fläche. Der Folgen-Ton ist mit der
+Signatur gegangen — er saß auf dem Moment, in dem der Strich stand.
+
+**Er kostet keine zusätzliche Sekunde.** `NACHLAUF_SEK` sind 1,5 Sekunden
+Stille nach dem letzten Wort; sie standen für die Signatur auf der Bühne und
+waren seitdem leer. Der Stoff fährt in den ersten `VORHANG.fahrtBilder` davon
+zu, die restliche Sekunde steht das Bild.
+
+**`abspann` behauptet nichts und braucht deshalb keine Quelle** — dieselbe
+Trennung wie bei der Reaktion. Gehalten wird die Zeile von
+`ohneWeltbehauptung` in `src/typen.ts`: keine Jahreszahl, keine Größe mit
+Einheit, höchstens zwei Sätze. Die Funktion ist aus der Formsperre an `rede`
+herausgezogen — zwei Fassungen derselben Sperre liefen sonst beim ersten Umbau
+an den Einheiten auseinander, und zwar lautlos.
 
 ### Die Bühne
 

@@ -686,3 +686,162 @@ export const Vorspannkarte: React.FC<{
     </div>
   );
 };
+
+/* ──────────────────────────── Die Abspannkarte ─────────────────────────── */
+
+/**
+ * Das letzte Bild: Der Vorhang ist zu, die beiden stehen davor, und das
+ * Nachgelesene steht darauf.
+ *
+ * **Seit dem 01.09.2026.** Der Vorhang faehrt schon seit demselben Tag am Ende
+ * wieder zu — er zeigte nur nichts. Die Karte ist die Gegenkarte zum Vorspann:
+ * dieselbe Anordnung, dieselben Farben, andere Zeilen.
+ *
+ * | Vorspann | Abspann |
+ * |---|---|
+ * | Showtitel, „mit Volti und Watti" | entfaellt |
+ * | „HEUTIGES THEMA" | **„WIR HABEN NACHGELESEN"** |
+ * | die Themenzeile | **der Schlusssatz** |
+ * | — | **Wattis Zeile**, in seiner Kennfarbe |
+ *
+ * **Der Schlusssatz steht deshalb nicht mehr auf der Buehne.** Er stand dort
+ * ueber den Figuren und brauchte einen Schleier, um ueberhaupt lesbar zu sein;
+ * auf dem Vorhang hat er eine eigene Flaeche. Der Rundlauf verliert dabei
+ * nichts: Das Video beginnt mit geschlossenem Vorhang, und es endet jetzt mit
+ * demselben Bild — **der Uebergang in die Wiederholung ist eine Ueberblendung
+ * und kein Schnitt.**
+ *
+ * Die Figuren stehen wie im Vorspann davor, nur in Ruhe statt winkend: Sie
+ * haben gerade geredet, ein Winken waere ein zweiter Auftritt.
+ */
+export const Abspannkarte: React.FC<{
+  /** Der Schlusssatz — bis zum 01.09.2026 stand er auf der Buehne. */
+  satz: string;
+  /** Wattis letztes Wort, aus `short.abspann`. */
+  wattis: string;
+  /** Laufzeit der Karte in Bildern. */
+  dauer: number;
+}> = ({ satz, wattis, dauer }) => {
+  const frame = useCurrentFrame();
+
+  /*
+   * Sie blendet **mit dem Vorhang** auf, nicht danach. Der Stoff braucht
+   * `VORHANG.fahrtBilder`, und eine Karte, die erst dann anfaengt, haette auf
+   * der letzten Sekunde nichts mehr zu stehen.
+   */
+  const auf = interpolate(frame, [0, FAHRT_BILDER], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+  const wattiAuf = interpolate(frame, [FAHRT_BILDER, FAHRT_BILDER + 8], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  const figur = (rig: typeof nachleser, s: 'links' | 'rechts', x: number) => (
+    <g key={s}>
+      <ellipse
+        cx={x}
+        cy="140"
+        rx={34 * WORTWECHSEL.groesse}
+        ry={9 * WORTWECHSEL.groesse}
+        fill={STOFF.tief}
+        opacity={0.55}
+      />
+      <g transform={wortwechselTransform(WORTWECHSEL, s)}>
+        <Figur rig={rig} pose={poseAus({ frame, fps: 30, pose: 'ruhe', vorherigePose: 'ruhe' })} />
+      </g>
+    </g>
+  );
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        opacity: auf,
+        paddingBottom: Math.round(FORMAT.hoehe * 0.06),
+      }}
+    >
+      <div
+        style={{
+          flex: '0 0 54%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          padding: '0 9%',
+        }}
+      >
+        {/*
+          Dieselbe Zeile an derselben Stelle wie „HEUTIGES THEMA" — und
+          derselbe Goldton. Der Spruch ist die Marke; er steht hier nicht als
+          Abbinder, sondern als Absender.
+        */}
+        <div
+          style={{
+            fontFamily: SCHRIFT.wortmarke,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: 34,
+            letterSpacing: 9,
+            color: FARBEN.gold,
+          }}
+        >
+          WIR HABEN NACHGELESEN
+        </div>
+
+        <div
+          style={{
+            marginTop: 40,
+            fontFamily: SCHRIFT.auszeichnung,
+            fontStyle: SCHRIFT.neigung,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: zeilengroesse(satz),
+            lineHeight: 1.12,
+            color: FARBEN.grundRein,
+            maxWidth: '100%',
+          }}
+        >
+          {satz}
+        </div>
+
+        {/*
+          Wattis Zeile kommt **nach** dem Satz, nicht mit ihm. Zwei Saetze, die
+          gleichzeitig erscheinen, sind ein Absatz; nacheinander sind sie ein
+          Wortwechsel — und genau der ist der Kanal.
+
+          In `anzeigeZweiHell`, nicht in seiner gedaempften Kennfarbe: Die
+          gedaempften Toene haben auf Theaterrot Kontrast 1,06 und 1,90 und
+          sind dort unsichtbar. Dieselbe Trennung wie im Vorspann.
+        */}
+        <div
+          style={{
+            marginTop: 34,
+            opacity: wattiAuf,
+            fontFamily: SCHRIFT.auszeichnung,
+            fontStyle: SCHRIFT.neigung,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: 44,
+            lineHeight: 1.16,
+            color: FARBEN.anzeigeZweiHell,
+            maxWidth: '100%',
+          }}
+        >
+          {wattis}
+        </div>
+      </div>
+
+      <svg
+        viewBox="0 0 200 150"
+        preserveAspectRatio="xMidYMax meet"
+        style={{ flex: 1, minHeight: 0, width: '100%' }}
+      >
+        {figur(VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
+        {figur(WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
+      </svg>
+    </div>
+  );
+};

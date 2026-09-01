@@ -625,6 +625,63 @@ const _zugartenDeckenSich: Record<Zug, unknown> = ZUGARTEN;
 void _zugartenDeckenSich;
 
 /**
+ * Die Formsperre: Hier darf keine Tatsachenbehauptung stehen.
+ *
+ * Sie gilt fuer jede Zeile, die **ohne Quelle** gesprochen wird — die Reaktion
+ * mit Machart und, seit dem 01.09.2026, Wattis Abspannzeile. Beide behaupten
+ * nichts ueber die Welt, und genau deshalb duerfen sie frech sein.
+ *
+ * **Nicht „keine Ziffer".** Der erste Anlauf verbot jede Ziffer und hat sofort
+ * „Passwort7 ist meins" abgelehnt — eine Zeile, die als Beispiel in
+ * `REAKTIONS_MACHARTEN` steht. Eine Ziffer ist keine Behauptung; eine
+ * **Messgroesse** ist eine. Verboten sind deshalb Jahreszahlen und Zahlen mit
+ * technischer Einheit, nicht die Ziffer als solche.
+ *
+ * **Zeitspannen bleiben erlaubt.** Der zweite Anlauf hatte „Jahre", „Monate"
+ * und „Tage" in der Einheitenliste und lehnte damit „Wie? Ich mache das seit
+ * 10 Jahren" ab — eine Zeile aus dem Eichmass. Eine Zeitspanne behauptet etwas
+ * ueber den Sprecher, nicht ueber die Welt.
+ *
+ * **Sie steht als Funktion und nicht zweimal als Block.** Zwei Fassungen
+ * derselben Sperre liefen beim ersten Umbau an den Einheiten auseinander, und
+ * zwar lautlos — dieselbe Sorte Doppelung, gegen die hier ueberall eine Wache
+ * steht.
+ */
+const ohneWeltbehauptung = (
+  text: string,
+  ctx: z.RefinementCtx,
+  path: (string | number)[],
+  was: string,
+): void => {
+  if (/\b(?:19|20)\d{2}\b/.test(text)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `${was} nennt keine Jahreszahl — das wäre eine Aussage über die Welt.`,
+      path,
+    });
+  }
+  if (
+    /\b\d+(?:[.,]\d+)?\s?(?:wh|wattstunden?|w|v|a|mah|gb|tb|mb|hz|khz|ghz|zoll|mbit|gbit|%|prozent|euro|€)\b/i.test(
+      text,
+    )
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `${was} nennt keine Größe mit Einheit — das wäre ein Fakt ohne Beleg.`,
+      path,
+    });
+  }
+  const saetze = text.split(/[.!?]+/).filter((t) => t.trim().length > 0);
+  if (saetze.length > 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `${was} ist kurz. Höchstens zwei Sätze, meist einer.`,
+      path,
+    });
+  }
+};
+
+/**
  * Ein Redeanteil — eine Figur, ein Satz.
  *
  * **Warum es die Reaktionszeile ueberhaupt gibt.** Die Belegpflicht zwingt
@@ -753,47 +810,7 @@ export const Redeanteil = z
       });
     }
     if (r.machart !== undefined) {
-      /*
-       * Formsperre: dort darf keine Tatsachenbehauptung stehen.
-       *
-       * **Nicht „keine Ziffer".** Der erste Anlauf verbot jede Ziffer und hat
-       * sofort „Passwort7 ist meins" abgelehnt — eine Zeile, die als Beispiel
-       * in `REAKTIONS_MACHARTEN` steht. Eine Ziffer ist keine Behauptung; eine
-       * **Messgroesse** ist eine. Verboten sind deshalb Jahreszahlen und
-       * Zahlen mit technischer Einheit, nicht die Ziffer als solche.
-       *
-       * **Zeitspannen bleiben erlaubt.** Der zweite Anlauf hatte „Jahre",
-       * „Monate" und „Tage" in der Einheitenliste und lehnte damit „Wie? Ich
-       * mache das seit 10 Jahren" ab — eine Zeile aus dem Eichmass. Eine
-       * Zeitspanne in einer Reaktion ist Alltagssprache und behauptet nichts
-       * ueber die Welt, sondern etwas ueber den Sprecher.
-       */
-      if (/\b(?:19|20)\d{2}\b/.test(r.text)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Eine Reaktion nennt keine Jahreszahl — das wäre eine Aussage über die Welt.',
-          path: ['text'],
-        });
-      }
-      if (
-        /\b\d+(?:[.,]\d+)?\s?(?:wh|wattstunden?|w|v|a|mah|gb|tb|mb|hz|khz|ghz|zoll|mbit|gbit|%|prozent|euro|€)\b/i.test(
-          r.text,
-        )
-      ) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Eine Reaktion nennt keine Größe mit Einheit — das wäre ein Fakt ohne Beleg.',
-          path: ['text'],
-        });
-      }
-      const saetze = r.text.split(/[.!?]+/).filter((t) => t.trim().length > 0);
-      if (saetze.length > 2) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Eine Reaktion ist kurz. Höchstens zwei Sätze, meist einer.',
-          path: ['text'],
-        });
-      }
+      ohneWeltbehauptung(r.text, ctx, ['text'], 'Eine Reaktion');
     }
   });
 export type Redeanteil = z.infer<typeof Redeanteil>;
@@ -2570,6 +2587,19 @@ export const Tonspur = z.object({
       dauerSek: z.number().positive(),
     })
     .optional(),
+  /**
+   * Wattis Abspannzeile als Tonspur — dasselbe Muster wie `vorspann`.
+   *
+   * Voltis „Wir haben nachgelesen." steht **nicht** hier: Der Satz wechselt
+   * nie und liegt als feste Aufnahme unter `public/ton/marke/`, einmal
+   * bezahlt. Nur Wattis Antwort ist je Short neu.
+   */
+  abspann: z
+    .object({
+      datei: z.string().min(1),
+      dauerSek: z.number().positive(),
+    })
+    .optional(),
   szenenStartSek: z.array(z.number().nonnegative()),
   /**
    * Ein Abschnitt je zusammenhaengendem Redeanteil einer Figur.
@@ -2732,6 +2762,29 @@ export const Short = z.object({
    * Shorts steht, prueft `shortPruefen` — hier liegt `quellen.json` nicht vor.
    */
   vorspannBelegId: z.string().min(1),
+
+  /**
+   * Wattis Zeile im Abspann — das letzte Wort, auf dem geschlossenen Vorhang.
+   *
+   * **Seit dem 01.09.2026.** Der Vorhang faehrt am Ende wieder zu, und darauf
+   * steht die Gegenkarte zum Vorspann: oben „WIR HABEN NACHGELESEN" statt
+   * „HEUTIGES THEMA", darunter der Schlusssatz — und darunter diese Zeile.
+   *
+   * **Sie behauptet nichts und braucht deshalb keine Quelle.** Das ist
+   * dieselbe Trennung wie bei der Reaktion: Wer einen Zug traegt, der nichts
+   * behauptet, nennt auch keine Fundstelle. Gehalten wird sie von
+   * `ohneWeltbehauptung` — keine Jahreszahl, keine Groesse mit Einheit,
+   * hoechstens zwei Saetze.
+   *
+   * Sechzig Zeichen, wie die Themenzeile. Sie steht auf einem Vorhang und
+   * konkurriert dort mit dem Schlusssatz darueber; was laenger ist, wird zum
+   * Absatz und nimmt der Pointe das letzte Wort.
+   */
+  abspann: z
+    .string()
+    .min(4)
+    .max(60)
+    .superRefine((wert, ctx) => ohneWeltbehauptung(wert, ctx, [], 'Wattis Abspannzeile')),
 
   /**
    * Der Satz, den jemand am Tisch weitererzaehlt.

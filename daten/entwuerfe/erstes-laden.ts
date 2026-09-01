@@ -76,6 +76,13 @@ export const erstesLaden: Short = {
   vorspann: 'Dein Akku will gar nicht voll geladen werden',
   vorspannBelegId: 'siebzig-prozent-unterbrechen',
 
+  /*
+   * Wattis letztes Wort auf dem geschlossenen Vorhang. Es antwortet auf
+   * Voltis „Wir haben nachgelesen." und behauptet nichts ueber die Welt —
+   * es sagt etwas ueber Watti.
+   */
+  abspann: 'Meiner hängt trotzdem die ganze Nacht am Kabel.',
+
   szenen: [
     {
       /*
