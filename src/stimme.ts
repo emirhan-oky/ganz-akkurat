@@ -716,12 +716,18 @@ export const redelaeufe = (short: Short): Redelauf[] => {
          * `szenenStartzeiten` musste sie aus der Ausrichtung herauslesen.
          */
         szenenOffsets: neueSzene ? [{ szene: i, offset: 0 }] : [],
+        /*
+         * `beatSek` kommt oben drauf — der bestellte Beat einer einzelnen
+         * Zeile, zusaetzlich zur Standardpause ihrer Naht. Siehe das Feld in
+         * `src/typen.ts`.
+         */
         pauseDavorSek:
-          laeufe.length === 0
+          (anteil.beatSek ?? 0) +
+          (laeufe.length === 0
             ? 0
             : neueSzene
               ? (bestellt ?? SZENENGRENZE_SEK)
-              : SPRECHERWECHSEL_SEK,
+              : SPRECHERWECHSEL_SEK),
       });
     });
   });

@@ -664,6 +664,29 @@ export const Redeanteil = z
      */
     zug: Zug,
     /**
+     * Ein **zusaetzlicher Beat vor dieser Zeile**, in Sekunden.
+     *
+     * `SPRECHERWECHSEL_SEK` steht auf 0,15 — kurz, und das ist richtig: „Ein
+     * Wortwechsel ist eine Reaktion, und eine Reaktion kommt schnell." Manche
+     * Reaktion braucht aber genau das Gegenteil. Nach einer Beschimpfung ist
+     * die Verbluefftheit die Pointe, und 0,15 Sekunden sind dafuer zu wenig.
+     *
+     * **Gefunden am fertigen Video am 01.09.2026:** „Hier sagt Watti zu
+     * schnell Watt." Die Konstante war nicht falsch, sie war nur die einzige.
+     *
+     * Der Beat entsteht als **Versatz im Schnitt**, nicht als Break-Tag im
+     * Text — dieselbe Entscheidung wie beim Szenenschnitt: „Ein Break-Tag ist
+     * eine Bitte an die Synthese, ein Versatz im Schnitt ist eine Tatsache."
+     * Er kostet deshalb kein Kontingent und laesst sich ohne neue Vertonung
+     * nachjustieren.
+     *
+     * **Er wirkt nur, wo ein Sprecherwechsel stattfindet.** Zwei Anteile
+     * derselben Figur in derselben Szene gehen in einen Syntheseaufruf; dort
+     * gibt es keine Naht, in die sich etwas legen liesse. `beatverlust` in
+     * `src/pruefung.ts` meldet den Fall.
+     */
+    beatSek: z.number().min(0.1).max(1.5).optional(),
+    /**
      * Nur an Reaktionszeilen. Aus `REAKTIONS_MACHARTEN` — der Entwurf muss
      * eine waehlen, statt in den zusammenfassenden Kommentar zu fallen.
      *

@@ -154,7 +154,7 @@ export const passwortWechseln: Short = {
        * der Schnitt.
        */
       sprechtext:
-        'Mach ich doch. Alle 90 Tage ein neues. Du Genie. Watt? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
+        'Mach ich doch. Alle 90 Tage ein neues. Du Idiot. Watt? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachlegen', text: 'Mach ich doch. Alle 90 Tage ein neues.' },
         /*
@@ -164,12 +164,17 @@ export const passwortWechseln: Short = {
          * zur **Ursache des Einbruchs** macht. Keine Fundstelle verbindet
          * beides.
          *
-         * „Du Genie" trifft Watti statt die Sache und traegt damit denselben
+         * „Du Idiot" trifft Watti statt die Sache und traegt damit denselben
          * Aerger, ohne etwas ueber die Welt zu sagen. Der Vertrag erlaubt genau
          * das: umgangssprachlich und derb, und die Pointe darf Watti treffen.
          */
-        { sprecher: 'nachleser', zug: 'zuspitzen', text: 'Du Genie.' },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Watt?', machart: 'ratlosigkeit' },
+        { sprecher: 'nachleser', zug: 'zuspitzen', text: 'Du Idiot.' },
+        /*
+         * **Der Beat ist die Pointe.** Ohne ihn kommt „Watt?" 0,15 Sekunden
+         * nach der Beschimpfung, und die Verbluefftheit faellt weg — am
+         * fertigen Video gehoert: „Hier sagt Watti zu schnell Watt."
+         */
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Watt?', machart: 'ratlosigkeit', beatSek: 0.45 },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
@@ -216,7 +221,7 @@ export const passwortWechseln: Short = {
        * sagt mehr ueber ihn als „Ertappt", ohne dass er es merkt.
        */
       sprechtext:
-        'Nicht automatisch? Dann lass ich es ganz. Wechseln nach Plan führt oft zu schwachen Passwörtern. Na und? Immerhin wechsel ich — von Passwort6 auf Passwort7.',
+        'Nicht automatisch? Dann lass ich es ganz. Wechseln nach Plan führt oft zu schwachen Passwörtern. Na und? Immerhin wechsel ich meine Passwörter.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -234,7 +239,7 @@ export const passwortWechseln: Short = {
         {
           sprecher: 'zeiger',
           zug: 'widersprechen',
-          text: 'Na und? Immerhin wechsel ich — von Passwort6 auf Passwort7.',
+          text: 'Na und? Immerhin wechsel ich meine Passwörter.',
           machart: 'gestaendnis',
         },
       ],

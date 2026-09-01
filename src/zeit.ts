@@ -511,11 +511,28 @@ export const zusatzpausenSzene = (short: Short, i: number): number => {
   const anteile = szene?.rede;
   if (!szene || anteile === undefined) return 0;
 
-  let summe = 0;
+  /*
+   * Der Beat der **ersten** Zeile einer Szene faellt an ihrer vorderen Grenze
+   * an — dort beginnt in `redelaeufe` immer ein neuer Lauf, unabhaengig vom
+   * Sprecher. Die erste Szene des Shorts hat keine Naht davor.
+   */
+  let summe = i > 0 ? (anteile[0]?.beatSek ?? 0) : 0;
 
-  // Wechsel **innerhalb** der Szene: jede Naht zwischen zwei Sprechern.
+  /*
+   * Wechsel **innerhalb** der Szene: jede Naht zwischen zwei Sprechern, dazu
+   * der bestellte Beat der Zeile danach.
+   *
+   * **Der Beat zaehlt nur an einer Naht**, und das ist keine Nachlaessigkeit,
+   * sondern die Wahrheit ueber den Schnitt: Zwei Anteile derselben Figur gehen
+   * in einen Syntheseaufruf, dort gibt es keine Stelle, in die sich etwas
+   * legen liesse. `beatverlust` in `src/pruefung.ts` meldet den Fall, statt
+   * ihn hier stillschweigend mitzurechnen — sonst waere die Schaetzung laenger
+   * als das Video.
+   */
   for (let j = 1; j < anteile.length; j += 1) {
-    if (anteile[j]!.sprecher !== anteile[j - 1]!.sprecher) summe += SPRECHERWECHSEL_SEK;
+    if (anteile[j]!.sprecher !== anteile[j - 1]!.sprecher) {
+      summe += SPRECHERWECHSEL_SEK + (anteile[j]!.beatSek ?? 0);
+    }
   }
 
   /*

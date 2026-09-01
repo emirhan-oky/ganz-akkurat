@@ -1940,6 +1940,31 @@ const STIMMANTEIL_MAX = 2 / 3;
       });
 
       /*
+       * **Ein Beat an einer Naht, die es nicht gibt.** `redelaeufe` haengt zwei
+       * Anteile derselben Figur innerhalb einer Szene zu einem Syntheseaufruf
+       * zusammen — dort ist keine Stelle, in die sich eine Pause legen liesse.
+       * Ein `beatSek` auf so einer Zeile wirkt nicht, und zwar lautlos.
+       *
+       * Fehler und nicht Hinweis: Anders als beim verlorenen Zug gibt es hier
+       * nichts abzuwaegen. Wer einen Beat bestellt, will ihn hoeren.
+       */
+      short.szenen.forEach((szene, si) => {
+        const anteile = szene.rede ?? [];
+        for (let i = 1; i < anteile.length; i += 1) {
+          const jetzt = anteile[i]!;
+          if (jetzt.beatSek === undefined) continue;
+          if (anteile[i - 1]!.sprecher !== jetzt.sprecher) continue;
+          melde(
+            'fehler',
+            'beatverlust',
+            `Szene ${si + 1}: „${jetzt.text.slice(0, 30)}…" bestellt einen Beat von ` +
+              `${jetzt.beatSek}s, folgt aber auf dieselbe Figur. Beide gehen in einen ` +
+              'Syntheseaufruf — dort gibt es keine Naht, und der Beat verschwindet.',
+          );
+        }
+      });
+
+      /*
        * **Der Bogen sagt zu, wie es ausgeht.** Das einzige Feld aus
        * `GESPRAECHSBOEGEN`, das eine Pruefung traegt — alles andere darin ist
        * Handreichung fuer den Entwurf und wird ausdruecklich von keinem Skript
