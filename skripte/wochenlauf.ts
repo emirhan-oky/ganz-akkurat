@@ -9,7 +9,7 @@ import { shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { durchschnittsdauer, verlaufLesen, verlaufSchreiben } from '../src/verlauf';
-import { gesamtdauerBilder } from '../src/zeit';
+import { gesamtdauerBilder, tonspurNeuLegen } from '../src/zeit';
 import { FORMAT } from '../src/marke';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 
@@ -572,8 +572,20 @@ const main = async () => {
         );
       }
 
-      const vertont = Short.parse({ ...short, szenen: szenenMitZeit, tonspur: alt.tonspur });
-      console.log(`   ${short.id}  ${alt.tonspur.dauerSek.toFixed(1)}s  Ton unverändert, Texte aktuell`);
+      /*
+       * **Die Pausen kommen aus dem heutigen `src/zeit.ts`, nicht aus dem
+       * Lauf von damals.** `tonspurNeuLegen` misst je Naht die Stille und
+       * hebt sie auf die aktuellen Werte an; die Dateien bleiben. Seit dem
+       * 01.09.2026 — bis dahin war „Nachjustieren kostet nichts" ein Satz im
+       * Kommentar, den kein Code eingeloest hat.
+       */
+      const neuGelegt = tonspurNeuLegen(alt.tonspur, short);
+      const vertont = Short.parse({ ...short, szenen: szenenMitZeit, tonspur: neuGelegt });
+      const verschoben = neuGelegt.dauerSek - alt.tonspur.dauerSek;
+      console.log(
+        `   ${short.id}  ${neuGelegt.dauerSek.toFixed(1)}s  Ton unverändert, Texte aktuell` +
+          (verschoben > 0.01 ? `, Pausen +${verschoben.toFixed(1)}s` : ''),
+      );
       fertige.push(vertont);
     }
     console.log('');

@@ -1,11 +1,12 @@
 import { AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
 import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
 
-import type { Short as ShortDaten } from '../src/typen';
+import type { Short as ShortDaten, Sprecher } from '../src/typen';
 import { FORMATE, ZUGARTEN } from '../src/typen';
 import {
   NACHLAUF_SEK,
   SPRECHERWECHSEL_SEK,
+  VORSPANN_VORLAUF_SEK,
   szenenZeitplan,
   vorspannFestSek,
   vorspannSek,
@@ -275,6 +276,15 @@ const STOFFFLAECHE = {
  * ihren Titelblock in ihrer Flaeche, und mit den zusaetzlichen 376 Pixeln
  * stand „Facts" quer durch die Wortmarke.
  */
+/**
+ * Wer in einer Szene links steht. `wer` gibt es nur an der Figurenbuehne; die
+ * Gegenueberstellung kennt keine zwei Sprecher und faellt auf die Vorgabe
+ * zurueck. Drei Leser: die Redespalten, die Vorspann- und die Abspannkarte —
+ * eine Rechnung, sonst stuende beim naechsten Umbau einer der drei falsch.
+ */
+const linksIn = (szene: ShortDaten['szenen'][number] | undefined): Sprecher =>
+  szene?.buehne?.art === 'figur' ? (szene.buehne.wer ?? 'nachleser') : 'nachleser';
+
 const KARTENFLAECHE = {
   position: 'absolute',
   top: VORHANG.karte,
@@ -424,13 +434,6 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    */
   const kopfzeileAufRot = aufVorhang(vorhangZu);
 
-  /*
-   * Der Satz aus der Schlussszene. Er wird hier gelesen und nicht dort
-   * gezeichnet — die Buehne im Schluss traegt seit dem 01.09.2026 keine
-   * Schrift mehr.
-   */
-  const schlussSatz = daten.szenen.find((s) => s.art === 'schluss')?.satz;
-
   const aktuelleZaehlung = (() => {
     if (gesamtZaehlung === 0) return undefined;
     let stand: number | undefined;
@@ -544,7 +547,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
               zeile={daten.vorspann}
               dauer={vorspannBilder}
               zeileAbBild={ansageAbBild}
-              hoehe={FORMAT.hoehe - VORHANG.karte}
+              linksSteht={linksIn(daten.szenen[0])}
             />
           </div>
 
@@ -574,7 +577,13 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
             lesen, und von Hand gepflegt liefe die Tabelle auseinander.
           */}
           <Sequence
-            from={Math.round(ablauf(vorspannBilder).titel * vorspannBilder)}
+            /*
+             * **Ab dem Vorlauf, nicht ab `ablauf().titel`** — seit dem
+             * 01.09.2026. Der Titel steht ab Bild 0, die Stimme wartet
+             * `VORSPANN_VORLAUF_SEK`. Dieselbe Zahl steckt in
+             * `vorspannFestSek`, also ruecken Themenansage und Fahrt mit.
+             */
+            from={Math.round(VORSPANN_VORLAUF_SEK * bilderProSekunde)}
             layout="none"
             name="Vorspann Volti"
           >
@@ -621,24 +630,22 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
       }
 
       {/*
-        **Die Abspannkarte — die Gegenkarte zum Vorspann.**
+        **Die Abspannkarte — dieselbe Karte wie im Vorspann, andere Mitte.**
 
         Sie liegt wie die Vorspannkarte in einer eigenen `Sequence` ueber dem
-        Stoff, der dauerhaft steht. Der Schlusssatz kommt aus der letzten Szene
-        und nicht aus einem eigenen Feld: Er stand bis heute auf der Buehne, und
-        zwei Felder fuer denselben Satz waeren die Doppelung ohne Wache.
+        Stoff, der dauerhaft steht. Der Schlusssatz steht seit dem 01.09.2026
+        nirgends mehr im Bild; auf dem Vorhang stehen der Spruch und Wattis
+        Zeile.
       */}
-      {schlussSatz !== undefined && (
-        <Sequence from={abspannAbBild} layout="none" name="Abspann">
-          <div style={KARTENFLAECHE}>
-            <Abspannkarte
-              satz={schlussSatz}
-              wattis={daten.abspann}
-              dauer={durationInFrames - abspannAbBild}
-            />
-          </div>
-        </Sequence>
-      )}
+      <Sequence from={abspannAbBild} layout="none" name="Abspann">
+        <div style={KARTENFLAECHE}>
+          <Abspannkarte
+            show={FORMATE[daten.format].show}
+            wattis={daten.abspann}
+            linksSteht={linksIn(daten.szenen[daten.szenen.length - 1])}
+          />
+        </div>
+      </Sequence>
 
       {/*
         **Die Aufloesung liegt ausserhalb der Vorspann-`Sequence`.**
@@ -798,9 +805,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
             szenenStartSek={daten.tonspur.szenenStartSek}
             /* `wer` gibt es nur an der Figurenbuehne; die Gegenueberstellung
                kennt keine zwei Sprecher und faellt auf die Vorgabe zurueck. */
-            linksJeSzene={daten.szenen.map((s) =>
-              s.buehne?.art === 'figur' ? (s.buehne.wer ?? 'nachleser') : 'nachleser',
-            )}
+            linksJeSzene={daten.szenen.map(linksIn)}
             szenenArt={daten.szenen.map((s) => s.art)}
           />
           </Sequence>

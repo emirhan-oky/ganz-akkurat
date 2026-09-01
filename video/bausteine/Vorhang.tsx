@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing, interpolate, useCurrentFrame } from 'remotion';
-import { FARBEN, FORMAT, SCHRIFT, VORHANG, mische } from '../../src/marke';
-import { FIGURENNAMEN } from '../../src/typen';
+import { BUEHNE, FARBEN, FORMAT, SCHRIFT, SPRUCH, VORHANG, mische } from '../../src/marke';
+import { FIGURENNAMEN, type Sprecher } from '../../src/typen';
 import { nachleser } from '../../daten/figur/nachleser';
 import { eingefaerbt, zeiger } from '../../daten/figur/zeiger';
 import { Figur } from './Figur';
@@ -257,7 +257,7 @@ const falten = (breite: number, saat: number) => {
  * Das Schema deckelt die Zeile bei 60 Zeichen, also gibt es drei Stufen.
  */
 const zeilengroesse = (zeile: string): number =>
-  zeile.length <= 24 ? 88 : zeile.length <= 38 ? 78 : 68;
+  zeile.length <= 24 ? 64 : zeile.length <= 38 ? 56 : 50;
 
 /**
  * Die Figuren mit einem Saum in der Vorhangfarbe.
@@ -470,47 +470,55 @@ export const Vorhangstoff: React.FC<{
 /* ───────────────────────────────── Die Karte ──────────────────────────── */
 
 /**
- * Titel, Themenzeile und die beiden sich vorstellenden Figuren.
+ * Das gemeinsame Geruest von Vorspann und Abspann: Showtitel, „mit Volti und
+ * Watti", eine wechselnde Mitte, die beiden Figuren davor.
  *
- * Läuft **nur** während des Vorspanns, während der Stoff dahinter über die
- * ganze Laufzeit steht. Deshalb liest sie ihren eigenen Frame: Sie ist in eine
- * `Sequence` gemountet, deren Zeitachse bei null beginnt.
+ * **Eine Komponente fuer beide Enden — seit dem 01.09.2026.** Der Abspann soll
+ * aussehen wie der Opener; nur die Mitte wechselt. Zwei Zeichnungen derselben
+ * Karte waeren die Doppelung ohne Wache, und die ist am selben Tag schon
+ * einmal auseinandergelaufen: Die Figuren der ersten Abspannkarte standen
+ * woanders als die auf der Buehne.
+ *
+ * Läuft **nur** während Vorspann oder Abspann, während der Stoff dahinter
+ * über die ganze Laufzeit steht. Deshalb liest sie ihren eigenen Frame: Sie
+ * ist in eine `Sequence` gemountet, deren Zeitachse bei null beginnt.
+ *
+ * ## Die Figuren stehen auf der Buehnenstandlinie
+ *
+ * Das SVG der Karte liegt **absolut in genau der Flaeche der Figurenbuehne**:
+ * `BUEHNE.x / y / breite` und `hoeheOhneUntertitel`, dieselben vier Zahlen,
+ * aus denen `standlinieImBild()` rechnet. Nur so decken sich die Kartenfiguren
+ * mit denen der Szene dahinter, und beim Oeffnen wie beim Schliessen gibt es
+ * keinen Moment mit zwei Paaren.
+ *
+ * **Bis zum 01.09.2026 stand das SVG mit `flex: 1` unten in der Karte**, und
+ * das ging, solange die Buehnenfiguren den Restplatz bekamen und ungefaehr
+ * dort landeten. Seit die Figurenbuehne absolut auf ihrer Standlinie steht,
+ * standen die Kartenfiguren rund 500 Pixel tiefer — im Handy-Video waren
+ * waehrend der Fahrt zwei Paare uebereinander zu sehen, das untere blass.
+ * Kein Standbild hat es gezeigt, weil beide nur waehrend der zwoelf Bilder
+ * der Fahrt zugleich sichtbar sind.
  */
-export const Vorspannkarte: React.FC<{
+const Vorhangkarte: React.FC<{
   /** Der Showtitel aus `FORMATE[format].show`. */
   show: string;
-  /** Die Themenzeile aus `short.vorspann`. */
-  zeile: string;
-  /** Laufzeit des Vorspanns in Bildern. */
-  dauer: number;
+  /** Was zwischen Namenszeile und Figuren steht. */
+  mitte: React.ReactNode;
+  /** 0 bis 1 — wie sichtbar die ganze Karte ist. */
+  sichtbar: number;
+  /** Was die beiden tun: vorstellen oder dastehen. */
+  pose: 'winken' | 'ruhe';
   /**
-   * Ab welchem Bild die Themenzeile steht — **derselbe Wert, ab dem sie
-   * gesprochen wird.**
-   *
-   * Er kommt von aussen und wird hier nicht gerechnet, weil er aus den
-   * gemessenen Dauern der festen Aufnahmen faellt (`daten/vorspannton.json`)
-   * und die kennt nur `Short.tsx`. Zweimal gerechnet liefen Bild und Ton
-   * auseinander — genau das war am 31.08.2026 der Fall: **Die Stimme kam 1,2
-   * Sekunden vor der Einblendung.**
-   *
-   * Ein Anteil der Vorspanndauer hat es nicht getan. Er beschreibt eine
-   * Position im Ganzen, und die Ansage haengt an der Laenge der beiden Saetze
-   * davor — zwei Groessen, die nichts miteinander zu tun haben.
+   * Wer links steht — wie in der Szene dahinter. `wer` an der Figurenbuehne
+   * darf wechseln; stuende die Karte fest, taeuschte die Ueberblendung einen
+   * Seitenwechsel vor, den es nicht gibt.
    */
-  zeileAbBild: number;
-  /** Höhe der Fläche in Pixeln — für den unteren Rand. */
-  hoehe: number;
-}> = ({ show, zeile, dauer, hoehe, zeileAbBild }) => {
+  linksSteht: Sprecher;
+}> = ({ show, mitte, sichtbar, pose, linksSteht }) => {
   const frame = useCurrentFrame();
-  const sichtbar = titelstand(frame, dauer);
-  const t = anteil(frame, dauer);
-  const zeileAuf = interpolate(frame, [zeileAbBild, zeileAbBild + 6], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
 
   const figur = (rig: typeof nachleser, s: 'links' | 'rechts', x: number) => {
-    const pose = poseAus({ frame, fps: 30, pose: 'winken', vorherigePose: 'ruhe' });
+    const haltung = poseAus({ frame, fps: 30, pose, vorherigePose: 'ruhe' });
     return (
       <g key={s}>
         <ellipse
@@ -533,26 +541,27 @@ export const Vorspannkarte: React.FC<{
           Frage beantwortet hat.
         */}
         <g transform={wortwechselTransform(WORTWECHSEL, s)}>
-          <Figur rig={rig} pose={pose} />
+          <Figur rig={rig} pose={haltung} />
         </g>
       </g>
     );
   };
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        opacity: sichtbar,
-        paddingBottom: Math.round(hoehe * 0.1),
-      }}
-    >
+    <div style={{ position: 'absolute', inset: 0, opacity: sichtbar }}>
       <div
         style={{
-          flex: '0 0 54%',
+          /*
+           * Der Textblock belegt den Raum ueber der Buehne: von der Karte
+           * oben bis zur Buehnenoberkante — plus den Teil der Buehne, in dem
+           * die Figuren nicht stehen. Die Figuren beginnen bei rund 60 % der
+           * Buehnenhoehe; darueber ist Platz fuer drei Zeilen.
+           */
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: BUEHNE.y - VORHANG.karte + BUEHNE.hoeheOhneUntertitel * 0.3,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -578,10 +587,17 @@ export const Vorspannkarte: React.FC<{
           <div
             style={{
               fontWeight: SCHRIFT.schwarz,
-              fontSize: 132,
-              letterSpacing: -2,
+              /*
+               * **96 statt 132 — seit die Figuren auf der Buehnenstandlinie
+               * stehen.** Zwischen Kopfzeile und Figurenkopf liegen rund 330
+               * Pixel, und darin muessen Titel, Namenszeile und die Mitte
+               * Platz haben. Der Titel gibt am meisten ab, weil er am
+               * groessten war.
+               */
+              fontSize: 96,
+              letterSpacing: -1.5,
               color: FARBEN.grundRein,
-              WebkitTextStroke: `4px ${FARBEN.grundRein}`,
+              WebkitTextStroke: `3px ${FARBEN.grundRein}`,
             }}
           >
             {show}
@@ -607,9 +623,9 @@ export const Vorspannkarte: React.FC<{
             style={{
               /* Die Zeile klebte am Titel — dazwischen lag nur dessen
                  Zeilenhoehe von 1,02. */
-              marginTop: 34,
+              marginTop: 18,
               fontWeight: SCHRIFT.duenn,
-              fontSize: 38,
+              fontSize: 32,
               color: FARBEN.grundRein,
               opacity: 0.86,
             }}
@@ -625,105 +641,133 @@ export const Vorspannkarte: React.FC<{
           </div>
         </div>
 
-        {/*
-          Das Themenlabel steht **außerhalb** des geprüften Feldes und ist
-          deshalb erlaubt, obwohl das Schema Ankündigungen sperrt: Ein Label
-          sagt, *was* kommt; eine Ankündigung nimmt der Behauptung ihre Kraft.
-          Die Regel zielte immer auf das Zweite — die Zeile darunter muss
-          weiterhin behaupten.
-        */}
-        <div
-          style={{
-            /* 130 statt 54: Der Titelblock hatte rund 270 Pixel ungenutzten
-               Rand, weil er zentriert stand. Der Abstand fuellt ihn, statt
-               die Schrift zu vergroessern. */
-            marginTop: 130,
-            opacity: zeileAuf,
-            fontFamily: SCHRIFT.wortmarke,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: 34,
-            letterSpacing: 9,
-            color: FARBEN.gold,
-          }}
-        >
-          HEUTIGES THEMA
-        </div>
-
-        <div
-          style={{
-            marginTop: 40,
-            opacity: zeileAuf,
-            fontFamily: SCHRIFT.auszeichnung,
-            fontStyle: SCHRIFT.neigung,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: zeilengroesse(zeile),
-            lineHeight: 1.12,
-            color: FARBEN.grundRein,
-            maxWidth: '100%',
-          }}
-        >
-          {zeile}
-        </div>
+        <div style={{ marginTop: 40, width: '100%' }}>{mitte}</div>
       </div>
 
       {/*
-        **Die beiden stehen vor dem Vorhang und stellen sich vor.**
+        **Die beiden stehen vor dem Vorhang, auf der Standlinie der Buehne.**
 
         Sie werden hier eigens gezeichnet und nicht aus der Szene
-        durchgereicht: Der Vorspann ist eine geschlossene Karte, die als
-        Ganzes ausblendet, bevor der Vorhang fährt. Die Szene dahinter
-        zeichnet ihre Figuren an denselben Stellen — beim Öffnen stehen sie
-        also schon da, und es gibt keinen Moment leerer Bühne.
+        durchgereicht: Die Karte ist ein geschlossenes Bild, das als Ganzes
+        blendet, waehrend der Vorhang faehrt. Die Szene dahinter zeichnet ihre
+        Figuren an denselben Stellen — beim Öffnen stehen sie also schon da,
+        und beim Schliessen bleiben sie, wo sie waren.
       */}
       <svg
         viewBox="0 0 200 150"
-        preserveAspectRatio="xMidYMax meet"
-        style={{ flex: 1, minHeight: 0, width: '100%' }}
+        preserveAspectRatio="xMidYMid meet"
+        style={{
+          position: 'absolute',
+          left: BUEHNE.x,
+          top: BUEHNE.y - VORHANG.karte,
+          width: BUEHNE.breite,
+          height: BUEHNE.hoeheOhneUntertitel,
+        }}
       >
-        {figur(VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
-        {figur(WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
+        {figur(linksSteht === 'zeiger' ? WATTI_AUF_ROT : VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
+        {figur(linksSteht === 'zeiger' ? VOLTI_AUF_ROT : WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
       </svg>
     </div>
   );
 };
 
-/* ──────────────────────────── Die Abspannkarte ─────────────────────────── */
+/**
+ * Der Vorspann: „HEUTIGES THEMA" und die Themenzeile in der Mitte, die beiden
+ * winken.
+ */
+export const Vorspannkarte: React.FC<{
+  show: string;
+  /** Die Themenzeile aus `short.vorspann`. */
+  zeile: string;
+  /** Laufzeit des Vorspanns in Bildern. */
+  dauer: number;
+  /**
+   * Ab welchem Bild die Themenzeile steht — **derselbe Wert, ab dem sie
+   * gesprochen wird.**
+   *
+   * Er kommt von aussen und wird hier nicht gerechnet, weil er aus den
+   * gemessenen Dauern der festen Aufnahmen faellt (`daten/vorspannton.json`)
+   * und die kennt nur `Short.tsx`. Zweimal gerechnet liefen Bild und Ton
+   * auseinander — genau das war am 31.08.2026 der Fall: **Die Stimme kam 1,2
+   * Sekunden vor der Einblendung.**
+   */
+  zeileAbBild: number;
+  linksSteht: Sprecher;
+}> = ({ show, zeile, dauer, zeileAbBild, linksSteht }) => {
+  const frame = useCurrentFrame();
+  const zeileAuf = interpolate(frame, [zeileAbBild, zeileAbBild + 6], [0, 1], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+  });
+
+  return (
+    <Vorhangkarte
+      show={show}
+      sichtbar={titelstand(frame, dauer)}
+      pose="winken"
+      linksSteht={linksSteht}
+      mitte={
+        <>
+          {/*
+            Das Themenlabel steht **außerhalb** des geprüften Feldes und ist
+            deshalb erlaubt, obwohl das Schema Ankündigungen sperrt: Ein Label
+            sagt, *was* kommt; eine Ankündigung nimmt der Behauptung ihre
+            Kraft. Die Regel zielte immer auf das Zweite — die Zeile darunter
+            muss weiterhin behaupten.
+          */}
+          <div
+            style={{
+              opacity: zeileAuf,
+              fontFamily: SCHRIFT.wortmarke,
+              fontWeight: SCHRIFT.schwarz,
+              fontSize: 26,
+              letterSpacing: 7,
+              color: FARBEN.gold,
+            }}
+          >
+            HEUTIGES THEMA
+          </div>
+          <div
+            style={{
+              marginTop: 18,
+              opacity: zeileAuf,
+              fontFamily: SCHRIFT.auszeichnung,
+              fontStyle: SCHRIFT.neigung,
+              fontWeight: SCHRIFT.schwarz,
+              fontSize: zeilengroesse(zeile),
+              lineHeight: 1.12,
+              color: FARBEN.grundRein,
+            }}
+          >
+            {zeile}
+          </div>
+        </>
+      }
+    />
+  );
+};
 
 /**
- * Das letzte Bild: Der Vorhang ist zu, die beiden stehen davor, und das
- * Nachgelesene steht darauf.
+ * Der Abspann: dieselbe Karte, in der Mitte „Wir haben nachgelesen." und
+ * darunter Wattis Zeile. Die beiden stehen still — sie haben gerade geredet,
+ * ein Winken waere ein zweiter Auftritt.
  *
- * **Seit dem 01.09.2026.** Der Vorhang faehrt schon seit demselben Tag am Ende
- * wieder zu — er zeigte nur nichts. Die Karte ist die Gegenkarte zum Vorspann:
- * dieselbe Anordnung, dieselben Farben, andere Zeilen.
+ * **Nur die Mitte wechselt.** Der erste Anlauf liess Showtitel und Namenszeile
+ * weg und setzte den Schlusssatz auf den Vorhang; das Urteil war eindeutig:
+ * „Ich moechte, dass der Abspann genauso aussieht wie der Opener." Der
+ * Schlusssatz steht seitdem nirgends mehr im Bild — er wird gesprochen.
  *
- * | Vorspann | Abspann |
- * |---|---|
- * | Showtitel, „mit Volti und Watti" | entfaellt |
- * | „HEUTIGES THEMA" | **„WIR HABEN NACHGELESEN"** |
- * | die Themenzeile | **der Schlusssatz** |
- * | — | **Wattis Zeile**, in seiner Kennfarbe |
- *
- * **Der Schlusssatz steht deshalb nicht mehr auf der Buehne.** Er stand dort
- * ueber den Figuren und brauchte einen Schleier, um ueberhaupt lesbar zu sein;
- * auf dem Vorhang hat er eine eigene Flaeche. Der Rundlauf verliert dabei
- * nichts: Das Video beginnt mit geschlossenem Vorhang, und es endet jetzt mit
- * demselben Bild — **der Uebergang in die Wiederholung ist eine Ueberblendung
- * und kein Schnitt.**
- *
- * Die Figuren stehen wie im Vorspann davor, nur in Ruhe statt winkend: Sie
- * haben gerade geredet, ein Winken waere ein zweiter Auftritt.
+ * Wattis Zeile blendet **nach** Voltis Zeile ein, nicht mit ihr: Nacheinander
+ * ist ein Wortwechsel, gleichzeitig ein Absatz. In `anzeigeZweiHell`, dem
+ * einzigen Wattiton mit Kontrast ueber 4 auf dem gefalteten Stoff.
  */
 export const Abspannkarte: React.FC<{
-  /** Der Schlusssatz — bis zum 01.09.2026 stand er auf der Buehne. */
-  satz: string;
+  show: string;
   /** Wattis letztes Wort, aus `short.abspann`. */
   wattis: string;
-  /** Laufzeit der Karte in Bildern. */
-  dauer: number;
-}> = ({ satz, wattis, dauer }) => {
+  linksSteht: Sprecher;
+}> = ({ show, wattis, linksSteht }) => {
   const frame = useCurrentFrame();
-
   /*
    * Sie blendet **mit dem Vorhang** auf, nicht danach. Der Stoff braucht
    * `VORHANG.fahrtBilder`, und eine Karte, die erst dann anfaengt, haette auf
@@ -733,115 +777,47 @@ export const Abspannkarte: React.FC<{
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const wattiAuf = interpolate(frame, [FAHRT_BILDER, FAHRT_BILDER + 8], [0, 1], {
+  const wattiAuf = interpolate(frame, [FAHRT_BILDER + 4, FAHRT_BILDER + 12], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
-  const figur = (rig: typeof nachleser, s: 'links' | 'rechts', x: number) => (
-    <g key={s}>
-      <ellipse
-        cx={x}
-        cy="140"
-        rx={34 * WORTWECHSEL.groesse}
-        ry={9 * WORTWECHSEL.groesse}
-        fill={STOFF.tief}
-        opacity={0.55}
-      />
-      <g transform={wortwechselTransform(WORTWECHSEL, s)}>
-        <Figur rig={rig} pose={poseAus({ frame, fps: 30, pose: 'ruhe', vorherigePose: 'ruhe' })} />
-      </g>
-    </g>
-  );
-
   return (
-    <div
-      style={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        opacity: auf,
-        paddingBottom: Math.round(FORMAT.hoehe * 0.06),
-      }}
-    >
-      <div
-        style={{
-          flex: '0 0 54%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          padding: '0 9%',
-        }}
-      >
-        {/*
-          Dieselbe Zeile an derselben Stelle wie „HEUTIGES THEMA" — und
-          derselbe Goldton. Der Spruch ist die Marke; er steht hier nicht als
-          Abbinder, sondern als Absender.
-        */}
-        <div
-          style={{
-            fontFamily: SCHRIFT.wortmarke,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: 34,
-            letterSpacing: 9,
-            color: FARBEN.gold,
-          }}
-        >
-          WIR HABEN NACHGELESEN
-        </div>
-
-        <div
-          style={{
-            marginTop: 40,
-            fontFamily: SCHRIFT.auszeichnung,
-            fontStyle: SCHRIFT.neigung,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: zeilengroesse(satz),
-            lineHeight: 1.12,
-            color: FARBEN.grundRein,
-            maxWidth: '100%',
-          }}
-        >
-          {satz}
-        </div>
-
-        {/*
-          Wattis Zeile kommt **nach** dem Satz, nicht mit ihm. Zwei Saetze, die
-          gleichzeitig erscheinen, sind ein Absatz; nacheinander sind sie ein
-          Wortwechsel — und genau der ist der Kanal.
-
-          In `anzeigeZweiHell`, nicht in seiner gedaempften Kennfarbe: Die
-          gedaempften Toene haben auf Theaterrot Kontrast 1,06 und 1,90 und
-          sind dort unsichtbar. Dieselbe Trennung wie im Vorspann.
-        */}
-        <div
-          style={{
-            marginTop: 34,
-            opacity: wattiAuf,
-            fontFamily: SCHRIFT.auszeichnung,
-            fontStyle: SCHRIFT.neigung,
-            fontWeight: SCHRIFT.schwarz,
-            fontSize: 44,
-            lineHeight: 1.16,
-            color: FARBEN.anzeigeZweiHell,
-            maxWidth: '100%',
-          }}
-        >
-          {wattis}
-        </div>
-      </div>
-
-      <svg
-        viewBox="0 0 200 150"
-        preserveAspectRatio="xMidYMax meet"
-        style={{ flex: 1, minHeight: 0, width: '100%' }}
-      >
-        {figur(VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
-        {figur(WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
-      </svg>
-    </div>
+    <Vorhangkarte
+      show={show}
+      sichtbar={auf}
+      pose="ruhe"
+      linksSteht={linksSteht}
+      mitte={
+        <>
+          <div
+            style={{
+              fontFamily: SCHRIFT.auszeichnung,
+              fontStyle: SCHRIFT.neigung,
+              fontWeight: SCHRIFT.schwarz,
+              fontSize: zeilengroesse(SPRUCH),
+              lineHeight: 1.12,
+              color: FARBEN.grundRein,
+            }}
+          >
+            {SPRUCH}
+          </div>
+          <div
+            style={{
+              marginTop: 14,
+              opacity: wattiAuf,
+              fontFamily: SCHRIFT.auszeichnung,
+              fontStyle: SCHRIFT.neigung,
+              fontWeight: SCHRIFT.schwarz,
+              fontSize: Math.round(zeilengroesse(wattis) * 0.72),
+              lineHeight: 1.16,
+              color: FARBEN.anzeigeZweiHell,
+            }}
+          >
+            {wattis}
+          </div>
+        </>
+      }
+    />
   );
 };

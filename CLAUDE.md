@@ -1193,20 +1193,39 @@ Satz unter Watti.
 
 ### Der Abspann
 
-Der Vorhang fährt am Ende zu, und darauf steht die Gegenkarte zum Vorspann:
-„WIR HABEN NACHGELESEN" in Gold an der Stelle von „HEUTIGES THEMA", darunter
-der **Schlusssatz**, darunter **Wattis Zeile** (`abspann` am Short). Die beiden
-stehen davor wie im Vorspann, nur in Ruhe statt winkend.
+Der Vorhang fährt am Ende zu, und darauf steht **dieselbe Karte wie im
+Vorspann** — Showtitel, „mit Volti und Watti", die beiden davor. Nur die Mitte
+wechselt: statt „HEUTIGES THEMA" und Themenzeile stehen dort „Wir haben
+nachgelesen." und darunter **Wattis Zeile** (`abspann` am Short).
 
-**Auf der Bühne trägt der Schluss keine Schrift mehr.** Satz, Strich und Spruch
-standen dort über den Figuren und brauchten einen Schleier, um lesbar zu sein;
-auf dem Vorhang haben sie eine eigene Fläche. Der Folgen-Ton ist mit der
-Signatur gegangen — er saß auf dem Moment, in dem der Strich stand.
+**Der erste Anlauf ließ Showtitel und Namen weg und setzte den Schlusssatz auf
+den Vorhang.** Das Urteil war eindeutig: „Ich möchte, dass der Abspann genauso
+aussieht wie der Opener." Der Schlusssatz steht seitdem **nirgends mehr im
+Bild** — er wird gesprochen. `satz` an der Schlussszene ist damit ein Feld, das
+kein Bild mehr liest; es hängt noch an `rundlauf` und der Abbinde-Regel.
+
+`Vorspannkarte` und `Abspannkarte` sind zwei dünne Aufrufe derselben
+`Vorhangkarte` in `video/bausteine/Vorhang.tsx` — ein Slot `mitte`, alles
+andere einmal. Zwei Zeichnungen derselben Karte wären die Doppelung ohne
+Wache, und genau die ist am 01.09.2026 auseinandergelaufen:
+
+**Die Kartenfiguren stehen auf der Bühnenstandlinie.** Das SVG der Karte liegt
+absolut in genau der Fläche der Figurenbühne — `BUEHNE.x / y / breite` und
+`hoeheOhneUntertitel`, dieselben vier Zahlen, aus denen `standlinieImBild()`
+rechnet. Vorher stand es mit `flex: 1` unten in der Karte, und das ging,
+solange die Bühnenfiguren den Restplatz bekamen und ungefähr dort landeten.
+Seit die Figurenbühne absolut steht, standen die Kartenfiguren rund 500 Pixel
+tiefer: **Im Handy-Video waren während der Fahrt zwei Figurenpaare
+übereinander zu sehen, das untere blass.** Kein Standbild hat es gezeigt, weil
+beide nur während der zwölf Bilder der Fahrt zugleich sichtbar sind. Der Preis
+der Deckung: Der Showtitel ist von 132 auf 96 Pixel gegangen — zwischen
+Kopfzeile und Figurenkopf liegen rund 330 Pixel für Titel, Namen und Mitte.
 
 **Er kostet keine zusätzliche Sekunde.** `NACHLAUF_SEK` sind 1,5 Sekunden
 Stille nach dem letzten Wort; sie standen für die Signatur auf der Bühne und
 waren seitdem leer. Der Stoff fährt in den ersten `VORHANG.fahrtBilder` davon
-zu, die restliche Sekunde steht das Bild.
+zu, die restliche Sekunde steht das Bild. Der Folgen-Ton ist mit der Signatur
+gegangen.
 
 **`abspann` behauptet nichts und braucht deshalb keine Quelle** — dieselbe
 Trennung wie bei der Reaktion. Gehalten wird die Zeile von
@@ -1214,6 +1233,35 @@ Trennung wie bei der Reaktion. Gehalten wird die Zeile von
 Einheit, höchstens zwei Sätze. Die Funktion ist aus der Formsperre an `rede`
 herausgezogen — zwei Fassungen derselben Sperre liefen sonst beim ersten Umbau
 an den Einheiten auseinander, und zwar lautlos.
+
+### Die Pausen, gefallen am ersten Video
+
+**`SPRECHERWECHSEL_SEK` 0,15 → 0,45 und `PAUSE_NACH_SZENE_SEK` 0,2 → 0,7, seit
+dem 01.09.2026.** Beide standen seit dem 31.08. als „geratene Zahl, die am
+nächsten fertigen Video fällt". Das Video war da, und das Urteil vom Handy:
+„Generell könnten sie an einigen Stellen langsamer sprechen. Immerhin geht das
+Video nur 51 Sekunden." Die Sätze sind so lang, wie sie sind; was den Eindruck
+„zu schnell" macht, sind die Nähte.
+
+**Nachjustiert ohne Kontingent — jetzt wirklich.** An beiden Konstanten stand
+„Nachjustieren kostet nichts: Die Tondateien bleiben, nur die `startSek`
+verschieben sich", und kein Code hat das eingelöst: `--ton-behalten` übernahm
+die Tonspur samt alter Startzeiten. `tonspurNeuLegen` in `src/zeit.ts` misst
+je Naht die tatsächliche Stille, hebt sie auf den Zielwert an und schiebt alles
+dahinter — Abschnitte, Wörter, Szenenstarts, Gesamtdauer. **Nur vergrößern,
+nie verkürzen**: verkürzt lägen die Dateien übereinander, und eine Naht, die
+schon länger ist, hat einen Grund. Der erste Abschnitt rückt dabei hinter den
+neuen Vorspann; ohne das liefe eine ältere Tonspur 1,2 Sekunden in den
+fahrenden Vorhang hinein.
+
+`passwort-wechseln` ging damit von 49,9 auf 56,7 Sekunden. `raumstation` und
+`ersatzteil` liegen nach Schätzung jetzt **über 67** und müssen vor ihrer
+Vertonung kürzer werden.
+
+**Und Volti wartet 0,6 Sekunden**, bevor er den Showtitel sagt
+(`VORSPANN_VORLAUF_SEK`). „Er sagt es für mich viel zu schnell." Der Titel
+steht ab Bild 0, nur die Stimme wartet — und weil der Vorlauf in
+`vorspannFestSek` steckt, rücken Themenansage und Fahrt mit.
 
 ### Die Bühne
 

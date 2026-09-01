@@ -172,8 +172,18 @@ export const NACHLAUF_SEK = 1.5;
  *
  * Damit war die alte Zahl nicht mehr richtig: Sie war als Atempause gedacht und
  * hat als Atempause **plus** Dateirand gewirkt.
+ *
+ * **0,7 statt 0,2 seit dem 01.09.2026 — gefallen am ersten fertigen Video, wie
+ * angekuendigt.** Das Urteil vom Handy: „Generell koennten sie an einigen
+ * Stellen langsamer sprechen. Immerhin geht das Video nur 51 Sekunden." Die
+ * Saetze selbst sind so lang, wie sie sind; was den Eindruck „zu schnell"
+ * macht, sind die Naehte. Ein Schnitt braucht einen Atemzug davor, sonst
+ * faellt die naechste Szene ins Wort.
+ *
+ * Nachjustiert ohne Kontingent: `tonspurNeuLegen` legt eine bezahlte Tonspur
+ * mit den aktuellen Pausen neu, die Dateien bleiben.
  */
-const PAUSE_NACH_SZENE_SEK = 0.2;
+const PAUSE_NACH_SZENE_SEK = 0.7;
 
 /**
  * Die Pause an einer Szenengrenze — **seit dem 31.08.2026 unabhaengig davon,
@@ -207,9 +217,16 @@ export const SZENENGRENZE_SEK = PAUSE_NACH_SZENE_SEK;
  * Sie ist eine Laenge, und Laengen wohnen in dieser Datei. Vorher stand sie
  * nur drueben — und die Schaetzung wusste deshalb nichts von ihr.
  */
-export const SPRECHERWECHSEL_SEK = 0.15;
+export const SPRECHERWECHSEL_SEK = 0.45;
 
 /*
+ * **0,45 seit dem 01.09.2026.** Die 0,15 sind am ersten fertigen Video
+ * gefallen, so wie es der Absatz darunter angekuendigt hat: zu schnell. Ein
+ * Wortwechsel darf schnell kommen, aber 0,15 Sekunden sind kein Wechsel,
+ * sondern ein Schnitt — das Ohr hoert zwei Stimmen, keine zwei Sprecher.
+ * Auch diese Zahl ist am Video gewaehlt und nicht gemessen; sie faellt am
+ * naechsten, falls sie falsch ist, und das kostet nichts.
+ *
  * **0,15 statt 0,28 seit dem 31.08.2026 — und das ist eine geratene Zahl.**
  *
  * Sie steht hier so ausdruecklich, weil dieses Projekt zweimal Geld dafuer
@@ -412,7 +429,28 @@ export const szenendauerAus = (
  * am selben Abend.
  */
 export const vorspannFestSek = (format: Format): number =>
-  VORSPANNTON[format].volti + SPRECHERWECHSEL_SEK + VORSPANNTON[format].watti + SPRECHERWECHSEL_SEK;
+  VORSPANN_VORLAUF_SEK +
+  VORSPANNTON[format].volti +
+  SPRECHERWECHSEL_SEK +
+  VORSPANNTON[format].watti +
+  SPRECHERWECHSEL_SEK;
+
+/**
+ * Wie lange der Vorhang steht, bevor Volti den Showtitel sagt.
+ *
+ * **Seit dem 01.09.2026.** Vorher setzte die Ansage bei Bild 0 ein, zusammen
+ * mit dem Auftakt — und das Urteil vom Handy war: „Er sagt es fuer mich viel
+ * zu schnell." Der Titel **steht** weiter ab Bild 0; nur die Stimme wartet.
+ *
+ * Er geht in `vorspannFestSek` ein und damit in `ansageAbBild`, die
+ * Themenansage und die Vorhangfahrt. Ein Wert, der an einer Stelle addiert
+ * wird, kann nicht an der falschen Stelle einsteigen — dieselbe Lehre wie
+ * beim Uhrsprung des Cold Open.
+ *
+ * 0,6 ist gewaehlt, nicht gemessen. Was sich messen laesst, ist danach die
+ * Stille zwischen Auftakt und erstem Wort.
+ */
+export const VORSPANN_VORLAUF_SEK = 0.6;
 
 /** Die Vorhangfahrt am Ende des Vorspanns, in Sekunden. */
 export const VORHANGFAHRT_SEK = VORHANG.fahrtBilder / FORMAT.bilderProSekunde;
@@ -799,3 +837,91 @@ export const geschaetzteDauerSek = (short: Short): number =>
 export const geschaetzteInhaltSek = (short: Short): number =>
   short.szenen.reduce((summe, szene) => summe + geschaetzteSzenendauer(szene), 0) +
   zusatzpausenSek(short);
+
+/**
+ * Legt eine bezahlte Tonspur mit den **aktuellen** Pausen neu.
+ *
+ * ## Warum es das gibt
+ *
+ * An `SPRECHERWECHSEL_SEK` und `PAUSE_NACH_SZENE_SEK` steht seit dem
+ * 31.08.2026 derselbe Satz: „Nachjustieren kostet nichts: Die Tondateien
+ * bleiben, nur die `startSek` der Abschnitte verschieben sich." Das war ein
+ * Versprechen ohne Code — `--ton-behalten` uebernahm die Tonspur samt alter
+ * Startzeiten, und wer die Pausen aenderte, hoerte am naechsten Render davon
+ * nichts. Seit dem 01.09.2026 loest diese Funktion das Versprechen ein.
+ *
+ * ## Wie sie rechnet
+ *
+ * Je Naht zwischen zwei Abschnitten wird die **tatsaechliche** Stille
+ * gemessen: naechster `startSek` minus letztes Wortende des Abschnitts davor.
+ * Liegt sie unter dem Zielwert ihrer Nahtart, wird alles dahinter um die
+ * Differenz geschoben — Abschnitte, Woerter, Szenenstarts, Gesamtdauer.
+ *
+ * **Nur vergroessern, nie verkuerzen.** Verkuerzt lagen die Dateien
+ * uebereinander. Eine Naht, die schon laenger ist (etwa durch `beatSek`),
+ * bleibt, wie sie ist — die Funktion kennt den bestellten Beat nicht und
+ * muss ihn nicht kennen: Was laenger ist als der Standard, hat einen Grund.
+ *
+ * Gemessen wird gegen das letzte **Wort**, nicht gegen das Dateiende: Die
+ * Wortzeiten sind auf das Dateiende gedeckelt (`src/stimme.ts`), und der
+ * Rand dahinter ist seit `stilleBeschneidenPuffer` klein. Wo er nicht null
+ * ist, faellt die Pause um ihn laenger aus — in die richtige Richtung.
+ *
+ * **Auch der Anfang wird neu gelegt.** Der erste Abschnitt beginnt, wo der
+ * Vorspann endet — und der ist seit dem 01.09.2026 um den Vorlauf und die
+ * laengere Sprecherpause gewachsen. Eine Tonspur von davor startet 1,2
+ * Sekunden zu frueh und liefe in den fahrenden Vorhang hinein. Gerechnet wird
+ * mit `vorspannSek`, derselben Funktion, die auch der Renderer liest.
+ */
+export const tonspurNeuLegen = (
+  tonspur: NonNullable<Short['tonspur']>,
+  short: Pick<Short, 'vorspann' | 'format'>,
+): NonNullable<Short['tonspur']> => {
+  const abschnitte = tonspur.abschnitte;
+  if (!abschnitte || abschnitte.length < 1) return tonspur;
+
+  const starts = abschnitte.map((a) => a.startSek);
+  const vorspannEnde = vorspannSek({ ...short, tonspur });
+  const istSzenenstart = (sek: number) => tonspur.szenenStartSek.some((s) => Math.abs(s - sek) < 0.002);
+
+  /* Letztes Wortende je Abschnitt — Woerter gehoeren zum Abschnitt, in dessen
+     Zeitfenster sie beginnen. */
+  const wortende = abschnitte.map((_, k) => {
+    const von = starts[k]!;
+    const bis = starts[k + 1] ?? Number.POSITIVE_INFINITY;
+    let ende = von;
+    for (const w of tonspur.woerter) {
+      if (w.startSek >= von && w.startSek < bis) ende = Math.max(ende, w.endeSek);
+    }
+    return ende;
+  });
+
+  /* Kumulative Verschiebung je Abschnitt — der erste rueckt hinter den
+     Vorspann, jeder weitere hinter seine Naht. */
+  const versatz: number[] = [Math.max(0, vorspannEnde - starts[0]!)];
+  for (let k = 1; k < abschnitte.length; k += 1) {
+    const ziel = istSzenenstart(starts[k]!) ? SZENENGRENZE_SEK : SPRECHERWECHSEL_SEK;
+    const stille = starts[k]! - wortende[k - 1]!;
+    const delta = Math.max(0, ziel - stille);
+    versatz.push(versatz[k - 1]! + delta);
+  }
+  const gesamt = versatz[versatz.length - 1]!;
+  if (gesamt <= 0) return tonspur;
+
+  const versatzBei = (sek: number): number => {
+    let k = 0;
+    for (const [i, s] of starts.entries()) if (sek >= s - 0.002) k = i;
+    return versatz[k]!;
+  };
+
+  return {
+    ...tonspur,
+    dauerSek: tonspur.dauerSek + gesamt,
+    abschnitte: abschnitte.map((a, k) => ({ ...a, startSek: a.startSek + versatz[k]! })),
+    woerter: tonspur.woerter.map((w) => {
+      const v = versatzBei(w.startSek);
+      return { ...w, startSek: w.startSek + v, endeSek: w.endeSek + v };
+    }),
+    szenenStartSek: tonspur.szenenStartSek.map((s) => s + versatzBei(s)),
+  };
+};

@@ -83,6 +83,27 @@ sich als zweite, blasse Schrift neben der Abspannkarte.
 777 Zeilen umformatiert, weil das Projekt keine Prettier-Konfiguration hat.
 Zurückgesetzt und die Änderungen erneut angewandt.
 
+## Abspann wie der Opener, Pausen, Vorlauf · 01.09.2026, Nacht
+
+Vier Ansagen zum Handy-Video.
+
+- [x] ~~**Der Abspann sieht aus wie der Opener** — Showtitel und Namen bleiben,
+      nur die Mitte wechselt: „Wir haben nachgelesen." und Wattis Zeile. Der
+      Schlusssatz steht nirgends mehr im Bild~~
+- [x] ~~**Die Geisterfiguren.** Die Kartenfiguren standen 500 Pixel tiefer als
+      die auf der Bühne — mein Umbau vom Nachmittag hatte die Deckung
+      gebrochen, und kein Standbild konnte es zeigen. Das Karten-SVG liegt jetzt
+      in der Bühnenfläche~~
+- [x] ~~**Pausen 0,15 → 0,45 und 0,2 → 0,7**, ohne neue Vertonung:
+      `tonspurNeuLegen` legt die bezahlte Tonspur mit den aktuellen Pausen neu.
+      49,9 → 56,7 Sekunden~~
+- [x] ~~**Volti wartet 0,6 Sekunden** vor dem Showtitel~~
+
+**Was dabei aufgefallen ist:** Der Satz „Nachjustieren kostet nichts" stand
+seit dem 31.08. an beiden Konstanten, und kein Code hat ihn eingelöst.
+`--ton-behalten` übernahm die Tonspur samt alter Startzeiten. Ein Versprechen
+im Kommentar ist kein Verhalten.
+
 # Offen · Stand 31.08.2026` steht.
 
 ## Der große Umbau · 16.–17.08.2026
@@ -1607,9 +1628,13 @@ zu tun ist, steht ab hier.
       **Kostet Kontingent und braucht Emirhans Zustimmung.** Dort zeigt sich,
       ob `VORSPANN_SEK`, die Sprecherpausen und die Aufschlagmessung tragen —
       bisher sind das gerechnete Zahlen an gemessenen Bausteinen
-- [ ] **`raumstation-alte-rechner` liegt bei rund 64 von 67 Sekunden.** Die
-      Vertonung streut sechs Prozent, das sind ±3,9 s. Beim ersten Lauf kann
-      das reißen
+- [ ] **`raumstation-alte-rechner` (74 s) und `ersatzteil-freischalten`
+      (72 s) liegen nach Schätzung über dem Fenster**, seit die Pausen länger
+      sind. Beide müssen vor ihrer Vertonung kürzer — sie werden ohnehin auf
+      Streit umgeschrieben
+- [ ] **`satz` an der Schlussszene liest kein Bild mehr.** Es hängt noch an
+      `rundlauf` und der Abbinde-Regel; entweder die Regeln wandern auf den
+      Sprechtext, oder das Feld geht
 - [ ] **Kurze Redeanteile sind vor dem Bezahlen nirgends geprüft.** Der alte
       Wortlaut („laufen ungeprüft durch") stimmt seit dem 31.08.2026 nicht mehr
       — `mitWache` prüft jede Synthese gegen eine textabhängige Schwelle. Was
