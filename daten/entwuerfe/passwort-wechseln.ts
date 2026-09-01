@@ -266,14 +266,14 @@ export const passwortWechseln: Short = {
        * Das ist der Grund, warum diese Fassung existiert: Derselbe Beleg stand
        * vorher hier und war eine Auskunft. Jetzt ist er eine **Antwort**.
        */
-      sprechtext: 'Das ist kein Wechseln, das ist Zählen. Dann eben nie mehr. Doch — jetzt. Du hast den Hinweis.',
+      sprechtext: 'Und das hat für ein fremdes Gerät gesorgt. Dann eben nie mehr. Doch — jetzt. Aber mit Verstand.',
       rede: [
-        { sprecher: 'nachleser', zug: 'richtigstellen', text: 'Das ist kein Wechseln, das ist Zählen.' },
+        { sprecher: 'nachleser', zug: 'richtigstellen', text: 'Und das hat für ein fremdes Gerät gesorgt.' },
         { sprecher: 'zeiger', zug: 'widersprechen', text: 'Dann eben nie mehr.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Doch — jetzt. Du hast den Hinweis.',
+          text: 'Doch — jetzt. Aber mit Verstand.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
@@ -381,9 +381,16 @@ export const passwortWechseln: Short = {
        * **Am 01.09.2026 ein zweites Mal derselbe Befund, an derselben Zeile.**
        * Nach dem Umschreiben stand dort „sondern der Verdacht" — ein Wort, das
        * in **keiner** gebundenen Fundstelle vorkommt. Der Short sagt jetzt
-       * durchgehend „Hinweis": im Belegsatz, in Voltis Kipppunkt, im Bildtext
-       * und hier. **Ein Wort, das nur an einer Stelle belegt ist, darf nicht
-       * an vier Stellen stehen.**
+       * durchgehend „Hinweis".
+       *
+       * **Seit dem Abend des 01.09.2026 faellt das Wort im Sprechtext gar
+       * nicht mehr.** Voltis Kipppunkt heisst „Doch — jetzt. Aber mit
+       * Verstand.", und der Anlass steht zwei Zeilen davor als **erzaehlte
+       * Lage**: das fremde Geraet aus Szene 1. Der `belegpruefer` hat das als
+       * verlorene Bedingung gemeldet, und die Antwort darauf ist eine
+       * Unterscheidung, die es vorher nicht gab — eine Aussage, die sich auf
+       * das bezieht, was die Figuren im Short selbst etabliert haben,
+       * behauptet nichts ueber die Welt. Im Bildtext steht das Wort weiter.
        *
        * **Die vierte Wand.** Volti laesst Watti stehen und spricht den
        * Zuschauer an — `ansprechen` traegt als einzige Pose `zuwendung: 0` und
