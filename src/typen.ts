@@ -627,9 +627,9 @@ void _zugartenDeckenSich;
 /**
  * Die Formsperre: Hier darf keine Tatsachenbehauptung stehen.
  *
- * Sie gilt fuer jede Zeile, die **ohne Quelle** gesprochen wird — die Reaktion
- * mit Machart und, seit dem 01.09.2026, Wattis Abspannzeile. Beide behaupten
- * nichts ueber die Welt, und genau deshalb duerfen sie frech sein.
+ * Sie gilt fuer jede Zeile, die **ohne Quelle** gesprochen wird — heute die Reaktion
+ * mit Machart. Sie behauptet nichts ueber die Welt, und genau deshalb darf sie
+ * frech sein.
  *
  * **Nicht „keine Ziffer".** Der erste Anlauf verbot jede Ziffer und hat sofort
  * „Passwort7 ist meins" abgelehnt — eine Zeile, die als Beispiel in
@@ -2587,19 +2587,6 @@ export const Tonspur = z.object({
       dauerSek: z.number().positive(),
     })
     .optional(),
-  /**
-   * Wattis Abspannzeile als Tonspur — dasselbe Muster wie `vorspann`.
-   *
-   * Voltis „Wir haben nachgelesen." steht **nicht** hier: Der Satz wechselt
-   * nie und liegt als feste Aufnahme unter `public/ton/marke/`, einmal
-   * bezahlt. Nur Wattis Antwort ist je Short neu.
-   */
-  abspann: z
-    .object({
-      datei: z.string().min(1),
-      dauerSek: z.number().positive(),
-    })
-    .optional(),
   szenenStartSek: z.array(z.number().nonnegative()),
   /**
    * Ein Abschnitt je zusammenhaengendem Redeanteil einer Figur.
@@ -2762,29 +2749,6 @@ export const Short = z.object({
    * Shorts steht, prueft `shortPruefen` — hier liegt `quellen.json` nicht vor.
    */
   vorspannBelegId: z.string().min(1),
-
-  /**
-   * Wattis Zeile im Abspann — das letzte Wort, auf dem geschlossenen Vorhang.
-   *
-   * **Seit dem 01.09.2026.** Der Vorhang faehrt am Ende wieder zu, und darauf
-   * steht die Gegenkarte zum Vorspann: oben „WIR HABEN NACHGELESEN" statt
-   * „HEUTIGES THEMA", darunter der Schlusssatz — und darunter diese Zeile.
-   *
-   * **Sie behauptet nichts und braucht deshalb keine Quelle.** Das ist
-   * dieselbe Trennung wie bei der Reaktion: Wer einen Zug traegt, der nichts
-   * behauptet, nennt auch keine Fundstelle. Gehalten wird sie von
-   * `ohneWeltbehauptung` — keine Jahreszahl, keine Groesse mit Einheit,
-   * hoechstens zwei Saetze.
-   *
-   * Sechzig Zeichen, wie die Themenzeile. Sie steht auf einem Vorhang und
-   * konkurriert dort mit dem Schlusssatz darueber; was laenger ist, wird zum
-   * Absatz und nimmt der Pointe das letzte Wort.
-   */
-  abspann: z
-    .string()
-    .min(4)
-    .max(60)
-    .superRefine((wert, ctx) => ohneWeltbehauptung(wert, ctx, [], 'Wattis Abspannzeile')),
 
   /**
    * Der Satz, den jemand am Tisch weitererzaehlt.

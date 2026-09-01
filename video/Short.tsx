@@ -405,6 +405,14 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
     durationInFrames - 1 - Math.round(NACHLAUF_SEK * bilderProSekunde),
   );
 
+  /*
+   * Wattis „Wirklich." — nach der Fahrt, Voltis Dauer und der Sprecherpause.
+   * Bild und Ton lesen dieselbe Zahl, wie beim Vorspann.
+   */
+  const wattiAbBild =
+    VORHANG.fahrtBilder +
+    Math.round((vorspannDauern.abspann.volti + SPRECHERWECHSEL_SEK) * bilderProSekunde);
+
   const schlussfahrt = interpolate(
     frame,
     /*
@@ -641,10 +649,25 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         <div style={KARTENFLAECHE}>
           <Abspannkarte
             show={FORMATE[daten.format].show}
-            wattis={daten.abspann}
+            wattiAbBild={wattiAbBild}
             linksSteht={linksIn(daten.szenen[daten.szenen.length - 1])}
           />
         </div>
+
+        {/*
+          **Der Ton des Abspanns — zwei feste Dateien, keine Vertonung.**
+
+          Volti setzt ein, sobald der Vorhang zu ist; Watti nach Voltis
+          gemessener Dauer plus der Sprecherpause. Dasselbe Muster wie
+          „Vorspann Volti / Vorspann Watti", und dieselbe Quelle fuer die
+          Dauern: `daten/vorspannton.json`, geschrieben vom Aufnahmeskript.
+        */}
+        <Sequence from={VORHANG.fahrtBilder} layout="none" name="Abspann Volti">
+          <Audio src={staticFile('ton/marke/abspann.volti.mp3')} />
+        </Sequence>
+        <Sequence from={wattiAbBild} layout="none" name="Abspann Watti">
+          <Audio src={staticFile('ton/marke/abspann.watti.mp3')} />
+        </Sequence>
       </Sequence>
 
       {/*

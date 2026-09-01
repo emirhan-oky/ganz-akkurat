@@ -66,12 +66,6 @@ export const ersatzteilFreischalten: Short = {
   vorspann: 'Ein Verbot für Hersteller, und die Ausnahme dazu',
   vorspannBelegId: 'es-sei-denn-legitime',
 
-  /*
-   * Wattis letztes Wort auf dem geschlossenen Vorhang. Es antwortet auf
-   * Voltis „Wir haben nachgelesen." und behauptet nichts ueber die Welt —
-   * es sagt etwas ueber Watti.
-   */
-  abspann: 'Und ich dachte, mir gehört das Ding.',
 
   szenen: [
     {

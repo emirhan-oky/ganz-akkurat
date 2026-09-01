@@ -157,8 +157,15 @@ export const ZEICHEN_PRO_SEKUNDE = 14.3;
  * mit, nicht nur die Komposition. Genau das war der alte Fehler.
  *
  * Wer sie streichen will: erst das letzte Bild eines Videos ziehen.
+ *
+ * **Seit dem 01.09.2026 ist sie gerechnet, nicht gesetzt.** Der Nachlauf ist
+ * der Abspann: Der Vorhang faehrt zu, Volti sagt „Wir haben nachgelesen.",
+ * Watti antwortet „Wirklich.", dann steht das Bild. Die Dauern der beiden
+ * Aufnahmen stehen gemessen in `daten/vorspannton.json` — dieselbe Tabelle,
+ * die den Vorspann traegt, und aus demselben Grund: Remotion kann die Laenge
+ * einer Tondatei nicht synchron lesen. Eine feste 1,5 daneben waere die zweite
+ * Wahrheit ueber dieselbe Groesse.
  */
-export const NACHLAUF_SEK = 1.5;
 
 /**
  * Kurze Atempause nach jeder Szene, damit Schnitte nicht auf dem Wort sitzen.
@@ -240,6 +247,17 @@ export const SPRECHERWECHSEL_SEK = 0.45;
  * gefallen ist. Nachjustieren kostet nichts: Die Tondateien bleiben, nur die
  * `startSek` der Abschnitte verschieben sich.
  */
+
+/* Der Nachlauf — die Begruendung steht weiter oben, hinter `ZEICHEN_PRO_SEKUNDE`.
+   Die Definition steht hier, weil sie `SPRECHERWECHSEL_SEK` braucht. */
+/** Wie lange der Abspann steht, nachdem Watti fertig ist. */
+export const ABSPANN_STAND_SEK = 0.6;
+export const NACHLAUF_SEK =
+  VORHANG.fahrtBilder / FORMAT.bilderProSekunde +
+  VORSPANNTON.abspann.volti +
+  SPRECHERWECHSEL_SEK +
+  VORSPANNTON.abspann.watti +
+  ABSPANN_STAND_SEK;
 
 /**
  * Untergrenzen je Szenenart: manche Bilder brauchen Zeit, egal wie kurz der

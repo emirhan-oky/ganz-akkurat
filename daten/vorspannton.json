@@ -18,5 +18,9 @@
   "empfehlung": {
     "volti": 2.586,
     "watti": 1.149
+  },
+  "abspann": {
+    "volti": 1.04,
+    "watti": 0.88
   }
 }

@@ -1191,18 +1191,40 @@ der Sprechblase.
 wechseln, und die Spalten müssen dem folgen — im ersten Standbild stand Voltis
 Satz unter Watti.
 
+**Was nicht passt, fällt als ganze Gruppe weg — nicht als halbe Zeile.** Der
+erste Anlauf schnitt mit `overflow: hidden` an der sicheren Zone ab, und die
+Unterkante der Spalte ist genau die Kante, an der die Zitatkarte endet: Im
+Video sah es aus, als schnitte die Karte weiter ab, obwohl sie längst weg war.
+Jetzt werden je Gruppe die Umbruchzeilen geschätzt, und von hinten bleiben so
+viele Gruppen stehen, wie in fünf Zeilen passen. In der Zitatkartenszene sind
+die Spalten aus — ein Zitat teilt sich die Fläche nicht.
+
 ### Der Abspann
 
 Der Vorhang fährt am Ende zu, und darauf steht **dieselbe Karte wie im
 Vorspann** — Showtitel, „mit Volti und Watti", die beiden davor. Nur die Mitte
-wechselt: statt „HEUTIGES THEMA" und Themenzeile stehen dort „Wir haben
-nachgelesen." und darunter **Wattis Zeile** (`abspann` am Short).
+wechselt: statt „HEUTIGES THEMA" und Themenzeile steht dort der **feste
+Zweizeiler**, in jedem Short derselbe:
 
-**Der erste Anlauf ließ Showtitel und Namen weg und setzte den Schlusssatz auf
-den Vorhang.** Das Urteil war eindeutig: „Ich möchte, dass der Abspann genauso
-aussieht wie der Opener." Der Schlusssatz steht seitdem **nirgends mehr im
-Bild** — er wird gesprochen. `satz` an der Schlussszene ist damit ein Feld, das
-kein Bild mehr liest; es hängt noch an `rundlauf` und der Abbinde-Regel.
+> Volti: „Wir haben nachgelesen."
+> Watti: „Wirklich."
+
+Beides gesprochen, beides im Bild. **Zwei feste Aufnahmen, einmal bezahlt**
+(`public/ton/marke/abspann.volti.mp3`, `abspann.watti.mp3`, aufgenommen mit
+`npm run vorspannton -- --abspann`), ihre Dauern in `daten/vorspannton.json`
+unter `abspann`. Wattis Wort blendet ein, wenn er es sagt — Bild und Ton aus
+einer Zahl, wie beim Vorspann.
+
+**Drei Anläufe, bis das stand, und alle drei waren Lesefehler.** Der erste
+ließ Showtitel und Namen weg und setzte den Schlusssatz auf den Vorhang. Der
+zweite las „darunter wirklich" als Füllwort und baute ein Feld `abspann` mit
+einer erfundenen Wattizeile je Short. **„Wirklich." ist das Wort.** Die Lehre
+steht als Gedächtnisnotiz: Was bei Emirhan in Anführungszeichen steht, ist
+Wortlaut.
+
+Der Schlusssatz steht seitdem **nirgends mehr im Bild** — er wird gesprochen.
+`satz` an der Schlussszene ist damit ein Feld, das kein Bild mehr liest; es
+hängt noch an `rundlauf` und der Abbinde-Regel.
 
 `Vorspannkarte` und `Abspannkarte` sind zwei dünne Aufrufe derselben
 `Vorhangkarte` in `video/bausteine/Vorhang.tsx` — ein Slot `mitte`, alles
@@ -1221,18 +1243,10 @@ beide nur während der zwölf Bilder der Fahrt zugleich sichtbar sind. Der Preis
 der Deckung: Der Showtitel ist von 132 auf 96 Pixel gegangen — zwischen
 Kopfzeile und Figurenkopf liegen rund 330 Pixel für Titel, Namen und Mitte.
 
-**Er kostet keine zusätzliche Sekunde.** `NACHLAUF_SEK` sind 1,5 Sekunden
-Stille nach dem letzten Wort; sie standen für die Signatur auf der Bühne und
-waren seitdem leer. Der Stoff fährt in den ersten `VORHANG.fahrtBilder` davon
-zu, die restliche Sekunde steht das Bild. Der Folgen-Ton ist mit der Signatur
-gegangen.
-
-**`abspann` behauptet nichts und braucht deshalb keine Quelle** — dieselbe
-Trennung wie bei der Reaktion. Gehalten wird die Zeile von
-`ohneWeltbehauptung` in `src/typen.ts`: keine Jahreszahl, keine Größe mit
-Einheit, höchstens zwei Sätze. Die Funktion ist aus der Formsperre an `rede`
-herausgezogen — zwei Fassungen derselben Sperre liefen sonst beim ersten Umbau
-an den Einheiten auseinander, und zwar lautlos.
+**`NACHLAUF_SEK` ist seitdem gerechnet, nicht gesetzt**: Fahrt, Voltis
+gemessene Dauer, Sprecherpause, Wattis Dauer, 0,6 Sekunden Stand — rund 3,5
+statt 1,5 Sekunden. Eine feste Zahl daneben wäre die zweite Wahrheit über
+dieselbe Größe. Der Folgen-Ton ist mit der Signatur gegangen.
 
 ### Die Pausen, gefallen am ersten Video
 

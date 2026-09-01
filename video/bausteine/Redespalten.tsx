@@ -38,10 +38,9 @@ import { gruppiere } from './Untertitel';
  * ## Die Hoehe
  *
  * Oben beginnt die Spalte an den Fuessen (`standlinieImBild()` plus etwas
- * Luft), unten endet sie an der sicheren Zone. Das sind rund 240 Pixel — genug
- * fuer drei bis vier kleine Zeilen je Figur. Was darueber hinaus anfaellt,
- * rutscht oben heraus: Die aeltesten Zeilen fallen weg, statt in TikToks
- * Bedienleiste zu wachsen.
+ * Luft), unten endet sie an der sicheren Zone. Das sind rund 240 Pixel — fuenf
+ * Umbruchzeilen. Was darueber hinaus anfaellt, faellt als ganze Gruppe weg,
+ * die aelteste zuerst — siehe `MAX_ZEILEN`.
  */
 
 const FARBE: Record<Sprecher, string> = {
@@ -52,8 +51,46 @@ const FARBE: Record<Sprecher, string> = {
 /** Luft zwischen den Fuessen der Figur und der ersten Zeile. */
 const LUFT = 18;
 
-/** Wie viele Zeilen je Figur hoechstens stehen bleiben. */
-const MAX_ZEILEN = 4;
+/**
+ * Wie viele **Umbruchzeilen** je Figur hoechstens stehen bleiben.
+ *
+ * Nicht Gruppen: Eine Gruppe kann ein Wort sein oder vier Zeilen. Der erste
+ * Anlauf zaehlte Gruppen und schnitt mit `overflow: hidden` ab, was nicht
+ * passte — und die Unterkante der Spalte ist genau die Kante, an der die
+ * Zitatkarte endet. Im Video sah es aus, als wuerde die Karte weiter
+ * abschneiden, obwohl sie laengst weg war. Jetzt faellt die aelteste Gruppe
+ * ganz weg statt halb.
+ */
+const MAX_ZEILEN = 5;
+
+/** Schriftgroesse der Zeilen in Pixeln. */
+const GROESSE = 46;
+
+/**
+ * Wie viele Zeichen in eine Zeile passen — geschaetzt, nicht gemessen.
+ *
+ * Halbe Buehnenbreite minus Rand sind rund 390 Pixel; bei 46 Pixeln kursiver
+ * Schrift liegt die mittlere Zeichenbreite bei etwa 0,5 der Groesse. Das ist
+ * eine Schaetzung mit Luft nach oben: Lieber eine Gruppe zu viel verwerfen
+ * als eine Zeile in TikToks Bedienleiste laufen lassen.
+ */
+const ZEICHEN_JE_ZEILE = Math.floor(390 / (GROESSE * 0.5));
+
+/** Umbruchzeilen einer Gruppe — mindestens eine, sonst die Woerter im Fluss. */
+const umbruchzeilen = (text: string): number => {
+  let zeilen = 1;
+  let breite = 0;
+  for (const wort of text.split(' ')) {
+    const naechste = breite === 0 ? wort.length : breite + 1 + wort.length;
+    if (naechste > ZEICHEN_JE_ZEILE && breite > 0) {
+      zeilen += 1;
+      breite = wort.length;
+    } else {
+      breite = naechste;
+    }
+  }
+  return zeilen;
+};
 
 /**
  * Wer diesen Abschnitt spricht.
@@ -126,7 +163,15 @@ export const Redespalten: React.FC<{
 
   const spalte = (wer: Sprecher) => {
     const meine = sichtbar.filter((g) => sprecherZu(abschnitte, g.startSek) === wer);
-    const gezeigt = meine.slice(-MAX_ZEILEN);
+    /* Von hinten so viele Gruppen, wie in die Hoehe passen. */
+    const gezeigt: typeof meine = [];
+    let zeilen = 0;
+    for (const g of [...meine].reverse()) {
+      const n = umbruchzeilen(g.woerter.map((w) => w.wort).join(' '));
+      if (zeilen + n > MAX_ZEILEN && gezeigt.length > 0) break;
+      zeilen += n;
+      gezeigt.unshift(g);
+    }
     const links = wer === linksSteht;
 
     return (
@@ -148,7 +193,6 @@ export const Redespalten: React.FC<{
           alignItems: 'center',
           gap: 6,
           textAlign: 'center',
-          overflow: 'hidden',
         }}
       >
         {gezeigt.map((g, i) => {
@@ -170,7 +214,7 @@ export const Redespalten: React.FC<{
                 fontFamily: SCHRIFT.untertitel,
                 fontStyle: SCHRIFT.neigung,
                 fontWeight: SCHRIFT.schwarz,
-                fontSize: 46,
+                fontSize: GROESSE,
                 lineHeight: 1.14,
                 letterSpacing: -0.5,
                 color: FARBE[wer],

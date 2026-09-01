@@ -3,6 +3,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { KANAL_STIMME, synthetisieren } from '../src/stimme';
 import { FORMATE, FIGURENNAMEN, Format } from '../src/typen';
+import { SPRUCH } from '../src/marke';
 import { SPRECHERWECHSEL_SEK } from '../src/zeit';
 
 /**
@@ -133,6 +134,76 @@ const DAUERN = path.join('daten', 'vorspannton.json');
  */
 const dateiname = (format: Format, wer: 'volti' | 'watti') => `${format}.${wer}.mp3`;
 
+/**
+ * Der Abspann — zwei feste Zeilen, in jedem Short dieselben.
+ *
+ * **Seit dem 01.09.2026.** Volti sagt den Spruch, Watti antwortet mit einem
+ * Wort. Formatunabhaengig, also zwei Dateien statt zehn, und sie liegen neben
+ * dem Vorspannordner, nicht darin. Der Wortlaut ist vorgegeben und steht hier
+ * woertlich: „Wir haben nachgelesen." — „Wirklich."
+ *
+ * Aufgenommen nur mit `--abspann`, damit die zehn Showaufnahmen nicht noch
+ * einmal laufen.
+ */
+const ABSPANN = {
+  volti: `${SPRUCH}`,
+  watti: 'Wirklich.',
+} as const;
+const ABSPANN_ZIEL = path.join('public', 'ton', 'marke');
+
+/**
+ * Nimmt eine Zeile mehrfach auf und liefert die kuerzeste brauchbare —
+ * dieselbe Regel wie unten bei den Shows, nur herausgezogen, damit der
+ * Abspann sie mitbenutzt.
+ */
+const beste = async (
+  text: string,
+  stimmeId: string,
+  schluessel: string,
+): Promise<{ dauerSek: number; ton: Buffer; verworfen: number }> => {
+  const laeufe: { dauerSek: number; ton: Buffer }[] = [];
+  for (let i = 0; i < VERSUCHE; i++) {
+    const versuch = await synthetisieren(text, { stimmeId, ...KANAL_STIMME }, schluessel);
+    laeufe.push({ dauerSek: versuch.dauerSek, ton: versuch.ton });
+  }
+  const brauchbar = laeufe.filter((l) => l.dauerSek <= GRENZE_SEK);
+  if (brauchbar.length === 0) {
+    const kuerzeste = Math.min(...laeufe.map((l) => l.dauerSek));
+    throw new Error(
+      `alle ${VERSUCHE} Laeufe ueber ${GRENZE_SEK}s (kuerzeste ${kuerzeste.toFixed(1)}s) — noch einmal laufen lassen`,
+    );
+  }
+  const synthese = brauchbar.reduce((a, b) => (b.dauerSek < a.dauerSek ? b : a));
+  return { ...synthese, verworfen: laeufe.length - brauchbar.length };
+};
+
+const abspannAufnehmen = async (schluessel: string, stimmen: { volti: string; watti: string }) => {
+  const zeichen = ABSPANN.volti.length + ABSPANN.watti.length;
+  console.log(`\nGanz akkurat · Abspannton\n`);
+  console.log(`   2 Zeilen, ${zeichen} Zeichen je Versuch, ${VERSUCHE} Versuche — einmalig.\n`);
+
+  const gemessen: Partial<Record<'volti' | 'watti', number>> = {};
+  for (const wer of ['volti', 'watti'] as const) {
+    const text = ABSPANN[wer];
+    const synthese = await beste(text, stimmen[wer], schluessel);
+    const datei = path.join(ABSPANN_ZIEL, `abspann.${wer}.mp3`);
+    await fs.writeFile(datei, synthese.ton);
+    console.log(
+      `✓ abspann ${wer.padEnd(6)} ${synthese.dauerSek.toFixed(2).padStart(5)}s  „${text}"` +
+        (synthese.verworfen > 0 ? `  (${synthese.verworfen} verworfen)` : ''),
+    );
+    gemessen[wer] = Number(synthese.dauerSek.toFixed(3));
+  }
+
+  const alt = await fs
+    .readFile(DAUERN, 'utf8')
+    .then((t) => JSON.parse(t) as Record<string, Record<string, number>>)
+    .catch(() => ({}) as Record<string, Record<string, number>>);
+  alt.abspann = { volti: gemessen.volti!, watti: gemessen.watti! };
+  await fs.writeFile(DAUERN, JSON.stringify(alt, null, 2) + '\n');
+  console.log(`\n   Dauern nach ${DAUERN} geschrieben.`);
+};
+
 const main = async () => {
   const schluessel = process.env.ELEVENLABS_API_KEY;
   if (!schluessel) throw new Error('ELEVENLABS_API_KEY fehlt in .env');
@@ -143,6 +214,11 @@ const main = async () => {
   };
   if (!stimmen.volti || !stimmen.watti) {
     throw new Error('ELEVENLABS_VOICE_ID oder ELEVENLABS_VOICE_ID_ZEIGER fehlt in .env');
+  }
+
+  if (process.argv.includes('--abspann')) {
+    await abspannAufnehmen(schluessel, stimmen as { volti: string; watti: string });
+    return;
   }
 
   const nur = process.argv.find((a) => a.startsWith('--nur='))?.slice(6);

@@ -748,25 +748,35 @@ export const Vorspannkarte: React.FC<{
 };
 
 /**
- * Der Abspann: dieselbe Karte, in der Mitte „Wir haben nachgelesen." und
- * darunter Wattis Zeile. Die beiden stehen still — sie haben gerade geredet,
- * ein Winken waere ein zweiter Auftritt.
+ * Wattis Antwort im Abspann. Fester Wortlaut, in jedem Short derselbe — die
+ * Aufnahme dazu liegt unter `public/ton/marke/abspann.watti.mp3`, und
+ * `skripte/vorspannton.ts` traegt denselben Text. Zwei Stellen, ein Wort;
+ * wer es aendert, nimmt neu auf.
+ */
+const ABSPANN_WATTI = 'Wirklich.';
+
+/**
+ * Der Abspann: dieselbe Karte, in der Mitte der feste Zweizeiler —
+ * Volti: „Wir haben nachgelesen." Watti: „Wirklich." Die beiden stehen still;
+ * sie haben gerade geredet, ein Winken waere ein zweiter Auftritt.
  *
  * **Nur die Mitte wechselt.** Der erste Anlauf liess Showtitel und Namenszeile
  * weg und setzte den Schlusssatz auf den Vorhang; das Urteil war eindeutig:
- * „Ich moechte, dass der Abspann genauso aussieht wie der Opener." Der
- * Schlusssatz steht seitdem nirgends mehr im Bild — er wird gesprochen.
+ * „Ich moechte, dass der Abspann genauso aussieht wie der Opener." Der zweite
+ * Anlauf las „darunter wirklich" als Fuellwort und erfand je Short eine
+ * Wattizeile. **„Wirklich." ist das Wort.** Der Schlusssatz steht seitdem
+ * nirgends mehr im Bild — er wird gesprochen.
  *
- * Wattis Zeile blendet **nach** Voltis Zeile ein, nicht mit ihr: Nacheinander
- * ist ein Wortwechsel, gleichzeitig ein Absatz. In `anzeigeZweiHell`, dem
- * einzigen Wattiton mit Kontrast ueber 4 auf dem gefalteten Stoff.
+ * Wattis Wort blendet ein, wenn er es sagt — Bild und Ton aus einer Zahl, wie
+ * beim Vorspann. In `anzeigeZweiHell`, dem einzigen Wattiton mit Kontrast
+ * ueber 4 auf dem gefalteten Stoff.
  */
 export const Abspannkarte: React.FC<{
   show: string;
-  /** Wattis letztes Wort, aus `short.abspann`. */
-  wattis: string;
+  /** Ab welchem Bild Watti „Wirklich." sagt — derselbe Wert, ab dem es steht. */
+  wattiAbBild: number;
   linksSteht: Sprecher;
-}> = ({ show, wattis, linksSteht }) => {
+}> = ({ show, wattiAbBild, linksSteht }) => {
   const frame = useCurrentFrame();
   /*
    * Sie blendet **mit dem Vorhang** auf, nicht danach. Der Stoff braucht
@@ -777,7 +787,7 @@ export const Abspannkarte: React.FC<{
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const wattiAuf = interpolate(frame, [FAHRT_BILDER + 4, FAHRT_BILDER + 12], [0, 1], {
+  const wattiAuf = interpolate(frame, [wattiAbBild, wattiAbBild + 6], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -809,12 +819,12 @@ export const Abspannkarte: React.FC<{
               fontFamily: SCHRIFT.auszeichnung,
               fontStyle: SCHRIFT.neigung,
               fontWeight: SCHRIFT.schwarz,
-              fontSize: Math.round(zeilengroesse(wattis) * 0.72),
+              fontSize: Math.round(zeilengroesse(ABSPANN_WATTI) * 0.72),
               lineHeight: 1.16,
               color: FARBEN.anzeigeZweiHell,
             }}
           >
-            {wattis}
+            {ABSPANN_WATTI}
           </div>
         </>
       }

@@ -104,6 +104,23 @@ seit dem 31.08. an beiden Konstanten, und kein Code hat ihn eingelöst.
 `--ton-behalten` übernahm die Tonspur samt alter Startzeiten. Ein Versprechen
 im Kommentar ist kein Verhalten.
 
+## „Wirklich." · 01.09.2026, spät
+
+- [x] ~~**Der Abspann ist ein fester Zweizeiler**: Volti „Wir haben
+      nachgelesen.", Watti „Wirklich." Zwei Aufnahmen, einmalig 93 Zeichen
+      (31 je Versuch, dreimal). Das Feld `abspann` ist wieder weg~~
+- [x] ~~**„Von einem fremden Gerät."** statt „Fremdes Gerät." — kostet beim
+      nächsten Lauf die Vertonung dieser Szene~~
+- [x] ~~**Die Redespalten schnitten ab**, wo vorher die Zitatkarte endete:
+      `overflow: hidden` an der sicheren Zone. Jetzt Umbruchzeilen schätzen,
+      ganze Gruppen verwerfen~~
+- [x] ~~`NACHLAUF_SEK` aus den gemessenen Abspanndauern gerechnet, 3,5 statt
+      1,5 Sekunden. `passwort-wechseln` liegt bei 60,1~~
+
+**Dreimal derselbe Lesefehler.** „Darunter wirklich, was Watti sagt" — das
+Wort in Anführungszeichen war der Wortlaut, und ich habe es dreimal als
+Füllwort gelesen. Als Gedächtnisnotiz gespeichert.
+
 # Offen · Stand 31.08.2026` steht.
 
 ## Der große Umbau · 16.–17.08.2026
@@ -1644,10 +1661,7 @@ zu tun ist, steht ab hier.
 - [x] ~~**Die Figuren sind je Szene verschieden groß.** Behoben: Die
       Figurenbühne steht absolut auf ihrer Standlinie und teilt sich die Höhe
       nicht mehr mit dem Text~~
-- [ ] **Der Abspann ist stumm.** Voltis „Wir haben nachgelesen." als feste
-      Aufnahme (einmalig) und Wattis Zeile je Short (~40 Zeichen). **Kostet
-      Kontingent.** Mit Ton wird der Abspann länger als der Nachlauf, und dann
-      reißt `raumstation-alte-rechner` bei 64 von 67 Sekunden
+- [x] ~~**Der Abspann ist stumm.** Zwei feste Aufnahmen, einmalig bezahlt~~
 - [ ] **Die drei anderen Shorts auf Streit umschreiben.** `passwort-wechseln`
       ist umgeschrieben, `raumstation-alte-rechner`, `erstes-laden` und
       `ersatzteil-freischalten` sind noch Wechselreden ohne Reibung

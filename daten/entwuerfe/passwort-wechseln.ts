@@ -60,12 +60,6 @@ export const passwortWechseln: Short = {
   vorspann: 'Passwort regelmäßig wechseln ist überholt',
   vorspannBelegId: 'keine-zeitgemaesse-schutzmassnahme',
 
-  /*
-   * Wattis letztes Wort auf dem geschlossenen Vorhang. Es antwortet auf
-   * Voltis „Wir haben nachgelesen." und behauptet nichts ueber die Welt —
-   * es sagt etwas ueber Watti.
-   */
-  abspann: 'Ich schreib mir das auf. In eine Datei.',
 
   szenen: [
     {
@@ -119,13 +113,13 @@ export const passwortWechseln: Short = {
        * Die Belegpflicht haengt an der Szene, nicht an jeder Zeile.
        */
       sprechtext:
-        'Wie kommst du darauf, Watti? Anmeldung mit meinem Passwort. Fremdes Gerät. Dann wechsel es.',
+        'Wie kommst du darauf, Watti? Anmeldung mit meinem Passwort. Von einem fremden Gerät. Dann wechsel es.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wie kommst du darauf, Watti?' },
         {
           sprecher: 'zeiger',
           zug: 'beantworten',
-          text: 'Anmeldung mit meinem Passwort. Fremdes Gerät.',
+          text: 'Anmeldung mit meinem Passwort. Von einem fremden Gerät.',
         },
         {
           sprecher: 'nachleser',
