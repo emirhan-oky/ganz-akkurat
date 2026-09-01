@@ -206,6 +206,21 @@ const bundlerCachePruefen = async (): Promise<void> => {
 const main = async () => {
   const id = laufId();
   const wurzel = path.join('laeufe', id);
+
+  /*
+   * **Was die Plausibilitaetswache anschlug, ueberlebt die Konsole.**
+   *
+   * Bis zum 01.09.2026 endeten diese Befunde als Konsolenzeile im
+   * Vertonungsblock — weder `lauf.json` noch die Freigabeseite noch der
+   * Exit-Code trugen sie. Wer die Konsole nicht las, gab einen Short frei,
+   * dessen Vertonung angeschlagen hatte. **Ein Befund, den nur das Terminal
+   * kennt, gilt bis zum naechsten Scrollen.**
+   *
+   * Sie werden deshalb unten in die regulaere Befundliste eingespeist statt in
+   * einen zweiten Kanal daneben: `Befund` hat genau die Felder, die es
+   * braucht, und Freigabeseite wie `lauf.json` lesen sie ohnehin schon.
+   */
+  const unplausibelGesamt: { shortId: string; text: string }[] = [];
   const videoOrdner = path.join(wurzel, 'videos');
   await fs.mkdir(videoOrdner, { recursive: true });
 
@@ -310,7 +325,27 @@ const main = async () => {
      * verschwindet hinter zwoelf Renderzeilen. Sie gehoert dorthin, wo
      * entschieden wird — vor die Freigabe.
      */
-    const unplausibel: string[] = [];
+    const unplausibel: { shortId: string; text: string }[] = [];
+    /*
+     * **Die Tonspur wird sofort gesichert, nicht erst nach dem Render.**
+     *
+     * Bis zum 01.09.2026 entstanden die `props`-Dateien erst in Schritt 4 —
+     * und genau die sucht `--ton-behalten`. Scheiterte die Synthese beim
+     * vierten Short, waren die ersten drei bezahlt und trotzdem verloren: Die
+     * MP3-Dateien lagen da, aber ohne `props` fand sie niemand wieder. Ein
+     * Neustart zahlte alles ein zweites Mal.
+     *
+     * Dieses Loch war im Code schon benannt — es ist die Begruendung dafuer,
+     * dass die Plausibilitaetswache lieber warnt als wirft
+     * (`src/stimme.ts`). **Eine Wache, die einem behebbaren Problem
+     * ausweicht, sichert das Problem ab statt das Ergebnis.**
+     */
+    const propsOrdnerFrueh = path.join(wurzel, 'props');
+    await fs.mkdir(propsOrdnerFrueh, { recursive: true });
+
+    /** Shorts, deren Vertonung geworfen hat. Sie halten den Lauf nicht auf. */
+    const gescheitert: { id: string; grund: string }[] = [];
+
     for (const short of shorts) {
       /*
        * `%` wird zur Abschnittsnummer. Bei einem Sprecher entsteht daraus
@@ -318,13 +353,23 @@ const main = async () => {
        * nicht je nach Stimmenzahl anders heisst.
        */
       const muster = `ton/${id}/${short.id}.%.mp3`;
-      const { short: vertont, toene, unplausibel: verdaechtig } = await shortVertonen(
-        short,
-        STIMMEN,
-        schluessel,
-        muster,
-      );
-      unplausibel.push(...verdaechtig);
+      /*
+       * **Ein Fehlschlag nimmt einen Short mit, nicht den Lauf.** Dieselbe
+       * Behandlung, die Regelfehler laengst bekommen (`zuRendern =
+       * ergebnis.freigabefaehig` weiter unten); bei der Synthese fehlte sie
+       * bisher, und ein Wurf landete in `main().catch` samt `process.exit(1)`.
+       */
+      let ergebnisTon;
+      try {
+        ergebnisTon = await shortVertonen(short, STIMMEN, schluessel, muster);
+      } catch (fehler) {
+        const grund = fehler instanceof Error ? fehler.message : String(fehler);
+        gescheitert.push({ id: short.id, grund });
+        console.log(`   ${short.id}  ✗ ${grund}`);
+        continue;
+      }
+      const { short: vertont, toene, unplausibel: verdaechtig } = ergebnisTon;
+      unplausibel.push(...verdaechtig.map((text) => ({ shortId: short.id, text })));
 
       // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohen
       // Dateien bleiben liegen, damit sich das Ergebnis nachvollziehen laesst.
@@ -340,13 +385,32 @@ const main = async () => {
           `${toene.length} Abschnitt${toene.length === 1 ? '' : 'e'}  ` +
           `Lautheit ${pegel.vorher.toFixed(1)} → ${pegel.nachher} LUFS`,
       );
+      /*
+       * Sofort wegschreiben — dasselbe Format, das `--ton-behalten` liest und
+       * per `Tonspur.safeParse` prueft. Schritt 4 ueberschreibt die Datei
+       * spaeter mit demselben Inhalt; das ist keine Doppelung, sondern
+       * dieselbe Datei zu einem frueheren Zeitpunkt.
+       */
+      await fs.writeFile(
+        path.join(propsOrdnerFrueh, `${short.id}.json`),
+        JSON.stringify({ daten: vertont }),
+      );
       fertige.push(vertont);
     }
+    if (gescheitert.length > 0) {
+      console.log(`\n   ✗ ${gescheitert.length} Short(s) ohne Ton — der Lauf geht ohne sie weiter:`);
+      for (const fall of gescheitert) console.log(`     · ${fall.id}: ${fall.grund}`);
+      console.log(
+        '     Die bezahlten Tonspuren der uebrigen liegen in ' +
+          `laeufe/${id}/props/ und sind mit --ton-behalten wiederverwendbar.`,
+      );
+    }
+    unplausibelGesamt.push(...unplausibel);
     if (unplausibel.length > 0) {
       console.log(
         `\n   ⚠ ${unplausibel.length} Lauf/Läufe blieben unplausibel lang. Vor der Freigabe hören:`,
       );
-      for (const fall of unplausibel) console.log(`     · ${fall}`);
+      for (const fall of unplausibel) console.log(`     · ${fall.text}`);
     }
     console.log('');
   } else if (TON_BEHALTEN) {
@@ -520,6 +584,26 @@ const main = async () => {
    */
   const verlauf = (await verlaufLesen()).filter((eintrag) => eintrag.lauf !== id);
   const ergebnis = laufPruefen(fertige, quellen, verlauf, Boolean(NUR));
+
+  /*
+   * Die Wachbefunde der Vertonung wandern hier hinein — als Hinweis, nicht als
+   * Fehler: Die Wache hat bereits den kuerzeren von zwei Laeufen genommen, das
+   * Ergebnis ist brauchbar und nur verdaechtig. Ein Fehler hielte einen Short
+   * zurueck, den man vielleicht nur anhoeren muss.
+   */
+  const wachbefunde = unplausibelGesamt.map((fall) => ({
+    stufe: 'hinweis' as const,
+    shortId: fall.shortId,
+    regel: 'vertonung',
+    text: `${fall.text} – vor der Freigabe anhören.`,
+  }));
+  /*
+   * In **beide** Listen, weil `hinweise` in `laufPruefen` ein Filter ueber
+   * `befunde` ist und nach dem Bau nicht mitwaechst. Der Text steht trotzdem
+   * nur einmal da — eine Doppelung entsteht erst, wo zweimal geschrieben wird.
+   */
+  ergebnis.befunde.push(...wachbefunde);
+  ergebnis.hinweise.push(...wachbefunde);
 
   for (const b of ergebnis.befunde) {
     console.log(`   ${b.stufe === 'fehler' ? '✕' : '·'} ${b.shortId}  [${b.regel}] ${b.text}`);

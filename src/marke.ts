@@ -221,6 +221,30 @@ export const mische = (a: string, b: string, t: number): string => {
   );
 };
 
+/**
+ * Die Namen der berechneten Markentoene.
+ *
+ * **Sie stehen hier und nicht in `skripte/toene.ts`, und das ist eine
+ * Reparatur.** Der erste Anlauf am 01.09.2026 legte sie in das Skript und liess
+ * die Wache in `skripte/schemapruefung.ts` von dort importieren — aber
+ * `toene.ts` hat ein `await main()` am Modulende. Der Import **erzeugte die
+ * Dateien**, deren Vorhandensein die Wache pruefen sollte. Sie war deshalb
+ * immer gruen, auch als eine der fuenf geloescht war.
+ *
+ * **Eine Wache, die ihren eigenen Pruefgegenstand herstellt, prueft nichts** —
+ * dieselbe Sorte Blindheit wie bei `npm run bildrand`, das ohne Tonspur
+ * kleinere Figuren mass und deshalb nicht sehen konnte, dass die grossen
+ * herausragen. Gefunden hat es hier nicht der Verstand, sondern die
+ * Gegenprobe: eine Datei wegnehmen und sehen, ob es rot wird.
+ *
+ * Sachlich gehoeren sie ohnehin hierher: Wie die Marke klingt, ist Markenwissen
+ * und kein Detail des Skripts, das die Dateien schreibt.
+ *
+ * `*.wav` steht in `.gitignore` — die Dateien sind nicht versioniert und
+ * entstehen mit `npm run toene`.
+ */
+export const MARKENTOENE = ['gefaellt', 'folgen', 'auftakt', 'oeffnung', 'kipppunkt'] as const;
+
 export const VORHANG = {
   oben: 0,
   /**

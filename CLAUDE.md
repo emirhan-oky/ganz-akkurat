@@ -637,6 +637,47 @@ Zwei Messbefunde, die für jede künftige Besetzung gelten:
   Text, zwei Aufnahmen: Olaf maß 182 und 155 Hz. Die Synthese ist nicht
   deterministisch — der Vertrag weiß das schon von der Länge.
 
+## Der bezahlte Lauf
+
+**Ein Fehlschlag nimmt einen Short mit, nicht den Lauf.** Seit dem 01.09.2026
+liegt ein `try/catch` um die Vertonung des einzelnen Shorts, und die Tonspur
+wird **sofort** nach ihrer Synthese in `laeufe/<tag>/props/` geschrieben statt
+erst nach dem Render.
+
+Vorher konnte ein Fehlschlag beim vierten Short die ersten drei kosten: Die
+MP3-Dateien lagen da, aber `--ton-behalten` sucht `props`-Dateien, und die
+entstanden erst in Schritt 4. Ein Neustart zahlte alles ein zweites Mal. Das
+Loch war im Code sogar schon benannt — es war die Begründung dafür, dass die
+Plausibilitätswache lieber warnt als wirft. **Eine Wache, die einem behebbaren
+Problem ausweicht, sichert das Problem ab statt das Ergebnis.**
+
+**Was die Plausibilitätswache anschlägt, steht jetzt in der Freigabe.** Die
+Befunde wandern als Hinweis in die reguläre Befundliste und damit in
+`lauf.json` und auf die Freigabeseite. Bis dahin waren sie eine Konsolenzeile
+im Vertonungsblock: **Ein Befund, den nur das Terminal kennt, gilt bis zum
+nächsten Scrollen.**
+
+**Der Zug in der Tonspur ist optional, und das ist keine Schlamperei.** Am
+Redeanteil ist er Pflicht — dort wird geschrieben. In `tonspur.abschnitte` ist
+er ein abgeleiteter Wert, und Renderdaten sind eine Momentaufnahme eines
+älteren Vertrags. Als Pflichtfeld eingebaut, hat er am selben Tag **jede früher
+bezahlte Tonspur unbrauchbar gemacht**: `--ton-behalten` parst das Schema als
+Ganzes, um einen Trockenlauf von einem vertonten zu unterscheiden. Gefunden hat
+das nicht die Überlegung, sondern die Gegenprobe an einer echten Datei aus
+`laeufe/`.
+
+**Die berechneten Markentöne sind nicht versioniert** (`*.wav` in
+`.gitignore`) und entstehen mit `npm run toene`. `npm run pruefen` prüft seit
+demselben Tag, dass alle fünf da sind — der schlechtere Fall ist nicht der
+Absturz, sondern das **stumme Video**, das durchgeht.
+
+Die Liste der fünf steht in `MARKENTOENE` in `src/marke.ts` und nicht im
+Skript, das sie erzeugt. Der erste Anlauf legte sie dorthin, und die Wache
+importierte sie von da — aber `skripte/toene.ts` hat ein `await main()` am
+Modulende. **Der Import erzeugte die Dateien, deren Vorhandensein die Wache
+prüfen sollte**, und sie war immer grün. Eine Wache, die ihren eigenen
+Prüfgegenstand herstellt, prüft nichts.
+
 ## Quellen
 
 `daten/quellen.json`. Neue Quellen kommen erst hinein, **nachdem die URL

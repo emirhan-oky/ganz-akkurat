@@ -135,7 +135,11 @@ export const aufrichtung = (
   for (const a of abschnitte) {
     if (sekunde < a.startSek) break;
     if (a.sprecher !== wer) continue;
-    const neu = ZUGARTEN[a.zug].aufrichtung ?? 0;
+    /*
+     * Ohne Zug steht die Figur neutral. Alte Renderdaten kennen das Feld
+     * nicht — siehe die Begruendung an `Tonspur.abschnitte.zug`.
+     */
+    const neu = a.zug ? (ZUGARTEN[a.zug].aufrichtung ?? 0) : 0;
     if (neu !== ziel) {
       vorher = ziel;
       ziel = neu;

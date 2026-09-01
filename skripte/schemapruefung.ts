@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { Idee, Short, type Quelle } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
@@ -16,7 +16,7 @@ import {
   WORTWECHSEL_SCHLUSS,
   zuBreiteWortwechselposen,
 } from '../video/bausteine/Buehnenbild';
-import { SICHERE_ZONE, VORHANG } from '../src/marke';
+import { MARKENTOENE, SICHERE_ZONE, VORHANG } from '../src/marke';
 import {
   GENUG_FUER_MEDIAN,
   herkuenfteLesen,
@@ -198,6 +198,32 @@ if (erwartet.join(',') !== gesetzt.join(',')) {
       'Die Anordnung oder die Reichweiten haben sich geändert.',
   );
   fehler += 1;
+}
+
+/*
+ * ## Liegen die berechneten Markentöne überhaupt da?
+ *
+ * `*.wav` steht in `.gitignore` — die fünf Töne sind **nicht versioniert** und
+ * werden von Hand mit `npm run toene` erzeugt. Auf diesem Rechner liegen sie
+ * seit Wochen; auf einem frischen Checkout wären es null.
+ *
+ * **Der schlechtere Fall ist nicht der Absturz, sondern das stumme Video.**
+ * Ein Render, der bricht, meldet sich. Einer, dem vier von fünf Klängen
+ * fehlen, sieht aus wie ein fertiger Short — und genau das ist die Sorte
+ * Fehler, gegen die in diesem Projekt jede Wache gebaut wurde.
+ *
+ * Aufgefallen beim Einbau des fünften Tons am 01.09.2026: Der Kipppunktton war
+ * gerade erzeugt, lag lokal, und wäre nirgendwo sonst gewesen.
+ */
+for (const name of MARKENTOENE) {
+  const datei = `public/ton/marke/${name}.wav`;
+  if (!existsSync(datei)) {
+    console.error(
+      `✗ Fehler  · [ton] \`${datei}\` fehlt. Die berechneten Markentöne sind nicht ` +
+        'versioniert — `npm run toene` legt sie an.',
+    );
+    fehler += 1;
+  }
 }
 
 /*

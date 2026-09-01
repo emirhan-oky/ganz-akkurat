@@ -20,6 +20,7 @@
     "zugaenge": "tsx skripte/zugaenge.ts",
     "buffer-probe": "tsx skripte/buffer-probe.ts",
     "zuruecknehmen": "tsx skripte/zuruecknehmen.ts",
+    "toene": "tsx skripte/toene.ts",
     "markenbilder": "tsx skripte/markenbilder.ts",
     "neuigkeiten": "tsx skripte/neuigkeiten.ts",
     "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",

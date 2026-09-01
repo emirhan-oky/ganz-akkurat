@@ -1518,6 +1518,15 @@ zu tun ist, steht ab hier.
 
 ## Als Nächstes
 
+- [x] ~~**Den bezahlten Lauf abgesichert, bevor er läuft.** Drei Löcher, alle
+      kostenlos zu stopfen: der fehlende Wiederaufsetzpunkt (die Tonspur wird
+      jetzt sofort nach der Synthese geschrieben, ein Fehlschlag nimmt einen
+      Short mit statt den Lauf), `unplausibel` als Befund in `lauf.json` und
+      auf der Freigabeseite statt als Konsolenzeile, und eine Wache auf die
+      fünf berechneten Markentöne. **Zwei eigene Fehler dabei gefunden**, beide
+      nur durch die Gegenprobe: Die Tonwache erzeugte ihren eigenen
+      Prüfgegenstand, und `zug` als Pflichtfeld in der Tonspur hatte am selben
+      Vormittag jede bezahlte Vertonung unbrauchbar gemacht~~
 - [ ] ▸ **Der erste Short mit vollem Ton.** Rund 580 Zeichen von 81.000.
       **Kostet Kontingent und braucht Emirhans Zustimmung.** Dort zeigt sich,
       ob `VORSPANN_SEK`, die Sprecherpausen und die Aufschlagmessung tragen —
@@ -1525,10 +1534,15 @@ zu tun ist, steht ab hier.
 - [ ] **`raumstation-alte-rechner` liegt bei rund 64 von 67 Sekunden.** Die
       Vertonung streut sechs Prozent, das sind ±3,9 s. Beim ersten Lauf kann
       das reißen
-- [ ] **Kurze Redeanteile im Wochenlauf.** Wattis Reaktionszeilen sind 20 bis
-      40 Zeichen lang und laufen ungeprüft durch dasselbe Modell, das im
-      Vorspann 415 Sekunden für 18 Zeichen ausgegeben hat. Dort fällt ein
-      kaputter Lauf erst **nach** dem Bezahlen auf
+- [ ] **Kurze Redeanteile sind vor dem Bezahlen nirgends geprüft.** Der alte
+      Wortlaut („laufen ungeprüft durch") stimmt seit dem 31.08.2026 nicht mehr
+      — `mitWache` prüft jede Synthese gegen eine textabhängige Schwelle. Was
+      bleibt, ist der Zeitpunkt: Die Wache greift **während** des Bezahlens und
+      kostet mit ihrem Zusatzversuch selbst einen Aufruf. `npm run sprechprobe`
+      misst Szenen, während Wache und Abrechnung auf Redeläufen arbeiten
+- [ ] **Kein Budgetcheck vor dem Lauf.** `zeichenverbrauch` wird ausgegeben,
+      aber nie mit dem Restkontingent verglichen — die API wird nie danach
+      gefragt
 
 ## Am fertigen Video zu entscheiden
 

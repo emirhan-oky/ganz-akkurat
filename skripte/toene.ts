@@ -27,6 +27,7 @@
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { MARKENTOENE } from '../src/marke';
 
 const RATE = 48_000;
 
@@ -753,13 +754,21 @@ const main = async () => {
     0.03,
   );
 
-  for (const [name, proben] of [
-    ['gefaellt', gefaellt],
-    ['folgen', folgen],
-    ['auftakt', auftakt],
-    ['oeffnung', oeffnung],
-    ['kipppunkt', kipppunkt],
-  ] as const) {
+  /*
+   * Die Zuordnung Name → Proben. Der Typ zwingt sie gegen `MARKENTOENE`: Wer
+   * einen Ton baut und nicht eintraegt, faellt hier auf, statt dass die Wache
+   * in der Schemapruefung spaeter eine Datei vermisst, die nie erzeugt wurde.
+   */
+  const fertig: Record<(typeof MARKENTOENE)[number], Float32Array> = {
+    gefaellt,
+    folgen,
+    auftakt,
+    oeffnung,
+    kipppunkt,
+  };
+
+  for (const name of MARKENTOENE) {
+    const proben = fertig[name];
     const ziel = path.join(ordner, `${name}.wav`);
     await fs.writeFile(ziel, wav(proben));
     const kb = (proben.length * 2 + 44) / 1024;

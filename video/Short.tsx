@@ -149,7 +149,9 @@ const kipppunktBild = (
   const vonSek = fenster.startBild / bilderProSekunde;
   const bisSek = (fenster.startBild + fenster.dauerBilder) / bilderProSekunde;
   const treffer = abschnitte.find(
-    (a) => a.startSek >= vonSek && a.startSek < bisSek && ZUGARTEN[a.zug].behauptet,
+    // Ohne Zug kein Treffer: Alte Renderdaten kennen das Feld nicht, und ein
+    // Ton auf gut Glueck saesse irgendwo.
+    (a) => a.startSek >= vonSek && a.startSek < bisSek && a.zug !== undefined && ZUGARTEN[a.zug].behauptet,
   );
   return treffer ? Math.round(treffer.startSek * bilderProSekunde) : null;
 };

@@ -2559,17 +2559,34 @@ export const Tonspur = z.object({
          * und eine Uhr. `Sprecherstand` blendet den Wert genauso ueber wie die
          * Sprechstaerke — ein harter Wechsel waere ein Ruck in der Figur.
          *
-         * **Pflicht, nicht optional.** Am Redeanteil ist `zug` seit dem
-         * 01.09.2026 Pflicht, und ein Feld, das auf halbem Weg fehlen darf,
-         * fehlt irgendwann still. Alte Renderdaten kennen es nicht — das ist
-         * kein Problem, weil aus ihnen ohnehin einzelne Stuecke gelesen
-         * werden und nicht die ganze Datei gegen den heutigen Vertrag.
+         * **Optional, und diese Zeile ist eine Reparatur vom selben Tag.**
+         *
+         * Erst stand hier `zug: Zug` als Pflicht, mit der Begruendung: „Alte
+         * Renderdaten kennen es nicht — das ist kein Problem, weil aus ihnen
+         * ohnehin einzelne Stuecke gelesen werden und nicht die ganze Datei
+         * gegen den heutigen Vertrag."
+         *
+         * **Das war falsch, und es hat bezahlten Ton unbrauchbar gemacht.**
+         * `--ton-behalten` in `skripte/wochenlauf.ts` parst genau dieses
+         * Schema als Ganzes (`Tonspur.safeParse`), um einen Trockenlauf von
+         * einem vertonten zu unterscheiden. Mit dem Pflichtfeld fiel **jede**
+         * frueher bezahlte Tonspur durch — der naechste Lauf haette sie neu
+         * synthetisieren muessen. Gefunden hat es nicht der Verstand, sondern
+         * die Gegenprobe an einer echten Datei aus `laeufe/`.
+         *
+         * Der Vertrag hatte den Fall zwei Absaetze weiter oben schon
+         * beschrieben: **Renderdaten sind eine Momentaufnahme eines aelteren
+         * Vertrags.** Genau deshalb darf ein *abgeleiteter* Wert dort fehlen —
+         * geschrieben wird der Zug am Redeanteil, und dort ist er Pflicht.
+         *
+         * Fehlt er, steht die Figur neutral und der Kipppunktton entfaellt.
+         * Beides ist sichtbar richtig und nicht still falsch.
          *
          * Verschmilzt `redelaeufe` zwei Anteile derselben Figur innerhalb
          * einer Szene, **gewinnt der erste**, und `zugverlust` in
          * `src/pruefung.ts` meldet den Fall.
          */
-        zug: Zug,
+        zug: Zug.optional(),
       }),
     )
     .min(1)
