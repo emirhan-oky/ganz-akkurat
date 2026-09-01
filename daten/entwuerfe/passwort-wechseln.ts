@@ -89,7 +89,16 @@ export const passwortWechseln: Short = {
        * der Short bei „90 Tage" anfing. Jetzt faengt er bei einer Meldung an,
        * und der Kalender kommt spaeter — als Wattis Irrtum, nicht als Aufhaenger.
        */
-      buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'staunen', requisite: 'browserfenster' },
+      /*
+       * **`stutzen` statt `staunen`, und der Grund ist Geometrie.** `staunen`
+       * reicht 63,9 Einheiten nach aussen; mit einem Symbol daneben steht die
+       * Figur auf x = 52, und das Kamerafeld beginnt am Ende der Fahrt bei
+       * −2,9. Wattis linker Arm endete im fertigen Video am Ellenbogen.
+       *
+       * `stutzen` traegt denselben Vorgang — die Figur sieht etwas und ist
+       * irritiert — und bleibt mit 52 im Bild.
+       */
+      buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'browserfenster' },
     },
     {
       art: 'text',

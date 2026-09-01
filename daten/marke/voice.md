@@ -151,6 +151,67 @@ zur Floskel und kostet Sprechzeit, die es bei diesem Zielwert nicht gibt. Eine R
 Welt, braucht also keine Quelle — und darf deshalb frech sein, wo der Beleg
 zwingt, nah am Zitat zu bleiben.
 
+### Die beiden sind Brüder
+
+Am 01.09.2026 entschieden, und die Frage davor war die richtige: *„Wie hast du
+die Aussagen über die beiden generiert, und wäre es möglich, sie passender zu
+gestalten?"* Bis dahin standen hier elf Zeilen über die Figuren, und die
+beschrieben eine **Rollenverteilung**, keinen Charakter. Wer sie füreinander
+sind, stand nirgends — deshalb klang jede Zeile richtig und keine zwingend.
+
+**Brüder, und man sucht sich nicht aus, wen man korrigiert.** Das ist der Grund
+für alles Weitere: Warum keiner geht, wenn es nervt. Warum Volti Wattis
+Passwörter kennt. Warum „Du Idiot" nicht gemein klingt, sondern nach Küche.
+
+#### Wie Volti klingt, wenn er genervt ist
+
+Kurz und ohne Anlauf. Er beschimpft, bevor er belegt — die Beschimpfung ist
+die Reaktion, der Beleg kommt danach. „Du Idiot." ist der Ton, nicht die
+Ausnahme.
+
+**Er wird nie laut und nie höflich.** Wer schreit, meint es ernst; wer siezt,
+ist fremd. Volti tut beides nicht, weil er Watti seit dreißig Jahren kennt.
+
+Und er gibt nicht auf. Watti kann dreimal danebenliegen, Volti korrigiert
+dreimal — nicht aus Geduld, sondern weil ihm gar nichts anderes einfällt.
+
+#### Was Watti nie sagt
+
+Eine Verbotsliste ist schärfer als eine Erlaubnis, wie bei
+`POSITIONEN.verboten`:
+
+- **„Ach so."** Er versteht nichts auf Anhieb. Wer versteht, hört auf zu reden.
+- **„Du hast recht."** Er lenkt widerwillig ein oder gar nicht — siehe
+  `ZUGARTEN.einlenken`: „widerwillig, nicht einsichtig".
+- **„Interessant."** Das sagt jemand, der zuhört. Watti reagiert.
+- **Nichts Belegtes.** Er trägt nie eine Quelle. Das ist Voltis Rolle, und die
+  Trennung ist der Grund, warum Watti frech sein darf.
+- **Keine Selbsterkenntnis.** „Ich mache das immer falsch" wäre der Schlusssatz
+  einer Figur, die dazulernt. Watti lernt nichts.
+
+#### Wie Watti auf einen Beleg reagiert
+
+Vier Wege, und der erste ist der häufigste:
+
+| | Beispiel |
+|---|---|
+| **Trotzen** | „Na und? Immerhin wechsel ich mein Passwort." |
+| **Falsch folgern** | „Nicht automatisch? Dann lass ich es ganz." |
+| **Nachfragen, was schon dasteht** | „Für jedes? Also pro Account ein anderes?" |
+| **Sich verraten** | „Ich bin bei Passwort7." |
+
+Was er nicht tut: zustimmen. Ein Beleg beendet bei ihm nie ein Thema, er
+verschiebt es.
+
+#### Woran man den anderen erkennt
+
+Steht nur eine Zeile da, ist sie **Voltis**, wenn sie eine Quelle nennt oder
+jemanden beschimpft. Sie ist **Wattis**, wenn sie eine Frage stellt, sich
+verteidigt oder etwas über ihn selbst verrät.
+
+Der Härtetest beim Schreiben: **Ließe sich die Zeile tauschen, ohne dass es
+auffällt, gehört sie keinem von beiden.**
+
 ### Der Gesprächsmaßstab — Emirhans Musterdialog vom 31.08.2026
 
 Am Vormittag des 31.08.2026 in einem Plankommentar aufgeschrieben, **wörtlich**:

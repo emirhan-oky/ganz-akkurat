@@ -109,7 +109,34 @@ const PLAETZE = {
     x: 52,
     groesse: 1,
     ziel: { x: 84, y: 82, zoom: 1.16 },
-    zielMitSymbol: { x: 96, y: 82, zoom: 1.1 },
+    /*
+     * **x = 88 seit dem 01.09.2026, vorher 96.** Bei 96 begann das sichtbare
+     * Feld am Ende der Kamerafahrt bei Einheit 5,1 — die Figur steht auf 52
+     * und reicht in Ruhe bis 0. **Jede Pose war damit angeschnitten**, nur
+     * unterschiedlich stark.
+     *
+     * Aufgefallen ist es an `staunen` (Reichweite 63,9 statt 52): Wattis
+     * linker Arm endete im fertigen Video am Ellenbogen. Die Hand war nicht am
+     * Rand, sie war weg.
+     *
+     * **Warum es keine Probe fand:** `npm run bildrand` misst die aeusserste
+     * dunkle Spalte und vergleicht sie mit der Vorhangkante — hier 170 gegen
+     * 100, also 70 Pixel Luft. Eine Probe, die den sichtbaren Rand misst, kann
+     * nicht sehen, dass jenseits davon etwas fehlt: Die aeusserste Spalte war
+     * der Ellenbogen.
+     *
+     * **Und warum es erst jetzt auffiel:** Die Kamera *faehrt*. Am
+     * Szenenanfang steht sie auf Zoom 1 und die Figur ist vollstaendig; erst
+     * am Ende der Fahrt gilt das enge Feld. Ein Standbild vom Szenenbeginn
+     * haette nie etwas gezeigt.
+     *
+     * Mit x = 88 reicht das Feld von −2,9 bis 178,9: alle Posen mit
+     * Reichweite 52 passen, das Symbol (sichtbar bis 176) auch. `staunen`
+     * passt nicht und wird deshalb gesperrt — **der Zoom bleibt bei 1,1**,
+     * denn weniger Zoom hiesse kleinere Figuren, und daran hat dieses Projekt
+     * schon einmal zu lange gearbeitet.
+     */
+    zielMitSymbol: { x: 88, y: 82, zoom: 1.1 },
   },
   /** Rechts — dasselbe gespiegelt, fuer Abwechslung ueber mehrere Szenen. */
   rechts: { x: 138, groesse: 1, ziel: { x: 112, y: 82, zoom: 1.16 } },
@@ -239,6 +266,27 @@ export const zuBreiteWortwechselposen = (
       return k.linksAussen < k.feld.von || k.rechtsAussen > k.feld.bis;
     })
     .map(([name]) => name);
+
+/**
+ * Welche Posen bei einer **Einzelfigur mit Symbol** aus dem Bild ragen.
+ *
+ * Das Gegenstueck zu `zuBreiteWortwechselposen`, und es hat bis zum
+ * 01.09.2026 gefehlt. Die Figur steht dann auf `PLAETZE.links` und die Kamera
+ * auf `zielMitSymbol`; am Ende der Fahrt ist das sichtbare Feld schmaler als
+ * die Buehne, und wer weiter nach aussen reicht, verliert seine Hand.
+ *
+ * Gerechnet statt geschrieben, aus demselben Grund wie drueben: Wer die
+ * Anordnung oder das Kameraziel aendert, aendert diese Liste mit.
+ */
+export const zuBreiteSymbolposen = (reichweiten: Record<string, number>): string[] => {
+  const platz = PLAETZE.links;
+  const ziel = platz.zielMitSymbol;
+  const feldHalb = 100 / ziel.zoom;
+  const von = ziel.x - feldHalb;
+  return Object.entries(reichweiten)
+    .filter(([, r]) => platz.x - r < von)
+    .map(([name]) => name);
+};
 
 /**
  * Die laufende Anordnung.

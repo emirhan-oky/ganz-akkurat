@@ -347,6 +347,26 @@ const kommtImVideoVor = (wort: string, videotext: string): boolean =>
  */
 export const ZU_BREIT_IM_WORTWECHSEL = new Set(['achselzucken']);
 
+/**
+ * Posen, die **mit einem Symbol daneben** aus dem Bild ragen.
+ *
+ * Die Figur steht dann links auf x = 52, und die Kamera faehrt auf ein engeres
+ * Feld — am Ende der Fahrt von −2,9 bis 178,9. Wer weiter als 55 Einheiten
+ * nach aussen reicht, verliert seine Hand.
+ *
+ * **Der Anlass ist ein Arm, der am Ellenbogen endete.** Im Aufschlag von
+ * `passwort-wechseln` stand Watti in `staunen` neben einem Browserfenster; im
+ * fertigen Video fehlte seine linke Hand. `npm run bildrand` war dabei gruen,
+ * und konnte es auch sein: Die Probe misst die aeusserste dunkle Spalte, und
+ * das war der Ellenbogen. **Was jenseits des Randes fehlt, sieht keine
+ * Randmessung.**
+ *
+ * Wie drueben ist die Liste **abgeleitet und nicht geschrieben** —
+ * `zuBreiteSymbolposen` rechnet sie aus `AUSSENREICHWEITE` und dem
+ * Kameraziel, `skripte/schemapruefung.ts` haelt beide gegeneinander.
+ */
+export const ZU_BREIT_MIT_SYMBOL = new Set(['staunen', 'achselzucken', 'hochschauen']);
+
 export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const befunde: Befund[] = [];
   const melde = (stufe: Befund['stufe'], regel: string, text: string) =>
@@ -2649,7 +2669,17 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
      * ist billig — eine andere Zielpose kostet nichts, weil `zeigen` und
      * `stutzen` denselben Vorgang tragen.
      */
-    const BREITE_POSEN = new Set(['achselzucken']);
+    /*
+     * **Diese Liste hiess `BREITE_POSEN` und stand hier von Hand.** Sie hatte
+     * genau einen Eintrag, `achselzucken`, und `staunen` fehlte — deshalb ging
+     * am 01.09.2026 ein Aufschlag durch, in dem Wattis linker Arm am
+     * Ellenbogen endete.
+     *
+     * Sie faellt jetzt aus `zuBreiteSymbolposen`, also aus derselben Rechnung
+     * wie ihr Gegenstueck im Wortwechsel. Der Kommentar darueber sagte es
+     * bereits: „Eine Probe findet nur die Faelle, die sie auch aufstellt" —
+     * fuer eine handgeschriebene Sperre gilt dasselbe.
+     */
     for (const szene of short.szenen) {
       if (!('buehne' in szene) || szene.buehne?.art !== 'figur') continue;
       const { nach, requisite, stand } = szene.buehne;
@@ -2718,15 +2748,32 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
         }
       }
 
-      if (symbolDaneben && BREITE_POSEN.has(nach)) {
-        befunde.push({
-          stufe: 'hinweis',
-          shortId: short.id,
-          regel: 'bildvielfalt',
-          text:
-            `Pose „${nach}" stellt die Arme aus, und „${requisite}" steht daneben. ` +
-            'Der linke Arm läuft dabei aus dem Bild. Andere Zielpose wählen.',
-        });
+      if (symbolDaneben) {
+        /*
+         * **Die ganze Kette, nicht nur die Zielpose.** Vorher wurde allein
+         * `nach` geprueft; eine Pose in der Mitte der Folge lief ungeprueft
+         * durch. Dieselbe Korrektur wie beim Wortwechsel, nur ein paar Wochen
+         * spaeter.
+         *
+         * **Fehler und nicht mehr Hinweis:** Der alte Kommentar begruendete
+         * den Hinweis damit, dass es „am Symbol haengt, ob es reicht". Das
+         * stimmt nicht — es haengt am Kamerafeld, und das ist bei jedem Symbol
+         * dasselbe. Die Hand verschwindet vollstaendig, und der Ausweg kostet
+         * nichts.
+         */
+        const kette = [szene.buehne.von, ...(szene.buehne.zwischen ?? []), nach];
+        const treffer = [...new Set(kette.filter((p) => ZU_BREIT_MIT_SYMBOL.has(p)))];
+        if (treffer.length > 0) {
+          befunde.push({
+            stufe: 'fehler',
+            shortId: short.id,
+            regel: 'bildvielfalt',
+            text:
+              `„${treffer.join('", „')}" mit „${requisite}" daneben: Der äußere Arm läuft ` +
+              'aus dem Bild. Die Figur steht dann links auf x = 52, und das Kamerafeld ' +
+              'beginnt bei −2,9 — mehr als 55 Einheiten Reichweite passen nicht.',
+          });
+        }
       }
     }
   }

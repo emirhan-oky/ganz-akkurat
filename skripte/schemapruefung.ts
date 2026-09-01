@@ -5,6 +5,7 @@ import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 import { laufPruefen,
   ZU_BREIT_IM_WORTWECHSEL,
+  ZU_BREIT_MIT_SYMBOL,
 } from '../src/pruefung';
 import { redelaeufe } from '../src/stimme';
 import { SZENENGRENZE_SEK, zusatzpausenSek } from '../src/zeit';
@@ -14,6 +15,7 @@ import {
   AUFRICHTUNG,
   WORTWECHSEL,
   WORTWECHSEL_SCHLUSS,
+  zuBreiteSymbolposen,
   zuBreiteWortwechselposen,
 } from '../video/bausteine/Buehnenbild';
 import { MARKENTOENE, SICHERE_ZONE, VORHANG } from '../src/marke';
@@ -196,6 +198,25 @@ if (erwartet.join(',') !== gesetzt.join(',')) {
     `✗ Fehler  · [figur] Die Wortwechsel-Sperre in \`src/pruefung.ts\` steht auf ` +
       `[${gesetzt.join(', ') || '—'}], gerechnet sind [${erwartet.join(', ') || '—'}]. ` +
       'Die Anordnung oder die Reichweiten haben sich geändert.',
+  );
+  fehler += 1;
+}
+
+/*
+ * ## Dasselbe für die Einzelfigur mit Symbol
+ *
+ * Bis zum 01.09.2026 stand die Sperre dort als handgeschriebene Liste mit
+ * **einem** Eintrag, und `staunen` fehlte darin — im fertigen Video endete
+ * Wattis linker Arm am Ellenbogen. Jetzt fällt sie aus derselben Rechnung wie
+ * ihr Gegenstück oben, und diese Wache hält beide gegeneinander.
+ */
+const erwartetSymbol = zuBreiteSymbolposen(AUSSENREICHWEITE).sort();
+const gesetztSymbol = [...ZU_BREIT_MIT_SYMBOL].sort();
+if (erwartetSymbol.join(',') !== gesetztSymbol.join(',')) {
+  console.error(
+    `✗ Fehler  · [figur] Die Symbol-Sperre in \`src/pruefung.ts\` steht auf ` +
+      `[${gesetztSymbol.join(', ') || '—'}], gerechnet sind [${erwartetSymbol.join(', ') || '—'}]. ` +
+      'Der Platz der Figur oder das Kameraziel haben sich geändert.',
   );
   fehler += 1;
 }
