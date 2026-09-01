@@ -106,8 +106,13 @@ const Sofa: React.FC<{ boden: number }> = ({ boden }) => (
  * `gold` und nicht `achtungGelb`: Der zweite ist der Signalton fuer Warnungen.
  * Ein Sessel in derselben Farbe wie ein Hinweis wird zum Hinweis.
  */
-const Sessel: React.FC<{ x: number; boden: number }> = ({ x, boden }) => (
-  <g transform={`translate(${x - 96} ${boden - 268}) scale(1.2)`}>
+const Sessel: React.FC<{ x: number; boden: number; groesse?: number; tiefe?: number }> = ({
+  x,
+  boden,
+  groesse = 1.2,
+  tiefe = 268,
+}) => (
+  <g transform={`translate(${x - 80 * groesse} ${boden - tiefe}) scale(${groesse})`}>
     <path d="M58 40h44v50H58Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
     <path d="M34 74a12 12 0 0 1 24 0v22H34Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
     <path d="M102 74a12 12 0 0 1 24 0v22h-24Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
@@ -117,25 +122,71 @@ const Sessel: React.FC<{ x: number; boden: number }> = ({ x, boden }) => (
 );
 
 /**
- * Eine Katze im Rahmen.
+ * Vier Katzen, und **jede eine andere**.
  *
- * **Ohne Gesicht.** Bei dieser Groesse waere es ein Fleck, und der Kanal
- * zeichnet nichts, was er nicht erkennbar zeichnen kann — dieselbe Regel, aus
- * der es keine Buchsenformen und keine Pinbelegungen gibt.
+ * Der erste Anlauf zeichnete dieselbe Silhouette viermal und variierte nur die
+ * Groesse. Vier identische Bilder an einer Wand sind ein Kachelmuster, keine
+ * Sammlung — und das Urteil dazu kam prompt: „Das soll nicht alles dasselbe
+ * Bild sein!!!"
  *
- * Was eine Katze erkennbar macht, sind die Ohren und der Schwanz, nicht das
- * Gesicht.
+ * Dasselbe Prinzip wie ueberall sonst in diesem Projekt: Der Ausruf hat einen
+ * Vorrat, die Regieanweisung hat einen Vorrat, die Zugtripel-Regel meldet den
+ * Takt. **Was sich wiederholt, faellt auf.**
+ *
+ * Alle vier ohne Gesicht. Bei dieser Groesse waere es ein Fleck, und was eine
+ * Katze erkennbar macht, sind Ohren, Ruecken und Schwanz.
  */
-const Katzenbild: React.FC<{ x: number; y: number; groesse: number }> = ({ x, y, groesse }) => (
-  <g transform={`translate(${x} ${y}) scale(${groesse})`}>
-    <rect x={0} y={0} width={100} height={100} rx={3} fill={FARBEN.grundRein} stroke={FARBEN.tinte} strokeWidth={7} />
-    {/* Sitzende Katze: Kopf mit Ohren, Koerper, Schwanz. */}
-    <g fill={FARBEN.tinte}>
+const KATZEN = {
+  /** Sitzend, von vorn — Kopf mit Ohren, Koerper, Schwanz seitlich. */
+  sitzend: (
+    <>
       <path d="M38 44a16 16 0 0 1 24 0l4 26H34Z" />
       <path d="M36 44l-4-14 14 6ZM64 44l4-14-14 6Z" />
       <path d="M34 70h32v12H34Z" />
       <path d="M66 78c10 0 12-8 10-16l-6 2c1 6 0 8-4 8Z" />
-    </g>
+    </>
+  ),
+  /** Liegend, langgestreckt — der Kopf ruht auf den Pfoten. */
+  liegend: (
+    <>
+      <path d="M26 66h48a12 12 0 0 1 0 20H26a10 10 0 0 1 0-20Z" />
+      <path d="M22 60a13 13 0 0 1 20 0l2 12H20Z" />
+      <path d="M22 60l-3-11 11 5ZM42 60l3-11-11 5Z" />
+      <path d="M74 76c8-2 12 2 14 8l-6 2c-2-4-4-5-8-4Z" />
+    </>
+  ),
+  /** Portraet — nur der Kopf, gross im Rahmen. */
+  kopf: (
+    <>
+      <path d="M28 48a22 22 0 0 1 44 0v10a22 22 0 0 1-44 0Z" />
+      <path d="M28 46l-5-20 19 8ZM72 46l5-20-19 8Z" />
+    </>
+  ),
+  /** Von hinten — Ruecken und aufgestellter Schwanz, keine Ohren. */
+  vonHinten: (
+    <>
+      <path d="M36 52a14 14 0 0 1 28 0v6a10 10 0 0 1-4 8H40a10 10 0 0 1-4-8Z" />
+      <path d="M34 64h32v20H34Z" />
+      <path d="M66 84c0-16 4-24 12-28l4 6c-8 4-10 10-10 22Z" />
+    </>
+  ),
+} as const;
+
+/**
+ * Ein Bild im Rahmen.
+ *
+ * Die Rahmen sind schwarz wie die Figuren (`tinte`) und **verschieden gross**
+ * — gleich grosse waeren wieder ein Raster.
+ */
+const Katzenbild: React.FC<{
+  x: number;
+  y: number;
+  groesse: number;
+  welche: keyof typeof KATZEN;
+}> = ({ x, y, groesse, welche }) => (
+  <g transform={`translate(${x} ${y}) scale(${groesse})`}>
+    <rect x={0} y={0} width={100} height={100} rx={3} fill={FARBEN.grundRein} stroke={FARBEN.tinte} strokeWidth={7} />
+    <g fill={FARBEN.tinte}>{KATZEN[welche]}</g>
   </g>
 );
 
@@ -186,16 +237,27 @@ const Wandschmuck: React.FC<{ boden: number }> = ({ boden }) => (
       </g>
     </g>
     {/*
-      **Vier Katzenbilder, versetzt gehaengt.** Gleichmaessig waeren sie ein
-      Raster; versetzt sind sie eine Wand, an der jemand wohnt.
-      Die Uhr, die hier stand, ist dafuer gefallen — Fenster, vier Bilder, zwei
-      Sessel, Sofa und Regal sind genug Dinge in einem Raum, und sie war der
-      schwaechste Beitrag.
+      **Die Uhr steht wieder rechts oben.** Sie war gefallen, weil ich den Raum
+      fuer zu voll hielt — das war nicht meine Entscheidung.
     */}
-    <Katzenbild x={links + breite - 330} y={boden - 640} groesse={1.05} />
-    <Katzenbild x={links + breite - 200} y={boden - 610} groesse={0.85} />
-    <Katzenbild x={links + breite - 336} y={boden - 500} groesse={0.8} />
-    <Katzenbild x={links + breite - 214} y={boden - 476} groesse={1.0} />
+    <g stroke={FARBEN.symbolLinie} strokeWidth={5} fill={FARBEN.grundRein}>
+      <circle cx={links + breite - 150} cy={boden - 560} r={52} />
+      <path
+        d={`M${links + breite - 150} ${boden - 560}V${boden - 596}M${links + breite - 150} ${boden - 560}l28 20`}
+        fill="none"
+        strokeLinecap="round"
+      />
+    </g>
+
+    {/*
+      **Die vier Bilder haengen zwischen Fenster und Uhr**, in zwei Reihen zu
+      zweit und gegeneinander versetzt. Gleichmaessig gehaengt waeren sie ein
+      Raster; versetzt sind sie eine Wand, an der jemand wohnt.
+    */}
+    <Katzenbild x={links + 340} y={boden - 640} groesse={0.95} welche="sitzend" />
+    <Katzenbild x={links + 455} y={boden - 608} groesse={0.78} welche="kopf" />
+    <Katzenbild x={links + 334} y={boden - 512} groesse={0.72} welche="vonHinten" />
+    <Katzenbild x={links + 442} y={boden - 496} groesse={0.9} welche="liegend" />
   </>
 );
 
@@ -269,20 +331,29 @@ export const Kulisse: React.FC<{ mitUntertitelzone?: boolean }> = ({
       />
 
       {/*
-        **Die Sessel stehen dort, wo vorher Sofa und Regal standen.**
+        **Beide Sessel links, nebeneinander.**
 
         Zwei Anlaeufe haben sie hinter den Figuren verschwinden lassen, erst
-        mittig, dann versetzt — und der Grund ist die Geometrie, nicht die
-        Position: Die beiden Figuren belegen mit ihren 52 Einheiten Halbbreite
-        fast die ganze Buehne. **In einer flachen Zeichnung gibt es kein
-        „weiter hinten"**; alles steht auf derselben Linie, und was hinter
-        einer Figur steht, ist weg.
+        mittig, dann versetzt. Der Grund ist Geometrie und nicht Platzierung:
+        Die beiden Figuren belegen mit ihren 52 Einheiten Halbbreite fast die
+        ganze Buehne, und **in einer flachen Zeichnung gibt es kein „weiter
+        hinten"** — alles steht auf derselben Linie, und was hinter einer Figur
+        steht, ist weg.
 
-        Also stehen sie neben ihnen, aussen. Sofa und Regal weichen dafuer —
-        sie waren ohnehin meine Zutat, bestellt waren zwei Sessel.
+        **Und links ist weniger Platz, als „nebeneinander" braucht.** Gemessen:
+        Zwischen Vorhangkante und Voltis linker Aussenkante liegen **113
+        Pixel**; zwei Sessel nebeneinander brauchen mindestens 186. Sie stehen
+        deshalb als Sitzgruppe leicht **versetzt** — der zweite kleiner und
+        hoeher, also weiter hinten, und seine Lehne schaut ueber den ersten.
+
+        Das ist die einzige Anordnung, die beide zeigt, ohne dass einer im
+        Vorhang oder hinter Volti verschwindet.
       */}
-      <Sessel x={links + 132} boden={boden} />
-      <Sessel x={links + breite - 132} boden={boden} />
+      <Sessel x={links + 78} boden={boden} groesse={0.74} tiefe={214} />
+      <Sessel x={links + 142} boden={boden} groesse={0.64} tiefe={244} />
+
+      {/* Die Kommode rechts — sie war den Sesseln gewichen und kommt zurueck. */}
+      <Regal boden={boden} />
     </svg>
   );
 };
