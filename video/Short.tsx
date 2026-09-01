@@ -801,6 +801,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
             linksJeSzene={daten.szenen.map((s) =>
               s.buehne?.art === 'figur' ? (s.buehne.wer ?? 'nachleser') : 'nachleser',
             )}
+            szenenArt={daten.szenen.map((s) => s.art)}
           />
           </Sequence>
         )}

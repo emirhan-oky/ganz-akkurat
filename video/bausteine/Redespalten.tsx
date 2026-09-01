@@ -89,7 +89,21 @@ export const Redespalten: React.FC<{
    * steht Voltis Satz unter Watti. Genau das zeigte das erste Standbild.
    */
   linksJeSzene: Sprecher[];
-}> = ({ woerter, abschnitte, szenenStartSek, linksJeSzene }) => {
+  /**
+   * Die Art jeder Szene — die Zitatkarte schaltet die Spalten ab.
+   *
+   * **Der Grund steht im ersten Durchgang durchs fertige Video und war am
+   * Standbild nicht zu sehen:** Die Karte steht seit dem 01.09.2026 unten, und
+   * die Spalten liegen im Markup darueber. Vier Zeilen Gespraech schimmerten
+   * quer durch das Zitat, in zwei Farben und zwei Schriftgroessen.
+   *
+   * Sie unter die Szene zu legen waere die schlechtere Loesung: Dann stuende
+   * die Haelfte jeder Zeile unter der Karte und der Rest ragte darunter hervor.
+   * In dieser Szene traegt das Zitat, und ein Zitat teilt sich die Flaeche
+   * nicht.
+   */
+  szenenArt: string[];
+}> = ({ woerter, abschnitte, szenenStartSek, linksJeSzene, szenenArt }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const sekunde = frame / fps;
@@ -99,6 +113,7 @@ export const Redespalten: React.FC<{
   const szene = szeneZu(szenenStartSek, sekunde);
   const abSek = szenenStartSek[szene] ?? 0;
   const linksSteht = linksJeSzene[szene] ?? 'nachleser';
+  if (szenenArt[szene] === 'zitatkarte') return null;
 
   /*
    * Alle Gruppen der laufenden Szene, die bereits begonnen haben. Eine Gruppe
@@ -141,6 +156,11 @@ export const Redespalten: React.FC<{
            * Die aelteren Zeilen stehen gedaempft. Sie sind Nachhall, nicht
            * Ansage — wer sie so hell setzt wie die laufende, macht aus dem
            * Gespraech eine Textwand.
+           *
+           * **0,62 und nicht 0,42.** Der erste Wert war am vollen Bild
+           * gewaehlt; im Feed ist der Short 512 Pixel breit, und dort waren
+           * die aelteren Zeilen nicht mehr zu lesen. Gedaempft heisst leiser,
+           * nicht weg.
            */
           const jetzt = i === gezeigt.length - 1;
           return (
@@ -150,11 +170,11 @@ export const Redespalten: React.FC<{
                 fontFamily: SCHRIFT.untertitel,
                 fontStyle: SCHRIFT.neigung,
                 fontWeight: SCHRIFT.schwarz,
-                fontSize: 42,
+                fontSize: 46,
                 lineHeight: 1.14,
                 letterSpacing: -0.5,
                 color: FARBE[wer],
-                opacity: jetzt ? 1 : 0.42,
+                opacity: jetzt ? 1 : 0.62,
                 textShadow: [
                   `0 0 10px ${FARBEN.grundRein}FA`,
                   `0 0 20px ${FARBEN.grundRein}EB`,
