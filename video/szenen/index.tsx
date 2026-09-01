@@ -75,6 +75,49 @@ const bewertungsfarben = (b?: 'ja' | 'nein' | 'achtung' | 'neutral') => {
  * Gibt `undefined` zurueck, wenn nichts gesetzt ist — und das ist der
  * Normalfall: Die Typografie traegt, das Bild ist die Ausnahme.
  */
+/**
+ * Der Schleier hinter geschriebenem Text auf der Buehne.
+ *
+ * **Seit dem 01.09.2026 steht die Buehne in einem Raum**, und der Raum hat
+ * Fenster, Bilder und eine Uhr an der Wand. Im ersten Standbild lag „Nicht
+ * der Kalender entscheidet." quer darueber und war nicht mehr zu lesen.
+ *
+ * Ein Kasten waere hier falsch. Der Schluss hat schon einmal einen Strich
+ * ueber die ganze Buehnenbreite gehabt, und der sagte optisch „fertig" — ein
+ * Rahmen um die Pointe taete dasselbe. Ein Verlauf **hat keine Kante**: Er
+ * hellt die Wand dort auf, wo Text steht, und laeuft nach aussen ins Nichts.
+ *
+ * Zwei Dinge daran sind am Standbild erarbeitet:
+ *
+ * 1. **Er haengt absolut hinter dem Text, nicht als Hintergrund am
+ *    Textkasten.** Ein Verlauf endet am Rand seines Kastens; beim ersten
+ *    Anlauf stand er dort noch bei halber Deckung, und im Bild war ein heller
+ *    **Rechteckblock** mit vier Raendern — genau der Rahmen, den der Schluss
+ *    nicht haben darf. Er braucht Platz ueber den Text hinaus, um auf null zu
+ *    laufen.
+ * 2. **Diesen Platz ueber Rand und Innenabstand zu holen ginge nicht.**
+ *    `offsetHeight` zaehlt den Innenabstand mit, und die Ueberlaufbremse in
+ *    `Buehne.tsx` misst genau diese Zahl. Der Schleier haette den Text
+ *    verkleinert, den er lesbar machen soll.
+ *
+ * Die Farbe ist `grundRein` und nicht die Wandfarbe: Ein Schleier in
+ * `blauHell` waere auf `blauHell` unsichtbar.
+ */
+const Textschleier: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ position: 'relative' }}>
+    <div
+      style={{
+        position: 'absolute',
+        inset: -260,
+        background:
+          `radial-gradient(52% 46% at 44% 50%, ${FARBEN.grundRein}F2 0%, ` +
+          `${FARBEN.grundRein}E0 46%, ${FARBEN.grundRein}00 100%)`,
+      }}
+    />
+    <div style={{ position: 'relative' }}>{children}</div>
+  </div>
+);
+
 const Illustration = (
   szene: { buehne?: BuehnenbildDaten },
   frame: number,
@@ -227,130 +270,37 @@ const Illustration = (
 type SzenenProps<A extends Szene['art']> = { szene: Extract<Szene, { art: A }>; dauer: number };
 
 /**
- * Der gesprochene Satz im Bild — das Arbeitspferd, in zwei Groessen.
+ * Die schlichte Szene — sie traegt nur noch die Buehne.
  *
- * Hier standen bis zum 17.08.2026 **zwei** Komponenten: `Hook` und `Aussage`.
- * Sie unterschieden sich in der Schriftgroesse, im blauen Balken darunter und
- * in einer Kontextpille, die zweimal in fuenf Shorts benutzt wurde. Der Rest
- * war derselbe Absatz.
+ * **Hier stand bis zum 01.09.2026 der grosse Satz ueber den Figuren**, in zwei
+ * Groessen, mit Hervorhebung und einem blauen Balken darunter. Er ist
+ * gestrichen, und der Befund war einfach: „Das Geschriebene oben macht sowieso
+ * keinen Sinn."
  *
- * Was sie wirklich unterschied, war nicht die Art, sondern die **Position**:
- * Der Aufschlag steht gross, die Mitte steht normal. Genau das entscheidet
- * jetzt `szene.position`, und die zweite Komponente ist entfallen.
+ * Er hatte recht, und zwar doppelt. Bei zwei Stimmen traegt die Sprechblase
+ * den gesprochenen Satz Wort fuer Wort — oben stand ein zweiter, anderer. Der
+ * Zuschauer las zweimal.
  *
- * Der blaue Balken bleibt dem Aufschlag vorbehalten. Er ist die einzige
- * Bewegung in der Szene und markiert den Anfang des Videos — unter jedem Satz
- * waere er Dekoration.
+ * An seine Stelle tritt kein besserer Text, sondern ein **Ort**: die Kulisse
+ * in `video/bausteine/Kulisse.tsx`. Im ersten Standbild mit beidem lag „Oft
+ * schwache Passwoerter." quer ueber Fenster und Bilderwand.
+ *
+ * **Und der Satz kostete mehr als seine eigene Hoehe.** Er drueckte die Buehne
+ * nach unten, und damit wanderte die Standlinie der Figuren je nach
+ * Textlaenge. Die Kulisse rechnet ihre Bodenkante aus einer festen Zahl; ohne
+ * Text stehen die Figuren wieder dort, wo der Boden ist.
+ *
+ * Die Zeichnung steht als `illustration` und nicht als Kind, und das ist der
+ * ganze Unterschied: Als Kind bekommt sie nur ihre eigene Hoehe und sitzt
+ * zentriert im Rahmen — im ersten Standbild ohne Text stand die Figur dadurch
+ * achtzig Pixel ueber dem Boden und halb so hoch wie sonst. Als `illustration`
+ * bekommt sie `flex: 1` und damit den ganzen Rahmen.
  */
-const Text: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
+const NurBuehne: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const aufschlag = szene.position === 'aufschlag';
-
-  /*
-   * Die Schriftgroesse richtet sich nach dem **laengsten Wort**, nicht nach
-   * der Gesamtlaenge: Ein langer Satz bricht um, ein langes Wort nicht.
-   * „Zwanzigtausend." lief bei der festen Groesse von 104 Pixeln ueber den
-   * rechten Rand der Buehne — genau dorthin, wo TikTok seine Bedienleiste
-   * einblendet. Deutsche Komposita sind lang, und die Buehne ist 1100 Pixel
-   * breit.
-   */
-  const laengstesWort = Math.max(...szene.text.split(/\s+/).map((w) => w.length));
-
-  /*
-   * ## Die Groessen sind am 31.08.2026 gestiegen, und der Grund ist gemessen
-   *
-   * Hier stand die Rechnung fuer `BUEHNE.hoehe` = **730 Pixel**, und sie war
-   * richtig, solange unten die Untertitelzone lag. Seit zweistimmige Shorts
-   * keinen Untertitel mehr tragen, sind es **1000** — und die 270 Pixel
-   * Differenz sind niemandem zugutegekommen.
-   *
-   * Nachgemessen am fertigen Video, vier Szenen: Der Inhalt endet bei y ≈ 1130,
-   * **darunter sind rund 790 Pixel leer** — 41 % des Bildes. Ueber dem Inhalt
-   * ist nichts frei.
-   *
-   * Der Platz landet in der **Letterbox** des Buehnen-SVG: Es ist 200 × 150
-   * Einheiten gross und passt sich mit `meet` der schmaleren Seite an. Bei 710
-   * Pixeln Breite sind das 3,55 Pixel je Einheit, die Zeichnung wird 532 Pixel
-   * hoch — und bekommt 736. Die Differenz verteilt `xMidYMid` gleichmaessig
-   * ueber und unter die Zeichnung.
-   *
-   * **Zwei Wege, die nicht funktionieren**, damit sie niemand erneut versucht:
-   *
-   * - `preserveAspectRatio` und `alignItems` bewegen nur die Letterbox. Drei
-   *   Anlaeufe blieben deshalb wirkungslos.
-   * - Die viewBox oben zu beschneiden macht es **schlimmer**: Die Skala haengt
-   *   an der Breite und bleibt bei 3,55, die Zeichnung wird nur kuerzer, und
-   *   die Letterbox waechst von 203 auf 327 Pixel.
-   *
-   * Was wirkt, ist die Groesse des Satzes. Er bekommt die Differenz, die
-   * Letterbox faellt weg, und die Figuren bleiben, wie sie sind — **die
-   * einzige Stellschraube, die keine sichere Zone anfasst.**
-   *
-   * Ohne Buehne bleibt der Aufschlag bei 104: Dort ist der ganze Platz seiner.
-   */
-  const grosseStufe = aufschlag && !szene.buehne ? GROESSEN.hook : 96;
-
-  const groesse = aufschlag
-    ? laengstesWort <= 11
-      ? grosseStufe
-      : laengstesWort <= 14
-        ? 96
-        : laengstesWort <= 17
-          ? 82
-          : 70
-    : laengstesWort <= 15
-      ? 92
-      : 76;
-
-  // Das hervorgehobene Wort bekommt Signalblau — der Rest bleibt ruhig.
-  const teile = szene.hervorhebung
-    ? szene.text.split(new RegExp(`(${szene.hervorhebung.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'i'))
-    : [szene.text];
-
-  return (
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
-      <p
-        style={{
-          ...grundtext,
-          ...auftritt(frame, fps, 0),
-          /*
-           * Der Aufschlag steht in der Auszeichnungsschrift, alles danach in
-           * Inter. Er ist die einzige Position, die im Feed ueber das Video
-           * entscheidet — und die einzige, die nicht wortweise mitgelesen,
-           * sondern als Bild erfasst wird.
-           */
-          fontWeight: aufschlag ? SCHRIFT.schwarz : SCHRIFT.fett,
-          fontSize: groesse,
-          lineHeight: aufschlag ? 1.06 : 1.16,
-          margin: 0,
-        }}
-      >
-        {teile.map((teil, i) =>
-          szene.hervorhebung && teil.toLowerCase() === szene.hervorhebung.toLowerCase() ? (
-            <span key={i} style={{ color: FARBEN.blau }}>
-              {teil}
-            </span>
-          ) : (
-            <span key={i}>{teil}</span>
-          ),
-        )}
-      </p>
-
-      {aufschlag && (
-        <div
-          style={{
-            marginTop: ABSTAND.l,
-            height: 12,
-            borderRadius: RADIUS.rund,
-            backgroundColor: FARBEN.blau,
-            width: `${einblenden(frame, 12, 14) * 42}%`,
-          }}
-        />
-      )}
-    </Buehne>
-  );
+  return <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)} />;
 };
 
 /* ─────────────────────────────── Frage ─────────────────────────────── */
@@ -376,6 +326,7 @@ const Frage: React.FC<SzenenProps<'frage'>> = ({ szene, dauer }) => {
 
   return (
     <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
+      <Textschleier>
       <div style={{ ...auftritt(frame, fps, 0), display: 'flex', alignItems: 'flex-start', gap: ABSTAND.m }}>
         <span
           style={{
@@ -425,6 +376,7 @@ const Frage: React.FC<SzenenProps<'frage'>> = ({ szene, dauer }) => {
           }}
         />
       </div>
+      </Textschleier>
     </Buehne>
   );
 };
@@ -478,6 +430,7 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
 
   return (
     <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
+      <Textschleier>
       <div
         style={{
           ...auftritt(frame, fps, 0),
@@ -526,6 +479,7 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
       >
         {szene.bedeutung}
       </p>
+      </Textschleier>
     </Buehne>
   );
 };
@@ -698,6 +652,7 @@ const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
         dauerBilder={dauer}
         illustration={Illustration(szene, frame, fps, dauer, WORTWECHSEL_SCHLUSS)}
       >
+      <Textschleier>
       <p
         style={{
           ...grundtext,
@@ -821,6 +776,7 @@ const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
           <Audio src={staticFile('ton/marke/folgen.wav')} volume={0.55} />
         </Sequence>
       </div>
+      </Textschleier>
       </Buehne>
     </>
   );
@@ -956,7 +912,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Diens
 }) => {
   switch (szene.art) {
     case 'text':
-      return <Text szene={szene} dauer={dauer} />;
+      return <NurBuehne szene={szene} dauer={dauer} />;
     case 'zahl':
       return <Zahl szene={szene} dauer={dauer} />;
     case 'frage':

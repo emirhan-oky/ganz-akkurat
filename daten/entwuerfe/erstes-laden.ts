@@ -89,7 +89,6 @@ export const erstesLaden: Short = {
       rede: [
         { sprecher: 'nachleser', zug: 'behaupten', text: 'Erst 12 Stunden laden, sagte man dir.' },
       ],
-      text: '12 Stunden laden.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'uhr', stand: 'links' },
     },
     {
@@ -130,7 +129,6 @@ export const erstesLaden: Short = {
           belegId: 'der-memory-effekt-tritt',
         },
       ],
-      text: 'Vorher aufladen hilft.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
@@ -221,7 +219,6 @@ export const erstesLaden: Short = {
           machart: 'bild',
         },
       ],
-      text: 'Wärme altert den Akku.',
       buehne: {
         art: 'figur',
         von: 'lesen',
@@ -258,7 +255,6 @@ export const erstesLaden: Short = {
           machart: 'falscherschluss',
         },
       ],
-      text: 'Auch nicht kalt lagern.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',

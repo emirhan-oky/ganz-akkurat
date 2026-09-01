@@ -1379,11 +1379,31 @@ export const QUELLENPFLICHT = {
  * Zwei Regeln fuer dieselbe Sache, eine davon an Zeichen statt an Sekunden,
  * ist genau die Sorte Doppelung, die dieses Projekt schon dreimal bezahlt hat.
  */
+/*
+ * **`text` und `hervorhebung` sind am 01.09.2026 gestrichen.**
+ *
+ * Der grosse Satz ueber den Figuren war eine Doppelung: Bei zwei Stimmen
+ * traegt die Sprechblase den gesprochenen Satz Wort fuer Wort, waehrend oben
+ * ein zweiter, anderer stand. Der Zuschauer las zweimal — „das Geschriebene
+ * oben macht sowieso keinen Sinn".
+ *
+ * An seine Stelle tritt kein besserer Text, sondern ein **Ort**: die Kulisse
+ * in `video/bausteine/Kulisse.tsx`. Und sie braucht die Flaeche, die der Satz
+ * belegte — im ersten Standbild mit beidem lag „Oft schwache Passwoerter."
+ * quer ueber Fenster und Bilderwand.
+ *
+ * **Der Nebengewinn ist die Standlinie.** Der Text drueckte die Buehne nach
+ * unten, und damit wanderte sie je nach Textlaenge; die Kulisse rechnet ihre
+ * Bodenkante aber aus einer festen Zahl. Ohne Text stehen die Figuren wieder
+ * dort, wo der Boden ist.
+ *
+ * Die Szenenart heisst weiter `text`, obwohl sie keinen mehr traegt: Sie ist
+ * die Art **ohne** besondere Darstellung — die schlichte Szene, in der zwei
+ * Figuren reden. Umzubenennen hiesse, alle vier Entwuerfe und den Renderer
+ * anzufassen, ohne dass sich etwas aendert.
+ */
 const SzeneText = SzeneBasis.extend({
   art: z.literal('text'),
-  text: z.string().max(140),
-  /** Teilstring aus text, der in Signalblau gesetzt wird. */
-  hervorhebung: z.string().optional(),
   /** Pflicht auf `zuspitzung` und `kipppunkt`, sonst frei. */
   quelleId: z.string().optional(),
   /** Das eine Zitat aus dieser Quelle, das genau diesen Satz traegt. */

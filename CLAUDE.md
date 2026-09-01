@@ -452,9 +452,10 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   in dem der Verlust etwas kostet.
 - **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
 - **`suchbegriff`** — jedes Wort steht im Sprechtext und in allen drei
-  Beschreibungen (Fehler); fehlt es im Bildtext, ist das ein Hinweis. Ein Zwang
-  dort erzeugte dieselbe Verstümmelung wie seinerzeit der Zielwert von 23
-  Sekunden.
+  Beschreibungen (Fehler). Das dritte Drittel — der Bildtext — ist am
+  01.09.2026 mit dem Feld `text` entfallen; die beiden tragenden Drittel sind
+  ohnehin der Sprechtext (er ist Wort für Wort der Untertitel) und die
+  Beschreibung.
 - **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short. Die
   Drei-Quellen-Regel ist entfallen: Die Anzahl war die schwächere Hälfte — drei
   Herstellerseiten belegen nichts, eine Behördenseite belegt alles. Genau
@@ -524,8 +525,7 @@ Wochen eine Schablone. Es gibt einen Vorrat, aus dem gewählt wird, und dasselbe
 Wort steht nicht zweimal im selben Lauf.
 
 **Jeder gesprochene Satz hat ein Verb.** Die alte Vorgabe „zwei bis sechs
-Wörter" hat den Telegrammstil erzwungen. Der Bildtext darf knapp bleiben — er
-wird gelesen, nicht gehört.
+Wörter" hat den Telegrammstil erzwungen.
 
 **Zahlen stehen als Ziffer, auch im Sprechtext.** „2009", nicht
 „zweitausendneun". Der Sprechtext ist nicht nur Sprechtext, **er ist der
@@ -1105,6 +1105,47 @@ standen bei 1,76 und 2,37 statt bei den dokumentierten 3,23 und 4,36: Die alten
 Zahlen sind gegen die Grundfarbe gerechnet, und der Stoff ist **gefaltet**.
 **Der Kontrast gegen einen Farbverlauf ist der gegen seinen ungünstigsten Ton,
 nicht gegen seinen mittleren.**
+
+### Die Kulisse
+
+Seit dem 01.09.2026 steht die Bühne in einem **Raum**: Wand mit Fenster,
+Katzenbildern und Uhr, Dielenboden, links eine Sitzgruppe, rechts eine
+Kommode (`video/bausteine/Kulisse.tsx`). Sie liegt randlos über dem ganzen
+Bild, hinter Vorhang und Kopfzeile.
+
+**Der große Satz über den Figuren ist dafür gestrichen** — `text` und
+`hervorhebung` gibt es im Schema nicht mehr. Der Anlass war ein Satz zum
+fertigen Video: „Das Geschriebene oben macht sowieso keinen Sinn." Er hatte
+doppelt recht. Bei zwei Stimmen trägt die Sprechblase den gesprochenen Satz
+Wort für Wort — oben stand ein zweiter, anderer, und der Zuschauer las
+zweimal. **Und der Satz kostete mehr als seine eigene Höhe:** Er drückte die
+Bühne nach unten, und damit wanderte die Standlinie der Figuren je nach
+Textlänge.
+
+**Die Standlinie kommt aus `standlinieImBild()` in `src/marke.ts`** und ist
+damit dieselbe Zahl für die Kulisse und für die Bühne — eine zweite Rechnung
+daneben wäre die Doppelung ohne Wache.
+
+**Eine Zeichnung gehört als `illustration` in die Bühne, nicht als Kind.** Als
+Kind bekommt sie nur ihre eigene Höhe und sitzt zentriert im Rahmen; im ersten
+Standbild ohne Text stand die Figur dadurch achtzig Pixel über dem Boden und
+halb so hoch wie sonst. Als `illustration` bekommt sie `flex: 1` und damit den
+ganzen Rahmen.
+
+**Was auf der Wand steht, braucht einen Schleier.** `Textschleier` in
+`video/szenen/index.tsx` liegt hinter Schluss, Frage und Zahl: ein weicher
+Verlauf in `grundRein`, der die Wand dort aufhellt, wo Text steht. Zwei
+Befunde stecken darin:
+
+- **Ein Kasten wäre falsch.** Der Schluss hatte schon einmal einen Strich über
+  die ganze Bühnenbreite, und der sagte optisch „fertig". Ein Verlauf hat
+  keine Kante.
+- **Er hängt absolut hinter dem Text.** Ein Verlauf endet am Rand seines
+  Kastens; beim ersten Anlauf stand er dort noch bei halber Deckung, und im
+  Bild war ein heller Rechteckblock mit vier Rändern — genau der Rahmen, den
+  der Schluss nicht haben darf. Den Platz über Rand und Innenabstand zu holen
+  ging nicht: `offsetHeight` zählt den Innenabstand mit, und die
+  Überlaufbremse in `Buehne.tsx` misst genau diese Zahl.
 
 ### Die Bühne
 

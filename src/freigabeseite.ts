@@ -21,7 +21,12 @@ const escape = (s: string) =>
 const behauptung = (szene: Szene): string => {
   switch (szene.art) {
     case 'text':
-      return szene.text;
+      /*
+       * Der Bildtext ist am 01.09.2026 gestrichen; die Szene traegt nur noch
+       * das Gesprochene. Fuer die Durchsicht ist das ohnehin der richtige
+       * Text — geprueft wird, was gesagt wird, nicht was danebensteht.
+       */
+      return szene.sprechtext;
     case 'zahl':
       return `${szene.wert}${szene.einheit ? ' ' + szene.einheit : ''} — ${szene.bedeutung}`;
     case 'frage':

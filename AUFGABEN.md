@@ -7,7 +7,47 @@ berührt hat.
 
 **Die Abschnitte sind Historie, die Liste am Ende ist der Stand.** Bis zum
 31.08.2026 hatte fast jeder Abschnitt eine eigene „Offen"-Sektion; offen ist
-seitdem nur noch, was unter `# Offen · Stand 31.08.2026` steht.
+seitdem nur noch, was unter `## Die Kulisse · 01.09.2026
+
+Der große Satz über den Figuren ist gestrichen, und an seiner Stelle steht ein
+**Raum**: Wand mit Fenster, vier Katzenbildern und Uhr, Dielenboden, links eine
+Sitzgruppe, rechts eine Kommode.
+
+Der Anlass war ein Satz zum fertigen Video: *„Das Geschriebene oben macht
+sowieso keinen Sinn."*
+
+- [x] ~~`text` und `hervorhebung` aus `SzeneText` gestrichen, 24 Zeilen aus den
+      vier Entwürfen entfernt~~
+- [x] ~~Die `Text`-Komponente im Renderer heißt `NurBuehne` und trägt nur noch
+      die Zeichnung~~
+- [x] ~~Der Suchbegriff-Hinweis auf den Bildtext ist ersatzlos weg — die beiden
+      tragenden Drittel sind Sprechtext und Beschreibung, und die werden hart
+      geprüft~~
+- [x] ~~`Textschleier` hinter Schluss, Frage und Zahl~~
+- [x] ~~`children` an `Buehne` ist optional~~
+
+**Drei Befunde am Standbild, alle drei erst dort sichtbar:**
+
+**Die Zeichnung gehört als `illustration` in die Bühne, nicht als Kind.** Der
+erste Anlauf reichte sie als Kind durch; damit bekam sie nur ihre eigene Höhe
+und saß zentriert im Rahmen. Im Bild stand die Figur achtzig Pixel über dem
+Boden und halb so hoch wie sonst — ein Raum mit einer schwebenden Figur darin.
+
+**Ein Verlauf endet am Rand seines Kastens.** Der Schleier stand zuerst als
+Hintergrund am Textkasten und war bei halber Deckung noch auf der Kante: ein
+heller Rechteckblock mit vier Rändern, also genau der Rahmen, den der Schluss
+seit dem Rundlauf nicht haben darf. Den Platz über Rand und Innenabstand zu
+holen ging nicht — `offsetHeight` zählt den Innenabstand mit, und die
+Überlaufbremse in `Buehne.tsx` misst genau diese Zahl. Er hängt jetzt absolut
+dahinter.
+
+**Und ein selbst gemachter:** `npx prettier --write` auf die Renderer-Datei hat
+777 Zeilen umformatiert, weil das Projekt gar keine Prettier-Konfiguration hat.
+Zurückgesetzt und die vier Änderungen erneut angewandt — das Diff liegt jetzt
+bei 74 Zeilen. **Ein Formatierer ohne Konfiguration formatiert nach seiner
+eigenen.**
+
+# Offen · Stand 31.08.2026` steht.
 
 ## Der große Umbau · 16.–17.08.2026
 
@@ -1540,6 +1580,17 @@ zu tun ist, steht ab hier.
       bleibt, ist der Zeitpunkt: Die Wache greift **während** des Bezahlens und
       kostet mit ihrem Zusatzversuch selbst einen Aufruf. `npm run sprechprobe`
       misst Szenen, während Wache und Abrechnung auf Redeläufen arbeiten
+- [ ] **Die Figuren sind je Szene verschieden groß.** In der Textszene stehen
+      sie an der Wandkante, in der Zitatkartenszene halb so hoch mitten auf der
+      Diele — die Karte nimmt den Platz, und die Bühne verteilt den Rest. Ohne
+      Raum fiel das nicht auf; mit einer festen Bodenkante im Rücken sieht man
+      es. Die Kette in `Illustration` ist dicht dokumentiert und dreimal
+      danebengegangen, also nicht nebenbei anzufassen
+- [ ] **Die drei anderen Shorts auf Streit umschreiben.** `passwort-wechseln`
+      ist umgeschrieben, `raumstation-alte-rechner`, `erstes-laden` und
+      `ersatzteil-freischalten` sind noch Wechselreden ohne Reibung
+- [ ] **`.claude/skills/bild-bauen/` kennt die Kulisse nicht.** Bühnenmaße und
+      Standbildfälle stehen dort noch ohne Raum und ohne Schleier
 - [ ] **Kein Budgetcheck vor dem Lauf.** `zeichenverbrauch` wird ausgegeben,
       aber nie mit dem Restkontingent verglichen — die API wird nie danach
       gefragt

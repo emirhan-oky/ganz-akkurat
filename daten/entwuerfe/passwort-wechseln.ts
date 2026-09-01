@@ -78,7 +78,6 @@ export const passwortWechseln: Short = {
        */
       sprechtext: 'Jemand war in meinem Konto.',
       rede: [{ sprecher: 'zeiger', zug: 'behaupten', text: 'Jemand war in meinem Konto.' }],
-      text: 'Jemand war drin.',
       /*
        * **Watti allein mit der Meldung.** Ein Symbol ist nur ohne zweite Figur
        * erlaubt — es steht fest auf x = 152 und laege sonst in ihr. Der
@@ -129,7 +128,6 @@ export const passwortWechseln: Short = {
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
       ],
-      text: 'Fremde Anmeldung.',
       buehne: {
         art: 'figur',
         wer: 'zeiger',
@@ -270,7 +268,6 @@ export const passwortWechseln: Short = {
           machart: 'gestaendnis',
         },
       ],
-      text: 'Oft schwache Passwörter.',
       buehne: {
         art: 'figur',
         wer: 'zeiger',
@@ -278,7 +275,6 @@ export const passwortWechseln: Short = {
         nach: 'nachdenken',
         gegenueber: { von: 'nachdenken', nach: 'lesen' },
       },
-      hervorhebung: 'schwachen',
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'schwache-vorhersehbare-passwoerter',
     },
@@ -311,7 +307,6 @@ export const passwortWechseln: Short = {
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
       ],
-      text: 'Wechseln bei einem Hinweis.',
       buehne: {
         art: 'figur',
         wer: 'zeiger',
@@ -365,7 +360,6 @@ export const passwortWechseln: Short = {
           machart: 'rueckfrage',
         },
       ],
-      text: 'Ein Konto, ein Passwort.',
       buehne: {
         art: 'figur',
         wer: 'zeiger',

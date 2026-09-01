@@ -83,7 +83,6 @@ export const raumstationAlteRechner: Short = {
       rede: [
         { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Handy ist zu modern für den Weltraum.' },
       ],
-      text: 'Zu modern für den Weltraum.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'satellit' },
     },
     {
@@ -113,7 +112,6 @@ export const raumstationAlteRechner: Short = {
           machart: 'bild',
         },
       ],
-      text: 'Laptops: älter als 5 Jahre.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
@@ -153,7 +151,6 @@ export const raumstationAlteRechner: Short = {
           belegId: 'too-long-to-pass-a-faster-pc',
         },
       ],
-      text: 'Raumstation: erst die Prüfung.',
       buehne: {
         art: 'figur',
         von: 'hochschauen',
@@ -162,7 +159,6 @@ export const raumstationAlteRechner: Short = {
         requisite: 'blatt',
         gegenueber: { von: 'staunen', zwischen: ['nachdenken'], nach: 'hochschauen' },
       },
-      hervorhebung: 'zuzulassen',
       quelleId: 'esa-iss-laptops',
       belegId: 'arduous-safety-and-compatibility-testing',
     },
@@ -199,7 +195,6 @@ export const raumstationAlteRechner: Short = {
           machart: 'gestaendnis',
         },
       ],
-      text: 'Schon zugelassen.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
@@ -244,7 +239,6 @@ export const raumstationAlteRechner: Short = {
           belegId: 'more-vulnerable-to-disruption',
         },
       ],
-      text: 'Kleiner, weniger Ladung.',
       buehne: {
         art: 'figur',
         von: 'lesen',
@@ -253,7 +247,6 @@ export const raumstationAlteRechner: Short = {
         requisite: 'blatt',
         gegenueber: { von: 'nachdenken', zwischen: ['staunen'], nach: 'lesen' },
       },
-      hervorhebung: 'leichter',
       quelleId: 'esa-strahlung-elektronik',
       belegId: 'smaller-and-less-charge',
     },
@@ -278,7 +271,6 @@ export const raumstationAlteRechner: Short = {
           machart: 'falscherschluss',
         },
       ],
-      text: 'Strahlungsfest zählt.',
       buehne: {
         art: 'figur',
         von: 'staunen',

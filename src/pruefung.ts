@@ -1191,18 +1191,16 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
   }
 
-  const bildtexte = ohneSatzzeichen(
-    short.szenen.map((szene) => (szene as { text?: string }).text ?? '').join(' '),
-  );
-  const fehlendImBild = suchWoerter.filter((w) => !bildtexte.includes(w));
-  if (fehlendImBild.length > 0) {
-    melde(
-      'hinweis',
-      'suchbegriff',
-      `„${fehlendImBild.join('", „')}" steht in keinem Bildtext. Kein Fehler – der Bildtext ist auf ` +
-        'wenige Wörter gebaut –, aber wo es ohne Verrenkung passt, zählt es doppelt.',
-    );
-  }
+  /*
+   * **Das dritte Drittel des Suchworts ist am 01.09.2026 entfallen.** Hier
+   * stand ein Hinweis, wenn ein Suchwort in keinem **Bildtext** vorkam. Das
+   * Feld `text` gibt es nicht mehr — an seiner Stelle steht die Kulisse.
+   *
+   * Die Regel faellt damit ersatzlos, und das ist kein Verlust: Die beiden
+   * tragenden Drittel sind der **Sprechtext** (er ist Wort fuer Wort der
+   * Untertitel) und die **Beschreibung**, und beide werden oben hart geprueft.
+   * Der Bildtext war ohnehin nur ein Zubrot — der Hinweis sagte es selbst.
+   */
 
   /* ── Zeitangaben altern ───────────────────────────────────────────── */
 

@@ -78,7 +78,6 @@ export const ersatzteilFreischalten: Short = {
       rede: [
         { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Ersatzteil passt. Es tut nichts.' },
       ],
-      text: 'Ersatzteil passt. Tut nichts.',
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'schraubenschluessel' },
     },
     {
@@ -118,7 +117,6 @@ export const ersatzteilFreischalten: Short = {
           belegId: 'keine-hardware-oder-softwaretechniken',
         },
       ],
-      text: 'Verboten. Im Amtsblatt.',
       buehne: {
         art: 'figur',
         von: 'stutzen',
@@ -162,7 +160,6 @@ export const ersatzteilFreischalten: Short = {
           text: 'Gebrauchte Teile zählen doch nicht, Volti.',
         },
       ],
-      text: 'Einbau bei der Reparatur.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
@@ -171,7 +168,6 @@ export const ersatzteilFreischalten: Short = {
         requisite: 'blatt',
         gegenueber: { von: 'stutzen', zwischen: ['nachdenken'], nach: 'hochschauen' },
       },
-      hervorhebung: 'Reparatur',
       quelleId: 'eu-reparaturrichtlinie-2024',
       belegId: 'behindern-verwendung-ersatzteile',
     },
@@ -202,7 +198,6 @@ export const ersatzteilFreischalten: Short = {
           machart: 'falscherschluss',
         },
       ],
-      text: 'Auch gedruckte Teile.',
       buehne: {
         art: 'figur',
         von: 'nachdenken',
@@ -277,7 +272,6 @@ export const ersatzteilFreischalten: Short = {
           machart: 'gestaendnis',
         },
       ],
-      text: 'Es sei denn: geistiges Eigentum.',
       buehne: {
         art: 'figur',
         von: 'ruhe',

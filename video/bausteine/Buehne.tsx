@@ -49,7 +49,13 @@ import { useUntertitelzone } from './Sprecherstand';
  * `opacity` und `transform`, und beide aendern das Layout nicht.
  */
 export const Buehne: React.FC<{
-  children: React.ReactNode;
+  /*
+   * **Optional seit dem 01.09.2026.** Der grosse Satz ueber den Figuren ist
+   * gestrichen; die schlichte Szene traegt nur noch `illustration`. Ohne Kind
+   * bleibt der Inhaltsknoten leer, `minHeight: 100%` greift wie gehabt, und
+   * die Zeichnung bekommt ueber `flex: 1` den ganzen Rahmen.
+   */
+  children?: React.ReactNode;
   ausrichtung?: 'oben' | 'mitte';
   /** Laenge der Szene in Bildern. Bestimmt das Tempo der Dauerbewegung. */
   dauerBilder?: number;

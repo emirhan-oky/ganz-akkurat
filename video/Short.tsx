@@ -5,6 +5,7 @@ import type { Short as ShortDaten } from '../src/typen';
 import { FORMATE, ZUGARTEN } from '../src/typen';
 import { SPRECHERWECHSEL_SEK, szenenZeitplan, vorspannFestSek, vorspannSek } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
+import { Kulisse } from './bausteine/Kulisse';
 import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } from './bausteine/Vorhang';
 import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
@@ -406,6 +407,17 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
     <Sprecherstand abschnitte={daten.tonspur?.abschnitte} woerter={daten.tonspur?.woerter}>
     <AbsoluteFill>
       <Hintergrund />
+      {/*
+        **Die Kulisse liegt zwischen Hintergrund und allem anderen.** Sie
+        fuellt die Flaeche zwischen den Vorhaengen und macht aus der Buehne
+        einen Ort — der Vorhang bleibt der Rahmen, und ein Zimmer, das ueber
+        ihn liefe, waere kein Zimmer hinter einer Buehne mehr.
+
+        Die Untertitelzone entscheidet ueber die Hoehe der Buehne und damit
+        ueber die Standlinie der Figuren; die Kulisse rechnet ihre Bodenkante
+        aus derselben Funktion.
+      */}
+      <Kulisse mitUntertitelzone={(daten.tonspur?.abschnitte?.length ?? 1) <= 1} />
 
       {/*
         Bei zwei Sprechern liegt der Ton in Abschnitten vor, je einer mit
