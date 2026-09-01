@@ -169,33 +169,21 @@ const Illustration = (
            * Der Balken gehoert zum Text, nicht zur Zeichnung. Also braucht die
            * Zeichnung Abstand, nicht der Balken weniger Platz.
            */
-          marginTop: ABSTAND.xl,
           display: 'flex',
           justifyContent: 'center',
           /*
-           * **Die Untergrenze, unter der eine Figur keine mehr ist.**
+           * **Kein `marginTop` und kein `minHeight` mehr — seit dem
+           * 01.09.2026.** Beide Zahlen gehoerten zu einer Zeit, in der die
+           * Zeichnung als letztes Kind im gemessenen Textstapel hing: Der
+           * Abstand hielt sie vom blauen Balken des Aufschlags frei (den es
+           * nicht mehr gibt), die 260 waren die Untergrenze, unter der eine
+           * Figur keine mehr ist.
            *
-           * Hier stand `minHeight: 0`, und der Kommentar davor erklaerte
-           * ausfuehrlich, warum die alte feste Zahl 620 falsch war. Sie war es
-           * — nur ist `0` der Fehler in die andere Richtung: Bei einem Zitat
-           * von 172 Zeichen nimmt sich die Karte den ganzen Platz, und die
-           * Buehne verschwindet auf null. Die beiden Figuren waren im
-           * Standbild nicht klein, sondern **nicht da**, und nichts hat es
-           * gemeldet.
-           *
-           * 260 Pixel sind kein Wunschmass, sondern die Untergrenze der
-           * Sichtbarkeit: Das Buehnen-SVG ist 200 x 150 Einheiten, und die
-           * Figur nimmt davon rund 86 in der Hoehe ein — bei 260 Pixeln
-           * Kastenhoehe steht sie gut 150 Pixel hoch im Bild und ist auf einem
-           * Handy noch als Figur erkennbar.
-           *
-           * Was die 620 damals falsch machte, macht die 260 nicht: Sie
-           * verdraengt den Text nicht, sie laesst den **Inhalt insgesamt**
-           * ueber die Buehnenhoehe wachsen. Damit greift die `passung`-Bremse
-           * in `Buehne.tsx` und verkleinert Karte und Figuren gemeinsam,
-           * statt eine von beiden verschwinden zu lassen.
+           * Die Untergrenze ist mit ihrem Grund entfallen. Die Zeichnung
+           * bekommt in `Buehne.tsx` die **ganze** Buehnenflaeche, absolut und
+           * unabhaengig davon, wie viel Text darueber steht — sie kann nicht
+           * mehr auf null schrumpfen, und sie ist in jeder Szene gleich gross.
            */
-          minHeight: 260,
           flex: 1,
           /*
            * **`minWidth: 0` ist die Zeile, die die Figur in der Buehne haelt.**
@@ -813,25 +801,34 @@ const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
 
   return (
     /*
-     * **Die Karte steht oben, die Figuren darunter.**
+     * **Die Karte steht unten, vor den Figuren — seit dem 01.09.2026.**
      *
-     * Ohne `illustration` zentriert `Buehne` ihren Inhalt und legt den Rest je
-     * zur Haelfte darueber und darunter — bei einem hundert Zeichen langen
-     * Zitat sind das zweimal 212 Pixel Leere. Mit Buehne rueckt die Karte nach
-     * oben, und der Platz darunter geht an die Figuren.
+     * Sie stand oben, und die Figuren bekamen darunter den Rest. Zwei Dinge
+     * gingen daran schief: Bei einem langen Zitat blieb ihnen fast nichts, und
+     * in jeder Szene standen sie anders hoch — in der Zitatkartenszene halb so
+     * gross wie nebenan. Mit einem gezeichneten Raum im Ruecken faellt das
+     * sofort auf, weil die Bodenkante fest liegt.
      *
-     * **Der Platz reicht nicht immer:** Ein Zitat von 180 Zeichen braucht neun
-     * Zeilen und laesst nur 108 Pixel uebrig. Dann greift die
-     * `passung`-Bremse in `Buehne.tsx` — dieselbe, die seit dem 18.08.2026
-     * jeden zu vollen Inhalt verkleinert.
+     * Jetzt steht die Figurenbuehne absolut auf ihrer Standlinie
+     * (`Buehne.tsx`), und die Karte sitzt darunter auf der Diele. Sie liest
+     * sich als Schild, das die beiden vor sich halten: Gesichter und
+     * Oberkoerper bleiben frei, der Beleg steht davor.
+     *
+     * **Die `passung`-Bremse bleibt zustaendig.** Sie misst weiter „Platz
+     * gegen Bedarf", nur betrifft ihr Ergebnis jetzt allein die Karte — die
+     * Figuren kann sie nicht mehr mit herunterziehen.
      */
-    <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)}>
+    <Buehne
+      dauerBilder={dauer}
+      illustration={Illustration(szene, frame, fps, dauer)}
+      inhaltStand="unten"
+    >
       <div
         style={{
           ...rahmen,
           backgroundColor: FARBEN.flaeche,
           borderRadius: RADIUS.m,
-          padding: `${ABSTAND.l}px ${ABSTAND.l}px`,
+          padding: `${ABSTAND.m}px ${ABSTAND.m}px`,
           // Der blaue Balken links ist das Zitatzeichen. Er kostet nichts an
           // Hoehe und sagt auf einen Blick: Das hier ist nicht von uns.
           borderLeft: `10px solid ${FARBEN.blau}`,
@@ -868,15 +865,25 @@ const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
              * die Karte gross will, kuerzt das Zitat — und genau diese
              * Entscheidung gehoert beim Schreiben getroffen.
              *
-             * **Die Schwelle liegt bei 40 Zeichen und nicht bei 62**, und der
-             * Grund ist ein Zielkonflikt, den man erst am Bild sieht: Karte und
-             * Figuren teilen sich dieselbe Hoehe. Bei 62 Zeichen in
-             * Ueberschriftgroesse fuellt die Karte vier grosse Zeilen, und die
-             * Figuren schrumpfen auf ein Drittel — genau die Groessenordnung,
-             * ueber die das Urteil lautete, sie sehe „wirklich schrecklich"
-             * aus. **Das Zitat soll beglaubigen, nicht das Bild fuehren.**
+             * **Die Schwelle liegt bei 40 Zeichen und nicht bei 62.** Der
+             * Kernsatz steht gross, ein laengerer Ausschnitt kleiner. Wer die
+             * Karte gross will, kuerzt das Zitat — und diese Entscheidung
+             * gehoert beim Schreiben getroffen.
+             *
+             * **Der Faktor 0,72 kommt aus dem Umzug nach unten (01.09.2026).**
+             * Zwischen den Fuessen der Figuren und dem unteren Buehnenrand
+             * liegen rund 240 Pixel; in voller Groesse deckte die Karte von
+             * dort aus die beiden bis zum Kopf. Mit 0,72 bleiben Gesicht und
+             * Oberkoerper frei.
+             *
+             * Der alte Zielkonflikt ist damit erledigt: „Karte und Figuren
+             * teilen sich dieselbe Hoehe" stimmt nicht mehr, seit die
+             * Figurenbuehne absolut steht. Was die Karte gross macht, macht
+             * die Figuren nicht mehr klein — es deckt sie nur zu.
              */
-            fontSize: szene.zitat.length <= 40 ? GROESSEN.ueberschrift : GROESSEN.aussage,
+            fontSize: Math.round(
+              (szene.zitat.length <= 40 ? GROESSEN.ueberschrift : GROESSEN.aussage) * 0.72,
+            ),
             fontStyle: 'italic',
             lineHeight: 1.24,
             color: FARBEN.tinte,

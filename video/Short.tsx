@@ -10,6 +10,7 @@ import { RUHE, Vorhangstoff, Vorspannkarte, ablauf, aufVorhang, vorhangstand } f
 import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
+import { Redespalten } from './bausteine/Redespalten';
 import { Sprechblase } from './bausteine/Sprechblase';
 import { Sprecherstand } from './bausteine/Sprecherstand';
 import { SzeneRendern } from './szenen';
@@ -711,6 +712,32 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         */}
         {daten.tonspur && (daten.tonspur.abschnitte?.length ?? 1) <= 1 && (
           <Untertitel woerter={daten.tonspur.woerter} />
+        )}
+
+        {/*
+          **Zu zweit stehen die Redespalten unter den Figuren — seit dem
+          01.09.2026.**
+
+          Der Absatz darueber gilt weiter: Ein Textblock unten in der Mitte war
+          zu zweit falsch. Was fehlte, war nicht der Untertitel, sondern sein
+          Ort. Der Befund am ersten Video mit Kulisse: „wenn die beiden
+          sprechen, wirkt es im Bild leer."
+
+          `Sprechblase.tsx` bleibt trotzdem stehen — sie ist die Fassung mit
+          Namensschild und einer Zeile, und zurueckzudrehen ist eine Zeile
+          Arbeit.
+        */}
+        {daten.tonspur?.abschnitte && daten.tonspur.abschnitte.length > 1 && (
+          <Redespalten
+            woerter={daten.tonspur.woerter}
+            abschnitte={daten.tonspur.abschnitte}
+            szenenStartSek={daten.tonspur.szenenStartSek}
+            /* `wer` gibt es nur an der Figurenbuehne; die Gegenueberstellung
+               kennt keine zwei Sprecher und faellt auf die Vorgabe zurueck. */
+            linksJeSzene={daten.szenen.map((s) =>
+              s.buehne?.art === 'figur' ? (s.buehne.wer ?? 'nachleser') : 'nachleser',
+            )}
+          />
         )}
       </AbsoluteFill>
     </AbsoluteFill>

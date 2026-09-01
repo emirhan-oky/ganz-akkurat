@@ -72,7 +72,15 @@ export const Buehne: React.FC<{
    * Illustration bleibt der Text mittig stehen wie zuvor.
    */
   illustration?: React.ReactNode;
-}> = ({ children, ausrichtung = 'mitte', dauerBilder, illustration }) => {
+  /**
+   * Wo der geschriebene Inhalt im Rahmen sitzt — oben oder unten.
+   *
+   * Nur die Zitatkarte nutzt `'unten'`: Sie steht dort **unter** der
+   * Standlinie, auf der Diele vor den Figuren, statt ihnen von oben den Platz
+   * zu nehmen.
+   */
+  inhaltStand?: 'oben' | 'unten';
+}> = ({ children, ausrichtung = 'mitte', dauerBilder, illustration, inhaltStand = 'oben' }) => {
   const frame = useCurrentFrame();
 
   /*
@@ -219,6 +227,8 @@ export const Buehne: React.FC<{
           height: hoehe,
           display: 'flex',
           flexDirection: 'column',
+          /* Bezugsrahmen fuer die absolut stehende Zeichnung darunter. */
+          position: 'relative',
           // Mit Illustration steht der Text oben und die Zeichnung fuellt den
           // Rest — sonst schoebe die Zentrierung beide in die Bildmitte und
           // liesse oben und unten je ein Loch.
@@ -226,10 +236,33 @@ export const Buehne: React.FC<{
           // `safe` ist der Unterschied zu vorher: Bei Ueberlauf verhaelt sich
           // die Zentrierung wie `flex-start`, statt den Inhalt oben aus der
           // sicheren Zone zu schieben. Zweiter Guertel neben der Skalierung.
-          justifyContent: illustration || ausrichtung === 'oben' ? 'flex-start' : 'safe center',
+          justifyContent:
+            inhaltStand === 'unten'
+              ? 'flex-end'
+              : illustration || ausrichtung === 'oben'
+                ? 'flex-start'
+                : 'safe center',
           alignItems: 'stretch',
         }}
       >
+        {/*
+          **Die Zeichnung steht absolut, und zwar in genau dieser Flaeche.**
+
+          `inset: 0` an diesem Rahmen ist `BUEHNE.x/y/breite` und die
+          Kastenhoehe — dieselben vier Zahlen, aus denen `standlinieImBild()`
+          in `src/marke.ts` die Bodenkante der Kulisse rechnet. Deshalb stehen
+          die Figuren auf dem gezeichneten Boden und nicht daneben: Es ist
+          nicht dieselbe Rechnung zweimal, sondern dieselbe Flaeche.
+
+          Sie liegt **hinter** dem geschriebenen Inhalt, weil der Stapel im
+          Markup danach kommt. Eine Karte deckt damit die Figuren, statt von
+          ihnen verdeckt zu werden — und genau deshalb steht die Zitatkarte
+          seit dem 01.09.2026 unten (`inhaltStand`).
+        */}
+        {illustration && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex' }}>{illustration}</div>
+        )}
+
         {/* Inhalt: braucht den Platz. Wird gemessen und notfalls skaliert.
             `flexShrink: 0`, damit Flexbox ihn nicht staucht — gestaucht waere
             `offsetHeight` nicht mehr die gewuenschte Hoehe, und die Messung
@@ -259,7 +292,20 @@ export const Buehne: React.FC<{
              * Buehne und darf darueber hinauswachsen. Erst dann hat die
              * Messung etwas zu messen.
              */
-            ...(illustration ? { minHeight: '100%' } : {}),
+            /*
+             * **Kein `minHeight: '100%'` mehr — seit dem 01.09.2026.**
+             *
+             * Es stand hier, weil die Zeichnung als letztes Kind im selben
+             * Stapel lag und ueber `flex: 1` den Rest bekommen sollte. Genau
+             * daran hingen zwei Fehler: Bei einem langen Zitat blieb den
+             * Figuren nichts, und in jeder Szene bekamen sie eine andere
+             * Groesse — je nachdem, wie viel Text darueber stand.
+             *
+             * Die Zeichnung steht jetzt **absolut** hinter dem Stapel, in
+             * genau der Flaeche, aus der `standlinieImBild()` rechnet. Der
+             * gemessene Stapel traegt nur noch Geschriebenes, und die
+             * Ueberlaufbremse misst weiterhin, was sie immer gemessen hat.
+             */
             transform: `scale(${zoom * passung})`,
             /*
              * Der Ankerpunkt haengt daran, ob geschrumpft wird.
@@ -277,20 +323,6 @@ export const Buehne: React.FC<{
           }}
         >
           {children}
-
-          {illustration && (
-            <div
-              style={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: 0,
-              }}
-            >
-              {illustration}
-            </div>
-          )}
         </div>
       </div>
     </AbsoluteFill>

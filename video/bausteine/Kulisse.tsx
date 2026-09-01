@@ -84,42 +84,29 @@ const Tapete: React.FC = () => (
  * Grund, aus dem `zeiger.ts` vom `nachleser` ableitet: Zwei Zeichnungen
  * desselben Gegenstands laufen beim ersten Umbau auseinander, und zwar
  * lautlos.
+ *
+ * **Gold statt Blau, seit dem 01.09.2026.** Das Sofa stand schon einmal hier,
+ * in `anzeigeEins`, und war zwei Sesseln gewichen. Die Sessel waren der
+ * Fehler: Links liegen zwischen Vorhangkante und Voltis Aussenkante **113
+ * Pixel**, ein Sessel in dieser Groesse ist allein **164** breit. Zwei davon
+ * standen ineinander und lasen sich als ein Moebel mit einer Kante daneben.
+ *
+ * Ein Sofa darf halb hinter Volti liegen, weil es breit ist — zwei Sessel, die
+ * einander verdecken, sehen nach Fehler aus.
+ *
+ * `gold` und nicht `achtungGelb`: Der zweite ist der Signalton fuer Warnungen.
+ * Ein Moebel in derselben Farbe wie ein Hinweis wird zum Hinweis.
  */
 const Sofa: React.FC<{ boden: number }> = ({ boden }) => (
   <g transform={`translate(${links + 10} ${boden - 236}) scale(1.3)`}>
-    <path d="M58 40h84v50H58Z" fill={FARBEN.anzeigeEins} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
-    <path d="M34 74a12 12 0 0 1 24 0v22H34Z" fill={FARBEN.anzeigeEins} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
-    <path d="M142 74a12 12 0 0 1 24 0v22h-24Z" fill={FARBEN.anzeigeEins} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
-    <rect x="34" y="88" width="132" height="26" rx="8" fill={FARBEN.anzeigeEins} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
+    <path d="M58 40h84v50H58Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
+    <path d="M34 74a12 12 0 0 1 24 0v22H34Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
+    <path d="M142 74a12 12 0 0 1 24 0v22h-24Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
+    <rect x="34" y="88" width="132" height="26" rx="8" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinejoin="round" />
     <path d="M52 114v14M148 114v14" fill="none" stroke={FARBEN.symbolLinie} strokeWidth={5} strokeLinecap="round" />
   </g>
 );
 
-/**
- * Ein Sessel — dasselbe Moebelstueck wie das Sofa, nur fuer einen.
- *
- * Zwei davon stehen **hinter** den Figuren, an deren x-Positionen. Die Figuren
- * verdecken sie zur Haelfte, und genau das macht aus zwei Zeichnungen einen
- * Raum mit Tiefe: Was vollstaendig zu sehen ist, steht daneben; was halb
- * verdeckt ist, steht dahinter.
- *
- * `gold` und nicht `achtungGelb`: Der zweite ist der Signalton fuer Warnungen.
- * Ein Sessel in derselben Farbe wie ein Hinweis wird zum Hinweis.
- */
-const Sessel: React.FC<{ x: number; boden: number; groesse?: number; tiefe?: number }> = ({
-  x,
-  boden,
-  groesse = 1.2,
-  tiefe = 268,
-}) => (
-  <g transform={`translate(${x - 80 * groesse} ${boden - tiefe}) scale(${groesse})`}>
-    <path d="M58 40h44v50H58Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
-    <path d="M34 74a12 12 0 0 1 24 0v22H34Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
-    <path d="M102 74a12 12 0 0 1 24 0v22h-24Z" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
-    <rect x="34" y="88" width="92" height="26" rx="8" fill={FARBEN.gold} stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinejoin="round" />
-    <path d="M50 114v14M110 114v14" fill="none" stroke={FARBEN.symbolLinie} strokeWidth={6} strokeLinecap="round" />
-  </g>
-);
 
 /**
  * Vier Katzen, und **jede eine andere**.
@@ -331,26 +318,19 @@ export const Kulisse: React.FC<{ mitUntertitelzone?: boolean }> = ({
       />
 
       {/*
-        **Beide Sessel links, nebeneinander.**
+        **Das Sofa links, halb hinter Volti.**
 
-        Zwei Anlaeufe haben sie hinter den Figuren verschwinden lassen, erst
-        mittig, dann versetzt. Der Grund ist Geometrie und nicht Platzierung:
-        Die beiden Figuren belegen mit ihren 52 Einheiten Halbbreite fast die
-        ganze Buehne, und **in einer flachen Zeichnung gibt es kein „weiter
-        hinten"** — alles steht auf derselben Linie, und was hinter einer Figur
-        steht, ist weg.
+        Hier standen bis zum 01.09.2026 zwei Sessel nebeneinander, und sie
+        haben einander verdeckt statt den Raum zu fuellen. Der Grund ist
+        Geometrie: Zwischen Vorhangkante (100) und Voltis Aussenkante (213)
+        liegen **113 Pixel**, ein Sessel in dieser Groesse ist allein **164**
+        breit.
 
-        **Und links ist weniger Platz, als zwei Sessel brauchen.** Gemessen:
-        Zwischen Vorhangkante (100) und Voltis Aussenkante (213) liegen **113
-        Pixel**, ein Sessel in Sofagroesse ist allein **164** breit.
-
-        Sie ueberlappen deshalb einander und werden von Volti ueberdeckt — und
-        das ist kein Fehler: Das blaue Sofa lag an derselben Stelle genauso zur
-        Haelfte hinter ihm und hat getragen. Was zaehlt, ist die Lehne, die
-        hervorschaut, nicht das ganze Moebelstueck.
+        Dass die Figur die Lehne zur Haelfte deckt, ist dabei kein Fehler,
+        sondern die Tiefe: **In einer flachen Zeichnung gibt es kein „weiter
+        hinten"** — was halb verdeckt ist, steht dahinter.
       */}
-      <Sessel x={links + 114} boden={boden} groesse={1.3} tiefe={236} />
-      <Sessel x={links + 174} boden={boden} groesse={1.3} tiefe={236} />
+      <Sofa boden={boden} />
 
       {/* Die Kommode rechts — sie war den Sesseln gewichen und kommt zurueck. */}
       <Regal boden={boden} />
