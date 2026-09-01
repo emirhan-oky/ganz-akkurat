@@ -104,13 +104,13 @@ export const passwortWechseln: Short = {
        * Die Belegpflicht haengt an der Szene, nicht an jeder Zeile.
        */
       sprechtext:
-        'Woher weißt du das, Watti? Eine Anmeldung mit meinem Passwort, von einem fremden Gerät. Dann wechsel es.',
+        'Wie kommst du darauf, Watti? Anmeldung mit meinem Passwort. Fremdes Gerät. Dann wechsel es.',
       rede: [
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Woher weißt du das, Watti?' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wie kommst du darauf, Watti?' },
         {
           sprecher: 'zeiger',
           zug: 'beantworten',
-          text: 'Eine Anmeldung mit meinem Passwort, von einem fremden Gerät.',
+          text: 'Anmeldung mit meinem Passwort. Fremdes Gerät.',
         },
         {
           sprecher: 'nachleser',
@@ -141,10 +141,35 @@ export const passwortWechseln: Short = {
        * Wattis eigene Gewohnheit, und die Zitatkarte widerlegt eine Person
        * statt einer Meinung.
        */
+      /*
+       * **Zwischen Wattis Satz und dem Beleg fehlte der Mensch.** Vorher kam
+       * „Alle 90 Tage" und unmittelbar darauf „Beim BSI steht" — Volti fing
+       * einfach an vorzulesen, ohne auf das zu reagieren, was gerade gesagt
+       * wurde. In der Beef-Rubrik ist das der Fehler schlechthin.
+       *
+       * **Wattis „Watt?" loest nebenbei ein technisches Problem.**
+       * `redebloecke` klebt Voltis zwei Saetze sonst zu einem Block von ueber
+       * sechs Sekunden zusammen; der Zwischenruf schneidet ihn. Der
+       * Markenausruf tut hier also beides — er ist die Reaktion, und er ist
+       * der Schnitt.
+       */
       sprechtext:
-        'Mach ich doch. Alle 90 Tage ein neues Passwort. Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
+        'Mach ich doch. Alle 90 Tage ein neues. Du Genie. Watt? Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachlegen', text: 'Mach ich doch. Alle 90 Tage ein neues Passwort.' },
+        { sprecher: 'zeiger', zug: 'nachlegen', text: 'Mach ich doch. Alle 90 Tage ein neues.' },
+        /*
+         * **Eine Beschimpfung behauptet nichts.** Hier stand „Und genau das ist
+         * dein Problem" — und der `belegpruefer` fand, dass der Satz zwischen
+         * „Jemand war in meinem Konto" und „Alle 90 Tage" den Routinewechsel
+         * zur **Ursache des Einbruchs** macht. Keine Fundstelle verbindet
+         * beides.
+         *
+         * „Du Genie" trifft Watti statt die Sache und traegt damit denselben
+         * Aerger, ohne etwas ueber die Welt zu sagen. Der Vertrag erlaubt genau
+         * das: umgangssprachlich und derb, und die Pointe darf Watti treffen.
+         */
+        { sprecher: 'nachleser', zug: 'zuspitzen', text: 'Du Genie.' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Watt?', machart: 'ratlosigkeit' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
@@ -179,25 +204,41 @@ export const passwortWechseln: Short = {
        * „alle 90 Tage" verteidigt und verteidigt es hier ein letztes Mal,
        * bevor er es aufgibt.
        */
+      /*
+       * **„Ertappt" stand hier und war der falsche Ton.** Ein Gestaendnis
+       * beendet den Streit, und `ZUGARTEN.einlenken` sagt es selbst:
+       * „widerwillig, nicht einsichtig". `voice.md` sagt ueber Watti, er
+       * „macht alles falsch und **lernt nichts**".
+       *
+       * Jetzt haelt er sein Verhalten fuer ein Argument. Das ist Trotz **und**
+       * Gestaendnis in einem — er gibt nicht zu, dass er falsch liegt, er
+       * fuehrt es als Beweis seiner Sorgfalt an. Und „Passwort6 auf Passwort7"
+       * sagt mehr ueber ihn als „Ertappt", ohne dass er es merkt.
+       */
       sprechtext:
-        'Aber öfter wechseln ist doch sicherer. Wer immer wieder wechselt, greift oft zu schwächeren Passwörtern. Ertappt. Ich bin bei Passwort7.',
+        'Nicht automatisch? Dann lass ich es ganz. Wechseln nach Plan führt oft zu schwachen Passwörtern. Na und? Immerhin wechsel ich — von Passwort6 auf Passwort7.',
       rede: [
-        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Aber öfter wechseln ist doch sicherer.' },
+        {
+          sprecher: 'zeiger',
+          zug: 'umdeuten',
+          text: 'Nicht automatisch? Dann lass ich es ganz.',
+          machart: 'falscherschluss',
+        },
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',
-          text: 'Wer immer wieder wechselt, greift oft zu schwächeren Passwörtern.',
+          text: 'Wechseln nach Plan führt oft zu schwachen Passwörtern.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'schwache-vorhersehbare-passwoerter',
         },
         {
           sprecher: 'zeiger',
-          zug: 'einlenken',
-          text: 'Ertappt. Ich bin bei Passwort7.',
+          zug: 'widersprechen',
+          text: 'Na und? Immerhin wechsel ich — von Passwort6 auf Passwort7.',
           machart: 'gestaendnis',
         },
       ],
-      text: 'Oft schwächere Passwörter.',
+      text: 'Oft schwache Passwörter.',
       buehne: {
         art: 'figur',
         wer: 'zeiger',
@@ -205,7 +246,7 @@ export const passwortWechseln: Short = {
         nach: 'nachdenken',
         gegenueber: { von: 'nachdenken', nach: 'lesen' },
       },
-      hervorhebung: 'schwächeren',
+      hervorhebung: 'schwachen',
       quelleId: 'bsi-passwortwechsel-2026',
       belegId: 'schwache-vorhersehbare-passwoerter',
     },
@@ -220,13 +261,14 @@ export const passwortWechseln: Short = {
        * Das ist der Grund, warum diese Fassung existiert: Derselbe Beleg stand
        * vorher hier und war eine Auskunft. Jetzt ist er eine **Antwort**.
        */
-      sprechtext: 'Also nie wechseln. Doch — jetzt.',
+      sprechtext: 'Das ist kein Wechseln, das ist Zählen. Dann eben nie mehr. Doch — jetzt. Du hast den Hinweis.',
       rede: [
-        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Also nie wechseln.' },
+        { sprecher: 'nachleser', zug: 'richtigstellen', text: 'Das ist kein Wechseln, das ist Zählen.' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Dann eben nie mehr.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Doch — jetzt.',
+          text: 'Doch — jetzt. Du hast den Hinweis.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
@@ -258,20 +300,31 @@ export const passwortWechseln: Short = {
        * einleitete.
        */
       sprechtext:
-        'Beim BSI heißt einzigartig: je Konto ein eigenes Passwort. Konto? Meins ist der Generalschlüssel für alles.',
+        'Einzigartig heißt: je Konto ein eigenes. Für jedes? Also pro Account ein anderes Passwort?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Beim BSI heißt einzigartig: je Konto ein eigenes Passwort.',
+          text: 'Einzigartig heißt: je Konto ein eigenes.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },
+        /*
+         * **Eine Rueckfrage statt eines Bildes.** Hier stand „Meins ist der
+         * Generalschluessel fuer alles" — ein Bild, und ein Bild laesst den
+         * Zuschauer zuschauen. Eine Rueckfrage laesst ihn rechnen: *„oh, fuer
+         * jedes?"*
+         *
+         * Sie geht dramaturgisch auf: `nachhaken` verlangt eine Antwort der
+         * anderen Figur binnen zwei Zeilen, und die naechste Zeile ist der
+         * Schlusssatz. **Der Nachschlag antwortet damit auf eine echte Frage**,
+         * statt als Fazit dazustehen.
+         */
         {
           sprecher: 'zeiger',
-          zug: 'umdeuten',
-          text: 'Konto? Meins ist der Generalschlüssel für alles.',
-          machart: 'bild',
+          zug: 'nachhaken',
+          text: 'Für jedes? Also pro Account ein anderes Passwort?',
+          machart: 'rueckfrage',
         },
       ],
       text: 'Ein Konto, ein Passwort.',
