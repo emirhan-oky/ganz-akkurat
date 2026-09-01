@@ -862,11 +862,40 @@ export const shortVertonen = async (
      * ohne die Verschiebung liefen Untertitel und Lippensync um genau diesen
      * Betrag vor.
      *
-     * Die Endstille braucht keine Korrektur: `dauerSek` ist das Ende der
-     * **Ausrichtung**, nicht der Datei, und liegt ohnehin vor ihr.
+     * **Und die Endstille braucht sehr wohl eine Korrektur.** Hier stand bis
+     * zum 01.09.2026 das Gegenteil: „`dauerSek` ist das Ende der Ausrichtung,
+     * nicht der Datei, und liegt ohnehin vor ihr."
+     *
+     * Am ersten vertonten Streit-Short war das um das Vierfache falsch.
+     * Abschnitt 4 („Dann wechsel es.", 16 Zeichen) ergab eine Datei von
+     * **0,84 Sekunden** und eine Ausrichtung bis **3,93** — das Wort „es."
+     * stand darin mit 3,44 Sekunden fuer zwei Buchstaben. Die Ausrichtung
+     * dehnt das letzte Wort ueber die Endstille, und `stilleBeschneiden`
+     * schneidet genau die weg.
+     *
+     * Die Folge war dreifach und wurde am fertigen Video gehoert: eine Pause
+     * mitten in der Szene, ein Untertitel, der auf einem Wort stehenblieb, und
+     * ein Mund, der ab dort asynchron lief — `lippensync` liest dieselben
+     * Zeitstempel.
+     *
+     * Deshalb rechnet die Uhr jetzt mit `nachherSek`, der **gemessenen** Dauer
+     * der beschnittenen Datei. `stilleBeschneiden` gibt sie ausdruecklich
+     * zurueck, „denn die Uhr in `shortVertonen` rechnet mit ihr weiter" — sie
+     * tat es nur nicht.
      */
     const beschnitten = await stilleBeschneidenPuffer(synthese.ton);
     const vorn = beschnitten.vornSek;
+    /*
+     * Die maessgebliche Dauer dieses Abschnitts. Ein Wort kann nicht enden,
+     * nachdem die Datei zu Ende ist.
+     */
+    const echtSek = beschnitten.nachherSek;
+    if (synthese.dauerSek - vorn - echtSek > 0.5) {
+      unplausibel.push(
+        `${short.id} Lauf ${i + 1}: Ausrichtung ${(synthese.dauerSek - vorn).toFixed(2)}s gegen ` +
+          `Datei ${echtSek.toFixed(2)}s — die Endstille steckte im letzten Wort.`,
+      );
+    }
 
     const datei = tondateiname.replace('%', String(i + 1));
     toene.push({ datei, ton: beschnitten.ton });
@@ -886,13 +915,18 @@ export const shortVertonen = async (
     // Die Wortzeiten kommen je Aufruf ab 0 und wandern auf die gemeinsame Uhr —
     // abzueglich des weggeschnittenen Vorlaufs.
     for (const w of synthese.woerter) {
+      /*
+       * Nach hinten auf das Dateiende gedeckelt: Das letzte Wort traegt sonst
+       * die ganze Endstille, und der Untertitel bleibt darauf stehen.
+       */
+      const ende = uhr + echtSek;
       woerter.push({
         wort: w.wort,
-        startSek: Math.max(uhr, w.startSek - vorn + uhr),
-        endeSek: Math.max(uhr, w.endeSek - vorn + uhr),
+        startSek: Math.min(ende, Math.max(uhr, w.startSek - vorn + uhr)),
+        endeSek: Math.min(ende, Math.max(uhr, w.endeSek - vorn + uhr)),
       });
     }
-    uhr += synthese.dauerSek - vorn;
+    uhr += echtSek;
   }
 
   return {

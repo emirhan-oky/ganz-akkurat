@@ -169,15 +169,18 @@ export const passwortWechseln: Short = {
          * das: umgangssprachlich und derb, und die Pointe darf Watti treffen.
          */
         { sprecher: 'nachleser', zug: 'zuspitzen', text: 'Du Idiot.' },
-        /*
-         * **Der Beat ist die Pointe.** Ohne ihn kommt „Watt?" 0,15 Sekunden
-         * nach der Beschimpfung, und die Verbluefftheit faellt weg — am
-         * fertigen Video gehoert: „Hier sagt Watti zu schnell Watt."
-         */
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Watt?', machart: 'ratlosigkeit', beatSek: 0.45 },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Watt?', machart: 'ratlosigkeit' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
+          /*
+           * **Der Beat sitzt hinter „Watt?", nicht davor.** Der erste Anlauf
+           * hatte ihn vor Wattis Verbluefftheit gelegt; am fertigen Video war
+           * das falsch herum: Eine Reaktion kommt prompt, und die Pause
+           * gehoert vor die Aufloesung. Watti fragt sofort zurueck, Volti
+           * laesst ihn einen Moment haengen.
+           */
+          beatSek: 0.45,
           text: 'Beim BSI steht: Ein Wechsel nach Plan erhöht dir die Sicherheit nicht automatisch.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'routinemaessiger-wechsel-erhoeht-nicht',
@@ -266,14 +269,20 @@ export const passwortWechseln: Short = {
        * Das ist der Grund, warum diese Fassung existiert: Derselbe Beleg stand
        * vorher hier und war eine Auskunft. Jetzt ist er eine **Antwort**.
        */
-      sprechtext: 'Und das hat für ein fremdes Gerät gesorgt. Dann eben nie mehr. Doch — jetzt. Aber mit Verstand.',
+      sprechtext: 'Und das hat für ein fremdes Gerät gesorgt. Dann eben nie mehr. Doch, jetzt. Aber mit Verstand.',
       rede: [
         { sprecher: 'nachleser', zug: 'richtigstellen', text: 'Und das hat für ein fremdes Gerät gesorgt.' },
         { sprecher: 'zeiger', zug: 'widersprechen', text: 'Dann eben nie mehr.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Doch — jetzt. Aber mit Verstand.',
+          /*
+           * **Komma statt Gedankenstrich.** Der Strich erzeugte in `eleven_v3`
+           * zwei echte Stillen von 0,75 und 1,35 Sekunden in einem Abschnitt
+           * von 4,08 — am fertigen Video gehoert als „es stoppt immer wieder
+           * ein bisschen". Gemessen mit `silencedetect`.
+           */
+          text: 'Doch, jetzt. Aber mit Verstand.',
           quelleId: 'bsi-umgang-mit-passwoertern',
           belegId: 'geaendert-wenn-hinweis-unbefugte',
         },
@@ -305,12 +314,12 @@ export const passwortWechseln: Short = {
        * einleitete.
        */
       sprechtext:
-        'Einzigartig heißt: je Konto ein eigenes. Für jedes? Also pro Account ein anderes Passwort?',
+        'Besser ist: Pro Konto ein eigenes Passwort. Für jedes? Also pro Account ein anderes Passwort?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Einzigartig heißt: je Konto ein eigenes.',
+          text: 'Besser ist: Pro Konto ein eigenes Passwort.',
           quelleId: 'bsi-passwortwechsel-2026',
           belegId: 'stark-und-einzigartig',
         },

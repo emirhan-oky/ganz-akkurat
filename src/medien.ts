@@ -258,13 +258,17 @@ export const stilleBeschneiden = async (
  */
 export const stilleBeschneidenPuffer = async (
   ton: Buffer,
-): Promise<{ ton: Buffer; vornSek: number; hintenSek: number }> => {
+): Promise<{ ton: Buffer; vornSek: number; hintenSek: number; nachherSek: number }> => {
   const ordner = await fs.mkdtemp(path.join(os.tmpdir(), 'ganzakkurat-ton-'));
   const datei = path.join(ordner, 'stueck.mp3');
   try {
     await fs.writeFile(datei, ton);
-    const { vornSek, hintenSek } = await stilleBeschneiden(datei);
-    return { ton: await fs.readFile(datei), vornSek, hintenSek };
+    /*
+     * `nachherSek` wandert mit — die Uhr in `shortVertonen` rechnet seit dem
+     * 01.09.2026 mit ihr und nicht mehr mit der Ausrichtungsdauer.
+     */
+    const { vornSek, hintenSek, nachherSek } = await stilleBeschneiden(datei);
+    return { ton: await fs.readFile(datei), vornSek, hintenSek, nachherSek };
   } finally {
     await fs.rm(ordner, { recursive: true, force: true });
   }
