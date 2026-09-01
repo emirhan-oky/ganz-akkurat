@@ -371,6 +371,28 @@ const main = async () => {
       const { short: vertont, toene, unplausibel: verdaechtig } = ergebnisTon;
       unplausibel.push(...verdaechtig.map((text) => ({ shortId: short.id, text })));
 
+      /*
+       * **Sofort wegschreiben, und zwar vor jedem weiteren Schritt.**
+       *
+       * Dasselbe Format, das `--ton-behalten` liest und per `Tonspur.safeParse`
+       * prueft. Schritt 4 ueberschreibt die Datei spaeter mit demselben Inhalt;
+       * das ist keine Doppelung, sondern dieselbe Datei zu einem frueheren
+       * Zeitpunkt.
+       *
+       * **Die Stelle ist am 01.09.2026 zweimal gewandert.** Zuerst stand das
+       * Schreiben in Schritt 4, nach dem Render — dort war es nutzlos, sobald
+       * ein Short scheiterte. Dann stand es hier unten, **nach** der
+       * Lautheitsangleichung: Als die an einem 0,44-Sekunden-Abschnitt
+       * abbrach, war die Vertonung bezahlt und die Tonspur trotzdem verloren.
+       *
+       * Was zwischen Synthese und Sicherung liegt, kann sie kosten. Also liegt
+       * nichts mehr dazwischen.
+       */
+      await fs.writeFile(
+        path.join(propsOrdnerFrueh, `${short.id}.json`),
+        JSON.stringify({ daten: vertont }),
+      );
+
       // Erst roh sichern, dann auf Plattformlautheit angleichen. Die rohen
       // Dateien bleiben liegen, damit sich das Ergebnis nachvollziehen laesst.
       let pegel = { vorher: 0, nachher: 0 };
@@ -384,16 +406,6 @@ const main = async () => {
         `   ${short.id}  ${vertont.tonspur!.dauerSek.toFixed(1)}s  ` +
           `${toene.length} Abschnitt${toene.length === 1 ? '' : 'e'}  ` +
           `Lautheit ${pegel.vorher.toFixed(1)} → ${pegel.nachher} LUFS`,
-      );
-      /*
-       * Sofort wegschreiben — dasselbe Format, das `--ton-behalten` liest und
-       * per `Tonspur.safeParse` prueft. Schritt 4 ueberschreibt die Datei
-       * spaeter mit demselben Inhalt; das ist keine Doppelung, sondern
-       * dieselbe Datei zu einem frueheren Zeitpunkt.
-       */
-      await fs.writeFile(
-        path.join(propsOrdnerFrueh, `${short.id}.json`),
-        JSON.stringify({ daten: vertont }),
       );
       fertige.push(vertont);
     }
