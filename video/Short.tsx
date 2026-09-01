@@ -279,8 +279,7 @@ const STOFFFLAECHE = {
 /**
  * Wer in einer Szene links steht. `wer` gibt es nur an der Figurenbuehne; die
  * Gegenueberstellung kennt keine zwei Sprecher und faellt auf die Vorgabe
- * zurueck. Drei Leser: die Redespalten, die Vorspann- und die Abspannkarte —
- * eine Rechnung, sonst stuende beim naechsten Umbau einer der drei falsch.
+ * zurueck. Gelesen von den Redespalten.
  */
 const linksIn = (szene: ShortDaten['szenen'][number] | undefined): Sprecher =>
   szene?.buehne?.art === 'figur' ? (szene.buehne.wer ?? 'nachleser') : 'nachleser';
@@ -555,7 +554,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
               zeile={daten.vorspann}
               dauer={vorspannBilder}
               zeileAbBild={ansageAbBild}
-              linksSteht={linksIn(daten.szenen[0])}
+              hoehe={FORMAT.hoehe - VORHANG.karte}
             />
           </div>
 
@@ -650,7 +649,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
           <Abspannkarte
             show={FORMATE[daten.format].show}
             wattiAbBild={wattiAbBild}
-            linksSteht={linksIn(daten.szenen[daten.szenen.length - 1])}
+            hoehe={FORMAT.hoehe - VORHANG.karte}
           />
         </div>
 

@@ -121,6 +121,19 @@ im Kommentar ist kein Verhalten.
 Wort in Anführungszeichen war der Wortlaut, und ich habe es dreimal als
 Füllwort gelesen. Als Gedächtnisnotiz gespeichert.
 
+## Die Karte zurück · 01.09.2026, spät
+
+- [x] ~~**Opener und Abspann wieder in der abgenommenen Geometrie** — Titel
+      132, Abstände, Figuren unten. Ich hatte sie für die Geisterfiguren
+      umgebaut, ohne dass jemand darum gebeten hatte~~
+- [x] ~~**Die Geister behebt ein Zeitpunkt:** Die Abspannkarte blendet erst ein,
+      wenn der Vorhang zu ist — so wie der Vorspann sie ausblendet, bevor er
+      aufgeht~~
+
+**Die Lehre:** Ein Übergang von 0,4 Sekunden ist kein Grund, ein abgenommenes
+Bild umzubauen. Erst die billige Lösung prüfen — hier: den Zeitpunkt —, bevor
+das Layout angefasst wird.
+
 # Offen · Stand 31.08.2026` steht.
 
 ## Der große Umbau · 16.–17.08.2026

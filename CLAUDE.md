@@ -1231,17 +1231,19 @@ hängt noch an `rundlauf` und der Abbinde-Regel.
 andere einmal. Zwei Zeichnungen derselben Karte wären die Doppelung ohne
 Wache, und genau die ist am 01.09.2026 auseinandergelaufen:
 
-**Die Kartenfiguren stehen auf der Bühnenstandlinie.** Das SVG der Karte liegt
-absolut in genau der Fläche der Figurenbühne — `BUEHNE.x / y / breite` und
-`hoeheOhneUntertitel`, dieselben vier Zahlen, aus denen `standlinieImBild()`
-rechnet. Vorher stand es mit `flex: 1` unten in der Karte, und das ging,
-solange die Bühnenfiguren den Restplatz bekamen und ungefähr dort landeten.
-Seit die Figurenbühne absolut steht, standen die Kartenfiguren rund 500 Pixel
-tiefer: **Im Handy-Video waren während der Fahrt zwei Figurenpaare
-übereinander zu sehen, das untere blass.** Kein Standbild hat es gezeigt, weil
-beide nur während der zwölf Bilder der Fahrt zugleich sichtbar sind. Der Preis
-der Deckung: Der Showtitel ist von 132 auf 96 Pixel gegangen — zwischen
-Kopfzeile und Figurenkopf liegen rund 330 Pixel für Titel, Namen und Mitte.
+**Die Karte hat die Geometrie vom 31.08., und die bleibt.** Am Abend des
+01.09. stand für zwei Stunden eine andere: Titel 96 statt 132, Abstände
+gekürzt, die Figuren auf der Bühnenstandlinie statt unten. Der Anlass war ein
+Screenshot mit zwei Figurenpaaren während der Schlussfahrt — und die Lösung war
+die falsche: Ich habe die Kartenfiguren auf die Bühnenfiguren gelegt, statt die
+Überblendung zu vermeiden, bei der beide überhaupt zugleich sichtbar sind. Das
+Urteil: „Die Größen und Abstände beim Opener und Abspann nicht abändern. Das
+wollte ich nie abgeändert haben."
+
+Der Vorspann hatte das Problem nie: `titelstand` blendet die Karte aus, bevor
+der Vorhang öffnet. Der Abspann blendet seitdem erst ein, wenn der Vorhang zu
+ist. **Ein Zeitpunkt, kein Layout** — ein Übergang von 0,4 Sekunden ist kein
+Grund, ein Bild umzubauen, das jemand abgenommen hat.
 
 **`NACHLAUF_SEK` ist seitdem gerechnet, nicht gesetzt**: Fahrt, Voltis
 gemessene Dauer, Sprecherpause, Wattis Dauer, 0,6 Sekunden Stand — rund 3,5

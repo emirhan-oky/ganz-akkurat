@@ -1,7 +1,7 @@
 import React from 'react';
 import { Easing, interpolate, useCurrentFrame } from 'remotion';
-import { BUEHNE, FARBEN, FORMAT, SCHRIFT, SPRUCH, VORHANG, mische } from '../../src/marke';
-import { FIGURENNAMEN, type Sprecher } from '../../src/typen';
+import { FARBEN, FORMAT, SCHRIFT, SPRUCH, VORHANG, mische } from '../../src/marke';
+import { FIGURENNAMEN } from '../../src/typen';
 import { nachleser } from '../../daten/figur/nachleser';
 import { eingefaerbt, zeiger } from '../../daten/figur/zeiger';
 import { Figur } from './Figur';
@@ -257,7 +257,7 @@ const falten = (breite: number, saat: number) => {
  * Das Schema deckelt die Zeile bei 60 Zeichen, also gibt es drei Stufen.
  */
 const zeilengroesse = (zeile: string): number =>
-  zeile.length <= 24 ? 64 : zeile.length <= 38 ? 56 : 50;
+  zeile.length <= 24 ? 88 : zeile.length <= 38 ? 78 : 68;
 
 /**
  * Die Figuren mit einem Saum in der Vorhangfarbe.
@@ -471,33 +471,30 @@ export const Vorhangstoff: React.FC<{
 
 /**
  * Das gemeinsame Geruest von Vorspann und Abspann: Showtitel, „mit Volti und
- * Watti", eine wechselnde Mitte, die beiden Figuren davor.
+ * Watti", eine wechselnde Mitte, die beiden Figuren unten davor.
  *
  * **Eine Komponente fuer beide Enden — seit dem 01.09.2026.** Der Abspann soll
  * aussehen wie der Opener; nur die Mitte wechselt. Zwei Zeichnungen derselben
- * Karte waeren die Doppelung ohne Wache, und die ist am selben Tag schon
- * einmal auseinandergelaufen: Die Figuren der ersten Abspannkarte standen
- * woanders als die auf der Buehne.
+ * Karte waeren die Doppelung ohne Wache.
  *
  * Läuft **nur** während Vorspann oder Abspann, während der Stoff dahinter
  * über die ganze Laufzeit steht. Deshalb liest sie ihren eigenen Frame: Sie
  * ist in eine `Sequence` gemountet, deren Zeitachse bei null beginnt.
  *
- * ## Die Figuren stehen auf der Buehnenstandlinie
+ * ## Die Geometrie ist die vom 31.08.2026, und sie bleibt es
  *
- * Das SVG der Karte liegt **absolut in genau der Flaeche der Figurenbuehne**:
- * `BUEHNE.x / y / breite` und `hoeheOhneUntertitel`, dieselben vier Zahlen,
- * aus denen `standlinieImBild()` rechnet. Nur so decken sich die Kartenfiguren
- * mit denen der Szene dahinter, und beim Oeffnen wie beim Schliessen gibt es
- * keinen Moment mit zwei Paaren.
+ * Am Abend des 01.09. stand hier fuer zwei Stunden eine andere: Titel 96
+ * statt 132, Abstaende gekuerzt, die Figuren auf der Buehnenstandlinie statt
+ * unten. Der Anlass war ein Screenshot mit zwei Figurenpaaren waehrend der
+ * Schlussfahrt — und die Loesung war die falsche. Die Kartenfiguren auf die
+ * Buehnenfiguren zu legen heisst, das Layout an einen Uebergang anzupassen,
+ * der 0,4 Sekunden dauert. Das Urteil: „Die Groessen und Abstaende beim
+ * Opener und Abspann nicht abaendern. Das wollte ich nie abgeaendert haben."
  *
- * **Bis zum 01.09.2026 stand das SVG mit `flex: 1` unten in der Karte**, und
- * das ging, solange die Buehnenfiguren den Restplatz bekamen und ungefaehr
- * dort landeten. Seit die Figurenbuehne absolut auf ihrer Standlinie steht,
- * standen die Kartenfiguren rund 500 Pixel tiefer — im Handy-Video waren
- * waehrend der Fahrt zwei Paare uebereinander zu sehen, das untere blass.
- * Kein Standbild hat es gezeigt, weil beide nur waehrend der zwoelf Bilder
- * der Fahrt zugleich sichtbar sind.
+ * Der Vorspann hatte das Problem nie: `titelstand` blendet die Karte aus,
+ * **bevor** der Vorhang oeffnet. Nur der Abspann blendete sie waehrend der
+ * Fahrt ein — und der wartet jetzt, bis der Vorhang zu ist. **Ein Zeitpunkt,
+ * kein Layout.**
  */
 const Vorhangkarte: React.FC<{
   /** Der Showtitel aus `FORMATE[format].show`. */
@@ -508,13 +505,9 @@ const Vorhangkarte: React.FC<{
   sichtbar: number;
   /** Was die beiden tun: vorstellen oder dastehen. */
   pose: 'winken' | 'ruhe';
-  /**
-   * Wer links steht — wie in der Szene dahinter. `wer` an der Figurenbuehne
-   * darf wechseln; stuende die Karte fest, taeuschte die Ueberblendung einen
-   * Seitenwechsel vor, den es nicht gibt.
-   */
-  linksSteht: Sprecher;
-}> = ({ show, mitte, sichtbar, pose, linksSteht }) => {
+  /** Höhe der Fläche in Pixeln — für den unteren Rand. */
+  hoehe: number;
+}> = ({ show, mitte, sichtbar, pose, hoehe }) => {
   const frame = useCurrentFrame();
 
   const figur = (rig: typeof nachleser, s: 'links' | 'rechts', x: number) => {
@@ -548,20 +541,19 @@ const Vorhangkarte: React.FC<{
   };
 
   return (
-    <div style={{ position: 'absolute', inset: 0, opacity: sichtbar }}>
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        opacity: sichtbar,
+        paddingBottom: Math.round(hoehe * 0.1),
+      }}
+    >
       <div
         style={{
-          /*
-           * Der Textblock belegt den Raum ueber der Buehne: von der Karte
-           * oben bis zur Buehnenoberkante — plus den Teil der Buehne, in dem
-           * die Figuren nicht stehen. Die Figuren beginnen bei rund 60 % der
-           * Buehnenhoehe; darueber ist Platz fuer drei Zeilen.
-           */
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: BUEHNE.y - VORHANG.karte + BUEHNE.hoeheOhneUntertitel * 0.3,
+          flex: '0 0 54%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -587,17 +579,10 @@ const Vorhangkarte: React.FC<{
           <div
             style={{
               fontWeight: SCHRIFT.schwarz,
-              /*
-               * **96 statt 132 — seit die Figuren auf der Buehnenstandlinie
-               * stehen.** Zwischen Kopfzeile und Figurenkopf liegen rund 330
-               * Pixel, und darin muessen Titel, Namenszeile und die Mitte
-               * Platz haben. Der Titel gibt am meisten ab, weil er am
-               * groessten war.
-               */
-              fontSize: 96,
-              letterSpacing: -1.5,
+              fontSize: 132,
+              letterSpacing: -2,
               color: FARBEN.grundRein,
-              WebkitTextStroke: `3px ${FARBEN.grundRein}`,
+              WebkitTextStroke: `4px ${FARBEN.grundRein}`,
             }}
           >
             {show}
@@ -623,9 +608,9 @@ const Vorhangkarte: React.FC<{
             style={{
               /* Die Zeile klebte am Titel — dazwischen lag nur dessen
                  Zeilenhoehe von 1,02. */
-              marginTop: 18,
+              marginTop: 34,
               fontWeight: SCHRIFT.duenn,
-              fontSize: 32,
+              fontSize: 38,
               color: FARBEN.grundRein,
               opacity: 0.86,
             }}
@@ -641,31 +626,27 @@ const Vorhangkarte: React.FC<{
           </div>
         </div>
 
-        <div style={{ marginTop: 40, width: '100%' }}>{mitte}</div>
+        {/* 130 statt 54: Der Titelblock hatte rund 270 Pixel ungenutzten
+            Rand, weil er zentriert stand. Der Abstand fuellt ihn, statt die
+            Schrift zu vergroessern. */}
+        <div style={{ marginTop: 130, width: '100%' }}>{mitte}</div>
       </div>
 
       {/*
-        **Die beiden stehen vor dem Vorhang, auf der Standlinie der Buehne.**
+        **Die beiden stehen unten vor dem Vorhang.**
 
         Sie werden hier eigens gezeichnet und nicht aus der Szene
         durchgereicht: Die Karte ist ein geschlossenes Bild, das als Ganzes
-        blendet, waehrend der Vorhang faehrt. Die Szene dahinter zeichnet ihre
-        Figuren an denselben Stellen — beim Öffnen stehen sie also schon da,
-        und beim Schliessen bleiben sie, wo sie waren.
+        blendet, solange der Vorhang **steht** — nie waehrend er faehrt. Wo
+        die Buehnenfiguren dahinter stehen, spielt deshalb keine Rolle.
       */}
       <svg
         viewBox="0 0 200 150"
-        preserveAspectRatio="xMidYMid meet"
-        style={{
-          position: 'absolute',
-          left: BUEHNE.x,
-          top: BUEHNE.y - VORHANG.karte,
-          width: BUEHNE.breite,
-          height: BUEHNE.hoeheOhneUntertitel,
-        }}
+        preserveAspectRatio="xMidYMax meet"
+        style={{ flex: 1, minHeight: 0, width: '100%' }}
       >
-        {figur(linksSteht === 'zeiger' ? WATTI_AUF_ROT : VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
-        {figur(linksSteht === 'zeiger' ? VOLTI_AUF_ROT : WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
+        {figur(VOLTI_AUF_ROT, 'links', WORTWECHSEL.links)}
+        {figur(WATTI_AUF_ROT, 'rechts', WORTWECHSEL.rechts)}
       </svg>
     </div>
   );
@@ -692,8 +673,9 @@ export const Vorspannkarte: React.FC<{
    * Sekunden vor der Einblendung.**
    */
   zeileAbBild: number;
-  linksSteht: Sprecher;
-}> = ({ show, zeile, dauer, zeileAbBild, linksSteht }) => {
+  /** Höhe der Fläche in Pixeln — für den unteren Rand. */
+  hoehe: number;
+}> = ({ show, zeile, dauer, zeileAbBild, hoehe }) => {
   const frame = useCurrentFrame();
   const zeileAuf = interpolate(frame, [zeileAbBild, zeileAbBild + 6], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -705,7 +687,7 @@ export const Vorspannkarte: React.FC<{
       show={show}
       sichtbar={titelstand(frame, dauer)}
       pose="winken"
-      linksSteht={linksSteht}
+      hoehe={hoehe}
       mitte={
         <>
           {/*
@@ -720,8 +702,8 @@ export const Vorspannkarte: React.FC<{
               opacity: zeileAuf,
               fontFamily: SCHRIFT.wortmarke,
               fontWeight: SCHRIFT.schwarz,
-              fontSize: 26,
-              letterSpacing: 7,
+              fontSize: 34,
+              letterSpacing: 9,
               color: FARBEN.gold,
             }}
           >
@@ -729,7 +711,7 @@ export const Vorspannkarte: React.FC<{
           </div>
           <div
             style={{
-              marginTop: 18,
+              marginTop: 40,
               opacity: zeileAuf,
               fontFamily: SCHRIFT.auszeichnung,
               fontStyle: SCHRIFT.neigung,
@@ -737,6 +719,7 @@ export const Vorspannkarte: React.FC<{
               fontSize: zeilengroesse(zeile),
               lineHeight: 1.12,
               color: FARBEN.grundRein,
+              maxWidth: '100%',
             }}
           >
             {zeile}
@@ -767,6 +750,11 @@ const ABSPANN_WATTI = 'Wirklich.';
  * Wattizeile. **„Wirklich." ist das Wort.** Der Schlusssatz steht seitdem
  * nirgends mehr im Bild — er wird gesprochen.
  *
+ * **Sie blendet erst ein, wenn der Vorhang zu ist.** Mit der Fahrt eingeblendet
+ * standen ihre Figuren 0,4 Sekunden lang neben denen der Buehne, die durch den
+ * Spalt noch zu sehen waren — zwei Paare uebereinander, das eine blass. Der
+ * Vorspann macht es umgekehrt genauso: Karte weg, dann Vorhang auf.
+ *
  * Wattis Wort blendet ein, wenn er es sagt — Bild und Ton aus einer Zahl, wie
  * beim Vorspann. In `anzeigeZweiHell`, dem einzigen Wattiton mit Kontrast
  * ueber 4 auf dem gefalteten Stoff.
@@ -775,15 +763,10 @@ export const Abspannkarte: React.FC<{
   show: string;
   /** Ab welchem Bild Watti „Wirklich." sagt — derselbe Wert, ab dem es steht. */
   wattiAbBild: number;
-  linksSteht: Sprecher;
-}> = ({ show, wattiAbBild, linksSteht }) => {
+  hoehe: number;
+}> = ({ show, wattiAbBild, hoehe }) => {
   const frame = useCurrentFrame();
-  /*
-   * Sie blendet **mit dem Vorhang** auf, nicht danach. Der Stoff braucht
-   * `VORHANG.fahrtBilder`, und eine Karte, die erst dann anfaengt, haette auf
-   * der letzten Sekunde nichts mehr zu stehen.
-   */
-  const auf = interpolate(frame, [0, FAHRT_BILDER], [0, 1], {
+  const auf = interpolate(frame, [FAHRT_BILDER, FAHRT_BILDER + 6], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
@@ -797,7 +780,7 @@ export const Abspannkarte: React.FC<{
       show={show}
       sichtbar={auf}
       pose="ruhe"
-      linksSteht={linksSteht}
+      hoehe={hoehe}
       mitte={
         <>
           <div
@@ -808,13 +791,14 @@ export const Abspannkarte: React.FC<{
               fontSize: zeilengroesse(SPRUCH),
               lineHeight: 1.12,
               color: FARBEN.grundRein,
+              maxWidth: '100%',
             }}
           >
             {SPRUCH}
           </div>
           <div
             style={{
-              marginTop: 14,
+              marginTop: 40,
               opacity: wattiAuf,
               fontFamily: SCHRIFT.auszeichnung,
               fontStyle: SCHRIFT.neigung,
