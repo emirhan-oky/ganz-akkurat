@@ -340,17 +340,17 @@ export const Kulisse: React.FC<{ mitUntertitelzone?: boolean }> = ({
         hinten"** — alles steht auf derselben Linie, und was hinter einer Figur
         steht, ist weg.
 
-        **Und links ist weniger Platz, als „nebeneinander" braucht.** Gemessen:
-        Zwischen Vorhangkante und Voltis linker Aussenkante liegen **113
-        Pixel**; zwei Sessel nebeneinander brauchen mindestens 186. Sie stehen
-        deshalb als Sitzgruppe leicht **versetzt** — der zweite kleiner und
-        hoeher, also weiter hinten, und seine Lehne schaut ueber den ersten.
+        **Und links ist weniger Platz, als zwei Sessel brauchen.** Gemessen:
+        Zwischen Vorhangkante (100) und Voltis Aussenkante (213) liegen **113
+        Pixel**, ein Sessel in Sofagroesse ist allein **164** breit.
 
-        Das ist die einzige Anordnung, die beide zeigt, ohne dass einer im
-        Vorhang oder hinter Volti verschwindet.
+        Sie ueberlappen deshalb einander und werden von Volti ueberdeckt — und
+        das ist kein Fehler: Das blaue Sofa lag an derselben Stelle genauso zur
+        Haelfte hinter ihm und hat getragen. Was zaehlt, ist die Lehne, die
+        hervorschaut, nicht das ganze Moebelstueck.
       */}
-      <Sessel x={links + 78} boden={boden} groesse={0.74} tiefe={214} />
-      <Sessel x={links + 142} boden={boden} groesse={0.64} tiefe={244} />
+      <Sessel x={links + 114} boden={boden} groesse={1.3} tiefe={236} />
+      <Sessel x={links + 174} boden={boden} groesse={1.3} tiefe={236} />
 
       {/* Die Kommode rechts — sie war den Sesseln gewichen und kommt zurueck. */}
       <Regal boden={boden} />
