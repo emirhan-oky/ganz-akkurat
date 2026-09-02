@@ -2095,3 +2095,66 @@ Der Textblock ist danach am gerenderten Bild nachgemessen und liegt mit
       Kanalnamen direkt unter den Banner; im Bild steht er ein zweites Mal.
       `marke/youtube-banner-ohne-wortmarke.png` ist die Gegenprobe mit Figuren
       auf 214 — Emirhan entscheidet, welche hochgeht
+
+## Emirhans erster Dialog · 02.09.2026, nachmittags
+
+Er hat den ersten Dialog geschrieben, den nicht ich geschrieben habe, und
+dabei zwei Regeln widerlegt, die vier Stunden alt waren.
+
+- [x] ~~**Die Anschlussregel gefallen.** Sie verlangte, dass die erste Zeile
+      nach dem Vorhang vom anderen kommt. Bei Emirhan spricht Watti davor und
+      danach — und das ist besser: **Der Vorhang ist ein Zeitsprung, kein
+      Schnitt mitten im Gedanken.** Sie heißt jetzt „Anrede oder Antwort"~~
+- [x] ~~**Die Kaltstart-Grenze von 3,5 auf 4,0 Sekunden.** Seine erste Zeile
+      riss die alte um eine Zehntelsekunde. Die 3,5 gelten dem Aufschlag, weil
+      er eine Szene unter sechs ist — der Kaltstart ist der ganze Hook~~
+- [x] ~~**Der Zug `bitten`**, ohne `verlangt`. Der erste Anlauf hatte
+      `antwort`, und die Antwortpflicht meldete sofort, „Klar, was ist los?"
+      sei keine Antwort. **Genau so antwortet man auf eine Bitte**~~
+- [x] ~~**`AUSRUFE` und `SCHLUSSFORMELN` als Vorräte im Code.** Der Ausruf war
+      bis dahin die einzige Humorregel ohne Wache — sie stand in `voice.md`,
+      und kein Skript kannte den Vorrat. **Beim ersten Lauf hat sie gemeldet**,
+      dass „Und jetzt?" in zwei Shorts steht~~
+- [x] ~~**`ZUGRAUM` rechnet die Kombinatorik**, statt sie danebenzuschreiben.
+      `bitten` hat 72/380/2.600 still falsch gemacht~~
+- [x] ~~Sein Dialog steht in `passwort-wechseln`, 60,5 Sekunden geschätzt. Die
+      Wachen haben zwölfmal gemeldet und zwölfmal recht gehabt~~
+- [x] ~~**Zwei Skills:** `thema-briefen` und `humor-eichen`~~
+- [x] ~~**Zehn Briefingbogen** unter `daten/briefings/`, alle auf geprüften
+      Quellen~~
+
+**Die Lehre des Tages, zweimal gelernt:** Widersprechen sich eine Regel und
+eine gute Zeile, verliert die Regel. Das ist der Unterschied zur Belegpflicht,
+wo es umgekehrt gilt — und beide Regeln, die heute gefallen sind, waren gesetzt
+worden, bevor es Material gab.
+
+**Was sein Dialog kann und das Schema nicht benennt:** die Selbstentlarvung
+beim Verteidigen, die Beschimpfungsleiter von „Du Idiot" auf „Vollpfosten", und
+die banale Rückfrage als Vorlage für die Schlussformel. Alle drei stehen als
+Muster in `skript-schreiben` und in `voice.md`, keines als Feld — **eine
+Mechanik, die man erzwingt, wird zur Schablone.**
+
+### Offen
+
+- [ ] **Zehn Dialoge von Emirhan.** Die Bogen liegen in `daten/briefings/`; der
+      Dialog wird in dieselbe Datei geschrieben. Ab fünf bis zehn Stück zieht
+      `humor-eichen` die Muster
+- [ ] **Danach die Vorbilder** — mit `watch` ansehen, mit
+      `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
+      `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
+- [ ] **Vier Quellen für die Engpassfächer holen:** `apps-schliessen` und
+      `bildschirmschoner` (Es war einmal), `inkognito-modus` und
+      `oeffentliches-wlan` (Wer hat recht?). Beide Fächer haben je acht offene
+      Ideen, aber nur zwei mit abgerufener Quelle — **der Engpass ist der
+      Beleg, nicht das Schreiben**
+- [ ] **Der dreizehnte Bogen.** Ein Zuschauer wandte zum Passwort-Video ein,
+      die BSI-Empfehlung könne ohne Meldung über kompromittierte Zugangsdaten
+      nach hinten losgehen. Bei `werhatrecht` ist das genau das Dritte — und es
+      braucht eine eigene Fundstelle. Sein Beispiel ist Firmen-IT; für 18- bis
+      30-Jährige ist das Gegenstück die Meldung über die eigene Adresse in
+      einem Leck. **Eine Handlung darf daraus nicht werden**
+- [ ] **`memory-effekt` fehlt im Ideenvorrat.** Der Bogen liegt, die Quelle ist
+      geprüft, `daten/ideen/eswareinmal.ts` kennt ihn nicht
+- [ ] **`werhatrecht` verlangt `irrtum: 'beide'`**, und in Emirhans Dialog irrt
+      nur Watti. Das zweite Lager spricht jetzt aus seinem Mund („Das merkt
+      sich doch keiner") — ob das reicht, entscheidet das fertige Video

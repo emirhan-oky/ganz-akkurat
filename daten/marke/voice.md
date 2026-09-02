@@ -391,6 +391,47 @@ gewählt wird, und dasselbe Wort steht nicht zweimal im selben Lauf:
 Der Vorrat wächst mit dem, was funktioniert. Er ist keine Liste zum Abarbeiten:
 Die Hälfte der guten Reaktionen kommt ganz ohne Ausruf aus.
 
+**Seit dem 02.09.2026 steht er als `AUSRUFE` im Code, und die Regel darüber
+hat eine Wache.** Bis dahin war sie die einzige Humorregel des Kanals ohne —
+kein Skript kannte den Vorrat, also konnte keins ihn zählen. Beim ersten Lauf
+hat die neue Wache gemeldet, dass „Und jetzt?" in zwei aufeinanderfolgenden
+Shorts steht.
+
+### Voltis Schlussformeln
+
+Dieselbe Bauart, andere Rolle. Der Ausruf gehört dem, der nichts versteht; die
+Formel dem, der es schon dreimal gesagt hat. Sie steht im Nachschlag und
+nirgends sonst — eine Formel mitten im Gespräch beendet es.
+
+Der erste Eintrag ist Emirhans, aus seinem ersten selbstgeschriebenen Dialog:
+
+> Du sollst weniger dumme Fragen stellen und öfter deinen Verstand nutzen.
+
+`SCHLUSSFORMELN` in `src/typen.ts`, dieselbe Wache wie beim Ausruf.
+
+### Drei Mittel aus dem ersten fremden Dialog
+
+Am 02.09.2026 hat Emirhan den ersten Dialog geschrieben, den nicht ich
+geschrieben habe. Er benutzt drei Sachen, für die es hier bis dahin keinen
+Namen gab.
+
+**Die Selbstentlarvung.** Watti beantwortet die Frage richtig und liefert im
+selben Atemzug den größeren Fehler mit: „Hab ich schon, ich bin doch kein
+Idiot. Hoffentlich nicht in meinen anderen Konten." Der Zuschauer hört ihn vor
+Volti und ist einen Schritt voraus, ohne dass ihm jemand etwas erklärt hat.
+
+**Die Beschimpfungsleiter.** „Du Idiot" wird zu „Vollpfosten". Die Eskalation
+läuft über die Anrede statt über den Inhalt — billig, wirksam, und sie geht nur
+zwischen Brüdern.
+
+**Die Frage als Vorlage.** Watti fragt das Naheliegendste, damit Volti die
+Formel setzen kann. Setup und Punchline liegen bei zwei Figuren; ein
+einstimmiger Short kann das nicht.
+
+Alle drei sind Muster fürs Schreiben und keine Felder. Sie stehen im Skill
+`skript-schreiben`, nicht im Schema — **eine Mechanik, die man erzwingt, wird
+zur Schablone**, und das ist in diesem Projekt schon dreimal passiert.
+
 ### Wen die Pointe treffen darf
 
 Die alte Regel lautete: die Sache, nie den Zuschauer. Sie hat den Humor

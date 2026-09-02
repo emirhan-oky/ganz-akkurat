@@ -51,7 +51,9 @@ Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen i
 | `beleg-holen` | Quelle abrufen, Zitat sichern, an die Szene binden |
 | `bild-bauen` | Bühnenmaße, Figur, Kamera, Standbildpflicht |
 | `woche-bauen` | prüfen, vertonen, rendern, freigeben, einplanen |
+| `thema-briefen` | aus einer belegten Idee den Zettel machen, aus dem ein Dialog wird |
 | `skript-schreiben` | den Dialog schreiben: Lage, Kaltstart, Bogen, Selbstprüfung |
+| `humor-eichen` | aus Emirhans Zeilen und aus Vorbildern Humorregeln gewinnen |
 | `rueckblick-lesen` | die Zahlen holen und die Schwellen kennen |
 
 **Installiert:** die Inhaltskette (`brand-profile` → `voice-builder` →
@@ -200,8 +202,15 @@ Reihe von Stationen sein.
 
 ### `kaltstart` — was vor dem Vorhang steht
 
-Seit dem 02.09.2026. Eine Figur, ein Symbol, ein Satz, höchstens 3,5 Sekunden —
+Seit dem 02.09.2026. Eine Figur, ein Symbol, ein Satz, höchstens 4,0 Sekunden —
 dann fällt der Vorhang darüber und die Show fängt an.
+
+**Die 3,5 des Aufschlags galten hier zuerst und waren zu eng.** Sie gelten ihm,
+weil er eine Szene unter sechs ist und kein Monolog werden darf; der Kaltstart
+ist der ganze Hook und trägt ein Bild. Emirhans erste Zeile riss die alte Grenze
+um eine Zehntelsekunde — **eine Grenze, die die erste echte Zeile ablehnt, ist
+vor dem Material gesetzt worden.** Die 4,0 sind eine Entscheidung und keine
+Messung; sie fallen, sobald drei Kaltstarts vertont sind.
 
 **Der Anlass kam von Zuschauern:** Sie wollten vor dem Vorhang wissen, worum es
 geht. Bis dahin standen rund neun Sekunden Show zwischen Bild 0 und dem ersten
@@ -231,10 +240,24 @@ unterliegen der Formsperre. Dieselbe Trennung wie zwischen Beleg und Reaktion,
 eine Ebene höher — und sie steht im Schema statt in einer Prüfung, damit sich
 die Kombination gar nicht erst eintragen lässt.
 
-**Der Anschluss ist Pflicht.** Die erste Zeile nach dem Vorhang kommt vom
-anderen und trägt einen antwortenden Zug; `abbiegen` ist dort verboten. Dazu ein
-Hinweis, wenn kein Wort des Kaltstarts in der ersten Szene wiederkehrt — die
-Gegenprobe, so wie `rueckbezug` die Gegenprobe zu den Zugarten ist.
+**Der Anschluss ist Pflicht — und die Regel dazu ist am selben Tag gefallen.**
+Sie verlangte zuerst, dass die erste Zeile nach dem Vorhang vom **anderen**
+kommt. Emirhans erster selbstgeschriebener Dialog macht es anders und macht es
+besser: Watti sagt davor „Oh man ich hätte mein Passwort wechseln müssen" und
+danach „Volti, ich brauche deine Hilfe". **Der Vorhang ist ein Zeitsprung, kein
+Schnitt mitten im Gedanken** — vor ihm steht Watti allein mit seinem Schaden,
+hinter ihm geht er zu seinem Bruder.
+
+Was die Regel wollte, war nie der Sprecherwechsel, sondern das Gespräch: Der
+Kaltstart ist ein Selbstgespräch, und die erste Szene muss eines zu zweit daraus
+machen. Sie heißt deshalb **„Anrede oder Antwort"** — entweder der andere
+antwortet, oder derselbe redet ihn an. Dazu ein Hinweis, wenn kein Wort des
+Kaltstarts in der ersten Szene wiederkehrt.
+
+Dafür gibt es seit dem 02.09.2026 den Zug **`bitten`**, und er trägt
+ausdrücklich **kein `verlangt`**: Der erste Anlauf hatte `antwort`, und die
+Antwortpflicht meldete sofort, „Klar, was ist los?" sei keine Antwort. Genau so
+antwortet man auf eine Bitte.
 
 **Der Vorhang fährt wieder zu, und der alte Grund dagegen ist weg.** Am
 31.08.2026 wurde das Zufahren entfernt, weil das Standbild bei Bild 0 eine leere
@@ -257,6 +280,43 @@ der vier Entwürfe standen im ersten Anlauf auf „staunen mit Symbol daneben",
 also genau auf dem Fehler, gegen den sie gebaut ist. `npm run bildrand` hatte
 dieselbe Lücke. **Eine Wache, die das neue Feld nicht kennt, ist für dieses Feld
 keine** — derselbe Befund wie bei der Tonspur-Attrappe am 01.09.2026.
+
+### Vorrat und Wache — das Muster hinter allem
+
+Der Kanal hat es längst, benannt ist es seit dem 02.09.2026: **Jeder Platz im
+Bogen bekommt einen Vorrat, und jeder Vorrat bekommt dieselbe Regel — nicht
+zweimal hintereinander dasselbe.**
+
+| Platz | Vorrat | Wache |
+|---|---|---|
+| Kaltstart | `KALTSTART_ARTEN` (7) | nicht zweimal hintereinander |
+| Aufschlag | `HOOK_MACHARTEN` (5) | keine |
+| Reaktion | `REAKTIONS_MACHARTEN` (6) | keine zweimal je Short |
+| Zug | `ZUGARTEN` (13) | Tripelregel über benachbarte Shorts |
+| Wendung | `GESPRAECHSBOEGEN` je Format | Schluss-Züge festgelegt |
+| Bauform | `BAUFORMEN` (3) | nicht zweimal, nicht über die Hälfte |
+| Ausruf | `AUSRUFE` (7) | nicht zweimal hintereinander |
+| Schlussformel | `SCHLUSSFORMELN` | nicht zweimal hintereinander |
+
+**Die beiden letzten sind neu, und einem davon fehlte die Wache seit dem
+25.08.2026.** `voice.md` schrieb vor, dass der Ausruf nie zum Markenwort werden
+darf — aber kein Skript kannte den Vorrat, also konnte keins ihn zählen. Es war
+die einzige Humorregel des Kanals ohne Wache, und beim ersten Lauf hat sie
+gemeldet: „Und jetzt?" stand in zwei Shorts.
+
+Die **Schlussformel** kam mit Emirhans erstem selbstgeschriebenem Dialog dazu —
+„Du sollst weniger dumme Fragen stellen und öfter deinen Verstand nutzen.", mit
+dem Zusatz, dass der Satz öfter vorkommen soll. Ein Vorrat und keine feste
+Formel, aus demselben Grund wie beim Ausruf.
+
+**Der Kipppunkt bekommt bewusst keinen.** `GESPRAECHSBOEGEN` sagt je Format,
+was die Wendung ist; ein zweiter Vorrat daneben wäre die Doppelung.
+
+**`ZUGRAUM` in `src/pruefung.ts` rechnet die Kombinatorik, statt sie
+danebenzuschreiben.** Dort standen 72, 380 und 2.600 mögliche Zugketten — gültig
+für zwölf Zugarten. Am 02.09.2026 kam `bitten` dazu und machte alle drei still
+falsch, und die Herleitung von damals ist nirgends aufgeschrieben. **Eine Zahl,
+die aus ihrer Quelle fällt, kann nicht veralten.**
 
 ### Der Bau: vier Positionen
 
