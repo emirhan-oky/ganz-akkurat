@@ -13,6 +13,10 @@ import { produktpassAkku } from './produktpass-akku';
 import { ladekabelWatt } from './ladekabel-watt';
 import { zettelImTreppenhaus } from './zettel-im-treppenhaus';
 import { urlaubsfoto } from './urlaubsfoto';
+import { fremdesLadekabel } from './fremdes-ladekabel';
+import { powerbankWattstunden } from './powerbank-wattstunden';
+import { akkuWechselbar2027 } from './akku-wechselbar-2027';
+import { flugmodusAnsage } from './flugmodus-ansage';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -64,7 +68,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto];
+export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodusAnsage];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
