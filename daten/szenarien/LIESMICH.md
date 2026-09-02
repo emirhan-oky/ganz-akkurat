@@ -39,5 +39,25 @@ Zwölf Szenarien mal vier Formate mal sechzehn Witzbauarten.
 
 ## Die Dialoge sind fertige Videos
 
-Nicht Übungsmaterial. Jeder hier abgelegte Dialog kann nach dem Eintragen ins
-Schema vertont, gerendert und veröffentlicht werden. Die Quelle steht dabei.
+Nicht Übungsmaterial. **Alle zehn stehen seit dem Abend des 02.09.2026 als
+Entwürfe in `daten/entwuerfe/` und in `GEPARKT`**, mit Bühne, Zügen, Macharten
+und geprüften Quellen. Sie können vertont, gerendert und veröffentlicht werden.
+
+| Datei | Szenario | Format | Länge |
+|---|---|---|---|
+| `garantiesiegel-nichtig` | 1 | absicht | 61 s |
+| `handyversicherung` | 1 | absicht | 70 s |
+| `werbeblocker` | 2 | werhatrecht | 78 s |
+| `festplatte-loeschen` | 3 → 4 | gibtswirklich | 69 s |
+| `fernseher-hoert-zu` | 4 | absicht | 67 s |
+| `kabelschublade` | 4 | gibtswirklich | 60 s |
+| `produktpass-akku` | 4 | gibtswirklich | 54 s |
+| `ladekabel-watt` | 4 | werhatrecht | 55 s |
+| `zettel-im-treppenhaus` | 5 | werhatrecht | 59 s |
+| `urlaubsfoto` | 5 | absicht | 67 s |
+
+**Die Texte hier sind der Stand des Gesprächs, die Entwürfe der Stand des
+Kanals.** Beim Eintragen sind zwölf Zeilen enger geworden, weil der
+`belegpruefer` sie als ungedeckt gemeldet hat; `festplatte-loeschen` hat dabei
+sein Ende gedreht — die BSI-Seite gibt Wattis Hammer recht. Was gesendet wird,
+steht in `daten/entwuerfe/`.

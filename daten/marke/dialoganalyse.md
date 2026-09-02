@@ -244,7 +244,87 @@ Schablone.
 Zwölf Gesprächsformen, je vier Beispiele. Sie liegen in `daten/szenarien/`, und
 `skript-schreiben` liest sie dort — der Skill enthält sie nicht.
 
-## Was daraus für die Regeln folgt
+## Die Inventur, durchgeführt am Abend des 02.09.2026
+
+Die Vorschau oben war eine Vermutung. Ausgeführt wurde sie so: **Alle zehn
+Dialoge wurden ins Schema eingetragen und durch `shortPruefen` geschickt.** Das
+ergab **91 Befunde** — an zehn Dialogen, die Emirhan geschrieben und
+abgenommen hat.
+
+Damit war die Frage nicht mehr, was an den Dialogen falsch ist, sondern welche
+Regel vor dem Material gesetzt wurde. Neun sind gewandert, sechs haben recht
+behalten.
+
+### Neun Regeln sind gewandert
+
+| Regel | war | ist | warum |
+|---|---|---|---|
+| `hook` | Aufschlag ≤ 3,5 s | erste Szene ≤ 9 s | Die erste Szene ist nicht mehr die Hook. Der Kaltstart ist es, und dort steht die 3,5-Sekunden-Idee als `KALTSTART_MAX_SEK`. Alle zehn lagen zwischen 6,2 und 8,8 s. |
+| `lesbarkeit` | Aufschlag ≤ 9 Wörter | Kaltstart ≤ 12 Wörter | dieselbe Ursache; ein Wortwechsel aus zwei Zeilen hat immer mehr als neun Wörter |
+| Kaltstart | ≤ 52 Zeichen | ≤ 68 Zeichen | sechs von zehn darüber, längster 63 |
+| `redelauf` | 6 s | 8 s | gemessener Rand 7,5 s. Seine Zeilen haben 65 Zeichen, meine 35. |
+| `zugpaar` | kein Paar dreimal | keins über der Hälfte | Die alte Rechnung behandelte Zugpaare als gleich wahrscheinlich. „Nachhaken → Beantworten" ist die Grundbewegung jedes Gesprächs. |
+| `titel` | Fehler | Hinweis, Figurennamen frei | „Watti" steht auf jeder Vorhangkarte; und ein Titel darf ein Bild benutzen |
+| `rueckbezug` | ≥ 2 | ≥ 1 | nur 17 % seiner Zeilen greifen ein Wort auf |
+| `anrede` | Fehler | Hinweis | fünf von zehn kommen ohne aus |
+| `bogen` | formateigene Schluss-Züge | plus `beantworten`, `einlenken` | Der Schluss gehört der Beziehung, und das ist grammatisch fast immer eine Antwort. |
+
+Dazu drei Änderungen an der Gesprächsebene, alle aus einer einzelnen Zeile
+geboren: **`zeitbezug`** greift nur noch an behauptenden Zeilen — „das Foto von
+gestern" ist Erzählzeit und altert mit dem Short. **Die Antwortpflicht** gilt
+als eingelöst, wenn der andere zurückfragt („Wieso denn nicht?") oder wenn er
+`abbiegen` spielt; letzteres ist ohnehin auf einen je Short gedeckelt, und zwei
+Regeln auf demselben Zug bestrafen ihn doppelt. **`einschraenken`** schließt
+jetzt auch eine Antwort: „Das steht in dem Text nicht drin." ist eine.
+
+### Die Belegpflicht ist gewandert, nicht gefallen
+
+Sie hing an der **Szene**: Wer auf `zuspitzung` oder `kipppunkt` steht, nennt
+eine Quelle. Sie hängt jetzt an der **behauptenden Zeile**.
+
+Der Anlass sind Szenario 4 und 5. Wattis erfolgreicher Konter und Voltis
+Ertapptwerden sitzen auf dem Kipppunkt und bestehen aus Sätzen über die beiden
+Brüder — die Fahrradlampe, der Fernseher, den Volti selbst ausgesucht hat. Es
+gibt keine Quelle dafür, und es soll keine geben. Dafür ist der Zug `erinnern`
+dazugekommen.
+
+**Das ist dieselbe Bewegung wie am 17.08.2026**, als die Pflicht von der Quelle
+auf die Fundstelle wanderte. Wo ein behauptender Zug steht, ist sie unverändert
+hart.
+
+### Sechs Regeln haben recht behalten
+
+`suchbegriff`, `zahlImBild`, `weitererzaehlt`, `anschluss`, `stimmanteil` und
+`texte` haben nur meine Entwurfsfehler gemeldet — vier Suchwörter, die im Video
+nicht vorkamen, eine fehlende Zahl-Szene, zwei zu breite Hashtags. Sie sind
+unverändert geblieben.
+
+### Und der Belegprüfer hat einen Short umgedreht
+
+22 Verdachtsfälle, **neun davon an einem Wort außerhalb der geprüften
+Zeichenkette** — dasselbe Verhältnis wie beim Durchgang am 01.09.
+
+Der schwerste betraf `festplatte-loeschen`. Der Short sagte: Löschen gibt den
+Bereich zum Überschreiben frei, also vollschreiben und den Hammer weglegen.
+Dieselbe BSI-Seite sagt weiter unten, dass Überschreiben nur erreicht, wozu das
+Programm Zugriff hat, und nennt die physische Zerstörung als Weg. **Wattis
+Hammer war die ganze Zeit eine der Methoden, die das BSI nennt.**
+
+`npm run quellen-pruefen` war dabei grün. Beide Zitate standen wörtlich auf der
+Seite — nur nicht das, was der Short daraus machte.
+
+### Der stille Ordner
+
+`npm run pruefen` hat die geparkten Entwürfe bis dahin **nur im Schema**
+gesehen. Zehn fertige Dialoge lagen in `GEPARKT`, die Prüfung war grün, und 91
+Befunde standen daneben, die niemand sah. Seitdem laufen sie durch alle Regeln,
+als Hinweis.
+
+## Was daraus für die Regeln folgt — die Vorschau vom Nachmittag
+
+Sie steht hier als Protokoll. Ausgeführt und teils widerlegt wurde sie im
+Kapitel darüber: `redelauf` ging auf 8 s statt zu fallen, „Watti trägt nie eine
+Quelle" ist gefallen, und `anrede` erfüllt sich **nicht** von selbst.
 
 | Regel | steht | Befund |
 |---|---|---|
