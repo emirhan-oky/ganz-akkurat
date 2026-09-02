@@ -2055,3 +2055,43 @@ Anrede zu wenig, weil die fehlende Zeile in den Kaltstart gewandert war.
 - [ ] **`daten/vorspannton.json` hält noch die zehn Formatdauern.** Sie werden
       nicht mehr gelesen; `skripte/vorspannton.ts` kennt die Formatschleife
       auch noch
+
+## Die Kanalbilder holen den Show-Look nach · 02.09.2026
+
+Das Video beginnt seit dem 31.08. als Show, die Kanalbilder standen noch in der
+Welt davor: Isometriemuster, Marineblau, kein Vorhang. **Nicht die Bilddatei
+war veraltet, sondern die Komposition dahinter** — genau der Fall, gegen den
+`video/Marke.tsx` überhaupt gebaut wurde, nur eine Ebene höher.
+
+- [x] ~~**Der Banner ist eine Bühne.** `Vorhangstoff` aus dem Video, mit einer
+      Bahn von 480 Pixeln je Seite. Kein zweiter Vorhang von Hand~~
+- [x] ~~**Der Akzent ist Theaterrot statt Marineblau** — im Muster und im
+      Strich unter dem Spruch. Blau gehört seit dem 31.08. einer der beiden
+      Figuren, nicht dem Kanal~~
+- [x] ~~**Die Figuren stehen auf 186 statt 130 Pixeln**, der Satz fällt dafür
+      von 72 auf 56~~
+- [x] ~~Die zweifarbige Wortmarke aus der Kopfzeile steht zwischen Figuren und
+      Satz~~
+
+**Die Bahn ist an der Kante des sicheren Feldes gerechnet, nicht am Bildrand.**
+Vom Bildrand bis zum sicheren Feld sind es 406 Pixel; ein Vorhang, der dort
+endet, ist am Telefon **unsichtbar** — und das ist der Fall, der fast immer
+gilt. 480 lassen 74 Pixel hineinragen und der Bühne 1088 für einen Satz, der
+740 breit ist.
+
+**Geurteilt wurde an den beiden Ausschnitten, die es wirklich gibt.** Am
+Vollbild sah der Vorhang zu breit aus; YouTube zeigt das Vollbild aber nur auf
+dem Fernseher. Im Desktop-Streifen (2048 × 423) rahmt er, im Handy-Feld
+(1235 × 338) steht er als schmaler roter Rand. **Ein Kanalbild, das man als
+Ganzes beurteilt, beurteilt man in der einzigen Ansicht, die kaum jemand
+sieht.**
+
+Der Textblock ist danach am gerenderten Bild nachgemessen und liegt mit
+411 bis 741 innerhalb des Feldes von 407 bis 745.
+
+### Offen
+
+- [ ] **Die Wortmarke im Banner ist die schwächste Zeile.** YouTube setzt den
+      Kanalnamen direkt unter den Banner; im Bild steht er ein zweites Mal.
+      `marke/youtube-banner-ohne-wortmarke.png` ist die Gegenprobe mit Figuren
+      auf 214 — Emirhan entscheidet, welche hochgeht

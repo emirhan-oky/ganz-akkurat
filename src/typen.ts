@@ -450,6 +450,7 @@ export const Zug = z.enum([
   'gegenbeispiel',
   'einschraenken',
   'widersprechen',
+  'bitten',
   'nachhaken',
   'umdeuten',
   'einlenken',
@@ -568,6 +569,32 @@ export const ZUGARTEN: Record<
     verlangt: 'konter',
     schliesst: [],
     aufrichtung: 1,
+  },
+  bitten: {
+    name: 'Bitten',
+    tut: 'Wendet sich an den anderen, weil man selbst nicht weiterweiss. Der Zug, der aus einem Selbstgespraech ein Gespraech macht.',
+    achtung:
+      'Er nennt den anderen beim Namen, sonst spricht er ins Leere. Und er liefert das Problem noch nicht mit — „Volti, ich brauche deine Hilfe" ist eine Bitte, „Volti, jemand war in meinem Konto" ist schon die Antwort auf die Rueckfrage.',
+    beispiele: ['Volti, ich brauche deine Hilfe.', 'Sag mal, du liest doch immer alles.'],
+    behauptet: false,
+    /*
+     * **Ohne `verlangt`, und das war eine Korrektur am ersten Dialog.**
+     *
+     * Naheliegend waere `antwort` gewesen — wer bittet, will etwas. Der erste
+     * Anlauf hatte das, und die Antwortpflicht meldete sofort: „Volti, ich
+     * brauche deine Hilfe." bleibt unbeantwortet, weil Volti mit „Klar, was ist
+     * los?" **zurueckfragt**. Genau so antwortet man auf eine Bitte.
+     *
+     * Eine Bitte wird nicht von der naechsten Zeile beantwortet, sondern vom
+     * ganzen Gespraech. Was sie wirklich braucht, prueft die Anschlussregel in
+     * `src/pruefung.ts`: dass der andere darauf eingeht.
+     */
+    schliesst: [],
+    /*
+     * Wer bittet, macht sich kleiner. Derselbe Wert wie `nachhaken`, aus
+     * demselben Grund: Es ist dieselbe Koerperhaltung.
+     */
+    aufrichtung: -0.5,
   },
   nachhaken: {
     name: 'Nachhaken',
@@ -2110,6 +2137,52 @@ export const KALTSTART_ARTEN = [
   },
 ] as const;
 
+/**
+ * Wattis Ausrufe — der Vorrat, aus dem gewaehlt wird.
+ *
+ * **Er stand bis zum 02.09.2026 nur in `daten/marke/voice.md`** und war damit
+ * die einzige Humorregel des Kanals ohne Wache: „dasselbe Wort steht nicht
+ * zweimal im selben Lauf" liess sich nicht pruefen, weil kein Skript den
+ * Vorrat kannte. Jetzt kennt ihn einer.
+ *
+ * **Was der Vorrat nicht ist: eine Liste zum Abarbeiten.** Die Haelfte der
+ * guten Reaktionen kommt ganz ohne Ausruf aus, und die Regel darauf ist
+ * deshalb eine Obergrenze und kein Mindestmass — wie ueberall in diesem
+ * Projekt, seit dreimal eine vorschreibende Regel selbst zur Schablone wurde.
+ *
+ * Er waechst mit dem, was funktioniert.
+ */
+export const AUSRUFE = [
+  'Watt?',
+  'Wie?',
+  'Moment.',
+  'Ohman.',
+  'Shit.',
+  'Kacke, was dann?',
+  'Und jetzt?',
+] as const;
+
+/**
+ * Voltis wiederkehrende Schlussformeln.
+ *
+ * **Seit dem 02.09.2026, und der erste Eintrag ist Emirhans.** Sein erster
+ * selbstgeschriebener Dialog endet auf „Du sollst weniger dumme Fragen stellen
+ * und oefter deinen Verstand nutzen." — mit dem Zusatz, dass der Satz oefter
+ * vorkommen soll.
+ *
+ * **Ein Vorrat und keine feste Formel.** Genau dieselbe Entscheidung wie beim
+ * Ausruf, und aus demselben Grund: Ein fester Marker ist in vier Wochen eine
+ * Schablone, und Schablonenhaftigkeit kostet bei KI-Material seit Juli 2025
+ * Reichweite. Der Unterschied zum Ausruf ist die Rolle — der Ausruf gehoert
+ * dem, der nichts versteht, die Formel dem, der es schon dreimal gesagt hat.
+ *
+ * **Sie steht im Nachschlag und nirgends sonst.** Eine Formel mitten im
+ * Gespraech beendet es; sie ist der Punkt und nicht das Komma.
+ */
+export const SCHLUSSFORMELN = [
+  'Du sollst weniger dumme Fragen stellen und öfter deinen Verstand nutzen.',
+] as const;
+
 /** Der Schluessel einer Kaltstart-Art. */
 export type KaltstartArt = (typeof KALTSTART_ARTEN)[number]['schluessel'];
 
@@ -2839,14 +2912,27 @@ const Kaltstart = z
     /**
      * Was gesprochen wird — und Wort fuer Wort im Bild steht.
      *
-     * **Hoechstens 45 Zeichen.** Das ist die Aufschlagregel, nach vorn
-     * gewandert: 3,5 Sekunden bei `ZEICHEN_PRO_SEKUNDE` = 13,0 sind 45
-     * Zeichen. Die Zahl steht hier als Literal und nicht als Rechnung, weil
-     * `src/zeit.ts` dieses Modul importiert und nicht umgekehrt; die Wache
-     * gegen das Auseinanderlaufen steht in `src/pruefung.ts`, wo beide
-     * vorliegen.
+     * **Hoechstens 52 Zeichen, also 4,0 Sekunden bei `ZEICHEN_PRO_SEKUNDE`.**
+     *
+     * Hier standen bis zum 02.09.2026 nachmittags 45 Zeichen — die 3,5
+     * Sekunden des Aufschlags, unbesehen nach vorn gewandert. Emirhans erster
+     * selbstgeschriebener Kaltstart hat sie um **einen Zehntelsekunde**
+     * gerissen, und das war das erste echte Material, das die Grenze je
+     * gesehen hat.
+     *
+     * Die 3,5 Sekunden gelten dem Aufschlag, weil er **eine Szene unter
+     * sechs** ist und kein Monolog werden darf. Der Kaltstart ist etwas
+     * anderes: Er ist der ganze Hook, er traegt ein Bild, und nach ihm faellt
+     * der Vorhang. Vier Sekunden sind fuer ihn eine **Entscheidung und keine
+     * Messung** — aber eine Grenze, die die erste echte Zeile um 0,1 Sekunden
+     * ablehnt, ist vor dem Material gesetzt worden. Denselben Fehler hat
+     * dieselbe Runde schon einmal gemacht, an der Anschlussregel.
+     *
+     * Die Zahl steht als Literal und nicht als Rechnung, weil `src/zeit.ts`
+     * dieses Modul importiert und nicht umgekehrt; die Wache gegen das
+     * Auseinanderlaufen steht in `src/pruefung.ts`, wo beide vorliegen.
      */
-    satz: z.string().min(6).max(45),
+    satz: z.string().min(6).max(52),
     /** Die Buehne davor — eine Figur, ein Symbol. */
     buehne: Buehnenbild,
     /**

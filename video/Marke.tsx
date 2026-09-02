@@ -1,6 +1,6 @@
 import { FARBEN, SCHRIFT, SPRUCH } from '../src/marke';
-import { FORMATE, type Format } from '../src/typen';
-import { Doppelzeichen, Logozeichen } from './bausteine/Wortmarke';
+import { Doppelzeichen, Wortmarke } from './bausteine/Wortmarke';
+import { Vorhangstoff } from './bausteine/Vorhang';
 import { Muster } from './bausteine/Muster';
 import { Figur } from './bausteine/Figur';
 import { nachleser } from '../daten/figur/nachleser';
@@ -99,6 +99,7 @@ const SICHER_BREITE = 1235;
 const SICHER_HOEHE = 338;
 
 /**
+/**
  * Der YouTube-Banner — 2048x1152.
  *
  * **Der sichere Bereich bestimmt die Komposition, nicht die Bildmitte.** Von
@@ -107,13 +108,23 @@ const SICHER_HOEHE = 338;
  * gelesen werden muss, gehoert hinein — alles, was schmueckt, darf daneben
  * stehen und erscheint erst auf dem Desktop.
  *
+ * ## Der Banner ist eine Buehne, seit dem 02.09.2026
+ *
+ * Bis dahin stand er in der Welt vor dem 31.08.: Isometriemuster, Marineblau,
+ * kein Vorhang. Das Video beginnt seitdem als Show und traegt links und rechts
+ * gerafftes Tuch ueber die ganze Laufzeit — **das Kanalbild zeigte einen
+ * Kanal, den es so nicht mehr gibt.** Genau der Fall, gegen den diese Datei
+ * ueberhaupt gebaut wurde, nur eine Ebene hoeher: Nicht die Bilddatei war
+ * veraltet, sondern die Komposition dahinter.
+ *
+ * Der Aufbau ist derselbe wie im Video und nicht nachgebaut: `Vorhangstoff`
+ * kommt aus `video/bausteine/Vorhang.tsx` und bekommt hier nur andere Masze.
+ * Ein zweiter Vorhang von Hand waere die Doppelung ohne Wache, vor der an
+ * fuenf Stellen dieser Datei gewarnt wird.
+ *
  * Deshalb steht mittig nur Spruch und Zeile. Die beiden Akkus und die Lupe
  * flankieren sie ausserhalb: Auf dem Handy fehlt nichts, auf dem grossen
  * Bildschirm erzaehlt der Banner mehr.
- *
- * Der Aufbau folgt dem Feld der `Farbprobe`, weil dort schon steht, wie die
- * Teile zusammen wirken: Satz oben, Figuren und Symbol in der Mitte, unten
- * Strich, Spruch und eine Zeile im selben Muster.
  *
  * **Die Zeile nennt keine Frequenz.** „Viermal die Woche" waere ein
  * Versprechen an ein Publikum, das es noch nicht gibt — dasselbe Argument, mit
@@ -121,6 +132,41 @@ const SICHER_HOEHE = 338;
  * den Kanal von hundert anderen mit derselben Verpackung unterscheidet.
  */
 const BANNER_SATZ = 'Nichts davon ist Zufall.';
+
+/**
+ * Wie breit das geraffte Tuch je Seite steht — **an der Kante des sicheren
+ * Feldes gerechnet, nicht am Bildrand.**
+ *
+ * Vom Bildrand bis zum sicheren Feld sind es (2048 - 1235) / 2 = 406 Pixel.
+ * Ein Vorhang, der genau dort endet, ist auf dem Handy **unsichtbar** — und
+ * damit fehlt er in dem Fall, der fast immer gilt. Ein Vorhang, der weit
+ * hineinreicht, drueckt den Satz.
+ *
+ * 480 laesst ihn 74 Pixel ins sichere Feld ragen: am Telefon ein roter
+ * Streifen an beiden Raendern, wie im Video, und zwischen den beiden Bahnen
+ * bleiben 1088 Pixel Buehne fuer einen Satz, der 740 breit ist.
+ *
+ * Dieselbe Abwaegung wie beim Rand des Videovorhangs, nur von der anderen
+ * Seite: Dort war die Untergrenze der App-Beschnitt, hier ist es die
+ * Handy-Ansicht.
+ */
+const BANNER_BAHN = 480;
+
+/**
+ * Die Figuren stehen auf 186 statt auf 130 Pixeln.
+ *
+ * Bei 130 waren sie im Feed zwei dunkle Punkte ueber einer Zeile — der Banner
+ * zeigte den Kanal, ohne die beiden zu zeigen, die ihn tragen. Der Platz kommt
+ * aus dem Satz: 72 auf 56 Pixel, und der Spruch von 36 auf 28.
+ *
+ * Das Seitenverhaeltnis stammt aus der alten Fassung (174 zu 130) und wird
+ * mitskaliert; die Ueberlappung ebenso. Wer die Hoehe aendert, aendert Breite
+ * und Versatz mit — von Hand nachgezogen liefen die drei beim ersten Umbau
+ * auseinander.
+ */
+const FIGUR_HOCH = 186;
+const FIGUR_BREIT = Math.round(FIGUR_HOCH * (174 / 130));
+const FIGUR_VERSATZ = Math.round(FIGUR_HOCH * (40 / 130));
 
 export const BannerMuster: React.FC = () => (
   <div
@@ -139,26 +185,43 @@ export const BannerMuster: React.FC = () => (
      * Freiraum breiter als der Ausschnitt, den ein Telefon zeigt — vom Muster
      * sah man dort **gar nichts**. Dann war er ein Rechteck von 790 x 330,
      * und damit blieb neben den Akkus und neben dem Spruch Flaeche frei, in
-     * der nichts steht: Der Block ist oben 308 breit, in der Mitte 800 und
-     * unten rund 500. Genau diese Flaeche zeigt das Telefon.
+     * der nichts steht.
      *
-     * Die drei Streifen sind an der gerenderten Fassung gemessen, nicht
-     * geschaetzt — dieselbe Regel wie bei der Sprechgeschwindigkeit und der
-     * Denkpause. Der Rand von 34 Pixeln kommt dazu.
+     * Die vier Streifen bilden den Block von oben nach unten ab: Figuren,
+     * Wortmarke, Satz, Spruchzeile. Der Rand von 34 Pixeln kommt dazu.
+     *
+     * **Der Akzent ist Theaterrot statt Marineblau.** Die blauen Dreiecke
+     * standen neben einem roten Vorhang wie ein Rest der alten Marke — und
+     * Blau gehoert seit dem 31.08.2026 einer der beiden Figuren, nicht dem
+     * Kanal.
      */}
     <Muster
       breite={2048}
       hoehe={1152}
       frei={[
-        { breite: 308, oben: -140, unten: -12 },
-        { breite: 800, oben: 8, unten: 80 },
-        { breite: 510, oben: 98, unten: 140 },
+        { breite: 410, oben: -170, unten: -14 },
+        { breite: 300, oben: -14, unten: 24 },
+        { breite: 760, oben: 24, unten: 96 },
+        { breite: 480, oben: 96, unten: 140 },
       ]}
       freiRand={34}
       linie={FARBEN.linie}
       dunkel={FARBEN.tinte}
-      akzent={FARBEN.blau}
+      akzent={FARBEN.vorhang}
     />
+
+    {/*
+     * Das geraffte Tuch, aus derselben Zeichnung wie im Video.
+     *
+     * `Vorhangstoff` rechnet seine Bahn als Anteil der halben Breite. Der
+     * Anteil steht deshalb hier als Bruch und nicht als Zahl: Wer
+     * `BANNER_BAHN` verschiebt, verschiebt das Tuch mit.
+     *
+     * Der Querbehang kommt gratis dazu und macht aus zwei roten Balken eine
+     * Buehne — dieselbe Beobachtung wie im Video, wo er im Ruhezustand als
+     * flache Blende stehen bleibt.
+     */}
+    <Vorhangstoff zu={BANNER_BAHN / 1024} breite={2048} hoehe={1152} />
 
     {/*
      * **Der ganze Vordergrund steht gestapelt im sicheren Feld.**
@@ -169,11 +232,9 @@ export const BannerMuster: React.FC = () => (
      * die falsche Rechnung: Ein Kanalbanner wird ueberwiegend am Telefon
      * gesehen, und was dort fehlt, fehlt fast immer.
      *
-     * Die Groessen sind daran gerechnet, nicht geschaetzt. Gestapelt braucht
-     * der Block in den alten Groessen rund 415 Pixel Hoehe; erlaubt sind 338.
-     * Akkus 130, Satz 72, Spruch 36, Zeile 28, dazwischen je 15 — zusammen
-     * rund 325, also 13 Pixel Luft. Die Akkus standen erst auf 100 und wirkten
-     * neben dem Satz verloren; die Reserve ist in sie geflossen.
+     * Die Groessen sind gerechnet, nicht geschaetzt. Erlaubt sind 338 Pixel:
+     * Figuren 186, Wortmarke 30, Satz 56 mal 1,05, Spruch 28, dazwischen je
+     * 6 — zusammen rund 329.
      *
      * Das Feld ist an `SICHER_BREITE` und `SICHER_HOEHE` festgemacht und nicht
      * an freien Zahlen: Die Grenze steht damit im Code und nicht im Kopf.
@@ -190,42 +251,52 @@ export const BannerMuster: React.FC = () => (
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 15,
+        gap: 6,
         zIndex: 1,
       }}
     >
-      {/* Die beiden Akkus, zentriert ueber dem Satz. */}
+      {/* Die beiden Figuren, zentriert ueber der Wortmarke. */}
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <div style={{ width: 174, height: 130 }}>
+        <div style={{ width: FIGUR_BREIT, height: FIGUR_HOCH }}>
           <Figur rig={nachleser} pose={POSEN.zeigen} />
         </div>
-        <div style={{ width: 174, height: 130, marginLeft: -40 }}>
+        <div style={{ width: FIGUR_BREIT, height: FIGUR_HOCH, marginLeft: -FIGUR_VERSATZ }}>
           <Figur rig={zeiger} pose={POSEN.ruhe} />
         </div>
       </div>
+
+      {/*
+       * Die Wortmarke in den gedaempften Kennfarben — dieselbe Fassung wie in
+       * der Kopfzeile jedes Videos. Ohne Doppelzeichen davor: Die beiden
+       * Akkus stehen als Figuren schon darueber, und das Zeichen ist ihre
+       * Abkuerzung.
+       */}
+      <Wortmarke groesse={30} farbe={FARBEN.kennVoltiTief} farbeZwei={FARBEN.kennWattiTief} />
 
       <div
         style={{
           fontFamily: SCHRIFT.familie,
           fontStyle: 'italic',
           fontWeight: SCHRIFT.schwarz,
-          fontSize: 72,
+          fontSize: 56,
           color: FARBEN.tinte,
           lineHeight: 1.05,
           textAlign: 'center',
+          whiteSpace: 'nowrap',
         }}
       >
         {BANNER_SATZ}
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <div style={{ width: 88, height: 7, borderRadius: 999, backgroundColor: FARBEN.blau }} />
+        {/* Der Strich traegt den Akzent, und der ist auf der Buehne rot. */}
+        <div style={{ width: 88, height: 7, borderRadius: 999, backgroundColor: FARBEN.vorhang }} />
         <span
           style={{
             fontFamily: SCHRIFT.familie,
             fontStyle: 'italic',
             fontWeight: SCHRIFT.fett,
-            fontSize: 36,
+            fontSize: 28,
             color: FARBEN.tinteWeich,
             whiteSpace: 'nowrap',
           }}
@@ -236,4 +307,3 @@ export const BannerMuster: React.FC = () => (
     </div>
   </div>
 );
-

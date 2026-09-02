@@ -1,5 +1,7 @@
-import { BAUFORMEN,
+import { AUSRUFE,
+  BAUFORMEN,
   KALTSTART_ARTEN,
+  SCHLUSSFORMELN,
   type Bauform,
   REAKTIONS_MACHARTEN,
   UNBETEILIGTE_ARTEN,
@@ -12,6 +14,7 @@ import { BAUFORMEN,
   type Short,
   type Szene,
   FIGURENNAMEN,
+  type Sprecher,
   ZUGARTEN,
   type Zug,
   GESPRAECHSBOEGEN,
@@ -367,6 +370,16 @@ export const ZU_BREIT_IM_WORTWECHSEL = new Set(['achselzucken']);
  * Kameraziel, `skripte/schemapruefung.ts` haelt beide gegeneinander.
  */
 export const ZU_BREIT_MIT_SYMBOL = new Set(['staunen', 'achselzucken', 'hochschauen']);
+
+/**
+ * Wie lange der Kaltstart hoechstens spricht.
+ *
+ * **Vier Sekunden und nicht die 3,5 des Aufschlags.** Die Begruendung steht am
+ * Feld `satz` in `src/typen.ts`: Der Aufschlag ist eine Szene unter sechs, der
+ * Kaltstart ist der ganze Hook. Die Zahl ist eine Entscheidung vom 02.09.2026
+ * und keine Messung — sie faellt, sobald drei Kaltstarts vertont sind.
+ */
+const KALTSTART_MAX_SEK = 4.0;
 
 export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const befunde: Befund[] = [];
@@ -1128,7 +1141,7 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const kaltstartDauer = kaltstartGemessen
     ? kLetztes.endeSek - kErstes.startSek
     : short.kaltstart.satz.length / ZEICHEN_PRO_SEKUNDE;
-  if (kaltstartDauer > LAENGE_SEK.hookMaximum) {
+  if (kaltstartDauer > KALTSTART_MAX_SEK) {
     melde(
       'fehler',
       'kaltstart',
@@ -1139,42 +1152,75 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   }
 
   /*
-   * **Der Anschluss: Die erste Zeile nach dem Vorhang kommt vom anderen.**
+   * **Der Anschluss: Die erste Szene macht aus dem Selbstgespräch ein Gespräch.**
    *
-   * Der Kaltstart ist kein Teaser, der abreisst. Watti stolpert hinein, Volti
-   * hebt auf — oder Volti staunt, und Watti kommt dazu. Spraeche dieselbe
-   * Figur weiter, waere der Vorhang mitten in ihrem eigenen Satz gefallen, und
-   * der Zuschauer haette zehn Sekunden Show zwischen zwei Haelften einer Zeile.
+   * ## Die Regel hat am ersten fremden Dialog vier Stunden gehalten
    *
-   * Geprueft wird der Sprecher, nicht die Haltung — die traegt die Regel
-   * darunter.
+   * Sie hiess bis zum 02.09.2026 nachmittags: „Die erste Zeile nach dem Vorhang
+   * kommt vom **anderen**." Die Begruendung klang gut — spraeche dieselbe Figur
+   * weiter, waere der Vorhang mitten in ihrem Satz gefallen.
+   *
+   * Emirhans erster selbstgeschriebener Dialog macht es anders und macht es
+   * besser: Watti sagt vor dem Vorhang „Oh man ich haette mein Passwort
+   * wechseln muessen" und danach „Volti, ich brauche deine Hilfe". Der Vorhang
+   * ist eben **kein Schnitt mitten im Gedanken, sondern ein Zeitsprung** — vor
+   * ihm steht Watti allein mit seinem Schaden, hinter ihm geht er zu seinem
+   * Bruder.
+   *
+   * ## Was die alte Regel eigentlich wollte
+   *
+   * Nicht den Sprecherwechsel, sondern das **Gespraech**: Der Kaltstart ist ein
+   * Selbstgespraech, und die erste Szene muss daraus eines zu zweit machen.
+   * Dafuer gibt es zwei Wege, und Emirhans Satz geht den zweiten:
+   *
+   * 1. Der andere antwortet — der alte Fall.
+   * 2. Derselbe **redet den anderen an** — „Volti, ich brauche deine Hilfe".
+   *
+   * Beides ist pruefbar, und beides schliesst den einen Fall aus, der wirklich
+   * schlecht ist: dieselbe Figur redet weiter, als waere nichts gewesen.
    */
   const kaltstartArt = KALTSTART_ARTEN.find((a) => a.schluessel === short.kaltstart.art);
   const ersterAnteil = short.szenen[0]?.rede?.[0];
   if (kaltstartArt !== undefined && ersterAnteil !== undefined) {
-    if (ersterAnteil.sprecher === kaltstartArt.wer) {
-      const name = kaltstartArt.wer === 'zeiger' ? 'Watti' : 'Volti';
+    const anderer: Sprecher = kaltstartArt.wer === 'zeiger' ? 'nachleser' : 'zeiger';
+    const beantwortet = ersterAnteil.sprecher === anderer;
+    /*
+     * Die Anrede zaehlt nur in der **ersten Zeile**, nicht irgendwo in der
+     * Szene. Wer den anderen erst im dritten Satz beim Namen nennt, hat die
+     * ersten beiden ins Leere gesprochen.
+     */
+    const spricht = ersterAnteil.text.toLowerCase();
+    const redetAn = spricht.includes(FIGURENNAMEN[anderer].toLowerCase());
+
+    if (!beantwortet && !redetAn) {
       melde(
         'fehler',
         'kaltstart',
-        `${name} spricht den Kaltstart und danach auch die erste Zeile. ` +
-          'Der Vorhang liegt dazwischen — der andere muss aufheben, was vor ihm lag.',
+        `${FIGURENNAMEN[kaltstartArt.wer]} spricht den Kaltstart und danach auch die erste ` +
+          `Zeile, ohne ${FIGURENNAMEN[anderer]} anzusprechen. Der Kaltstart ist ein ` +
+          'Selbstgespräch — die erste Szene muss ein Gespräch daraus machen.',
       );
     }
 
     /*
-     * **Und ihr Zug muss antworten.** `abbiegen` ist hier verboten, und das
-     * ist die einzige Stelle, an der ein Zug ausdruecklich ausgeschlossen ist:
-     * Der Zug, der „am Gesagten vorbeigeht", ist genau das, was ein Kaltstart
-     * nicht ueberlebt. Er hat schon einmal ein fertiges Video ruiniert.
+     * **Der Zug muss antworten — wenn der andere spricht.**
+     *
+     * Redet die Kaltstartfigur selbst weiter, hat sie nichts zu beantworten;
+     * sie **bittet**, und dafuer gibt es seit dem 02.09.2026 einen eigenen Zug.
+     * Die alte Fassung meldete hier bei jedem Hilferuf, also genau bei dem Bau,
+     * den sie erlauben sollte.
      */
     const antwortende = new Set(['nachhaken', 'richtigstellen', 'beantworten', 'widersprechen']);
-    if (!antwortende.has(ersterAnteil.zug)) {
+    const eroeffnende = new Set(['bitten', 'behaupten']);
+    const erlaubt = beantwortet ? antwortende : eroeffnende;
+    if (!erlaubt.has(ersterAnteil.zug)) {
       melde(
         'hinweis',
         'kaltstart',
-        `Die erste Zeile nach dem Vorhang trägt „${ersterAnteil.zug}". Sie soll auf den ` +
-          `Kaltstart antworten: ${[...antwortende].join(', ')}.`,
+        `Die erste Zeile nach dem Vorhang trägt „${ersterAnteil.zug}". ` +
+          (beantwortet
+            ? `Sie soll auf den Kaltstart antworten: ${[...antwortende].join(', ')}.`
+            : `Sie spricht den anderen an und eröffnet damit: ${[...eroeffnende].join(', ')}.`),
       );
     }
   }
@@ -2277,6 +2323,49 @@ const STIMMANTEIL_MAX = 2 / 3;
  * beteiligten Shorts statt am Lauf — nur so erscheinen sie in der Freigabe
  * dort, wo die Entscheidung faellt.
  */
+/**
+ * Wie viele Zugketten es ueberhaupt gibt — Laenge 2, 3 und 4.
+ *
+ * Gerechnet aus `ZUGARTEN` und nicht danebengeschrieben, weil eine
+ * danebengeschriebene Zahl beim naechsten Zug still falsch wird. Genau das ist
+ * am 02.09.2026 passiert: `bitten` kam dazu, und drei Zahlen im Kommentar
+ * darueber stimmten von da an nicht mehr.
+ *
+ * Das Modell ist das, was die uebrigen Regeln erzwingen:
+ *
+ * - **Beleg, Reaktion, Beleg im Wechsel.** Zwei behauptende Zuege
+ *   hintereinander sind kein Gespraech, sondern ein Vortrag — dagegen stehen
+ *   `stimmanteil` und `redelauf`.
+ * - **Die Antwortpflicht.** Wer `widersprechen` sagt, bekommt einen Konter;
+ *   wer `nachhaken` oder `bitten` sagt, eine Auskunft.
+ *
+ * Das ist eine Naeherung und will keine sein: Sie sagt die Groessenordnung,
+ * und die entscheidet, auf welcher Kettenlaenge die laufweite Regel sitzt.
+ */
+const ZUGRAUM: Record<number, number> = (() => {
+  const alle = Object.keys(ZUGARTEN) as Zug[];
+  const folgt = (a: Zug, b: Zug): boolean => {
+    if (ZUGARTEN[a].behauptet === ZUGARTEN[b].behauptet) return false;
+    const verlangt = ZUGARTEN[a].verlangt;
+    return verlangt === undefined || ZUGARTEN[b].schliesst.includes(verlangt);
+  };
+  const zaehle = (laenge: number): number => {
+    let n = 0;
+    const lauf = (kette: Zug[]): void => {
+      if (kette.length === laenge) {
+        n += 1;
+        return;
+      }
+      for (const z of alle) {
+        if (kette.length === 0 || folgt(kette[kette.length - 1]!, z)) lauf([...kette, z]);
+      }
+    };
+    lauf([]);
+    return n;
+  };
+  return { 2: zaehle(2), 3: zaehle(3), 4: zaehle(4) };
+})();
+
 const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund[] => {
   const befunde: Befund[] = [];
 
@@ -2303,6 +2392,54 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
       regel: 'wiederholung',
       text: `Thema „${short.themaId}" lief schon im Lauf ${frueher}.`,
     });
+  }
+
+  /* ── Ausrufe und Schlussformeln: nicht zweimal hintereinander ────── */
+
+  /*
+   * **Die beiden Vorraete, die bis zum 02.09.2026 nur in Prosa standen.**
+   *
+   * `voice.md` sagt seit dem 25.08.2026: „Der Ausruf darf nie zum Markenwort
+   * werden … dasselbe Wort steht nicht zweimal im selben Lauf." Das war die
+   * einzige Humorregel des Kanals **ohne Wache** — kein Skript kannte den
+   * Vorrat, also konnte keins ihn zaehlen.
+   *
+   * Voltis Schlussformel bekommt dieselbe Regel, bevor es sie ueberhaupt
+   * mehrfach gibt. Der Grund steht in der Projektgeschichte: „Eine Regel, die
+   * erst gebaut wird, wenn sie gebraucht wird, wird unter Zeitdruck gebaut."
+   *
+   * **Hinweis und kein Fehler, und nur auf benachbarten Shorts.** Ein Ausruf,
+   * der zweimal in derselben Woche faellt, ist Sprache; zweimal hintereinander
+   * ist ein Takt, den man hoert. Dieselbe Schwelle wie beim Zugtripel.
+   */
+  const gesagteZeilen = (short: Short): string[] =>
+    short.szenen.flatMap((sz) => (sz.rede ?? []).map((r) => r.text));
+
+  const vorratsTreffer = (short: Short, vorrat: readonly string[]): string[] => {
+    const zeilen = gesagteZeilen(short).map((t) => t.toLowerCase());
+    return vorrat.filter((v) => zeilen.some((z) => z.includes(v.toLowerCase())));
+  };
+
+  for (let i = 1; i < shorts.length; i += 1) {
+    const vorher = shorts[i - 1]!;
+    const jetzt = shorts[i]!;
+    for (const [was, vorrat] of [
+      ['Ausruf', AUSRUFE],
+      ['Schlussformel', SCHLUSSFORMELN],
+    ] as const) {
+      const davor = new Set(vorratsTreffer(vorher, vorrat));
+      const doppelt = vorratsTreffer(jetzt, vorrat).filter((v) => davor.has(v));
+      if (doppelt.length === 0) continue;
+      befunde.push({
+        stufe: 'hinweis',
+        shortId: jetzt.id,
+        regel: was === 'Ausruf' ? 'ausruf' : 'schlussformel',
+        text:
+          `„${doppelt.join('", „')}" steht in ${vorher.id} und ${jetzt.id}. ` +
+          `Der ${was}vorrat ist da, damit nichts zum Markenwort wird — ` +
+          'ein fester Marker ist in vier Wochen eine Schablone.',
+      });
+    }
   }
 
   /* ── Keine Kaltstart-Art zweimal hintereinander ──────────────────── */
@@ -2528,15 +2665,22 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
    *
    * | Einheit | moegliche | in 3 gesehenen Shorts erwartet |
    * |---|---|---|
-   * | Zugpaar | 72 | ~30 je Woche — harmlos, das ist Sprache |
-   * | **Zugtripel** | 380 | **~1,1 — die Sichtbarkeitsschwelle** |
-   * | Zugquadrupel | 2.600 | 0,17 — unsichtbar |
+   * | Zugpaar | 73 | ~30 je Woche — harmlos, das ist Sprache |
+   * | **Zugtripel** | 403 | **~1,0 — die Sichtbarkeitsschwelle** |
+   * | Zugquadrupel | 2.263 | 0,19 — unsichtbar |
    *
    * Eine Regel auf Paarebene waere bei sieben Shorts je Woche **unerfuellbar**
    * — dieselbe Rechnung, an der die Drittelregel fuer Bauformen gekippt ist.
-   * Eine auf Quadrupelebene waere tote Regel. Das ist zugleich das einzige
-   * belastbare Argument fuer zwoelf Zugarten statt zehn: Bei zehn sinkt die
-   * Tripelzahl auf 250 und die Erwartung steigt auf 1,7.
+   * Eine auf Quadrupelebene waere tote Regel.
+   *
+   * **Die Zahlen werden gerechnet und nicht mehr danebengeschrieben.** Hier
+   * standen 72, 380 und 2.600, gueltig fuer zwoelf Zugarten — und am
+   * 02.09.2026 kam `bitten` dazu und machte alle drei still falsch. Die
+   * Herleitung von damals ist nirgends aufgeschrieben und laesst sich nicht
+   * nachvollziehen; `ZUGRAUM` unten rechnet sie stattdessen aus `ZUGARTEN`,
+   * mit dem Modell, das die Regeln wirklich erzwingen: **Beleg, Reaktion,
+   * Beleg** im Wechsel, dazu die Antwortpflicht. Eine Zahl, die aus ihrer
+   * Quelle faellt, kann nicht veralten.
    *
    * **Nur benachbarte Shorts**, nicht der ganze Lauf. Ein Tripel, das am
    * Montag und am Freitag vorkommt, sieht niemand; zwei Videos an
@@ -2580,7 +2724,7 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
               .join(' → '),
           )
           .join('", „')}" steht in ${vorher.id} und ${jetzt.id}. ` +
-        'Bei 380 möglichen Tripeln liegt die Erwartung bei rund einer je drei ' +
+        `Bei ${ZUGRAUM[3]} möglichen Tripeln liegt die Erwartung bei rund einer je drei ` +
         'gesehenen Shorts — an zwei aufeinanderfolgenden Tagen hört man den Takt.',
     });
   }
