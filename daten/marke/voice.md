@@ -373,6 +373,17 @@ das die Zielgruppe 18–30 nicht benutzt. Gestrichen wurden „Röhre" (niemand
 unter dreißig hatte einen Röhrenmonitor) und „Ladeziegel" (sagt keiner). Wer
 ein Wort erklären muss, hat keinen Witz mehr.
 
+> **Nachtrag vom 02.09.2026: Der teure Fall ist der, wo das Wort das Thema
+> ist.** „Röhre" und „Ladeziegel" waren Ausschmückung und ließen sich
+> streichen. Beim vierten Briefingbogen stand das Fachwort im Zentrum, und
+> Emirhan hat es beim Lesen gemerkt: *„Ich weiß selbst nicht einmal, was der
+> Memory-Effekt ist."* Wenn er es nicht weiß, weiß es die Zielgruppe auch nicht
+> — und fünf Sekunden Erklärung in einem Short sind fünf Sekunden Erklärvideo.
+>
+> **Der Ausweg ist nie die Erklärung, sondern das Verhalten.** Der Aberglaube
+> braucht keinen Namen: „Ich lade erst, wenn er ganz leer ist. Sonst merkt der
+> sich das." Jeder versteht ihn sofort, und niemand muss ein Wort lernen.
+
 **2 · Ein Bild schlägt ein Paradox.** „Das Teil funktioniert. Es darf nur
 nicht." ist eine saubere Verneinung, an der nichts zu sehen ist. „Einzelteile
 haben jetzt Herrchen" erzeugt ein Bild.
