@@ -1,11 +1,11 @@
 import { Buffer } from 'node:buffer';
 import { stilleBeschneidenPuffer } from './medien';
 import type { Redeanteil, Short, Sprecher, Untertitelwort, Zug } from './typen';
-import { regieVorrat } from './typen';
+import { KALTSTART_ARTEN, regieVorrat } from './typen';
 import {
   SPRECHERWECHSEL_SEK,
   SZENENGRENZE_SEK,
-  vorspannFestSek,
+  ansageAbSek,
   VORHANGFAHRT_SEK,
   ZEICHEN_PRO_SEKUNDE,
   themaAnsage,
@@ -817,6 +817,43 @@ export const shortVertonen = async (
    */
   const unplausibel: string[] = [];
 
+  /*
+   * **Der Kaltstart — der erste Satz des Videos, vor dem Vorhang.**
+   *
+   * Eigene Datei, eigene Wortzeiten, und beides **neben** `abschnitte` statt
+   * darin. Der Grund ist derselbe wie bei der Themenansage darunter: Die
+   * Aufschlagmessung in `src/pruefung.ts` filtert `woerter` gegen
+   * `szenenStartSek[1]`. Wanderten die Kaltstartwoerter dorthin, verlaengerten
+   * sie den gemessenen Aufschlag um ihre eigene Laenge — und der Short fiele
+   * an einer Regel durch, die er selbst mitbringt.
+   *
+   * **Wer spricht, steht in `KALTSTART_ARTEN` und nicht im Entwurf.** Dieselbe
+   * Tabelle, die auch das Schema und das Bild lesen; eine zweite Zuordnung
+   * daneben liefe beim ersten Umbau lautlos auseinander.
+   */
+  const kaltstartArt = KALTSTART_ARTEN.find((a) => a.schluessel === short.kaltstart.art);
+  const kaltstart = await synthetisieren(
+    short.kaltstart.satz,
+    { stimmeId: stimmen[kaltstartArt?.wer ?? 'zeiger'], ...KANAL_STIMME },
+    schluessel,
+    true,
+    `${short.id} Kaltstart`,
+  );
+  if (kaltstart.unplausibel) unplausibel.push(kaltstart.unplausibel);
+  const kaltstartdatei = tondateiname.replace('%', 'kaltstart');
+  const kaltstartBeschnitten = await stilleBeschneidenPuffer(kaltstart.ton);
+  toene.push({ datei: kaltstartdatei, ton: kaltstartBeschnitten.ton });
+  const kaltstartDauer = kaltstart.dauerSek - kaltstartBeschnitten.vornSek;
+  /* Die Woerter wandern um den weggeschnittenen Vorlauf nach vorn, wie in der
+     Schleife weiter unten — der Text steht sonst um genau diesen Betrag zu
+     spaet unter der Figur. */
+  const kaltstartWoerter = kaltstart.woerter.map((w) => ({
+    wort: w.wort,
+    startSek: Math.max(0, w.startSek - kaltstartBeschnitten.vornSek),
+    endeSek: Math.max(0, w.endeSek - kaltstartBeschnitten.vornSek),
+  }));
+
+
   const ansage = await synthetisieren(
     themaAnsage(short),
     { stimmeId: stimmen.nachleser, ...KANAL_STIMME },
@@ -840,7 +877,7 @@ export const shortVertonen = async (
   /* Die **gemessene** Dauer, nicht die geschaetzte: Ton und Bild liefen sonst
      um genau die Differenz auseinander. */
   uhr =
-    vorspannFestSek(short.format) +
+    ansageAbSek(kaltstartDauer) +
     (ansage.dauerSek - ansageBeschnitten.vornSek) +
     VORHANGFAHRT_SEK;
 
@@ -939,6 +976,11 @@ export const shortVertonen = async (
         dauerSek: uhr,
         woerter,
         szenenStartSek,
+        kaltstart: {
+          datei: kaltstartdatei,
+          dauerSek: kaltstartDauer,
+          woerter: kaltstartWoerter,
+        },
         vorspann: { datei: ansagedatei, dauerSek: ansage.dauerSek },
         ...(abschnitte.length > 1 ? { abschnitte } : {}),
       },

@@ -240,3 +240,70 @@ export const Redespalten: React.FC<{
     </>
   );
 };
+
+/**
+ * Der Kaltstart-Satz unter der einzelnen Figur.
+ *
+ * **Eine Spalte statt zweier**, denn vor dem Vorhang steht nur einer. Alles
+ * andere ist dasselbe: Schrift, Groesse, Schatten, die Farbe des Sprechers und
+ * das Sammeln der Gruppen, waehrend gesprochen wird. Sie liegt deshalb in
+ * dieser Datei und nicht in einer eigenen — zwei Bauteile mit demselben
+ * Aussehen laufen beim ersten Umbau auseinander, und das ist die Doppelung,
+ * gegen die hier ueberall eine Wache steht.
+ *
+ * Ihre Woerter kommen aus `tonspur.kaltstart.woerter` und nicht aus
+ * `tonspur.woerter`: Der Kaltstart liegt ausserhalb der Aufschlagmessung,
+ * sonst faellt jeder Short an einer Regel durch, die er selbst mitbringt.
+ */
+export const Kaltstartzeile: React.FC<{
+  woerter: Untertitelwort[];
+  /** Wer spricht — die Farbe kommt daher. */
+  wer: Sprecher;
+}> = ({ woerter, wer }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const sekunde = frame / fps;
+
+  if (woerter.length === 0) return null;
+  const sichtbar = gruppiere(woerter).filter((g) => sekunde >= g.startSek);
+  if (sichtbar.length === 0) return null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: standlinieImBild() + LUFT,
+        bottom: SICHERE_ZONE.unten,
+        left: VORHANG.rand + ABSTAND.s,
+        right: VORHANG.rand + ABSTAND.s,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 6,
+        textAlign: 'center',
+      }}
+    >
+      {sichtbar.map((g, i) => (
+        <div
+          key={g.startSek}
+          style={{
+            fontFamily: SCHRIFT.untertitel,
+            fontStyle: SCHRIFT.neigung,
+            fontWeight: SCHRIFT.schwarz,
+            fontSize: GROESSE,
+            lineHeight: 1.14,
+            letterSpacing: -0.5,
+            color: FARBE[wer],
+            opacity: i === sichtbar.length - 1 ? 1 : 0.62,
+            textShadow: [`0 0 10px ${FARBEN.grundRein}FA`, `0 0 20px ${FARBEN.grundRein}EB`].join(
+              ', ',
+            ),
+          }}
+        >
+          {g.woerter.map((w) => w.wort).join(' ')}
+        </div>
+      ))}
+    </div>
+  );
+};

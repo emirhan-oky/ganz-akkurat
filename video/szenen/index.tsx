@@ -291,6 +291,28 @@ const NurBuehne: React.FC<SzenenProps<'text'>> = ({ szene, dauer }) => {
   return <Buehne dauerBilder={dauer} illustration={Illustration(szene, frame, fps, dauer)} />;
 };
 
+/**
+ * Die Buehne des Kaltstarts — eine Figur, ein Symbol, sonst nichts.
+ *
+ * Sie nimmt denselben Weg wie jede Szene mit Zeichnung: `Illustration` baut das
+ * Buehnenbild, `Buehne` gibt ihm die ganze Flaeche. **Ein zweiter Bausatz fuer
+ * dieselbe Flaeche waere die Doppelung** — die Kamerafahrten, die Posenkette
+ * und die Standlinie muessten dort noch einmal stehen und liefen beim ersten
+ * Umbau auseinander.
+ *
+ * Der Text steht nicht hier, sondern als `Kaltstartzeile` unter der Figur —
+ * genauso wie die Redespalten in den Szenen.
+ */
+export const Kaltstartbild: React.FC<{ buehne: BuehnenbildDaten; dauer: number }> = ({
+  buehne,
+  dauer,
+}) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+
+  return <Buehne dauerBilder={dauer} illustration={Illustration({ buehne }, frame, fps, dauer)} />;
+};
+
 /* ─────────────────────────────── Frage ─────────────────────────────── */
 
 /**

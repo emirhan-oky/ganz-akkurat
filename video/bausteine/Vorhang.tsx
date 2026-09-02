@@ -75,43 +75,46 @@ import { poseAus } from './posen';
 const FAHRT_BILDER = VORHANG.fahrtBilder;
 
 /**
- * Der Zeitverlauf über die Vorspanndauer, als Anteile von 0 bis 1.
+ * Der Vorlauf in Bildern: zufahren, Karte, aufgehen.
  *
- * ## Warum `oeffnen` und `vergehen` gerechnet werden statt festzustehen
+ * **Seit dem 02.09.2026 in Bildern statt in Anteilen.** Vorher rechnete alles
+ * hier mit `frame / dauer`, und das war richtig, solange der Vorhang die ganze
+ * Zeit von Bild null an stand. Jetzt liegt der Kaltstart davor, und ein Anteil
+ * beschreibt eine Position im Ganzen — genau der Fehler, an dem am 31.08.2026
+ * die Themenzeile 1,2 Sekunden hinter ihrer eigenen Ansage stand.
  *
- * Bis zum 31.08.2026 stand hier `oeffnen: 0.86`, und das ging, solange der
- * Vorspann immer **4,8 Sekunden** dauerte. Mit der Themenansage wechselt seine
- * Länge je Short — 51 bis 63 Zeichen, rund vier Sekunden Unterschied.
+ * ```
+ * 0 ──────────── zufahren ──── titel ─────────── oeffnen ──── ende
+ *   Kaltstart              Fahrt        Vorspann          Fahrt
+ * ```
  *
- * Ein fester Anteil hätte dann **mitskaliert**: Bei einem längeren Vorspann
- * öffnete der Vorhang später und ließe hinterher Leerlauf stehen, obwohl die
- * Fahrt physisch immer dieselben zwölf Bilder braucht. **Ein Anteil beschreibt
- * eine Bewegung nur so lange richtig, wie das Ganze gleich lang bleibt.**
- *
- * Also von hinten gerechnet: Der Vorhang öffnet so, dass er mit dem Vorspann
- * fertig wird — egal wie lang der ist.
+ * **Der Vorhang faehrt wieder zu, und der alte Grund dagegen ist weg.** Am
+ * 31.08.2026 wurde das Zufahren entfernt, weil das Standbild bei Bild 0 eine
+ * **leere Buehne** zeigte: Hinter dem noch offenen Vorhang lag keine Szene,
+ * weil die erste erst nach dem Vorspann beginnt. Jetzt steht dort der
+ * Kaltstart. Ein Vorhang, der ueber eine Szene faellt, haengt von der Decke;
+ * einer, der ueber nichts faellt, haengt an nichts.
  */
-export const ablauf = (dauer: number) => {
-  const fahrt = FAHRT_BILDER / Math.max(1, dauer);
-  const oeffnen = 1 - fahrt;
+export const vorlaufAblauf = (kaltstartBilder: number, vorspannBilder: number) => {
+  const zufahren = kaltstartBilder;
+  const titel = zufahren + FAHRT_BILDER;
+  const ende = titel + vorspannBilder;
   return {
-    titel: 0,
-    /* Sie steht, bis der Vorhang aufgeht: Solange die Ansage läuft, gehört das
-       Thema ins Bild. Vorher stand hier ein fester Vorlauf, und der schnitt die
-       Zeile mitten in ihrer eigenen Ansage weg. */
-    vergehen: oeffnen - fahrt,
-    oeffnen,
+    zufahren,
+    titel,
+    /* Der Vorhang soll mit dem Vorspann fertig werden — die Fahrt liegt in
+       seinen letzten Bildern, nicht dahinter. `vorspannSek` rechnet sie mit. */
+    oeffnen: ende - FAHRT_BILDER,
+    ende,
   };
 };
-
-const anteil = (frame: number, dauer: number) => frame / Math.max(1, dauer);
 
 /**
  * Wie weit der Vorhang im Ruhezustand zu ist — die beiden stehenden Streifen.
  *
  * Abgeleitet aus `VORHANG.rand`, nicht daneben geschrieben. Eine Breite gehört
- * nicht in `ABLAUF`: Das ist eine Tabelle von **Zeitanteilen**, und zwei
- * Größen in einem Record laufen beim ersten Umbau auseinander.
+ * nicht in den Ablauf: Das ist ein Zeitplan, und zwei Größen in einem Record
+ * laufen beim ersten Umbau auseinander.
  */
 export const RUHE = VORHANG.rand / (FORMAT.breite / 2);
 
@@ -147,47 +150,49 @@ const BEHANG_RUHE = 64;
  * Wie weit der Vorhang zu ist. 0 wäre ganz offen, 1 geschlossen — **der
  * Ruhewert ist `RUHE`, nicht 0.**
  *
- * Die Funktion gilt damit auf der ganzen Zeitachse und nicht nur im Vorspann:
- * `interpolate` klemmt an beiden Enden, also liefert sie für jedes Bild davor
- * und danach `RUHE`. Kein Sonderfall, keine zweite Kurve daneben.
+ * Zwei Fahrten, ein Minimum: die Zufahrt nach dem Kaltstart und die Öffnung am
+ * Ende des Vorspanns. `interpolate` klemmt an beiden Enden, also liefert die
+ * Funktion für jedes Bild davor und danach `RUHE` — kein Sonderfall, keine
+ * zweite Kurve daneben.
  */
-export const vorhangstand = (frame: number, dauer: number): number => {
-  const t = anteil(frame, dauer);
-  const A = ablauf(dauer);
-  const spanne = FAHRT_BILDER / Math.max(1, dauer);
-
-  /*
-   * **Der Vorhang ist von Bild null an geschlossen — er faehrt nicht mehr zu.**
-   *
-   * Bis zum 31.08.2026 sass der Vorspann zwischen Aufschlag und Gespraech, und
-   * dort war das Zufahren die halbe Geste: Man sah eine Buehne, dann deckte
-   * sich der Vorhang darueber.
-   *
-   * Am Anfang gibt es nichts zuzudecken. Der erste Anlauf liess ihn trotzdem
-   * zufahren, und das Standbild bei Bild 0 zeigte es sofort: **eine leere
-   * Buehne** — hinter dem noch offenen Vorhang lag keine Szene, weil die erste
-   * erst nach dem Vorspann beginnt. Derselbe Fehler wie die leere Buehne am
-   * Videoende, nur am anderen Ende.
-   */
-  return interpolate(t, [A.oeffnen, A.oeffnen + spanne], [1, RUHE], {
+export const vorhangstand = (
+  frame: number,
+  kaltstartBilder: number,
+  vorspannBilder: number,
+): number => {
+  const A = vorlaufAblauf(kaltstartBilder, vorspannBilder);
+  const zu = interpolate(frame, [A.zufahren, A.titel], [RUHE, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
     easing: Easing.inOut(Easing.sin),
   });
+  const auf = interpolate(frame, [A.oeffnen, A.ende], [1, RUHE], {
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
+    easing: Easing.inOut(Easing.sin),
+  });
+  return Math.min(zu, auf);
 };
 
 /** Wie sichtbar die Titelkarte ist: 0 bis 1. */
-export const titelstand = (frame: number, dauer: number): number => {
-  const t = anteil(frame, dauer);
-  const A = ablauf(dauer);
+export const titelstand = (
+  frame: number,
+  kaltstartBilder: number,
+  vorspannBilder: number,
+): number => {
+  const A = vorlaufAblauf(kaltstartBilder, vorspannBilder);
   return Math.min(
-    /* Schnell, nicht sanft: Bei Bild null steht sonst 0,7 Sekunden lang ein
-       leerer Vorhang, und der Short faengt mit nichts an. */
-    interpolate(t, [A.titel, A.titel + 0.02], [0, 1], {
+    /* Schnell, nicht sanft — und erst, wenn der Stoff steht. Eine Karte, die
+       auf einem fahrenden Vorhang aufblendet, liegt einen Moment lang auf der
+       Szene dahinter. */
+    interpolate(frame, [A.titel, A.titel + 3], [0, 1], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     }),
-    interpolate(t, [A.vergehen, A.oeffnen], [1, 0], {
+    /* Karte weg, dann Vorhang auf. Ohne diese Reihenfolge stehen die Figuren
+       der Karte einen Moment neben denen der Buehne — genau der Befund, der am
+       01.09.2026 den Abspann zweimal falsch umbauen liess. */
+    interpolate(frame, [A.oeffnen - FAHRT_BILDER, A.oeffnen], [1, 0], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     }),
@@ -497,9 +502,7 @@ export const Vorhangstoff: React.FC<{
  * kein Layout.**
  */
 const Vorhangkarte: React.FC<{
-  /** Der Showtitel aus `FORMATE[format].show`. */
-  show: string;
-  /** Was zwischen Namenszeile und Figuren steht. */
+  /** Was zwischen Showtitel und Figuren steht. */
   mitte: React.ReactNode;
   /** 0 bis 1 — wie sichtbar die ganze Karte ist. */
   sichtbar: number;
@@ -507,7 +510,7 @@ const Vorhangkarte: React.FC<{
   pose: 'winken' | 'ruhe';
   /** Höhe der Fläche in Pixeln — für den unteren Rand. */
   hoehe: number;
-}> = ({ show, mitte, sichtbar, pose, hoehe }) => {
+}> = ({ mitte, sichtbar, pose, hoehe }) => {
   const frame = useCurrentFrame();
 
   const figur = (rig: typeof nachleser, s: 'links' | 'rechts', x: number) => {
@@ -585,45 +588,38 @@ const Vorhangkarte: React.FC<{
               WebkitTextStroke: `4px ${FARBEN.grundRein}`,
             }}
           >
-            {show}
-          </div>
-          {/*
-            **„mit Volti und Watti", jeder Name in seiner Farbe** — aber in
-            der *aufgehellten* Fassung. Die gedämpften Töne der Wortmarke
-            haben auf Theaterrot Kontrast 1,06 und 1,90, sind dort also
-            unsichtbar. Dieselbe Trennung, die es für Blau seit dem
-            24.08.2026 gibt: zwei Rollen, zwei Werte.
-
-            Hier standen zuerst `kennVoltiHell` und `kennWattiHell` mit 3,23
-            und 4,36. Diese Zahlen sind gegen die **Grundfarbe** gerechnet, und
-            der Stoff ist gefaltet: Gegen den hellsten Ton fallen sie auf
-            **1,76** und **2,37**. Dieselbe Sorte Fehler wie beim Saum der
-            Figuren — dort gegen den Körper statt gegen die Figur gerechnet,
-            hier gegen einen Mittelwert statt gegen einen Verlauf.
-
-            **Der Kontrast gegen einen Farbverlauf ist der gegen seinen
-            ungünstigsten Ton.** Jetzt 4,19 und 4,49.
-          */}
-          <div
-            style={{
-              /* Die Zeile klebte am Titel — dazwischen lag nur dessen
-                 Zeilenhoehe von 1,02. */
-              marginTop: 34,
-              fontWeight: SCHRIFT.duenn,
-              fontSize: 38,
-              color: FARBEN.grundRein,
-              opacity: 0.86,
-            }}
-          >
-            mit{' '}
-            <span style={{ color: FARBEN.blauHell, fontWeight: SCHRIFT.schwarz }}>
+            Die{' '}
+            <span style={{ color: FARBEN.blauHell, WebkitTextStroke: `4px ${FARBEN.blauHell}` }}>
               {FIGURENNAMEN.nachleser}
             </span>{' '}
-            und{' '}
-            <span style={{ color: FARBEN.anzeigeZweiHell, fontWeight: SCHRIFT.schwarz }}>
+            &{' '}
+            <span
+              style={{
+                color: FARBEN.anzeigeZweiHell,
+                WebkitTextStroke: `4px ${FARBEN.anzeigeZweiHell}`,
+              }}
+            >
               {FIGURENNAMEN.zeiger}
-            </span>
+            </span>{' '}
+            Show
           </div>
+          {/*
+            **Die Zeile „mit Volti und Watti" ist am 02.09.2026 gestrichen** —
+            zusammen mit dem Showtitel je Format und den zehn festen Aufnahmen,
+            die beides gesprochen haben.
+
+            Der Grund ist Zeit. Showtitel und Einwurf kosteten je nach Show
+            3,69 bis 4,40 Sekunden, und aus genau diesen Sekunden ist der
+            Kaltstart vor dem Vorhang bezahlt. **Zweimal dasselbe zu sagen war
+            dabei der eigentliche Anlass:** Die Namen standen in der Zeile und
+            wurden zusaetzlich gesprochen, waehrend der Zuschauer noch gar
+            nicht wusste, worum es geht.
+
+            Ihre gemessenen Farben leben oben weiter. `kennVoltiHell` und
+            `kennWattiHell` haben auf dem gefalteten Stoff nur 1,76 und 2,37;
+            die hellen Fassungen 4,19 und 4,49. **Der Kontrast gegen einen
+            Farbverlauf ist der gegen seinen unguenstigsten Ton.**
+          */}
         </div>
 
         {/* 130 statt 54: Der Titelblock hatte rund 270 Pixel ungenutzten
@@ -657,11 +653,12 @@ const Vorhangkarte: React.FC<{
  * winken.
  */
 export const Vorspannkarte: React.FC<{
-  show: string;
   /** Die Themenzeile aus `short.vorspann`. */
   zeile: string;
-  /** Laufzeit des Vorspanns in Bildern. */
+  /** Laufzeit des Vorspanns in Bildern — ohne den Kaltstart davor. */
   dauer: number;
+  /** Wie viele Bilder der Kaltstart vor dem Vorhang belegt. */
+  kaltstartBilder: number;
   /**
    * Ab welchem Bild die Themenzeile steht — **derselbe Wert, ab dem sie
    * gesprochen wird.**
@@ -675,7 +672,7 @@ export const Vorspannkarte: React.FC<{
   zeileAbBild: number;
   /** Höhe der Fläche in Pixeln — für den unteren Rand. */
   hoehe: number;
-}> = ({ show, zeile, dauer, zeileAbBild, hoehe }) => {
+}> = ({ zeile, dauer, kaltstartBilder, zeileAbBild, hoehe }) => {
   const frame = useCurrentFrame();
   const zeileAuf = interpolate(frame, [zeileAbBild, zeileAbBild + 6], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -684,8 +681,7 @@ export const Vorspannkarte: React.FC<{
 
   return (
     <Vorhangkarte
-      show={show}
-      sichtbar={titelstand(frame, dauer)}
+      sichtbar={titelstand(frame, kaltstartBilder, dauer)}
       pose="winken"
       hoehe={hoehe}
       mitte={
@@ -760,11 +756,10 @@ const ABSPANN_WATTI = 'Wirklich.';
  * ueber 4 auf dem gefalteten Stoff.
  */
 export const Abspannkarte: React.FC<{
-  show: string;
   /** Ab welchem Bild Watti „Wirklich." sagt — derselbe Wert, ab dem es steht. */
   wattiAbBild: number;
   hoehe: number;
-}> = ({ show, wattiAbBild, hoehe }) => {
+}> = ({ wattiAbBild, hoehe }) => {
   const frame = useCurrentFrame();
   const auf = interpolate(frame, [FAHRT_BILDER, FAHRT_BILDER + 6], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -777,7 +772,6 @@ export const Abspannkarte: React.FC<{
 
   return (
     <Vorhangkarte
-      show={show}
       sichtbar={auf}
       pose="ruhe"
       hoehe={hoehe}

@@ -51,14 +51,31 @@ export const passwortWechseln: Short = {
   weitererzaehlt: 'Nicht der Kalender entscheidet.',
   suchbegriff: 'Passwort wechseln',
   /*
-   * **„Bringt gar nichts" stand hier bis zum 31.08.2026** — und war der
-   * teuerste Fehler dieses Projekts in seiner reinsten Form: Das BSI sagt
-   * „erhoeht die Sicherheit **nicht automatisch**", und daraus wurde „gar
-   * nichts". Die Zeile haengt seitdem an
-   * `keine-zeitgemaesse-schutzmassnahme` und traegt das **„pauschal"** mit.
+   * **Der Kaltstart, mit Emirhans Wortlaut** — der Satz, an dem die ganze
+   * Ebene entstanden ist. Watti steht vor dem Vorhang neben einem Zettel und
+   * merkt gerade, dass es zu spaet ist.
+   *
+   * Gekuerzt ist er um fuenf Zeichen: „Kacke ich haette mein Passwort
+   * wechseln muessen" liegt mit Satzzeichen bei 47 und damit ueber den 3,5
+   * Sekunden, die der erste Satz des Videos haben darf.
    */
-  vorspann: 'Passwort regelmäßig wechseln ist überholt',
-  vorspannBelegId: 'keine-zeitgemaesse-schutzmassnahme',
+  kaltstart: {
+    art: 'momentdanach',
+    satz: 'Kacke. Passwort hätte ich wechseln müssen.',
+    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'zettel' },
+  },
+  /*
+   * **Die Zeile traegt seit dem 02.09.2026 einen Namen und behauptet nichts
+   * mehr.** Hier stand „Passwort regelmaessig wechseln ist ueberholt", davor
+   * „bringt gar nichts" — der teuerste Fehler dieses Projekts in seiner
+   * reinsten Form: Das BSI sagt „erhoeht die Sicherheit **nicht
+   * automatisch**".
+   *
+   * Die Belegkennung ist nicht gestrichen, sondern gewandert — dorthin, wo vor
+   * dem Vorhang noch etwas behauptet wird. Hier behauptet nichts mehr, also
+   * kann nichts mehr ueberzogen werden.
+   */
+  vorspann: 'Wattis Passwort und der Kalender',
 
 
   szenen: [
@@ -77,28 +94,37 @@ export const passwortWechseln: Short = {
        * **Ohne Zeitangabe.** „Heute Nacht" waere am Sendetag falsch, ohne dass
        * jemand etwas geaendert haette.
        */
-      sprechtext: 'Jemand war in meinem Konto.',
-      rede: [{ sprecher: 'zeiger', zug: 'behaupten', text: 'Jemand war in meinem Konto.' }],
       /*
-       * **Watti allein mit der Meldung.** Ein Symbol ist nur ohne zweite Figur
-       * erlaubt — es steht fest auf x = 152 und laege sonst in ihr. Der
-       * Aufschlag ist die einzige Szene, in der das ohnehin passt: Die Lage
-       * gehoert Watti, Volti kommt erst mit der Nachfrage dazu.
+       * **Volti hebt auf, was vor dem Vorhang lag** — seit dem 02.09.2026.
+       * Wattis Satz stand hier allein; jetzt liegt der Kaltstart davor, und
+       * der Aufschlag ist die Antwort darauf. Spraeche wieder Watti, waere der
+       * Vorhang mitten in seinem eigenen Gedanken gefallen.
        *
-       * `browserfenster` und nicht `kalender`: Der Kalender stand hier, solange
-       * der Short bei „90 Tage" anfing. Jetzt faengt er bei einer Meldung an,
-       * und der Kalender kommt spaeter — als Wattis Irrtum, nicht als Aufhaenger.
+       * Zusammen 40 Zeichen plus die Sprecherpause: rund 3,4 Sekunden, knapp
+       * unter der Grenze.
        */
+      sprechtext: 'Was ist los? Jemand war in meinem Konto.',
+      rede: [
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was ist los?' },
+        { sprecher: 'zeiger', zug: 'beantworten', text: 'Jemand war in meinem Konto.' },
+      ],
       /*
-       * **`stutzen` statt `staunen`, und der Grund ist Geometrie.** `staunen`
-       * reicht 63,9 Einheiten nach aussen; mit einem Symbol daneben steht die
-       * Figur auf x = 52, und das Kamerafeld beginnt am Ende der Fahrt bei
-       * −2,9. Wattis linker Arm endete im fertigen Video am Ellenbogen.
+       * **Beide stehen da, und die Requisite ist zum Kaltstart gewandert.**
+       * Ein Symbol ist nur ohne zweite Figur erlaubt — es steht fest auf
+       * x = 152 und laege sonst in ihr. Vor dem Vorhang steht Watti allein,
+       * also gehoert das Bild dorthin; hier fragt Volti zurueck.
        *
-       * `stutzen` traegt denselben Vorgang — die Figur sieht etwas und ist
-       * irritiert — und bleibt mit 52 im Bild.
+       * `stutzen` statt `staunen` bleibt: `staunen` reicht 63,9 Einheiten nach
+       * aussen, und im Wortwechsel greifen die weiten Posen ins andere
+       * Gehaeuse.
        */
-      buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'browserfenster' },
+      buehne: {
+        art: 'figur',
+        wer: 'zeiger',
+        von: 'ruhe',
+        nach: 'stutzen',
+        gegenueber: { von: 'ruhe', nach: 'lesen' },
+      },
     },
     {
       art: 'text',

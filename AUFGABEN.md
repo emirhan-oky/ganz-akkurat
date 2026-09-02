@@ -1969,3 +1969,89 @@ der Kasten im Schluss ist höher als breit — es deckelt die **Breite**. Deshal
 standen die Figuren ausgerechnet in der höchsten Bühne des Shorts am kleinsten,
 und mehr Platz nach unten hätte daran nichts geändert.
 
+
+## Vorschau in Buffer · 02.09.2026
+
+Das Video vom Vorabend liegt als **Entwurf** auf allen drei Kanälen — Status
+`draft` über `saveToDraft: true`, Termin vorsorglich auf den 24.12.2027. Ein
+Entwurf sendet nie von selbst und belegt keinen der zehn geplanten Plätze; die
+Kennungen stehen in `laeufe/2026-09-02/vorschau-buffer.json`.
+
+- [ ] **Nach der Begutachtung aufräumen:** die drei Entwürfe in Buffer löschen,
+      `probe/` in R2 leeren
+- [ ] **Die drei Fassungen je Dienst sind byte-identisch.** `cmp` auf TikTok
+      und YouTube meldet keinen Unterschied — der Zeiger in der Signatur war
+      das einzige, was `dienst` unterschied, und die Signatur ist seit dem
+      01.09. weg. Der Wochenlauf rendert dreimal dasselbe Video. Entweder
+      bekommt der Zeiger mitten im Video wieder eine dienstabhängige Richtung,
+      oder die Prop fällt samt der dreifachen Renderzeit
+- [ ] **Die Tonspur sagt in Szene 2 noch „fremdes Gerät"**; der Entwurf sagt
+      „Von einem fremden Gerät". `--ton-behalten` lehnt die Kombination zu
+      Recht ab, die Vorschau ist an ihm vorbei aus den Props gebaut. Löst sich
+      mit dem ersten Lauf mit vollem Ton
+
+## Der Kaltstart vor dem Vorhang · 02.09.2026
+
+Anlass waren zwei Befunde am selben Tag. Der eine kam von Zuschauern: Sie
+wollten vor dem Vorhang wissen, worum es geht. Der andere von Emirhan: „In den
+letzten Tagen ist mir aufgefallen, dass das Script von uns immer sehr kacke
+war." Die Bestandsaufnahme gab ihm recht, und zwar strukturell — **es gab
+keinen Skill fürs Schreiben.**
+
+- [x] ~~**`kaltstart` als Feld am Short**, mit `KALTSTART_ARTEN` (sechs für
+      Watti, eine für Volti) und `KALTSTART_SPRECHER` je Format. Ein Feld und
+      keine Szene: Alles vor der ersten Szene ist eine Anfangsbedingung der
+      Uhr, nie ein Einschub~~
+- [x] ~~**Der Vorhang fährt wieder zu.** Der Grund gegen das Zufahren vom
+      31.08. war die leere Bühne bei Bild 0 — jetzt steht dort der Kaltstart~~
+- [x] ~~**Showtitel und Einwurf gestrichen**, gesprochen wie geschrieben. Auf
+      der Karte steht fest „Die Volti & Watti Show", die Namen in ihren
+      Kennfarben. Zehn feste Aufnahmen entfallen~~
+- [x] ~~**Die Themenzeile trägt einen Namen und behauptet nichts mehr.**
+      `vorspannBelegId` ist nicht gestrichen, sondern auf `kaltstart.belegId`
+      umgezogen — den einzigen Satz vor dem Vorhang, der noch behauptet~~
+- [x] ~~**Anschlussregeln:** andere Figur, antwortender Zug, Wortbrücke als
+      Hinweis; laufweit keine Aufbauart zweimal hintereinander~~
+- [x] ~~**Der Skill `skript-schreiben`** — der fehlende Schritt zwischen
+      `thema-finden` und `woche-bauen`~~
+- [x] ~~Alle vier Entwürfe angepasst, `npm run pruefen` und `npm run bildrand`
+      grün (90 statt 78 Standbilder)~~
+
+**Gemessen, bevor gebaut wurde.** Emirhans Vorschlag, Rubrik und Namen aus dem
+Vorspann zu nehmen, bezahlt den Kaltstart fast genau:
+
+| | vorher | nachher |
+|---|---|---|
+| fester Teil | 4,45 s | 0,60 s |
+| Themenansage | 4,16 s | 4,16 s |
+| Vorhangfahrt | 0,40 s | 0,40 s |
+| **Vorspann** | **9,01 s** | **5,16 s** |
+
+Die Ersparnis liegt je nach Show bei 3,69 bis 4,40 Sekunden, der Kaltstart
+kostet mit der Fahrt 3,9. Die Videolänge bleibt gleich, die Zielwerte der
+Bauformen bleiben unangetastet. `raumstation` und `ersatzteil` sind dabei von
+74 auf 70 Sekunden gefallen und liegen weiter über dem Fenster.
+
+**Zwei Wachen kannten das neue Feld nicht, und eine hat sofort gemeldet.** Die
+Posenregel in `src/pruefung.ts` lief über `short.szenen` — zwei der vier
+Entwürfe standen im ersten Anlauf auf „staunen mit Symbol daneben", also genau
+auf dem Fehler, gegen den sie gebaut ist. `npm run bildrand` hatte dieselbe
+Lücke und rendert den Kaltstart jetzt mit. Und `zweitePerson` zählte eine
+Anrede zu wenig, weil die fehlende Zeile in den Kaltstart gewandert war.
+
+### Offen
+
+- [ ] **Die Dialoge sind nur mechanisch angepasst.** Wo der Anschluss es
+      verlangte, wurde die erste Szene umgestellt — mehr nicht. Der eigentliche
+      Umbau kommt mit Emirhans eigenen Zeilen; daraus wird das Humorprofil im
+      Skill, so wie die sieben Regeln am 25.08. aus fünfzehn bewerteten Zeilen
+      entstanden sind
+- [ ] **Die Wortbrücke bei `passwort-wechseln` meldet**, und sie hat recht: Der
+      Kaltstart sagt „Passwort", die erste Szene sagt „Konto". Der Zusammenhang
+      ist da, das Wort nicht
+- [ ] **Kein Ton.** Der Kaltstart braucht eine eigene Aufnahme je Short;
+      `--ton-behalten` trägt ihn nicht. Der erste Lauf mit `--mit-ton` kostet
+      Kontingent und braucht Zustimmung
+- [ ] **`daten/vorspannton.json` hält noch die zehn Formatdauern.** Sie werden
+      nicht mehr gelesen; `skripte/vorspannton.ts` kennt die Formatschleife
+      auch noch

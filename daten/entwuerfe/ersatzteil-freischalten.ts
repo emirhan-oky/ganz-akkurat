@@ -63,8 +63,25 @@ export const ersatzteilFreischalten: Short = {
   arbeitstitel: 'Das Ersatzteil und das Verbot',
   weitererzaehlt: 'Dein Teil passt. Freigeschaltet ist es damit nicht.',
   suchbegriff: 'Ersatzteil Reparatur',
-  vorspann: 'Ein Verbot für Hersteller, und die Ausnahme dazu',
-  vorspannBelegId: 'es-sei-denn-legitime',
+  /*
+   * **Die Beschwerde an den Falschen.** Watti schimpft auf das Geraet, und
+   * genau die Reaktion loest `absicht` ohnehin aus. Getroffen wird eine Sache,
+   * kein Mensch — und der Schraubenschluessel steht dabei in seiner Hand.
+   */
+  kaltstart: {
+    art: 'beschwerde',
+    satz: 'Mein Handy erkennt das Ersatzteil nicht!',
+    buehne: {
+      art: 'figur',
+      wer: 'zeiger',
+      von: 'ruhe',
+      nach: 'stutzen',
+      requisite: 'schraubenschluessel',
+    },
+  },
+  /* Die Zeile nennt Watti und behauptet nichts mehr; die Fundstelle
+     `es-sei-denn-legitime` traegt weiter die Szene, in der der Satz faellt. */
+  vorspann: 'Wattis Ersatzteil und das Verbot',
 
 
   szenen: [
@@ -77,9 +94,17 @@ export const ersatzteilFreischalten: Short = {
       position: 'aufschlag',
       sprechtext: 'Dein Ersatzteil passt. Es tut nichts.',
       rede: [
-        { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Ersatzteil passt. Es tut nichts.' },
+        /* `richtigstellen` statt `behaupten`: Der Satz sagt Watti, was
+           wirklich los ist — er antwortet auf dessen Kaltstart. */
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Dein Ersatzteil passt. Es tut nichts.',
+        },
       ],
-      buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'schraubenschluessel' },
+      /* Der Schraubenschluessel steht jetzt im Kaltstart — dieselbe Zeichnung
+         zweimal hintereinander waere keine zweite. */
+      buehne: { art: 'figur', wer: 'nachleser', von: 'ruhe', nach: 'stutzen' },
     },
     {
       /*

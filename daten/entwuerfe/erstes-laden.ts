@@ -73,8 +73,26 @@ export const erstesLaden: Short = {
    * Die neue Zeile behauptet weiterhin — sie sagt nur das, was die Quelle
    * hergibt: Nicht das Volle ist das Ziel, sondern die 70 %.
    */
-  vorspann: 'Dein Akku will gar nicht voll geladen werden',
-  vorspannBelegId: 'siebzig-prozent-unterbrechen',
+  /*
+   * **Der stolze Fehler.** Watti hat gerade zwoelf Stunden geladen und ist
+   * zufrieden damit — der Zuschauer weiss es besser oder ahnt es und bleibt,
+   * um recht zu behalten. „Stunden" traegt die Bruecke in den Aufschlag.
+   *
+   * Zwei Saetze, keine Jahreszahl, keine Groesse mit Einheit: Eine Zeitspanne
+   * behauptet etwas ueber den Sprecher, nicht ueber die Welt.
+   */
+  kaltstart: {
+    art: 'stolzerfehler',
+    satz: '12 Stunden geladen. Jetzt hält der ewig.',
+    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'uhr' },
+  },
+  /*
+   * **Die Zeile nennt Watti und behauptet nichts mehr.** Hier stand „Dein Akku
+   * will gar nicht voll geladen werden", davor „Voll laden macht deinen Akku
+   * kaputt" — „kaputt" trug keine der sechs Fundstellen des
+   * Umweltbundesamtes.
+   */
+  vorspann: 'Wattis Glaube ans erste Laden',
 
 
   szenen: [
@@ -88,7 +106,13 @@ export const erstesLaden: Short = {
       position: 'aufschlag',
       sprechtext: 'Erst 12 Stunden laden, sagte man dir.',
       rede: [
-        { sprecher: 'nachleser', zug: 'behaupten', text: 'Erst 12 Stunden laden, sagte man dir.' },
+        /* `richtigstellen` statt `behaupten`: Der Satz antwortet seit dem
+           02.09.2026 auf Wattis Kaltstart, statt aus dem Nichts zu behaupten. */
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Erst 12 Stunden laden, sagte man dir.',
+        },
       ],
       buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'uhr', stand: 'links' },
     },

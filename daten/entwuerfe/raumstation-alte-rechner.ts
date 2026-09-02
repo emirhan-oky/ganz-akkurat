@@ -68,8 +68,26 @@ export const raumstationAlteRechner: Short = {
    * Short nicht" warnt, nur in der unauffaelligsten Form: kein „seit heute",
    * sondern ein blosses Verb im Praesens. **Absolute Daten altern nicht.**
    */
-  vorspann: '2009 waren die ISS-Laptops über 5 Jahre alt',
-  vorspannBelegId: 'laptops-more-than-five-years-old',
+  /*
+   * **Der einzige Kaltstart, der Volti gehoert.** `gibtswirklich` ist das
+   * Format, in dem niemand einen Fehler macht — es gibt nichts, worin Watti
+   * haette hineintappen koennen. Also staunt Volti, und weil sein Staunen
+   * etwas Wahres ueber die Welt sagt, traegt es die Fundstelle, die vorher an
+   * der Themenzeile hing.
+   */
+  kaltstart: {
+    art: 'erstaunen',
+    satz: 'Wie, dein Handy ist zu modern für die ISS?',
+    belegId: 'laptops-more-than-five-years-old',
+    buehne: { art: 'figur', wer: 'nachleser', von: 'ruhe', nach: 'stutzen', requisite: 'satellit' },
+  },
+  /*
+   * **Die Zeile nennt Volti und behauptet nichts mehr.** Hier stand „2009
+   * waren die ISS-Laptops ueber 5 Jahre alt" — richtig belegt, aber eine
+   * Behauptung mit Jahreszahl auf einer Karte, die drei Sekunden steht. Die
+   * Behauptung ist in den Kaltstart gewandert, samt Fundstelle.
+   */
+  vorspann: 'Volti staunt über die Rechner der ISS',
 
 
   szenen: [
@@ -80,11 +98,19 @@ export const raumstationAlteRechner: Short = {
        */
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Dein Handy ist zu modern für den Weltraum.',
+      /*
+       * **Watti hebt auf, was Volti vor dem Vorhang gesagt hat.** Hier stand
+       * bis zum 02.09.2026 Voltis Behauptung; die ist in den Kaltstart
+       * gewandert. Der Aufschlag ist jetzt der Widerspruch darauf — und
+       * „Handy" traegt die Bruecke ueber den Vorhang.
+       */
+      sprechtext: 'Zu modern? Mein Handy ist top.',
       rede: [
-        { sprecher: 'nachleser', zug: 'behaupten', text: 'Dein Handy ist zu modern für den Weltraum.' },
+        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Zu modern? Mein Handy ist top.' },
       ],
-      buehne: { art: 'figur', von: 'ruhe', nach: 'stutzen', requisite: 'satellit' },
+      /* Der Satellit steht jetzt im Kaltstart; dieselbe Zeichnung zweimal
+         hintereinander waere keine zweite. */
+      buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen' },
     },
     {
       /*
@@ -96,9 +122,8 @@ export const raumstationAlteRechner: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Zu modern? Das gibt es nicht. 2009 waren die Laptops auf der Raumstation über 5 Jahre alt. Raumstation? Ich hätte Raumschiff erwartet.',
+        '2009 waren die Laptops auf der Raumstation über 5 Jahre alt. Raumstation? Ich hätte Raumschiff erwartet.',
       rede: [
-        { sprecher: 'zeiger', zug: 'widersprechen', text: 'Zu modern? Das gibt es nicht.' },
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',

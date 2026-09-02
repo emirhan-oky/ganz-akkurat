@@ -2,13 +2,15 @@ import { AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile,
 import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
 
 import type { Short as ShortDaten, Sprecher } from '../src/typen';
-import { FORMATE, ZUGARTEN } from '../src/typen';
+import { FORMATE, KALTSTART_ARTEN, ZUGARTEN } from '../src/typen';
 import {
   NACHLAUF_SEK,
   SPRECHERWECHSEL_SEK,
   VORSPANN_VORLAUF_SEK,
+  ansageAbSek,
+  kaltstartSek,
   szenenZeitplan,
-  vorspannFestSek,
+  vorlaufSek,
   vorspannSek,
 } from '../src/zeit';
 import { Hintergrund } from './bausteine/Hintergrund';
@@ -18,17 +20,17 @@ import {
   RUHE,
   Vorhangstoff,
   Vorspannkarte,
-  ablauf,
   aufVorhang,
   vorhangstand,
+  vorlaufAblauf,
 } from './bausteine/Vorhang';
 import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
 import { Untertitel } from './bausteine/Untertitel';
-import { Redespalten } from './bausteine/Redespalten';
+import { Kaltstartzeile, Redespalten } from './bausteine/Redespalten';
 import { Sprechblase } from './bausteine/Sprechblase';
 import { Sprecherstand } from './bausteine/Sprecherstand';
-import { SzeneRendern } from './szenen';
+import { Kaltstartbild, SzeneRendern } from './szenen';
 import type { Dienst } from './bausteine/Geraete';
 import { Figur } from './bausteine/Figur';
 import { zeiger } from '../daten/figur/zeiger';
@@ -348,7 +350,17 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    * Ausserhalb der Vorspannspanne braucht es keinen Sonderfall: `vorhangstand`
    * klemmt an beiden Enden auf `RUHE`, die beiden stehenden Streifen.
    */
+  const kaltstartBilder = Math.round(kaltstartSek(daten) * bilderProSekunde);
   const vorspannBilder = Math.round(vorspannSek(daten) * bilderProSekunde);
+  /* Kaltstart, Zufahrt, Vorspann — dieselbe Summe, die `szenenZeitplan` vor
+     die erste Szene legt. Zweimal gerechnet liefen Bild und Zeitplan
+     auseinander, und der Vorhang stuende ueber der laufenden ersten Szene. */
+  const vorlaufBilder = Math.round(vorlaufSek(daten) * bilderProSekunde);
+  const A = vorlaufAblauf(kaltstartBilder, vorspannBilder);
+  /* Wer den Kaltstart spricht, steht in `KALTSTART_ARTEN` und nicht im
+     Entwurf — dieselbe Tabelle, die Schema und Vertonung lesen. */
+  const kaltstartSprecher: Sprecher =
+    KALTSTART_ARTEN.find((a) => a.schluessel === daten.kaltstart.art)?.wer ?? 'zeiger';
 
   /*
    * **Wann die Themenansage einsetzt — eine Zahl, zwei Verwendungen.**
@@ -371,8 +383,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
    * denselben Zeitpunkt, und zwischen ihnen lag im fertigen Video ein Loch von
    * **1,53 Sekunden Stille**, das keine Pruefung sehen konnte.
    */
-  const ansageAbBild = Math.round(vorspannFestSek(daten.format) * bilderProSekunde);
-  const vorspannStart = 0;
+  const ansageAbBild = Math.round(ansageAbSek(kaltstartSek(daten)) * bilderProSekunde);
   /*
    * **Am Ende faehrt der Vorhang wieder zu — seit dem 01.09.2026.**
    *
@@ -428,7 +439,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
     [RUHE, 1],
     { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.sin) },
   );
-  const vorhangZu = Math.max(vorhangstand(frame - vorspannStart, vorspannBilder), schlussfahrt);
+  const vorhangZu = Math.max(vorhangstand(frame, kaltstartBilder, vorspannBilder), schlussfahrt);
   /*
    * Wie stark der Vorhang hinter der Kopfzeile steht. Sie liegt ueber dem
    * Stoff und bleibt sichtbar, wechselt aber auf helle Farben, solange er zu
@@ -491,6 +502,65 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
           ))
         : daten.tonspur && <Audio src={staticFile(daten.tonspur.datei)} />}
 
+      {/*
+        **Der Kaltstart — die ersten Sekunden, vor dem Vorhang.**
+
+        Eine Figur mit ihrem Symbol, darunter der Satz. Er laeuft, solange der
+        Vorhang noch offen ist; danach faellt der Stoff darueber, und die
+        Sequence endet mit ihm.
+
+        **Sie endet bei `A.titel` und nicht bei `A.zufahren`.** Waehrend der
+        Fahrt ist die Buehne noch zur Haelfte zu sehen — waere sie da schon
+        leer, faellt der Vorhang ueber nichts, und genau das war der Grund,
+        aus dem das Zufahren am 31.08.2026 abgeschafft wurde.
+
+        Wer spricht, steht in `KALTSTART_ARTEN`. Dieselbe Tabelle liest das
+        Schema und die Vertonung; eine zweite Zuordnung daneben liefe beim
+        ersten Umbau lautlos auseinander.
+      */}
+      <Sequence durationInFrames={A.titel} name="Kaltstart">
+        {/*
+          **Ein eigener `Sprecherstand` fuer den Kaltstart.**
+
+          Der aeussere rechnet mit den Abschnitten des Gespraechs, und deren
+          erster beginnt erst hinter dem Vorspann — waehrend des Kaltstarts
+          waere die Sprechstaerke also null und die Figur redete mit
+          geschlossenem Mund. Seine Woerter liegen ab null, genau wie die
+          Sequence, in der er steht.
+
+          `zweistimmig` steht ausdruecklich auf `true`: Ein einzelner Abschnitt
+          gaelte sonst als einstimmiger Short und schaltete die Untertitelzone
+          ein — die Figur stuende 270 Pixel tiefer als hinter dem Vorhang.
+        */}
+        <Sprecherstand
+          zweistimmig
+          woerter={daten.tonspur?.kaltstart?.woerter}
+          abschnitte={
+            daten.tonspur?.kaltstart
+              ? [
+                  {
+                    datei: daten.tonspur.kaltstart.datei,
+                    sprecher: kaltstartSprecher,
+                    startSek: 0,
+                    zug: 'behaupten',
+                  },
+                ]
+              : undefined
+          }
+        >
+          <Kaltstartbild buehne={daten.kaltstart.buehne} dauer={A.titel} />
+          {daten.tonspur?.kaltstart && (
+            <>
+              <Audio src={staticFile(daten.tonspur.kaltstart.datei)} />
+              <Kaltstartzeile
+                woerter={daten.tonspur.kaltstart.woerter}
+                wer={kaltstartSprecher}
+              />
+            </>
+          )}
+        </Sprecherstand>
+      </Sequence>
+
       {daten.szenen.map((szene, i) => {
         const zeit = plan[i];
         if (!zeit) return null;
@@ -547,12 +617,12 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         Doppelung ohne Wache.
       */}
       {
-        <Sequence from={vorspannStart} durationInFrames={vorspannBilder} name="Vorspann">
+        <Sequence durationInFrames={vorlaufBilder} name="Vorspann">
           <div style={KARTENFLAECHE}>
             <Vorspannkarte
-              show={FORMATE[daten.format].show}
               zeile={daten.vorspann}
               dauer={vorspannBilder}
+              kaltstartBilder={kaltstartBilder}
               zeileAbBild={ansageAbBild}
               hoehe={FORMAT.hoehe - VORHANG.karte}
             />
@@ -570,64 +640,24 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
             Umbau am Ablauf lautlos auseinander, und ein Geraeusch, das 0,1
             Sekunden neben seiner Bewegung sitzt, klingt wie ein Fehler.
           */}
-          <Audio src={staticFile('ton/marke/auftakt.wav')} />
-
           {/*
-            Voltis Ansage setzt ein, wenn der Titel steht — nicht davor: Der
-            Vorhang faehrt noch, und eine Stimme hinter einem fahrenden Vorhang
-            klingt, als haette jemand zu frueh angefangen.
+            **Der Auftakt sitzt auf der Zufahrt, nicht auf Bild 0.**
 
-            Wattis Einwurf haengt an Voltis **gemessener** Dauer plus der Pause,
-            die `src/zeit.ts` fuer jeden Sprecherwechsel ansetzt. Die Dauern
-            stehen in `daten/vorspannton.json` und werden vom Aufnahmeskript
-            geschrieben — Remotion kann die Laenge einer Tondatei nicht synchron
-            lesen, und von Hand gepflegt liefe die Tabelle auseinander.
+            Bis zum 02.09.2026 begann das Video mit ihm, weil es mit dem
+            Vorhang begann. Jetzt laeuft davor der Kaltstart, und ein
+            Dreiklang ueber Wattis erstem Satz kuendigt eine Show an, die noch
+            nicht angefangen hat. Er gehoert dorthin, wo der Stoff faellt.
+
+            **Der Showtitel und die beiden Namen sind gestrichen** — zehn feste
+            Aufnahmen unter `public/ton/marke/vorspann/`, die niemand mehr
+            abruft. Sie kosteten je nach Show 3,69 bis 4,40 Sekunden, und genau
+            daraus ist der Kaltstart bezahlt. `daten/vorspannton.json` haelt nur
+            noch die zwei Abspannaufnahmen.
           */}
-          <Sequence
-            /*
-             * **Ab dem Vorlauf, nicht ab `ablauf().titel`** — seit dem
-             * 01.09.2026. Der Titel steht ab Bild 0, die Stimme wartet
-             * `VORSPANN_VORLAUF_SEK`. Dieselbe Zahl steckt in
-             * `vorspannFestSek`, also ruecken Themenansage und Fahrt mit.
-             */
-            from={Math.round(VORSPANN_VORLAUF_SEK * bilderProSekunde)}
-            layout="none"
-            name="Vorspann Volti"
-          >
-            <Audio src={staticFile(`ton/marke/vorspann/${daten.format}.volti.mp3`)} />
-            <Sequence
-              from={Math.round(
-                (vorspannDauern[daten.format].volti + SPRECHERWECHSEL_SEK) * bilderProSekunde,
-              )}
-              layout="none"
-              name="Vorspann Watti"
-            >
-              <Audio src={staticFile(`ton/marke/vorspann/${daten.format}.watti.mp3`)} />
-
-              {/*
-                **Die Themenansage — der einzige Vorspannton je Short.**
-
-                Sie kommt aus der Vertonung und nicht aus `public/ton/marke/`:
-                „Heutiges Thema: …" wechselt mit jedem Video, waehrend Showtitel
-                und Namen am Format haengen und einmal bezahlt sind.
-
-                Ohne Tonspur laeuft der Vorspann stumm weiter — die Laenge
-                stimmt trotzdem, weil `vorspannSek` sie dann schaetzt.
-              */}
-            </Sequence>
+          <Sequence from={A.zufahren} layout="none" name="Auftakt">
+            <Audio src={staticFile('ton/marke/auftakt.wav')} />
           </Sequence>
 
-          {/*
-            **Die Themenansage — der einzige Vorspannton je Short.**
-
-            Sie kommt aus der Vertonung und nicht aus `public/ton/marke/`:
-            „Heutiges Thema: …" wechselt mit jedem Video, waehrend Showtitel und
-            Namen am Format haengen und einmal bezahlt sind.
-
-            Sie haengt an `ansageAbBild` — **derselben Zahl, mit der die Zeile
-            im Bild erscheint.** Ohne Tonspur laeuft der Vorspann stumm weiter;
-            die Laenge stimmt trotzdem, weil `vorspannSek` sie dann schaetzt.
-          */}
           {daten.tonspur?.vorspann && (
             <Sequence from={ansageAbBild} layout="none" name="Vorspann Thema">
               <Audio src={staticFile(daten.tonspur.vorspann.datei)} />
@@ -647,7 +677,6 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
       <Sequence from={abspannAbBild} layout="none" name="Abspann">
         <div style={KARTENFLAECHE}>
           <Abspannkarte
-            show={FORMATE[daten.format].show}
             wattiAbBild={wattiAbBild}
             hoehe={FORMAT.hoehe - VORHANG.karte}
           />
@@ -678,14 +707,10 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         mitten im Ausklingen aufhoert, klingt wie ein Kabelbruch.
 
         Draussen laeuft sie in die erste Szene hinein und traegt den Uebergang.
-        Ihr Startbild kommt aus demselben `ablauf().oeffnen` wie die
+        Ihr Startbild kommt aus demselben `vorlaufAblauf().oeffnen` wie die
         Vorhangbewegung.
       */}
-      <Sequence
-        from={Math.round(ablauf(vorspannBilder).oeffnen * vorspannBilder)}
-        layout="none"
-        name="Vorhang auf"
-      >
+      <Sequence from={A.oeffnen} layout="none" name="Vorhang auf">
         <Audio src={staticFile('ton/marke/oeffnung.wav')} />
       </Sequence>
 

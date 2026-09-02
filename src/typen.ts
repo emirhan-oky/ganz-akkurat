@@ -1999,6 +1999,137 @@ export const regieVorrat = (machart: MachartImSchema): readonly string[] =>
   REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.regie ?? [];
 
 /**
+ * Die Aufbauarten des Kaltstarts — was vor dem Vorhang passiert.
+ *
+ * ## Warum es den Kaltstart gibt
+ *
+ * **Der Anlass kam von Zuschauern, nicht aus der Systematik:** Sie wollten vor
+ * dem Vorhang wissen, worum es geht. Bis zum 02.09.2026 standen rund neun
+ * Sekunden Show zwischen Bild 0 und dem ersten inhaltlichen Satz — Auftakt,
+ * Showtitel, zwei Namen, Themenansage.
+ *
+ * Er ist damit die Umkehrung dessen, was die zugekauften Shorts-Skills
+ * verlangen. Die sagen einhellig „no intro, value starts at second 0"; hier
+ * steht jetzt beides, Hook **und** Vorspann. Bezahlt ist das aus dem Vorspann
+ * selbst: Showtitel und Namen sind am selben Tag gestrichen, das sind je nach
+ * Show 3,69 bis 4,40 Sekunden, und der Kaltstart kostet mit der Vorhangfahrt
+ * 3,9. **Das Video ist danach so lang wie vorher.**
+ *
+ * ## Eine Lage, kein Thema
+ *
+ * Jede Art setzt eine Figur in eine **Lage**. Das ist derselbe Befund, an dem
+ * `passwort-wechseln` am 01.09.2026 neu geschrieben wurde: Der Short begann
+ * bei einem Sachverhalt statt bei einer Lage, und das las sich als „blindlings
+ * reingeworfen". Eine Ankuendigung waere hier schlimmer als im Aufschlag —
+ * sie ist das Allererste, was der Zuschauer sieht.
+ *
+ * ## Wer anfaengt, entscheidet das Format
+ *
+ * Nicht der Entwurf, und das ist Absicht. Watti tappt hinein, wo es etwas
+ * gibt, in das man hineintappen kann: Er glaubt das Maerchen (`eswareinmal`),
+ * er hat eine der beiden Seiten (`werhatrecht`), er ist der Geschaedigte
+ * (`absicht`). Bei `gibtswirklich` hat niemand einen Fehler gemacht — dort
+ * gehoert der Anfang Volti.
+ *
+ * Das ergibt von selbst rund jedes vierte Video mit Volti. **Eine Regel, die
+ * Abwechslung erzwingt, waere die schlechtere Loesung**: Sie liesse sich
+ * ansteuern, und dieselbe Ueberlegung steht schon bei den Zugarten.
+ *
+ * ## Volti behauptet, Watti nie
+ *
+ * Voltis Erstaunen sagt etwas Wahres ueber die Welt — „Wie, schwarze Loecher
+ * sind messbar?" — und traegt deshalb eine `belegId`. Wattis Zeilen behaupten
+ * nie etwas und duerfen keine tragen. Das ist dieselbe Trennung, die zwischen
+ * Beleg und Reaktion schon eine Ebene tiefer laeuft, und sie steht aus
+ * demselben Grund im Schema statt in einer Pruefung: Was sich nicht
+ * ausdruecken laesst, laesst sich nicht brechen.
+ */
+export const KALTSTART_ARTEN = [
+  {
+    schluessel: 'momentdanach',
+    name: 'Der Moment danach',
+    wer: 'zeiger',
+    tut: 'Watti merkt gerade, dass es schiefgegangen ist. Der Zuschauer sieht die Folge, bevor er die Ursache kennt.',
+    achtung:
+      'Im Moment gesprochen, nicht rueckblickend — dieselbe Regel wie beim Gestaendnis. „Ich haette wechseln muessen." ist ein Protokoll; „Kacke, ich haette mein Passwort wechseln muessen." ist der Augenblick, in dem es auffaellt.',
+    beispiele: ['Kacke, ich hätte mein Passwort wechseln müssen.'],
+  },
+  {
+    schluessel: 'stolzerfehler',
+    name: 'Der stolze Fehler',
+    wer: 'zeiger',
+    tut: 'Watti ist zufrieden mit etwas Falschem. Der Zuschauer weiss es besser oder ahnt es — und bleibt, um recht zu behalten.',
+    achtung:
+      'Der Fehler muss erkennbar einer sein, sonst ist die Zeile eine Behauptung ueber die Welt. Gleiche Grenze wie beim falschen Schluss.',
+    beispiele: ['So. Zwölf Stunden geladen. Jetzt hält der ewig.'],
+  },
+  {
+    schluessel: 'beschwerde',
+    name: 'Die Beschwerde an den Falschen',
+    wer: 'zeiger',
+    tut: 'Watti schimpft auf das Geraet, die Firma, die Regel. Traegt die Reaktion, die `absicht` ohnehin ausloest.',
+    achtung:
+      'Firmen und Behoerden duerfen getroffen werden, Gruppen und Personen des oeffentlichen Lebens nie. Und nie der Zuschauer.',
+    beispiele: ['Das Ding erkennt sein eigenes Ersatzteil nicht!'],
+  },
+  {
+    schluessel: 'imvollzug',
+    name: 'Die Tat im Vollzug',
+    wer: 'zeiger',
+    tut: 'Watti tut es gerade. Das Symbol neben ihm ist das Tatwerkzeug, und damit traegt das Bild die halbe Pointe.',
+    achtung:
+      'Die einzige Art, bei der die Requisite nicht frei waehlbar ist: Sie muss der Gegenstand der Tat sein. Ohne ihn ist die Zeile nur eine Ansage.',
+    beispiele: ['Und ab in den Reis mit dir.'],
+  },
+  {
+    schluessel: 'gewissheit',
+    name: 'Die felsenfeste Gewissheit',
+    wer: 'zeiger',
+    tut: 'Watti erklaert eine Weisheit, die keine ist. Er redet dabei nicht mit Volti, sondern mit sich.',
+    achtung:
+      'Keine Belehrung an den Zuschauer. Watti ist sich sicher, er belehrt niemanden — sobald ein „du" darin steht, ist es eine Ansage an die Kamera.',
+    beispiele: ['Inkognito. Da sieht keiner was. Niemals.'],
+  },
+  {
+    schluessel: 'hilferuf',
+    name: 'Der Ruf nach dem Bruder',
+    wer: 'zeiger',
+    tut: 'Watti weiss nicht weiter und ruft Volti. Der Anschluss nach dem Vorhang ist damit schon gesetzt.',
+    achtung:
+      'Er ruft, er fragt nicht das Publikum. Und er darf nicht schon die Antwort mitliefern, sonst hat der Short seinen Kipppunkt vorn.',
+    beispiele: ['Volti! Mein Handy sagt, ich bin nicht ich.'],
+  },
+  {
+    schluessel: 'erstaunen',
+    name: 'Das Erstaunen',
+    wer: 'nachleser',
+    tut: 'Volti ist verblüfft über das, was er gerade nachgelesen hat. Die einzige Art, die dem grossen Bruder gehoert.',
+    achtung:
+      'Er behauptet dabei etwas Wahres und braucht deshalb eine `belegId`. Und er wundert sich ueber eine **Sache**, nicht ueber ein Thema: „Wie, schwarze Loecher sind messbar?" ist Erstaunen, „Heute geht es um schwarze Loecher" ist ein Moderator.',
+    beispiele: ['Wie, schwarze Löcher sind messbar?'],
+  },
+] as const;
+
+/** Der Schluessel einer Kaltstart-Art. */
+export type KaltstartArt = (typeof KALTSTART_ARTEN)[number]['schluessel'];
+
+/**
+ * Welche Figur das Format eroeffnet.
+ *
+ * Steht als eigene Tabelle und nicht als Feld an `FORMATE`, weil `FORMATE`
+ * beschreibt, was eine Sendung **ist**, und das hier eine Regel ueber ihren
+ * Anfang ist. `empfehlung` ruht und bekommt Watti, sobald es laeuft: Wer eine
+ * Empfehlung braucht, hat ein Problem.
+ */
+export const KALTSTART_SPRECHER: Record<Format, Sprecher> = {
+  gibtswirklich: 'nachleser',
+  absicht: 'zeiger',
+  eswareinmal: 'zeiger',
+  werhatrecht: 'zeiger',
+  empfehlung: 'zeiger',
+};
+
+/**
  * Die Wochentage — nur noch fuer Anzeige und Datumsrechnung.
  *
  * **Bis zum 20.08.2026 hing hier der Sendeplan.** Jedes Format hatte ein Feld
@@ -2587,6 +2718,28 @@ export const Tonspur = z.object({
       dauerSek: z.number().positive(),
     })
     .optional(),
+  /**
+   * Der Kaltstart vor dem Vorhang — eine Figur, ein Satz.
+   *
+   * **Er steht aus demselben Grund neben `abschnitte` wie die Themenansage:**
+   * Die Aufschlagmessung in `src/pruefung.ts` filtert `woerter` gegen
+   * `szenenStartSek[1]`. Ein Kaltstart in `woerter` verlaengerte den
+   * gemessenen Aufschlag um seine eigene Laenge und liesse jeden Short an der
+   * Regel scheitern, die er selbst mitbringt.
+   *
+   * **Seine Woerter stehen trotzdem hier, anders als bei der Themenansage.**
+   * Die Ansage laeuft auf einer Karte mit fester Zeile; der Kaltstart laeuft
+   * auf der Buehne, und dort steht der Sprechtext Wort fuer Wort unter der
+   * Figur. Ohne eigene Zeitstempel gaebe es keinen mitlaufenden Text — und der
+   * Short beginnt stumm, weil im Feed niemand den Ton anhat.
+   */
+  kaltstart: z
+    .object({
+      datei: z.string().min(1),
+      dauerSek: z.number().positive(),
+      woerter: z.array(Untertitelwort),
+    })
+    .optional(),
   szenenStartSek: z.array(z.number().nonnegative()),
   /**
    * Ein Abschnitt je zusammenhaengendem Redeanteil einer Figur.
@@ -2654,6 +2807,126 @@ export const Tonspur = z.object({
 });
 export type Tonspur = z.infer<typeof Tonspur>;
 
+/**
+ * Der Kaltstart — was vor dem Vorhang steht.
+ *
+ * Eine Figur, ein Symbol, ein Satz. Die Arten und ihre Begruendung stehen in
+ * `KALTSTART_ARTEN`.
+ *
+ * **Ein Feld am Short und keine Szene**, aus demselben Grund, aus dem der
+ * Vorspann eines ist: Alles, was vor der ersten Szene liegt, ist eine
+ * Anfangsbedingung der Uhr. Als Einschub zwischen zwei Szenen gebaut, waere er
+ * genau die Konstruktion, die am 31.08.2026 weggebaut wurde — ein Uhrsprung
+ * mitten in der Schleife, der genau einmal und genau dort greifen musste.
+ *
+ * Die `buehne` ist das gewoehnliche `Buehnenbild`: Figur, Pose, Requisite gibt
+ * es laengst, und ein zweiter Bausatz fuer dieselbe Bildflaeche waere die
+ * Doppelung, gegen die hier ueberall eine Wache steht. Nur `art: 'figur'` ist
+ * zugelassen — eine Gegenueberstellung vor dem Vorhang waere eine Tafel, keine
+ * Lage.
+ */
+const Kaltstart = z
+  .object({
+    art: z.enum([
+      'momentdanach',
+      'stolzerfehler',
+      'beschwerde',
+      'imvollzug',
+      'gewissheit',
+      'hilferuf',
+      'erstaunen',
+    ]),
+    /**
+     * Was gesprochen wird — und Wort fuer Wort im Bild steht.
+     *
+     * **Hoechstens 45 Zeichen.** Das ist die Aufschlagregel, nach vorn
+     * gewandert: 3,5 Sekunden bei `ZEICHEN_PRO_SEKUNDE` = 13,0 sind 45
+     * Zeichen. Die Zahl steht hier als Literal und nicht als Rechnung, weil
+     * `src/zeit.ts` dieses Modul importiert und nicht umgekehrt; die Wache
+     * gegen das Auseinanderlaufen steht in `src/pruefung.ts`, wo beide
+     * vorliegen.
+     */
+    satz: z.string().min(6).max(45),
+    /** Die Buehne davor — eine Figur, ein Symbol. */
+    buehne: Buehnenbild,
+    /**
+     * Die Fundstelle, die Voltis Erstaunen traegt.
+     *
+     * Pflicht bei `erstaunen`, verboten bei allem anderen — siehe das
+     * `superRefine` darunter.
+     */
+    belegId: z.string().min(1).optional(),
+  })
+  .superRefine((k, ctx) => {
+    const art = KALTSTART_ARTEN.find((a) => a.schluessel === k.art);
+    if (art === undefined) return;
+
+    /*
+     * Wer spricht, steht in `KALTSTART_ARTEN` und nicht im Entwurf. Die Buehne
+     * muss ihm folgen, sonst redet die eine Figur mit der Stimme der anderen —
+     * genau der Fehler, der bei den Redespalten am ersten Standbild auffiel.
+     */
+    if (k.buehne.art !== 'figur') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Der Kaltstart zeigt eine Figur, keine Gegenüberstellung.',
+        path: ['buehne', 'art'],
+      });
+      return;
+    }
+    if ((k.buehne.wer ?? 'nachleser') !== art.wer) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          `„${art.name}" gehört ${art.wer === 'zeiger' ? 'Watti' : 'Volti'}; ` +
+          'die Bühne zeigt die andere Figur.',
+        path: ['buehne', 'wer'],
+      });
+    }
+
+    /*
+     * **Volti behauptet, Watti nie.** Dieselbe Trennung wie zwischen Beleg und
+     * Reaktion, eine Ebene hoeher — und sie steht hier statt in einer
+     * Pruefung, damit die Kombination sich gar nicht erst eintragen laesst.
+     */
+    if (art.wer === 'nachleser') {
+      if (k.belegId === undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            'Voltis Erstaunen sagt etwas Wahres über die Welt und braucht eine Fundstelle.',
+          path: ['belegId'],
+        });
+      }
+    } else {
+      if (k.belegId !== undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Watti behauptet nichts — eine Fundstelle hätte hier nichts zu tragen.',
+          path: ['belegId'],
+        });
+      }
+      ohneWeltbehauptung(k.satz, ctx, ['satz'], 'Der Kaltstart');
+    }
+
+    /*
+     * Die Ankuendigungssperre des Aufschlags, ein drittes Mal. Sie steht am
+     * Aufschlag, an der Themenzeile und hier — und hier am schaerfsten, denn
+     * das ist der allererste Satz des Videos.
+     */
+    const gesagt = k.satz.toLowerCase();
+    const ansage = ['heute geht es um', 'in diesem video', 'ich zeige dir', 'wir schauen uns'].find(
+      (a) => gesagt.includes(a),
+    );
+    if (ansage !== undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Der Kaltstart sagt „${ansage}" — er zeigt eine Lage, er kündigt nichts an.`,
+        path: ['satz'],
+      });
+    }
+  });
+
 export const Short = z.object({
   id: z.string(),
   /** Thema, zu dem dieser Short gehoert. */
@@ -2685,6 +2958,14 @@ export const Short = z.object({
   arbeitstitel: z.string(),
 
   /**
+   * Was vor dem Vorhang steht. Siehe `Kaltstart` und `KALTSTART_ARTEN`.
+   *
+   * Pflichtfeld: Ein Short ohne Kaltstart faengt mit einer Showkarte an, und
+   * genau das war der Befund, der ihn ausgeloest hat.
+   */
+  kaltstart: Kaltstart,
+
+  /**
    * Die Themenzeile auf dem Vorhang — **das einzige, was am Vorspann je Short
    * wechselt.**
    *
@@ -2696,14 +2977,32 @@ export const Short = z.object({
    * Datei, der Rest ist Bild. Ein Feld fuer den Titel waere eine Frage, die
    * bei jedem Entwurf neu auftaucht und nur eine richtige Antwort hat.
    *
-   * ## Eine Behauptung, keine Ankuendigung
+   * ## Sie traegt einen Namen, seit dem 02.09.2026
    *
-   * Nicht „Heute: Passwoerter", sondern „Dein Passwortwechsel ist sinnlos".
-   * Der Unterschied ist derselbe, den `POSITIONEN.aufschlag` beim Aufschlag
-   * macht: Eine Ankuendigung gibt dem Zuschauer die Erlaubnis zu entscheiden,
-   * ob ihn das Thema interessiert — und im Feed entscheidet er dann gegen
-   * dich. Deshalb gilt hier dieselbe Sperre wie fuer den Aufschlag; siehe das
-   * `superRefine` weiter unten.
+   * Nicht „Passwort regelmaessig wechseln ist ueberholt", sondern „Wattis
+   * Faulheit mit Passwoertern". Der Kanal ist eine Show, und die Show hat zwei
+   * Figuren — die Zeile sagt, wessen Geschichte gleich kommt. Pflicht ist der
+   * Name dessen, der den Kaltstart gesprochen hat; wer sonst dort steht,
+   * kuendigt eine andere Sendung an, als laeuft.
+   *
+   * ## Und sie behauptet nichts mehr — die Wache hat sich umgedreht
+   *
+   * **Bis zum 02.09.2026 musste sie behaupten und trug dafuer eine eigene
+   * Fundstelle** (`vorspannBelegId`, Pflicht seit dem 31.08.). Der Grund war
+   * gut: Drei von vier Themenzeilen trugen ihre Behauptung nicht. „Passwort
+   * wechseln bringt gar nichts", waehrend das BSI „erhoeht die Sicherheit
+   * **nicht automatisch**" sagt — der teuerste Fehler dieses Projekts, in
+   * einer Zeile.
+   *
+   * Mit dem Namen faellt der Anlass weg. **Wo nichts behauptet wird, kann
+   * nichts ueberzogen werden**, und die belegten Saetze stehen dort, wo das
+   * Zitat danebenliegt. Die Belegpflicht ist deshalb nicht gestrichen, sondern
+   * **umgezogen**: Sie haengt jetzt an `kaltstart.belegId`, dem einzigen Satz
+   * vor dem Vorhang, der noch behauptet — Voltis Erstaunen.
+   *
+   * Die Ankuendigungssperre bleibt und ist die aeltere von beiden: Eine
+   * Ankuendigung gibt dem Zuschauer die Erlaubnis zu entscheiden, ob ihn das
+   * Thema interessiert, und im Feed entscheidet er dann gegen dich.
    *
    * ## Und der beste Platz fuer den Suchbegriff, den es je gab
    *
@@ -2714,41 +3013,6 @@ export const Short = z.object({
    * worden — dieselbe Sorte Zwang wie der alte Zielwert von 23 Sekunden.
    */
   vorspann: z.string().min(12).max(60),
-
-  /**
-   * Die Fundstelle, die die Themenzeile traegt.
-   *
-   * **Seit dem 31.08.2026, und der Anlass steht in der eigenen Doku.** Der
-   * `vorspann` behauptet — das verlangt der Absatz darueber ausdruecklich, und
-   * das bleibt so. Nur war er das einzige gesprochene Feld **ohne**
-   * Belegpflicht, weil er neu war und keine Regel ihn angesehen hat. Drei von
-   * vier Themenzeilen trugen ihre Behauptung nicht:
-   *
-   * - „Passwort wechseln bringt gar nichts", waehrend das BSI „erhoeht die
-   *   Sicherheit **nicht automatisch**" sagt. Das ist der Schritt von „nicht
-   *   automatisch" zu „nicht" — derselbe, den CLAUDE.md als teuersten Fehler
-   *   dieses Projekts fuehrt, und er stand ausgerechnet im Short, der als
-   *   erster vertont werden sollte.
-   * - „Voll laden macht deinen Akku kaputt" — „kaputt" trug keine der sechs
-   *   Fundstellen des Umweltbundesamts.
-   * - „Auf der Raumstation laufen uralte Laptops" im Praesens, an einem Beleg
-   *   von 2009. Zeitangaben altern, der Short nicht.
-   *
-   * **Die Befreiung des Aufschlags gilt hier nicht.** Er ist befreit, weil er
-   * die Erzaehlung setzt und nichts behauptet. Die Themenzeile behauptet — und
-   * sie ist das Erste, was gesagt und gelesen wird, im Feed oft das Einzige,
-   * was haengenbleibt. Von allen Saetzen eines Shorts ist sie der letzte, der
-   * ungedeckt sein darf.
-   *
-   * Pflichtfeld nach dem Muster von `belegId` an der Szene, und aus demselben
-   * Grund: **Die Frage „welches Zitat traegt das?" faellt beim Schreiben an,
-   * nicht in der Durchsicht.** Eine Themenzeile ohne Fundstelle ist beim
-   * Schreiben ein leeres Feld statt spaeter eine Diskussion.
-   *
-   * Dass die Fundstelle wirklich existiert und in einer Quelle **dieses**
-   * Shorts steht, prueft `shortPruefen` — hier liegt `quellen.json` nicht vor.
-   */
-  vorspannBelegId: z.string().min(1),
 
   /**
    * Der Satz, den jemand am Tisch weitererzaehlt.
@@ -3049,10 +3313,40 @@ export const Short = z.object({
         code: 'custom',
         path: ['vorspann'],
         message:
-          `Die Themenzeile sagt „${zeilentreffer}" — sie soll behaupten, nicht ankündigen. ` +
-          'Nicht „Heute: Passwörter", sondern „Dein Passwortwechsel ist sinnlos".',
+          `Die Themenzeile sagt „${zeilentreffer}" — sie zeigt, wessen Geschichte kommt, ` +
+          'sie kündigt kein Thema an. Nicht „Heute: Passwörter", sondern „Wattis Faulheit mit Passwörtern".',
       });
     }
+
+    /*
+     * **Sie traegt den Namen dessen, der den Kaltstart gesprochen hat.**
+     *
+     * Seit dem 02.09.2026. Geprueft wird der Name und nicht bloss „einer von
+     * beiden": Steht dort Volti, waehrend Watti vor dem Vorhang stolpert,
+     * kuendigt die Karte eine andere Sendung an, als gleich laeuft — und der
+     * Zuschauer liest sie laenger, als sie steht.
+     */
+    const kaltstartArt = KALTSTART_ARTEN.find((a) => a.schluessel === short.kaltstart.art);
+    if (kaltstartArt !== undefined) {
+      const name = kaltstartArt.wer === 'zeiger' ? 'Watti' : 'Volti';
+      if (!short.vorspann.includes(name)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['vorspann'],
+          message:
+            `Der Kaltstart gehört ${name}; die Themenzeile nennt ihn nicht. ` +
+            'Sie sagt, wessen Geschichte kommt — „Wattis Faulheit mit Passwörtern".',
+        });
+      }
+    }
+
+    /*
+     * **Und sie behauptet nichts mehr.** Die Umkehrung der Regel vom
+     * 31.08.2026, begruendet am Feld selbst. Dieselbe Formsperre wie bei der
+     * Reaktion und bei Wattis Kaltstart — eine Zeile, die keine Quelle nennen
+     * kann, darf keinen Messwert tragen.
+     */
+    ohneWeltbehauptung(short.vorspann, ctx, ['vorspann'], 'Die Themenzeile');
 
     /* ── Genau eine Belegeinblendung, und sie trägt eine Quelle ──── */
 

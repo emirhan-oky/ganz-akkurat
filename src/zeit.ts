@@ -428,30 +428,33 @@ export const szenendauerAus = (
  * ist: Die Wache ist an diesen fuenf Zahlen kalibriert.
  */
 /**
- * Wie lange der feste Teil des Vorspanns dauert — je Show, aus den Aufnahmen.
+ * Wann die Themenansage einsetzt — Ton und Zeile aus einer Zahl.
  *
- * **`VORSPANN_SEK = 4,8` ist am 31.08.2026 gestrichen.** Es war eine feste
- * Zahl fuer die laengste Show, und daneben rechnete `ansageAbBild` in
- * `video/Short.tsx` dieselbe Sache **je Format**. Zwei Zahlen fuer denselben
- * Zeitpunkt, 1,57 s auseinander — und zwischen dem Ende der Themenansage und
- * dem ersten gesprochenen Wort klaffte deshalb ein Loch von **1,53 Sekunden**,
- * das keine Pruefung sehen konnte und das erst am fertigen Video auffiel.
+ * ## Was hier einmal stand
  *
- * Dass die feste Zahl fuer die *laengste* Show gerechnet war, machte es
- * schlimmer statt besser: Sie war fuer jede andere Show zu gross, und genau
- * diese Differenz stand als Stille im Video.
+ * Bis zum 02.09.2026 hiess diese Groesse `vorspannFestSek` und summierte den
+ * **festen Teil des Vorspanns**: Vorlauf, Showtitel, Sprecherpause, Einwurf,
+ * Sprecherpause — je Show aus den Aufnahmen in `daten/vorspannton.json`.
  *
- * Jetzt faellt die Laenge aus den gemessenen Dauern: Showtitel, Pause, Einwurf,
- * Pause — je Show verschieden, **und das ist richtig, weil die Aufnahmen es
- * sind.** Eine Quelle statt zwei; dieselbe Lehre wie bei `gesamtdauerBilder`
- * am selben Abend.
+ * **Showtitel und Einwurf sind gestrichen.** Auf der Karte steht jetzt fest
+ * „Die Volti & Watti Show", und gesprochen wird sie nicht mehr. Das spart je
+ * nach Show 3,69 bis 4,40 Sekunden, und genau daraus ist der Kaltstart vor dem
+ * Vorhang bezahlt (3,5 s Satz plus 0,4 s Vorhangfahrt). **Das Video ist danach
+ * so lang wie vorher** — die Zielwerte der Bauformen bleiben unangetastet.
+ *
+ * ## Warum sie trotzdem eine Funktion bleibt
+ *
+ * Weil der Kaltstart davor liegt und je Short verschieden lang ist. Der
+ * Vorlauf allein waere wieder eine Konstante — und daneben rechnete jemand die
+ * Kaltstartlaenge dazu. **Zwei Zahlen fuer denselben Zeitpunkt** waren am
+ * 31.08.2026 die Ursache eines Lochs von 1,53 Sekunden, das keine Pruefung
+ * sehen konnte.
+ *
+ * `video/Short.tsx` liest sie fuer den Toneinsatz **und** fuer die Einblendung
+ * der Zeile, `src/stimme.ts` fuer den Start der Uhr.
  */
-export const vorspannFestSek = (format: Format): number =>
-  VORSPANN_VORLAUF_SEK +
-  VORSPANNTON[format].volti +
-  SPRECHERWECHSEL_SEK +
-  VORSPANNTON[format].watti +
-  SPRECHERWECHSEL_SEK;
+export const ansageAbSek = (kaltstartDauerSek: number): number =>
+  kaltstartDauerSek + VORHANGFAHRT_SEK + VORSPANN_VORLAUF_SEK;
 
 /**
  * Wie lange der Vorhang steht, bevor Volti den Showtitel sagt.
@@ -506,12 +509,41 @@ export const themaAnsage = (short: Pick<Short, 'vorspann'>): string =>
  * rechnet sie von hinten: Der Vorhang soll mit dem Vorspann fertig werden, und
  * solange die Ansage laeuft, gehoert das Thema ins Bild.
  */
-export const vorspannSek = (short: Pick<Short, 'vorspann' | 'tonspur' | 'format'>): number =>
-  vorspannFestSek(short.format) +
+export const vorspannSek = (short: Pick<Short, 'vorspann' | 'tonspur'>): number =>
+  VORSPANN_VORLAUF_SEK +
   (short.tonspur?.vorspann
     ? short.tonspur.vorspann.dauerSek
     : themaAnsage(short).length / ZEICHEN_PRO_SEKUNDE) +
   VORHANGFAHRT_SEK;
+
+/**
+ * Wie lange der Kaltstart dauert — der Satz vor dem Vorhang.
+ *
+ * Dieselbe Zweiteilung wie ueberall in dieser Datei: gemessen, sobald eine
+ * Tonspur vorliegt, sonst ueber `ZEICHEN_PRO_SEKUNDE` geschaetzt. Beide
+ * Faelle muessen dieselbe Groesse meinen, sonst entstehen zwei Wahrheiten
+ * ueber dieselbe Laenge.
+ */
+export const kaltstartSek = (short: Pick<Short, 'kaltstart' | 'tonspur'>): number =>
+  short.tonspur?.kaltstart
+    ? short.tonspur.kaltstart.dauerSek
+    : short.kaltstart.satz.length / ZEICHEN_PRO_SEKUNDE;
+
+/**
+ * Alles vor der ersten Szene: Kaltstart, zufahrender Vorhang, Vorspann.
+ *
+ * **Eine Anfangsbedingung, kein Einschub.** Der Satz stand hier schon einmal
+ * und gilt weiter: Ein Wert, der einmal am Anfang gesetzt wird, kann nicht an
+ * der falschen Stelle einsteigen. Der Vorspann war bis zum 31.08.2026 ein
+ * Einschub zwischen Szene 0 und 1, und die kniffligste Stelle der ganzen
+ * Vertonung war ein Uhrsprung mitten in der Schleife.
+ *
+ * Alle Abstaende zwischen den Szenen bleiben unveraendert, also misst die
+ * Aufschlagregel weiter dieselbe Differenz.
+ */
+export const vorlaufSek = (
+  short: Pick<Short, 'vorspann' | 'tonspur' | 'kaltstart'>,
+): number => kaltstartSek(short) + VORHANGFAHRT_SEK + vorspannSek(short);
 
 
 /**
@@ -652,7 +684,7 @@ export const szenenZeitplan = (short: Short): { startBild: number; dauerBilder: 
    * Was dabei erhalten bleibt: Alle Abstaende zwischen den Szenen sind
    * unveraendert, also misst die Aufschlagregel weiter dieselbe Differenz.
    */
-  let laufend = vorspannSek(short);
+  let laufend = vorlaufSek(short);
   return short.szenen.map((szene, i) => {
     /*
      * Die Sprecherpausen gehoeren in die Szene, in der gewechselt wird —
@@ -829,9 +861,9 @@ export const laengenklasseVon = (sek: number): Laengenklasse =>
  */
 export const geschaetzteDauerSek = (short: Short): number =>
   geschaetzteInhaltSek(short) +
-  // Der Vorspann zaehlt mit. Das Laengenfenster misst, wie lange der Zuschauer
-  // zusieht — nicht, wie lange geredet wird.
-  vorspannSek(short);
+  // Kaltstart und Vorspann zaehlen mit. Das Laengenfenster misst, wie lange der
+  // Zuschauer zusieht — nicht, wie lange geredet wird.
+  vorlaufSek(short);
 
 /**
  * Dieselbe Schaetzung **ohne** den Vorspann — die Laenge des Gespraechs.
@@ -889,17 +921,18 @@ export const geschaetzteInhaltSek = (short: Short): number =>
  * Vorspann endet — und der ist seit dem 01.09.2026 um den Vorlauf und die
  * laengere Sprecherpause gewachsen. Eine Tonspur von davor startet 1,2
  * Sekunden zu frueh und liefe in den fahrenden Vorhang hinein. Gerechnet wird
- * mit `vorspannSek`, derselben Funktion, die auch der Renderer liest.
+ * mit `vorlaufSek`, derselben Funktion, die auch der Renderer liest — seit dem
+ * 02.09.2026 samt Kaltstart, der noch einmal rund vier Sekunden davor legt.
  */
 export const tonspurNeuLegen = (
   tonspur: NonNullable<Short['tonspur']>,
-  short: Pick<Short, 'vorspann' | 'format'>,
+  short: Pick<Short, 'vorspann' | 'kaltstart'>,
 ): NonNullable<Short['tonspur']> => {
   const abschnitte = tonspur.abschnitte;
   if (!abschnitte || abschnitte.length < 1) return tonspur;
 
   const starts = abschnitte.map((a) => a.startSek);
-  const vorspannEnde = vorspannSek({ ...short, tonspur });
+  const vorspannEnde = vorlaufSek({ ...short, tonspur });
   const istSzenenstart = (sek: number) => tonspur.szenenStartSek.some((s) => Math.abs(s - sek) < 0.002);
 
   /* Letztes Wortende je Abschnitt — Woerter gehoeren zum Abschnitt, in dessen

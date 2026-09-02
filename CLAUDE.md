@@ -51,6 +51,7 @@ Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen i
 | `beleg-holen` | Quelle abrufen, Zitat sichern, an die Szene binden |
 | `bild-bauen` | Bühnenmaße, Figur, Kamera, Standbildpflicht |
 | `woche-bauen` | prüfen, vertonen, rendern, freigeben, einplanen |
+| `skript-schreiben` | den Dialog schreiben: Lage, Kaltstart, Bogen, Selbstprüfung |
 | `rueckblick-lesen` | die Zahlen holen und die Schwellen kennen |
 
 **Installiert:** die Inhaltskette (`brand-profile` → `voice-builder` →
@@ -196,6 +197,66 @@ sie wird über `zweistimmigkeit`, `redelauf` und `stimmanteil` gehalten.
 
 Format und Bauform sind unabhängig: Ein Märchen kann eine Wechselrede oder eine
 Reihe von Stationen sein.
+
+### `kaltstart` — was vor dem Vorhang steht
+
+Seit dem 02.09.2026. Eine Figur, ein Symbol, ein Satz, höchstens 3,5 Sekunden —
+dann fällt der Vorhang darüber und die Show fängt an.
+
+**Der Anlass kam von Zuschauern:** Sie wollten vor dem Vorhang wissen, worum es
+geht. Bis dahin standen rund neun Sekunden Show zwischen Bild 0 und dem ersten
+inhaltlichen Satz.
+
+Das ist die Umkehrung dessen, was die zugekauften Shorts-Skills verlangen — sie
+sagen einhellig „no intro, value starts at second 0". **Bezahlt ist es aus dem
+Vorspann selbst:** Showtitel und Namen sind am selben Tag gestrichen, gesprochen
+wie geschrieben, und das sind je nach Show 3,69 bis 4,40 Sekunden. Der Kaltstart
+kostet mit der Vorhangfahrt 3,9. Das Video ist danach so lang wie vorher, und
+die Zielwerte der Bauformen bleiben unangetastet.
+
+**Wer anfängt, entscheidet das Format** (`KALTSTART_SPRECHER`), nicht der
+Entwurf. Watti tappt hinein, wo es etwas gibt, in das man hineintappen kann: bei
+`eswareinmal` glaubt er das Märchen, bei `werhatrecht` hat er eine Seite, bei
+`absicht` ist er der Geschädigte. Bei `gibtswirklich` hat niemand einen Fehler
+gemacht — dort gehört der Anfang Volti. Das ergibt von selbst rund jedes vierte
+Video mit Volti; **eine Regel, die Abwechslung erzwingt, ließe sich ansteuern.**
+
+Sieben Aufbauarten in `KALTSTART_ARTEN`, sechs für Watti und eine für Volti:
+`momentdanach`, `stolzerfehler`, `beschwerde`, `imvollzug`, `gewissheit`,
+`hilferuf` — und `erstaunen`. Jede setzt eine **Lage**, nie ein Thema.
+
+**Volti behauptet, Watti nie.** Voltis Erstaunen sagt etwas Wahres über die Welt
+und trägt deshalb eine `belegId`; Wattis Zeilen dürfen keine tragen und
+unterliegen der Formsperre. Dieselbe Trennung wie zwischen Beleg und Reaktion,
+eine Ebene höher — und sie steht im Schema statt in einer Prüfung, damit sich
+die Kombination gar nicht erst eintragen lässt.
+
+**Der Anschluss ist Pflicht.** Die erste Zeile nach dem Vorhang kommt vom
+anderen und trägt einen antwortenden Zug; `abbiegen` ist dort verboten. Dazu ein
+Hinweis, wenn kein Wort des Kaltstarts in der ersten Szene wiederkehrt — die
+Gegenprobe, so wie `rueckbezug` die Gegenprobe zu den Zugarten ist.
+
+**Der Vorhang fährt wieder zu, und der alte Grund dagegen ist weg.** Am
+31.08.2026 wurde das Zufahren entfernt, weil das Standbild bei Bild 0 eine leere
+Bühne zeigte — hinter dem offenen Vorhang lag keine Szene. Jetzt steht dort der
+Kaltstart. **Ein Vorhang, der über eine Szene fällt, hängt von der Decke; einer,
+der über nichts fällt, hängt an nichts.**
+
+**Die Themenzeile trägt seitdem einen Namen und behauptet nichts mehr.** Statt
+„Passwort regelmäßig wechseln ist überholt" steht dort „Wattis Passwort und der
+Kalender". Damit dreht sich die Wache um: Sie musste behaupten und trug dafür
+`vorspannBelegId`; jetzt darf sie es nicht und nennt den Namen dessen, der den
+Kaltstart gesprochen hat. **Die Belegpflicht ist nicht gestrichen, sondern
+umgezogen** — auf `kaltstart.belegId`, den einzigen Satz vor dem Vorhang, der
+noch behauptet. Der Anlass für die alte Regel bleibt richtig und ist mit ihr
+erledigt: Wo nichts behauptet wird, kann nichts überzogen werden.
+
+**Zwei Wachen mussten mitwachsen, und eine hat sofort gemeldet.** Die Posenregel
+in `src/pruefung.ts` lief über `short.szenen` und sah den Kaltstart nicht — zwei
+der vier Entwürfe standen im ersten Anlauf auf „staunen mit Symbol daneben",
+also genau auf dem Fehler, gegen den sie gebaut ist. `npm run bildrand` hatte
+dieselbe Lücke. **Eine Wache, die das neue Feld nicht kennt, ist für dieses Feld
+keine** — derselbe Befund wie bei der Tonspur-Attrappe am 01.09.2026.
 
 ### Der Bau: vier Positionen
 
@@ -980,10 +1041,10 @@ Uhrsprung mitten in der Schleife, der genau einmal und genau dort greifen
 musste. Jetzt startet die Uhr bei der Vorspanndauer. **Ein Wert, der einmal am
 Anfang gesetzt wird, kann nicht an der falschen Stelle einsteigen.**
 
-Und er **fährt nicht mehr zu**: Am Anfang gibt es nichts zuzudecken. Der erste
-Anlauf ließ ihn trotzdem zufahren, und das Standbild bei Bild 0 zeigte es
-sofort — eine **leere Bühne**, weil die erste Szene erst nach dem Vorspann
-beginnt.
+Er **fuhr eine Zeit lang nicht mehr zu**: Am Anfang gab es nichts zuzudecken,
+und das Standbild bei Bild 0 zeigte eine **leere Bühne**, weil die erste Szene
+erst nach dem Vorspann beginnt. Seit dem 02.09.2026 fährt er wieder zu — jetzt
+liegt der Kaltstart davor, also fällt er über eine Szene. Siehe `kaltstart`.
 
 ### Der Ton des Vorspanns
 
@@ -991,17 +1052,23 @@ Vier Klänge, und drei davon kosten nichts.
 
 | | was | woher |
 |---|---|---|
-| **Auftakt** | D-Dur-Dreiklang aufsteigend, bei Bild 0 | `skripte/toene.ts`, berechnet |
-| **Showtitel** | „Facts. Mit Volti …" | feste Aufnahme je Format |
-| **Einwurf** | „… und Watti!" | feste Aufnahme je Format |
+| **Auftakt** | D-Dur-Dreiklang aufsteigend, auf der Vorhangzufahrt | `skripte/toene.ts`, berechnet |
 | **Themenansage** | „Heutiges Thema: …" | aus der Vertonung, je Short |
 | **Öffnung** | Hauch plus Grundton D4 | berechnet |
 
-**Zehn feste Aufnahmen, einmal bezahlt.** Showtitel und Namen hängen am Format
-und wechseln nie; durch `shortVertonen` geschickt kostete derselbe Satz bei vier
-Videos die Woche rund 11.000 Zeichen im Jahr. `skripte/vorspannton.ts` nimmt sie
-auf, `daten/vorspannton.json` hält ihre gemessenen Dauern — **Remotion kann die
-Länge einer Tondatei nicht synchron lesen**, und Wattis Einsatz hängt daran.
+**Showtitel und Einwurf sind am 02.09.2026 gestrichen** — zehn feste Aufnahmen,
+die niemand mehr abruft. Auf der Karte steht seitdem fest „Die Volti & Watti
+Show" mit den beiden Namen in ihren Kennfarben, gesprochen wird sie nicht mehr.
+Der Grund ist Zeit: Sie kosteten je nach Show 3,69 bis 4,40 Sekunden, und genau
+daraus ist der Kaltstart bezahlt. Die Formatpille in der Kopfzeile bleibt.
+
+**Zweimal dasselbe zu sagen war dabei der eigentliche Anlass.** Die Namen
+standen in der Zeile *und* wurden gesprochen, während der Zuschauer noch gar
+nicht wusste, worum es geht.
+
+`daten/vorspannton.json` hält nur noch die zwei Abspannaufnahmen samt ihren
+gemessenen Dauern — **Remotion kann die Länge einer Tondatei nicht synchron
+lesen**, und Wattis „Wirklich." hängt daran.
 
 **Die Themenansage ist der einzige Vorspannton je Short.** Sie steht deshalb in
 der Tonspur und **nicht** in `abschnitte`: Die Aufschlagmessung filtert `woerter`

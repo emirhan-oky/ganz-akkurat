@@ -171,8 +171,23 @@ export const Sprecherstand: React.FC<{
   abschnitte?: Tonspur['abschnitte'];
   /** Die Wortzeitstempel des ganzen Shorts. Ohne sie klappt der Mund blind. */
   woerter?: Untertitelwort[];
+  /**
+   * Ob der Short zwei Stimmen hat — normalerweise aus der Zahl der Abschnitte
+   * abgeleitet.
+   *
+   * **Der Kaltstart braucht die Ausnahme.** Vor dem Vorhang spricht genau eine
+   * Figur, also gibt es dort genau einen Abschnitt — und die Ableitung hielte
+   * den Short fuer einstimmig. Das kostete nicht nur den Mund der Figur: Sie
+   * schaltet zugleich die Untertitelzone ein, und die Buehne waere 270 Pixel
+   * niedriger als in jeder Szene danach. **Die Figur stuende im Kaltstart auf
+   * einer anderen Standlinie als hinter dem Vorhang.**
+   *
+   * Die Ableitung bleibt die Vorgabe; sie stimmt fuer jeden Short. Was hier
+   * ueberschrieben wird, ist ein Ausschnitt daraus, nicht der Short.
+   */
+  zweistimmig?: boolean;
   children: React.ReactNode;
-}> = ({ abschnitte, woerter, children }) => {
+}> = ({ abschnitte, woerter, zweistimmig: zweistimmigVorgabe, children }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   /*
@@ -181,7 +196,7 @@ export const Sprecherstand: React.FC<{
    * Name, der dauerhaft leuchtet, behauptet einen Sprecherwechsel, den es
    * nicht gibt.
    */
-  const zweistimmig = (abschnitte?.length ?? 1) > 1;
+  const zweistimmig = zweistimmigVorgabe ?? (abschnitte?.length ?? 1) > 1;
   const wer = zweistimmig && abschnitte ? sprecherZu(abschnitte, frame / fps) : undefined;
   const staerke =
     zweistimmig && abschnitte

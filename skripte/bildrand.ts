@@ -6,7 +6,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { WOCHENLAUF } from '../daten/entwuerfe';
 import { FORMAT, SPIELFLAECHE, VORHANG } from '../src/marke';
-import { szenenZeitplan } from '../src/zeit';
+import { kaltstartSek, szenenZeitplan } from '../src/zeit';
 import type { Short } from '../src/typen';
 
 /**
@@ -203,7 +203,25 @@ const main = async () => {
        */
       const plan = szenenZeitplan(mitTon);
 
-      for (const [i, szene] of plan.entries()) {
+      /*
+       * **Der Kaltstart zaehlt als Szene minus eins.**
+       *
+       * Er steht vor dem Vorhang, traegt dieselbe Buehne wie jede Szene und
+       * war beim ersten Anlauf trotzdem ungeprueft — die Schleife lief ueber
+       * `szenenZeitplan`, und darin steht er nicht. Genau in dieser Luecke sass
+       * schon einmal etwas: `npm run bildrand` hat 75 Standbilder mit zu
+       * kleinen Figuren gemessen und fuer gut befunden.
+       *
+       * Er beginnt bei Bild 0 und endet, wenn der Vorhang zu ist. Der Index
+       * −1 haelt ihn aus `hinweisSzene` heraus, das Szenennummern vergleicht.
+       */
+      const kaltstartBilder = Math.round(kaltstartSek(mitTon) * 30);
+      const abschnitte: [number, { startBild: number; dauerBilder: number }][] = [
+        [-1, { startBild: 0, dauerBilder: kaltstartBilder }],
+        ...plan.entries(),
+      ];
+
+      for (const [i, szene] of abschnitte) {
         /*
          * Anfang, Mitte, Ende — weil der gefundene Ueberstand mit der Szene
          * wuchs. Der erste Frame einer Szene ist zudem der einzige, in dem eine

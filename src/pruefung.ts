@@ -1,4 +1,5 @@
 import { BAUFORMEN,
+  KALTSTART_ARTEN,
   type Bauform,
   REAKTIONS_MACHARTEN,
   UNBETEILIGTE_ARTEN,
@@ -633,52 +634,54 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     belegtVonSzenen.set(schluessel, [...(belegtVonSzenen.get(schluessel) ?? []), i + 1]);
   }
 
-  /* ── Die Themenzeile traegt ihre Behauptung ──────────────────────── */
+  /* ── Voltis Erstaunen traegt seine Behauptung ────────────────────── */
 
   /*
-   * **Der Vorspann ist seit dem 31.08.2026 belegpflichtig.**
+   * **Die Belegpflicht ist am 02.09.2026 umgezogen, nicht gestrichen.**
    *
-   * Er war das einzige gesprochene Feld ohne Deckung, und zwar nicht aus
-   * Absicht, sondern weil er neu war: Als er gebaut wurde, hat keine Regel ihn
-   * angesehen. Der Preis stand in drei von vier Entwuerfen — am haertesten
-   * „Passwort wechseln bringt gar nichts" gegen das BSI-Zitat „erhoeht die
-   * Sicherheit **nicht automatisch**". Der Schritt von „nicht automatisch" zu
-   * „nicht" ist derselbe, den CLAUDE.md als teuersten Fehler dieses Projekts
-   * fuehrt.
+   * Sie hing seit dem 31.08. an der Themenzeile, und der Anlass war gut: Sie
+   * war das einzige gesprochene Feld ohne Deckung, und drei von vier Entwuerfen
+   * trugen ihre Behauptung nicht — am haertesten „Passwort wechseln bringt gar
+   * nichts" gegen das BSI-Zitat „erhoeht die Sicherheit **nicht automatisch**".
    *
-   * **Geprueft wird die Fundstelle, nicht der Satz.** Ob das Zitat die
-   * Themenzeile wirklich traegt, kann kein Skript beurteilen — dasselbe gilt
-   * fuer jede Szene, und dafuer gibt es `npm run belege` und den
-   * `belegpruefer`. Was hier geprueft wird, ist das, was pruefbar ist: dass es
-   * die Fundstelle gibt und dass sie zu einer Quelle **dieses** Shorts gehoert.
-   * Genau so arbeitet die Belegregel ueberall: Sie prueft nicht, ob das Zitat
-   * ueberzeugt, sondern ob eins da ist.
+   * Die Themenzeile behauptet seitdem nichts mehr; sie nennt die Figur, deren
+   * Geschichte kommt. **Wo nichts behauptet wird, kann nichts ueberzogen
+   * werden.** Was vor dem Vorhang noch behauptet, ist genau ein Satz: Voltis
+   * Erstaunen. Also haengt die Regel jetzt dort — dieselbe Regel, dasselbe
+   * Verfahren, ein anderes Feld.
    *
-   * Die Bindung an die Quellen des Shorts ist der Teil, der wirklich haelt.
-   * Ohne sie koennte die Themenzeile sich auf ein Zitat berufen, das im Video
-   * nirgends vorkommt — belegt waere sie dann nur auf dem Papier.
+   * **Geprueft wird die Fundstelle, nicht der Satz.** Ob das Zitat den
+   * Kaltstart wirklich traegt, kann kein Skript beurteilen — dafuer gibt es
+   * `npm run belege` und den `belegpruefer`. Was hier geprueft wird, ist das,
+   * was pruefbar ist: dass es die Fundstelle gibt und dass sie zu einer Quelle
+   * **dieses** Shorts gehoert. Ohne die zweite Haelfte koennte der Kaltstart
+   * sich auf ein Zitat berufen, das im Video nirgends vorkommt — belegt waere
+   * er dann nur auf dem Papier.
    */
   const belegQuellen = short.szenen
     .map((szene) => ('quelleId' in szene ? szene.quelleId : undefined))
     .filter((id): id is string => id !== undefined);
 
-  const traegerQuelle = quellen.find(
-    (q) => belegQuellen.includes(q.id) && q.belegt.some((b) => b.id === short.vorspannBelegId),
-  );
-
-  if (!traegerQuelle) {
-    const vorhanden = quellen
-      .filter((q) => belegQuellen.includes(q.id))
-      .flatMap((q) => q.belegt.map((b) => `${q.id}#${b.id}`));
-    melde(
-      'fehler',
-      'beleg',
-      `Die Themenzeile „${short.vorspann}" beruft sich auf die Fundstelle ` +
-        `„${short.vorspannBelegId}", die es in keiner Quelle dieses Shorts gibt. ` +
-        (vorhanden.length > 0
-          ? `Vorhanden: ${vorhanden.join(', ')}.`
-          : 'Der Short nennt bisher gar keine Quelle.'),
+  if (short.kaltstart.belegId !== undefined) {
+    const kaltstartBelegId = short.kaltstart.belegId;
+    const traegerQuelle = quellen.find(
+      (q) => belegQuellen.includes(q.id) && q.belegt.some((b) => b.id === kaltstartBelegId),
     );
+
+    if (!traegerQuelle) {
+      const vorhanden = quellen
+        .filter((q) => belegQuellen.includes(q.id))
+        .flatMap((q) => q.belegt.map((b) => `${q.id}#${b.id}`));
+      melde(
+        'fehler',
+        'beleg',
+        `Der Kaltstart „${short.kaltstart.satz}" beruft sich auf die Fundstelle ` +
+          `„${kaltstartBelegId}", die es in keiner Quelle dieses Shorts gibt. ` +
+          (vorhanden.length > 0
+            ? `Vorhanden: ${vorhanden.join(', ')}.`
+            : 'Der Short nennt bisher gar keine Quelle.'),
+      );
+    }
   }
 
   /*
@@ -1099,6 +1102,106 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
           `${Math.floor(LAENGE_SEK.hookMaximum * ZEICHEN_PRO_SEKUNDE)} Zeichen, ein Satz.`,
       );
     }
+  }
+
+  /* ── Der Kaltstart vor dem Vorhang ────────────────────────────────── */
+
+  /*
+   * **Dieselbe Grenze wie beim Aufschlag, ein Stueck weiter vorn.**
+   *
+   * Der Kaltstart ist seit dem 02.09.2026 der erste Satz des Videos, und damit
+   * gilt fuer ihn, was fuer den Aufschlag gilt: 71 % der Zuschauer entscheiden
+   * in den ersten Sekunden. Gemessen wird aus den Wortstempeln, sobald eine
+   * Tonspur vorliegt — genau wie oben, und aus demselben Grund: Eine harte
+   * Regel an geschaetzten Daten zu pruefen, waehrend gemessene daneben liegen,
+   * ist keine Pruefung.
+   *
+   * Das Schema deckelt den Satz schon bei 45 Zeichen. Diese Regel ist
+   * trotzdem keine Doppelung, sondern die **Gegenprobe**: Das Schema zaehlt
+   * Zeichen, hier wird die Sprechdauer gemessen. Am 25.08.2026 hat genau
+   * dieser Unterschied `ZEICHEN_PRO_SEKUNDE` von 15,4 auf 13,0 gebracht.
+   */
+  const kaltstartWoerter = short.tonspur?.kaltstart?.woerter ?? [];
+  const kErstes = kaltstartWoerter[0];
+  const kLetztes = kaltstartWoerter[kaltstartWoerter.length - 1];
+  const kaltstartGemessen = kErstes !== undefined && kLetztes !== undefined;
+  const kaltstartDauer = kaltstartGemessen
+    ? kLetztes.endeSek - kErstes.startSek
+    : short.kaltstart.satz.length / ZEICHEN_PRO_SEKUNDE;
+  if (kaltstartDauer > LAENGE_SEK.hookMaximum) {
+    melde(
+      'fehler',
+      'kaltstart',
+      `Der Kaltstart spricht ${kaltstartDauer.toFixed(1)}s ` +
+        `(${kaltstartGemessen ? 'gemessen' : `${short.kaltstart.satz.length} Zeichen`}). ` +
+        `Höchstens ${LAENGE_SEK.hookMaximum}s — er ist der erste Satz des Videos.`,
+    );
+  }
+
+  /*
+   * **Der Anschluss: Die erste Zeile nach dem Vorhang kommt vom anderen.**
+   *
+   * Der Kaltstart ist kein Teaser, der abreisst. Watti stolpert hinein, Volti
+   * hebt auf — oder Volti staunt, und Watti kommt dazu. Spraeche dieselbe
+   * Figur weiter, waere der Vorhang mitten in ihrem eigenen Satz gefallen, und
+   * der Zuschauer haette zehn Sekunden Show zwischen zwei Haelften einer Zeile.
+   *
+   * Geprueft wird der Sprecher, nicht die Haltung — die traegt die Regel
+   * darunter.
+   */
+  const kaltstartArt = KALTSTART_ARTEN.find((a) => a.schluessel === short.kaltstart.art);
+  const ersterAnteil = short.szenen[0]?.rede?.[0];
+  if (kaltstartArt !== undefined && ersterAnteil !== undefined) {
+    if (ersterAnteil.sprecher === kaltstartArt.wer) {
+      const name = kaltstartArt.wer === 'zeiger' ? 'Watti' : 'Volti';
+      melde(
+        'fehler',
+        'kaltstart',
+        `${name} spricht den Kaltstart und danach auch die erste Zeile. ` +
+          'Der Vorhang liegt dazwischen — der andere muss aufheben, was vor ihm lag.',
+      );
+    }
+
+    /*
+     * **Und ihr Zug muss antworten.** `abbiegen` ist hier verboten, und das
+     * ist die einzige Stelle, an der ein Zug ausdruecklich ausgeschlossen ist:
+     * Der Zug, der „am Gesagten vorbeigeht", ist genau das, was ein Kaltstart
+     * nicht ueberlebt. Er hat schon einmal ein fertiges Video ruiniert.
+     */
+    const antwortende = new Set(['nachhaken', 'richtigstellen', 'beantworten', 'widersprechen']);
+    if (!antwortende.has(ersterAnteil.zug)) {
+      melde(
+        'hinweis',
+        'kaltstart',
+        `Die erste Zeile nach dem Vorhang trägt „${ersterAnteil.zug}". Sie soll auf den ` +
+          `Kaltstart antworten: ${[...antwortende].join(', ')}.`,
+      );
+    }
+  }
+
+  /*
+   * **Die Wortbruecke: Ein Sachwort des Kaltstarts steht in der ersten Szene.**
+   *
+   * Sie ist die Gegenprobe zur Regel darueber, so wie `rueckbezug` die
+   * Gegenprobe zu den Zugarten ist: Der Sprecherwechsel ist eine **erklaerte**
+   * Beziehung, die Wortbruecke misst die **tatsaechlichen** Woerter. Am ersten
+   * vertonten Video war `rueckbezug` weit uebererfuellt und es war trotzdem
+   * kein Gespraech — ein Mass, das eine Zeichenkette zaehlt, kann eine
+   * Beziehung nicht sehen. Umgekehrt gilt es genauso.
+   *
+   * Deshalb ein Hinweis und kein Fehler: „Kacke, ich hätte mein Passwort
+   * wechseln müssen." und „Jemand war in meinem Konto." haengen zusammen, ohne
+   * ein Wort zu teilen. Die Regel meldet den Verdacht, sie faellt kein Urteil.
+   */
+  const bruecke = sachwoerter(short.kaltstart.satz);
+  const ersteSzenenWorte = ohneSatzzeichen(short.szenen[0]?.sprechtext ?? '');
+  if (bruecke.length > 0 && !bruecke.some((w) => kommtImVideoVor(w, ersteSzenenWorte))) {
+    melde(
+      'hinweis',
+      'kaltstart',
+      `Kein Wort aus dem Kaltstart „${short.kaltstart.satz}" kommt in der ersten Szene ` +
+        'wieder vor. Nachsehen, ob der Vorhang die beiden trennt statt sie zu verbinden.',
+    );
   }
 
   /* ── Der weitererzaehlbare Satz ───────────────────────────────────── */
@@ -1629,7 +1732,14 @@ const STIMMANTEIL_MAX = 2 / 3;
    */
   {
     const alleAnteile = short.szenen.flatMap((sz) => sz.rede ?? []);
-    const gesprochen = alleAnteile.map((r) => r.text);
+    /*
+     * **Der Kaltstart zaehlt mit, seit dem 02.09.2026.** Er ist gesprochener
+     * Text derselben beiden Figuren, nur vor dem Vorhang — und in
+     * `raumstation-alte-rechner` ist genau die Zeile dorthin gewandert, die
+     * vorher eine der beiden Anreden trug. Eine Regel, die den ersten Satz des
+     * Videos nicht sieht, misst das Gespraech an seinem Rest.
+     */
+    const gesprochen = [...alleAnteile.map((r) => r.text), short.kaltstart.satz];
 
     /*
      * **Anrede.** „Volti, …" — jemand spricht *jemanden* an. Ohne sie steht
@@ -2195,6 +2305,36 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
     });
   }
 
+  /* ── Keine Kaltstart-Art zweimal hintereinander ──────────────────── */
+
+  /*
+   * **Eine Obergrenze, kein Mindestmass** — wie bei den Zugarten.
+   *
+   * Der Kaltstart ist das Erste, was der Zuschauer von einem Short sieht, und
+   * zwei Videos, die beide mit „So. Zwoelf Stunden geladen." beginnen, lesen
+   * sich als dasselbe Video. Wer anfaengt, steht ohnehin am Format
+   * (`KALTSTART_SPRECHER`) und streut sich damit von selbst; hier geht es um
+   * die **Machart**, nicht um die Figur.
+   *
+   * Hinweis und kein Fehler: Ein fertiger Lauf soll nicht daran scheitern,
+   * dass zwei gute Kaltstarts denselben Bau haben. Dieselbe Begruendung wie
+   * beim Zugtripel.
+   */
+  for (let i = 1; i < shorts.length; i += 1) {
+    const vorher = shorts[i - 1]!;
+    const jetzt = shorts[i]!;
+    if (vorher.kaltstart.art !== jetzt.kaltstart.art) continue;
+    const art = KALTSTART_ARTEN.find((a) => a.schluessel === jetzt.kaltstart.art);
+    befunde.push({
+      stufe: 'hinweis',
+      shortId: jetzt.id,
+      regel: 'kaltstart',
+      text:
+        `„${art?.name ?? jetzt.kaltstart.art}" eröffnet ${vorher.id} und ${jetzt.id}. ` +
+        'Zwei Shorts hintereinander mit demselben Anfang lesen sich als derselbe Short.',
+    });
+  }
+
   /* ── Kein Format zweimal hintereinander ──────────────────────────── */
 
   /*
@@ -2678,7 +2818,17 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
      * bereits: „Eine Probe findet nur die Faelle, die sie auch aufstellt" —
      * fuer eine handgeschriebene Sperre gilt dasselbe.
      */
-    for (const szene of short.szenen) {
+    /*
+     * **Der Kaltstart laeuft mit, seit dem 02.09.2026.**
+     *
+     * Er traegt dieselbe Buehne wie jede Szene — Figur, Pose, Requisite — und
+     * war beim ersten Anlauf trotzdem unsichtbar fuer diese Schleife, weil sie
+     * ueber `short.szenen` lief. Zwei der vier Entwuerfe standen sofort auf
+     * „staunen mit Symbol daneben", also genau auf dem Fehler, gegen den die
+     * Regel darunter gebaut ist. **Eine Wache, die das neue Feld nicht kennt,
+     * ist fuer dieses Feld keine.**
+     */
+    for (const szene of [...short.szenen, short.kaltstart]) {
       if (!('buehne' in szene) || szene.buehne?.art !== 'figur') continue;
       const { nach, requisite, stand } = szene.buehne;
       const symbolDaneben = requisite !== undefined && requisite !== 'blatt';
