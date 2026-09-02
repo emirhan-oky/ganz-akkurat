@@ -26,9 +26,22 @@ export const fremdesLadekabel: Short = {
   arbeitstitel: 'Watti streitet über das falsche Kabel',
   weitererzaehlt: 'Für 240 Watt gelten eigene Anforderungen an das Kabel',
   suchbegriff: 'Ladekabel Ampere',
+  /*
+   * **Der Kaltstart gehoert Wattis Sache, nicht einem Bericht ueber Volti.**
+   *
+   * Hier stand „Volti laedt mit einem Kabel, das er im Zug gefunden hat." —
+   * Emirhans Urteil dazu: *„Mit wem redet Watti? Das ist komisch."* Er hatte
+   * recht, und der Grund ist benennbar: Der Kaltstart ist ein Selbstgespraech,
+   * und in allen neun seiner eigenen geht es um **Wattis** Gegenstand oder um
+   * **Wattis** Ueberzeugung. Ein Bericht ueber den anderen hat keinen
+   * Sprecher, an den er sich richtet.
+   *
+   * Jetzt traegt er Wattis Position — und der Short loest sie zur Haelfte auf:
+   * Es kommt aufs Kabel an, aber nicht wegen des Bahnsteigs.
+   */
   kaltstart: {
-    art: 'beschwerde',
-    satz: 'Volti lädt mit einem Kabel, das er im Zug gefunden hat.',
+    art: 'gewissheit',
+    satz: 'Ein Kabel vom Bahnsteig kommt mir nicht ans Handy.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'kabel' },
   },
   vorspann: 'Wattis Streit über ein Ladekabel',
@@ -66,7 +79,7 @@ export const fremdesLadekabel: Short = {
       belegId: 'usb-pd-was-limited',
       herausgeber: 'USB Implementers Forum',
       sprechtext:
-        'Deins lag im Zug rum, meins nicht. Meins hat wenigstens einen Namen drauf. Früher war bei 100 Watt Schluss, aus 20 Volt mal 5 Ampere.',
+        'Deins lag im Zug rum, meins nicht. Meins hat wenigstens einen Namen drauf. Früher war bei 100 Watt Schluss.',
       rede: [
         { sprecher: 'zeiger', zug: 'erinnern', text: 'Deins lag im Zug rum, meins nicht.' },
         {
@@ -78,7 +91,7 @@ export const fremdesLadekabel: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Früher war bei 100 Watt Schluss, aus 20 Volt mal 5 Ampere.',
+          text: 'Früher war bei 100 Watt Schluss.',
           quelleId: 'usbif-power-delivery',
           belegId: 'usb-pd-was-limited',
         },
@@ -93,30 +106,35 @@ export const fremdesLadekabel: Short = {
     },
     {
       /*
-       * **Die Zahl steht im Bild, weil sie im Sprechtext steht.** `zahlImBild`
-       * verlangt fuer jede technische Angabe eine `zahl`-Szene — und hier ist
-       * sie zugleich das Dritte, das keiner der beiden hatte.
+       * **Die Rechnung steht als Rechnung im Bild und im Untertitel.**
+       *
+       * Emirhans Befund: *„Hier ist es leichter, wenn du es in den Untertiteln
+       * einfach als Rechenaufgabe darstellst."* Vorher stand ein **Satz ueber**
+       * eine Rechnung — „aus 20 Volt mal 5 Ampere" —, und die Zahl-Szene zeigte
+       * daneben ein Ergebnis, das im Satz gar nicht vorkam.
+       *
+       * Jetzt fragt Watti danach, Volti rechnet, und `wert` mal `einheit`
+       * ergibt im Bild dieselbe Zeile: gross und blau „20 × 5", daneben
+       * „= 100 Watt". Der Sprechtext ist Wort fuer Wort der Untertitel — die
+       * Rechenaufgabe steht damit zweimal da und beide Male gleich.
        */
       art: 'zahl',
       position: 'zuspitzung',
-      wert: '240',
-      einheit: 'Watt',
-      bedeutung: 'so viel geht heute, über höhere Spannungen',
+      wert: '20 × 5',
+      einheit: '= 100 Watt',
+      bedeutung: 'so kam früher die höchste Leistung zustande',
       quelleId: 'usbif-power-delivery',
-      belegId: 'neue-spannungen-140-180-240',
-      sprechtext:
-        'Und heute? Heute gehen 240 Watt, über 28, 36 und 48 Volt. Wer hat denn jetzt recht? Keiner von uns beiden.',
+      belegId: 'usb-pd-was-limited',
+      sprechtext: 'Und wie kommt man auf 100? 20 Volt mal 5 Ampere.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und heute?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wie kommt man auf 100?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Heute gehen 240 Watt, über 28, 36 und 48 Volt.',
+          text: '20 Volt mal 5 Ampere.',
           quelleId: 'usbif-power-delivery',
-          belegId: 'neue-spannungen-140-180-240',
+          belegId: 'usb-pd-was-limited',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Wer hat denn jetzt recht?' },
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Keiner von uns beiden.' },
       ],
       buehne: {
         art: 'figur',
@@ -132,13 +150,33 @@ export const fremdesLadekabel: Short = {
       zitat: 'Release 2.1 to define 240W cable requirements',
       quelleId: 'usbif-power-delivery',
       belegId: 'type-c-release-2-1-240w',
+      /*
+       * **Hier stand die Pronomen-Kollision, die den Schluss unlesbar machte.**
+       *
+       * Volti sagte „Und **deins** kann alles oder gar nichts" ueber Wattis
+       * Kabel, und Watti antwortete „**Deins** ist also auch nur geraten" ueber
+       * Voltis. Zwei Saetze hintereinander, dasselbe Wort, verschiedene Kabel —
+       * und dazu falsch herum, denn das unbekannte ist Voltis Fundkabel.
+       *
+       * Das ist Befund 23 aus `dialoganalyse.md` in seiner teuersten Form: das
+       * Substantiv statt des Pronomens. Emirhans Urteil dazu war nicht „falsch",
+       * sondern *„ich checke einfach nicht, in welche Richtung du willst."*
+       */
       sprechtext:
-        'Für 240 Watt gelten eigene Anforderungen an das Kabel. Also nicht ans Netzteil? Ans Kabel. Und deins kann alles oder gar nichts.',
+        'Heute gehen 240 Watt, über 28, 36 und 48 Volt. Wer hat denn jetzt recht? Keiner von uns beiden. Für 240 Watt gelten eigene Anforderungen an das Kabel. Also nicht ans Netzteil? Ans Kabel. Nicht der Name, der draufsteht.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Für 240 Watt gelten eigene Anforderungen an das Kabel.',
+          text: 'Heute gehen 240 Watt, über 28, 36 und 48 Volt.',
+          quelleId: 'usbif-power-delivery',
+          belegId: 'neue-spannungen-140-180-240',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Wer hat denn jetzt recht?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Keiner von uns beiden. Für 240 Watt gelten eigene Anforderungen an das Kabel.',
           quelleId: 'usbif-power-delivery',
           belegId: 'type-c-release-2-1-240w',
         },
@@ -146,7 +184,7 @@ export const fremdesLadekabel: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Ans Kabel. Und deins kann alles oder gar nichts.',
+          text: 'Ans Kabel. Nicht der Name, der draufsteht.',
         },
       ],
       buehne: {
@@ -158,16 +196,39 @@ export const fremdesLadekabel: Short = {
       },
     },
     {
+      /*
+       * **Beide geben nach — die Aufloesung, fuer die Szenario 6 gebaut ist.**
+       *
+       * Watti hatte recht, dass es aufs Kabel ankommt, und unrecht, warum. Das
+       * ist die einzige Stelle im Short, an der er gewinnt, und sie kostet
+       * Volti mehr als ihn.
+       *
+       * **Und der Short landet nicht auf „die Zahl steht drauf".** Darauf endet
+       * `ladekabel-watt`, und zwei Shorts ueber Kabel duerfen nicht dieselbe
+       * Pointe haben.
+       *
+       * Hier stand „Bei dir, kleiner." Emirhans Befund: *„Dieses kleiner am
+       * Ende muss nicht sein."* Es ist keine Vorschrift und war nie eine — ich
+       * hatte es fuenfmal automatisch ans Ende gesetzt.
+       */
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Die Zahl steht im Kabel, nicht auf der Packung.',
+      satz: 'Es kommt aufs Kabel an, nicht auf den Namen darauf.',
       sprechtext:
-        'Deins ist also auch nur geraten. Meins liegt seit heute im Zug. Und wo lädst du jetzt? Bei dir, kleiner.',
+        'Also hatte ich doch recht mit dem Kabel. Du hattest recht, dass es drauf ankommt. Nicht warum. Nehme ich.',
       rede: [
-        { sprecher: 'zeiger', zug: 'zuspitzen', machart: 'umdeutung', text: 'Deins ist also auch nur geraten.' },
-        { sprecher: 'nachleser', zug: 'einlenken', text: 'Meins liegt seit heute im Zug.' },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wo lädst du jetzt?' },
-        { sprecher: 'nachleser', zug: 'beantworten', machart: 'widerhaken', text: 'Bei dir, kleiner.' },
+        {
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
+          machart: 'umdeutung',
+          text: 'Also hatte ich doch recht mit dem Kabel.',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'einschraenken',
+          text: 'Du hattest recht, dass es drauf ankommt. Nicht warum.',
+        },
+        { sprecher: 'zeiger', zug: 'einlenken', text: 'Nehme ich.' },
       ],
       buehne: {
         art: 'figur',

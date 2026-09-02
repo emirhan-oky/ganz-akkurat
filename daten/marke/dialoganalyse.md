@@ -239,6 +239,37 @@ Schablone.
 38. **Die Karte kann den belasten, der spricht.** Voltis eigener Rat auf der
     Karte, während er ihn gerade gebrochen hat.
 
+### Aus Durchgang 1 · 03.09.2026
+
+Die ersten drei Befunde an einem Dialog, den ich allein geschrieben habe.
+
+39. **Der Kaltstart gehört Wattis Sache, nie einem Bericht über den anderen.**
+    `fremdes-ladekabel` begann mit „Volti lädt mit einem Kabel, das er im Zug
+    gefunden hat." Emirhans Urteil: *„Mit wem redet Watti? Das ist komisch."*
+    Ein Kaltstart ist ein **Selbstgespräch** — er braucht einen Gegenstand oder
+    eine Überzeugung, die Watti gehört. In allen neun seiner eigenen ist das so.
+40. **Eine Rechnung gehört als Rechnung in den Untertitel.** Nicht „aus 20 Volt
+    mal 5 Ampere" als Nebensatz, sondern die Frage und die Rechnung: *„Und wie
+    kommt man auf 100?" — „20 Volt mal 5 Ampere."* Der Sprechtext ist Wort für
+    Wort der Untertitel, und die `zahl`-Szene kann dieselbe Zeile zeigen —
+    `wert: '20 × 5'`, `einheit: '= 100 Watt'`.
+41. **Zwei Pronomen hintereinander über zwei verschiedene Dinge zerstören den
+    Schluss.** Volti sagte „Und **deins** kann alles oder gar nichts" über
+    Wattis Kabel, Watti antwortete „**Deins** ist also auch nur geraten" über
+    Voltis. Das Urteil dazu lautete nicht „falsch", sondern *„ich checke
+    einfach nicht, in welche Richtung du willst."* Das ist Befund 23 in seiner
+    teuersten Form.
+
+**Und eine Beobachtung, die ausdrücklich keine Regel ist.** „kleiner" stand am
+Schluss von fünf der siebzehn Dialoge. Emirhans Einwand, als ich daraus einen
+Vorrat mit Wache bauen wollte: *„Es gibt keine feste Regel, dass kleiner immer
+am Ende stehen soll."*
+
+Das Wort ist in Ordnung. Falsch war, dass **ich** es wie einen Pflichtbaustein
+behandelt und automatisch ans Ende gesetzt habe. **Der Reflex, aus einem Befund
+eine Regel zu machen, erzeugt genau die Schablone, gegen die der Pool gebaut
+ist** — und ein Vorrat mit Wache hätte ihn festgeschrieben statt aufgelöst.
+
 ## Die Szenarien
 
 Zwölf Gesprächsformen, je vier Beispiele. Sie liegen in `daten/szenarien/`, und

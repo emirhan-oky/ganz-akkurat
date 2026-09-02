@@ -44,6 +44,12 @@ eine `belegId`.
 Akkuwechsel, Flugmodus, Handyversicherung, Kabelschublade. Nicht „die
 Versicherung", nicht „der Aufkleber".
 
+**Und er gehört Wattis Sache.** Ein Kaltstart ist ein Selbstgespräch; ein
+Bericht über den anderen hat keinen, an den er sich richtet. „Volti lädt mit
+einem Kabel, das er im Zug gefunden hat." bekam am 03.09.2026 die kürzeste
+mögliche Rückfrage: *„Mit wem redet Watti?"* Er braucht einen Gegenstand oder
+eine Überzeugung, die Watti gehört.
+
 **Und er trägt den Konflikt, nicht immer Wattis Irrtum.** Behält Watti am Ende
 recht, kann er vor dem Vorhang nicht schon danebenliegen.
 
@@ -177,6 +183,16 @@ Nachgeben ist widerwillig, nie sauber: „Ja gut, einmal im Jahr halt."
 **Der Härtetest:** Ließe sich die Zeile tauschen, ohne dass es auffällt, gehört
 sie keinem von beiden.
 
+**Und kein Baustein ist Pflicht, nur weil er oft dasteht.** Am 03.09.2026 stand
+„kleiner" am Schluss von fünf der siebzehn Dialoge, weil ich es wie einen
+Pflichtbaustein behandelt hatte. Emirhans Einwand: *„Es gibt keine feste Regel,
+dass kleiner immer am Ende stehen soll."* Das Wort ist in Ordnung; der
+Automatismus war es nicht.
+
+**Daraus keine Regel bauen.** Der Reflex, aus einer Beobachtung einen Vorrat mit
+Wache zu machen, schreibt die Schablone fest, statt sie aufzulösen — und der
+Pool existiert genau dagegen.
+
 ## Die sieben Humorregeln
 
 Aus dem Eichmaß vom 25.08.2026, an fünfzehn von Emirhan einzeln bewerteten
@@ -214,6 +230,14 @@ wurden. Ein Satz mit Nebensatz ist keine Rede.
 - **Zahlen als Ziffer, mit Einheit und Richtung.** „60 Watt oder 240 Watt, und
   mehr Watt heißt mehr Durchlass." Ausgeschrieben wurde
   „zweihundertvierzig" als „zweiundvierzig" gelesen.
+- **Eine Rechnung gehört als Rechnung in den Untertitel**, nicht als Nebensatz
+  über eine Rechnung. Nicht „aus 20 Volt mal 5 Ampere", sondern die Frage und
+  die Rechnung: *„Und wie kommt man auf 100?" — „20 Volt mal 5 Ampere."* Die
+  `zahl`-Szene zeigt dieselbe Zeile, `wert` mal `einheit`.
+- **Das Substantiv statt des Pronomens gilt doppelt, wenn beide dasselbe Ding
+  haben.** „Und deins kann alles oder gar nichts" über Wattis Kabel, gefolgt von
+  „Deins ist also auch nur geraten" über Voltis, hat einen ganzen Schluss
+  unlesbar gemacht.
 - **Übertreibungen ohne Zahl.** „Ewig", „ein Batzen Geld". „Drei Wochen im
   Laden" liest sich als Tatsache.
 - **Das Bild kommt aus ihrer Welt.** „Sich den Kopf zerbrechen", nicht
