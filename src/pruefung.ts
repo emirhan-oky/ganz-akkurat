@@ -2271,46 +2271,19 @@ const STIMMANTEIL_MAX = 2 / 3;
   }
 
   /*
-   * Der Zielwert der Bauform — die Wache, die das geweitete Fenster ersetzt.
+   * **Hier stand die Wache ueber den Zielwert der Bauform, gestrichen am
+   * 02.09.2026.**
    *
-   * Bis zum 25.08.2026 stand der Zielwert nur im Kommentar von `LAENGE_SEK`,
-   * und das Fenster war eng genug, um ihn nebenbei durchzusetzen. Mit 20 bis
-   * 65 Sekunden ist es das nicht mehr: Eine Wechselrede von 60 Sekunden laege
-   * bequem darin und waere trotzdem das Doppelte dessen, was diese Bauform
-   * sein will.
+   * Sie meldete, wenn ein Short mehr als ein Fuenftel von 45, 52 oder 62
+   * Sekunden abwich. Die drei Zahlen sind mit ihr gegangen: Sie waren nie
+   * gemessen, standen selbst als „Versuchsaufbau" im Code, und daneben liegen
+   * jetzt zehn eigene Dialoge zwischen 40 und 78 Sekunden — die sich nicht
+   * nach Bauform verteilen, sondern nach dem, was zu erzaehlen ist.
    *
-   * Gemessen wird gegen die **tatsaechliche** Dauer, sobald es eine Tonspur
-   * gibt, sonst gegen die Schaetzung. Ein Fuenftel Abweichung ist grosszuegig
-   * — die Vertonung selbst streut schon rund sechs Prozent, und ein Hinweis,
-   * der bei jedem zweiten Short erscheint, wird nicht gelesen.
+   * **Eine Wache auf einer geratenen Zahl meldet nicht den Fehler, sondern die
+   * Abweichung von einer Vermutung.** Was bleibt, ist das harte Fenster
+   * darueber, und das ist jetzt am eigenen Material gemessen.
    */
-  {
-    /*
-     * **Ohne den Vorspann.** Der Zielwert sagt, wie lang ein so gebautes
-     * Gespraech ist — der Vorspann ist bei jeder Bauform derselbe und sagt
-     * ueber sie nichts aus. Mit ihm gerechnet meldete `ersatzteil-freischalten`
-     * 58 Sekunden gegen 45, ohne dass am Text etwas falsch war.
-     *
-     * Bei vorhandener Tonspur steckt er in `dauerSek` und wird abgezogen; die
-     * gemessene Vorspanndauer steht dort ebenfalls.
-     */
-    const ziel = BAUFORMEN[short.bauform].zielSek;
-    const gemessen = short.tonspur !== undefined;
-    const dauer = gemessen
-      ? short.tonspur!.dauerSek - vorspannSek(short)
-      : geschaetzteInhaltSek(short);
-    const abweichung = Math.abs(dauer - ziel) / ziel;
-    if (abweichung > 0.2) {
-      melde(
-        'hinweis',
-        'laenge',
-        `${BAUFORMEN[short.bauform].titel} will rund ${ziel}s Gespräch, ` +
-          `${gemessen ? 'gemessen' : 'geschätzt'} sind es ${dauer.toFixed(0)}s. ` +
-          'Länge ist eine Folge davon, wie viel es zu zeigen gibt – ' +
-          'wenn der Inhalt es trägt, ist der Hinweis erledigt.',
-      );
-    }
-  }
 
   return befunde;
 };

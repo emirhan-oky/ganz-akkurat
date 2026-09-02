@@ -151,7 +151,7 @@ const main = async () => {
       const dauer =
         dazu.length >= GENUG_JE_KLASSE ? median(dazu.map((r) => verweildauer(r)!)) : null;
       console.log(
-        `    ${BAUFORMEN[bauform].titel.padEnd(14)}Ziel ${String(BAUFORMEN[bauform].zielSek).padStart(2)} s   ` +
+        `    ${BAUFORMEN[bauform].titel.padEnd(14)}` +
           (dauer === null
             ? `zu wenig (${dazu.length} von ${GENUG_JE_KLASSE})`
             : `${dauer.toFixed(1)} s Verweildauer aus ${dazu.length} Videos`),

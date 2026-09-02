@@ -756,41 +756,39 @@ export const LAENGE_SEK = {
    *   aelter als fuenf Jahre." Kein Satz, kein Verb, ein Telegramm. Der Zwang
    *   kam nicht vom Fenster, sondern vom Zielwert, an dem geschrieben wird.
    *
-   * ## Woher die 42 und die 67 kommen
+   * ## Woher die 40 und die 80 kommen — seit dem 02.09.2026
    *
-   * Die **67** sind gemessen, aber an einem fremden Kanal: `@dr_data_dr`
-   * (91.000 Abonnenten, 44 Mio. Aufrufe), zwoelf Shorts zwischen 48 und 67
-   * Sekunden, Median rund 61, das staerkste bei 51. Englisch, einstimmig,
-   * anderes Publikum — uebertragbar ist die Groessenordnung, nicht mehr.
+   * **Aus zehn Dialogen von Emirhan, zum ersten Mal am eigenen Material
+   * gemessen.** Sie liegen zwischen 40 und 78 Sekunden, Median 62. Das alte
+   * Fenster haette **vier von zehn abgelehnt**, ohne dass an einem einzigen
+   * Wort etwas falsch war.
    *
-   * Die **42** sind eine Entscheidung vom 31.08.2026 und keine Messung. Sie
-   * hebt die Untergrenze so weit an, dass ein Gespraech ueberhaupt Platz hat:
-   * Unter 42 Sekunden bleibt bei zwei Sprechern kaum mehr als ein Beleg und
-   * eine Reaktion, und genau das war der Bau, der 0-mal geteilt wurde.
+   * Die Zahlen davor standen auf fremdem Boden: Die **67** waren an
+   * `@dr_data_dr` gemessen — englisch, einstimmig, anderes Publikum —, die
+   * **42** eine Entscheidung. Beide sind entstanden, bevor es einen einzigen
+   * von Emirhan geschriebenen Dialog gab.
    *
-   * **Was die Zahlen nicht sind: gemessen an eigenen Videos.** Alle neun
-   * veroeffentlichten liegen bei 20 bis 23 Sekunden; zu jeder Laenge darueber
-   * gibt es keine eigene Zahl. `npm run laengen` schweigt deshalb weiter.
+   * Was aus der alten Fassung bleibt und weiter bindet:
    *
-   * ## Die Zielwerte je Bauform sind nachgezogen
+   * - **Zielwert ist die Mitte, nicht der Rand.** Die Vertonung streut rund
+   *   sechs Prozent; wer an der Obergrenze baut, faellt beim naechsten Lauf
+   *   heraus, ohne ein Wort geaendert zu haben.
+   * - **Ein zu enger Zielwert verstuemmelt die Sprache.** Bei 23 Sekunden auf
+   *   sechs Szenen entstand „Laptops, aelter als fuenf Jahre." Kein Satz, kein
+   *   Verb, ein Telegramm.
    *
-   * Hier stand am 31.08.2026 morgens, die vier Zielwerte (25 / 35 / 45 / 60)
-   * laegen zu drei Vierteln unter der neuen Untergrenze und die Entscheidung
-   * sei offen gelassen, „bis feststeht, was zwei Figuren im Bild koennen".
+   * ## Die Zielwerte je Bauform sind gestrichen
    *
-   * Das steht seit dem Abend desselben Tages fest, und die Vermutung von
-   * morgens hat sich bestaetigt: **`einstimmig` ist gestrichen.** Bei einer
-   * Untergrenze von 42 Sekunden ist der einstimmige Bau kein kurzer
-   * Sonderfall, sondern ein Monolog von dreiviertel Minute — genau der Bau,
-   * gegen den der Umbau laeuft.
+   * 45 / 52 / 62 standen selbst als „Versuchsaufbau" im Code, und keine der
+   * drei Zahlen war gemessen. Sie sollten Laengen spreizen, damit es etwas zu
+   * messen gibt — jetzt gibt es gemessene Laengen, und zwar aus zehn eigenen
+   * Dialogen. **Eine geratene Zahl neben einer gemessenen ist keine zweite
+   * Meinung, sie ist Laerm.**
    *
-   * Die drei verbliebenen zielen auf **45 / 52 / 62** und liegen damit im
-   * Fenster. Sie sind so gesetzt, dass sie es ausspannen: Die Klassen unten
-   * fallen daraus ab, und ein Versuch ueber Laengen hat wieder etwas zu
-   * messen. Gemessen ist keine der drei Zahlen — die Begruendung steht bei
-   * `BAUFORMEN`.
+   * Die Laenge folgt seitdem dem Gespraech. `BAUFORMEN` sagt weiter, wie ein
+   * Short gebaut ist, aber nicht mehr, wie lang er zu sein hat.
    */
-  ziel: [42, 67] as const,
+  ziel: [40, 80] as const,
   /**
    * Die Hook spricht hoechstens dreieinhalb Sekunden.
    *
@@ -811,40 +809,36 @@ export const zielfenster = (): readonly [number, number] => LAENGE_SEK.ziel;
 /**
  * Die Klassen, in denen der Ruecklauf Laengen vergleicht.
  *
- * **Sie werden aus `BAUFORMEN` abgeleitet und nicht danebengeschrieben.** Die
- * Zielwerte sagen, welche Laengen wir ueberhaupt anstreben; eine zweite,
- * handgeschriebene Einteilung waere eine Doppelung ohne Wache und liefe beim
- * ersten Umbau lautlos auseinander — genau der Fehler, den `rede` neben
- * `sprechtext` nur deshalb nicht macht, weil dort eine harte Gleichheit
- * prueft.
+ * **Sie werden seit dem 02.09.2026 aus dem Fenster abgeleitet, nicht mehr aus
+ * den Zielwerten der Bauformen.** Die gibt es nicht mehr: 45, 52 und 62 waren
+ * geraten, standen selbst als „Versuchsaufbau" im Code, und daneben liegen
+ * jetzt zehn gemessene eigene Laengen.
  *
- * Die Grenze liegt jeweils **in der Mitte zwischen zwei benachbarten
- * Zielwerten**: Bei 25 / 35 / 45 / 60 sind das 30, 40 und 53. Damit liegt
- * jeder Zielwert mittig in seiner Klasse, und eine Bauform, die ihr Ziel
- * trifft, landet in ihrer eigenen Klasse.
+ * Das Fenster wird in Drittel geteilt — bei 40 bis 80 also 40–53, 53–67 und
+ * darueber. Damit bleibt es bei **einer** Quelle: Wer das Fenster aendert,
+ * verschiebt die Klassen mit. Eine danebengeschriebene Einteilung waere die
+ * Doppelung ohne Wache.
  *
- * Zwei Bauformen mit demselben Zielwert teilen sich eine Klasse. Das ist kein
- * Sonderfall, sondern die richtige Antwort: Sie sind dann in dieser Hinsicht
- * dasselbe, und genau deshalb wurden die Zielwerte am 26.08.2026 gespreizt.
+ * Die unterste Klasse beginnt bei null und die oberste ist offen, damit auch
+ * ein Short ausserhalb des Fensters eine Klasse hat — sonst faende ihn
+ * `laengenklasseVon` nicht, und der Ruecklauf verlore genau die Ausreisser,
+ * an denen am meisten zu lernen waere.
  */
 export type Laengenklasse = { name: string; von: number; bis: number };
 
-const klassenAusZielwerten = (): Laengenklasse[] => {
-  const ziele = [...new Set(Object.values(BAUFORMEN).map((b) => b.zielSek))].sort((a, b) => a - b);
-  const grenzen = ziele.slice(0, -1).map((z, i) => Math.round((z + ziele[i + 1]!) / 2));
-
-  return ziele.map((_, i) => {
-    const von = i === 0 ? 0 : grenzen[i - 1]!;
-    const bis = i === ziele.length - 1 ? Infinity : grenzen[i]!;
-    return {
-      name: von === 0 ? `bis ${bis} s` : bis === Infinity ? `über ${von} s` : `${von}–${bis} s`,
-      von,
-      bis,
-    };
-  });
+const klassenAusFenster = (): Laengenklasse[] => {
+  const [unten, oben] = LAENGE_SEK.ziel;
+  const drittel = (oben - unten) / 3;
+  const erste = Math.round(unten + drittel);
+  const zweite = Math.round(unten + 2 * drittel);
+  return [
+    { name: `bis ${erste} s`, von: 0, bis: erste },
+    { name: `${erste}–${zweite} s`, von: erste, bis: zweite },
+    { name: `über ${zweite} s`, von: zweite, bis: Infinity },
+  ];
 };
 
-export const LAENGENKLASSEN = klassenAusZielwerten();
+export const LAENGENKLASSEN = klassenAusFenster();
 
 /** In welche Klasse eine Dauer faellt. Die letzte Klasse ist nach oben offen. */
 export const laengenklasseVon = (sek: number): Laengenklasse =>

@@ -288,84 +288,49 @@ export const Bauform = z.enum(['wechselrede', 'zitatkarte', 'stationen']);
 export type Bauform = z.infer<typeof Bauform>;
 
 /**
- * Was jede Bauform tut — und **wie lang sie sein will**.
+ * Was jede Bauform tut.
  *
- * `zielSek` ist die wichtigste Zahl hier, und sie ist neu. Bis zum 25.08.2026
- * gab es **einen** Zielwert fuer alle Shorts, und der stand nur im Kommentar;
- * geprueft wurde allein das Fenster. Beides war falsch:
+ * ## Die Zielwerte sind am 02.09.2026 gestrichen
  *
- * - **Ein Zielwert fuer alle Bauformen ist der eigentliche Fehler**, nicht
- *   seine Hoehe. Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil
- *   sie mehr Inhalt haben. „Laenge ist keine Ursache, sondern eine Folge
- *   davon, wie viel es zu zeigen gibt" — der Satz stand schon im Vertrag, die
- *   Folgerung fehlte.
- * - **Ein Zielwert, der nur im Kommentar steht, ist keine Wache.** Mit dem
- *   Fenster auf 20–65 s liefe eine Wechselrede von 60 Sekunden stumm durch.
- *   `shortPruefen` meldet deshalb einen Hinweis, sobald ein Short mehr als ein
- *   Fuenftel vom Zielwert seiner Bauform abweicht.
- */
-/*
- * ## Drei Zielwerte, und sie sind ein Versuchsaufbau
+ * Hier standen 45, 52 und 62 Sekunden, und darueber ein langer Absatz, der
+ * sie selbst als **Versuchsaufbau** bezeichnete: nicht gemessen, zweimal
+ * gewandert, gesetzt damit ein Versuch ueber Laengen ueberhaupt etwas zu
+ * messen hat.
  *
- * **45 / 52 / 62 seit dem 31.08.2026.** Wer sie liest, muss wissen: Sie sind
- * nicht gemessen. Gemessen ist bisher **eine einzige Laenge** — alle neun
- * veroeffentlichten Videos sind 20 bis 23 Sekunden lang, und zu allem darueber
- * gibt es keine eigene Zahl.
+ * Jetzt gibt es etwas zu messen. **Zehn von Emirhan geschriebene Dialoge
+ * liegen zwischen 40 und 78 Sekunden, Median 62** — und sie verteilen sich
+ * nicht nach Bauform, sondern nach dem, was zu erzaehlen ist. Eine geratene
+ * Zahl neben einer gemessenen ist keine zweite Meinung, sie ist Laerm.
  *
- * ## Warum sie schon wieder wandern
+ * Was der alte Absatz richtig sah, bleibt richtig und braucht keine Zahl:
+ * **Laenge ist keine Ursache, sondern eine Folge davon, wie viel es zu zeigen
+ * gibt.** Die Bauform sagt weiter, *wie* ein Short gebaut ist. Wie lang er
+ * wird, entscheidet der Dialog.
  *
- * Am 26.08. standen sie auf 25 / 35 / 45 / 60, davor auf 30 / 35 / 35 / 55.
- * Der erste Umbau spreizte sie, weil drei von vier in dieselbe Laengenklasse
- * fielen und ein Versuch ueber Laengen so nicht moeglich war.
- *
- * Der zweite hatte einen anderen Grund: Am 31.08. ist das harte Fenster auf
- * **42 bis 67 Sekunden** gestiegen, und damit lagen **drei von vier
- * Zielwerten unter der Untergrenze.** Eine Wechselrede konnte ihr eigenes Ziel
- * nicht treffen, ohne durchzufallen — ein Zielwert, der den eigenen Short
- * ungueltig macht, ist keine Vorgabe, sondern eine Falle.
- *
- * ## `einstimmig` ist gestrichen
+ * ## `einstimmig` ist gestrichen und bleibt es
  *
  * Er stand hier mit einer guten Begruendung: **Was keinen Namen hat, kann
  * keine Regel begrenzen.** Ein Erzaehler, wortweise Untertitel — die
- * Voreinstellung der ganzen „faceless"-Gattung, und ihn zu benennen setzte ihn
- * unter dieselbe Drittelregel wie alles andere.
+ * Voreinstellung der ganzen „faceless"-Gattung.
  *
- * Das Fenster hat die Begruendung ueberholt. Bei einer Untergrenze von 42
- * Sekunden ist der einstimmige Bau kein kurzer Sonderfall mehr, sondern ein
- * **Monolog von dreiviertel Minute** — genau der Bau, gegen den der ganze
- * Umbau laeuft. Die neun Videos in diesem Bau haben 2.212 Aufrufe, 0-mal
- * geteilt und 0 Abonnenten gebracht, und sie waren dabei halb so lang.
- *
- * **Eine Begrenzung, die den begrenzten Fall zugleich verschlimmert, ist keine
- * Begrenzung mehr.** Was bleibt, ist die alte Sorge: Ohne Namen laesst er sich
- * nicht verbieten. Er ist jetzt nicht mehr benannt, sondern **unmoeglich** —
- * `zweistimmigkeit` verlangt zwei Szenen mit beiden Stimmen, ohne Ausnahme.
- *
- * ## Was die Zahlen nicht sind
- *
- * Die einzige fremde Messung (`@dr_data_dr`, zwoelf Shorts, 48–67 s, Median
- * 61) haette hoehere Werte nahegelegt; eine geratene Zahl durch eine
- * uebertragene zu ersetzen, macht sie aber nicht gemessen — der Kanal ist
- * englisch, einstimmig und hat ein Publikum, das wir nicht haben.
- *
- * **Diese Zahlen fallen, sobald `npm run laengen` zwei belegte Klassen zeigt.**
+ * Die neun Videos in diesem Bau haben 2.212 Aufrufe, 0-mal geteilt und 0
+ * Abonnenten gebracht. **Eine Begrenzung, die den begrenzten Fall zugleich
+ * verschlimmert, ist keine Begrenzung mehr.** Er ist jetzt nicht benannt,
+ * sondern **unmoeglich** — `zweistimmigkeit` verlangt zwei Szenen mit beiden
+ * Stimmen, ohne Ausnahme.
  */
-export const BAUFORMEN: Record<Bauform, { titel: string; tut: string; zielSek: number }> = {
+export const BAUFORMEN: Record<Bauform, { titel: string; tut: string }> = {
   wechselrede: {
     titel: 'Wechselrede',
     tut: 'Einer traegt den Beleg, der andere reagiert. Vier Runden, dichter Sprecherwechsel.',
-    zielSek: 45,
   },
   zitatkarte: {
     titel: 'Zitatkarte',
     tut: 'Das Zitat steht als Karte im Bild, beide unterhalten sich darueber.',
-    zielSek: 52,
   },
   stationen: {
     titel: 'Stationen',
     tut: 'Vier bis fuenf Stationen, steigend, dann die Landung. Die Stationen sind Zuspitzungen, die letzte ist der Kipppunkt.',
-    zielSek: 62,
   },
 };
 

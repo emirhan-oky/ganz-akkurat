@@ -126,6 +126,124 @@ Das schärfste Signal, weil es zeigt, was stört.
 **Vier von fünf Streichungen treffen dasselbe:** Sätze, in denen ich das
 Gespräch kommentiere, statt es zu führen.
 
+## Die Befunde aus den Gegentestrunden
+
+Am selben Abend hat Claude sechs Dialoge geschrieben und Emirhan sie beurteilt.
+**Jede Runde legt einen Weg dazu, keine Regel obendrauf** — frühere Befunde
+werden nicht ersetzt, sondern Alternativen. *„Mein Ziel ist, dass du so viele
+Wege wie möglich hast, wodurch keine Schablone entsteht."*
+
+Der Reflex, aus mehreren Befunden eine Regel zu machen, ist selbst der Weg zur
+Schablone.
+
+### Die Lage
+
+1. **Ein Gegenstand, eine Handlung, eine Folge — keine Kette.** Der erste
+   Garantiesiegel-Anlauf hatte Aufkleber über Schraube über Gehäuse über Lüfter:
+   *„Es wird hier einfach nicht klar, was mit dem Lüfter ist."*
+2. **Der Kaltstart nennt das zusammengesetzte Substantiv**, das das Thema
+   festnagelt — Akkuwechsel, Flugmodus, Handyakku, Handyversicherung,
+   Kabelschublade. Nicht „die Versicherung", nicht „der Aufkleber".
+3. **Niemand zeigt auf etwas, das nicht passiert ist.** Volti sagte „den Lüfter
+   hast du rausgerissen", und Watti hatte ihn nie angefasst.
+4. **Kein Wort, das die Zielgruppe nicht liest.** „röhrt" — Humorregel eins, von
+   Claude selbst gebrochen.
+5. **Ein Gegenstand kann den Short klammern.** Voltis Hammer in der ersten und
+   der letzten Zeile.
+6. **Der Kaltstart trägt den Konflikt, nicht immer Wattis Irrtum.** Wer am Ende
+   recht behält, darf am Anfang nicht schon danebenliegen.
+7. **Wer etwas getan hat, macht es auch wieder gut.** Volti hat den Zettel
+   aufgehängt, also nimmt Volti ihn ab.
+
+### Die Themenzeile
+
+8. **Ein Satz mit einem Verb, das etwas tut.** „Watti schmeißt sechs Euro im
+   Monat weg." Nie ein Zustand mit Präposition — „Kampf mit", „Angst vor".
+9. **Ein Bild statt des technischen Worts.** „Wattis sieben **Wächter** verraten
+   ihn", nicht „Blocker". *„Ist szenerischer."*
+10. **Ein Schaden oder eine Umkehrung steckt drin.** „Watti installiert sieben
+    Werbeblocker" ist eine Feststellung, kein Video.
+11. **Sie nennt den, um den es geht, nicht den, der anfängt.** „Voltis Zettel
+    bringt gar nichts" — obwohl Watti den Kaltstart spricht.
+
+### Der Anfang
+
+12. **In den Belehrungsszenarien wird der Kaltstart sofort gekontert.** „Er wird
+    niemals herausfinden, wer die Beschwerde ausgedruckt hat" → „Watti, wieso
+    erhalte ich eine Beschwerde von dir per Post?"
+
+### Der Schluss
+
+13. **Er gehört der Beziehung, nicht der Sache.** Acht von neun Dialogen enden
+    auf den Brüdern; der einzige sachliche Schluss war von Claude.
+14. **Warm und böse im selben Satz.** „Ich bin umsonst **du Idiot**."
+15. **Wer um Rat fragt, bekommt einen Rat.** Die Regel „kein Format verlangt
+    eine Handlung" gilt dem **Zuschauer**, nicht dem Bruder.
+16. **Was nach dem Video passiert, muss nicht geklärt werden.**
+
+### Die Rede
+
+17. **Die Folge sagen, nicht den Mechanismus.** „desto **auffälliger** bist du",
+    nicht „desto seltener".
+18. **Zahlen sind erlaubt, wo sie zur Geschichte gehören.** Fünf von neun
+    Dialogen haben welche. Die Formsperre gegen Prozentangaben trifft das
+    Falsche: „mein Handy hält nur noch 3 Stunden bei 100%" behauptet nichts über
+    die Welt.
+19. **Jede Zahl braucht Einheit und Richtung.** „60 Watt oder 240 Watt, und mehr
+    Watt heißt schneller voll." Ohne beides rät der Zuschauer, welches Ende gut
+    ist.
+20. **Zahlen stehen als Ziffer.** Bestehende Projektregel, an einem Abend
+    zweimal gebrochen: „zweihundertvierzig" wurde als „zweiundvierzig" gelesen.
+21. **Übertreibungen ohne Zahl.** „ewig", „ein Batzen Geld". „Drei Wochen im
+    Laden" liest sich als Tatsache, nicht als Bild.
+22. **Umgangssprache heißt nicht ungrammatisch.** „Der **wird** lauter", nicht
+    „der macht lauter".
+23. **Das Substantiv statt des Pronomens.** Der häufigste Fehler überhaupt,
+    viermal in derselben Form: „der Laptop spinnt" statt „er spinnt", „das
+    Gesagte" statt „das".
+24. **Das Bild kommt aus ihrer Welt.** „Sich den Kopf zerbrechen", nicht
+    „Tabellen machen".
+25. **Eine Häufigkeit ist keine Vorschrift.** Watti hat in vier von neun
+    Dialogen das letzte Wort — in fünf hat Volti es.
+
+### Die Rollen
+
+26. **Watti hat oft in einem Punkt recht und zieht den falschen Schluss.** Er
+    ist nicht dumm, sein Schluss ist es.
+27. **Watti darf Fakt und Zitatkarte tragen**, wenn im Dialog steht, woher er es
+    weiß. **Die Quelle wandert mit der Vorgeschichte, nicht mit der Rolle.**
+28. **Der Konter kann der nächste Satz derselben Quelle sein.** „Und wieso liest
+    du dann nicht den Satz danach?"
+29. **Voltis Ausweichen braucht einen Vorrat.** „Was hat das jetzt damit zu
+    tun?" stand zweimal — schon eine Masche.
+30. **Voltis Nachgeben ist widerwillig, nie sauber.** „Ja gut, einmal im Jahr
+    halt."
+31. **Volti darf übertreiben, wenn der Dialog es selbst zurücknimmt.**
+32. **Volti ist bei Technik überlegen, im Umgang mit Menschen nicht.** Das ist
+    das Feld, auf dem er irren darf, ohne dass der Belegapparat wackelt — und es
+    macht den Kanal gesellschaftskritisch, ohne dass jemand eine Haltung
+    vorträgt.
+33. **Watti darf Volti loben.** „Das ist mein großer Bruder."
+34. **Volti darf bitten.** „Nimm den Zettel bitte wieder ab."
+35. **Wer belehrt hat, kann damit belehrt werden.** Der schärfste Konter, und er
+    kostet keine zweite Quelle.
+
+### Die Träger
+
+36. **Die Videobeschreibung trägt, was der Short nicht schafft.** Oben der
+    Titel, darunter die Suchwortzeile, dann „Für weitere Informationen rund um
+    die Thematik:" und die Quellen. Damit dürfen Themen komplex sein, und die
+    Handlung steht dort, wo der Zuschauer sie freiwillig liest.
+37. **Die Zitatkarte ist optional, die Quelle steht immer in der Beschreibung.**
+    Sie wird aus den Quellenkennungen der Szenen gebaut, nicht aus den Karten.
+38. **Die Karte kann den belasten, der spricht.** Voltis eigener Rat auf der
+    Karte, während er ihn gerade gebrochen hat.
+
+## Die Szenarien
+
+Zwölf Gesprächsformen, je vier Beispiele. Sie liegen in `daten/szenarien/`, und
+`skript-schreiben` liest sie dort — der Skill enthält sie nicht.
+
 ## Was daraus für die Regeln folgt
 
 | Regel | steht | Befund |
