@@ -570,6 +570,21 @@
           "id": "ausschliesslich-dem-zweck",
           "zitat": "bezeichnet ein System, das ausschließlich dem Zweck dient, kritische unfallbezogene Parameter und Informationen kurz vor, während und unmittelbar nach einem Aufprall aufzuzeichnen und zu speichern",
           "stuetzt": "Das „ausschließlich\" trägt die Verneinung: Das System dient diesem einen Zweck. Ohne das Wort sagt die Fundstelle nur, was aufgezeichnet wird."
+        },
+        {
+          "id": "nicht-in-der-lage-sein",
+          "zitat": "Die ereignisbezogene Datenaufzeichnung darf nicht in der Lage sein, die letzten vier Ziffern des fahrzeugunterscheidenden Teils der Fahrzeug-Identifizierungsnummer",
+          "stuetzt": "Der Speicher darf das Fahrzeug, den Eigentümer und den Halter gerade nicht identifizierbar machen."
+        },
+        {
+          "id": "ausschliesslich-unfallforschung",
+          "zitat": "den nationalen Behörden auf der Grundlage des Unionsrechts oder des nationalen Rechts im Einklang mit der Verordnung (EU) 2016/679 ausschließlich für den Zweck der Unfallforschung und ‐analyse",
+          "stuetzt": "Wer die Daten bekommt und wofür, steht in der Verordnung: Behörden, ausschließlich zur Unfallforschung."
+        },
+        {
+          "id": "daten-anonymisiert",
+          "zitat": "die von ihnen gesammelten Daten anonymisiert werden und vor Manipulation und missbräuchlicher Verwendung geschützt sind",
+          "stuetzt": "Die aufgezeichneten Daten müssen anonymisiert sein."
         }
       ]
     },
@@ -597,6 +612,11 @@
           "id": "einige-geraete-hinterlassen",
           "zitat": "Einige Geräte hinterlassen z.B. auf den Ausdrucken Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann",
           "stuetzt": "Das „Einige Geräte\" gehört dazu: Es sind nicht alle Drucker, und bei denen, die es tun, lässt es sich oft nicht abschalten."
+        },
+        {
+          "id": "yellow-dots-name",
+          "zitat": "Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann (\"Yellow Dots\")",
+          "stuetzt": "Der Name „Yellow Dots\" steht so im BSI-Text — als Klammerbegriff hinter dem Wort Wasserzeichen."
         }
       ]
     },
@@ -695,6 +715,11 @@
           "id": "handelsuebliche-werkzeuge-artikel-11",
           "zitat": "Als vom Endnutzer leicht zu entfernen gilt eine Gerätebatterie, wenn sie mit handelsüblichen Werkzeugen aus einem Produkt entnommen werden kann",
           "stuetzt": "Der Maßstab steht im verfügenden Artikel 11, nicht nur im Erwägungsgrund: handelsübliches Werkzeug."
+        },
+        {
+          "id": "in-verkehr-bringen-artikel-11",
+          "zitat": "Natürliche oder juristische Personen, die Produkte, in die Gerätebatterien eingebaut sind, in Verkehr bringen, sorgen dafür",
+          "stuetzt": "Die Pflicht trifft, wer ein Produkt in Verkehr bringt — deshalb erfasst sie kein Gerät, das schon gekauft ist."
         }
       ]
     },

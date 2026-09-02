@@ -156,7 +156,7 @@ export const akkuWechselbar2027: Short = {
       quelleId: 'eu-batterie-entnehmbar',
       belegId: 'artikel-11-gilt-ab',
       sprechtext:
-        'Also gehe ich dann wieder im Februar zur Werkstatt? Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht.',
+        'Also gehe ich dann wieder im Februar zur Werkstatt? Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht, das ist ja schon verkauft.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -167,9 +167,22 @@ export const akkuWechselbar2027: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht.',
+          text: 'Das gilt für Handys ab Februar 2027, du Pfosten.',
           quelleId: 'eu-batterie-entnehmbar',
           belegId: 'artikel-11-gilt-ab',
+        },
+        {
+          /*
+           * **Der Umkehrschluss haengt an Artikel 11 Absatz 1**, nicht am
+           * Geltungsbeginn: Die Pflicht trifft, wer ein Produkt *in Verkehr
+           * bringt*. Ein Datum allein schliesst Bestandsgeraete nicht aus —
+           * dasselbe Bauteil wie beim Ersatzteil-Short vom 01.09.
+           */
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Und für deins gilt es gar nicht, das ist ja schon verkauft.',
+          quelleId: 'eu-batterie-entnehmbar',
+          belegId: 'in-verkehr-bringen-artikel-11',
         },
       ],
       buehne: {
@@ -217,7 +230,7 @@ export const akkuWechselbar2027: Short = {
     },
     instagram: {
       titel: 'Wattis Akku frisst sein Geld',
-      beschreibung: 'Akku tauschen kostet in der Werkstatt. Ab 2027 geht er selbst raus.',
+      beschreibung: 'Akku tauschen kostet in der Werkstatt. Ab 2027 reicht normales Werkzeug.',
       hashtags: ['#akku', '#reparatur', '#handy', '#ganzakkurat'],
     },
     youtube: {

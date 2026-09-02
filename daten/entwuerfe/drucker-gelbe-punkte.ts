@@ -100,22 +100,22 @@ export const druckerGelbePunkte: Short = {
        * 7,1 und 5,2 Sekunden.
        */
       sprechtext:
-        'Wusstest du eigentlich, dass Farblaserdrucker ein Muster winziger gelber Punkte auf jede Seite setzen? Watt? Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen.',
+        'Wusstest du eigentlich, dass einige Drucker ein Muster winziger gelber Punkte auf die Seite setzen? Watt? Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen. Yellow Dots heißt das.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Wusstest du eigentlich, dass Farblaserdrucker ein Muster winziger gelber Punkte auf jede Seite setzen?',
+          text: 'Wusstest du eigentlich, dass einige Drucker ein Muster winziger gelber Punkte auf die Seite setzen?',
           quelleId: 'bsi-yellow-dots',
-          belegId: 'wasserzeichen-mit-denen-ein',
+          belegId: 'einige-geraete-hinterlassen',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Watt?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen.',
+          text: 'Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen. Yellow Dots heißt das.',
           quelleId: 'bsi-yellow-dots',
-          belegId: 'wasserzeichen-mit-denen-ein',
+          belegId: 'yellow-dots-name',
         },
       ],
       buehne: {

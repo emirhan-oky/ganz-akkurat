@@ -171,20 +171,27 @@ export const autoEreignisspeicher: Short = {
       art: 'text',
       position: 'kipppunkt',
       quelleId: 'eu-ereignisdatenspeicher',
-      belegId: 'ausschliesslich-dem-zweck',
+      belegId: 'ausschliesslich-unfallforschung',
       sprechtext:
-        'Also bin ich nicht schuld? Die Verordnung sagt nur, dass aufgezeichnet wird und in welchem Zeitraum. Und wer kriegt das zu sehen? Steht da nicht.',
+        'Also bin ich nicht schuld? Das steht da nicht drin. Und wer kriegt das überhaupt zu sehen? Die Behörden, ausschließlich für Unfallforschung. Und anonymisiert.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Also bin ich nicht schuld?' },
+        { sprecher: 'nachleser', zug: 'einschraenken', text: 'Das steht da nicht drin.' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wer kriegt das überhaupt zu sehen?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Die Verordnung sagt nur, dass aufgezeichnet wird und in welchem Zeitraum.',
+          text: 'Die Behörden, ausschließlich für Unfallforschung.',
           quelleId: 'eu-ereignisdatenspeicher',
-          belegId: 'ausschliesslich-dem-zweck',
+          belegId: 'ausschliesslich-unfallforschung',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wer kriegt das zu sehen?' },
-        { sprecher: 'nachleser', zug: 'einschraenken', text: 'Steht da nicht.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Und anonymisiert.',
+          quelleId: 'eu-ereignisdatenspeicher',
+          belegId: 'daten-anonymisiert',
+        },
       ],
       buehne: {
         art: 'figur',
