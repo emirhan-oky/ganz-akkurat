@@ -374,12 +374,13 @@ export const ZU_BREIT_MIT_SYMBOL = new Set(['staunen', 'achselzucken', 'hochscha
 /**
  * Wie lange der Kaltstart hoechstens spricht.
  *
- * **Vier Sekunden und nicht die 3,5 des Aufschlags.** Die Begruendung steht am
+ * **5,2 Sekunden und nicht die 3,5 des Aufschlags.** Die Begruendung steht am
  * Feld `satz` in `src/typen.ts`: Der Aufschlag ist eine Szene unter sechs, der
- * Kaltstart ist der ganze Hook. Die Zahl ist eine Entscheidung vom 02.09.2026
- * und keine Messung — sie faellt, sobald drei Kaltstarts vertont sind.
+ * Kaltstart ist der ganze Hook. Die Zahl ist keine Messung, sondern der Rand
+ * der zehn vorliegenden Kaltstarts — der laengste hat 63 Zeichen. Sie faellt,
+ * sobald drei davon vertont sind.
  */
-const KALTSTART_MAX_SEK = 4.0;
+const KALTSTART_MAX_SEK = 5.2;
 
 export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
   const befunde: Befund[] = [];

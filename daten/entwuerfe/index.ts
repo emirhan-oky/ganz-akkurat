@@ -3,6 +3,7 @@ import { raumstationAlteRechner } from './raumstation-alte-rechner';
 import { ersatzteilFreischalten } from './ersatzteil-freischalten';
 import { erstesLaden } from './erstes-laden';
 import { passwortWechseln } from './passwort-wechseln';
+import { garantiesiegelNichtig } from './garantiesiegel-nichtig';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -54,4 +55,4 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [];
+export const GEPARKT: Short[] = [garantiesiegelNichtig];

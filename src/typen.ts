@@ -413,6 +413,7 @@ export const Zug = z.enum([
   'beantworten',
   'richtigstellen',
   'gegenbeispiel',
+  'erinnern',
   'einschraenken',
   'widersprechen',
   'bitten',
@@ -506,6 +507,34 @@ export const ZUGARTEN: Record<
     behauptet: true,
     schliesst: ['konter', 'antwort'],
     aufrichtung: 1,
+  },
+  /**
+   * **Der Zug, der Szenario 4 ueberhaupt moeglich macht.**
+   *
+   * Watti kontert erfolgreich, und sein Konter ist fast nie ein Fakt aus einer
+   * Behoerdenquelle — es ist etwas aus ihrer Wohnung: „Sie hat einen runden
+   * Stecker, und du hast letzte Woche danach gefragt." „Du hast dir wochenlang
+   * den Kopf zerbrochen, bevor du ihn gekauft hast."
+   *
+   * Als `gegenbeispiel` eingetragen war so eine Zeile belegpflichtig, und es
+   * gibt keine Quelle fuer Voltis Fahrradlampe. Als `widersprechen` war sie
+   * falsch beschrieben: Er bestreitet nicht, er haelt etwas dagegen.
+   *
+   * **Er behauptet nichts ueber die Welt**, sondern etwas ueber die beiden.
+   * Die Trennung ist dieselbe wie zwischen Beleg und Reaktion, nur auf der
+   * Zeitachse: Was im erzaehlten Fall passiert ist, braucht kein Zitat.
+   */
+  erinnern: {
+    name: 'Erinnern',
+    tut: 'Haelt etwas aus ihrem gemeinsamen Leben dagegen. Das Gegenstueck zum Gegenbeispiel, ohne Quelle.',
+    achtung:
+      'Nur, was im Short selbst oder in ihrer Wohnung steht — nie eine Zahl, nie ein Datum, nie etwas ueber die Welt. Sonst ist es ein Gegenbeispiel und braucht einen Beleg.',
+    beispiele: [
+      'Du hast dir wochenlang den Kopf zerbrochen, bevor du ihn gekauft hast.',
+      'Du hast letzte Woche danach gefragt.',
+    ],
+    behauptet: false,
+    schliesst: ['konter'],
   },
   gegenbeispiel: {
     name: 'Gegenbeispiel',
@@ -776,7 +805,18 @@ export const MACHARTEN = [
   {
     schluessel: 'gestaendnis',
     name: 'Gestaendnis',
-    wer: 'zeiger',
+    /*
+     * **Geteilt, und zwar wegen einer einzigen Zeile.** Es stand am
+     * 02.09.2026 in Wattis Fach, wo es hingehoert — er gesteht in fast jedem
+     * Dialog. Dann stand in `garantiesiegel-nichtig` Voltis Schlusssatz: „Das
+     * kann nicht passieren, weil ich sie ja kaputt gemacht habe." Der
+     * belehrende Bruder gesteht, nachdem er zwoelf Zeilen lang recht hatte,
+     * und genau das ist die Pointe.
+     *
+     * Bei Volti ist es die Ausnahme und gehoert an den Schluss. Bei Watti ist
+     * es der Normalfall.
+     */
+    wer: 'beide',
     tut: 'Gibt zu, es selbst falsch zu machen. Der Zuschauer erkennt sich wieder, ohne dass ihm jemand etwas vorwirft.',
     achtung:
       'Im Moment gesprochen, nicht rueckblickend. „Ich mache das seit zehn Jahren." ist ein Protokoll; „Wie? Ich mache das seit zehn Jahren." ist der Augenblick, in dem es auffaellt.',
@@ -1100,28 +1140,25 @@ export const Redeanteil = z
       });
     }
     /*
-     * **Die Wache ueber den zwei Achsen.** Eine Machart beschreibt, wie eine
-     * Reaktion witzig ist; ein behauptender Zug traegt einen Fakt.
-     * `richtigstellen` und `gestaendnis` schliessen einander aus.
+     * **Hier stand die Wache ueber den zwei Achsen, und sie ist am 02.09.2026
+     * gefallen.** Sie lehnte jede Machart an einem behauptenden Zug ab, mit
+     * der Begruendung: Eine Machart beschreibt, wie eine *Reaktion* witzig
+     * ist, ein behauptender Zug traegt einen Fakt — `richtigstellen` und
+     * `gestaendnis` schliessen einander aus.
      *
-     * Ohne sie driften die beiden Felder auseinander wie `rede` und
-     * `sprechtext` ohne ihre Gleichheitswache — jedes fuer sich gueltig, und
-     * zusammen sagen sie zwei verschiedene Dinge ueber dieselbe Zeile.
+     * Das erste echte Material hat sie widerlegt. In Emirhans Dialog steht:
+     * „Ja was soll ich denn machen, die Garantie ist doch futsch." Das ist ein
+     * `beantworten`, also ein behauptender Zug — und zugleich Wattis falscher
+     * Schluss, die Zeile, auf der der ganze Short steht. Der Zug sagt, was sie
+     * dem anderen antut; die Machart, wie sie witzig ist. **Beides gilt
+     * gleichzeitig, und genau das war die Begruendung fuer die zweite Achse.**
+     *
+     * Was die Wache wirklich schuetzen sollte, steht direkt darueber und
+     * bleibt: Eine Zeile mit Quelle traegt keine Machart aus Wattis Fach. Der
+     * Fall `richtigstellen` + `gestaendnis` faellt darunter, sobald die
+     * Richtigstellung belegt ist — und eine unbelegte Richtigstellung auf
+     * Zuspitzung oder Kipppunkt faengt die Belegpflicht nach Position.
      */
-    if (
-      r.zug !== undefined &&
-      r.machart !== undefined &&
-      machartFach(r.machart) === 'zeiger' &&
-      ZUGARTEN[r.zug].behauptet
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message:
-          `„${ZUGARTEN[r.zug].name}" behauptet etwas über die Welt und trägt deshalb keine ` +
-          'Machart. Die Machart gehört der Reaktion, nicht dem Beleg.',
-        path: ['machart'],
-      });
-    }
     if ((r.quelleId === undefined) !== (r.belegId === undefined)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -3018,13 +3055,20 @@ const Kaltstart = z
     /**
      * Was gesprochen wird — und Wort fuer Wort im Bild steht.
      *
-     * **Hoechstens 52 Zeichen, also 4,0 Sekunden bei `ZEICHEN_PRO_SEKUNDE`.**
+     * **Hoechstens 68 Zeichen, also 5,2 Sekunden bei `ZEICHEN_PRO_SEKUNDE`.**
      *
-     * Hier standen bis zum 02.09.2026 nachmittags 45 Zeichen — die 3,5
+     * Die Zahl ist zweimal an echtem Material gewandert, und beide Male nach
+     * oben. Hier standen bis zum 02.09.2026 nachmittags 45 Zeichen — die 3,5
      * Sekunden des Aufschlags, unbesehen nach vorn gewandert. Emirhans erster
-     * selbstgeschriebener Kaltstart hat sie um **einen Zehntelsekunde**
-     * gerissen, und das war das erste echte Material, das die Grenze je
-     * gesehen hat.
+     * selbstgeschriebener Kaltstart hat sie um **eine Zehntelsekunde**
+     * gerissen; daraus wurden 52.
+     *
+     * Am Abend desselben Tages lagen **zehn** Kaltstarts vor, seine neun und
+     * einer aus dem Gegentest. Ihre Laenge geht bis 63 Zeichen — „Gut, dass
+     * ich meine Handyversicherung habe. Die zahlt das jetzt." —, und **sechs
+     * von zehn** waren ueber der Grenze. Eine Grenze, die zwei Drittel des
+     * vorhandenen Materials ablehnt, beschreibt nicht das Material, sondern
+     * die Vermutung, die vor ihm da war.
      *
      * Die 3,5 Sekunden gelten dem Aufschlag, weil er **eine Szene unter
      * sechs** ist und kein Monolog werden darf. Der Kaltstart ist etwas
@@ -3038,7 +3082,7 @@ const Kaltstart = z
      * dieses Modul importiert und nicht umgekehrt; die Wache gegen das
      * Auseinanderlaufen steht in `src/pruefung.ts`, wo beide vorliegen.
      */
-    satz: z.string().min(6).max(52),
+    satz: z.string().min(6).max(68),
     /** Die Buehne davor — eine Figur, ein Symbol. */
     buehne: Buehnenbild,
     /**
@@ -3583,7 +3627,24 @@ export const Short = z.object({
      * Darstellung darueber, ob ein Satz belegt sein musste.
      */
     short.szenen.forEach((szene, i) => {
-      const brauchtQuelle = szene.position === 'zuspitzung' || szene.position === 'kipppunkt';
+      const anPosition = szene.position === 'zuspitzung' || szene.position === 'kipppunkt';
+      /*
+       * **Und mindestens eine Zeile behauptet etwas.** Die Verengung ist vom
+       * 02.09.2026 und stammt aus Szenario 4 und 5: Wattis erfolgreicher
+       * Konter und Voltis Ertapptwerden sitzen auf dem Kipppunkt, und beide
+       * bestehen aus Saetzen ueber die beiden Brueder — die Fahrradlampe, der
+       * Fernseher, den Volti selbst ausgesucht hat. Es gibt keine Quelle
+       * dafuer, und es soll keine geben.
+       *
+       * **Die Belegpflicht wackelt dabei nicht, sie wandert.** Sie haengt
+       * jetzt an der Behauptung statt an der Position — dieselbe Bewegung wie
+       * am 17.08.2026, als sie von der Quelle auf die Fundstelle wanderte. Wo
+       * ein behauptender Zug steht, ist sie unveraendert hart; wo nur
+       * `erinnern`, `nachhaken` und `einlenken` stehen, hat sie nichts zu
+       * pruefen.
+       */
+      const behauptetEtwas = ('rede' in szene ? (szene.rede ?? []) : []).some((r) => ZUGARTEN[r.zug].behauptet);
+      const brauchtQuelle = anPosition && behauptetEtwas;
       const hatQuelle = 'quelleId' in szene && szene.quelleId !== undefined;
       if (brauchtQuelle && !hatQuelle) {
         ctx.addIssue({
