@@ -1,0 +1,43 @@
+# powerbank-wattstunden
+
+**Format** · `gibtswirklich` — Das gibt es wirklich. Staunen, das erzaehlt man weiter.  
+**Sachgebiet** · `laden`  
+**Wer eröffnet** · Volti
+
+## Wattis Lage
+
+Watti packt für den Flug. Drei Powerbanks liegen im aufgegebenen Koffer, damit das Handgepäck leicht bleibt.
+
+## Sein Fehler
+
+Er hält das für die vorsichtige Variante. Es ist genau die verbotene.
+
+## Was Volti nachgelesen hat
+
+Ersatzbatterien und Powerbanks dürfen nur ins Handgepäck, und höchstens zwei pro Person. Entscheidend ist nicht die Größe, sondern wo die Batterie liegt.
+
+> Lose Lithiumersatzbatterien (power banks) sind im aufgegebenen Gepäck verboten und dürfen nur im Handgepäck mitgenommen werden.
+>
+> — Luftfahrt-Bundesamt, `lba-lithiumbatterien#lose-lithiumersatzbatterien-power-ba`
+
+> beschränkt sich jedoch die Mitnahme von Ersatzbatterien auf maximal zwei Ersatzbatterien pro Person
+>
+> — Luftfahrt-Bundesamt, `lba-lithiumbatterien#beschra-nkt-sich-jedoch`
+
+> Spare batteries and power banks, however, always have to be transported in your carry-on baggage
+>
+> — EASA, `easa-lithium-handgepaeck#spare-batteries-and-power`
+
+## Wo es kippt
+
+Sein sicherster Platz ist der einzige verbotene. Einen Brand im Frachtraum sieht niemand.
+
+## Die Falle
+
+Die 100 Wh sind **keine** harte Obergrenze: darüber geht es bis 160 Wh mit Genehmigung der Fluggesellschaft. Und die Zwei-Stück-Grenze gilt für Batterien über 100 Wh, nicht für jede Powerbank.
+
+---
+
+## Dialog
+
+*(hier schreibt Emirhan)*
