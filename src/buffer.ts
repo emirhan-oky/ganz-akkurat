@@ -129,6 +129,20 @@ const textFuerDienst = (short: Short, dienst: string) => {
 const TRENNSTRICH = '———';
 
 /**
+ * Die Ueberschrift ueber dem Quellenblock.
+ *
+ * Sie hiess bis zum 02.09.2026 „Quellen:", und das war eine Fussnote. Emirhans
+ * Fassung ist eine **Einladung**: Manche Themen haben im Short keine Loesung,
+ * die in eine Zeile passt — der Produktpass, die Schaltsekunde, das
+ * Reparaturrecht. Die Handlung steht dann dort, wo der Zuschauer sie
+ * freiwillig liest, statt dass sie einer Figur in den Mund gelegt wird.
+ *
+ * Das ist der Grund, warum ein Format nie eine Handlung verlangt und der Kanal
+ * trotzdem hilft.
+ */
+const QUELLENZEILE = 'Für weitere Informationen rund um die Thematik:';
+
+/**
  * Dienste, die aufeinanderfolgende Zeilenumbrueche zusammenfalten.
  *
  * TikTok zeigt die Bildunterschrift ohne Leerzeilen an: Aus Titel, Absatz,
@@ -179,6 +193,15 @@ const LEERZEILE_HART = '\u2800';
  * Nebenwirkung, und eine erwuenschte: Instagram und TikTok tragen damit
  * ueberhaupt zum ersten Mal Quellenangaben. Vorher hingen die nur bei
  * YouTube.
+ *
+ * ## Der Zwiegespraech-Nachtrag vom 02.09.2026
+ *
+ * **Die Quellen kommen aus den Szenen *und* den Redeanteilen.** Seit dem
+ * Umbau auf zwei Stimmen haengt eine `quelleId` nicht mehr nur an der Szene,
+ * sondern an der einzelnen Zeile — und die Zitatkarte ist optional. Wer nur
+ * die Szenen einsammelt, verliert genau die Quellen der Shorts, die ohne
+ * Karte auskommen. **Die Quelle steht immer unter dem Video, auch wenn sie im
+ * Video nie im Bild war.**
  */
 export const beitragstext = (
   short: Short,
@@ -192,7 +215,14 @@ export const beitragstext = (
    * Reihenfolge der Szenen, ohne Doppelte: So steht die Quelle zur ersten
    * Aussage auch als erste unter dem Video.
    */
-  const benutzte = [...new Set(short.szenen.flatMap((s) => ('quelleId' in s && s.quelleId ? [s.quelleId] : [])))];
+  const benutzte = [
+    ...new Set(
+      short.szenen.flatMap((s) => [
+        ...('quelleId' in s && s.quelleId ? [s.quelleId] : []),
+        ...('rede' in s && s.rede ? s.rede.flatMap((r) => (r.quelleId ? [r.quelleId] : [])) : []),
+      ]),
+    ),
+  ];
 
   const zeilen = benutzte
     .map((id) => quellen.find((q) => q.id === id))
@@ -224,7 +254,7 @@ export const beitragstext = (
    */
   if (texte.beschreibung.trim()) bloecke.push(texte.beschreibung.trim());
 
-  if (zeilen.length > 0) bloecke.push(`${TRENNSTRICH}\nQuellen:\n${zeilen.join('\n')}`);
+  if (zeilen.length > 0) bloecke.push(`${TRENNSTRICH}\n${QUELLENZEILE}\n${zeilen.join('\n')}`);
   bloecke.push(texte.hashtags.join(' '));
 
   const trenner = FALTET_LEERZEILEN.includes(dienst.toLowerCase())

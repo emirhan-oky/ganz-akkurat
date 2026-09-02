@@ -3600,14 +3600,31 @@ export const Short = z.object({
 
     const belegdecke = new Set(short.quellenIds);
     short.szenen.forEach((szene, i) => {
-      if (!('quelleId' in szene) || szene.quelleId === undefined) return;
-      if (!belegdecke.has(szene.quelleId)) {
+      if ('quelleId' in szene && szene.quelleId !== undefined && !belegdecke.has(szene.quelleId)) {
         ctx.addIssue({
           code: 'custom',
           path: ['szenen', i, 'quelleId'],
           message: `Quelle „${szene.quelleId}" steht nicht in quellenIds dieses Shorts.`,
         });
       }
+      /*
+       * **Auch die Zeile, nicht nur die Szene.** Seit dem Umbau auf zwei
+       * Stimmen haengt eine `quelleId` am einzelnen Redeanteil. `beitragstext`
+       * baut den Quellenblock daraus — und ein `find` auf einer Kennung, die
+       * nirgends steht, liefert `undefined` und wird stillschweigend
+       * herausgefiltert. Die Quelle waere im Video belegt und stuende unter dem
+       * Video nicht.
+       */
+      if (!('rede' in szene) || szene.rede === undefined) return;
+      szene.rede.forEach((r, ri) => {
+        if (r.quelleId !== undefined && !belegdecke.has(r.quelleId)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['szenen', i, 'rede', ri, 'quelleId'],
+            message: `Quelle „${r.quelleId}" steht nicht in quellenIds dieses Shorts.`,
+          });
+        }
+      });
     });
 
     /* ── Wer eine Quelle nennt, nennt das Zitat ──────────────────── */
