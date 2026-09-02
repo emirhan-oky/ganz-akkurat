@@ -22,7 +22,7 @@ export const fernseherHoertZu: Short = {
   sachgebiet: 'bildschirm',
   bauform: 'wechselrede',
   arbeitstitel: 'Wattis Fernseher hört zu gut zu',
-  weitererzaehlt: 'das Mikrofon ist ab Werk drin',
+  weitererzaehlt: 'an einen Cloud-Server',
   suchbegriff: 'Fernseher Mikrofon',
   kaltstart: {
     art: 'stolzerfehler',
@@ -60,7 +60,7 @@ export const fernseherHoertZu: Short = {
       belegId: 'diese-ko-nnen-sprachbefehle',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Und dir ist klar, dass der dabei zuhört? Soll er doch zuhören, ich sage ja nichts Verbotenes im Wohnzimmer. So ein Gerät kann deine Sprachbefehle aufzeichnen.',
+        'Und dir ist klar, dass der dabei zuhört? Soll er doch zuhören, ich sage ja nichts Verbotenes im Wohnzimmer. In der Fernbedienung sitzt ein Mikrofon, und das kann Sprachbefehle aufzeichnen.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und dir ist klar, dass der dabei zuhört?' },
         {
@@ -72,7 +72,7 @@ export const fernseherHoertZu: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'So ein Gerät kann deine Sprachbefehle aufzeichnen.',
+          text: 'In der Fernbedienung sitzt ein Mikrofon, und das kann Sprachbefehle aufzeichnen.',
           quelleId: 'bsi-smarttv-sprachbefehle',
           belegId: 'diese-ko-nnen-sprachbefehle',
         },
@@ -91,7 +91,7 @@ export const fernseherHoertZu: Short = {
       quelleId: 'bsi-smarttv-sprachbefehle',
       belegId: 'an-einen-cloud-server',
       sprechtext:
-        'Der schickt das Gesagte also auch noch weg? An einen Cloud-Server, genau das steht beim BSI.',
+        'Der schickt das Gesagte also auch noch weg? Die können dann an einen Cloud-Server weitergeleitet werden.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -102,7 +102,7 @@ export const fernseherHoertZu: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'An einen Cloud-Server, genau das steht beim BSI.',
+          text: 'Die können dann an einen Cloud-Server weitergeleitet werden.',
           quelleId: 'bsi-smarttv-sprachbefehle',
           belegId: 'an-einen-cloud-server',
         },
@@ -127,12 +127,13 @@ export const fernseherHoertZu: Short = {
       quelleId: 'bsi-smarttv-sprachbefehle',
       belegId: 'ist-bereits-eine-webcam',
       sprechtext:
-        'Und das Mikrofon ist ab Werk drin, du Idiot. Moment mal. Wer hat den Fernseher denn ausgesucht? Was hat das jetzt damit zu tun? Du hast dir wochenlang den Kopf zerbrochen, bevor du ihn gekauft hast.',
+        'Und die Kamera? In manchen Fernsehern ist die schon mit Mikrofon eingebaut, du Idiot. Moment mal. Wer hat den Fernseher denn ausgesucht? Was hat das jetzt damit zu tun? Du hast dir wochenlang den Kopf zerbrochen, bevor du ihn gekauft hast.',
       rede: [
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und die Kamera?' },
         {
           sprecher: 'nachleser',
-          zug: 'nachlegen',
-          text: 'Und das Mikrofon ist ab Werk drin, du Idiot.',
+          zug: 'beantworten',
+          text: 'In manchen Fernsehern ist die schon mit Mikrofon eingebaut, du Idiot.',
           quelleId: 'bsi-smarttv-sprachbefehle',
           belegId: 'ist-bereits-eine-webcam',
         },
@@ -160,7 +161,7 @@ export const fernseherHoertZu: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Das Mikrofon war schon drin, als er ihn ausgesucht hat.',
+      satz: 'In manchen Fernsehern ist die Kamera schon eingebaut.',
       sprechtext: 'Ja gut. Das war ich. Und jetzt? Jetzt sagen wir beide nichts mehr im Wohnzimmer.',
       rede: [
         { sprecher: 'nachleser', zug: 'einlenken', text: 'Ja gut. Das war ich.' },
@@ -194,7 +195,7 @@ export const fernseherHoertZu: Short = {
     },
     instagram: {
       titel: 'Wattis Fernseher hört zu gut zu',
-      beschreibung: 'Der Fernseher hat ein Mikrofon ab Werk. Und schickt weiter.',
+      beschreibung: 'Fernseher mit Mikrofon in der Fernbedienung. Und der Weg zum Server.',
       hashtags: ['#smarttv', '#fernseher', '#privatsphaere', '#ganzakkurat'],
     },
     youtube: {

@@ -22,7 +22,7 @@ export const zettelImTreppenhaus: Short = {
   sachgebiet: 'netz',
   bauform: 'zitatkarte',
   arbeitstitel: 'Voltis Zettel bringt gar nichts',
-  weitererzaehlt: 'garantiert wird dir da gar nichts',
+  weitererzaehlt: 'Auf dem Band hat keiner Vorrang',
   suchbegriff: 'WLAN Nachbarn',
   kaltstart: {
     art: 'beschwerde',
@@ -51,8 +51,6 @@ export const zettelImTreppenhaus: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
-      belegId: 'die-bundesnetzagentur-u-bernimmt',
       sprechtext:
         'Den, auf dem steht, die Nachbarn sollen ihr WLAN runterdrehen. Das war ich, ja. Abends geht bei uns hier nichts mehr, und das nervt.',
       rede: [
@@ -84,15 +82,23 @@ export const zettelImTreppenhaus: Short = {
       belegId: 'es-besteht-kein-schutz',
       herausgeber: 'Bundesnetzagentur',
       sprechtext:
-        'Und du bist der, der mir das mit dem Funk erklärt hat. Weil es stimmt. Auf dem Band hat keiner Vorrang, und garantiert wird dir da gar nichts.',
+        'Und du bist der, der mir das mit dem Funk erklärt hat. Weil es stimmt. Auf dem Band hat keiner Vorrang. Und wenn die Nachbarn stören? Eine Mindestqualität garantiert die Bundesnetzagentur da auch nicht.',
       rede: [
         { sprecher: 'zeiger', zug: 'erinnern', text: 'Und du bist der, der mir das mit dem Funk erklärt hat.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Weil es stimmt. Auf dem Band hat keiner Vorrang, und garantiert wird dir da gar nichts.',
+          text: 'Weil es stimmt. Auf dem Band hat keiner Vorrang.',
           quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
           belegId: 'es-besteht-kein-schutz',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wenn die Nachbarn stören?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Eine Mindestqualität garantiert die Bundesnetzagentur da auch nicht.',
+          quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+          belegId: 'die-bundesnetzagentur-u-bernimmt',
         },
       ],
       buehne: {

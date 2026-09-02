@@ -4,6 +4,7 @@ import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 import { laufPruefen,
+  shortPruefen,
   ZU_BREIT_IM_WORTWECHSEL,
   ZU_BREIT_MIT_SYMBOL,
 } from '../src/pruefung';
@@ -151,6 +152,27 @@ for (const befund of laufPruefen(WOCHENLAUF, quellenliste).befunde) {
   } else {
     hinweise++;
     console.warn(`· Hinweis · ${befund.shortId} · [${befund.regel}] ${befund.text}`);
+  }
+}
+
+/*
+ * **Die geparkten Entwuerfe laufen auch durch die Regeln — als Hinweis.**
+ *
+ * Bis zum 02.09.2026 sah `npm run pruefen` sie nur im Schema. Das war genau
+ * die Luecke, die diese Datei sonst schliesst: Zehn fertige Entwuerfe lagen
+ * in `GEPARKT`, `npm run pruefen` war gruen, und `shortPruefen` haette 91
+ * Befunde gemeldet — darunter sechs ungedeckte Saetze. **Eine Pruefung, die
+ * den Ordner nicht ansieht, in dem geschrieben wird, ist genau dort still, wo
+ * sie gebraucht wird.**
+ *
+ * Sie zaehlen nicht als Fehler, sonst waere die Vorabpruefung dauerhaft rot
+ * und niemand laese sie mehr. Aber sie stehen da.
+ */
+for (const short of GEPARKT) {
+  for (const befund of shortPruefen(short, quellenliste)) {
+    hinweise++;
+    const marke = befund.stufe === 'fehler' ? '✕ geparkt' : '· geparkt';
+    console.warn(`${marke} · ${short.id} · [${befund.regel}] ${befund.text}`);
   }
 }
 

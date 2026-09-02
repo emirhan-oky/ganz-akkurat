@@ -2110,6 +2110,17 @@ const STIMMANTEIL_MAX = 2 / 3;
           const andere = mitZug[offen.von]!.sprecher !== anteil.sprecher;
           if (andere && art.schliesst.includes(offen.art)) {
             offen = undefined;
+          } else if (andere && anteil.zug === 'abbiegen') {
+            /*
+             * **Wer ausweicht, geht darauf ein — er antwortet nur nicht.**
+             * `abbiegen` ist der Zug fuer „Jetzt komm mir nicht mit der
+             * Lampe.", und in `kabelschublade` ist genau das die Stelle, an
+             * der Volti verliert. Als unerfuellte Antwortpflicht gemeldet
+             * bestraft ihn dieselbe Zeile zweimal: `abbiegen` ist ohnehin auf
+             * einen je Short gedeckelt, und dieser Deckel ist die richtige
+             * Wache dafuer.
+             */
+            offen = undefined;
           } else if (andere && art.verlangt !== undefined) {
             /*
              * **Die Gegenfrage geht darauf ein.** Vierte Vorkehrung, seit dem

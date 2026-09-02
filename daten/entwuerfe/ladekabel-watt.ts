@@ -23,7 +23,7 @@ export const ladekabelWatt: Short = {
   sachgebiet: 'laden',
   bauform: 'wechselrede',
   arbeitstitel: 'Auf Wattis Kabel steht die Antwort',
-  weitererzaehlt: 'mehr Watt heißt schneller voll',
+  weitererzaehlt: 'was das Kabel durchlässt',
   suchbegriff: 'Ladekabel Watt',
   kaltstart: {
     art: 'stolzerfehler',
@@ -37,9 +37,9 @@ export const ladekabelWatt: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Was hat dich das Kabel denn gekostet? Egal was es gekostet hat, es lädt doppelt so schnell wie mein altes.',
+        'Was hat dich das Ladekabel denn gekostet? Egal was es gekostet hat, es lädt doppelt so schnell wie mein altes.',
       rede: [
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was hat dich das Kabel denn gekostet?' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was hat dich das Ladekabel denn gekostet?' },
         {
           sprecher: 'zeiger',
           zug: 'beantworten',
@@ -61,7 +61,7 @@ export const ladekabelWatt: Short = {
       belegId: 'the-policy-now-extends',
       herausgeber: 'USB Implementers Forum',
       sprechtext:
-        'Und du glaubst, das liegt am Preis? Klar, teuer ist besser, das weiß doch jedes Kind. Auf jedem dieser Kabel steht drauf, wie viel Leistung es kann.',
+        'Und du glaubst, das liegt am Preis? Klar, teuer ist besser, das weiß doch jedes Kind. Wer das USB-Logo draufdrucken will, muss die Leistung mit draufdrucken.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und du glaubst, das liegt am Preis?' },
         {
@@ -73,7 +73,7 @@ export const ladekabelWatt: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Auf jedem dieser Kabel steht drauf, wie viel Leistung es kann.',
+          text: 'Wer das USB-Logo draufdrucken will, muss die Leistung mit draufdrucken.',
           quelleId: 'usbif-kabel-kennzeichnung',
           belegId: 'the-policy-now-extends',
         },
@@ -92,13 +92,13 @@ export const ladekabelWatt: Short = {
       quelleId: 'usbif-kabel-kennzeichnung',
       belegId: 'must-be-labelled-with',
       sprechtext:
-        'Auf meinem steht was drauf? Da stehen 60 Watt oder 240 Watt, und mehr Watt heißt schneller voll.',
+        'Auf meinem steht was drauf? Da stehen 60 Watt oder 240 Watt, und das ist, was das Kabel durchlässt.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Auf meinem steht was drauf?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Da stehen 60 Watt oder 240 Watt, und mehr Watt heißt schneller voll.',
+          text: 'Da stehen 60 Watt oder 240 Watt, und das ist, was das Kabel durchlässt.',
           quelleId: 'usbif-kabel-kennzeichnung',
           belegId: 'must-be-labelled-with',
         },
@@ -118,18 +118,27 @@ export const ladekabelWatt: Short = {
        * Satz „Ja gut, deins ist wirklich das schnelle." ist widerwilliges
        * Nachgeben, kein Einsehen (Befund 30).
        */
-      art: 'text',
+      /*
+       * **Die Zahl steht im Bild, weil sie im Sprechtext steht.** `zahlImBild`
+       * verlangt fuer jede technische Angabe eine `zahl`-Szene, und hier ist
+       * sie zugleich der Kipppunkt: Volti liest nach, und die Zahl auf dem
+       * Kabel gibt Watti recht.
+       */
+      art: 'zahl',
       position: 'kipppunkt',
+      wert: '240',
+      einheit: 'Watt',
+      bedeutung: 'so viel lässt Wattis Kabel durch',
       quelleId: 'usbif-kabel-kennzeichnung',
       belegId: 'must-be-labelled-with',
       sprechtext:
-        'Und was steht dann auf meinem? Guck ich nach. 240. Ja gut, deins ist wirklich das schnelle. Sag ich doch, teuer ist besser.',
+        'Und was steht dann auf meinem? Guck ich nach. 240. Ja gut, deins lässt wirklich mehr durch. Sag ich doch, teuer ist besser.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und was steht dann auf meinem?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Guck ich nach. 240. Ja gut, deins ist wirklich das schnelle.',
+          text: 'Guck ich nach. 240. Ja gut, deins lässt wirklich mehr durch.',
           quelleId: 'usbif-kabel-kennzeichnung',
           belegId: 'must-be-labelled-with',
         },
@@ -152,13 +161,13 @@ export const ladekabelWatt: Short = {
       art: 'schluss',
       position: 'nachschlag',
       satz: 'Die Zahl steht auf dem Kabel, nicht auf dem Preisschild.',
-      sprechtext: 'Teuer war Zufall, die Zahl war der Grund du Idiot. Meine Zahl, mein Kabel, mein Sieg.',
+      sprechtext: 'Teuer war Zufall, die Zahl steht drauf du Idiot. Meine Zahl, mein Kabel, mein Sieg.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
           machart: 'parallelbau',
-          text: 'Teuer war Zufall, die Zahl war der Grund du Idiot.',
+          text: 'Teuer war Zufall, die Zahl steht drauf du Idiot.',
         },
         { sprecher: 'zeiger', zug: 'umdeuten', machart: 'umdeutung', text: 'Meine Zahl, mein Kabel, mein Sieg.' },
       ],
@@ -179,16 +188,16 @@ export const ladekabelWatt: Short = {
   texte: {
     tiktok: {
       titel: 'Auf Wattis Kabel steht die Antwort',
-      beschreibung: 'Ladekabel und Watt: Die Zahl auf dem Stecker sagt, wie schnell es lädt.',
-      hashtags: ['#ladekabel', '#usbc', '#technik', '#ganzakkurat'],
+      beschreibung: 'Ladekabel und Watt: Die Zahl auf dem Stecker sagt, was es durchlässt.',
+      hashtags: ['#ladekabel', '#usbc', '#schnellladen', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Auf Wattis Kabel steht die Antwort',
-      beschreibung: 'Ladekabel mit 60 oder 240 Watt. Der Preis sagt darüber nichts.',
+      beschreibung: 'Ladekabel mit 60 oder 240 Watt. Der Preis sagt darüber nichts. Watt zählt.',
       hashtags: ['#ladekabel', '#usbc', '#laden', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Warum Wattis teures Ladekabel wirklich schneller lädt',
+      titel: 'Was die Zahl auf Wattis Ladekabel bedeutet',
       beschreibung: 'Ladekabel und Watt: Was das USB Implementers Forum zur Kennzeichnung vorschreibt.',
       hashtags: ['#ladekabel', '#usbc', '#schnellladen', '#ganzakkurat'],
     },

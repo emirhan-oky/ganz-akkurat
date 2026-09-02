@@ -24,7 +24,7 @@ export const produktpassAkku: Short = {
   sachgebiet: 'laden',
   bauform: 'zitatkarte',
   arbeitstitel: 'Wattis Akku hat einen Ausweis',
-  weitererzaehlt: 'ein eigenes Register',
+  weitererzaehlt: 'eindeutigen Produktkennungen',
   suchbegriff: 'Produktpass Akku',
   kaltstart: {
     art: 'imvollzug',
@@ -56,12 +56,12 @@ export const produktpassAkku: Short = {
       quelleId: 'eu-produktpassregister',
       belegId: 'digitales-register-produktpass',
       sprechtext:
-        'Das ist der Produktpass. Jede größere Batterie kriegt so einen Ausweis. Ein Ausweis für einen Akku?',
+        'Das ist ein digitaler Produktpass. Dafür muss die Kommission ein eigenes Register einrichten. Ein Ausweis für einen Akku?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'behaupten',
-          text: 'Das ist der Produktpass. Jede größere Batterie kriegt so einen Ausweis.',
+          text: 'Das ist ein digitaler Produktpass. Dafür muss die Kommission ein eigenes Register einrichten.',
           quelleId: 'eu-produktpassregister',
           belegId: 'digitales-register-produktpass',
         },
@@ -78,18 +78,19 @@ export const produktpassAkku: Short = {
     {
       art: 'zitatkarte',
       position: 'zuspitzung',
-      zitat: 'ein digitales Register für den digitalen Produktpass',
+      zitat: 'mindestens die eindeutigen Produktkennungen gespeichert werden',
       quelleId: 'eu-produktpassregister',
-      belegId: 'digitales-register-produktpass',
+      belegId: 'eindeutige-produktkennung-gespeichert',
       herausgeber: 'Europäische Union',
-      sprechtext: 'Dafür gibt es seit Kurzem ein eigenes Register. Und was steht in so einem Ausweis drin?',
+      sprechtext:
+        'In dem Register werden mindestens die eindeutigen Produktkennungen gespeichert. Und was steht in so einem Ausweis drin?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Dafür gibt es seit Kurzem ein eigenes Register.',
+          text: 'In dem Register werden mindestens die eindeutigen Produktkennungen gespeichert.',
           quelleId: 'eu-produktpassregister',
-          belegId: 'digitales-register-produktpass',
+          belegId: 'eindeutige-produktkennung-gespeichert',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und was steht in so einem Ausweis drin?' },
       ],
@@ -112,16 +113,16 @@ export const produktpassAkku: Short = {
       quelleId: 'eu-produktpassregister',
       belegId: 'eindeutige-produktkennung-gespeichert',
       sprechtext:
-        'Mindestens die Nummer, an der man genau diese Batterie erkennt. Und wer schreibt die Nummer da rein? Das steht in dem Text nicht drin.',
+        'Eine Kennung, die das Produkt eindeutig macht. Und wer schreibt die Kennung da rein? Das steht in dem Text nicht drin.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Mindestens die Nummer, an der man genau diese Batterie erkennt.',
+          text: 'Eine Kennung, die das Produkt eindeutig macht.',
           quelleId: 'eu-produktpassregister',
           belegId: 'eindeutige-produktkennung-gespeichert',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wer schreibt die Nummer da rein?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wer schreibt die Kennung da rein?' },
         { sprecher: 'nachleser', zug: 'einschraenken', text: 'Das steht in dem Text nicht drin.' },
       ],
       buehne: {
@@ -135,7 +136,7 @@ export const produktpassAkku: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Der Akku hat eine Nummer, die ihn eindeutig macht.',
+      satz: 'Im Register stehen mindestens die eindeutigen Produktkennungen.',
       sprechtext:
         'Aber du liest doch sonst alles nach. Dieses eine Mal weiß ich es nicht, ja? Dann scanne ich das Ding einfach nochmal.',
       rede: [

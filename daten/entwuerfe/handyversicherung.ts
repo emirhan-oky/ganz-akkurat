@@ -17,8 +17,8 @@ export const handyversicherung: Short = {
   sachgebiet: 'recht',
   bauform: 'wechselrede',
   arbeitstitel: 'Watti schmeißt sechs Euro im Monat weg',
-  weitererzaehlt: 'ist ein Mangel und kein Unfall',
-  suchbegriff: 'Handyversicherung Mangel',
+  weitererzaehlt: 'für die gewöhnliche Verwendung eignen',
+  suchbegriff: 'Handyversicherung Rechte',
   kaltstart: {
     art: 'gewissheit',
     satz: 'Gut, dass ich meine Handyversicherung habe. Die zahlt das jetzt.',
@@ -55,14 +55,14 @@ export const handyversicherung: Short = {
       belegId: 'im-u-brigen-in',
       herausgeber: 'Bundesministerium der Justiz',
       sprechtext:
-        'Und was hat dein Handy? Es geht seit Wochen einfach von selbst aus. Dafür hast du zwei Jahre lang Rechte, ohne einen Cent zu zahlen.',
+        'Und was hat dein Handy? Es geht seit Wochen einfach von selbst aus. Dafür hast du zwei Jahre lang Rechte.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und was hat dein Handy?' },
         { sprecher: 'zeiger', zug: 'beantworten', text: 'Es geht seit Wochen einfach von selbst aus.' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Dafür hast du zwei Jahre lang Rechte, ohne einen Cent zu zahlen.',
+          text: 'Dafür hast du zwei Jahre lang Rechte.',
           quelleId: 'bgb-438-verjaehrung',
           belegId: 'im-u-brigen-in',
         },
@@ -78,18 +78,18 @@ export const handyversicherung: Short = {
     {
       art: 'text',
       position: 'zuspitzung',
-      quelleId: 'bgb-438-verjaehrung',
-      belegId: 'im-u-brigen-in',
+      quelleId: 'bgb-434-sachmangel',
+      belegId: 'gewoehnliche-verwendung-eignet',
       sprechtext:
-        'Warte, für genau das? Für genau das du Idiot. Ein Handy, das von selbst ausgeht, ist ein Mangel und kein Unfall.',
+        'Warte, für genau das? Für genau das du Idiot. Ein Handy muss sich für die gewöhnliche Verwendung eignen.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Warte, für genau das?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Warte, für genau das?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Für genau das du Idiot. Ein Handy, das von selbst ausgeht, ist ein Mangel und kein Unfall.',
-          quelleId: 'bgb-438-verjaehrung',
-          belegId: 'im-u-brigen-in',
+          text: 'Für genau das du Idiot. Ein Handy muss sich für die gewöhnliche Verwendung eignen.',
+          quelleId: 'bgb-434-sachmangel',
+          belegId: 'gewoehnliche-verwendung-eignet',
         },
       ],
       buehne: {
@@ -111,18 +111,26 @@ export const handyversicherung: Short = {
       quelleId: 'bgb-477-beweislast',
       belegId: 'zeigt-sich-innerhalb-eines',
       sprechtext:
-        'Dann gehe ich morgen hin und die geben mir ein neues. So einfach nicht du Idiot. Nach einem Jahr musst du selbst beweisen, dass der Fehler von Anfang an da war.',
+        'Dann gehe ich einfach hin und die geben mir ein neues. So einfach nicht du Idiot. Im ersten Jahr wird vermutet, dass der Fehler von Anfang an da war. Vermutet? Und diese Vermutung gilt genau ein Jahr.',
       rede: [
         {
           sprecher: 'zeiger',
           zug: 'zuspitzen',
           machart: 'falscherschluss',
-          text: 'Dann gehe ich morgen hin und die geben mir ein neues.',
+          text: 'Dann gehe ich einfach hin und die geben mir ein neues.',
         },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'So einfach nicht du Idiot. Nach einem Jahr musst du selbst beweisen, dass der Fehler von Anfang an da war.',
+          text: 'So einfach nicht du Idiot. Im ersten Jahr wird vermutet, dass der Fehler von Anfang an da war.',
+          quelleId: 'bgb-477-beweislast',
+          belegId: 'so-wird-vermutet-dass',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Vermutet?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Und diese Vermutung gilt genau ein Jahr.',
           quelleId: 'bgb-477-beweislast',
           belegId: 'zeigt-sich-innerhalb-eines',
         },
@@ -138,7 +146,7 @@ export const handyversicherung: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Ein Mangel ist kein Unfall.',
+      satz: 'Ein Handy muss sich für die gewöhnliche Verwendung eignen.',
       sprechtext:
         'Und wofür zahle ich dann seit einem Jahr? Dafür, dass du es fallen lässt. Dafür ist die Versicherung da, und dafür allein. Also hätte ich einfach in den Laden gehen können? Du hättest mich fragen können. Ich bin umsonst du Idiot.',
       rede: [
@@ -169,22 +177,22 @@ export const handyversicherung: Short = {
     },
   ],
 
-  quellenIds: ['bgb-438-verjaehrung', 'bgb-477-beweislast'],
+  quellenIds: ['bgb-438-verjaehrung', 'bgb-434-sachmangel', 'bgb-477-beweislast'],
 
   texte: {
     tiktok: {
       titel: 'Watti schmeißt sechs Euro im Monat weg',
-      beschreibung: 'Handyversicherung oder Mangel: Wofür du zwei Jahre lang ohnehin Rechte hast.',
+      beschreibung: 'Handyversicherung oder gesetzliche Rechte: Wofür du zwei Jahre lang ohnehin Rechte hast.',
       hashtags: ['#handyversicherung', '#verbraucherrecht', '#gewaehrleistung', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Watti schmeißt sechs Euro im Monat weg',
-      beschreibung: 'Handyversicherung zahlt den Sturz. Ein Mangel geht auch ohne sie.',
+      beschreibung: 'Handyversicherung zahlt den Sturz. Deine Rechte gelten auch ohne sie.',
       hashtags: ['#handyversicherung', '#verbraucherrechte', '#handy', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Wofür Watti seine Handyversicherung bezahlt',
-      beschreibung: 'Handyversicherung und Mangel: Der Unterschied zwischen Gewährleistung und Unfallschutz.',
+      beschreibung: 'Handyversicherung und gesetzliche Rechte: der Unterschied zu einem Unfallschutz.',
       hashtags: ['#handyversicherung', '#bgb', '#verbraucherschutz', '#ganzakkurat'],
     },
   },

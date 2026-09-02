@@ -24,7 +24,7 @@ export const werbeblocker: Short = {
   sachgebiet: 'netz',
   bauform: 'stationen',
   arbeitstitel: 'Wattis sieben Wächter verraten ihn',
-  weitererzaehlt: 'desto auffälliger bist du',
+  weitererzaehlt: 'individueller machen',
   suchbegriff: 'Werbeblocker Browser',
   kaltstart: {
     art: 'hilferuf',
@@ -37,9 +37,9 @@ export const werbeblocker: Short = {
     {
       art: 'text',
       position: 'aufschlag',
-      sprechtext: 'Wie viele hast du denn schon? Sieben, und ich will nicht dass die mich überall verfolgen.',
+      sprechtext: 'Wie viele Werbeblocker hast du denn schon? Sieben, und ich will nicht dass die mich überall verfolgen.',
       rede: [
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wie viele hast du denn schon?' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wie viele Werbeblocker hast du denn schon?' },
         { sprecher: 'zeiger', zug: 'beantworten', text: 'Sieben, und ich will nicht dass die mich überall verfolgen.' },
       ],
       buehne: {
@@ -57,7 +57,7 @@ export const werbeblocker: Short = {
       belegId: 'browser-individueller-werden',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Und du glaubst, mit dem achten bist du dann weg? Na klar, je mehr ich blocke, desto weniger sehen die von mir. Falsch herum du Idiot. Je mehr du blockst, desto auffälliger bist du.',
+        'Und du glaubst, mit dem achten bist du dann weg? Na klar, je mehr ich blocke, desto weniger sehen die von mir. Falsch herum du Idiot. Ausgerechnet die Dinger dagegen können deinen Browser individueller machen.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und du glaubst, mit dem achten bist du dann weg?' },
         {
@@ -69,7 +69,7 @@ export const werbeblocker: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Falsch herum du Idiot. Je mehr du blockst, desto auffälliger bist du.',
+          text: 'Falsch herum du Idiot. Ausgerechnet die Dinger dagegen können deinen Browser individueller machen.',
           quelleId: 'bsi-fingerprints',
           belegId: 'browser-individueller-werden',
         },
@@ -86,17 +86,17 @@ export const werbeblocker: Short = {
       art: 'text',
       position: 'zuspitzung',
       quelleId: 'bsi-fingerprints',
-      belegId: 'browser-individueller-werden',
+      belegId: 'besser-zu-identifizieren-sein',
       sprechtext:
-        'Watt? Dein Browser wird durch jedes Add-on individueller. Warte, ich mache mich mit den Dingern sichtbarer statt unsichtbar?',
+        'Watt? Und damit bist du besser zu identifizieren. Warte, ich mache mich mit den Dingern sichtbarer statt unsichtbar?',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Watt?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Dein Browser wird durch jedes Add-on individueller.',
+          text: 'Und damit bist du besser zu identifizieren.',
           quelleId: 'bsi-fingerprints',
-          belegId: 'browser-individueller-werden',
+          belegId: 'besser-zu-identifizieren-sein',
         },
         {
           sprecher: 'zeiger',
@@ -117,20 +117,21 @@ export const werbeblocker: Short = {
       art: 'text',
       position: 'zuspitzung',
       quelleId: 'bsi-fingerprints',
-      belegId: 'besser-zu-identifizieren-sein',
+      belegId: 'fingerprints-mehr-daten-als-cookies',
       sprechtext:
-        'Und damit besser zu identifizieren. Von allen, die ich kenne, hat genau einer sieben Blocker. Du.',
+        'Fingerprints greifen auf deutlich mehr Daten zurück als Cookies. Also was jetzt? Von allen, die ich kenne, hat genau einer sieben Blocker. Du.',
       rede: [
         {
           sprecher: 'nachleser',
-          zug: 'nachlegen',
-          text: 'Und damit besser zu identifizieren.',
+          zug: 'beantworten',
+          text: 'Fingerprints greifen auf deutlich mehr Daten zurück als Cookies.',
           quelleId: 'bsi-fingerprints',
-          belegId: 'besser-zu-identifizieren-sein',
+          belegId: 'fingerprints-mehr-daten-als-cookies',
         },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Also was jetzt?' },
         {
           sprecher: 'nachleser',
-          zug: 'zuspitzen',
+          zug: 'beantworten',
           machart: 'menschenvergleich',
           text: 'Von allen, die ich kenne, hat genau einer sieben Blocker. Du.',
         },
@@ -155,7 +156,7 @@ export const werbeblocker: Short = {
       quelleId: 'bsi-fingerprints',
       belegId: 'entsteht-ein-wettruesten',
       sprechtext:
-        'Dann nehme ich heute Abend einfach alle wieder runter. Dann sehen sie wieder alles, und das BSI nennt das Ganze ein Wettrüsten.',
+        'Dann nehme ich heute Abend einfach alle wieder runter. Dann geht es von vorne los. Das BSI nennt das ein Wettrüsten.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -165,7 +166,7 @@ export const werbeblocker: Short = {
         {
           sprecher: 'nachleser',
           zug: 'gegenbeispiel',
-          text: 'Dann sehen sie wieder alles, und das BSI nennt das Ganze ein Wettrüsten.',
+          text: 'Dann geht es von vorne los. Das BSI nennt das ein Wettrüsten.',
           quelleId: 'bsi-fingerprints',
           belegId: 'entsteht-ein-wettruesten',
         },
@@ -181,7 +182,7 @@ export const werbeblocker: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Ein Browser mit sieben Blockern ist der auffälligste im Raum.',
+      satz: 'Ausgerechnet die Dinger dagegen können den Browser individueller machen.',
       sprechtext:
         'Also was soll ich denn jetzt machen? Nimm den einen, den ich auch habe, und lass die anderen sechs weg. Und dann bin ich sicher? Dann bist du so langweilig wie ich, kleiner.',
       rede: [
@@ -216,16 +217,16 @@ export const werbeblocker: Short = {
   texte: {
     tiktok: {
       titel: 'Wattis sieben Wächter verraten ihn',
-      beschreibung: 'Werbeblocker im Browser: Warum mehr davon dich leichter erkennbar macht.',
+      beschreibung: 'Werbeblocker im Browser: Was das BSI zu Add-ons und Wiedererkennung schreibt.',
       hashtags: ['#werbeblocker', '#datenschutz', '#bsi', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Wattis sieben Wächter verraten ihn',
-      beschreibung: 'Werbeblocker machen den Browser eigener. Und damit dich.',
+      beschreibung: 'Werbeblocker können den Browser individueller machen. Sagt das BSI.',
       hashtags: ['#werbeblocker', '#browser', '#datenschutz', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Warum sieben Werbeblocker Watti auffälliger machen',
+      titel: 'Was sieben Werbeblocker mit Wattis Browser machen',
       beschreibung: 'Werbeblocker und Browser Fingerprint: Was das BSI zu Add-ons und Wiedererkennung schreibt.',
       hashtags: ['#werbeblocker', '#fingerprinting', '#bsi', '#ganzakkurat'],
     },

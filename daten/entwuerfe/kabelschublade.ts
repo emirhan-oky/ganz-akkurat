@@ -22,7 +22,7 @@ export const kabelschublade: Short = {
   sachgebiet: 'laden',
   bauform: 'stationen',
   arbeitstitel: 'Wattis Kabelschublade schlägt zurück',
-  weitererzaehlt: 'lädt jetzt über dasselbe Kabel',
+  weitererzaehlt: 'USB Typ C als einheitlichen Ladeanschluss',
   suchbegriff: 'Kabel USB C',
   kaltstart: {
     art: 'beschwerde',
@@ -61,12 +61,12 @@ export const kabelschublade: Short = {
       belegId: 'seit-2009-werden-auf',
       herausgeber: 'Europäische Union',
       sprechtext:
-        'Seit 2009 arbeitet die EU daran, dass alle dasselbe Kabel nehmen. Und deswegen soll ich meine ganze Schublade wegwerfen?',
+        'Seit 2009 arbeitet die EU gegen das Durcheinander bei Ladeanschlüssen. Und deswegen soll ich meine ganze Schublade wegwerfen?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Seit 2009 arbeitet die EU daran, dass alle dasselbe Kabel nehmen.',
+          text: 'Seit 2009 arbeitet die EU gegen das Durcheinander bei Ladeanschlüssen.',
           quelleId: 'eu-einheitlicher-ladeanschluss',
           belegId: 'seit-2009-werden-auf',
         },
@@ -90,12 +90,12 @@ export const kabelschublade: Short = {
       position: 'zuspitzung',
       quelleId: 'eu-einheitlicher-ladeanschluss',
       belegId: 'usb-typ-c-als',
-      sprechtext: 'Alles was du kaufst, lädt jetzt über dasselbe Kabel du Idiot. Aha. Und womit lädst du deine Fahrradlampe?',
+      sprechtext: 'Die EU will USB Typ C als einheitlichen Ladeanschluss, du Idiot. Aha. Und womit lädst du deine Fahrradlampe?',
       rede: [
         {
           sprecher: 'nachleser',
-          zug: 'nachlegen',
-          text: 'Alles was du kaufst, lädt jetzt über dasselbe Kabel du Idiot.',
+          zug: 'beantworten',
+          text: 'Die EU will USB Typ C als einheitlichen Ladeanschluss, du Idiot.',
           quelleId: 'eu-einheitlicher-ladeanschluss',
           belegId: 'usb-typ-c-als',
         },
@@ -187,7 +187,7 @@ export const kabelschublade: Short = {
     instagram: {
       titel: 'Wattis Kabelschublade schlägt zurück',
       beschreibung: 'Ein Kabel für alles, sagt die EU. Die Schublade sagt etwas anderes. USB C.',
-      hashtags: ['#usbc', '#kabel', '#technik', '#ganzakkurat'],
+      hashtags: ['#usbc', '#kabel', '#ladekabel', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Warum Wattis Kabelschublade doch bleiben darf',

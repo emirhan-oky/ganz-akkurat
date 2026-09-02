@@ -18,7 +18,7 @@ export const garantiesiegelNichtig: Short = {
   sachgebiet: 'recht',
   bauform: 'zitatkarte',
   arbeitstitel: 'Watti glaubt einem Aufkleber',
-  weitererzaehlt: 'zwei Jahre, egal was da klebt',
+  weitererzaehlt: 'kommt zusätzlich zu deinen Rechten',
   suchbegriff: 'Garantie Aufkleber',
   kaltstart: {
     art: 'gewissheit',
@@ -98,12 +98,12 @@ export const garantiesiegelNichtig: Short = {
       quelleId: 'bgb-438-verjaehrung',
       belegId: 'im-u-brigen-in',
       sprechtext:
-        'Deine laufen zwei Jahre, egal was da klebt. Warte, also war der Aufkleber die ganze Zeit für nichts?',
+        'Und deine Rechte laufen zwei Jahre. Warte, also war der Aufkleber die ganze Zeit für nichts?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Deine laufen zwei Jahre, egal was da klebt.',
+          text: 'Und deine Rechte laufen zwei Jahre.',
           quelleId: 'bgb-438-verjaehrung',
           belegId: 'im-u-brigen-in',
         },
@@ -138,13 +138,13 @@ export const garantiesiegelNichtig: Short = {
       quelleId: 'bgb-443-garantie',
       belegId: 'zusa-tzlich-zu-der',
       herausgeber: 'Bundesministerium der Justiz',
-      sprechtext: 'Für den Hersteller war er was wert. Der hat gehofft, dass du genau das denkst.',
+      sprechtext: 'Für den Hersteller war er was wert. Du hast geglaubt, er zählt.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
           machart: 'nebenbemerkung',
-          text: 'Für den Hersteller war er was wert. Der hat gehofft, dass du genau das denkst.',
+          text: 'Für den Hersteller war er was wert. Du hast geglaubt, er zählt.',
         },
       ],
       buehne: {
@@ -164,7 +164,7 @@ export const garantiesiegelNichtig: Short = {
        */
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Ein Aufkleber nimmt dir keine gesetzlichen Rechte.',
+      satz: 'Eine Garantie kommt zusätzlich zu deinen Rechten.',
       sprechtext:
         'Also bringe ich sie einfach zurück? Wir bringen sie zurück. Du sagst gar nichts, weil ich rede, kleiner. Und wenn die sagen, ich hätte sie selbst kaputtgemacht? Das kann nicht passieren, weil ich sie ja kaputt gemacht habe.',
       rede: [

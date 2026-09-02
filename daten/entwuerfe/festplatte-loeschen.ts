@@ -13,8 +13,25 @@ import type { Short } from '../../src/typen';
  * der Vorgeschichte, nicht mit der Rolle.**
  *
  * **Der Konter ist der naechste Satz derselben Quelle** (Befund 28). Er kostet
- * keine zweite Recherche und ist der schaerfste im Pool: Volti widerlegt Watti
- * mit der Seite, die Watti selbst gefunden hat.
+ * keine zweite Recherche: Volti widerlegt Watti mit der Seite, die Watti selbst
+ * gefunden hat.
+ *
+ * ## Und dann liest man die Seite zu Ende
+ *
+ * **Der `belegpruefer` hat den Short am 02.09.2026 umgedreht.** Er stand so da,
+ * dass Volti gewinnt: Loeschen gibt den Bereich zum Ueberschreiben frei, also
+ * vollschreiben und den Hammer weglegen. Dieselbe BSI-Seite sagt weiter unten
+ * zweierlei — Ueberschreiben erreicht nur, wozu das Programm Zugriff hat, und
+ * wenn man nicht ueberschreiben kann, soll man die Platte physisch zerstoeren.
+ *
+ * **Wattis Hammer war die ganze Zeit eine der Methoden, die das BSI nennt.**
+ * Der Short behauptete das Gegenteil, und `npm run quellen-pruefen` war dabei
+ * gruen: Beide Zitate standen woertlich auf der Seite, nur nicht das, was der
+ * Short daraus machte.
+ *
+ * Damit wird aus Szenario 3 nebenbei Szenario 4 — Watti weiss etwas, schliesst
+ * falsch, und behaelt am Ende trotzdem recht. Das ist die bessere Geschichte,
+ * und sie ist die belegte.
  */
 export const festplatteLoeschen: Short = {
   id: 'festplatte-loeschen',
@@ -117,7 +134,7 @@ export const festplatteLoeschen: Short = {
       quelleId: 'bsi-loeschen-verweise',
       belegId: 'der-bereich-wird-zum',
       sprechtext:
-        'Und wieso liest du dann nicht den Satz danach? Welchen Satz danach? Der Bereich wird zum Überschreiben freigegeben. Du musst ihn nur vollschreiben.',
+        'Und wieso liest du dann nicht den Satz danach? Welchen Satz danach? Der Bereich wird zum Überschreiben freigegeben. Du musst ihn nur vollschreiben. Und den Rest? Überschreiben erreicht nur die Daten, auf die das Programm Zugriff hat.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und wieso liest du dann nicht den Satz danach?' },
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Welchen Satz danach?' },
@@ -127,6 +144,14 @@ export const festplatteLoeschen: Short = {
           text: 'Der Bereich wird zum Überschreiben freigegeben. Du musst ihn nur vollschreiben.',
           quelleId: 'bsi-loeschen-verweise',
           belegId: 'der-bereich-wird-zum',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und den Rest?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'einschraenken',
+          text: 'Überschreiben erreicht nur die Daten, auf die das Programm Zugriff hat.',
+          quelleId: 'bsi-loeschen-verweise',
+          belegId: 'ueberschreiben-nur-mit-zugriff',
         },
       ],
       buehne: {
@@ -140,20 +165,23 @@ export const festplatteLoeschen: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Der Platz wird freigegeben, nicht der Hammer.',
+      satz: 'Für den Rest nennt das BSI die physische Zerstörung.',
       sprechtext:
-        'Also soll ich den Laptop einfach mit irgendwas vollmachen? Genau das, und dann gib mir meinen Hammer zurück, kleiner.',
+        'Also war der Hammer doch richtig? Schon das Verbiegen der Scheiben macht die gängigen Methoden der Datenrettung unbrauchbar. Dann gib mir den Hammer wieder, großer Bruder.',
       rede: [
-        {
-          sprecher: 'zeiger',
-          zug: 'nachhaken',
-          text: 'Also soll ich den Laptop einfach mit irgendwas vollmachen?',
-        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Also war der Hammer doch richtig?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
+          text: 'Schon das Verbiegen der Scheiben macht die gängigen Methoden der Datenrettung unbrauchbar.',
+          quelleId: 'bsi-loeschen-verweise',
+          belegId: 'verbiegen-der-scheiben',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
           machart: 'widerhaken',
-          text: 'Genau das, und dann gib mir meinen Hammer zurück, kleiner.',
+          text: 'Dann gib mir den Hammer wieder, großer Bruder.',
         },
       ],
       buehne: {
@@ -164,7 +192,7 @@ export const festplatteLoeschen: Short = {
         gegenueber: { von: 'staunen', nach: 'stutzen' },
       },
       rundlauf:
-        'Beim zweiten Sehen weiß man, dass Watti nur den halben Text kennt – und der Hammer ist die Lösung für einen Satz, den er nicht zu Ende gelesen hat.',
+        'Beim zweiten Sehen weiß man, dass Watti recht behält – und Voltis erste Frage nach dem Hammer klingt wie jemand, der zu früh sicher ist.',
     },
   ],
 
@@ -178,12 +206,12 @@ export const festplatteLoeschen: Short = {
     },
     instagram: {
       titel: 'Watti erschlägt seine Festplatte',
-      beschreibung: 'Festplatte löschen heißt nicht weg. Der Satz danach erklärt, warum.',
+      beschreibung: 'Festplatte löschen heißt nicht weg. Und Überschreiben erreicht nicht alles.',
       hashtags: ['#festplatte', '#daten', '#laptop', '#ganzakkurat'],
     },
     youtube: {
       titel: 'Was beim Löschen einer Festplatte wirklich passiert',
-      beschreibung: 'Festplatte löschen und überschreiben: Was das BSI zu Verweisen im Index schreibt.',
+      beschreibung: 'Festplatte löschen, überschreiben, zerstören: Was das BSI zu jeder der drei Methoden schreibt.',
       hashtags: ['#festplatte', '#datenloeschung', '#bsi', '#ganzakkurat'],
     },
   },

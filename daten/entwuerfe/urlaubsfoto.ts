@@ -23,7 +23,7 @@ export const urlaubsfoto: Short = {
   sachgebiet: 'handy',
   bauform: 'stationen',
   arbeitstitel: 'Voltis Foto weiß, wo er war',
-  weitererzaehlt: 'ganz automatisch bei jedem Bild',
+  weitererzaehlt: 'ganz automatisch gespeichert',
   suchbegriff: 'Metadaten Foto',
   kaltstart: {
     art: 'stolzerfehler',
@@ -82,15 +82,16 @@ export const urlaubsfoto: Short = {
       belegId: 'ortsangaben-loeschen',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Du hast mir das doch selbst mal erklärt. Datum, Gerät und Ort der Aufnahme, ganz automatisch bei jedem Bild.',
+        'Du hast mir das doch selbst mal erklärt. Was denn? Datum und Ort der Aufnahme stehen in den Metadaten, ganz automatisch gespeichert.',
       rede: [
         { sprecher: 'zeiger', zug: 'erinnern', text: 'Du hast mir das doch selbst mal erklärt.' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was denn?' },
         {
           sprecher: 'zeiger',
-          zug: 'nachlegen',
-          text: 'Datum, Gerät und Ort der Aufnahme, ganz automatisch bei jedem Bild.',
+          zug: 'beantworten',
+          text: 'Datum und Ort der Aufnahme stehen in den Metadaten, ganz automatisch gespeichert.',
           quelleId: 'bsi-metadaten-fotos',
-          belegId: 'ortsangaben-loeschen',
+          belegId: 'metadaten-automatisch-gespeichert',
         },
       ],
       buehne: {
@@ -107,9 +108,15 @@ export const urlaubsfoto: Short = {
       quelleId: 'bsi-metadaten-fotos',
       belegId: 'cyberkriminelle-aufenthaltsort',
       sprechtext:
-        'Ich weiß, was da drinsteht. Und dann findet einer raus, wo du bist oder dass du nicht zu Hause bist. Ja. Das habe ich dir gesagt.',
+        'Ich weiß, was da drinsteht. Und du sollst die Ortsangaben rauslöschen, hast du gesagt. Weiß ich. Und dann findet einer raus, wo du bist oder dass du nicht zu Hause bist. Ja. Das habe ich dir gesagt.',
       rede: [
         { sprecher: 'nachleser', zug: 'einlenken', text: 'Ich weiß, was da drinsteht.' },
+        {
+          sprecher: 'zeiger',
+          zug: 'erinnern',
+          text: 'Und du sollst die Ortsangaben rauslöschen, hast du gesagt.',
+        },
+        { sprecher: 'nachleser', zug: 'einlenken', text: 'Weiß ich.' },
         {
           sprecher: 'zeiger',
           zug: 'nachlegen',
@@ -136,7 +143,8 @@ export const urlaubsfoto: Short = {
        */
       art: 'text',
       position: 'kipppunkt',
-      sprechtext: 'Und trotzdem steht auf deinem Bild das Hotel, der Tag und die Uhrzeit. Ich hatte es eilig, ja?',
+      sprechtext:
+        'Und trotzdem steht auf deinem Bild das Hotel, der Tag und die Uhrzeit. Ich hatte es eilig, ja? Das erzählst du niemandem weiter.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -144,6 +152,7 @@ export const urlaubsfoto: Short = {
           text: 'Und trotzdem steht auf deinem Bild das Hotel, der Tag und die Uhrzeit.',
         },
         { sprecher: 'nachleser', zug: 'einlenken', machart: 'gestaendnis', text: 'Ich hatte es eilig, ja?' },
+        { sprecher: 'nachleser', zug: 'bitten', text: 'Das erzählst du niemandem weiter.' },
       ],
       buehne: {
         art: 'figur',

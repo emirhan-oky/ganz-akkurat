@@ -478,6 +478,16 @@
           "id": "der-bereich-wird-zum",
           "zitat": "der Bereich wird zum Überschreiben mit neuen Daten freigegeben",
           "stuetzt": "Die Daten liegen weiter da, bis zufällig etwas darüber geschrieben wird — freigegeben ist nicht entfernt."
+        },
+        {
+          "id": "ueberschreiben-nur-mit-zugriff",
+          "zitat": "Daten werden unter anderem dann sicher gelöscht, wenn sie überschrieben werden. Dies gilt allerdings nur für solche Daten, auf die das Überschreibprogramm Zugriff hat.",
+          "stuetzt": "Überschreiben löscht nur, wozu das Programm überhaupt Zugang hat — Reservesektoren und geschützte Bereiche bleiben außen vor."
+        },
+        {
+          "id": "verbiegen-der-scheiben",
+          "zitat": "Schon das Verbiegen der Scheiben in einer Festplatte führt dazu, dass die gängigen Methoden der Datenrettung nicht mehr anwendbar sind.",
+          "stuetzt": "Das BSI nennt die physische Zerstörung als Weg, wenn Überschreiben nicht in Frage kommt."
         }
       ]
     },
@@ -925,6 +935,27 @@
           "id": "cyberkriminelle-aufenthaltsort",
           "zitat": "Cyberkriminelle könnten Ihren Aufenthaltsort ermitteln, weitere persönliche Informationen über Sie herausfinden oder Informationen wie beispielsweise zum Urlaub nutzen, um einen Diebstahl zu planen.",
           "stuetzt": "Die Behörde nennt drei konkrete Folgen, darunter einen Einbruch während des Urlaubs."
+        }
+      ]
+    },
+    {
+      "id": "bgb-434-sachmangel",
+      "titel": "§ 434 BGB – Sachmangel",
+      "url": "https://www.gesetze-im-internet.de/bgb/__434.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-02",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "gewoehnliche-verwendung-eignet",
+          "zitat": "entspricht die Sache den objektiven Anforderungen, wenn sie 1. sich für die gewöhnliche Verwendung eignet",
+          "stuetzt": "Eine Kaufsache muss sich für die gewöhnliche Verwendung eignen; tut sie das nicht, ist sie mangelhaft."
+        },
+        {
+          "id": "frei-von-sachmaengeln",
+          "zitat": "Die Sache ist frei von Sachmängeln, wenn sie bei Gefahrübergang den subjektiven Anforderungen, den objektiven Anforderungen und den Montageanforderungen dieser Vorschrift entspricht.",
+          "stuetzt": "§ 434 legt fest, woran sich entscheidet, ob eine Kaufsache mangelhaft ist."
         }
       ]
     }
