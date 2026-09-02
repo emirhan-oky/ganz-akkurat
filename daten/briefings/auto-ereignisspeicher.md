@@ -50,13 +50,6 @@ löst Empörung über den aus, der es entschieden hat: Jedes neue Auto führt
 Protokoll, und gefragt wurde niemand. Wattis Zeile ist „Mein eigenes Auto
 petzt?!", nicht „Ich hab doch nichts gemacht".
 
-## Das Wort, das nicht fällt
-
-Humorregel eins: Kein Witz darf an einem Wort hängen, das die Zielgruppe 18–30
-nicht benutzt. Wer es erklären müsste, hat Erklärvideo im Short.
-
-**„Ereignisdatenspeicher" fällt nicht.** Das Wort steht im Rechtsakt, nicht in Wattis Mund. Er sagt „Blackbox", so wie alle.
-
 ## Die Falle
 
 Die Verordnung sagt, **dass** aufgezeichnet wird und welcher Zeitraum — nicht, wer die Daten bekommt, wie lange sie liegen oder ob sie vor Gericht landen. Alles darüber hinaus braucht eine eigene Fundstelle.
@@ -65,4 +58,22 @@ Die Verordnung sagt, **dass** aufgezeichnet wird und welcher Zeitraum — nicht,
 
 ## Dialog
 
-*(hier schreibt Emirhan)*
+W: Volti, weißt du wo die Verischeurngspapiere für das Auto sind?
+
+*Vorhang*
+
+V: *kommt ins Bild rein* Omg gehts dir gut? Was ist passiert?
+W: Ja klar, ich kann ja noch klar denken. Ich bin anscheinend beim Rückfährtsfahren gegen ein anderes Auto gekommen?
+V: Okay und wie machst du das fest? Wieso bist du dir nicht sicher?W: Naja genau in dem Moment, wo ich den Rückwärtsgang eingelegt habe, ist es eben passiert.
+V: Watti, bist du dir ganz sicher?
+W: Durch dein Verhör nicht mehr
+V: Wusstest du, dass neue Fahrzeuge… und hier wieder Zitierkarte mit der Information
+V: Vielleicht kann es der Fall sein, dass er doch in dich reingefahren ist
+W: Also bin ich nicht schuld?
+V: Die Verordnung sagt nur, dass aufgezeichnet wird und in welchem Zeitraum es passiert.
+V: Es is nicht abgeklärt, wer die Daten bekommt, wie lange sie liegen oder ob sie vor Gericht landen.
+W: Also bin ich Schuld?
+V: Wir klären das erst einmal ab Watti. Fakt ist, dass dein Auto petzen kann.
+
+*Vorhang zu*
+

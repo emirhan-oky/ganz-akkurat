@@ -32,13 +32,6 @@ Der Aufdruck entscheidet, nicht der Name auf der Packung.
 
 Das eine Lager sagt „Kabel ist Kabel“, das andere „nur das Originalkabel“. Beide übersehen, dass es eine Angabe gibt, die man lesen kann — und dass sie auf den meisten Kabeln in der Schublade fehlt.
 
-## Das Wort, das nicht fällt
-
-Humorregel eins: Kein Witz darf an einem Wort hängen, das die Zielgruppe 18–30
-nicht benutzt. Wer es erklären müsste, hat Erklärvideo im Short.
-
-**„E-Marker" fällt nicht.** Watti sagt, was er sieht: eine Zahl auf dem Kabel oder eben keine.
-
 ## Die Falle
 
 Die Kennzeichnungspflicht ist eine **Regel des USB Implementers Forum**, kein Gesetz. Sie sagt nichts darüber, was ein unbeschriftetes Kabel kann, und nichts über Kabel mit festem Stecker an einem Ende.
@@ -47,4 +40,30 @@ Die Kennzeichnungspflicht ist eine **Regel des USB Implementers Forum**, kein Ge
 
 ## Dialog
 
-*(hier schreibt Emirhan)*
+W: Flugmodus an, Volti! Wir heben gleich ab.
+
+  Heutiges Thema: Watti rettet das Flugzeug
+
+  *vorhang*
+
+W: Volti, ich hör die Turbinen schon.
+V: Watti, chill. Meiner ist längst aus.
+W: Gut, denn Sonst stören wir die Bordelektronik.
+W: Und dann stürzen wir ab.
+V: Wir stören keinen Piloten.
+W: Wozu gibt es den Modus denn sonst?
+V: Nicht wegen dem Netz im Flugzeug.
+V: Sondern Wegen dem am Boden.
+W: Watt?
+V: Dein Handy sieht da oben hunderte Funkmasten.
+V: Und meldet sich bei allen an.
+W: Ach, damit ich nicht im falschen Netz lande?
+V: Nein, Damit die Leute unten noch Empfang haben, du Idiot. Du störst somit das Internet der Leute unter dir
+W: Ich rette also gar nicht das Flugzeug?
+V: Du rettest das Internet der Leute, die du nie siehst.
+V: Netz an Bord ist längst geregelt, und das bis 5G
+W: Ohh, also kann ich weiter in Ruhe Anime streamen?
+V: Du hast sie vorhin schon runtergeladen. Schau offline du Idiot.
+W: Oh Ja klar! Für die Leute da unten!
+
+  *vorhang zu*

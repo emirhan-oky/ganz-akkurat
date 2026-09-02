@@ -870,6 +870,37 @@
           "stuetzt": "Das BSI nennt den konkreten Verdacht als Anlass für den Wechsel, nicht den Kalender."
         }
       ]
+    },
+    {
+      "id": "ptb-schaltsekunden",
+      "titel": "Schaltsekunden — Darstellung der gesetzlichen Zeit",
+      "url": "https://www.ptb.de/cms/ptb/fachabteilungen/abt4/fb-44/ag-441/darstellung-der-gesetzlichen-zeit/schaltsekunden.html",
+      "herausgeber": "Physikalisch-Technische Bundesanstalt",
+      "geprueftAm": "2026-09-02",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "drehung-der-erde-definiert",
+          "zitat": "Die Drehung der Erde um ihre Achse definiert unser natürliches Zeitmaß, die Länge des Tages.",
+          "stuetzt": "Die Länge des Tages kommt aus der Erddrehung, nicht aus einer Uhr."
+        },
+        {
+          "id": "zeiteinheit-atomare-naturkonstante",
+          "zitat": "Letztlich entschloss man sich, die Zeiteinheit an eine atomare Naturkonstante anzuschließen.",
+          "stuetzt": "Die Sekunde ist über ein Atom definiert und nicht über die Erde."
+        },
+        {
+          "id": "erddrehung-ungleichmaessig",
+          "zitat": "die Erddrehung recht ungleichmäßig verläuft und dass insbesondere im langzeitigen Mittel die Drehgeschwindigkeit abnimmt, die Tageslänge also zunimmt",
+          "stuetzt": "Die Erde dreht sich ungleichmäßig, und im langen Mittel wird der Tag länger."
+        },
+        {
+          "id": "abweichung-nie-groesser-null-neun",
+          "zitat": "Der Stand von UTC wird, durch das Einfügen von Schaltsekunden, in Übereinstimmung mit der astronomischen Zeitskala UT1 gehalten, die Abweichung wird nie größer als +0,9 s.",
+          "stuetzt": "Schaltsekunden halten die Uhrzeit bei höchstens 0,9 Sekunden Abstand zur Erdzeit."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

@@ -14,11 +14,28 @@ Watti hält eine Minute für sechzig Sekunden. Das ist meistens richtig.
 
 ## Was Volti nachgelesen hat
 
-Es gibt Minuten mit einer Sekunde mehr, damit die Uhrzeit zur Erddrehung passt. Die Generalkonferenz für Maß und Gewicht lässt das auslaufen, weil es Rechner durcheinanderbringt.
+Unsere Sekunde kommt nicht von der Erde, sondern von einem Atom. Die Erde
+dreht sich dafür zu ungleichmäßig, und im langen Mittel wird der Tag sogar
+länger. Damit die Uhrzeit trotzdem zur Erde passt, wird ab und zu eine
+Sekunde eingeschoben — nie mehr als 0,9 Sekunden Abstand. Genau diese
+Extrasekunde bringt Computer durcheinander, und deshalb wird die Regel bis
+spätestens 2035 gelockert.
 
-> a leap second is applied according to the procedure described in
+> Die Drehung der Erde um ihre Achse definiert unser natürliches Zeitmaß, die Länge des Tages.
 >
-> — Internationales Büro für Maß und Gewicht, `bipm-schaltsekunde#a-leap-second-is-applied`
+> — Physikalisch-Technische Bundesanstalt, `ptb-schaltsekunden#drehung-der-erde-definiert`
+
+> Letztlich entschloss man sich, die Zeiteinheit an eine atomare Naturkonstante anzuschließen.
+>
+> — Physikalisch-Technische Bundesanstalt, `ptb-schaltsekunden#zeiteinheit-atomare-naturkonstante`
+
+> die Erddrehung recht ungleichmäßig verläuft und dass insbesondere im langzeitigen Mittel die Drehgeschwindigkeit abnimmt, die Tageslänge also zunimmt
+>
+> — Physikalisch-Technische Bundesanstalt, `ptb-schaltsekunden#erddrehung-ungleichmaessig`
+
+> Der Stand von UTC wird, durch das Einfügen von Schaltsekunden, in Übereinstimmung mit der astronomischen Zeitskala UT1 gehalten, die Abweichung wird nie größer als +0,9 s.
+>
+> — Physikalisch-Technische Bundesanstalt, `ptb-schaltsekunden#abweichung-nie-groesser-null-neun`
 
 > risk causing serious malfunctions in critical digital infrastructure
 >
@@ -38,6 +55,34 @@ Abgeschafft ist die Schaltsekunde **nicht**. Erhöht wird der zulässige Abstand
 
 ---
 
-## Dialog
+## Dialog · Vorschlag (Claude, 02.09.2026)
 
-*(hier schreibt Emirhan)*
+Mit der neuen PTB-Quelle. Volti sagt jetzt, dass unsere Sekunde vom Atom kommt
+und nicht von der Erde — das ist belegt und war es vorher nicht.
+
+V: Wie, unsere Uhren gehen nicht nach der Erde?
+
+  Heutiges Thema: Volti zählt die Sekunden nach
+
+  *vorhang*
+
+W: Meine Uhr geht eine Sekunde hinter deiner.
+V: Vielleicht geht sie richtig.
+W: Wie, richtig?
+V: Unsere Sekunde kommt nicht von der Erde.
+V: Sondern kommt von einem Atom.
+W: Watt?
+V: Die Erde dreht sich zu ungleichmäßig, aber ein Atom schwingt immer gleich.
+
+  [Zitatkarte] Die Drehung der Erde um ihre Achse definiert unser natürliches Zeitmaß
+
+V: Deshalb schiebt man ab und zu eine Sekunde ein.
+W: Und wer ist dafür verantwortlich?
+V: Das Internationale Büro für Maß und Gewicht.
+W: Und die dürfen das einfach?
+V: Die machen die Zeit.
+W: Und keiner beschwert sich?
+V: Wieso sollten wir uns bei einem Amt beschweren, die dafür sorgen, dass unsere Zeit einheitlich ist?
+W: Ja stimmt auch wieder, ich Idiot
+
+  *vorhang zu*

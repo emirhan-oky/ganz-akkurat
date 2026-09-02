@@ -82,28 +82,28 @@ keine Quelle braucht.
 
 W: Ich lade erst, wenn er ganz aus ist. So gehört das.
 
-*Heutiges Thema: Wattis Akku muss erst sterben*
+  *vorhang*
 
-*vorhang*
+  Heutiges Thema: Wattis Akku muss erst sterben
 
 V: Dein Handy geht gleich aus. Gib mal her.
 W: Nicht anstecken!
 V: Warum denn nicht?
 W: Weil er erst ganz leer werden muss.
 V: Wer sagt das?
-W: Mein Vater. Der macht das seit dreißig Jahren so.
-V: Dein Vater hat auch noch ein Faxgerät.
+W: Unser Vater. Der macht das seit dreißig Jahren so.
+V: Dein Vater hat auch noch ein Faxgerät du Idiot.
 V: Beim Umweltbundesamt steht das Gegenteil.
 
-*[Zitatkarte] Eine vollständige Entleerung schadet dem Akku*
+  [Zitatkarte] Eine vollständige Entleerung schadet dem Akku
 
 W: Watt?
 V: Wer vorher nachlädt, hat ihn länger.
 W: Also mache ich es seit Jahren falsch?
-V: Du machst es seit Jahren gründlich falsch.
+V: Du machst es seit Jahren so richtig falsch.
 W: Und wann soll ich jetzt laden?
 V: Wann immer du dran denkst.
 W: Das ist ja gar keine Regel.
-V: Genau. Das ist dein Problem.
+V: Du sollst weniger dumme Fragen stellen und mehr deinen Verstand nutzen
 
-*vorhang zu*
+  *vorhang zu*

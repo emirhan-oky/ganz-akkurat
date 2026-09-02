@@ -114,6 +114,27 @@ const abrufziel = (url: string): { url: string; kopf: Record<string, string> } =
     };
   }
 
+  /*
+   * **Die PTB antwortet ausgerechnet auf die Chrome-Kennung mit HTTP 500.**
+   *
+   * Am 02.09.2026 gemessen: Ohne `User-Agent` liefert
+   * `www.ptb.de` eine 200, mit `curl/8.4.0` eine 200, mit `Mozilla/5.0` eine
+   * 200 — nur mit der vollstaendigen Chrome-Zeichenkette oben eine 500. Es ist
+   * also keine Sperre, sondern etwas, das an dieser einen Kennung zerbricht.
+   *
+   * Die Kennung steht oben aus gutem Grund: Ohne erkennbaren Browser
+   * antworten andere Anbieter mit einer Sperrseite. Deshalb wird sie hier nur
+   * fuer diesen einen Wirt ersetzt und nicht allgemein weggelassen — dieselbe
+   * Bauart wie die Cellar-Umleitung darueber.
+   *
+   * **Sonst haette die Pruefung eine Behoerdenquelle als „nicht abrufbar"
+   * gemeldet, die im Browser einwandfrei laedt** — und damit die
+   * Zeichenkette geprueft statt der Sache.
+   */
+  if (/(^|\.)ptb\.de$/i.test(new URL(url).hostname)) {
+    return { url, kopf: { 'User-Agent': 'Mozilla/5.0' } };
+  }
+
   return { url, kopf: {} };
 };
 

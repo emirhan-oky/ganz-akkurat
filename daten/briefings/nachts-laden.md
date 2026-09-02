@@ -42,6 +42,34 @@ Das Umweltbundesamt schreibt „ideal ist es zudem“ — eine Empfehlung, keine
 
 ---
 
-## Dialog
+## Dialog · Vorschlag (Claude, 02.09.2026)
 
-*(hier schreibt Emirhan)*
+Zum Bearbeiten. Volti greift zuerst, damit der Anfang eine Handlung ist. Die
+beiden Lager stehen in seinem Mund als Bericht, nicht als Behauptung — und das
+Ende bleibt offen, wie „Wer hat recht?" es verlangt.
+
+W: So Handyakku dran und aber unters Kissen, damit ich meinen Wecker höre.
+
+
+*vorhang*
+
+*Heutiges Thema: Wattis Handyheizung*
+
+V: Warum liegt dein Handy unter dem Kopfkissen?
+W: Weil es laden soll du Idiot, damit es morgens wieder voll ist.
+V: Es hängt die halbe Nacht am Kabel, obwohl es längst voll ist, Idiot.
+W: Und? Schadet nicht.
+V: Sagen die einen. Die anderen sagen, es macht den Akku kaputt.
+W: Ja was denn nun?
+V: Beim Umweltbundesamt steht was anderes.
+
+*[Zitatkarte] Übermäßige Erwärmung des Akkus lässt ihn schneller altern*
+
+W: Watt?
+V: Nicht das ständige Ladert lässt dein handy altern. Es ist die Wärme unter deinem Kissen.
+W: Also lag ich acht Stunden auf einer Heizung?
+V: Du lagst 8 Stunden auf deiner Dummheit
+W: Und wenn ich es danebenlege?
+V: Dann ist es kälter. Mehr sagt das Amt nicht.
+
+*vorhang zu*

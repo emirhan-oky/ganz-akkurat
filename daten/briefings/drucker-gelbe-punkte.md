@@ -47,4 +47,20 @@ Das BSI schreibt „oft von dem Hersteller nicht dokumentiert“ — also nicht,
 
 ## Dialog
 
-*(hier schreibt Emirhan)*
+W: Er wird niemals herausfinden, wer die Beschwerde ausgedruckt hat
+
+*Vorhang*
+
+Heutiges Thema: Watti und sein Farbdrucker
+
+V: Watti, wieso erhalte ich eine Beschwerde von dir per Post? (Volti ist der Vermieter von Watti aber das wird in der Geschichte schon klar)
+
+W: Das ist eine Beschwerde an den Vermieter. Wie kommst du auf mich?
+V: Wusstest du eigentlich, dass Farbleserdrucker ein Muster winziger gelber Punkte auf jede Seite setzen? Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen.
+W: ja weiß ich und das laut BSI es oft vom Hersteller nicht dokumentiert wird, wodurch man nicht weiß, ob jeder Drucker es tut.
+V: Aber ich weiß trotzdem, dass es von dir ist.
+W: Und wie willst du das beweisen?V: Wir leben hier alleine und ich bin dein Vermieter du Idiot.
+W: Also darf ich jetzt eine Katze haben oder nicht? Sonst kriegst du noch einen Brief
+
+*Vorhang zu*
+
