@@ -184,10 +184,62 @@ Eine Verbotsliste ist schärfer als eine Erlaubnis, wie bei
 - **„Du hast recht."** Er lenkt widerwillig ein oder gar nicht — siehe
   `ZUGARTEN.einlenken`: „widerwillig, nicht einsichtig".
 - **„Interessant."** Das sagt jemand, der zuhört. Watti reagiert.
-- **Nichts Belegtes.** Er trägt nie eine Quelle. Das ist Voltis Rolle, und die
-  Trennung ist der Grund, warum Watti frech sein darf.
 - **Keine Selbsterkenntnis.** „Ich mache das immer falsch" wäre der Schlusssatz
-  einer Figur, die dazulernt. Watti lernt nichts.
+  einer Figur, die dazulernt. Watti lernt nichts. Ein „ich Idiot" im Moment ist
+  etwas anderes — das ist ein Geständnis, keine Einsicht.
+
+**Hier stand bis zum 02.09.2026 „Nichts Belegtes. Er trägt nie eine Quelle."**
+Der Satz ist gefallen, und der Grund steht in Emirhans eigenen Dialogen: In
+`festplatte-loeschen` findet **Watti** die BSI-Seite, liest sie halb und trägt
+die Zitatkarte — „Steht beim BSI du Idiot, ich lese auch mal was." Das ist die
+beste Stelle des Shorts.
+
+**Die Bedingung ist die Vorgeschichte, nicht die Rolle.** Im Dialog muss
+stehen, woher er es weiß. Fehlt das, fällt der Satz vom Himmel und Watti wird
+zu einem zweiten Volti.
+
+Die Trennung, die das alte Verbot schützen sollte, hält weiter und liegt eine
+Ebene tiefer: **Wer einen Zug trägt, der nichts behauptet, nennt keine Quelle**
+— das prüft das Schema. Und Wattis zehn Witzbauarten in `MACHARTEN` tragen
+keine, weil sie nichts über die Welt sagen.
+
+#### Und er darf gewinnen
+
+Watti hat oft **in einem Punkt recht** und zieht nur den falschen Schluss. Er
+ist nicht dumm, sein Schluss ist es. Drei Wege, auf denen sein Konter hält:
+
+- **Die Erinnerung.** „Du hast dir wochenlang den Kopf zerbrochen, bevor du ihn
+  gekauft hast." Dafür gibt es den Zug `erinnern` — er behauptet nichts über
+  die Welt, sondern etwas über die beiden.
+- **Das Gegenbeispiel aus ihrer Wohnung.** „Sie hat einen runden Stecker, und
+  du hast letzte Woche danach gefragt."
+- **Die Frage, die die Quelle nicht beantwortet.** „Und wer schreibt die
+  Kennung da rein?" — „Das steht in dem Text nicht drin."
+
+**Und er darf Volti loben.** „Das ist mein großer Bruder." Die wärmste Stelle
+im ganzen Pool, und sie steht direkt hinter einer Niederlage.
+
+#### Volti irrt bei Menschen, nicht bei Technik
+
+**Das ist das Feld, auf dem er danebenliegen darf, ohne dass der Beleg
+wackelt.** In `zettel-im-treppenhaus` hat er den Zettel im Treppenhaus
+aufgehängt und weiß dabei besser als jeder, dass auf dem Band niemand Vorrang
+hat. In `urlaubsfoto` erklärt er Watti die Metadaten und schickt dann selbst
+ein Bild mit Ort und Uhrzeit.
+
+Zwei Dinge kommen daraus. Erstens hat der Kanal damit eine
+**gesellschaftskritische Ader, ohne dass jemand eine Haltung vorträgt** — wer
+recht hat, macht es trotzdem falsch. Zweitens ist die Belehrung nicht mehr die
+einzige Bewegung; **wer belehrt hat, kann damit belehrt werden**, und das ist
+der schärfste Konter im Pool, weil er keine zweite Quelle kostet.
+
+**Sein Nachgeben ist widerwillig, nie sauber.** „Ja gut, einmal im Jahr halt."
+— „Ja gut, die liegt eh im Schrank." — „Ich war abends sauer, ja?" Ein
+freundliches Einsehen beendet den Streit, statt ihn aufzulösen. Und es darf sich
+wiederholen: Beim zweiten Mal wird es kürzer, und der Rhythmus ist die Pointe.
+
+**Und er darf bitten.** „Das erzählst du niemandem weiter." Dafür gibt es den
+Zug `bitten`.
 
 #### Watti lügt nicht
 
@@ -235,13 +287,32 @@ Vier Wege, und der erste ist der häufigste:
 | **Sich verraten** | „Ich bin bei Passwort7." |
 
 Was er nicht tut: zustimmen. Ein Beleg beendet bei ihm nie ein Thema, er
-verschiebt es.
+verschiebt es. **Nachgeben ist etwas anderes als Zustimmen** — „Ay Ay sir!" und
+„Ja stimmt auch wieder, ich Idiot." sind beides keine Zustimmung, sondern
+Übercompliance und Geständnis.
 
 #### Woran man den anderen erkennt
 
 Steht nur eine Zeile da, ist sie **Voltis**, wenn sie eine Quelle nennt oder
 jemanden beschimpft. Sie ist **Wattis**, wenn sie eine Frage stellt, sich
 verteidigt oder etwas über ihn selbst verrät.
+
+Seit dem 02.09.2026 gibt es dafür ein zweites, schärferes Kennzeichen: die
+**Witzbauart**. `MACHARTEN` in `src/typen.ts` hat ein Feld `wer`, und die
+Zuordnung ist die eigentliche Beschreibung der beiden Figuren.
+
+| | Wattis Fach | Voltis Fach |
+|---|---|---|
+| | Geständnis · falscher Schluss · Ratlosigkeit · banale Rückfrage · absurde Rechtfertigung · Themenwechsel als Konter · Übercompliance · Umdeutung · falsche Autorität · Übertreibung ins Katastrophale | entwertende Nebenbemerkung · gedrehter Parallelbau · banale Auflösung · Geschenk mit Widerhaken · Empörung gegen den Falschen |
+
+Geteilt sind das **Bild** und der **Vergleich mit einem Menschen**. Und zwei
+weitere, aber nur für die Rollenumkehr: das **Geständnis**, wenn Volti nach
+zwölf Zeilen Belehrung selbst etwas zugibt, und das **Geschenk mit Widerhaken**,
+wenn der kleine Bruder es gibt.
+
+**Voltis Fach hatte bis dahin gar keinen Platz im Schema.** `MACHARTEN` hieß
+`REAKTIONS_MACHARTEN`, hatte sechs Einträge, und alle sechs beschrieben Wattis
+Handwerk — obwohl Voltis Witz in allen neun Dialogen von Emirhan vorkommt.
 
 Der Härtetest beim Schreiben: **Ließe sich die Zeile tauschen, ohne dass es
 auffällt, gehört sie keinem von beiden.**
