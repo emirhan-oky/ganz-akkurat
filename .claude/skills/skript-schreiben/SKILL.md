@@ -15,6 +15,21 @@ ist mir aufgefallen, dass das Script von uns immer sehr kacke war."
 
 ## Die Reihenfolge, und sie fängt nicht beim Fakt an
 
+**0 · Erst in `daten/briefings/` nachsehen.**
+
+Vor jeder Zeile: Gibt es zu diesem Thema schon einen Bogen, und steht darin
+schon ein Dialog? **Am 03.09.2026 habe ich sieben Dialoge neu geschrieben, für
+die dort Emirhans eigene lagen** — geschrieben am Tag davor, an demselben Tag,
+an dem aus genau diesen Dialogen die Befunde gezogen wurden.
+
+Beim Flugmodus war es am teuersten: Seine Fassung lag seit dem 02.09. dort, ich
+habe sie nie geöffnet — und in meiner stand als Begründung genau der Satz, den
+sein Briefingbogen im Abschnitt „Die Falle" ausdrücklich verbietet.
+
+**Ein Bogen mit Dialog ist keine Vorlage, sondern das Skript.** Was dort steht,
+wird eingetragen, nicht neu erfunden. Geändert wird nur, wo eine Zeile ihren
+Beleg nicht trägt — und dann wird die Stelle gemeldet, mit dem Zitat daneben.
+
 **1 · Die Lage, nicht das Thema.**
 
 Die Frage lautet nicht „worum geht es", sondern **„was ist Watti gerade
