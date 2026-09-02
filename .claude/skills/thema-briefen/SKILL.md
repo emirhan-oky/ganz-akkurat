@@ -80,6 +80,25 @@ Ein Zeitpunkt, ein Schaden, und jemand, dem er passiert.
 | Kabellos laden verliert Energie | Mein Handy liegt seit gestern Abend auf der Matte und ist warm |
 | Die ISS lief mit alten Notebooks | Ich wollte den alten Laptop wegwerfen |
 
+## Das Wort, das nicht fällt
+
+**Steht im Bogen ein Fachwort, das die Zielgruppe 18–30 nicht benutzt, gehört
+in den Bogen der Satz, der es ersetzt.**
+
+Humorregel eins sagt: Kein Witz darf an so einem Wort hängen. „Röhre" und
+„Ladeziegel" sind daran gestorben. Der teurere Fall ist der, wo das Wort das
+Thema selbst ist — dann müsste es im Video erklärt werden, und fünf Sekunden
+Erklärung in einem Short sind fünf Sekunden Erklärvideo.
+
+Der Prüfstein kam von Emirhan beim Lesen des vierten Bogens: *„Ich weiß selbst
+nicht einmal, was der Memory-Effekt ist."* Damit war die Frage beantwortet —
+wenn er es nicht weiß, weiß es die Zielgruppe auch nicht. Der Bogen heißt
+seitdem `akku-ganz-leer`, und im Video sagt Watti „Sonst merkt der sich das".
+
+**Der Aberglaube braucht keinen Namen, das Verhalten reicht.** Vier der ersten
+zehn Bogen waren betroffen: Memory-Effekt, Nennenergie, Ereignisdatenspeicher,
+E-Marker.
+
 ## Der Prüfstein bei „Das ist Absicht"
 
 **Würde der Zuschauer an Wattis Stelle dasselbe tun?**

@@ -32,6 +32,13 @@ Der Aufdruck entscheidet, nicht der Name auf der Packung.
 
 Das eine Lager sagt „Kabel ist Kabel“, das andere „nur das Originalkabel“. Beide übersehen, dass es eine Angabe gibt, die man lesen kann — und dass sie auf den meisten Kabeln in der Schublade fehlt.
 
+## Das Wort, das nicht fällt
+
+Humorregel eins: Kein Witz darf an einem Wort hängen, das die Zielgruppe 18–30
+nicht benutzt. Wer es erklären müsste, hat Erklärvideo im Short.
+
+**„E-Marker" fällt nicht.** Watti sagt, was er sieht: eine Zahl auf dem Kabel oder eben keine.
+
 ## Die Falle
 
 Die Kennzeichnungspflicht ist eine **Regel des USB Implementers Forum**, kein Gesetz. Sie sagt nichts darüber, was ein unbeschriftetes Kabel kann, und nichts über Kabel mit festem Stecker an einem Ende.

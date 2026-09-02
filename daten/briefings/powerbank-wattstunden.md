@@ -32,6 +32,13 @@ Ersatzbatterien und Powerbanks dürfen nur ins Handgepäck, und höchstens zwei 
 
 Sein sicherster Platz ist der einzige verbotene. Einen Brand im Frachtraum sieht niemand.
 
+## Das Wort, das nicht fällt
+
+Humorregel eins: Kein Witz darf an einem Wort hängen, das die Zielgruppe 18–30
+nicht benutzt. Wer es erklären müsste, hat Erklärvideo im Short.
+
+**„Nennenergie" und „Wattstunden" fallen so nicht.** Auf der Powerbank steht mAh, in der Regel stehen Wh — genau darin liegt die Idee. Aber im Video muss es ohne Fachwort gehen: „Was draufsteht, ist nicht das, was zählt."
+
 ## Die Falle
 
 Die 100 Wh sind **keine** harte Obergrenze: darüber geht es bis 160 Wh mit Genehmigung der Fluggesellschaft. Und die Zwei-Stück-Grenze gilt für Batterien über 100 Wh, nicht für jede Powerbank.

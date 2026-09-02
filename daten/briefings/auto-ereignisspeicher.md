@@ -50,6 +50,13 @@ löst Empörung über den aus, der es entschieden hat: Jedes neue Auto führt
 Protokoll, und gefragt wurde niemand. Wattis Zeile ist „Mein eigenes Auto
 petzt?!", nicht „Ich hab doch nichts gemacht".
 
+## Das Wort, das nicht fällt
+
+Humorregel eins: Kein Witz darf an einem Wort hängen, das die Zielgruppe 18–30
+nicht benutzt. Wer es erklären müsste, hat Erklärvideo im Short.
+
+**„Ereignisdatenspeicher" fällt nicht.** Das Wort steht im Rechtsakt, nicht in Wattis Mund. Er sagt „Blackbox", so wie alle.
+
 ## Die Falle
 
 Die Verordnung sagt, **dass** aufgezeichnet wird und welcher Zeitraum — nicht, wer die Daten bekommt, wie lange sie liegen oder ob sie vor Gericht landen. Alles darüber hinaus braucht eine eigene Fundstelle.
