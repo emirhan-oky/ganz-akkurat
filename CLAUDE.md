@@ -292,7 +292,7 @@ zweimal hintereinander dasselbe.**
 | Kaltstart | `KALTSTART_ARTEN` (7) | nicht zweimal hintereinander |
 | Aufschlag | `HOOK_MACHARTEN` (5) | keine |
 | Witz | `MACHARTEN` (16, je Figur) | keine zweimal je Short |
-| Zug | `ZUGARTEN` (13) | Tripelregel über benachbarte Shorts |
+| Zug | `ZUGARTEN` (14) | Tripelregel über benachbarte Shorts |
 | Wendung | `GESPRAECHSBOEGEN` je Format | Schluss-Züge festgelegt |
 | Bauform | `BAUFORMEN` (3) | nicht zweimal, nicht über die Hälfte |
 | Ausruf | `AUSRUFE` (7) | nicht zweimal hintereinander |
@@ -460,6 +460,21 @@ alles ab 150 Zeichen.
 `suchbegriff` ist Pflicht: ein bis drei Wörter, so wie sie getippt werden.
 Geprüft wird **Wort für Wort**, nicht als Phrase.
 
+**Und darunter steht seit dem 02.09.2026 der Quellenblock unter einer
+Einladung:** „Für weitere Informationen rund um die Thematik:" statt
+„Quellen:". Der Unterschied ist keine Kosmetik. Manche Themen haben im Short
+keine Lösung, die in eine Zeile passt — der Produktpass, die Schaltsekunde, das
+Reparaturrecht. **Die Handlung steht dann dort, wo der Zuschauer sie freiwillig
+liest**, statt dass sie einer Figur in den Mund gelegt wird. Das ist der Grund,
+warum kein Format eine Handlung verlangt und der Kanal trotzdem hilft.
+
+`beitragstext` baut den Block aus den Kennungen der Szenen **und der
+Redeanteile**. Seit dem Umbau auf zwei Stimmen hängt eine `quelleId` an der
+einzelnen Zeile, und die Zitatkarte ist optional; wer nur Szenen einsammelt,
+verliert genau die Quellen der Shorts ohne Karte. `raumstation-alte-rechner`
+hatte deshalb einen leeren Quellenblock. **Die Quelle steht immer unter dem
+Video, auch wenn sie im Video nie im Bild war.**
+
 **Hashtags: drei bis fünf, je Plattform verschieden.** Instagram deckelt hart
 bei fünf; TikTok will drei bis fünf. Auf diesen Plätzen stehen drei Rollen:
 genau ein Markentag (`#ganzakkurat`), ein bis zwei aus `GEMEINSCHAFTSTAGS`,
@@ -544,7 +559,20 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
 
   Auf `widersprechen` muss ein Konter folgen, auf `nachhaken` eine Auskunft —
   vom anderen, höchstens zwei Zeilen später. `abbiegen` höchstens einmal je
-  Short, anschlusslose Züge höchstens ein Drittel, kein Zugpaar dreimal.
+  Short, anschlusslose Züge höchstens ein Drittel, kein Zugpaar über der Hälfte
+  aller Wechsel.
+
+  **Zwei dieser Zahlen sind am 02.09.2026 an zehn Dialogen gefallen.** Die
+  Zugpaarregel hieß „kein Paar dreimal", gerechnet aus 72 möglichen
+  Kombinationen — und behandelte damit alle Paare als gleich wahrscheinlich.
+  „Nachhaken → Beantworten" ist die Grundbewegung jedes Gesprächs und steht in
+  Emirhans Dialogen vier- bis fünfmal je Short. Acht Meldungen an zehn guten
+  Dialogen, keine davon hatte recht.
+
+  Und die Antwortpflicht gilt als eingelöst, wenn der andere **zurückfragt**
+  („Wieso denn nicht?") oder wenn er **ausweicht**. Beides geht darauf ein;
+  eine Antwort ist es nur noch nicht. `abbiegen` ist ohnehin auf einen je Short
+  gedeckelt, und zwei Regeln auf demselben Zug bestrafen ihn doppelt.
 
   **Alle vier sind Obergrenzen, keine Mindestmaße.** Das Projekt hat dreimal
   erlebt, dass eine vorschreibende Regel selbst zur Schablone wird — ein
@@ -584,19 +612,39 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   auf TP-Link, TP-Link und Intel stand.
 - **`belegId`** — die Fundstelle steht wirklich in der genannten Quelle
   (Fehler); ein Zitat trägt höchstens zwei Szenen (Hinweis).
-- **Belegpflicht nach Position** — alles auf `zuspitzung` und `kipppunkt`
-  braucht eine Quelle, egal in welcher Darstellung. Vorher entschied die Wahl
-  der Darstellung darüber, ob ein Satz belegt sein musste.
+- **Belegpflicht nach Position** — jede Szene auf `zuspitzung` und `kipppunkt`
+  braucht eine Quelle, **sobald eine ihrer Zeilen einen behauptenden Zug
+  trägt**. Vorher entschied die Wahl der Darstellung darüber, ob ein Satz
+  belegt sein musste; seit dem 17.08.2026 nicht mehr, und seit dem 02.09.2026
+  entscheidet auch die Position allein nicht mehr.
+
+  **Die Belegpflicht wackelt dabei nicht, sie wandert** — dieselbe Bewegung wie
+  am 17.08., als sie von der Quelle auf die Fundstelle ging. Der Anlass sind die
+  Szenarien, in denen Watti erfolgreich kontert oder Volti ertappt wird: Ihr
+  Kipppunkt besteht aus Sätzen über die beiden Brüder — die Fahrradlampe, der
+  Fernseher, den Volti selbst ausgesucht hat. Es gibt keine Quelle dafür, und es
+  soll keine geben. Dafür steht der Zug **`erinnern`** im Katalog: Er hält etwas
+  aus ihrem gemeinsamen Leben dagegen und behauptet nichts über die Welt.
+
+  Wo ein behauptender Zug steht, ist die Pflicht unverändert hart.
 - **`aufbau`** — jede Position kommt vor, Aufschlag und Nachschlag genau
   einmal, die Folge läuft nur vorwärts. Geprüft im Schema.
-- **`aufschlag`** — die erste Szene spricht höchstens **3,5 Sekunden**, an den
-  gemessenen Wortzeitstempeln, sobald eine Tonspur vorliegt. 71 % der Zuschauer
-  entscheiden in den ersten Sekunden. Dazu eine Handvoll Ansagen, die das
-  Schema hart ablehnt: „heute geht es um", „in diesem Video", „ich zeige dir".
+- **`aufschlag`** — die erste Szene spricht höchstens **9 Sekunden**, an den
+  gemessenen Wortzeitstempeln, sobald eine Tonspur vorliegt. Dazu eine Handvoll
+  Ansagen, die das Schema hart ablehnt: „heute geht es um", „in diesem Video",
+  „ich zeige dir".
+
+  **Hier standen bis zum 02.09.2026 3,5 Sekunden**, weil 71 % der Zuschauer in
+  den ersten Sekunden entscheiden. Der Satz stimmt und gilt nicht mehr dieser
+  Szene: Seit dem Kaltstart fällt die Entscheidung **vor** dem Vorhang, und die
+  3,5 Sekunden stehen dort als `KALTSTART_MAX_SEK` — heute 5,2, an zehn
+  Kaltstarts gemessen. Die erste Szene beginnt rund neun Sekunden nach Bild
+  null und ist ein Wortwechsel aus zwei bis drei Zeilen; alle zehn Dialoge von
+  Emirhan lagen zwischen 6,2 und 8,8 Sekunden. **Eine Regel, die zehn von zehn
+  guten Anfängen ablehnt, misst das Falsche.**
 - **`sprache`** — Amtsdeutsch im Sprechtext ist ein Fehler, **außer** hinter
   einem Doppelpunkt. Siehe „Sprache und Humor".
-- **`laenge`** — 42 bis 67 Sekunden hart, dazu ein Hinweis bei mehr als einem
-  Fünftel Abweichung vom Zielwert der Bauform. Laufweit ein zweiter Hinweis,
+- **`laenge`** — 40 bis 80 Sekunden hart. Laufweit ein Hinweis,
   wenn ab drei Shorts **alle in derselben Längenklasse** liegen: Bis Oktober
   läuft der Versuch, verschiedene Längen zu senden.
 - **`produktname`** — im Video fällt nie ein Markenname (`ZUBEHOERMARKEN`), nur
@@ -1528,7 +1576,20 @@ passende. Der Teillauf `--nur=<id>` bleibt einfassig.
 
 ## Länge
 
-**Fenster 42 bis 67 Sekunden, hart. Zielwert je Bauform.**
+**Fenster 40 bis 80 Sekunden, hart. Keine Zielwerte je Bauform mehr.**
+
+**Beides ist am 02.09.2026 an Emirhans zehn Dialogen gefallen.** Sie liegen
+zwischen 40 und 78 Sekunden; das alte Fenster hätte vier von zehn abgelehnt,
+ohne dass an einem von ihnen etwas zu kürzen gewesen wäre. Und die drei
+Zielwerte waren nie gemessen — sie waren zweimal gewandert, beide Male aus
+einem Widerspruch heraus und nie aus einer Zahl.
+
+`LAENGENKLASSEN` fällt seitdem aus dem **Fenster** statt aus den Zielwerten:
+drei gleiche Drittel zwischen 40 und 80. Der Längenversuch läuft weiter, nur
+ohne Vorgabe, welche Länge eine Bauform haben soll.
+
+Der Rest dieses Kapitels ist das Protokoll dazu und beschreibt den Stand bis
+zum 02.09.2026.
 
 **Die beiden messen verschiedene Dinge, seit der Vorspann Ton hat.** Das
 Fenster misst, wie lange der Zuschauer zusieht — der Vorspann gehört dazu. Der
@@ -1744,6 +1805,30 @@ Aufnahmen; `VORSPANN_SEK` steht auf gerechneten 3,8 Sekunden.
 `npm run pruefen` ist am selben Abend erstmals seit dem 26.08. wieder
 vollständig grün. Ausgenommen wurde keiner: Eine Regel, die den alten Bestand
 durchwinkt, wäre keine.
+
+**Seit dem 02.09.2026 schreibt Claude die Dialoge.** Emirhans Befund: Ich habe
+jeden seiner Dialoge umgeschrieben, weil Regeln dagegenstanden, die ich vorher
+selbst gebaut hatte — keine davon an seinem Material gemessen. Der Weg dahin
+war eine Messung, kein Argument:
+
+1. **Seine neun Dialoge vermessen** — 131 Redezeilen, Zeichen je Figur,
+   Fragenanteil, wo die Zitatkarte sitzt. Erst danach interpretiert.
+2. **Sechs Runden Gegentest.** Ich schreibe einen Dialog, er sagt, was nicht
+   klingt, der Befund geht ins Profil. Runde vier war die erste ohne
+   Beanstandung.
+3. **38 Befunde** in `daten/marke/dialoganalyse.md`, **zwölf Szenarien** in
+   `daten/szenarien/` — der Skill `skript-schreiben` liest den Ordner, er
+   enthält ihn nicht. Eine neue Runde legt dort eine Datei ab.
+4. **Alle zehn Dialoge ins Schema**, dann `shortPruefen`: **91 Befunde an zehn
+   Dialogen, die er geschrieben und abgenommen hat.** Neun Regeln sind daraufhin
+   gewandert, sechs haben recht behalten.
+
+**Die Methode ist das Ergebnis, nicht die Regeln.** Jede Runde legt einen
+**Weg** dazu, keine Regel obendrauf — *„damit du so viele Wege wie möglich hast,
+wodurch keine Schablone entsteht."* Und: **Widersprechen sich eine Regel und
+eine gute Zeile, verliert die Regel.** Einzige Ausnahme ist die Belegpflicht,
+und die ist an diesem Tag nicht gefallen, sondern von der Szene auf die
+behauptende Zeile gewandert.
 
 Was der Umbau dabei über sich selbst gezeigt hat: **Die Nähte lagen zwischen
 den Sätzen, nicht in ihnen.** Ein Aufschlag von 2,9 Sekunden und ein Belegsatz
