@@ -4,7 +4,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { WOCHENLAUF } from '../daten/entwuerfe';
+import { ALLE_ENTWUERFE } from '../daten/entwuerfe';
 import { FORMAT, SPIELFLAECHE, VORHANG } from '../src/marke';
 import { kaltstartSek, szenenZeitplan } from '../src/zeit';
 import type { Short } from '../src/typen';
@@ -152,7 +152,7 @@ const main = async () => {
   let geprueft = 0;
 
   try {
-    for (const short of WOCHENLAUF as Short[]) {
+    for (const short of ALLE_ENTWUERFE as Short[]) {
       const props = path.join(ordner, `${short.id}.json`);
       /*
        * **Die Probe braucht eine Tonspur-Attrappe, sonst prueft sie das

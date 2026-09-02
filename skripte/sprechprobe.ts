@@ -3,7 +3,7 @@ import { promisify } from 'node:util';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { WOCHENLAUF } from '../daten/entwuerfe';
+import { ALLE_ENTWUERFE } from '../daten/entwuerfe';
 import type { Szene } from '../src/typen';
 import {
   ZEICHEN_PRO_SEKUNDE,
@@ -76,7 +76,7 @@ const main = async () => {
   const proben: Probe[] = [];
 
   try {
-    for (const short of WOCHENLAUF) {
+    for (const short of ALLE_ENTWUERFE) {
       /*
        * Szenenweise messen, nicht am Stueck.
        *
@@ -119,7 +119,7 @@ const main = async () => {
   const faktor = tempo / ZEICHEN_PRO_SEKUNDE;
   const [min, max] = zielfenster();
 
-  for (const short of WOCHENLAUF) {
+  for (const short of ALLE_ENTWUERFE) {
     const meine = proben.filter((p) => p.id === short.id);
     /*
      * `zusatzpausenSek` gehoert dazu, sonst vergleicht die Zeile Aepfel mit
@@ -152,7 +152,7 @@ const main = async () => {
    * der Konstante: Weicht „erwartet" von „Formel" ab, liegt es am Text —
    * Zahlen, Abkuerzungen, Komposita. Die Konstante bleibt davon unberuehrt.
    */
-  const spreizung = WOCHENLAUF.map((short) => {
+  const spreizung = ALLE_ENTWUERFE.map((short) => {
     const erwartet =
       proben
         .filter((p) => p.id === short.id)

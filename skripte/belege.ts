@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import { Quelle, Short } from '../src/typen';
 import { belegansichtBauen } from '../src/belegansicht';
-import { WOCHENLAUF } from '../daten/entwuerfe';
+import { ALLE_ENTWUERFE } from '../daten/entwuerfe';
 
 /**
  * `npm run belege` — die Folgerungen lesen, bevor sie Geld kosten.
@@ -18,7 +18,7 @@ const ZIEL = 'belege.html';
 
 const main = async () => {
   const shorts: Short[] = [];
-  for (const entwurf of WOCHENLAUF) {
+  for (const entwurf of ALLE_ENTWUERFE) {
     const ergebnis = Short.safeParse(entwurf);
     if (!ergebnis.success) {
       console.error(`✕ ${entwurf.id}: entspricht nicht dem Schema – erst \`npm run pruefen\`.`);

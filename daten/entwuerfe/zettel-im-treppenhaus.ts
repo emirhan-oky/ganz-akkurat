@@ -49,10 +49,26 @@ export const zettelImTreppenhaus: Short = {
       },
     },
     {
+      /*
+       * **Voltis Belegsatz steht hier und nicht erst auf der Karte.**
+       *
+       * Gestern trug diese Szene eine `belegId`, deren Zitat keinen ihrer
+       * Saetze stuetzte — der `belegpruefer` hat das als „formal erfuellt, das
+       * Zitat traegt hier keinen Satz" gemeldet. Sie herauszunehmen war
+       * richtig und hat die Szene sofort schemawidrig gemacht: Sie steht auf
+       * `zuspitzung`, und zwei ihrer Zeilen tragen einen behauptenden Zug.
+       *
+       * **Beide Befunde zeigen auf dieselbe Stelle**, nur von zwei Seiten: Der
+       * Beleg gehoerte nicht an die Szene, sondern an einen Satz — also ist
+       * der Satz hierher gewandert. Watti erinnert, Volti bestaetigt mit der
+       * Fundstelle, und die Karte traegt danach den zweiten Beleg.
+       */
       art: 'text',
       position: 'zuspitzung',
+      quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+      belegId: 'es-besteht-kein-schutz',
       sprechtext:
-        'Den, auf dem steht, die Nachbarn sollen ihr WLAN runterdrehen. Das war ich, ja. Abends geht bei uns hier nichts mehr, und das nervt.',
+        'Den, auf dem steht, die Nachbarn sollen ihr WLAN runterdrehen. Das war ich, ja. Abends geht bei uns hier nichts mehr, und das nervt. Und du bist der, der mir das mit dem Funk erklärt hat. Weil es stimmt. Auf dem Band hat keiner Vorrang.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -64,6 +80,14 @@ export const zettelImTreppenhaus: Short = {
           zug: 'beantworten',
           machart: 'gestaendnis',
           text: 'Das war ich, ja. Abends geht bei uns hier nichts mehr, und das nervt.',
+        },
+        { sprecher: 'zeiger', zug: 'erinnern', text: 'Und du bist der, der mir das mit dem Funk erklärt hat.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Weil es stimmt. Auf dem Band hat keiner Vorrang.',
+          quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
+          belegId: 'es-besteht-kein-schutz',
         },
       ],
       buehne: {
@@ -77,21 +101,13 @@ export const zettelImTreppenhaus: Short = {
     {
       art: 'zitatkarte',
       position: 'zuspitzung',
-      zitat: 'Es besteht kein Schutz vor Beeinträchtigungen durch andere',
+      zitat: 'Die Bundesnetzagentur übernimmt keine Gewähr für eine Mindestqualität',
       quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
-      belegId: 'es-besteht-kein-schutz',
+      belegId: 'die-bundesnetzagentur-u-bernimmt',
       herausgeber: 'Bundesnetzagentur',
       sprechtext:
-        'Und du bist der, der mir das mit dem Funk erklärt hat. Weil es stimmt. Auf dem Band hat keiner Vorrang. Und wenn die Nachbarn stören? Eine Mindestqualität garantiert die Bundesnetzagentur da auch nicht.',
+        'Und wenn die Nachbarn stören? Eine Mindestqualität garantiert die Bundesnetzagentur da auch nicht.',
       rede: [
-        { sprecher: 'zeiger', zug: 'erinnern', text: 'Und du bist der, der mir das mit dem Funk erklärt hat.' },
-        {
-          sprecher: 'nachleser',
-          zug: 'richtigstellen',
-          text: 'Weil es stimmt. Auf dem Band hat keiner Vorrang.',
-          quelleId: 'bnetza-wlan-24ghz-allgemeinzuteilung',
-          belegId: 'es-besteht-kein-schutz',
-        },
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wenn die Nachbarn stören?' },
         {
           sprecher: 'nachleser',

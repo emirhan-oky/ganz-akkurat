@@ -65,3 +65,22 @@ export const WOCHENLAUF: Short[] = [
  * bald niemand mehr.
  */
 export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto];
+
+/**
+ * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
+ *
+ * **Fuer die Proben, nicht fuer den Lauf.** `npm run belege`,
+ * `npm run sprechprobe` und `npm run bildrand` messen einzelne Shorts; welche
+ * Liste sie lesen, sagt nur, *welche* Shorts sie ansehen. Sie lasen bis zum
+ * 03.09.2026 nur `WOCHENLAUF`, und damit war von den zehn Dialogen aus dem
+ * Gegentest **kein Standbild gezogen und keine Sprechdauer gemessen** — sie
+ * lagen vollstaendig in `GEPARKT`.
+ *
+ * Das ist dieselbe Luecke, die einen Tag vorher bei `npm run pruefen` gefunden
+ * wurde: **Eine Probe, die den Ordner nicht ansieht, in dem geschrieben wird,
+ * ist genau dort still, wo sie gebraucht wird.**
+ *
+ * Der Wochenlauf, `veroeffentlichen.ts` und die laufweiten Regeln lesen
+ * weiterhin `WOCHENLAUF` — dort ist die Liste eine Zusage und keine Auswahl.
+ */
+export const ALLE_ENTWUERFE: Short[] = [...WOCHENLAUF, ...GEPARKT];
