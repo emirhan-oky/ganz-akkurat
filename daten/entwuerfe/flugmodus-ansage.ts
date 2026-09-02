@@ -7,10 +7,24 @@ import type { Short } from '../../src/typen';
  * behauptet, sondern das Bordpersonal — und der Short arbeitet an dessen Satz
  * ab. Die dritte Instanz muss nicht erfunden werden: Sie steht in der Quelle.
  *
- * **Die Wendung ist, wer es entschieden hat.** Der Grund fuer die Abschaltung
- * war nie das Flugzeug, sondern das Netz am Boden — Geraete in der Hoehe sehen
- * zu viele Funkzellen auf einmal. Und seit 2022 ist 5G an Bord ausdruecklich
- * vorgesehen.
+ * ## Der Short stand auf einer Begruendung, die die Quelle nicht hergibt
+ *
+ * Bis zum 03.09.2026 sagte Volti hier: „Das stoert den Boden. Es sieht zu
+ * viele Funkzellen auf einmal." **Der Belegpruefer hat gleich dreifach
+ * widersprochen.** Erstens nennt der Durchfuehrungsbeschluss keinen Grund; er
+ * verlangt nur, dass eine Netzsteuerungseinheit verhindert, dass Geraete sich
+ * bei terrestrischen Netzen anmelden. Zweitens kommt das Wort „Funkzelle"
+ * darin null Mal vor. Drittens sagt Erwaegungsgrund 7 das Gegenteil: Es wurden
+ * **keine** funktechnischen Stoerungen festgestellt, die von Geraeten an Bord
+ * verursacht worden waeren.
+ *
+ * Ebenso gestrichen ist „Es war nie deins" — die EASA schreibt ausdruecklich,
+ * dass tragbare Geraete die Bordausruestung stoeren koennen.
+ *
+ * **Was bleibt, ist besser als die erfundene Erklaerung:** Volti sagt, was
+ * verlangt wird, und muss dann zugeben, dass der Grund nicht dabeisteht.
+ * Dieselbe Bewegung wie in `produktpass-akku` — der Nachleser stoesst an die
+ * Grenze seiner Quelle, und das ist die ehrlichste Stelle des Shorts.
  *
  * **Das Thema lief am 18.08.2026 als `flugmodus-herkunft`.** Es wird bewusst
  * neu erzaehlt; die alte `themaId` bleibt, damit die Wache es meldet.
@@ -22,7 +36,7 @@ export const flugmodusAnsage: Short = {
   sachgebiet: 'fahren',
   bauform: 'zitatkarte',
   arbeitstitel: 'Die Ansage, die Watti nicht mehr glaubt',
-  weitererzaehlt: 'zu viele Funkzellen auf einmal',
+  weitererzaehlt: 'sich bei den Netzen am Boden anmeldet',
   suchbegriff: 'Flugmodus Handy',
   kaltstart: {
     art: 'beschwerde',
@@ -58,21 +72,17 @@ export const flugmodusAnsage: Short = {
       belegId: 'terrestrischen-umts-mobilfunknetzen',
       herausgeber: 'Europäische Union',
       sprechtext:
-        'Weil dein Handy da oben versucht, sich bei den Netzen am Boden anzumelden. Und das stört den Piloten? Das stört den Boden. Es sieht zu viele Funkzellen auf einmal.',
+        'An Bord muss eine Einheit verhindern, dass dein Handy sich bei den Netzen am Boden anmeldet. Und warum? Steht da nicht drin.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Weil dein Handy da oben versucht, sich bei den Netzen am Boden anzumelden.',
+          text: 'An Bord muss eine Einheit verhindern, dass dein Handy sich bei den Netzen am Boden anmeldet.',
           quelleId: 'eu-mca-5g-an-bord',
           belegId: 'terrestrischen-umts-mobilfunknetzen',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Und das stört den Piloten?' },
-        {
-          sprecher: 'nachleser',
-          zug: 'richtigstellen',
-          text: 'Das stört den Boden. Es sieht zu viele Funkzellen auf einmal.',
-        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und warum?' },
+        { sprecher: 'nachleser', zug: 'einschraenken', text: 'Steht da nicht drin.' },
       ],
       buehne: {
         art: 'figur',
@@ -88,18 +98,20 @@ export const flugmodusAnsage: Short = {
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'hinzufuegen-der-5g-netzanbindung',
       sprechtext:
-        'Dann war es nie mein Handy, das gefährlich war. Es war nie deins. Seit 2022 ist 5G an Bord sogar ausdrücklich vorgesehen.',
+        'Du liest doch sonst alles nach. Dieses eine Mal steht es nicht da. Und trotzdem soll ich es ausmachen? Seit 2022 ist 5G an Bord sogar ausdrücklich vorgesehen.',
       rede: [
+        { sprecher: 'zeiger', zug: 'erinnern', text: 'Du liest doch sonst alles nach.' },
+        { sprecher: 'nachleser', zug: 'einlenken', text: 'Dieses eine Mal steht es nicht da.' },
         {
           sprecher: 'zeiger',
-          zug: 'zuspitzen',
+          zug: 'nachhaken',
           machart: 'umdeutung',
-          text: 'Dann war es nie mein Handy, das gefährlich war.',
+          text: 'Und trotzdem soll ich es ausmachen?',
         },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Es war nie deins. Seit 2022 ist 5G an Bord sogar ausdrücklich vorgesehen.',
+          text: 'Seit 2022 ist 5G an Bord sogar ausdrücklich vorgesehen.',
           quelleId: 'eu-mca-5g-an-bord',
           belegId: 'hinzufuegen-der-5g-netzanbindung',
         },
@@ -122,20 +134,20 @@ export const flugmodusAnsage: Short = {
       quelleId: 'eu-mca-5g-an-bord',
       belegId: 'bis-zum-1-januar-2026',
       sprechtext:
-        'Und? Die Abschirmung war bis zum 1. Januar 2026 befristet. Also sagt sie etwas, was nicht mehr gilt? Sie sagt, was sie immer gesagt hat.',
+        'Und ausdrücklich seit wann? Bis zum 1. Januar 2026 musste das Anmelden verhindert werden. Also sagt sie etwas von damals? Sie sagt, was sie immer gesagt hat.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und ausdrücklich seit wann?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Die Abschirmung war bis zum 1. Januar 2026 befristet.',
+          text: 'Bis zum 1. Januar 2026 musste das Anmelden verhindert werden.',
           quelleId: 'eu-mca-5g-an-bord',
           belegId: 'bis-zum-1-januar-2026',
         },
         {
           sprecher: 'zeiger',
           zug: 'nachhaken',
-          text: 'Also sagt sie etwas, was nicht mehr gilt?',
+          text: 'Also sagt sie etwas von damals?',
         },
         {
           sprecher: 'nachleser',
@@ -155,7 +167,7 @@ export const flugmodusAnsage: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Der Flugmodus schützt das Netz am Boden, nicht das Flugzeug.',
+      satz: 'Eine Einheit an Bord hält die Handys von den Netzen am Boden fern.',
       sprechtext:
         'Dann lasse ich den Flugmodus jetzt aus. Machst du nicht. Und warum nicht? Weil sie es gesagt hat, kleiner.',
       rede: [
@@ -186,16 +198,16 @@ export const flugmodusAnsage: Short = {
   texte: {
     tiktok: {
       titel: 'Die Ansage, die Watti nicht mehr glaubt',
-      beschreibung: 'Flugmodus im Handy: Wen er wirklich schützt.',
+      beschreibung: 'Flugmodus im Handy: Was die Verordnung dazu wirklich sagt.',
       hashtags: ['#flugmodus', '#fliegen', '#mobilfunk', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Die Ansage, die Watti nicht mehr glaubt',
-      beschreibung: 'Flugmodus am Handy schützt nicht das Flugzeug, sondern das Netz am Boden.',
+      beschreibung: 'Flugmodus am Handy: An Bord hält eine Einheit die Netze am Boden fern.',
       hashtags: ['#flugmodus', '#fliegen', '#handy', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Was der Flugmodus in Wattis Handy wirklich schützt',
+      titel: 'Was in der Verordnung zu Wattis Flugmodus steht',
       beschreibung: 'Flugmodus und Handy: Was die EU-Verordnung zu Mobilfunk an Bord festlegt.',
       hashtags: ['#flugmodus', '#mobilfunk', '#luftfahrt', '#ganzakkurat'],
     },

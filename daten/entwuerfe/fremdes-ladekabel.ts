@@ -5,8 +5,13 @@ import type { Short } from '../../src/typen';
  *
  * **Szenario 6: Beide liegen daneben.** Watti sagt, das billige Kabel macht
  * das Handy kaputt. Volti sagt, ein Kabel ist ein Kabel. Beide reden ueber die
- * **Marke**, und entschieden wird es ueber 20 Volt mal 5 Ampere — die
- * Stromstaerke steht im Kabel und in keinem Logo.
+ * **Marke**, und entschieden wird es ueber die Anforderungen an das Kabel.
+ *
+ * **Der Belegpruefer hat den Short am 03.09.2026 in die Gegenwart gerueckt.**
+ * Er stand auf „100 Watt kommen aus 20 Volt mal 5 Ampere" — und der volle Satz
+ * beim USB-IF beginnt mit „**Prior to this update**". Das Zitat beschreibt den
+ * Stand **vor** USB PD 3.1; heute gehen 240 Watt ueber hoehere Spannungen.
+ * Erzaehlt wurde im Praesens, was die Quelle als ueberholt bezeichnet.
  *
  * **Die Form verlangt, dass die Quelle ein Drittes sagt.** Ein Streitfall, in
  * dem eine Seite einfach recht hat, ist ein Maerchen mit zwei Sprechern; das
@@ -19,7 +24,7 @@ export const fremdesLadekabel: Short = {
   sachgebiet: 'laden',
   bauform: 'zitatkarte',
   arbeitstitel: 'Watti streitet über das falsche Kabel',
-  weitererzaehlt: 'Es hängt daran, was das Kabel aushält',
+  weitererzaehlt: 'Für 240 Watt gelten eigene Anforderungen an das Kabel',
   suchbegriff: 'Ladekabel Ampere',
   kaltstart: {
     art: 'beschwerde',
@@ -61,7 +66,7 @@ export const fremdesLadekabel: Short = {
       belegId: 'usb-pd-was-limited',
       herausgeber: 'USB Implementers Forum',
       sprechtext:
-        'Deins lag im Zug rum, meins nicht. Meins hat wenigstens einen Namen drauf. Der Name entscheidet gar nichts. 100 Watt kommen aus 20 Volt mal 5 Ampere.',
+        'Deins lag im Zug rum, meins nicht. Meins hat wenigstens einen Namen drauf. Früher war bei 100 Watt Schluss, aus 20 Volt mal 5 Ampere.',
       rede: [
         { sprecher: 'zeiger', zug: 'erinnern', text: 'Deins lag im Zug rum, meins nicht.' },
         {
@@ -73,7 +78,7 @@ export const fremdesLadekabel: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Der Name entscheidet gar nichts. 100 Watt kommen aus 20 Volt mal 5 Ampere.',
+          text: 'Früher war bei 100 Watt Schluss, aus 20 Volt mal 5 Ampere.',
           quelleId: 'usbif-power-delivery',
           belegId: 'usb-pd-was-limited',
         },
@@ -94,21 +99,24 @@ export const fremdesLadekabel: Short = {
        */
       art: 'zahl',
       position: 'zuspitzung',
-      wert: '5',
-      einheit: 'Ampere',
-      bedeutung: 'so viel Strom muss das Kabel aushalten',
+      wert: '240',
+      einheit: 'Watt',
+      bedeutung: 'so viel geht heute, über höhere Spannungen',
       quelleId: 'usbif-power-delivery',
-      belegId: 'usb-pd-was-limited',
-      sprechtext: 'Wer hat denn jetzt recht? Keiner von uns beiden. Es hängt daran, was das Kabel aushält.',
+      belegId: 'neue-spannungen-140-180-240',
+      sprechtext:
+        'Und heute? Heute gehen 240 Watt, über 28, 36 und 48 Volt. Wer hat denn jetzt recht? Keiner von uns beiden.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Wer hat denn jetzt recht?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und heute?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Keiner von uns beiden. Es hängt daran, was das Kabel aushält.',
+          text: 'Heute gehen 240 Watt, über 28, 36 und 48 Volt.',
           quelleId: 'usbif-power-delivery',
-          belegId: 'usb-pd-was-limited',
+          belegId: 'neue-spannungen-140-180-240',
         },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Wer hat denn jetzt recht?' },
+        { sprecher: 'nachleser', zug: 'beantworten', text: 'Keiner von uns beiden.' },
       ],
       buehne: {
         art: 'figur',
@@ -121,18 +129,18 @@ export const fremdesLadekabel: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'define 240W cable requirements',
+      zitat: 'Release 2.1 to define 240W cable requirements',
       quelleId: 'usbif-power-delivery',
-      belegId: 'define-240w-cable-requirements',
+      belegId: 'type-c-release-2-1-240w',
       sprechtext:
-        'Und darüber gelten eigene Anforderungen an das Kabel. Also nicht ans Netzteil? Ans Kabel. Und deins kann alles oder gar nichts.',
+        'Für 240 Watt gelten eigene Anforderungen an das Kabel. Also nicht ans Netzteil? Ans Kabel. Und deins kann alles oder gar nichts.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Und darüber gelten eigene Anforderungen an das Kabel.',
+          text: 'Für 240 Watt gelten eigene Anforderungen an das Kabel.',
           quelleId: 'usbif-power-delivery',
-          belegId: 'define-240w-cable-requirements',
+          belegId: 'type-c-release-2-1-240w',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Also nicht ans Netzteil?' },
         {

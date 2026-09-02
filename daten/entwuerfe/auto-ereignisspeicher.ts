@@ -23,7 +23,7 @@ export const autoEreignisspeicher: Short = {
   sachgebiet: 'fahren',
   bauform: 'zitatkarte',
   arbeitstitel: 'Watti fragt zum vierten Mal nach seinem Auto',
-  weitererzaehlt: 'kurz vor, während und unmittelbar nach einem Aufprall',
+  weitererzaehlt: 'dient ausschließlich dem Zweck, den aufzuzeichnen',
   suchbegriff: 'Auto Aufprall',
   kaltstart: {
     art: 'hilferuf',
@@ -83,19 +83,19 @@ export const autoEreignisspeicher: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'kurz vor, während und unmittelbar nach einem Aufprall',
+      zitat: 'ausschließlich dem Zweck dient, kritische unfallbezogene Parameter aufzuzeichnen',
       quelleId: 'eu-ereignisdatenspeicher',
-      belegId: 'kritische-unfallbezogene-parameter-u',
+      belegId: 'ausschliesslich-dem-zweck',
       herausgeber: 'Europäische Union',
       sprechtext:
-        'Ereignis heißt Aufprall. Aufgezeichnet wird kurz vor, während und unmittelbar nach einem Aufprall. Also nicht, wo ich überall war.',
+        'Ereignis heißt Aufprall. Das System dient ausschließlich dem Zweck, den aufzuzeichnen. Also nicht, wo ich überall war.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Ereignis heißt Aufprall. Aufgezeichnet wird kurz vor, während und unmittelbar nach einem Aufprall.',
+          text: 'Ereignis heißt Aufprall. Das System dient ausschließlich dem Zweck, den aufzuzeichnen.',
           quelleId: 'eu-ereignisdatenspeicher',
-          belegId: 'kritische-unfallbezogene-parameter-u',
+          belegId: 'ausschliesslich-dem-zweck',
         },
         { sprecher: 'zeiger', zug: 'umdeuten', machart: 'rueckfrage', text: 'Also nicht, wo ich überall war.' },
       ],
@@ -119,7 +119,7 @@ export const autoEreignisspeicher: Short = {
           zug: 'beantworten',
           text: 'Nicht, wo du überall hinfährst.',
           quelleId: 'eu-ereignisdatenspeicher',
-          belegId: 'kritische-unfallbezogene-parameter-u',
+          belegId: 'ausschliesslich-dem-zweck',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und beim fünften Mal?' },
         {

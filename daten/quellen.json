@@ -68,6 +68,16 @@
           "id": "jede-ersatzbatterie-muss-durch",
           "zitat": "Jede Ersatzbatterie muss durch Isolierung der Batteriepole gegen Kurzschluss gesichert sein.",
           "stuetzt": "Die Pole müssen gegen Kurzschluss isoliert sein – lose in der Tasche genügt nicht."
+        },
+        {
+          "id": "grenzwerte-nicht-ueberschreiten",
+          "zitat": "jede Batterie dabei die folgenden Grenzwerte nicht überschreiten darf",
+          "stuetzt": "Die Verneinung, ohne die der Grenzwert nur eine Zahl ist. Sie stand außerhalb jeder eingetragenen Zeichenkette."
+        },
+        {
+          "id": "mit-genehmigung-des-betreibers",
+          "zitat": "darf mit Genehmigung des Betreibers jede Batterie 100 Wh übersteigen, jedoch höchstens 160 Wh haben",
+          "stuetzt": "Über 100 Wh geht nur mit Zustimmung der Fluggesellschaft, und bei 160 Wh ist Schluss."
         }
       ]
     },
@@ -284,6 +294,16 @@
           "id": "define-240w-cable-requirements",
           "zitat": "define 240W cable requirements",
           "stuetzt": "Für mehr als 100 Watt gelten eigene Anforderungen an das Kabel, nicht nur an das Netzteil."
+        },
+        {
+          "id": "neue-spannungen-140-180-240",
+          "zitat": "New 28V, 36V, and 48V fixed voltages enable up to 140W, 180W and 240W power levels, respectively.",
+          "stuetzt": "Heute gehen bis zu 240 W, und zwar über höhere Spannungen. Die 20 V mal 5 A beschreiben den Stand davor."
+        },
+        {
+          "id": "type-c-release-2-1-240w",
+          "zitat": "The USB Type-C specification has also been updated to Release 2.1 to define 240W cable requirements",
+          "stuetzt": "Für 240 W gelten eigene Anforderungen an das Kabel. Das Subjekt steht im Satz und nicht daneben."
         }
       ]
     },
@@ -326,6 +346,16 @@
           "id": "passengers-may-also-carry",
           "zitat": "passengers may also carry up to two spare larger lithium ion batteries",
           "stuetzt": "Über 100 Wh sind höchstens zwei Ersatzbatterien zulässig, und nur mit Zustimmung der Airline."
+        },
+        {
+          "id": "wh-rating-marked-on-them",
+          "zitat": "Newer lithium ion batteries have the Wh rating marked on them.",
+          "stuetzt": "Auf neueren Akkus steht die Wattstundenzahl direkt drauf — man muss sie nicht ausrechnen."
+        },
+        {
+          "id": "to-calculate-wh-multiply",
+          "zitat": "To calculate Wh, multiply the battery voltage by the Amp hours (Ah)",
+          "stuetzt": "Der Rechenweg: Spannung mal Amperestunden. Die Spannung selbst nennt die Quelle nicht."
         }
       ]
     },
@@ -535,6 +565,11 @@
           "id": "ereignisbezogene-datenaufzeichnung",
           "zitat": "Ereignisbezogene Datenaufzeichnung",
           "stuetzt": "Der amtliche Name der Blackbox. Er steht im Definitionsartikel der Verordnung."
+        },
+        {
+          "id": "ausschliesslich-dem-zweck",
+          "zitat": "bezeichnet ein System, das ausschließlich dem Zweck dient, kritische unfallbezogene Parameter und Informationen kurz vor, während und unmittelbar nach einem Aufprall aufzuzeichnen und zu speichern",
+          "stuetzt": "Das „ausschließlich\" trägt die Verneinung: Das System dient diesem einen Zweck. Ohne das Wort sagt die Fundstelle nur, was aufgezeichnet wird."
         }
       ]
     },
@@ -557,6 +592,11 @@
           "id": "diese-funktion-ist-oft",
           "zitat": "Diese Funktion ist oft von dem Hersteller nicht dokumentiert und kann nicht abgeschaltet werden",
           "stuetzt": "Der Kipppunkt des Videos: nicht dokumentiert und nicht abschaltbar. Beides steht wörtlich da."
+        },
+        {
+          "id": "einige-geraete-hinterlassen",
+          "zitat": "Einige Geräte hinterlassen z.B. auf den Ausdrucken Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann",
+          "stuetzt": "Das „Einige Geräte\" gehört dazu: Es sind nicht alle Drucker, und bei denen, die es tun, lässt es sich oft nicht abschalten."
         }
       ]
     },
@@ -572,7 +612,7 @@
         {
           "id": "terrestrischen-umts-mobilfunknetzen",
           "zitat": "versuchen, sich bei terrestrischen UMTS-Mobilfunknetzen anzumelden",
-          "stuetzt": "Der Grund für die Abschaltung war nie das Flugzeug, sondern das Netz am Boden — Geräte in der Höhe sehen zu viele Funkzellen auf einmal."
+          "stuetzt": "Der Rechtsrahmen verlangt eine Netzsteuerungseinheit an Bord, damit Geräte sich nicht bei den Netzen am Boden anmelden. Einen Grund nennt der Beschluss nicht."
         },
         {
           "id": "hinzufuegen-der-5g-netzanbindung",
@@ -582,7 +622,7 @@
         {
           "id": "bis-zum-1-januar-2026",
           "zitat": "Bis zum 1. Januar 2026 muss folgendermaßen verhindert werden",
-          "stuetzt": "Die Pflicht zur Abschirmung war befristet — seit Anfang 2026 gilt sie in dieser Form nicht mehr."
+          "stuetzt": "Bis dahin musste eine der beiden Maßnahmen greifen. Danach können Betreiber die Netzsteuerungseinheit weiterhin einsetzen; die Abschirmung ist die zweite."
         }
       ]
     },
@@ -635,6 +675,26 @@
           "id": "ueber-den-qr-code-zugriff",
           "zitat": "Über den QR-Code sollte Zugriff auf den Produktpass einer Batterie bestehen",
           "stuetzt": "Der Zugang zum Pass ist der Code auf der Batterie — jeder kann ihn scannen, kein Konto nötig."
+        },
+        {
+          "id": "artikel-11-gilt-ab",
+          "zitat": "Artikel 11 gilt ab dem 18. Februar 2027.",
+          "stuetzt": "Der Geltungsbeginn der Entfernbarkeitsregel steht in Artikel 96. Das Datum aus Artikel 13 gehört der Kennzeichnungspflicht."
+        },
+        {
+          "id": "leicht-entfernt-und-ausgetauscht",
+          "zitat": "sorgen dafür, dass diese Batterien vom Endnutzer jederzeit während der Lebensdauer des Produkts leicht entfernt und ausgetauscht werden können",
+          "stuetzt": "Der verfügende Satz aus Artikel 11 Absatz 1 — nicht der Erwägungsgrund, der ihn nur ankündigt."
+        },
+        {
+          "id": "ohne-verwendung-von-spezialwerkzeugen",
+          "zitat": "das heißt ohne Verwendung von Spezialwerkzeugen, es sei denn, sie werden kostenlos mit dem Produkt bereitgestellt, herstellerspezifischen Werkzeugen, Wärmeenergie oder Lösungsmitteln für die Demontage des Produkts",
+          "stuetzt": "Die Verneinung, die den Maßstab trägt: kein Spezialwerkzeug, keine Wärme, kein Lösungsmittel. Beim ersten Eintrag war sie abgeschnitten."
+        },
+        {
+          "id": "handelsuebliche-werkzeuge-artikel-11",
+          "zitat": "Als vom Endnutzer leicht zu entfernen gilt eine Gerätebatterie, wenn sie mit handelsüblichen Werkzeugen aus einem Produkt entnommen werden kann",
+          "stuetzt": "Der Maßstab steht im verfügenden Artikel 11, nicht nur im Erwägungsgrund: handelsübliches Werkzeug."
         }
       ]
     },
@@ -655,7 +715,7 @@
         {
           "id": "maximum-value-will-be-increased",
           "zitat": "the maximum value for the difference (UT1-UTC) will be increased",
-          "stuetzt": "Beschlossen ist die Abschaffung schon — nur der neue Grenzwert steht noch nicht fest."
+          "stuetzt": "Beschlossen ist, den Grenzwert für UT1-UTC anzuheben. Das Wort „abolish\" steht nicht in der Resolution; der neue Wert soll erst vorgeschlagen werden."
         },
         {
           "id": "serious-malfunctions-critical",

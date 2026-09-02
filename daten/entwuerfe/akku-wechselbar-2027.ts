@@ -12,6 +12,21 @@ import type { Short } from '../../src/typen';
  * nichts, und das ist die Figur: Er hat recht verstanden, dass es besser wird,
  * und zieht daraus, dass er heute nichts aendern muss.
  *
+ * **Zwei schwere Befunde vom 03.09.2026.** Der Short stand auf „Ab dem 18.
+ * Februar 2027 gilt eine neue Regel fuer alle Batterien" — und die einzige
+ * Fundstelle dieser Zeichenkette ist Artikel 13 Absatz 6, die **QR-Code-
+ * Kennzeichnung**. Die Regel, von der der Short handelt, ist Artikel 11, und
+ * ihr Geltungsbeginn steht in Artikel 96. `quellen-pruefen` war gruen, weil
+ * die Zeichenkette auf der Seite stand — genau der Bau des Ersatzteil-Falls
+ * vom 01.09.
+ *
+ * Zweitens sagte Volti „Kein Foehn und kein Loesungsmittel" und bestaetigte
+ * mit „Woertlich." einen Wortlaut, der so nicht dasteht: Die Quelle sagt
+ * **Waermeenergie**, und die tragende Verneinung („ohne Verwendung von") stand
+ * ausserhalb der geprueften Zeichenkette. Beide Zitate stammten ausserdem aus
+ * dem Erwaegungsgrund im Konjunktiv; heute steht der verfuegende Artikel 11
+ * dahinter.
+ *
  * **Das Thema lief am 18.08.2026 schon einmal** — 19 Sekunden, einstimmig,
  * 0-mal geteilt. Es wird bewusst neu erzaehlt und traegt deshalb die alte
  * `themaId`, damit die Wache `wiederholung` es meldet, statt es still passieren
@@ -59,18 +74,26 @@ export const akkuWechselbar2027: Short = {
       art: 'text',
       position: 'zuspitzung',
       quelleId: 'eu-batterie-entnehmbar',
-      belegId: 'ab-dem-18-februar-2027',
+      belegId: 'leicht-entfernt-und-ausgetauscht',
       herausgeber: 'Europäische Union',
       sprechtext:
-        'Worauf denn warten? Ab dem 18. Februar 2027 gilt eine neue Regel für alle Batterien. Und dann geht meins auf?',
+        'Worauf denn warten? Wer ein Produkt mit eingebautem Akku verkauft, muss dich den Akku selbst entfernen lassen. Ab wann? Artikel 11 gilt ab dem 18. Februar 2027. Und dann geht meins auf?',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Worauf denn warten?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Ab dem 18. Februar 2027 gilt eine neue Regel für alle Batterien.',
+          text: 'Wer ein Produkt mit eingebautem Akku verkauft, muss dich den Akku selbst entfernen lassen.',
           quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'ab-dem-18-februar-2027',
+          belegId: 'leicht-entfernt-und-ausgetauscht',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Ab wann?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Artikel 11 gilt ab dem 18. Februar 2027.',
+          quelleId: 'eu-batterie-entnehmbar',
+          belegId: 'artikel-11-gilt-ab',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Und dann geht meins auf?' },
       ],
@@ -86,16 +109,16 @@ export const akkuWechselbar2027: Short = {
       art: 'text',
       position: 'zuspitzung',
       quelleId: 'eu-batterie-entnehmbar',
-      belegId: 'handelsueblichen-werkzeugen-entfernt',
+      belegId: 'handelsuebliche-werkzeuge-artikel-11',
       sprechtext:
-        'Deins nicht, du Idiot. Neue Geräte. Der Akku muss sich mit handelsüblichen Werkzeugen entfernen lassen. Also kann man den Akku dann selbst wechseln?',
+        'Deins nicht, du Idiot. Neue Geräte. Leicht zu entfernen heißt: mit handelsüblichen Werkzeugen. Also kann man den Akku dann selbst wechseln?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Deins nicht, du Idiot. Neue Geräte. Der Akku muss sich mit handelsüblichen Werkzeugen entfernen lassen.',
+          text: 'Deins nicht, du Idiot. Neue Geräte. Leicht zu entfernen heißt: mit handelsüblichen Werkzeugen.',
           quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'handelsueblichen-werkzeugen-entfernt',
+          belegId: 'handelsuebliche-werkzeuge-artikel-11',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Also kann man den Akku dann selbst wechseln?' },
       ],
@@ -116,16 +139,16 @@ export const akkuWechselbar2027: Short = {
       art: 'text',
       position: 'kipppunkt',
       quelleId: 'eu-batterie-entnehmbar',
-      belegId: 'waermeenergie-oder-loesungsmittel',
+      belegId: 'ohne-verwendung-von-spezialwerkzeugen',
       sprechtext:
-        'Kein Föhn und kein Lösungsmittel. Das steht da wirklich drin? Wörtlich. Man schreibt so etwas nur hin, wenn es einer macht.',
+        'Ohne Spezialwerkzeug, ohne Wärmeenergie, ohne Lösungsmittel. Das steht da wirklich drin? Wörtlich. Man schreibt so etwas nur hin, wenn es einer macht.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Kein Föhn und kein Lösungsmittel.',
+          text: 'Ohne Spezialwerkzeug, ohne Wärmeenergie, ohne Lösungsmittel.',
           quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'waermeenergie-oder-loesungsmittel',
+          belegId: 'ohne-verwendung-von-spezialwerkzeugen',
         },
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Das steht da wirklich drin?' },
         {
@@ -146,7 +169,7 @@ export const akkuWechselbar2027: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Ab 2027 muss der Akku mit normalem Werkzeug herausgehen.',
+      satz: 'Artikel 11 gilt ab dem 18. Februar 2027.',
       sprechtext:
         'Also bringe ich mein Handy weg. Genau das. Und was machst du da? Ich klebe es erstmal wieder zu.',
       rede: [
@@ -176,7 +199,7 @@ export const akkuWechselbar2027: Short = {
   texte: {
     tiktok: {
       titel: 'Watti klebt sein Handy wieder zu',
-      beschreibung: 'Akku wechseln: Was sich am 18. Februar 2027 ändert.',
+      beschreibung: 'Akku wechseln: Was Artikel 11 ab dem 18. Februar 2027 verlangt.',
       hashtags: ['#akku', '#reparatur', '#eu', '#ganzakkurat'],
     },
     instagram: {

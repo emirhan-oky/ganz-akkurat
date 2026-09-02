@@ -15,6 +15,13 @@ import type { Short } from '../../src/typen';
  * Uebertreibung reicht: nicht dokumentiert und nicht abschaltbar, beides
  * woertlich.
  *
+ * **Und die Einschraenkung gehoert dazu.** Der BSI-Satz beginnt mit „Einige
+ * Geraete" — es sind nicht alle Drucker. Bis zum 03.09.2026 stand die
+ * Zeichenkette ohne diese beiden Woerter in `quellen.json`, und der Short
+ * schloss mit einem doppelten „Gar nicht." ueber den einen Drucker, um den es
+ * geht. **Ein Short ueber falsches Weitererzaehlen, der selbst zu weit
+ * erzaehlt, widerlegt sich im eigenen Bau.**
+ *
  * **Das Thema lief am 18.08.2026.** Es wird bewusst neu erzaehlt und traegt
  * die alte `themaId`.
  */
@@ -59,7 +66,7 @@ export const druckerGelbePunkte: Short = {
       belegId: 'wasserzeichen-mit-denen-ein',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Dass ihr Drucker ihren Namen auf jedes Blatt schreibt. Das habe ich nie gesagt, du Idiot. Und was hast du gesagt? Es sind Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann. Also doch ihr Name.',
+        'Dass ihr Drucker ihren Namen auf jedes Blatt schreibt. Das habe ich nie gesagt, du Idiot. Und was hast du gesagt? Einige Geräte hinterlassen Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann. Also doch ihr Name.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -76,9 +83,9 @@ export const druckerGelbePunkte: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Es sind Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann.',
+          text: 'Einige Geräte hinterlassen Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann.',
           quelleId: 'bsi-yellow-dots',
-          belegId: 'wasserzeichen-mit-denen-ein',
+          belegId: 'einige-geraete-hinterlassen',
         },
         { sprecher: 'zeiger', zug: 'umdeuten', machart: 'falscherschluss', text: 'Also doch ihr Name.' },
       ],
@@ -96,16 +103,21 @@ export const druckerGelbePunkte: Short = {
       quelleId: 'bsi-yellow-dots',
       belegId: 'wasserzeichen-mit-denen-ein',
       sprechtext:
-        'Das Gerät, nicht die Person. Und wer weiß, wem das Gerät gehört? Da fängt es an. Aber der Drucker selbst weiß es nicht.',
+        'Das Gerät, nicht die Person. Und macht ihrer das überhaupt? Steht da nicht. Einige tun es, und welche, sagt keiner.',
       rede: [
-        { sprecher: 'nachleser', zug: 'einschraenken', text: 'Das Gerät, nicht die Person.' },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wer weiß, wem das Gerät gehört?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'einschraenken',
+          text: 'Das Gerät, nicht die Person.',
+          quelleId: 'bsi-yellow-dots',
+          belegId: 'wasserzeichen-mit-denen-ein',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und macht ihrer das überhaupt?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Da fängt es an. Aber der Drucker selbst weiß es nicht.',
-          quelleId: 'bsi-yellow-dots',
-          belegId: 'wasserzeichen-mit-denen-ein',
+          machart: 'nebenbemerkung',
+          text: 'Steht da nicht. Einige tun es, und welche, sagt keiner.',
         },
       ],
       buehne: {
@@ -127,7 +139,7 @@ export const druckerGelbePunkte: Short = {
       quelleId: 'bsi-yellow-dots',
       belegId: 'diese-funktion-ist-oft',
       sprechtext:
-        'Dann stelle ich das bei ihr eben ab. Die Funktion ist oft nicht dokumentiert und kann nicht abgeschaltet werden. Gar nicht?',
+        'Dann stelle ich das bei ihr eben ab. Die Funktion ist oft nicht dokumentiert und kann nicht abgeschaltet werden. Bei keinem?',
       rede: [
         {
           sprecher: 'zeiger',
@@ -142,7 +154,7 @@ export const druckerGelbePunkte: Short = {
           quelleId: 'bsi-yellow-dots',
           belegId: 'diese-funktion-ist-oft',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Gar nicht?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Bei keinem?' },
       ],
       buehne: {
         art: 'figur',
@@ -157,9 +169,9 @@ export const druckerGelbePunkte: Short = {
       position: 'nachschlag',
       satz: 'Der Ausdruck führt auf das Gerät, nicht auf den Namen.',
       sprechtext:
-        'Gar nicht. Dann gehe ich nochmal runter und sage es ihr richtig. Sag ihr diesmal nur das, was ich gesagt habe.',
+        'Bei denen, die es machen: gar nicht. Dann gehe ich nochmal runter und sage es ihr richtig. Sag ihr diesmal nur das, was ich gesagt habe.',
       rede: [
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Gar nicht.' },
+        { sprecher: 'nachleser', zug: 'beantworten', text: 'Bei denen, die es machen: gar nicht.' },
         {
           sprecher: 'zeiger',
           zug: 'einlenken',

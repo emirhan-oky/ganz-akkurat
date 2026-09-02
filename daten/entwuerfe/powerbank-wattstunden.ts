@@ -12,8 +12,15 @@ import type { Short } from '../../src/typen';
  * ist selten genug, um es hier festzuhalten — die 100 Wh sind keine deutsche
  * Besonderheit.
  *
- * **Die Einheit ist die Pointe.** Auf der Powerbank steht mAh, gerechnet wird
- * in Wattstunden, und dazwischen liegt eine Multiplikation, die niemand macht.
+ * **Die Einheit ist die Pointe.** Auf der Powerbank steht mAh, gezaehlt werden
+ * Wattstunden, und dazwischen liegt eine Multiplikation, die niemand macht.
+ *
+ * **Der Belegpruefer hat am 03.09.2026 eine erfundene Zahl gefunden.** Hier
+ * stand „Mal die Spannung, dann bist du bei 74" — die 3,7 Volt einer Zelle
+ * stehen in keiner der drei Quellen. Die FAA nennt den **Rechenweg**, nicht
+ * das Ergebnis. Plausibel und erfunden ist genau der Fall, gegen den der
+ * ganze Belegapparat gebaut ist; heute nennt Volti den Rechenweg und den
+ * Aufdruck, und beides steht woertlich da.
  */
 export const powerbankWattstunden: Short = {
   id: 'powerbank-wattstunden',
@@ -36,10 +43,10 @@ export const powerbankWattstunden: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Was packst du denn da alles ein? Drei Powerbanks, für zwei Wochen. Und die kommen alle in den Koffer?',
+        'Was packst du denn da ein? Drei Powerbanks. Und die kommen alle in den Koffer?',
       rede: [
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was packst du denn da alles ein?' },
-        { sprecher: 'zeiger', zug: 'beantworten', text: 'Drei Powerbanks, für zwei Wochen.' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was packst du denn da ein?' },
+        { sprecher: 'zeiger', zug: 'beantworten', text: 'Drei Powerbanks.' },
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und die kommen alle in den Koffer?' },
       ],
       buehne: {
@@ -82,18 +89,18 @@ export const powerbankWattstunden: Short = {
       quelleId: 'easa-lithium-handgepaeck',
       belegId: 'they-must-be-individually',
       sprechtext:
-        'Dann stopfe ich sie eben alle drei in den Rucksack. Und jede einzeln gegen Kurzschluss sichern. Lose in der Tasche zählt nicht.',
+        'Dann eben alle drei in den Rucksack. Und jede einzeln gegen Kurzschluss sichern.',
       rede: [
         {
           sprecher: 'zeiger',
           zug: 'einlenken',
           machart: 'uebercompliance',
-          text: 'Dann stopfe ich sie eben alle drei in den Rucksack.',
+          text: 'Dann eben alle drei in den Rucksack.',
         },
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Und jede einzeln gegen Kurzschluss sichern. Lose in der Tasche zählt nicht.',
+          text: 'Und jede einzeln gegen Kurzschluss sichern.',
           quelleId: 'easa-lithium-handgepaeck',
           belegId: 'they-must-be-individually',
         },
@@ -112,7 +119,7 @@ export const powerbankWattstunden: Short = {
       quelleId: 'faa-lithium-grenzwerte',
       belegId: 'batteries-are-limited-to',
       sprechtext:
-        'Volti, sag mir einfach, wie viele ich mitnehmen darf. Wie viel steht denn auf deinen drauf? 20000, glaube ich. Das ist die falsche Einheit. Gerechnet wird in Wattstunden.',
+        'Volti, sag mir einfach, wie viele ich mitnehmen darf. Wie viel steht denn auf deinen drauf? 20000, glaube ich. Das ist die falsche Einheit. Gezählt werden Wattstunden.',
       rede: [
         { sprecher: 'zeiger', zug: 'bitten', text: 'Volti, sag mir einfach, wie viele ich mitnehmen darf.' },
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wie viel steht denn auf deinen drauf?' },
@@ -120,7 +127,7 @@ export const powerbankWattstunden: Short = {
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Das ist die falsche Einheit. Gerechnet wird in Wattstunden.',
+          text: 'Das ist die falsche Einheit. Gezählt werden Wattstunden.',
           quelleId: 'faa-lithium-grenzwerte',
           belegId: 'batteries-are-limited-to',
         },
@@ -144,21 +151,35 @@ export const powerbankWattstunden: Short = {
       position: 'kipppunkt',
       wert: '100',
       einheit: 'Wattstunden',
-      bedeutung: 'darüber braucht es die Genehmigung der Fluglinie',
+      bedeutung: 'darüber geht es nur mit Genehmigung des Betreibers',
       quelleId: 'lba-lithiumbatterien',
-      belegId: 'bei-lithium-ionen-batterien',
+      belegId: 'mit-genehmigung-des-betreibers',
       sprechtext:
-        'Und wie komme ich von meiner Zahl auf deine? Mal die Spannung, dann bist du bei 74. Bis 100 Wh darfst du ohne Genehmigung. Also passen meine drei?',
+        'Und wie komme ich von meiner Zahl auf deine? Volt mal Amperestunden. Auf neueren steht die Zahl sogar drauf. Und wo ist Schluss? Über 100 Wh geht es nur mit Genehmigung des Betreibers, und bei 160 ist Ende.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wie komme ich von meiner Zahl auf deine?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Mal die Spannung, dann bist du bei 74. Bis 100 Wh darfst du ohne Genehmigung.',
-          quelleId: 'lba-lithiumbatterien',
-          belegId: 'bei-lithium-ionen-batterien',
+          text: 'Volt mal Amperestunden.',
+          quelleId: 'faa-lithium-grenzwerte',
+          belegId: 'to-calculate-wh-multiply',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Also passen meine drei?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachlegen',
+          text: 'Auf neueren steht die Zahl sogar drauf.',
+          quelleId: 'faa-lithium-grenzwerte',
+          belegId: 'wh-rating-marked-on-them',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Und wo ist Schluss?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Über 100 Wh geht es nur mit Genehmigung des Betreibers, und bei 160 ist Ende.',
+          quelleId: 'lba-lithiumbatterien',
+          belegId: 'mit-genehmigung-des-betreibers',
+        },
       ],
       buehne: {
         art: 'figur',
@@ -173,12 +194,15 @@ export const powerbankWattstunden: Short = {
       position: 'nachschlag',
       satz: 'Auf der Powerbank steht mAh, gezählt werden Wattstunden.',
       sprechtext:
-        'Jede einzeln, alle im Handgepäck, und keine über der Grenze. Ich nehme eine mit. Und die anderen zwei? Die lade ich hier vor, kleiner.',
+        'Und was heißt das für mich? Jede einzeln, alle im Handgepäck, und keine über den Grenzwerten. Ich nehme eine mit. Und die anderen zwei? Die lade ich hier vor, kleiner.',
       rede: [
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und was heißt das für mich?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Jede einzeln, alle im Handgepäck, und keine über der Grenze.',
+          text: 'Jede einzeln, alle im Handgepäck, und keine über den Grenzwerten.',
+          quelleId: 'lba-lithiumbatterien',
+          belegId: 'grenzwerte-nicht-ueberschreiten',
         },
         { sprecher: 'zeiger', zug: 'einlenken', text: 'Ich nehme eine mit.' },
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Und die anderen zwei?' },

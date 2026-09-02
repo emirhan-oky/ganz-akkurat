@@ -10,8 +10,15 @@ import type { Short } from '../../src/typen';
  * und Gewicht.
  *
  * **Die Wette geht so aus, dass beide etwas mitnehmen.** Watti gewinnt sie —
- * es gibt die Schaltsekunde wirklich —, und Volti hat trotzdem den besseren
- * Grund: Sie wird abgeschafft, weil sie Rechner durcheinanderbringt.
+ * es gibt die Schaltsekunde wirklich —, und Volti hat trotzdem das letzte
+ * Wort: Der Grenzwert wird angehoben, spaetestens 2035.
+ *
+ * **Hier stand „Sie wird abgeschafft".** Der Belegpruefer hat am 03.09.2026
+ * nachgesehen: Die CGPM-Resolution beschliesst, **den Grenzwert fuer die
+ * Abweichung UT1-UTC** anzuheben, und bittet das CIPM, einen neuen Wert erst
+ * vorzuschlagen. Das Wort „abolish" kommt nicht vor. Das Subjekt der Erhoehung
+ * stand ausserhalb der geprueften Zeichenkette — dasselbe Muster wie neunmal
+ * beim letzten Durchgang.
  *
  * **Das Thema lief am 18.08.2026 als `schaltsekunde`.** Es wird bewusst neu
  * erzaehlt und traegt die alte `themaId`.
@@ -86,9 +93,15 @@ export const schaltsekundeWette: Short = {
       belegId: 'erddrehung-ungleichmaessig',
       herausgeber: 'Physikalisch-Technische Bundesanstalt',
       sprechtext:
-        'Die hängt an einem Atom. Also zwei verschiedene Uhren. Genau. Und die Erde dreht sich ungleichmäßig.',
+        'Die hängt an einer atomaren Naturkonstante. Also zwei verschiedene Uhren. Genau. Und die Erde dreht sich ungleichmäßig.',
       rede: [
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Die hängt an einem Atom.' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Die hängt an einer atomaren Naturkonstante.',
+          quelleId: 'ptb-schaltsekunden',
+          belegId: 'zeiteinheit-atomare-naturkonstante',
+        },
         { sprecher: 'zeiger', zug: 'zuspitzen', machart: 'bild', text: 'Also zwei verschiedene Uhren.' },
         {
           sprecher: 'nachleser',
@@ -148,9 +161,9 @@ export const schaltsekundeWette: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Spätestens 2035 ist Schluss mit der Schaltsekunde.',
+      satz: 'Der Grenzwert für die Abweichung wird angehoben.',
       sprechtext:
-        'Lange kannst du damit nicht mehr wetten. Wieso nicht? Sie wird abgeschafft, spätestens 2035. Dann wette ich jetzt nochmal, schnell.',
+        'Lange kannst du damit nicht mehr wetten. Wieso nicht? Der Grenzwert wird angehoben, spätestens 2035. Dann wette ich jetzt nochmal, schnell.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -161,7 +174,7 @@ export const schaltsekundeWette: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Sie wird abgeschafft, spätestens 2035.',
+          text: 'Der Grenzwert wird angehoben, spätestens 2035.',
           quelleId: 'bipm-schaltsekunde',
           belegId: 'increased-in-or-before-2035',
         },
