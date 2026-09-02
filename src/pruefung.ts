@@ -1264,20 +1264,38 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     const anderer: Sprecher = kaltstartArt.wer === 'zeiger' ? 'nachleser' : 'zeiger';
     const beantwortet = ersterAnteil.sprecher === anderer;
     /*
-     * Die Anrede zaehlt nur in der **ersten Zeile**, nicht irgendwo in der
-     * Szene. Wer den anderen erst im dritten Satz beim Namen nennt, hat die
-     * ersten beiden ins Leere gesprochen.
+     * ## Der dritte Weg, gefunden am 03.09.2026
+     *
+     * Die Anrede zaehlte bis dahin nur in der **ersten Zeile**, mit der
+     * Begruendung: Wer den anderen erst im dritten Satz beim Namen nennt, hat
+     * die ersten beiden ins Leere gesprochen.
+     *
+     * **Emirhans zwei Dialoge widersprechen sich hier.** In
+     * `passwort-wechseln` redet Watti nach dem Vorhang sofort an („Volti, ich
+     * brauche deine Hilfe"); in `akku-wechselbar-2027` schimpft er weiter
+     * („Aber mein Handy haelt nur noch 3 Stunden bei 100 Prozent"), und **erst
+     * die zweite Zeile** macht ein Gespraech daraus: Volti kommt herein und
+     * fragt „Hey Watti, was laeuft?".
+     *
+     * Das ist keine ins Leere gesprochene Zeile, sondern eine Buehnenanweisung
+     * — der andere **betritt den Raum**. Geprueft wird deshalb die **Szene**
+     * und nicht die Zeile: Kommt der andere in der ersten Szene ueberhaupt zu
+     * Wort, ist aus dem Selbstgespraech eines zu zweit geworden.
+     *
+     * Der Fall, gegen den die Regel gebaut ist, faellt weiter durch: eine
+     * erste Szene, in der nur der Kaltstart-Sprecher redet.
      */
     const spricht = ersterAnteil.text.toLowerCase();
     const redetAn = spricht.includes(FIGURENNAMEN[anderer].toLowerCase());
+    const andererKommtVor = (short.szenen[0]?.rede ?? []).some((r) => r.sprecher === anderer);
 
-    if (!beantwortet && !redetAn) {
+    if (!beantwortet && !redetAn && !andererKommtVor) {
       melde(
         'fehler',
         'kaltstart',
-        `${FIGURENNAMEN[kaltstartArt.wer]} spricht den Kaltstart und danach auch die erste ` +
-          `Zeile, ohne ${FIGURENNAMEN[anderer]} anzusprechen. Der Kaltstart ist ein ` +
-          'Selbstgespräch — die erste Szene muss ein Gespräch daraus machen.',
+        `${FIGURENNAMEN[kaltstartArt.wer]} spricht die ganze erste Szene allein weiter, ohne ` +
+          `${FIGURENNAMEN[anderer]} anzusprechen. Der Kaltstart ist ein Selbstgespräch — die ` +
+          'erste Szene muss ein Gespräch daraus machen.',
       );
     }
 

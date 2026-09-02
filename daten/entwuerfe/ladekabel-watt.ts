@@ -18,7 +18,7 @@ import type { Short } from '../../src/typen';
  */
 export const ladekabelWatt: Short = {
   id: 'ladekabel-watt',
-  themaId: 'ladekabel-watt',
+  themaId: 'usb-kabelklassen',
   format: 'werhatrecht',
   sachgebiet: 'laden',
   bauform: 'wechselrede',

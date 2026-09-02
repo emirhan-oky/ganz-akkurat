@@ -19,7 +19,7 @@ import type { Short } from '../../src/typen';
  */
 export const produktpassAkku: Short = {
   id: 'produktpass-akku',
-  themaId: 'produktpass-akku',
+  themaId: 'digitaler-produktpass',
   format: 'gibtswirklich',
   sachgebiet: 'laden',
   bauform: 'zitatkarte',

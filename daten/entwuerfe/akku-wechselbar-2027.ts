@@ -1,73 +1,73 @@
 import type { Short } from '../../src/typen';
 
 /**
- * Es war einmal · der eingeklebte Akku und der 18. Februar 2027.
+ * Es war einmal · der geklebte Akku und der 18. Februar 2027.
  *
- * **Szenario 8: Der Rueckfall.** Watti wartet auf die Pflicht zum wechselbaren
- * Akku — und klebt sein Handy am Ende trotzdem wieder zu. Die Form verlangt,
- * dass er am Schluss dasselbe tut wie am Anfang, nachdem er alles verstanden
- * hat.
+ * **Emirhans Dialog vom 02.09.2026**, aus `daten/briefings/akku-wechselbar-2027.md`.
+ * Meine Fassung vom 03.09. ist geloescht — sie war entstanden, ohne dass ich
+ * den Briefingbogen geoeffnet hatte.
  *
- * **Der Rueckfall ist keine Dummheit, sondern eine Gewohnheit.** Watti lernt
- * nichts, und das ist die Figur: Er hat recht verstanden, dass es besser wird,
- * und zieht daraus, dass er heute nichts aendern muss.
+ * ## Warum seine Fassung besser ist
  *
- * **Zwei schwere Befunde vom 03.09.2026.** Der Short stand auf „Ab dem 18.
- * Februar 2027 gilt eine neue Regel fuer alle Batterien" — und die einzige
- * Fundstelle dieser Zeichenkette ist Artikel 13 Absatz 6, die **QR-Code-
- * Kennzeichnung**. Die Regel, von der der Short handelt, ist Artikel 11, und
- * ihr Geltungsbeginn steht in Artikel 96. `quellen-pruefen` war gruen, weil
- * die Zeichenkette auf der Seite stand — genau der Bau des Ersatzteil-Falls
- * vom 01.09.
+ * **Der Schaden ist ein Geldschaden, kein technischer.** „Mein Handyakku wird
+ * mein Geld aufessen" — damit hat der Short einen Gegenstand, der wehtut, und
+ * nicht bloss eine Regel, die es gibt. Meine Fassung erklaerte Artikel 11;
+ * seine erklaert, warum Watti heute in der Werkstatt steht.
  *
- * Zweitens sagte Volti „Kein Foehn und kein Loesungsmittel" und bestaetigte
- * mit „Woertlich." einen Wortlaut, der so nicht dasteht: Die Quelle sagt
- * **Waermeenergie**, und die tragende Verneinung („ohne Verwendung von") stand
- * ausserhalb der geprueften Zeichenkette. Beide Zitate stammten ausserdem aus
- * dem Erwaegungsgrund im Konjunktiv; heute steht der verfuegende Artikel 11
- * dahinter.
+ * **Und der Schluss gehoert der Beziehung:** „Du nimmst mein altes und
+ * vernichtest deinen Akku nicht wieder mit Social Media." Ein Geschenk mit
+ * Widerhaken — Voltis Fach, und es steht so schon als Beispiel in `MACHARTEN`.
  *
- * **Das Thema lief am 18.08.2026 schon einmal** — 19 Sekunden, einstimmig,
- * 0-mal geteilt. Es wird bewusst neu erzaehlt und traegt deshalb die alte
- * `themaId`, damit die Wache `wiederholung` es meldet, statt es still passieren
- * zu lassen.
+ * ## Was ich angefasst habe
+ *
+ * **Die zwei Platzhalter gefuellt.** Wo „Hier Zitatkarte mit der
+ * EU-Batterieverordnung, die dann Volti Watti erklaert" und „Dann noch die
+ * kurze Erklaerung der falle" standen, stehen jetzt zwei Zeilen mit den
+ * Fundstellen aus Artikel 11 und die Karte.
+ *
+ * Die Falle aus seinem Bogen ist dabei woertlich eingebaut: **„Handelsuebliche
+ * Werkzeuge" heisst nicht „ohne Werkzeug".** Ein Schraubendreher ist
+ * handelsueblich, und genau daran haette der Short sonst zu viel behauptet.
+ *
+ * Dazu Rechtschreibung: „handy" → „Handy", „Feburar" → „Februar", Satzzeichen.
  */
 export const akkuWechselbar2027: Short = {
-  id: 'akku-wechselbar-neu',
+  id: 'akku-wechselbar-2027',
   themaId: 'akku-wechselbar-2027',
   format: 'eswareinmal',
   sachgebiet: 'handy',
-  bauform: 'wechselrede',
-  arbeitstitel: 'Watti klebt sein Handy wieder zu',
+  bauform: 'zitatkarte',
+  arbeitstitel: 'Wattis Akku frisst sein Geld',
   weitererzaehlt: 'mit handelsüblichen Werkzeugen',
-  suchbegriff: 'Akku wechseln',
+  suchbegriff: 'Akku Werkstatt',
   kaltstart: {
-    art: 'imvollzug',
-    satz: 'Der Akku ist hin, und aufmachen kann man das Ding nicht.',
-    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'nachdenken', requisite: 'batterie' },
+    art: 'beschwerde',
+    satz: 'Niemals zahle ich so viel für einen Akkuwechsel!',
+    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'batterie' },
   },
-  vorspann: 'Wattis Akku und der Klebstoff',
+  vorspann: 'Wattis Akku und die Werkstatt',
 
   szenen: [
     {
+      /*
+       * **Watti redet weiter und Volti kommt dazu.** Der Vorhang ist ein
+       * Zeitsprung: davor schimpft er allein, danach steht sein Bruder im
+       * Raum. Dieselbe Bauart wie in `passwort-wechseln`, wo Emirhans
+       * Kaltstart ebenfalls ein Selbstgespraech war.
+       */
       art: 'text',
       position: 'aufschlag',
-      sprechtext:
-        'Volti, was macht man mit einem Akku, an den man nicht rankommt? Wegbringen. Oder warten.',
+      sprechtext: 'Aber mein Handy hält nur noch 3 Stunden bei 100 Prozent. Hey Watti, was läuft?',
       rede: [
-        {
-          sprecher: 'zeiger',
-          zug: 'bitten',
-          text: 'Volti, was macht man mit einem Akku, an den man nicht rankommt?',
-        },
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Wegbringen. Oder warten.' },
+        { sprecher: 'zeiger', zug: 'behaupten', text: 'Aber mein Handy hält nur noch 3 Stunden bei 100 Prozent.' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Hey Watti, was läuft?' },
       ],
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'ruhe',
+        von: 'stutzen',
         nach: 'ansprechen',
-        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
+        gegenueber: { von: 'ruhe', nach: 'nachdenken' },
       },
     },
     {
@@ -77,85 +77,56 @@ export const akkuWechselbar2027: Short = {
       belegId: 'leicht-entfernt-und-ausgetauscht',
       herausgeber: 'Europäische Union',
       sprechtext:
-        'Worauf denn warten? Wer ein Produkt mit eingebautem Akku verkauft, muss dich den Akku selbst entfernen lassen. Ab wann? Artikel 11 gilt ab dem 18. Februar 2027. Und dann geht meins auf?',
+        'Nix läuft, mein Handyakku wird mein Geld aufessen. Wieso denn das? Die Handywerkstatt verlangt ein Batzen Geld für den Tausch meines Handyakkus. Autsch, aber bald nicht mehr. Watt? Wie bald nicht mehr?',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Worauf denn warten?' },
         {
-          sprecher: 'nachleser',
+          sprecher: 'zeiger',
           zug: 'beantworten',
-          text: 'Wer ein Produkt mit eingebautem Akku verkauft, muss dich den Akku selbst entfernen lassen.',
-          quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'leicht-entfernt-und-ausgetauscht',
+          machart: 'bild',
+          text: 'Nix läuft, mein Handyakku wird mein Geld aufessen.',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Ab wann?' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wieso denn das?' },
         {
-          sprecher: 'nachleser',
+          sprecher: 'zeiger',
           zug: 'beantworten',
-          text: 'Artikel 11 gilt ab dem 18. Februar 2027.',
-          quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'artikel-11-gilt-ab',
+          text: 'Die Handywerkstatt verlangt ein Batzen Geld für den Tausch meines Handyakkus.',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Und dann geht meins auf?' },
+        { sprecher: 'nachleser', zug: 'einschraenken', text: 'Autsch, aber bald nicht mehr.' },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Watt? Wie bald nicht mehr?' },
       ],
       buehne: {
         art: 'figur',
         wer: 'zeiger',
         von: 'ansprechen',
-        nach: 'stutzen',
-        gegenueber: { von: 'stutzen', nach: 'erklaeren' },
-      },
-    },
-    {
-      art: 'text',
-      position: 'zuspitzung',
-      quelleId: 'eu-batterie-entnehmbar',
-      belegId: 'handelsuebliche-werkzeuge-artikel-11',
-      sprechtext:
-        'Deins nicht, du Idiot. Neue Geräte. Leicht zu entfernen heißt: mit handelsüblichen Werkzeugen. Also kann man den Akku dann selbst wechseln?',
-      rede: [
-        {
-          sprecher: 'nachleser',
-          zug: 'richtigstellen',
-          text: 'Deins nicht, du Idiot. Neue Geräte. Leicht zu entfernen heißt: mit handelsüblichen Werkzeugen.',
-          quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'handelsuebliche-werkzeuge-artikel-11',
-        },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Also kann man den Akku dann selbst wechseln?' },
-      ],
-      buehne: {
-        art: 'figur',
-        wer: 'zeiger',
-        von: 'stutzen',
         nach: 'nachdenken',
-        gegenueber: { von: 'erklaeren', nach: 'zeigen' },
+        gegenueber: { von: 'nachdenken', nach: 'erklaeren' },
       },
     },
     {
       /*
-       * **Der Kipppunkt eines Maerchens ist das „und heute".** Hier ist es das
-       * „und ab 2027": Was ausdruecklich verboten werden musste, war vorher
-       * offensichtlich der Normalfall.
+       * **Der erste gefuellte Platzhalter.** Hier stand „Hier Zitatkarte mit
+       * der EU-Batterieverordnung, die dann Volti Watti erklaert."
        */
-      art: 'text',
-      position: 'kipppunkt',
+      art: 'zitatkarte',
+      position: 'zuspitzung',
+      zitat: 'mit handelsüblichen Werkzeugen aus einem Produkt entnommen werden kann',
       quelleId: 'eu-batterie-entnehmbar',
-      belegId: 'ohne-verwendung-von-spezialwerkzeugen',
+      belegId: 'handelsuebliche-werkzeuge-artikel-11',
       sprechtext:
-        'Ohne Spezialwerkzeug, ohne Wärmeenergie, ohne Lösungsmittel. Das steht da wirklich drin? Wörtlich. Man schreibt so etwas nur hin, wenn es einer macht.',
+        'Bei neuen Geräten muss der Akku mit handelsüblichen Werkzeugen rausgehen. Also ohne Werkzeug? Ein Schraubendreher ist handelsüblich, du Pfosten.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Ohne Spezialwerkzeug, ohne Wärmeenergie, ohne Lösungsmittel.',
+          text: 'Bei neuen Geräten muss der Akku mit handelsüblichen Werkzeugen rausgehen.',
           quelleId: 'eu-batterie-entnehmbar',
-          belegId: 'ohne-verwendung-von-spezialwerkzeugen',
+          belegId: 'handelsuebliche-werkzeuge-artikel-11',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Das steht da wirklich drin?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Also ohne Werkzeug?' },
         {
           sprecher: 'nachleser',
-          zug: 'nachlegen',
-          machart: 'nebenbemerkung',
-          text: 'Wörtlich. Man schreibt so etwas nur hin, wenn es einer macht.',
+          zug: 'richtigstellen',
+          text: 'Ein Schraubendreher ist handelsüblich, du Pfosten.',
         },
       ],
       buehne: {
@@ -163,23 +134,42 @@ export const akkuWechselbar2027: Short = {
         wer: 'zeiger',
         von: 'nachdenken',
         nach: 'staunen',
-        gegenueber: { von: 'zeigen', nach: 'lesen' },
+        gegenueber: { von: 'erklaeren', nach: 'lesen' },
       },
     },
     {
-      art: 'schluss',
-      position: 'nachschlag',
-      satz: 'Artikel 11 gilt ab dem 18. Februar 2027.',
+      /*
+       * **Der zweite gefuellte Platzhalter und der Kipppunkt zugleich.** Hier
+       * stand „Dann noch die kurze Erklaerung der falle" — und die Falle aus
+       * seinem Bogen ist genau das „und heute", das `eswareinmal` verlangt:
+       * **Es geht doch. Es soll nur bis Februar 2027 nicht gehen.**
+       *
+       * Die Zahl steht im Bild, weil `zahlImBild` fuer jede technische Angabe
+       * im Sprechtext eine `zahl`-Szene verlangt — Wattis „100 Prozent" im
+       * Aufschlag loest sie aus.
+       */
+      art: 'zahl',
+      position: 'kipppunkt',
+      wert: '2027',
+      einheit: 'ab Februar',
+      bedeutung: 'erst dann muss der Akku mit normalem Werkzeug rausgehen',
+      quelleId: 'eu-batterie-entnehmbar',
+      belegId: 'artikel-11-gilt-ab',
       sprechtext:
-        'Also bringe ich mein Handy weg. Genau das. Und was machst du da? Ich klebe es erstmal wieder zu.',
+        'Also gehe ich dann wieder im Februar zur Werkstatt? Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht.',
       rede: [
-        { sprecher: 'zeiger', zug: 'einlenken', text: 'Also bringe ich mein Handy weg.' },
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Genau das. Und was machst du da?' },
         {
           sprecher: 'zeiger',
-          zug: 'beantworten',
-          machart: 'rechtfertigung',
-          text: 'Ich klebe es erstmal wieder zu.',
+          zug: 'nachhaken',
+          machart: 'falscheautoritaet',
+          text: 'Also gehe ich dann wieder im Februar zur Werkstatt?',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'richtigstellen',
+          text: 'Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht.',
+          quelleId: 'eu-batterie-entnehmbar',
+          belegId: 'artikel-11-gilt-ab',
         },
       ],
       buehne: {
@@ -187,10 +177,33 @@ export const akkuWechselbar2027: Short = {
         wer: 'zeiger',
         von: 'staunen',
         nach: 'nachdenken',
-        gegenueber: { von: 'lesen', nach: 'ansprechen' },
+        gegenueber: { von: 'lesen', nach: 'zeigen' },
+      },
+    },
+    {
+      art: 'schluss',
+      position: 'nachschlag',
+      satz: 'Ab Februar 2027 muss der Akku mit normalem Werkzeug rausgehen.',
+      sprechtext:
+        'Ja, aber wie soll ich mit meinem Handy jetzt auskommen? Du nimmst mein altes und vernichtest deinen Akku nicht wieder mit Social Media.',
+      rede: [
+        { sprecher: 'zeiger', zug: 'bitten', text: 'Ja, aber wie soll ich mit meinem Handy jetzt auskommen?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          machart: 'widerhaken',
+          text: 'Du nimmst mein altes und vernichtest deinen Akku nicht wieder mit Social Media.',
+        },
+      ],
+      buehne: {
+        art: 'figur',
+        wer: 'zeiger',
+        von: 'nachdenken',
+        nach: 'ruhe',
+        gegenueber: { von: 'zeigen', nach: 'ansprechen' },
       },
       rundlauf:
-        'Beim zweiten Sehen ist der erste Satz kein Problem mehr, sondern eine Ansage: Watti macht es wieder zu, und er weiß jetzt sogar, warum das nicht hilft.',
+        'Beim zweiten Sehen weiß man, dass Wattis Empörung über den Preis berechtigt ist – und dass ihm die neue Regel trotzdem nichts nützt.',
     },
   ],
 
@@ -198,18 +211,18 @@ export const akkuWechselbar2027: Short = {
 
   texte: {
     tiktok: {
-      titel: 'Watti klebt sein Handy wieder zu',
-      beschreibung: 'Akku wechseln: Was Artikel 11 ab dem 18. Februar 2027 verlangt.',
+      titel: 'Wattis Akku frisst sein Geld',
+      beschreibung: 'Akku in der Werkstatt tauschen: Was sich ab Februar 2027 ändert.',
       hashtags: ['#akku', '#reparatur', '#eu', '#ganzakkurat'],
     },
     instagram: {
-      titel: 'Watti klebt sein Handy wieder zu',
-      beschreibung: 'Akku wechseln mit handelsüblichem Werkzeug. Ab 2027 Pflicht.',
+      titel: 'Wattis Akku frisst sein Geld',
+      beschreibung: 'Akku tauschen kostet in der Werkstatt. Ab 2027 geht er selbst raus.',
       hashtags: ['#akku', '#reparatur', '#handy', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Warum Wattis Akku erst ab 2027 herausgeht',
-      beschreibung: 'Akku wechseln: Was die EU-Batterieverordnung ab dem 18. Februar 2027 verlangt.',
+      titel: 'Warum Wattis Akkuwechsel so viel kostet',
+      beschreibung: 'Akku und Werkstatt: Was die EU-Batterieverordnung ab dem 18. Februar 2027 verlangt.',
       hashtags: ['#akku', '#batterieverordnung', '#reparatur', '#ganzakkurat'],
     },
   },

@@ -17,7 +17,7 @@ import type { Short } from '../../src/typen';
  */
 export const zettelImTreppenhaus: Short = {
   id: 'zettel-im-treppenhaus',
-  themaId: 'zettel-im-treppenhaus',
+  themaId: 'wlan-abendliche-verlangsamung',
   format: 'werhatrecht',
   sachgebiet: 'netz',
   bauform: 'zitatkarte',

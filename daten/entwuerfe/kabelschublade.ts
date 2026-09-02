@@ -17,7 +17,7 @@ import type { Short } from '../../src/typen';
  */
 export const kabelschublade: Short = {
   id: 'kabelschublade',
-  themaId: 'kabelschublade',
+  themaId: 'ladeanschluss-eu',
   format: 'gibtswirklich',
   sachgebiet: 'laden',
   bauform: 'stationen',

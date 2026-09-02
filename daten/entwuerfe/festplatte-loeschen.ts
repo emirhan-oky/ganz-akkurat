@@ -35,7 +35,7 @@ import type { Short } from '../../src/typen';
  */
 export const festplatteLoeschen: Short = {
   id: 'festplatte-loeschen',
-  themaId: 'festplatte-loeschen',
+  themaId: 'dateien-loeschen',
   format: 'gibtswirklich',
   sachgebiet: 'rechner',
   bauform: 'zitatkarte',

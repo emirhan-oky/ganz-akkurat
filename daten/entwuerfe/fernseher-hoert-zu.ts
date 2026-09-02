@@ -17,7 +17,7 @@ import type { Short } from '../../src/typen';
  */
 export const fernseherHoertZu: Short = {
   id: 'fernseher-hoert-zu',
-  themaId: 'fernseher-hoert-zu',
+  themaId: 'smarttv-sprache',
   format: 'absicht',
   sachgebiet: 'bildschirm',
   bauform: 'wechselrede',

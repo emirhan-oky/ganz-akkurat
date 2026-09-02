@@ -13,7 +13,7 @@ import type { Short } from '../../src/typen';
  */
 export const garantiesiegelNichtig: Short = {
   id: 'garantiesiegel-nichtig',
-  themaId: 'garantiesiegel-nichtig',
+  themaId: 'garantie-siegel',
   format: 'absicht',
   sachgebiet: 'recht',
   bauform: 'zitatkarte',
