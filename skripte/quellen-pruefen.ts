@@ -42,8 +42,19 @@ const normalisieren = (text: string): string =>
      * ceiling</b>, not" die Auszeichnung durch ein Leerzeichen ersetzt,
      * erzeugt „ceiling , not". Ein Leerzeichen vor einem Komma ist nie
      * bedeutungstragend — genau daran scheiterte das Dell-Zitat.
+     *
+     * **Die schliessende Klammer kam am 02.09.2026 dazu**, aus demselben
+     * Grund und an derselben Sorte Naht: Das BSI schreibt „(Datum, Ort der
+     * Aufnahme etc.)", und weil dort ein Tag endet, steht nach dem Strippen
+     * „etc. )". Die Pruefung meldete ein Zitat als „nicht auf der Seite", das
+     * woertlich dort steht.
      */
-    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/\s+([,.;:!?)\]])/g, '$1')
+    /*
+     * Und dasselbe hinter der oeffnenden Klammer: „( Datum" entsteht auf
+     * demselben Weg.
+     */
+    .replace(/([(\[])\s+/g, '$1')
     .toLowerCase()
     .trim();
 
