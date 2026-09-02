@@ -6,11 +6,22 @@
 
 ## Wattis Lage
 
-Watti hat etwas ausgedruckt, das ihm niemand zuordnen soll.
+Watti hat eine Beschwerde an seinen Vermieter ausgedruckt, ohne Absender und
+ohne Unterschrift. Er ist zufrieden mit sich: So weiß niemand, von wem sie
+kommt.
 
 ## Sein Fehler
 
 Er glaubt, ein Blatt Papier trägt keinen Absender.
+
+**Er tut nichts Verbotenes, und das ist wichtig.** Der erste Anlauf dieses
+Bogens hieß „Watti hat etwas ausgedruckt, das ihm niemand zuordnen soll" — und
+damit stand der Zuschauer auf der falschen Seite: Wer etwas zu verbergen hat,
+dem gönnt man die gelben Punkte. **„Das ist Absicht" lebt davon, dass sich der
+Zuschauer mit Watti ärgert, nicht über ihn.**
+
+Eine anonyme Beschwerde ist erlaubt, verständlich und trotzdem nachverfolgbar.
+Damit trifft die Empörung, wen sie treffen soll.
 
 ## Was Volti nachgelesen hat
 

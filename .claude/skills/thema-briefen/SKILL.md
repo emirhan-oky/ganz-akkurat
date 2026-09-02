@@ -80,6 +80,28 @@ Ein Zeitpunkt, ein Schaden, und jemand, dem er passiert.
 | Kabellos laden verliert Energie | Mein Handy liegt seit gestern Abend auf der Matte und ist warm |
 | Die ISS lief mit alten Notebooks | Ich wollte den alten Laptop wegwerfen |
 
+## Der Prüfstein bei „Das ist Absicht"
+
+**Würde der Zuschauer an Wattis Stelle dasselbe tun?**
+
+Zwei der ersten zehn Bogen sind daran gescheitert, beide am 02.09.2026. Sie
+ließen Watti etwas tun, das ihn ins Unrecht setzt: hinten drauffahren, etwas
+ausdrucken, das ihm niemand zuordnen soll. Beide Male kippt die Sympathie —
+und der Zuschauer steht auf der Seite dessen, der die Entscheidung getroffen
+hat. Gut, dass das Auto mitschreibt, der Depp hätte aufpassen sollen.
+
+**„Das ist Absicht" lebt davon, dass sich der Zuschauer *mit* Watti ärgert,
+nicht *über* ihn.** Ein Kratzer beim Einparken, eine Beschwerde ohne Absender,
+ein Akku, der nach zwei Jahren schlappmacht — daran erkennt er sich wieder.
+
+Bei den drei anderen Formaten gilt das nicht. Dort darf Watti falsch liegen,
+das ist sein Beruf; die Empörung richtet sich dort nicht gegen eine
+Entscheidung.
+
+Gefunden hat den Fehler nicht die Systematik, sondern Emirhan beim Lesen:
+*„Ich verstehe Wattis Rolle hier einfach nicht."* Wer über eine Lage stolpert,
+hat meistens recht.
+
 Wer keine Lage findet, hat ein Hauptvideo-Thema. `daten/ideen/hauptvideo.ts`
 sammelt sie — sechzehn Ideen sind daran schon gescheitert, elf brauchten eine
 Vorgeschichte und fünf eine Handlung.

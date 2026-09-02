@@ -205,6 +205,24 @@ Die Folge fürs Schreiben: Die Pointe ist nie **„ertappt"**, sondern immer
 **„das wusste er nicht"**. Beim Ereignisdatenspeicher gab es einen Zeugen, von
 dem er nichts ahnte, und der saß in seinem eigenen Auto.
 
+#### Und bei „Das ist Absicht" darf er nicht der Täter sein
+
+Am selben Tag, an derselben Frage. Zwei Briefingbogen ließen Watti etwas tun,
+das ihn ins Unrecht setzt: Er fährt jemandem hinten drauf, er druckt etwas aus,
+das ihm niemand zuordnen soll. Beide Male kippt die Sympathie.
+
+**„Das ist Absicht" lebt davon, dass sich der Zuschauer *mit* Watti über eine
+Entscheidung ärgert — nicht *über* ihn.** Steht er im Unrecht, ist der
+Zuschauer auf der Seite dessen, der die Entscheidung getroffen hat: Gut, dass
+das Auto mitschreibt, der Depp hätte aufpassen sollen.
+
+Der Prüfstein ist einfach: **Würde der Zuschauer an Wattis Stelle dasselbe
+tun?** Ein Kratzer beim Einparken, eine Beschwerde ohne Absender, ein Akku, der
+nach zwei Jahren schlappmacht — ja. Auffahren und die Schuld abstreiten — nein.
+
+Bei den drei anderen Formaten gilt das nicht. Dort **darf** er falsch liegen,
+das ist sein Beruf. Der Unterschied ist, wogegen sich die Empörung richtet.
+
 #### Wie Watti auf einen Beleg reagiert
 
 Vier Wege, und der erste ist der häufigste:

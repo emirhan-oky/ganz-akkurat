@@ -6,18 +6,27 @@
 
 ## Wattis Lage
 
-Watti ist jemandem hinten draufgefahren. Er erzählt die Geschichte zum dritten
-Mal, und sie wird jedes Mal ein bisschen besser: Der andere hat plötzlich
-gebremst, er selbst war ohnehin fast im Stand.
+Es hat gescheppert. Nichts Schlimmes, ein Rücklicht und ein Kratzer. Watti holt
+die Versicherungspapiere raus und ist mit sich im Reinen.
+
+**Wer schuld war, kommt im Video nicht vor.** Das ist die wichtigste
+Entscheidung an diesem Bogen — siehe „Sein Fehler".
 
 ## Sein Fehler
 
-**Er lügt nicht.** Er glaubt seine Version — das ist der Unterschied zwischen
-ihm und einem Lügner, und er trägt die ganze Figur. Watti versteht die Welt
-nicht, er täuscht sie nicht. Wer ihn lügen lässt, macht ihn unsympathisch, und
-der Zuschauer hört auf, ihm die Daumen zu drücken.
+Er hält sein Auto für ein Auto. Es ist ein Zeuge.
 
-Sein Fehler ist, dass er seine Version für die einzige hält, die es gibt.
+**Und er ist nicht schuld — jedenfalls sagt das Video nichts dazu.** Der erste
+Anlauf dieses Bogens ließ ihn auffahren, und Emirhan ist genau darüber
+gestolpert: *„Ich verstehe Wattis Rolle hier einfach nicht."*
+
+Der Grund ist das Format. **„Das ist Absicht" lebt davon, dass sich der
+Zuschauer mit Watti über eine Entscheidung ärgert.** Ist Watti schuld, steht
+der Zuschauer auf der Seite des Datenspeichers — gut, dass das Ding mitschreibt,
+der Depp hätte aufpassen sollen. Das Video läuft dann gegen sein eigenes Format.
+
+Ist die Schuldfrage offen, bleibt nur die Sache übrig: Sein eigenes Auto führt
+Protokoll, und gefragt hat ihn niemand.
 
 ## Was Volti nachgelesen hat
 
