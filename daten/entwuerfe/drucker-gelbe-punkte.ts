@@ -3,60 +3,83 @@ import type { Short } from '../../src/typen';
 /**
  * Das ist Absicht · die gelben Punkte im Ausdruck.
  *
- * **Szenario 11: Watti erzaehlt es falsch weiter.** Er hat es von Volti
- * gehoert, gibt es im Treppenhaus weiter — und aus „einem konkreten Drucker
- * zugeordnet" wird bei ihm „der Drucker schreibt deinen Namen drauf".
+ * **Emirhans Dialog vom 02.09.2026**, aus `daten/briefings/drucker-gelbe-punkte.md`.
  *
- * **Die Verdrehung ist schon dokumentiert**, und das ist der Grund, warum
- * gerade dieser Gegenstand die Form traegt: Der Beleg ist enger als die
- * Erzaehlung, und genau in dieser Luecke sitzt Wattis Fassung.
+ * Am 03.09. stand hier vier Stunden lang ein Dialog, den ich neu geschrieben
+ * hatte, ohne den Briefingbogen zu oeffnen. **Sein Urteil:** *„also wir nehmen
+ * alle meine, die ich heute den ganzen Tag geschrieben habe und aus denen du
+ * die ganzen Befunde auch rausgeschrieben hast."* Meine Fassung ist verworfen.
  *
- * **Der Kipppunkt bleibt trotzdem stark**, weil die Sache auch ohne
- * Uebertreibung reicht: nicht dokumentiert und nicht abschaltbar, beides
- * woertlich.
+ * ## Was seine Fassung kann und meine nicht konnte
  *
- * **Und die Einschraenkung gehoert dazu.** Der BSI-Satz beginnt mit „Einige
- * Geraete" — es sind nicht alle Drucker. Bis zum 03.09.2026 stand die
- * Zeichenkette ohne diese beiden Woerter in `quellen.json`, und der Short
- * schloss mit einem doppelten „Gar nicht." ueber den einen Drucker, um den es
- * geht. **Ein Short ueber falsches Weitererzaehlen, der selbst zu weit
- * erzaehlt, widerlegt sich im eigenen Bau.**
+ * **Volti ist der Vermieter.** Damit ist der Dritte im Raum keine erzaehlte
+ * Nachbarin, sondern der, der danebensteht — und die Empoerung trifft am Ende
+ * nicht den Drucker, sondern die Wohnsituation.
  *
- * **Das Thema lief am 18.08.2026.** Es wird bewusst neu erzaehlt und traegt
- * die alte `themaId`.
+ * **Und Watti traegt die Einschraenkung selbst.** „wodurch man nicht weiss, ob
+ * jeder Drucker es tut" ist genau die Falle aus dem Briefingbogen, und er hat
+ * sie in den Dialog geschrieben statt daneben. Meine Fassung hatte sie
+ * weggelassen und musste sie nachtraeglich vom `belegpruefer` einsetzen
+ * lassen.
+ *
+ * ## Was ich angefasst habe
+ *
+ * **Nur Rechtschreibung.** „Farbleserdrucker" → „Farblaserdrucker" (so steht es
+ * auch im Briefingtext darueber), und in Wattis langer Zeile „das" → „dass"
+ * samt Satzzeichen. Der Sprechtext ist Wort fuer Wort der Untertitel; was sich
+ * schlecht liest, ist falsch geschrieben. **Kein Wort ist ersetzt, keines
+ * dazugekommen.**
  */
 export const druckerGelbePunkte: Short = {
-  id: 'drucker-punkte-weitererzaehlt',
+  id: 'drucker-gelbe-punkte',
   themaId: 'drucker-gelbe-punkte',
   format: 'absicht',
   sachgebiet: 'drucken',
   bauform: 'wechselrede',
-  arbeitstitel: 'Watti erzählt es im Treppenhaus weiter',
-  weitererzaehlt: 'einem konkreten Drucker zugeordnet werden kann',
-  suchbegriff: 'Drucker Punkte',
+  arbeitstitel: 'Wattis Beschwerde hat einen Absender',
+  weitererzaehlt: 'einem bestimmten Drucker zuordnen',
+  suchbegriff: 'Drucker gelbe Punkte',
   kaltstart: {
     art: 'stolzerfehler',
-    satz: 'Ich habe der Nachbarin gerade das mit den Druckern erklärt.',
-    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'erklaeren', requisite: 'drucker' },
+    satz: 'Er wird niemals herausfinden, wer die Beschwerde ausgedruckt hat.',
+    buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'drucker' },
   },
-  vorspann: 'Wattis Erklärung im Treppenhaus',
+  vorspann: 'Watti und sein Farbdrucker',
 
   szenen: [
     {
+      /*
+       * **Der Kaltstart wird sofort gekontert** — Befund 12: In den
+       * Belehrungsszenarien beantwortet die erste Zeile nach dem Vorhang den
+       * Selbstgespraechssatz davor. Watti sagt „Er wird niemals
+       * herausfinden…", und Volti steht mit dem Brief in der Hand da.
+       *
+       * Wattis Antwort ist in zwei Anteile geteilt, weil sie zwei Zuege traegt:
+       * erst die Auskunft, dann die Rueckfrage. **Kein Wort ist geaendert.**
+       */
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Volti, ich habe der Nachbarin das mit den gelben Punkten erklärt. Was hast du ihr erzählt?',
+        'Watti, wieso erhalte ich eine Beschwerde von dir per Post? Das ist eine Beschwerde an den Vermieter. Wie kommst du auf mich?',
       rede: [
-        { sprecher: 'zeiger', zug: 'behaupten', text: 'Volti, ich habe der Nachbarin das mit den gelben Punkten erklärt.' },
-        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Was hast du ihr erzählt?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'nachhaken',
+          text: 'Watti, wieso erhalte ich eine Beschwerde von dir per Post?',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'nachhaken',
+          machart: 'rueckfrage',
+          text: 'Das ist eine Beschwerde an den Vermieter. Wie kommst du auf mich?',
+        },
       ],
       buehne: {
         art: 'figur',
-        wer: 'zeiger',
+        wer: 'nachleser',
         von: 'ruhe',
-        nach: 'erklaeren',
-        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
+        nach: 'ansprechen',
+        gegenueber: { von: 'zeigen', nach: 'stutzen' },
       },
     },
     {
@@ -65,134 +88,139 @@ export const druckerGelbePunkte: Short = {
       quelleId: 'bsi-yellow-dots',
       belegId: 'wasserzeichen-mit-denen-ein',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
+      /*
+       * **Wattis „Watt?" steht hier, damit Volti nicht 12,3 Sekunden am Stueck
+       * spricht.** Emirhans Zeile war ein Doppelsatz; `redelauf` erlaubt acht
+       * Sekunden, und diese Grenze ist an seinen eigenen zehn Dialogen
+       * gemessen — sein laengster Block lag bei 7,5.
+       *
+       * **Der Ausruf ist seiner und steht in seinen anderen Dialogen an genau
+       * dieser Stelle**: nach der Behauptung, vor der Erklaerung. Kein Wort von
+       * ihm faellt weg, es kommt eines dazu, und die beiden Bloecke liegen bei
+       * 7,1 und 5,2 Sekunden.
+       */
       sprechtext:
-        'Dass ihr Drucker ihren Namen auf jedes Blatt schreibt. Das habe ich nie gesagt, du Idiot. Und was hast du gesagt? Einige Geräte hinterlassen Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann. Also doch ihr Name.',
-      rede: [
-        {
-          sprecher: 'zeiger',
-          zug: 'beantworten',
-          machart: 'katastrophe',
-          text: 'Dass ihr Drucker ihren Namen auf jedes Blatt schreibt.',
-        },
-        {
-          sprecher: 'nachleser',
-          zug: 'richtigstellen',
-          text: 'Das habe ich nie gesagt, du Idiot.',
-        },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und was hast du gesagt?' },
-        {
-          sprecher: 'nachleser',
-          zug: 'beantworten',
-          text: 'Einige Geräte hinterlassen Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann.',
-          quelleId: 'bsi-yellow-dots',
-          belegId: 'einige-geraete-hinterlassen',
-        },
-        { sprecher: 'zeiger', zug: 'umdeuten', machart: 'falscherschluss', text: 'Also doch ihr Name.' },
-      ],
-      buehne: {
-        art: 'figur',
-        wer: 'zeiger',
-        von: 'erklaeren',
-        nach: 'stutzen',
-        gegenueber: { von: 'nachdenken', nach: 'zeigen' },
-      },
-    },
-    {
-      art: 'text',
-      position: 'zuspitzung',
-      quelleId: 'bsi-yellow-dots',
-      belegId: 'wasserzeichen-mit-denen-ein',
-      sprechtext:
-        'Das Gerät, nicht die Person. Und macht ihrer das überhaupt? Steht da nicht. Einige tun es, und welche, sagt keiner.',
+        'Wusstest du eigentlich, dass Farblaserdrucker ein Muster winziger gelber Punkte auf jede Seite setzen? Watt? Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen.',
       rede: [
         {
           sprecher: 'nachleser',
-          zug: 'einschraenken',
-          text: 'Das Gerät, nicht die Person.',
+          zug: 'beantworten',
+          text: 'Wusstest du eigentlich, dass Farblaserdrucker ein Muster winziger gelber Punkte auf jede Seite setzen?',
           quelleId: 'bsi-yellow-dots',
           belegId: 'wasserzeichen-mit-denen-ein',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und macht ihrer das überhaupt?' },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Watt?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          machart: 'nebenbemerkung',
-          text: 'Steht da nicht. Einige tun es, und welche, sagt keiner.',
+          text: 'Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen.',
+          quelleId: 'bsi-yellow-dots',
+          belegId: 'wasserzeichen-mit-denen-ein',
         },
       ],
       buehne: {
         art: 'figur',
-        wer: 'zeiger',
-        von: 'stutzen',
-        nach: 'nachdenken',
-        gegenueber: { von: 'zeigen', nach: 'erklaeren' },
+        wer: 'nachleser',
+        von: 'ansprechen',
+        nach: 'erklaeren',
+        gegenueber: { von: 'stutzen', nach: 'lesen' },
       },
     },
     {
       /*
-       * **Der Kipppunkt von `absicht` ist, wer es entschieden hat.** Hier ist
-       * es die Stelle, an der die Sache ohne jede Uebertreibung reicht: nicht
-       * dokumentiert und nicht abschaltbar, beides woertlich beim BSI.
+       * **Watti traegt hier die Quelle**, und die Vorgeschichte steht im Satz:
+       * „ja weiss ich". Befund 27 — die Quelle wandert mit der Vorgeschichte,
+       * nicht mit der Rolle.
+       *
+       * **Und er traegt die Einschraenkung**, die das BSI mit „Einige Geraete"
+       * setzt: „wodurch man nicht weiss, ob jeder Drucker es tut". Genau dieser
+       * Halbsatz fehlte in meiner Fassung.
        */
       art: 'text',
-      position: 'kipppunkt',
+      position: 'zuspitzung',
       quelleId: 'bsi-yellow-dots',
       belegId: 'diese-funktion-ist-oft',
+      /*
+       * **Voltis „Du?" ist das zweite dazugekommene Wort.** Wattis Zeile stand
+       * am Stueck bei 8,9 Sekunden; geteilt sind es 1,0 und 7,8. Und der
+       * Einwurf tut etwas, was der Short ohnehin braucht: Er macht hoerbar,
+       * dass Watti hier ausnahmsweise der ist, der nachgelesen hat.
+       */
       sprechtext:
-        'Dann stelle ich das bei ihr eben ab. Die Funktion ist oft nicht dokumentiert und kann nicht abgeschaltet werden. Bei keinem?',
+        'Ja, weiß ich. Du? Und dass es laut BSI oft vom Hersteller nicht dokumentiert wird, wodurch man nicht weiß, ob jeder Drucker es tut.',
       rede: [
+        { sprecher: 'zeiger', zug: 'beantworten', text: 'Ja, weiß ich.' },
+        { sprecher: 'nachleser', zug: 'nachhaken', text: 'Du?' },
         {
           sprecher: 'zeiger',
-          zug: 'zuspitzen',
-          machart: 'uebercompliance',
-          text: 'Dann stelle ich das bei ihr eben ab.',
-        },
-        {
-          sprecher: 'nachleser',
-          zug: 'richtigstellen',
-          text: 'Die Funktion ist oft nicht dokumentiert und kann nicht abgeschaltet werden.',
+          zug: 'gegenbeispiel',
+          text: 'Und dass es laut BSI oft vom Hersteller nicht dokumentiert wird, wodurch man nicht weiß, ob jeder Drucker es tut.',
           quelleId: 'bsi-yellow-dots',
           belegId: 'diese-funktion-ist-oft',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Bei keinem?' },
       ],
       buehne: {
         art: 'figur',
-        wer: 'zeiger',
-        von: 'nachdenken',
-        nach: 'staunen',
-        gegenueber: { von: 'erklaeren', nach: 'lesen' },
+        wer: 'nachleser',
+        von: 'erklaeren',
+        nach: 'stutzen',
+        gegenueber: { von: 'lesen', nach: 'zeigen' },
+      },
+    },
+    {
+      /*
+       * **Der Kipppunkt braucht keine Quelle**, weil keine seiner Zeilen etwas
+       * ueber die Welt behauptet. „Wir leben hier alleine und ich bin dein
+       * Vermieter" ist der erzaehlte Fall — dafuer gibt es den Zug `erinnern`.
+       *
+       * **Und das ist die Wendung von `absicht` in ihrer besten Form:** Nicht
+       * die Technik ueberfuehrt Watti, sondern die Wohnsituation. Der ganze
+       * Belegapparat war umsonst.
+       */
+      art: 'text',
+      position: 'kipppunkt',
+      sprechtext:
+        'Aber ich weiß trotzdem, dass es von dir ist. Und wie willst du das beweisen? Wir leben hier alleine und ich bin dein Vermieter du Idiot.',
+      rede: [
+        { sprecher: 'nachleser', zug: 'zuspitzen', text: 'Aber ich weiß trotzdem, dass es von dir ist.' },
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wie willst du das beweisen?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'erinnern',
+          machart: 'banaleaufloesung',
+          text: 'Wir leben hier alleine und ich bin dein Vermieter du Idiot.',
+        },
+      ],
+      buehne: {
+        art: 'figur',
+        wer: 'nachleser',
+        von: 'stutzen',
+        nach: 'ansprechen',
+        gegenueber: { von: 'zeigen', nach: 'staunen' },
       },
     },
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Der Ausdruck führt auf das Gerät, nicht auf den Namen.',
-      sprechtext:
-        'Bei denen, die es machen: gar nicht. Dann gehe ich nochmal runter und sage es ihr richtig. Sag ihr diesmal nur das, was ich gesagt habe.',
+      satz: 'Der Ausdruck führt auf das Gerät zurück.',
+      sprechtext: 'Also darf ich jetzt eine Katze haben oder nicht? Sonst kriegst du noch einen Brief.',
       rede: [
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Bei denen, die es machen: gar nicht.' },
         {
           sprecher: 'zeiger',
-          zug: 'einlenken',
-          text: 'Dann gehe ich nochmal runter und sage es ihr richtig.',
-        },
-        {
-          sprecher: 'nachleser',
-          zug: 'beantworten',
-          machart: 'widerhaken',
-          text: 'Sag ihr diesmal nur das, was ich gesagt habe.',
+          zug: 'zuspitzen',
+          machart: 'themenwechsel',
+          text: 'Also darf ich jetzt eine Katze haben oder nicht? Sonst kriegst du noch einen Brief.',
         },
       ],
       buehne: {
         art: 'figur',
-        wer: 'zeiger',
-        von: 'staunen',
-        nach: 'ansprechen',
-        gegenueber: { von: 'lesen', nach: 'achselzucken' },
+        wer: 'nachleser',
+        von: 'ansprechen',
+        nach: 'achselzucken',
+        gegenueber: { von: 'staunen', nach: 'zeigen' },
       },
       rundlauf:
-        'Beim zweiten Sehen ist der erste Satz schon das Problem: Watti hat es weitergegeben, bevor er es verstanden hatte.',
+        'Beim zweiten Sehen ist Wattis erster Satz doppelt komisch: Er hat gar keinen Drucker überführt, sondern seinen Mitbewohner.',
     },
   ],
 
@@ -200,13 +228,13 @@ export const druckerGelbePunkte: Short = {
 
   texte: {
     tiktok: {
-      titel: 'Watti erzählt es im Treppenhaus weiter',
-      beschreibung: 'Gelbe Punkte im Drucker: Was sie wirklich verraten.',
+      titel: 'Wattis Beschwerde hat einen Absender',
+      beschreibung: 'Gelbe Punkte vom Drucker: Was ein Ausdruck über sein Gerät verrät.',
       hashtags: ['#drucker', '#datenschutz', '#bsi', '#ganzakkurat'],
     },
     instagram: {
-      titel: 'Watti erzählt es im Treppenhaus weiter',
-      beschreibung: 'Gelbe Punkte vom Drucker führen auf das Gerät. Nicht auf den Namen.',
+      titel: 'Wattis Beschwerde hat einen Absender',
+      beschreibung: 'Gelbe Punkte auf jeder Seite. Der Drucker steht im Ausdruck.',
       hashtags: ['#drucker', '#datenschutz', '#privatsphaere', '#ganzakkurat'],
     },
     youtube: {

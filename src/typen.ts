@@ -534,7 +534,15 @@ export const ZUGARTEN: Record<
       'Du hast letzte Woche danach gefragt.',
     ],
     behauptet: false,
-    schliesst: ['konter'],
+    /*
+     * **Er schliesst auch eine Antwort**, seit dem 03.09.2026 — dieselbe
+     * Korrektur wie bei `einschraenken` am Tag davor. „Wir leben hier alleine
+     * und ich bin dein Vermieter du Idiot." beantwortet in Emirhans
+     * Drucker-Dialog die Frage „Und wie willst du das beweisen?"
+     * vollstaendig; dass die Auskunft aus ihrem gemeinsamen Leben kommt und
+     * nicht aus einer Quelle, macht sie nicht zu einer Nicht-Antwort.
+     */
+    schliesst: ['konter', 'antwort'],
   },
   gegenbeispiel: {
     name: 'Gegenbeispiel',
