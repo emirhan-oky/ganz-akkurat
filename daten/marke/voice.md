@@ -189,6 +189,22 @@ Eine Verbotsliste ist schärfer als eine Erlaubnis, wie bei
 - **Keine Selbsterkenntnis.** „Ich mache das immer falsch" wäre der Schlusssatz
   einer Figur, die dazulernt. Watti lernt nichts.
 
+#### Watti lügt nicht
+
+Die Frage kam am 02.09.2026 zum Briefing über den Ereignisdatenspeicher: Watti
+erzählt vom Auffahrunfall die Version, in der er nichts dafürkann — **will er
+Volti belügen?**
+
+Nein, und der Unterschied trägt die ganze Figur. **Er glaubt seine Version.**
+Watti versteht die Welt nicht, er täuscht sie nicht. Wer ihn lügen lässt, macht
+aus dem kleinen Bruder einen unangenehmen Menschen, und der Zuschauer hört auf,
+ihm die Daumen zu drücken — dieselbe Grenze wie bei „Wen die Pointe treffen
+darf".
+
+Die Folge fürs Schreiben: Die Pointe ist nie **„ertappt"**, sondern immer
+**„das wusste er nicht"**. Beim Ereignisdatenspeicher gab es einen Zeugen, von
+dem er nichts ahnte, und der saß in seinem eigenen Auto.
+
 #### Wie Watti auf einen Beleg reagiert
 
 Vier Wege, und der erste ist der häufigste:

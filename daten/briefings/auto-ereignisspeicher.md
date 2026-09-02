@@ -6,11 +6,18 @@
 
 ## Wattis Lage
 
-Watti ist jemandem hinten draufgefahren und erzählt gerade, wie es wirklich war.
+Watti ist jemandem hinten draufgefahren. Er erzählt die Geschichte zum dritten
+Mal, und sie wird jedes Mal ein bisschen besser: Der andere hat plötzlich
+gebremst, er selbst war ohnehin fast im Stand.
 
 ## Sein Fehler
 
-Er hält seine Version für die einzige, die es gibt.
+**Er lügt nicht.** Er glaubt seine Version — das ist der Unterschied zwischen
+ihm und einem Lügner, und er trägt die ganze Figur. Watti versteht die Welt
+nicht, er täuscht sie nicht. Wer ihn lügen lässt, macht ihn unsympathisch, und
+der Zuschauer hört auf, ihm die Daumen zu drücken.
+
+Sein Fehler ist, dass er seine Version für die einzige hält, die es gibt.
 
 ## Was Volti nachgelesen hat
 
@@ -26,7 +33,13 @@ Neue Fahrzeuge müssen einen Ereignisdatenspeicher haben. Er zeichnet auf, was k
 
 ## Wo es kippt
 
-Das Auto hat mitgeschrieben. Wattis Version steht neben einer zweiten, die nicht von ihm ist.
+Das Auto hat mitgeschrieben. Es gab einen Zeugen, von dem Watti nichts wusste —
+und der saß in seinem eigenen Wagen.
+
+**Die Empörung gehört nicht Watti, sondern der Entscheidung.** „Das ist Absicht"
+löst Empörung über den aus, der es entschieden hat: Jedes neue Auto führt
+Protokoll, und gefragt wurde niemand. Wattis Zeile ist „Mein eigenes Auto
+petzt?!", nicht „Ich hab doch nichts gemacht".
 
 ## Die Falle
 
