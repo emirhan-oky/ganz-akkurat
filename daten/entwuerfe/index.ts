@@ -17,6 +17,9 @@ import { fremdesLadekabel } from './fremdes-ladekabel';
 import { powerbankWattstunden } from './powerbank-wattstunden';
 import { akkuWechselbar2027 } from './akku-wechselbar-2027';
 import { flugmodusAnsage } from './flugmodus-ansage';
+import { schaltsekundeWette } from './schaltsekunde-wette';
+import { druckerGelbePunkte } from './drucker-gelbe-punkte';
+import { autoEreignisspeicher } from './auto-ereignisspeicher';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -68,7 +71,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodusAnsage];
+export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodusAnsage, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
