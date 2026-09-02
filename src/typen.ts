@@ -939,7 +939,17 @@ export const MACHARTEN = [
   {
     schluessel: 'widerhaken',
     name: 'Das Geschenk mit Widerhaken',
-    wer: 'nachleser',
+    /*
+     * **Geteilt seit dem 02.09.2026, aus demselben Grund wie `gestaendnis`.**
+     * Es ist Voltis Zug — der grosse Bruder hilft und tritt im selben Satz
+     * nach. In Szenario 5 drehen sich die Rollen aber gerade um: In
+     * `urlaubsfoto` sagt Watti „Und ich sage niemandem, wo du warst.", und das
+     * ist ein Geschenk mit Widerhaken von unten nach oben.
+     *
+     * Bei Volti ist es Handwerk, bei Watti eine Rollenumkehr — und die
+     * funktioniert nur, wenn sie selten bleibt.
+     */
+    wer: 'beide',
     tut: 'Er hilft und tritt im selben Satz nach. Waerme und Schlag in einer Zeile.',
     achtung: 'Die Hilfe muss echt sein. Ein Geschenk, das keins ist, macht ihn gemein statt trocken.',
     beispiele: [
@@ -3555,25 +3565,32 @@ export const Short = z.object({
     }
 
     /*
-     * **Sie traegt den Namen dessen, der den Kaltstart gesprochen hat.**
+     * **Sie traegt einen der beiden Namen.**
      *
-     * Seit dem 02.09.2026. Geprueft wird der Name und nicht bloss „einer von
-     * beiden": Steht dort Volti, waehrend Watti vor dem Vorhang stolpert,
-     * kuendigt die Karte eine andere Sendung an, als gleich laeuft — und der
-     * Zuschauer liest sie laenger, als sie steht.
+     * Bis zum Abend des 02.09.2026 musste es der Name dessen sein, der den
+     * Kaltstart spricht — mit der Begruendung, die Karte kuendige sonst eine
+     * andere Sendung an, als gleich laeuft.
+     *
+     * **Zwei von Emirhans Dialogen widerlegen das, und sie tun es
+     * absichtlich.** In `zettel-im-treppenhaus` und `urlaubsfoto` spricht
+     * Watti vor dem Vorhang, und die Themenzeile heisst „Voltis Zettel" und
+     * „Voltis Foto". Das ist kein Versehen: Beide Shorts handeln davon, dass
+     * **Volti** ertappt wird. Die Zeile nennt den, um den es geht, nicht den,
+     * der anfaengt — Befund 11 in `daten/marke/dialoganalyse.md`, dort am
+     * Titel gefunden und hier genauso gueltig.
+     *
+     * Geprueft bleibt, dass ueberhaupt ein Name dasteht. Eine Themenzeile
+     * ohne Figur ist wieder ein Etikett, und genau dagegen steht die Sperre
+     * darueber.
      */
-    const kaltstartArt = KALTSTART_ARTEN.find((a) => a.schluessel === short.kaltstart.art);
-    if (kaltstartArt !== undefined) {
-      const name = kaltstartArt.wer === 'zeiger' ? 'Watti' : 'Volti';
-      if (!short.vorspann.includes(name)) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['vorspann'],
-          message:
-            `Der Kaltstart gehört ${name}; die Themenzeile nennt ihn nicht. ` +
-            'Sie sagt, wessen Geschichte kommt — „Wattis Faulheit mit Passwörtern".',
-        });
-      }
+    if (!short.vorspann.includes('Watti') && !short.vorspann.includes('Volti')) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['vorspann'],
+        message:
+          'Die Themenzeile nennt keine der beiden Figuren. Sie sagt, wessen Geschichte kommt — ' +
+          '„Wattis Faulheit mit Passwörtern", nicht „Passwörter".',
+      });
     }
 
     /*
