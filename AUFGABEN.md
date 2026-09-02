@@ -2134,12 +2134,50 @@ die banale Rückfrage als Vorlage für die Schlussformel. Alle drei stehen als
 Muster in `skript-schreiben` und in `voice.md`, keines als Feld — **eine
 Mechanik, die man erzwingt, wird zur Schablone.**
 
+## Der Skriptschreiber · 02.09.2026
+
+Emirhans Auftrag: *„damit du zukünftig das Script schreibst und ich nicht
+mehr."* Sein Befund davor: Ich habe jeden seiner Dialoge umgeschrieben, weil
+Regeln dagegenstanden, die ich vorher selbst gebaut hatte — keine davon an
+seinem Material gemessen.
+
+- [x] ~~**Neun Dialoge vermessen** — 131 Redezeilen, Zeichen je Figur,
+      Fragenanteil, Sitz der Zitatkarte. 38 Befunde in
+      `daten/marke/dialoganalyse.md`~~
+- [x] ~~**Sechs Runden Gegentest.** Runde vier, 5c und 6a waren die ersten ohne
+      Beanstandung~~
+- [x] ~~**`daten/szenarien/`** mit LIESMICH und fünf Szenariendokumenten. Der
+      Skill liest den Ordner, er enthält ihn nicht — **eine neue Runde legt
+      dort eine Datei ab und fasst den Skill nicht an**~~
+- [x] ~~**Fenster 40–80**, Zielwerte je Bauform gestrichen,
+      `LAENGENKLASSEN` aus dem Fenster abgeleitet~~
+- [x] ~~**`MACHARTEN` mit Feld `wer`**, sechzehn Einträge statt sechs. Voltis
+      Fach hatte im Schema gar keinen Platz~~
+- [x] ~~**Die Beschreibung** lädt ein statt aufzuzählen, und `beitragstext`
+      sammelt die Quellen aus Szenen **und** Redeanteilen~~
+- [x] ~~**Alle zehn Dialoge im Schema**, in `GEPARKT`, 54 bis 78 Sekunden~~
+- [x] ~~**Die Regelinventur.** 91 Befunde an zehn abgenommenen Dialogen; neun
+      Regeln gewandert, sechs haben recht behalten. Die Belegpflicht ist von
+      der Szene auf die behauptende Zeile gewandert, dafür gibt es den Zug
+      `erinnern`~~
+- [x] ~~**`npm run pruefen` sieht `GEPARKT`.** Zehn fertige Dialoge lagen im
+      Ordner, die Prüfung war grün, und 91 Befunde standen daneben~~
+- [x] ~~**Der `belegpruefer` hat einen Short umgedreht.** In
+      `festplatte-loeschen` gibt dieselbe BSI-Seite Wattis Hammer recht; der
+      Short behauptete das Gegenteil, und `quellen-pruefen` war grün~~
+- [x] ~~**Zwei Quellen dazu:** § 434 BGB und zwei weitere Zitate der
+      BSI-Löschseite~~
+- [x] ~~**`skript-schreiben`, `voice.md` und `CLAUDE.md`** auf den Stand~~
+
 ### Offen
 
-- [ ] **Zehn Dialoge von Emirhan.** Die Bogen liegen in `daten/briefings/`; der
-      Dialog wird in dieselbe Datei geschrieben. Ab fünf bis zehn Stück zieht
-      `humor-eichen` die Muster
-- [ ] **Danach die Vorbilder** — mit `watch` ansehen, mit
+- [ ] ▸ **Die Szenarien 6 bis 12 brauchen ihre vier Beispiele.** Beide daneben ·
+      Wattis Plan · der Rückfall · der Dritte im Raum · die Wette · falsch
+      weitererzählt · Volti hat es aufgegeben. Jede Runde legt eine Datei in
+      `daten/szenarien/` ab
+- [ ] **Die zehn Dialoge sind noch nicht vertont.** Sie stehen in `GEPARKT`;
+      ein Lauf mit Ton kostet Kontingent und braucht Emirhans Zusage
+- [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
 - [ ] **Vier Quellen für die Engpassfächer holen:** `apps-schliessen` und
