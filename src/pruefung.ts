@@ -808,8 +808,25 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
 
   /* ── Lesbarkeit im Feed ──────────────────────────────────────────── */
 
-  if (erste !== undefined && erste.sprechtext.split(/\s+/).length > 9) {
-    melde('hinweis', 'lesbarkeit', 'Der Aufschlag hat mehr als neun Wörter – im Feed greift er dann nicht mehr zu.');
+  /*
+   * **Die neun Woerter gelten dem Kaltstart, seit es ihn gibt.**
+   *
+   * Sie standen bis zum 02.09.2026 am Aufschlag, aus derselben Zeit wie die
+   * 3,5 Sekunden — als die erste Szene noch der Anfang des Videos war. Heute
+   * steht der Kaltstart davor, und **er ist der Satz, den jemand im Feed
+   * liest, bevor er weiterwischt.**
+   *
+   * Am Aufschlag hat die Regel bei allen zehn Dialogen gemeldet und bei
+   * keinem recht gehabt: Ein Wortwechsel aus zwei Zeilen hat immer mehr als
+   * neun Woerter, und mehr als eine Zeile ist genau das, was ihn zum Gespraech
+   * macht.
+   */
+  if (short.kaltstart.satz.split(/\s+/).length > 12) {
+    melde(
+      'hinweis',
+      'lesbarkeit',
+      `Der Kaltstart hat ${short.kaltstart.satz.split(/\s+/).length} Wörter – im Feed greift er dann nicht mehr zu.`,
+    );
   }
 
   /* ── Plattformtexte ──────────────────────────────────────────────── */
@@ -962,13 +979,33 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * Situation, in der jemand das Video braucht, kommt nirgends vor. In der
    * Suche entscheidet aber genau sie.
    */
-  const aufschlagSzene = short.szenen.find((s) => s.position === 'aufschlag');
-  const hookText = aufschlagSzene?.sprechtext ?? '';
+  /*
+   * **Die Hook ist der Kaltstart, seit dem 02.09.2026.** Hier stand die erste
+   * Szene, und das war richtig, solange das Video mit ihr anfing. Heute steht
+   * der Kaltstart davor — er ist der Satz, gegen den der Titel sich abheben
+   * muss, weil beide im Feed nebeneinander zu sehen sind.
+   *
+   * Und der **Videotext** schliesst Kaltstart und Themenzeile ein. Beides wird
+   * gesprochen und steht im Bild; ohne sie meldete die Regel Woerter als
+   * „kommt im Video nicht vor", die der Zuschauer in der ersten Sekunde hoert.
+   */
+  const hookText = short.kaltstart.satz;
   const hookWoerter = new Set(sachwoerter(hookText));
-  const videotext = short.szenen
-    .flatMap((s) => textwerte(s))
+  const videotext = [
+    ...short.szenen.flatMap((s) => textwerte(s)),
+    short.kaltstart.satz,
+    short.vorspann,
+  ]
     .join(' ')
     .toLowerCase();
+
+  /*
+   * **Die beiden Figurennamen sind ausgenommen.** Sie stehen auf jeder
+   * Vorhangkarte und werden im Vorspann gesprochen — nur eben nicht in einem
+   * Feld, das `textwerte` liest. Emirhans Titel nennen fast alle „Watti" oder
+   * „Volti", und die Regel meldete sie 23-mal als unbelegt.
+   */
+  const FIGURENWOERTER = new Set(['watti', 'wattis', 'volti', 'voltis']);
 
   /*
    * Geprueft werden die **veroeffentlichten** Titel, nicht der
@@ -994,10 +1031,21 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     }
 
     if (woerter.every((w) => hookWoerter.has(w))) {
+      /*
+       * **Hinweis, seit die Hook der Kaltstart ist.** Die Ueberschneidung ist
+       * jetzt gebaut: Der Kaltstart **muss** das zusammengesetzte Substantiv
+       * nennen, das das Thema festnagelt — Akkuwechsel, Flugmodus,
+       * Kabelschublade —, und derselbe Gegenstand steht im Titel. „Ein
+       * Passwort fuer alles" neben „Ich haette mein Passwort wechseln
+       * muessen" ist kein doppelter Satz, sondern zweimal dasselbe Thema.
+       *
+       * Die Frage bleibt richtig: Was fuegt der Titel hinzu? Als Fehler
+       * bestrafte sie die Regel, die daneben steht.
+       */
       melde(
-        'fehler',
+        'hinweis',
         'titel',
-        `${plattform}: Der Titel nennt nur, was die Hook schon sagt (${woerter.join(', ')}).`,
+        `${plattform}: Der Titel nennt nur, was der Kaltstart schon sagt (${woerter.join(', ')}).`,
       );
     }
 
@@ -1007,12 +1055,24 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
      * verspricht, ueber die das Video nicht spricht, hat einen Koeder
      * geschrieben und keinen Titel.
      */
-    const unbelegt = woerter.filter((w) => !kommtImVideoVor(w, videotext));
+    const unbelegt = woerter.filter((w) => !FIGURENWOERTER.has(w) && !kommtImVideoVor(w, videotext));
     if (unbelegt.length > 0) {
+      /*
+       * **Hinweis und nicht mehr Fehler.** Der Titel darf ein **Bild**
+       * benutzen statt des technischen Worts — „Wattis sieben Waechter
+       * verraten ihn" statt „Blocker", Befund 9 in
+       * `daten/marke/dialoganalyse.md`. Ein Bild ist keine Behauptung, und die
+       * Regel kann die beiden nicht unterscheiden.
+       *
+       * Was sie kann, ist fragen. Der Fall, gegen den sie gebaut ist, sieht
+       * anders aus und faellt beim Lesen sofort auf: ein Titel, der eine
+       * **Sache** verspricht, ueber die das Video nicht spricht.
+       */
       melde(
-        'fehler',
+        'hinweis',
         'titel',
-        `${plattform}: „${unbelegt.join(', ')}" kommt im Video nicht vor.`,
+        `${plattform}: „${unbelegt.join(', ')}" kommt im Video nicht vor. ` +
+          'Ein Bild darf das — eine Sache, die niemand nennt, ist ein Köder.',
       );
     }
 
@@ -1072,9 +1132,27 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
    * Sache ueberhaupt gesagt war.
    *
    * Gemessen wird die **Sprechdauer** der ersten Szene, nicht ihre Standzeit:
-   * Die Mindestdauer im Bild darf laenger sein, gesprochen wird trotzdem nur
-   * ein Satz. Fehler statt Hinweis, weil es der teuerste Fehler ist, den ein
-   * Short machen kann — alles Weitere daran haengt.
+   * Die Mindestdauer im Bild darf laenger sein.
+   *
+   * ## Warum die Grenze am 02.09.2026 von 3,5 auf 9 Sekunden gegangen ist
+   *
+   * **Die erste Szene ist nicht mehr die Hook.** Vor ihr liegen der Kaltstart
+   * und der Vorhang; wer sich fuers Bleiben entscheidet, tut das im Kaltstart,
+   * und **dort steht die 3,5-Sekunden-Idee jetzt** als `KALTSTART_MAX_SEK`.
+   * Die erste Szene beginnt rund neun Sekunden spaeter — der Zuschauer, der
+   * sie hoert, hat sich laengst entschieden.
+   *
+   * Alle zehn Dialoge von Emirhan haben sie gerissen, von 6,2 bis 8,8
+   * Sekunden, und alle zehn sind gute Anfaenge. Der Grund ist der Bau: Die
+   * erste Szene ist heute ein **Wortwechsel** aus zwei bis drei Zeilen, wo
+   * frueher ein Satz stand. „Warum bringst du die Kopfhoerer nicht einfach
+   * zurueck? — Weil ich sie letztes Jahr aufgemacht habe und der Aufkleber
+   * jetzt ab ist." sind zwei Zeilen, und keine davon ist zu lang.
+   *
+   * **Eine Regel, die zehn von zehn guten Anfaengen ablehnt, misst das
+   * Falsche.** Sie bleibt trotzdem stehen: Bei neun Sekunden faengt sie den
+   * Fall, gegen den sie gebaut war — die erste Szene als Vortrag. Fehler und
+   * nicht Hinweis, weil dieser Fall am 15.08. teuer war.
    */
   /*
    * Liegt eine Tonspur vor, gilt sie — auch hier.
@@ -1421,16 +1499,40 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
     /\b(januar|februar|märz|maerz|april|mai|juni|juli|august|september|oktober|november|dezember)\b/i;
   const JAHR = /\b(19|20)\d{2}\b|zweitausend\w*|neunzehnhundert\w*/i;
 
+  /*
+   * **Nur die behauptenden Zeilen, seit dem 02.09.2026.**
+   *
+   * Die Regel zielt auf Zeitangaben, die eine **Aussage ueber die Welt**
+   * datieren: „seit zwoelf Tagen gilt", „diese Woche hat die Kommission". Die
+   * altern zwischen Entwurf und Ausstrahlung, ohne dass jemand etwas aendert.
+   *
+   * Sie hat aber auch die **Erzaehlzeit der beiden Brueder** getroffen — „das
+   * Foto von gestern", „du hast letzte Woche danach gefragt", „dann gehe ich
+   * morgen hin". Vier von zehn Dialogen, und keine dieser Angaben verweist auf
+   * ein reales Datum: Sie steht im erzaehlten Fall, so wie das Wohnzimmer und
+   * die Fahrradlampe. **Was im Short passiert, altert mit dem Short.**
+   *
+   * Dieselbe Trennung wie bei der Belegpflicht, und derselbe Traeger: der Zug.
+   * Wo `behauptet` steht, greift die Regel unveraendert.
+   */
   for (const szene of short.szenen) {
-    const text = ohneSatzzeichen(szene.sprechtext);
+    const anteile = szene.rede ?? [];
+    const pruefText =
+      anteile.length > 0
+        ? anteile
+            .filter((r) => ZUGARTEN[r.zug].behauptet)
+            .map((r) => r.text)
+            .join(' ')
+        : szene.sprechtext;
+    const text = ohneSatzzeichen(pruefText);
     const woerter = [
       ...HEUTEBEZUG.filter((w) => text.includes(w)),
-      ...(HEUTE_VOR.test(szene.sprechtext) ? ['heute vor'] : []),
+      ...(HEUTE_VOR.test(pruefText) ? ['heute vor'] : []),
     ];
-    const spanne = ZEITSPANNE.exec(szene.sprechtext);
+    const spanne = ZEITSPANNE.exec(pruefText);
 
-    const monat = MONATE.exec(szene.sprechtext);
-    if (monat && !JAHR.test(szene.sprechtext)) {
+    const monat = MONATE.exec(pruefText);
+    if (monat && !JAHR.test(pruefText)) {
       melde(
         'fehler',
         'zeitbezug',
@@ -1501,12 +1603,22 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
  *
  * Der Bestand am 31.08.2026, geschaetzt ueber `ZEICHEN_PRO_SEKUNDE`:
  * `raumstation` 12,8 s, `passwort` 10,3 s, `erstes-laden` 6,9 s,
- * `ersatzteil` 6,8 s. **Alle vier fallen durch, und das ist der Zweck** —
+ * `ersatzteil` 6,8 s. **Alle vier fielen durch, und das war der Zweck** —
  * eine Regel, die den Bestand gruen laesst, haette nichts gefunden.
  *
- * Sie faellt, sobald vier Videos im Gespraechsbau gemessen sind.
+ * ## Sechs Sekunden, gemessen: acht
+ *
+ * Am 02.09.2026 lagen zehn Dialoge von Emirhan vor. Ihre laengsten
+ * Redebloecke: 7,5 · 7,4 · 7,1 · 6,7 · 6,4 · 6,1 · 5,9 · 5,5 · 5,0 · 4,8
+ * Sekunden. **Sechs von zehn ueber der Grenze**, und keiner von ihnen ist ein
+ * Vortrag — der Grund ist der Satzbau: Seine Zeilen haben im Schnitt 65
+ * Zeichen, meine hatten 35. Ein Satz mit Nebensatz ist keine Rede.
+ *
+ * Acht Sekunden liegen ueber dem gemessenen Rand und deutlich unter dem Fall,
+ * gegen den die Regel gebaut ist: Voltis 13,9 Sekunden am Stueck in
+ * `raumstation`, bevor Watti zum ersten Mal etwas sagte.
  */
-const REDEBLOCK_MAX_SEK = 6;
+const REDEBLOCK_MAX_SEK = 8;
 
 /**
  * Wie viel des Textes hoechstens auf eine Figur entfallen darf.
@@ -1799,9 +1911,19 @@ const STIMMANTEIL_MAX = 2 / 3;
     const mitAnrede = gesprochen.filter((t) =>
       namen.some((n) => new RegExp(`\\b${n}\\b`).test(t)),
     ).length;
+    /*
+     * **Hinweis und nicht mehr Fehler, seit dem 02.09.2026.** Fuenf von
+     * Emirhans zehn Dialogen kommen ohne eine einzige Anrede aus, und es sind
+     * dieselben zehn, an denen alles andere hier geeicht ist. Sie tragen den
+     * Anschluss anders — ueber die Frage, ueber das Aufgreifen, ueber den Zug.
+     *
+     * Die Regel bleibt, weil sie beim Schreiben die richtige Frage stellt:
+     * *Redet hier jemand mit jemandem?* Als Fehler haette sie die Haelfte des
+     * Eichmasses zurueckgehalten.
+     */
     if (mitAnrede === 0) {
       melde(
-        'fehler',
+        'hinweis',
         'anrede',
         'Keine Zeile spricht den anderen mit Namen an. Ohne Anrede steht ein Satz im ' +
           'Raum, und was darauf folgt, ist ein Zwischenruf statt einer Antwort.',
@@ -1901,13 +2023,22 @@ const STIMMANTEIL_MAX = 2 / 3;
         }
       }
     }
-    if (rueckbezuege < 2) {
+    /*
+     * **Eins statt zwei, seit dem 02.09.2026.** Sechs von Emirhans zehn
+     * Dialogen liegen unter zwei; nur 17 Prozent seiner Zeilen greifen
+     * ueberhaupt ein Wort auf. Der Anschluss laeuft bei ihm ueber die Frage
+     * und ueber den Zug, nicht ueber die Wortwiederholung.
+     *
+     * Die Regel bleibt trotzdem, und zwar als **Gegenprobe zum Zug**: Der Zug
+     * ist eine erklaerte Beziehung, der Rueckbezug misst die tatsaechlichen
+     * Woerter. Bei null Rueckbezuegen in einem ganzen Short lohnt der Blick.
+     */
+    if (rueckbezuege < 1) {
       melde(
         'hinweis',
         'rueckbezug',
-        `Nur ${rueckbezuege} Zeile(n) greifen ein Wort ihrer Vorzeile auf, zwei wären das ` +
-          'Mindestmaß. Daran erkennt man, dass zugehört wurde — ohne es könnten die Zeilen ' +
-          'in beliebiger Reihenfolge stehen.',
+        `Keine Zeile greift ein Wort ihrer Vorzeile auf. Daran erkennt man, dass zugehört ` +
+          'wurde — ohne es könnten die Zeilen in beliebiger Reihenfolge stehen.',
       );
     }
   }
@@ -1978,6 +2109,22 @@ const STIMMANTEIL_MAX = 2 / 3;
         if (offen !== undefined) {
           const andere = mitZug[offen.von]!.sprecher !== anteil.sprecher;
           if (andere && art.schliesst.includes(offen.art)) {
+            offen = undefined;
+          } else if (andere && art.verlangt !== undefined) {
+            /*
+             * **Die Gegenfrage geht darauf ein.** Vierte Vorkehrung, seit dem
+             * 02.09.2026: Wer auf einen Widerspruch mit „Wieso denn nicht?"
+             * antwortet, missachtet ihn nicht — er schiebt die Antwort weiter,
+             * und die neue Pflicht traegt sie.
+             *
+             * In `festplatte-loeschen` steht genau das: Watti widerspricht,
+             * Volti fragt zurueck, Watti begruendet. Ein Gespraech, das die
+             * Regel als Vortrag gemeldet hat.
+             *
+             * Die alte Pflicht gilt damit als eingeloest, die neue faengt an —
+             * ein Schlupfloch ist es nicht, denn die Gegenfrage verlangt
+             * ihrerseits eine Antwort und wird zwei Zeilen spaeter gemessen.
+             */
             offen = undefined;
           } else if (i - offen.von > 2) {
             unerfuellt.push(offen);
@@ -2056,25 +2203,35 @@ const STIMMANTEIL_MAX = 2 / 3;
       }
 
       /*
-       * **Kein Zugpaar dreimal.** Zwei gleiche Wechsel in einem Short sind
-       * Zufall — bei elf Paaren aus 72 moeglichen liegt der Erwartungswert bei
-       * 0,76. Drei sind der Takt, an dem der Zuschauer die Mechanik hoert.
+       * **Kein Zugpaar ueber der Haelfte.** Die Regel hiess bis zum 02.09.2026
+       * „kein Zugpaar dreimal", gerechnet aus elf Paaren und 72 moeglichen
+       * Kombinationen: Erwartungswert 0,76, drei waeren der Takt.
        *
-       * `(behaupten → abbiegen)` dreimal ist die Bauform des ersten Videos in
-       * einer Zeile.
+       * **Die Rechnung war richtig und die Annahme darunter falsch.** Sie
+       * behandelt Zugpaare als gleich wahrscheinlich. Das sind sie nicht:
+       * „Nachhaken → Beantworten" ist die Grundbewegung jedes Gespraechs, und
+       * in Emirhans zehn Dialogen steht sie vier- bis fuenfmal je Short. Acht
+       * Meldungen an zehn guten Dialogen, und keine davon hatte recht.
+       *
+       * Die Grenze haengt jetzt an der Laenge des Shorts statt an einer festen
+       * Zahl: Ein Paar darf bis zur **Haelfte** aller Wechsel stellen. Damit
+       * faengt sie weiter, wogegen sie gebaut war — `(behaupten → abbiegen)`
+       * als halber Short ist die Bauform des ersten Videos in einer Zeile —
+       * und laesst das Frage-und-Antwort-Gespraech in Ruhe.
        */
       const paare = new Map<string, number>();
       for (let i = 1; i < zuege.length; i++) {
         const paar = `${ZUGARTEN[zuege[i - 1]!].name} → ${ZUGARTEN[zuege[i]!].name}`;
         paare.set(paar, (paare.get(paar) ?? 0) + 1);
       }
+      const wechsel = Math.max(zuege.length - 1, 1);
       for (const [paar, anzahl] of paare) {
-        if (anzahl < 3) continue;
+        if (anzahl <= wechsel / 2) continue;
         melde(
           'fehler',
           'zugpaar',
-          `Der Wechsel „${paar}" steht ${anzahl}-mal im selben Short. Zweimal ist Zufall, ` +
-            'dreimal ist der Takt, an dem der Zuschauer die Mechanik hört.',
+          `Der Wechsel „${paar}" steht ${anzahl}-mal von ${wechsel} im selben Short. ` +
+            'Mehr als die Hälfte aller Wechsel ist der Takt, an dem der Zuschauer die Mechanik hört.',
         );
       }
 

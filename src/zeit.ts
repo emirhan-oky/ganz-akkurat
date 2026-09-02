@@ -797,9 +797,18 @@ export const LAENGE_SEK = {
    * sie bleiben — eine Hook, die laenger braucht als diese Entscheidung, ist
    * keine Hook, sondern der Anfang des Videos.
    *
-   * 3,5 s sind bei 17,4 Zeichen je Sekunde rund 60 Zeichen. Ein Satz.
+   * **Am 02.09.2026 von 3,5 auf 9 Sekunden.** Der Satz oben stimmt weiter, er
+   * gilt nur nicht mehr dieser Szene: Seit dem Kaltstart faellt die
+   * Entscheidung **vor** dem Vorhang, und die 3,5 Sekunden stehen dort als
+   * `KALTSTART_MAX_SEK` in `src/pruefung.ts` (heute 5,2, an zehn Kaltstarts
+   * gemessen). Die erste Szene beginnt rund neun Sekunden nach Bild null.
+   *
+   * Alle zehn Dialoge von Emirhan lagen zwischen 6,2 und 8,8 Sekunden, weil
+   * die erste Szene heute ein Wortwechsel aus zwei bis drei Zeilen ist. Die
+   * neue Grenze faengt weiter den Fall, gegen den die Regel gebaut war: die
+   * erste Szene als Vortrag.
    */
-  hookMaximum: 3.5,
+  hookMaximum: 9,
 } as const;
 
 export const zielfenster = (): readonly [number, number] => LAENGE_SEK.ziel;

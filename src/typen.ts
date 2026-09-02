@@ -551,7 +551,14 @@ export const ZUGARTEN: Record<
       'Der haeufigste Ort fuer eine stille Ueberdehnung in der Gegenrichtung — wer einschraenkt, muss die Grenze belegen koennen.',
     beispiele: ['Nur, wenn das Teil den Anforderungen entspricht.'],
     behauptet: true,
-    schliesst: ['konter'],
+    /*
+     * **Er schliesst auch eine Antwort.** „Das steht in dem Text nicht drin."
+     * beantwortet Wattis Frage in `produktpass-akku` vollstaendig — die
+     * Auskunft lautet, dass es keine gibt. Bis zum 02.09.2026 zaehlte nur
+     * `beantworten`, und die Antwortpflicht meldete genau die Zeile, die
+     * dieser Short braucht: Volti muss einmal zugeben, dass er es nicht weiss.
+     */
+    schliesst: ['konter', 'antwort'],
   },
   widersprechen: {
     name: 'Widersprechen',
@@ -2635,12 +2642,31 @@ export type Gespraechsbogen = {
   frei: string;
 };
 
+/*
+ * **Die Schluss-Zuege sind am 02.09.2026 an zehn Dialogen nachgezogen worden.**
+ *
+ * Sie standen seit dem 26.08. als Vermutung darueber, worauf ein Format
+ * ausgeht, und sieben von zehn Dialogen haben sie gerissen — immer auf
+ * dieselbe Weise: Der Short endet auf `beantworten`.
+ *
+ * **Der Grund ist Befund 13:** Der Schluss gehoert der Beziehung, nicht der
+ * Sache. Acht von neun Dialogen enden auf einem Satz zwischen den Bruedern,
+ * und grammatisch ist das fast immer eine Antwort oder ein Nachgeben — „Ich
+ * bin umsonst du Idiot.", „Jetzt sagen wir beide nichts mehr im Wohnzimmer.",
+ * „Das ist mein grosser Bruder."
+ *
+ * Die **Wendung** steht weiter im Feld `wendung` und sitzt am Kipppunkt. Der
+ * letzte Zug des Shorts ist nicht die Wendung, sondern das, was danach kommt.
+ * `beantworten` und `einlenken` stehen deshalb in jedem Bogen; die
+ * formateigenen Zuege bleiben daneben stehen, weil sie den Fall beschreiben,
+ * in dem die Wendung selbst das letzte Wort hat.
+ */
 export const GESPRAECHSBOEGEN: Record<Format, Gespraechsbogen> = {
   gibtswirklich: {
     streitfrage: 'Kann das stimmen?',
     irrtum: 'keiner',
     wendung: 'Die Sache selbst. Niemand hat sich geirrt, die Welt ist so.',
-    schluss: ['richtigstellen', 'zuspitzen', 'einlenken'],
+    schluss: ['richtigstellen', 'zuspitzen', 'einlenken', 'beantworten'],
     frei: 'Wer staunt und wer nachlegt. Beide duerfen unglaeubig sein, und es darf wechseln.',
   },
   werhatrecht: {
@@ -2653,21 +2679,21 @@ export const GESPRAECHSBOEGEN: Record<Format, Gespraechsbogen> = {
      * eingetragene Zusage und nicht als geduldete Luecke, damit die
      * Antwortpflicht sie kennt statt sie zu melden.
      */
-    schluss: ['nachhaken', 'einschraenken', 'widersprechen'],
+    schluss: ['nachhaken', 'einschraenken', 'widersprechen', 'beantworten', 'einlenken', 'umdeuten'],
     frei: 'Welches Lager welche Figur vertritt. Es darf innerhalb des Shorts wechseln.',
   },
   eswareinmal: {
     streitfrage: 'Gilt das noch?',
     irrtum: 'zeiger',
     wendung: 'Das „und heute".',
-    schluss: ['einlenken', 'richtigstellen'],
+    schluss: ['einlenken', 'richtigstellen', 'beantworten'],
     frei: 'Ob der Irrende es merkt. Er darf auch bei seiner alten Weisheit bleiben.',
   },
   absicht: {
     streitfrage: 'Ist das kaputt oder so gebaut?',
     irrtum: 'nachleser',
     wendung: 'Wer es entschieden hat.',
-    schluss: ['richtigstellen', 'zuspitzen'],
+    schluss: ['richtigstellen', 'zuspitzen', 'beantworten', 'einlenken'],
     frei: 'Gegen wen sich die Empoerung richtet, solange ein Beleg danebensteht.',
   },
   empfehlung: {
