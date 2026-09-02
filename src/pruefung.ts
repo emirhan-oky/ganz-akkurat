@@ -3,7 +3,7 @@ import { AUSRUFE,
   KALTSTART_ARTEN,
   SCHLUSSFORMELN,
   type Bauform,
-  REAKTIONS_MACHARTEN,
+  MACHARTEN,
   UNBETEILIGTE_ARTEN,
   Format,
   FORMATE,
@@ -1681,7 +1681,7 @@ const STIMMANTEIL_MAX = 2 / 3;
         'reaktion',
         'Keine einzige Reaktionszeile. Der Short trägt nur Belegtes — und genau so ' +
           'sahen die neun Videos aus, die 0-mal geteilt wurden. Mindestens eine Zeile ' +
-          'mit `machart` aus `REAKTIONS_MACHARTEN`.',
+          'mit `machart` aus `MACHARTEN`.',
       );
     }
 
@@ -1698,7 +1698,7 @@ const STIMMANTEIL_MAX = 2 / 3;
     }
     for (const [machart, anzahl] of gesehen) {
       if (anzahl < 2) continue;
-      const name = REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.name ?? machart;
+      const name = MACHARTEN.find((m) => m.schluessel === machart)?.name ?? machart;
       melde(
         'fehler',
         'reaktion',

@@ -182,7 +182,7 @@ export const erstesLaden: Short = {
           sprecher: 'zeiger',
           zug: 'umdeuten',
           text: 'Memory-Effekt? Meine Mutter hat mir das beigebracht.',
-          machart: 'empoerung',
+          machart: 'falscheautoritaet',
         },
         {
           sprecher: 'nachleser',

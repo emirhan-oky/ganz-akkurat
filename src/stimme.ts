@@ -45,7 +45,7 @@ const API = 'https://api.elevenlabs.io/v1';
  * **Regieanweisungen im Text**, in eckigen Klammern: `[thoughtful]`,
  * `[annoyed]`, `[surprised]`. Fuer Watti ist das keine Spielerei — seine
  * Macharten heissen Ratlosigkeit, Gestaendnis und falscher Schluss
- * (`REAKTIONS_MACHARTEN` in `src/typen.ts`), und die lassen sich damit
+ * (`MACHARTEN` in `src/typen.ts`), und die lassen sich damit
  * **ansagen**, statt zu hoffen, dass die Stimme sie errät. Kein aelteres
  * Modell kann das.
  *
@@ -589,7 +589,7 @@ export type Redelauf = {
  * Damit rechnet auch die Schaetzung weiter richtig: Die zusaetzlichen Zeichen
  * werden nicht gesprochen, und `ZEICHEN_PRO_SEKUNDE` sieht sie nie.
  *
- * Welche Anweisung zu welcher Machart gehoert, steht in `REAKTIONS_MACHARTEN`
+ * Welche Anweisung zu welcher Machart gehoert, steht in `MACHARTEN`
  * — zwei der sechs haben bewusst keine.
  */
 /**
@@ -629,7 +629,7 @@ const streuwert = (text: string): number => {
  * durchgehend nach Vorrat A und der naechste durchgehend nach Vorrat B, was
  * die Streuung wieder zu einem Muster machte.
  *
- * Welche Anweisungen es je Machart gibt, steht in `REAKTIONS_MACHARTEN`. Ein
+ * Welche Anweisungen es je Machart gibt, steht in `MACHARTEN`. Ein
  * leerer Vorrat heisst: keine Ansage — ein gueltiges Ergebnis der Blindwahl
  * und kein fehlender Eintrag.
  */

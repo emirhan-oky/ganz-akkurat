@@ -213,7 +213,7 @@ export const raumstationAlteRechner: Short = {
           quelleId: 'esa-iss-laptops',
           belegId: 'thinkpads-already-qualified',
         },
-        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Zugelassen? Also Beziehungen.', machart: 'empoerung' },
+        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Zugelassen? Also Beziehungen.', machart: 'umdeutung' },
         {
           sprecher: 'zeiger',
           zug: 'abbiegen',

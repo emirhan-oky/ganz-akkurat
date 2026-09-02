@@ -275,7 +275,7 @@ Drei Dinge machen daraus ein Gespräch, und keins davon ist Geschmack:
 
 Die vierte Zeile zeigt noch etwas: Sie dreht das aufgegriffene Wort gegen den
 Sprecher selbst („Verdacht auf meine Dummheit"). Das ist ein Geständnis, das
-sich als Folgerung tarnt — dieselbe Machart, die `REAKTIONS_MACHARTEN` unter
+sich als Folgerung tarnt — dieselbe Machart, die `MACHARTEN` unter
 `gestaendnis` führt, nur mit dem Rückbezug als Träger.
 
 ### Die vierte Ebene: der Zug — seit dem 01.09.2026
@@ -348,7 +348,7 @@ fällt jeder Entwurf auf den zusammenfassenden Kommentar zurück.
 
 Seit dem 26.08.2026 kann die Vertonung den Ton ansagen: `eleven_v3` versteht
 Regieanweisungen in eckigen Klammern, und jede Machart trägt dafür einen Vorrat
-(`regie` in `REAKTIONS_MACHARTEN`).
+(`regie` in `MACHARTEN`).
 
 **Geschrieben wird die Klammer nie.** Sie entsteht beim Vertonen; das Schema
 lehnt eckige Klammern im Sprechtext ab.

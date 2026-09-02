@@ -291,7 +291,7 @@ zweimal hintereinander dasselbe.**
 |---|---|---|
 | Kaltstart | `KALTSTART_ARTEN` (7) | nicht zweimal hintereinander |
 | Aufschlag | `HOOK_MACHARTEN` (5) | keine |
-| Reaktion | `REAKTIONS_MACHARTEN` (6) | keine zweimal je Short |
+| Witz | `MACHARTEN` (16, je Figur) | keine zweimal je Short |
 | Zug | `ZUGARTEN` (13) | Tripelregel über benachbarte Shorts |
 | Wendung | `GESPRAECHSBOEGEN` je Format | Schluss-Züge festgelegt |
 | Bauform | `BAUFORMEN` (3) | nicht zweimal, nicht über die Hälfte |
@@ -626,10 +626,29 @@ nicht steht. Ohne Vorgabe fällt jeder Entwurf auf den zusammenfassenden
 Kommentar zurück — das ist der Normalfall, nicht die Ausnahme, und
 `npm run pruefen` wird dabei grün.
 
-**`REAKTIONS_MACHARTEN`** in `src/typen.ts` ist das Gegenmittel, nach dem
-Muster von `HOOK_MACHARTEN`: Geständnis, falscher Schluss, Bild, Ratlosigkeit,
-Empörung gegen den Falschen, die banale Rückfrage. Der Entwurf wählt eine je
-Reaktionszeile und darf sie im selben Short nicht wiederholen.
+**`MACHARTEN`** in `src/typen.ts` ist das Gegenmittel, nach dem Muster von
+`HOOK_MACHARTEN`. Der Entwurf wählt eine je Zeile und darf sie im selben Short
+nicht wiederholen.
+
+**Seit dem 02.09.2026 hat die Liste ein Feld `wer`**, und das ist die
+eigentliche Änderung: Vorher hieß sie `REAKTIONS_MACHARTEN`, hatte sechs
+Einträge und beschrieb durchweg **Wattis** Handwerk — Voltis Witz hatte im
+Schema gar keinen Platz, obwohl er in allen neun Dialogen von Emirhan
+vorkommt. Heute sind es sechzehn: **Wattis zehn** (Geständnis, falscher
+Schluss, Ratlosigkeit, banale Rückfrage, absurde Rechtfertigung,
+Themenwechsel als Konter, Übercompliance, Umdeutung, falsche Autorität,
+Übertreibung ins Katastrophale), **Voltis fünf** (entwertende Nebenbemerkung,
+gedrehter Parallelbau, banale Auflösung, Geschenk mit Widerhaken, Empörung
+gegen den Falschen) und **zwei geteilte** (das Bild, der Vergleich mit einem
+Menschen).
+
+**Das Fach entscheidet über mehr als die Zuordnung.** Wattis zehn behaupten
+nichts und tragen deshalb keine Quelle; Voltis fünf sitzen gerade auf der
+belegten Zeile. Die beiden Kopplungswachen hängen seitdem an `machartFach` und
+nicht mehr an jeder Machart — vorher hätten sie Voltis Fach vollständig
+verboten. Die Fachwache hat beim ersten Lauf zwei Fehlzuordnungen gefunden,
+beide „Empörung" an Watti: „Zugelassen? Also Beziehungen." ist eine Umdeutung,
+„Meine Mutter hat mir das beigebracht." eine falsche Autorität.
 
 **Das Zitat bleibt Behördendeutsch, alles in eigenen Worten ist
 Alltagssprache.** Vorher lief es umgekehrt: Das Zitat stand klein oben in der
@@ -670,7 +689,7 @@ Spielerei: Seine Macharten heißen Ratlosigkeit, Geständnis und falscher
 Schluss, und die lassen sich damit ansagen statt hoffen.
 
 **Seit dem 26.08.2026 hängt ein Vorrat an Anweisungen an der Machart** —
-`regie` in `REAKTIONS_MACHARTEN`, gewählt von `syntheseText`. Die Anweisung
+`regie` in `MACHARTEN`, gewählt von `syntheseText`. Die Anweisung
 steht **nur im Synthesetext**: `sprechtext` bleibt unberührt, damit Untertitel,
 Längenschätzung und die Gleichheitswache `rede` ↔ `sprechtext` nichts davon
 mitbekommen, und `woerterAusAusrichtung` filtert die Klammer hinterher ohnehin

@@ -376,7 +376,7 @@ export type Sprecher = z.infer<typeof Sprecher>;
  * war eindeutig: „Die beiden fuehren einfach kein Gespraech miteinander. Volti
  * erklaert irgendwas und Watti gibt einfach dumme Kommentare ab."
  *
- * Die Ursache stand hier im Schema. `REAKTIONS_MACHARTEN` kennt Gestaendnis,
+ * Die Ursache stand hier im Schema. `MACHARTEN` kennt Gestaendnis,
  * falschen Schluss, Bild, Ratlosigkeit, Empoerung, Rueckfrage — und **keine
  * einzige Beziehung zum Vorredner**. Ein Redeanteil konnte gar nicht auf einen
  * anderen zeigen, also konnte kein Entwurf es tun und keine Pruefung sein
@@ -625,7 +625,7 @@ void _zugartenDeckenSich;
  *
  * **Nicht „keine Ziffer".** Der erste Anlauf verbot jede Ziffer und hat sofort
  * „Passwort7 ist meins" abgelehnt — eine Zeile, die als Beispiel in
- * `REAKTIONS_MACHARTEN` steht. Eine Ziffer ist keine Behauptung; eine
+ * `MACHARTEN` steht. Eine Ziffer ist keine Behauptung; eine
  * **Messgroesse** ist eine. Verboten sind deshalb Jahreszahlen und Zahlen mit
  * technischer Einheit, nicht die Ziffer als solche.
  *
@@ -672,6 +672,292 @@ const ohneWeltbehauptung = (
     });
   }
 };
+
+/**
+ * Macharten fuer die Reaktion — der Werkzeugkasten der zweiten Stimme.
+ *
+ * Angelegt am 25.08.2026, als der Kanal zwei Sprecher bekam. Einer traegt die
+ * belegte Aussage, der andere reagiert; eine Reaktion behauptet nichts ueber
+ * die Welt und braucht deshalb keine Quelle. Genau darin liegt ihr Wert: Wo
+ * der Beleg zwingt, nah am Zitat zu bleiben, darf sie frech sein.
+ *
+ * **Warum es diese Liste braucht.** Ohne Vorgabe faellt jeder Entwurf auf den
+ * zusammenfassenden Kommentar zurueck — der Skill `joke-engineering` nennt das
+ * H4, „punchline is stated rather than implied". Das ist der Normalfall, nicht
+ * die Ausnahme, und `npm run pruefen` wird dabei gruen. Dieselbe Bauart wie bei
+ * `HOOK_MACHARTEN`: Ein Problem, das man nicht verbieten kann, bekommt ein
+ * Vokabular, aus dem gewaehlt werden muss.
+ *
+ * **Die eine Regel, an der alles scheitert:** Eine Reaktion, die den Fakt
+ * zusammenfasst, ist keine Reaktion. Sie muss etwas hinzufuegen, das im Fakt
+ * nicht steht.
+ *
+ * Abgeleitet aus fuenfzehn Zeilen, die Emirhan am 25.08.2026 einzeln bewertet
+ * hat. Die Streichungen trugen mehr als die Treffer — sie stehen als Regeln in
+ * `daten/marke/voice.md` unter „Humor", zusammen mit dem Register und dem
+ * Vorrat an Ausrufen.
+ *
+ * **Der Vorrat ist nicht abzuarbeiten.** Die Haelfte der guten Reaktionen kommt
+ * ohne Ausruf aus, und dasselbe Wort zweimal im Lauf macht daraus eine
+ * Schablone — bei KI-Material seit Juli 2025 ein Reichweiten- und
+ * Monetarisierungsrisiko.
+ *
+ * ## `regie` — der Vorrat an Ansagen fuer die Stimme
+ *
+ * Seit dem 26.08.2026. `eleven_v3` versteht Regieanweisungen in eckigen
+ * Klammern, und das war der **Grund** fuer den Modellwechsel: Wattis Macharten
+ * heissen Ratlosigkeit und Gestaendnis, und die lassen sich damit ansagen,
+ * statt zu hoffen, dass die Stimme sie erraet. Der Ertrag lag seit dem 25.08.
+ * ungenutzt da — das Modell konnte es, niemand hat es bestellt.
+ *
+ * `syntheseText` in `src/stimme.ts` setzt die Anweisung vor die Zeile. Sie
+ * steht **nur im Synthesetext**: `sprechtext` bleibt unberuehrt, damit
+ * Untertitel, Laengenschaetzung und die Gleichheitswache `rede` ↔
+ * `sprechtext` nichts davon mitbekommen. `woerterAusAusrichtung` filtert
+ * eckige Klammern ohnehin schon heraus — ohne diesen Filter stuende die
+ * Klammer gross ueber der Buehne.
+ *
+ * ## Warum eine Liste und kein einzelner Wert
+ *
+ * **Ein fester Tag je Machart waere die Schablone, gegen die der ganze Umbau
+ * laeuft.** Bis Ende Oktober sind es rund 36 Reaktionszeilen; klingt jede
+ * Ratlosigkeit mit demselben Tag angesagt, ist die Tonlage in vier Wochen ein
+ * Markenzeichen. Der Vertrag sagt genau das beim Ausruf — „Ein fester Marker
+ * ist in vier Wochen eine Schablone. Es gibt einen Vorrat, aus dem gewaehlt
+ * wird" —, und es gibt keinen Grund, warum das fuer „Watt?" gelten soll und
+ * nicht fuer den Ton, in dem er es sagt.
+ *
+ * Gewaehlt wird **deterministisch aus der Short-`id`**, nicht ueber die
+ * Listenposition und nicht per Zufall. Die Listenposition machte den ersten
+ * Short jedes Laufs immer gleich — dieselbe Schablone, die beim Wochentag
+ * gestrichen wurde. Ein Zufallsgriff waere nicht reproduzierbar, und derselbe
+ * Short muss beim zweiten Render gleich klingen. Ein Feld am Entwurf haette
+ * das Raten zurueck ins Schreiben verlagert.
+ *
+ * **Ein leerer Vorrat heisst: keine Ansage.** Das ist ein gueltiges Ergebnis,
+ * kein fehlender Eintrag — deshalb steht die leere Fassung in der Blindwahl
+ * als vollwertiger Kandidat. Kommt nur ein Tag durch, gehoert `''` als
+ * zweiter Eintrag daneben: dann wechselt die Machart zwischen Ansage und
+ * keiner, statt einen festen Marker zu tragen.
+ *
+ * ## Stand: alle sechs leer, und das ist Absicht
+ *
+ * Am 26.08.2026 standen hier sechs geratene Tags, von mir aus dem Gedaechtnis
+ * gewaehlt — bei Quellen verbietet dieses Projekt genau das. Das Nachlesen der
+ * ElevenLabs-Doku hat einen davon sofort erledigt: **`[confused]` existiert
+ * nicht.** Es stand seit dem 25.08. in `src/stimme.ts` und in `AUFGABEN.md`
+ * als *das* Beispiel, ausgerechnet fuer die Machart, fuer die der
+ * Modellwechsel gemacht wurde.
+ *
+ * Die Vorraete fuellt `npm run regieprobe`, und zwar als **Blindwahl**: je
+ * Machart zwei Zeilen — die echte aus dem Entwurf und eine bewusst tonlos
+ * geschriebene —, dazu vier unbeschriftete Fassungen, darunter die ohne
+ * Ansage. Was den ersten Durchgang uebersteht, wird ein zweites Mal
+ * synthetisiert; die Synthese ist nicht deterministisch, und aus n = 1 wuerde
+ * hier sonst eine Konstante im Code.
+ *
+ * **Nur nicht-hoerbare Ansagen sind zugelassen.** Ein Seufzer erzeugt Ton, den
+ * **keine** Schaetzung sieht — derselbe Fehler wie die Sprecherwechselpausen,
+ * die am 26.08. mit 1,2 bis 1,6 Sekunden je Short nachgetragen werden mussten.
+ * Was hoerbar ist, entscheidet die Klammerspanne aus der Zeichenausrichtung
+ * und nicht das Gefuehl. Gewinnt spaeter doch ein hoerbarer Tag, wird seine
+ * Dauer gemessen und wandert als Konstante nach `src/zeit.ts`.
+ *
+ * ## Die Regel, die die Ansage nicht aushebeln darf
+ *
+ * **Die Zeile muss ohne Anweisung funktionieren.** Der Tag verstaerkt, er
+ * ersetzt nie. Sonst laesst er einen zusammenfassenden Kommentar *klingen* wie
+ * Ratlosigkeit, ohne dass er eine wird — und `npm run pruefen` wird dabei
+ * gruen, genau wie bei der flachen Reaktionszeile. Damit unterliefe diese
+ * Ebene die eine Regel, an der alles haengt.
+ */
+export const MACHARTEN = [
+  /* ── Wattis Fach ─────────────────────────────────────────────── */
+  {
+    schluessel: 'gestaendnis',
+    name: 'Gestaendnis',
+    wer: 'zeiger',
+    tut: 'Gibt zu, es selbst falsch zu machen. Der Zuschauer erkennt sich wieder, ohne dass ihm jemand etwas vorwirft.',
+    achtung:
+      'Im Moment gesprochen, nicht rueckblickend. „Ich mache das seit zehn Jahren." ist ein Protokoll; „Wie? Ich mache das seit zehn Jahren." ist der Augenblick, in dem es auffaellt.',
+    beispiele: ['Wie? Ich mache das seit zehn Jahren.', 'Passwort3 ist meins.', 'Ja stimmt auch wieder, ich Idiot.'],
+    regie: [],
+  },
+  {
+    schluessel: 'falscherschluss',
+    name: 'Falscher Schluss',
+    wer: 'zeiger',
+    tut: 'Zieht aus dem Fakt die naechstliegende falsche Folgerung. Der Zuschauer korrigiert im Kopf mit — und das ist die Beteiligung, die ein Kommentar braucht.',
+    achtung:
+      'Er muss erkennbar falsch sein. Ein Schluss, der stimmen koennte, ist eine Behauptung ueber die Welt und damit belegpflichtig. Und Volti darf ihn nie bestaetigen.',
+    beispiele: ['Ach damit ich nicht im falschen Netz lande?', 'Dann nehme ich alle wieder runter.'],
+    regie: [],
+  },
+  {
+    schluessel: 'ratlosigkeit',
+    name: 'Ratlosigkeit',
+    wer: 'zeiger',
+    tut: 'Nimmt dem Zuschauer den Boden weg, den der Fakt gerade weggezogen hat. Die Folgerung bleibt bei ihm.',
+    achtung: 'Keine rhetorische Frage — echte Hilflosigkeit. Sobald eine Antwort mitgeliefert wird, ist es wieder ein Kommentar.',
+    beispiele: ['Kacke, was dann?', 'Watt?', 'Ja was denn nun?'],
+    regie: [],
+  },
+  {
+    schluessel: 'rueckfrage',
+    name: 'Die banale Rueckfrage',
+    wer: 'zeiger',
+    tut: 'Fragt das Naheliegendste, das im Fakt offen bleibt. Wirkt, weil es niemand ausspricht.',
+    achtung:
+      'Sofort verstaendlich, nicht nach einem Takt. Wer erst ueberlegen muss, lacht nicht mehr — im Zweifel banaler.',
+    beispiele: ['Warum heißt er dann so?', 'Und wie willst du das beweisen?', 'Wer, man?'],
+    regie: [],
+  },
+  {
+    schluessel: 'rechtfertigung',
+    name: 'Die absurde Rechtfertigung',
+    wer: 'zeiger',
+    tut: 'Begruendet sein Verhalten mit einem Grund, den es nicht gibt. Er behaelt den alten Laptop „falls ich mal hochmuss".',
+    achtung: 'Der Grund muss zu ihm passen und darf nichts ueber die Welt behaupten. Er ist naiv, nicht verrueckt.',
+    beispiele: ['Falls ich mal hochmuss.', 'Damit ich meinen Wecker höre.'],
+    regie: [],
+  },
+  {
+    schluessel: 'themenwechsel',
+    name: 'Der Themenwechsel als Konter',
+    wer: 'zeiger',
+    tut: 'Er hat verloren und macht ein neues Fass auf. Der Short endet, waehrend das naechste Problem schon steht.',
+    achtung: 'Das neue Fass gehoert in ihre Wohnung, nicht in ein zweites Thema. „Darf ich jetzt eine Katze haben?" ist eins, „und was ist mit 5G?" nicht.',
+    beispiele: ['Also darf ich jetzt eine Katze haben oder nicht?', 'Und was mache ich jetzt mit dem Kissen?'],
+    regie: [],
+  },
+  {
+    schluessel: 'uebercompliance',
+    name: 'Die Uebercompliance',
+    wer: 'zeiger',
+    tut: 'Er gehorcht so uebertrieben, dass es wieder Widerstand ist.',
+    achtung: 'Nur nach einer klaren Ansage von Volti. Ohne Befehl davor ist es nur eine Albernheit.',
+    beispiele: ['Ay Ay sir!', 'Alles klar Chef.'],
+    regie: [],
+  },
+  {
+    schluessel: 'umdeutung',
+    name: 'Die Umdeutung des Gespraechs',
+    wer: 'zeiger',
+    tut: 'Er kommentiert nicht die Sache, sondern ein Wort daran oder die Art, wie Volti fragt. „Zugelassen? Also Beziehungen."',
+    achtung: 'Einmal je Short. Zweimal wird daraus eine Figur, die nur noch ueber das Gespraech redet.',
+    beispiele: ['Durch dein Verhör nicht mehr.', 'Zugelassen? Also Beziehungen.', 'Musst du das immer so sagen?'],
+    regie: [],
+  },
+  {
+    schluessel: 'falscheautoritaet',
+    name: 'Die falsche Autoritaet',
+    wer: 'zeiger',
+    tut: 'Er beruft sich auf jemanden, der es nicht wissen kann — den Vater, einen im Netz, „das weiß doch jeder".',
+    achtung:
+      'Die Autoritaet gehoert in seine Welt und ist nie eine echte Instanz. Und sie darf nichts behaupten, was wir belegen muessten.',
+    beispiele: ['Unser Vater macht das seit dreißig Jahren so.', 'Das weiß doch jeder.'],
+    regie: [],
+  },
+  {
+    schluessel: 'katastrophe',
+    name: 'Die Uebertreibung ins Katastrophale',
+    wer: 'zeiger',
+    tut: 'Er malt die Folge groesser, als sie ist — und meint es ernst.',
+    achtung:
+      '**Ohne Zahl.** „Ewig" und „ein Batzen Geld" lesen sich als Uebertreibung, „drei Wochen im Laden" liest sich als Tatsache.',
+    beispiele: ['Sonst stören wir die Bordelektronik und wir stürzen ab.', 'Braucht ewig um hochzufahren.'],
+    regie: [],
+  },
+  /* ── Voltis Fach ─────────────────────────────────────────────── */
+  {
+    schluessel: 'nebenbemerkung',
+    name: 'Die entwertende Nebenbemerkung',
+    wer: 'nachleser',
+    tut: 'Er widerlegt nicht den Aberglauben, er erledigt dessen Quelle. Billiger und wirksamer.',
+    achtung: 'Sie trifft eine Sache oder eine Gewohnheit, nie eine Person ausserhalb der beiden.',
+    beispiele: ['Dein Vater hat auch noch ein Faxgerät du Idiot.', 'Der hat gehofft, dass du genau das denkst.'],
+    regie: [],
+  },
+  {
+    schluessel: 'parallelbau',
+    name: 'Der gedrehte Parallelbau',
+    wer: 'nachleser',
+    tut: 'Er nimmt Wattis Satzskelett und tauscht ein Wort. „Also lag ich acht Stunden auf einer Heizung?" — „Du lagst acht Stunden auf deiner Dummheit."',
+    achtung: 'Nur direkt auf die Vorzeile. Mit einer Zeile Abstand hoert niemand mehr, dass es dasselbe Skelett ist.',
+    beispiele: ['Du lagst acht Stunden auf deiner Dummheit.', 'Dann hast du zwei Probleme statt einem.'],
+    regie: [],
+  },
+  {
+    schluessel: 'banaleaufloesung',
+    name: 'Die banale Aufloesung',
+    wer: 'nachleser',
+    tut: 'Der ganze Technikapparat war unnoetig, die Antwort ist trivial. „Wir leben hier alleine und ich bin dein Vermieter."',
+    achtung: 'Sie muss wirklich banal sein. Eine Aufloesung, die selbst eine Erklaerung braucht, ist keine.',
+    beispiele: ['Wir leben hier alleine und ich bin dein Vermieter du Idiot.', 'Den Lüfter hast du selbst rausgerissen.'],
+    regie: [],
+  },
+  {
+    schluessel: 'widerhaken',
+    name: 'Das Geschenk mit Widerhaken',
+    wer: 'nachleser',
+    tut: 'Er hilft und tritt im selben Satz nach. Waerme und Schlag in einer Zeile.',
+    achtung: 'Die Hilfe muss echt sein. Ein Geschenk, das keins ist, macht ihn gemein statt trocken.',
+    beispiele: [
+      'Du nimmst mein altes und vernichtest deinen Akku nicht wieder mit Social Media.',
+      'Ich bin umsonst du Idiot.',
+    ],
+    regie: [],
+  },
+  {
+    schluessel: 'empoerung',
+    name: 'Empoerung gegen den Falschen',
+    wer: 'nachleser',
+    tut: 'Zielt auf den Verursacher statt auf die Sache. Traegt die Reaktion, die `absicht` ohnehin ausloest.',
+    achtung:
+      'Firmen und Behoerden duerfen getroffen werden, wenn ein Beleg danebensteht. Gruppen und Personen des oeffentlichen Lebens nie.',
+    beispiele: ['Die EU kann also doch was?!', 'Dreizehn Jahre. Für ein Loch.'],
+    regie: [],
+  },
+  /* ── Beiden ──────────────────────────────────────────────────── */
+  {
+    schluessel: 'bild',
+    name: 'Bild',
+    wer: 'beide',
+    tut: 'Setzt an die Stelle des Sachverhalts einen Gegenstand oder eine Szene. Ein Bild schlaegt ein Paradox.',
+    achtung:
+      'Nie an einem Wort haengen, das die Zielgruppe 18–30 nicht benutzt. „Roehre" und „Ladeziegel" sind daran gescheitert. Und das Bild kommt aus **ihrer** Welt: „sich den Kopf zerbrechen", nicht „Tabellen machen".',
+    beispiele: ['Also haben Einzelteile jetzt Herrchen.', 'Mein Handyakku wird mein Geld aufessen.'],
+    regie: [],
+  },
+  {
+    schluessel: 'menschenvergleich',
+    name: 'Der Vergleich mit einem Menschen',
+    wer: 'beide',
+    tut: 'Misst die Sache an jemandem aus ihrem Umfeld statt an einer Zahl.',
+    achtung: 'Nur Leute aus ihrer Welt — Vater, Nachbar, der eine aus dem Laden. Nie jemand Bekanntes.',
+    beispiele: ['Also vor meiner Mutter.', 'Dein Vater hat auch noch ein Faxgerät.'],
+    regie: [],
+  },
+] as const;
+
+/**
+ * Wessen Fach eine Machart ist. `beide` heisst: beide duerfen sie.
+ *
+ * **Der Zuschnitt ist der eigentliche Inhalt der Liste.** Vor dem 02.09.2026
+ * standen hier sechs Eintraege ohne Figur, und sie beschrieben durchweg
+ * Wattis Handwerk — Voltis Witz hatte im Schema gar keinen Platz. Er hat
+ * einen: die entwertende Nebenbemerkung, den gedrehten Parallelbau, die
+ * banale Aufloesung, das Geschenk mit Widerhaken, die Empoerung gegen den
+ * Falschen. Alle fuenf stehen in Emirhans eigenen Dialogen.
+ *
+ * Und das Fach entscheidet ueber mehr als die Zuordnung: **Wattis zehn
+ * behaupten nichts** und tragen deshalb keine Quelle, Voltis fuenf sitzen
+ * gerade auf der belegten Zeile. Die beiden Kopplungswachen unten haengen an
+ * diesem Feld — vorher galten sie fuer jede Machart und haetten Voltis Fach
+ * vollstaendig verboten.
+ */
+const machartFach = (machart: string): 'zeiger' | 'nachleser' | 'beide' =>
+  MACHARTEN.find((m) => m.schluessel === machart)?.wer ?? 'beide';
 
 /**
  * Ein Redeanteil — eine Figur, ein Satz.
@@ -736,14 +1022,39 @@ export const Redeanteil = z
      */
     beatSek: z.number().min(0.1).max(1.5).optional(),
     /**
-     * Nur an Reaktionszeilen. Aus `REAKTIONS_MACHARTEN` — der Entwurf muss
-     * eine waehlen, statt in den zusammenfassenden Kommentar zu fallen.
+     * Wie diese Zeile witzig ist. Aus `MACHARTEN` — der Entwurf muss eine
+     * waehlen, statt in den zusammenfassenden Kommentar zu fallen.
      *
      * **Die zweite Achse neben `zug`**, nicht dieselbe: Diese sagt, was die
      * Zeile dem **Fakt** hinzufuegt, jene, was sie dem **anderen** antut.
+     *
+     * **Seit dem 02.09.2026 nicht mehr nur an Reaktionszeilen.** Sie hiess
+     * `REAKTIONS_MACHARTEN` und hatte sechs Eintraege, alle aus Wattis Fach —
+     * damit hatte Voltis Witz im Schema keinen Platz, obwohl er in Emirhans
+     * neun Dialogen durchgehend vorkommt. `machartFach` trennt die beiden
+     * Faecher; Wattis zehn behaupten nichts, Voltis fuenf sitzen auf der
+     * belegten Zeile.
      */
     machart: z
-      .enum(['gestaendnis', 'falscherschluss', 'bild', 'ratlosigkeit', 'empoerung', 'rueckfrage'])
+      .enum([
+        'gestaendnis',
+        'falscherschluss',
+        'ratlosigkeit',
+        'rueckfrage',
+        'rechtfertigung',
+        'themenwechsel',
+        'uebercompliance',
+        'umdeutung',
+        'falscheautoritaet',
+        'katastrophe',
+        'nebenbemerkung',
+        'parallelbau',
+        'banaleaufloesung',
+        'widerhaken',
+        'empoerung',
+        'bild',
+        'menschenvergleich',
+      ])
       .optional(),
     quelleId: z.string().min(1).optional(),
     belegId: z.string().min(1).optional(),
@@ -751,7 +1062,7 @@ export const Redeanteil = z
   .superRefine((r, ctx) => {
     /*
      * **Keine Regieanweisung von Hand.** Sie haengt seit dem 26.08.2026 an der
-     * Machart (`regie` in `REAKTIONS_MACHARTEN`) und wird beim Vertonen davor
+     * Machart (`regie` in `MACHARTEN`) und wird beim Vertonen davor
      * gesetzt — im Text steht sie nie.
      *
      * Der Schaden waere still: `sprechtext` ist die Fassung, an der die Laenge
@@ -769,7 +1080,19 @@ export const Redeanteil = z
         path: ['text'],
       });
     }
-    if (r.machart !== undefined && (r.quelleId !== undefined || r.belegId !== undefined)) {
+    if (r.machart !== undefined && machartFach(r.machart) !== 'beide' && machartFach(r.machart) !== r.sprecher) {
+      const fach = machartFach(r.machart) === 'zeiger' ? 'Watti' : 'Volti';
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Diese Machart gehört ${fach}. Die andere Figur hat ein eigenes Fach.`,
+        path: ['machart'],
+      });
+    }
+    if (
+      r.machart !== undefined &&
+      machartFach(r.machart) === 'zeiger' &&
+      (r.quelleId !== undefined || r.belegId !== undefined)
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Eine Reaktion nennt keine Quelle. Sie behauptet nichts über die Welt.',
@@ -785,7 +1108,12 @@ export const Redeanteil = z
      * `sprechtext` ohne ihre Gleichheitswache — jedes fuer sich gueltig, und
      * zusammen sagen sie zwei verschiedene Dinge ueber dieselbe Zeile.
      */
-    if (r.zug !== undefined && r.machart !== undefined && ZUGARTEN[r.zug].behauptet) {
+    if (
+      r.zug !== undefined &&
+      r.machart !== undefined &&
+      machartFach(r.machart) === 'zeiger' &&
+      ZUGARTEN[r.zug].behauptet
+    ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message:
@@ -801,7 +1129,7 @@ export const Redeanteil = z
         path: ['belegId'],
       });
     }
-    if (r.machart !== undefined) {
+    if (r.machart !== undefined && machartFach(r.machart) === 'zeiger') {
       ohneWeltbehauptung(r.text, ctx, ['text'], 'Eine Reaktion');
     }
   });
@@ -1768,193 +2096,6 @@ export const HOOK_MACHARTEN = [
   },
 ] as const;
 
-/**
- * Macharten fuer die Reaktion — der Werkzeugkasten der zweiten Stimme.
- *
- * Angelegt am 25.08.2026, als der Kanal zwei Sprecher bekam. Einer traegt die
- * belegte Aussage, der andere reagiert; eine Reaktion behauptet nichts ueber
- * die Welt und braucht deshalb keine Quelle. Genau darin liegt ihr Wert: Wo
- * der Beleg zwingt, nah am Zitat zu bleiben, darf sie frech sein.
- *
- * **Warum es diese Liste braucht.** Ohne Vorgabe faellt jeder Entwurf auf den
- * zusammenfassenden Kommentar zurueck — der Skill `joke-engineering` nennt das
- * H4, „punchline is stated rather than implied". Das ist der Normalfall, nicht
- * die Ausnahme, und `npm run pruefen` wird dabei gruen. Dieselbe Bauart wie bei
- * `HOOK_MACHARTEN`: Ein Problem, das man nicht verbieten kann, bekommt ein
- * Vokabular, aus dem gewaehlt werden muss.
- *
- * **Die eine Regel, an der alles scheitert:** Eine Reaktion, die den Fakt
- * zusammenfasst, ist keine Reaktion. Sie muss etwas hinzufuegen, das im Fakt
- * nicht steht.
- *
- * Abgeleitet aus fuenfzehn Zeilen, die Emirhan am 25.08.2026 einzeln bewertet
- * hat. Die Streichungen trugen mehr als die Treffer — sie stehen als Regeln in
- * `daten/marke/voice.md` unter „Humor", zusammen mit dem Register und dem
- * Vorrat an Ausrufen.
- *
- * **Der Vorrat ist nicht abzuarbeiten.** Die Haelfte der guten Reaktionen kommt
- * ohne Ausruf aus, und dasselbe Wort zweimal im Lauf macht daraus eine
- * Schablone — bei KI-Material seit Juli 2025 ein Reichweiten- und
- * Monetarisierungsrisiko.
- *
- * ## `regie` — der Vorrat an Ansagen fuer die Stimme
- *
- * Seit dem 26.08.2026. `eleven_v3` versteht Regieanweisungen in eckigen
- * Klammern, und das war der **Grund** fuer den Modellwechsel: Wattis Macharten
- * heissen Ratlosigkeit und Gestaendnis, und die lassen sich damit ansagen,
- * statt zu hoffen, dass die Stimme sie erraet. Der Ertrag lag seit dem 25.08.
- * ungenutzt da — das Modell konnte es, niemand hat es bestellt.
- *
- * `syntheseText` in `src/stimme.ts` setzt die Anweisung vor die Zeile. Sie
- * steht **nur im Synthesetext**: `sprechtext` bleibt unberuehrt, damit
- * Untertitel, Laengenschaetzung und die Gleichheitswache `rede` ↔
- * `sprechtext` nichts davon mitbekommen. `woerterAusAusrichtung` filtert
- * eckige Klammern ohnehin schon heraus — ohne diesen Filter stuende die
- * Klammer gross ueber der Buehne.
- *
- * ## Warum eine Liste und kein einzelner Wert
- *
- * **Ein fester Tag je Machart waere die Schablone, gegen die der ganze Umbau
- * laeuft.** Bis Ende Oktober sind es rund 36 Reaktionszeilen; klingt jede
- * Ratlosigkeit mit demselben Tag angesagt, ist die Tonlage in vier Wochen ein
- * Markenzeichen. Der Vertrag sagt genau das beim Ausruf — „Ein fester Marker
- * ist in vier Wochen eine Schablone. Es gibt einen Vorrat, aus dem gewaehlt
- * wird" —, und es gibt keinen Grund, warum das fuer „Watt?" gelten soll und
- * nicht fuer den Ton, in dem er es sagt.
- *
- * Gewaehlt wird **deterministisch aus der Short-`id`**, nicht ueber die
- * Listenposition und nicht per Zufall. Die Listenposition machte den ersten
- * Short jedes Laufs immer gleich — dieselbe Schablone, die beim Wochentag
- * gestrichen wurde. Ein Zufallsgriff waere nicht reproduzierbar, und derselbe
- * Short muss beim zweiten Render gleich klingen. Ein Feld am Entwurf haette
- * das Raten zurueck ins Schreiben verlagert.
- *
- * **Ein leerer Vorrat heisst: keine Ansage.** Das ist ein gueltiges Ergebnis,
- * kein fehlender Eintrag — deshalb steht die leere Fassung in der Blindwahl
- * als vollwertiger Kandidat. Kommt nur ein Tag durch, gehoert `''` als
- * zweiter Eintrag daneben: dann wechselt die Machart zwischen Ansage und
- * keiner, statt einen festen Marker zu tragen.
- *
- * ## Stand: alle sechs leer, und das ist Absicht
- *
- * Am 26.08.2026 standen hier sechs geratene Tags, von mir aus dem Gedaechtnis
- * gewaehlt — bei Quellen verbietet dieses Projekt genau das. Das Nachlesen der
- * ElevenLabs-Doku hat einen davon sofort erledigt: **`[confused]` existiert
- * nicht.** Es stand seit dem 25.08. in `src/stimme.ts` und in `AUFGABEN.md`
- * als *das* Beispiel, ausgerechnet fuer die Machart, fuer die der
- * Modellwechsel gemacht wurde.
- *
- * Die Vorraete fuellt `npm run regieprobe`, und zwar als **Blindwahl**: je
- * Machart zwei Zeilen — die echte aus dem Entwurf und eine bewusst tonlos
- * geschriebene —, dazu vier unbeschriftete Fassungen, darunter die ohne
- * Ansage. Was den ersten Durchgang uebersteht, wird ein zweites Mal
- * synthetisiert; die Synthese ist nicht deterministisch, und aus n = 1 wuerde
- * hier sonst eine Konstante im Code.
- *
- * **Nur nicht-hoerbare Ansagen sind zugelassen.** Ein Seufzer erzeugt Ton, den
- * **keine** Schaetzung sieht — derselbe Fehler wie die Sprecherwechselpausen,
- * die am 26.08. mit 1,2 bis 1,6 Sekunden je Short nachgetragen werden mussten.
- * Was hoerbar ist, entscheidet die Klammerspanne aus der Zeichenausrichtung
- * und nicht das Gefuehl. Gewinnt spaeter doch ein hoerbarer Tag, wird seine
- * Dauer gemessen und wandert als Konstante nach `src/zeit.ts`.
- *
- * ## Die Regel, die die Ansage nicht aushebeln darf
- *
- * **Die Zeile muss ohne Anweisung funktionieren.** Der Tag verstaerkt, er
- * ersetzt nie. Sonst laesst er einen zusammenfassenden Kommentar *klingen* wie
- * Ratlosigkeit, ohne dass er eine wird — und `npm run pruefen` wird dabei
- * gruen, genau wie bei der flachen Reaktionszeile. Damit unterliefe diese
- * Ebene die eine Regel, an der alles haengt.
- */
-export const REAKTIONS_MACHARTEN = [
-  {
-    schluessel: 'gestaendnis',
-    name: 'Gestaendnis',
-    tut: 'Gibt zu, es selbst falsch zu machen. Der Zuschauer erkennt sich wieder, ohne dass ihm jemand etwas vorwirft.',
-    achtung:
-      'Im Moment gesprochen, nicht rueckblickend. „Ich mache das seit zehn Jahren." ist ein Protokoll; „Wie? Ich mache das seit zehn Jahren." ist der Augenblick, in dem es auffaellt.',
-    beispiele: ['Wie? Ich mache das seit zehn Jahren.', 'Passwort3 ist meins.', 'Ich habe in der Schule vier gekonnt.'],
-    /*
-     * Gesucht wird das Ertapptwerden — kleiner werden, nicht lauter. Der
-     * naechstliegende Tag waere ein Seufzer, und genau der faellt vorerst aus:
-     * Er erzeugt Ton, den keine Schaetzung sieht.
-     */
-    regie: [],
-  },
-  {
-    schluessel: 'falscherschluss',
-    name: 'Falscher Schluss',
-    tut: 'Zieht aus dem Fakt die naechstliegende falsche Folgerung. Der Zuschauer korrigiert im Kopf mit — und das ist die Beteiligung, die ein Kommentar braucht.',
-    achtung:
-      'Er muss erkennbar falsch sein. Ein Schluss, der stimmen koennte, ist eine Behauptung ueber die Welt und damit belegpflichtig.',
-    beispiele: ['Meiner ist 7. Ich bin quasi Astronaut.', 'Mein Laptop ist also weltraumtauglich.'],
-    /*
-     * Gesucht wird Ueberzeugung. Zoegernd vorgetragen waere der Schluss ein
-     * Vorschlag; ueberzeugt vorgetragen ist er der Fehler, den der Zuschauer
-     * im Kopf berichtigt.
-     */
-    regie: [],
-  },
-  {
-    schluessel: 'bild',
-    name: 'Bild',
-    tut: 'Setzt an die Stelle des Sachverhalts einen Gegenstand oder eine Szene. Ein Bild schlaegt ein Paradox.',
-    achtung:
-      'Nie an einem Wort haengen, das die Zielgruppe 18–30 nicht benutzt. „Roehre" und „Ladeziegel" sind daran gescheitert: Wer ein Wort erklaeren muss, hat keinen Witz mehr.',
-    beispiele: ['Also haben Einzelteile jetzt Herrchen.', 'Meins liegt seit drei Jahren hinterm Sofa.'],
-    /*
-     * Der Verdacht ist, dass hier nichts hingehoert: Ein Bild traegt sich
-     * selbst, und „Meins liegt seit drei Jahren hinterm Sofa." braucht keinen
-     * Ton, der ansagt, dass es lustig ist. Der Verdacht wird geprueft und
-     * nicht geglaubt — deshalb laeuft die Machart in der Blindwahl mit.
-     */
-    regie: [],
-  },
-  {
-    schluessel: 'ratlosigkeit',
-    name: 'Ratlosigkeit',
-    tut: 'Nimmt dem Zuschauer den Boden weg, den der Fakt gerade weggezogen hat. Die Folgerung bleibt bei ihm.',
-    achtung: 'Keine rhetorische Frage — echte Hilflosigkeit. Sobald eine Antwort mitgeliefert wird, ist es wieder ein Kommentar.',
-    beispiele: ['Kacke, was dann?', 'Und jetzt? Zwiebeln?', 'Moment. Kleiner ist schlechter?'],
-    /*
-     * Der Fall, fuer den der Modellwechsel gemacht wurde. Ratlosigkeit ist
-     * ganz Ton: „Kacke, was dann?" gelesen wie eine Frage ist rhetorisch,
-     * gelesen wie Hilflosigkeit ist es die Machart. Wenn hier nichts wirkt,
-     * wirkt die ganze Ebene nicht.
-     */
-    regie: [],
-  },
-  {
-    schluessel: 'empoerung',
-    name: 'Empoerung gegen den Falschen',
-    tut: 'Zielt auf den Verursacher statt auf die Sache. Traegt die Reaktion, die `absicht` ohnehin ausloest.',
-    achtung:
-      'Firmen und Behoerden duerfen getroffen werden, wenn ein Beleg danebensteht. Gruppen und Personen des oeffentlichen Lebens nie.',
-    beispiele: ['Die EU kann also doch was?!', 'Dreizehn Jahre. Für ein Loch.', 'Mein Hintern ist jetzt ein Geschäftsmodell.'],
-    /*
-     * Gesucht wird gespielte Empoerung, nicht echte — der Ton macht den
-     * Unterschied zwischen einem Vorwurf und einem Witz ueber einen Vorwurf.
-     * Schwierig zu messen, weil die Zeilen das Ausrufezeichen schon tragen;
-     * dafuer laeuft die tonlose Vergleichszeile mit.
-     */
-    regie: [],
-  },
-  {
-    schluessel: 'rueckfrage',
-    name: 'Die banale Rueckfrage',
-    tut: 'Fragt das Naheliegendste, das im Fakt offen bleibt. Wirkt, weil es niemand ausspricht.',
-    achtung:
-      'Sofort verstaendlich, nicht nach einem Takt. Wer erst ueberlegen muss, lacht nicht mehr — im Zweifel banaler.',
-    beispiele: ['Warum heißt er dann so?', 'Also vor meiner Mutter.', 'Wie, vier Stück?!'],
-    /*
-     * Wie bei `bild` der Verdacht, dass nichts hingehoert: Die banale
-     * Rueckfrage wirkt, weil sie banal klingt, und jede Ansage — neugierig,
-     * empoert, verwundert — macht aus der Banalitaet eine Pointe mit
-     * Unterstreichung. Auch dieser Verdacht wird geprueft.
-     */
-    regie: [],
-  },
-] as const;
 
 /**
  * Die Wache ueber der Doppelung: `Redeanteil.machart` zaehlt die Schluessel
@@ -1970,7 +2111,7 @@ export const REAKTIONS_MACHARTEN = [
  * hinzufuegt und das Enum vergisst (oder umgekehrt), bekommt einen
  * `tsc`-Fehler statt einer Machart, die sich nicht eintragen laesst.
  */
-type MachartSchluessel = (typeof REAKTIONS_MACHARTEN)[number]['schluessel'];
+type MachartSchluessel = (typeof MACHARTEN)[number]['schluessel'];
 type MachartImSchema = NonNullable<z.infer<typeof Redeanteil>['machart']>;
 const _machartenDeckenSich: [MachartSchluessel, MachartImSchema] extends [
   MachartImSchema,
@@ -1988,7 +2129,7 @@ void _machartenDeckenSich;
  * und eine zweite `find`-Schleife waere die naechste Doppelung.
  */
 export const regieVorrat = (machart: MachartImSchema): readonly string[] =>
-  REAKTIONS_MACHARTEN.find((m) => m.schluessel === machart)?.regie ?? [];
+  MACHARTEN.find((m) => m.schluessel === machart)?.regie ?? [];
 
 /**
  * Die Aufbauarten des Kaltstarts — was vor dem Vorhang passiert.
