@@ -119,7 +119,7 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Dann hast du es falsch eingebaut. Im Amtsblatt der EU steht dazu ein Verbot. Und jetzt? Ich hab es doch richtig eingebaut. Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
+        'Dann hast du es falsch eingebaut. Im Amtsblatt der EU steht dazu ein Verbot. Und jetzt? Ich habe es doch richtig eingebaut. Hersteller dürfen deine Handy-Reparatur nicht per Software behindern.',
       rede: [
         { sprecher: 'zeiger', zug: 'widersprechen', text: 'Dann hast du es falsch eingebaut.' },
         {
@@ -132,7 +132,7 @@ export const ersatzteilFreischalten: Short = {
         {
           sprecher: 'zeiger',
           zug: 'nachhaken',
-          text: 'Und jetzt? Ich hab es doch richtig eingebaut.',
+          text: 'Und jetzt? Ich habe es doch richtig eingebaut.',
           machart: 'ratlosigkeit',
         },
         {
@@ -165,12 +165,12 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Software? Ich hab einen Schraubenschlüssel benutzt. Hersteller dürfen freie Werkstätten bei zulässigen Ersatzteilen nicht behindern. Gebrauchte Teile zählen doch nicht, Volti.',
+        'Software? Ich habe einen Schraubenschlüssel benutzt. Hersteller dürfen freie Werkstätten bei zulässigen Ersatzteilen nicht behindern. Gebrauchte Teile zählen doch nicht, Volti.',
       rede: [
         {
           sprecher: 'zeiger',
           zug: 'zuspitzen',
-          text: 'Software? Ich hab einen Schraubenschlüssel benutzt.',
+          text: 'Software? Ich habe einen Schraubenschlüssel benutzt.',
           machart: 'bild',
         },
         {
@@ -269,7 +269,7 @@ export const ersatzteilFreischalten: Short = {
       art: 'text',
       position: 'kipppunkt',
       sprechtext:
-        'Lies mal, was hinter dem Verbot steht. Hier steht: es sei denn, das ist durch geistiges Eigentum gerechtfertigt. Also immer. Und die Vorschriften gelten erst seit dem 31. Juli 2026. Ich hab den Schraubenzieher verdächtigt.',
+        'Lies mal, was hinter dem Verbot steht. Hier steht: es sei denn, das ist durch geistiges Eigentum gerechtfertigt. Also immer. Und die Vorschriften gelten erst seit dem 31. Juli 2026. Ich habe den Schraubenzieher verdächtigt.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -294,7 +294,7 @@ export const ersatzteilFreischalten: Short = {
         {
           sprecher: 'zeiger',
           zug: 'einlenken',
-          text: 'Ich hab den Schraubenzieher verdächtigt.',
+          text: 'Ich habe den Schraubenzieher verdächtigt.',
           machart: 'gestaendnis',
         },
       ],

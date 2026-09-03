@@ -8,7 +8,7 @@
 
 **Die Beziehung ist nicht die Schlussdekoration, sie ist das Material.** Mein Schluss handelte von der Wette: „Ich hab noch nie eine Wette gegen dich verloren." Emirhans handelt von den Brüdern — Volti weicht auf seinen Rang aus, und Watti schlägt ihn mit seinem eigenen Satz: „Das hast du mir beigebracht." *„Vergiss die Beziehung der beiden nicht."*
 
-**Beispiele:** 2 von vier
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -69,5 +69,35 @@ V: Da steht sogar, dass es ein Irrglaube ist, nur PCs bräuchten eins.
 W: Und was kochst du morgen?
 V: Wie redest du mit deinem großen Bruder?
 W: Wettschulden sind Ehrenschulden. Das hast du mir beigebracht.
+```
+
+
+---
+
+## widerruf-wette
+
+`absicht` · Kaltstart Watti  
+Quelle: `bgb-355-widerrufsrecht`, `bgb-356-widerrufsfrist`
+
+```
+W: Die Kopfhörer gehen zurück, aber meine Rückgabefrist ist rum.
+   Heutiges Thema: Wattis Frist hat nie angefangen
+V: Watti, seit wann hast du die Kopfhörer?
+W: Drei Wochen. Die Widerrufsfrist beträgt 14 Tage, das weiß jeder.
+V: Da hast du recht. Ab wann laufen die denn?
+W: Ab Lieferung natürlich.
+V: Nur wenn der Händler dich belehrt hat. Wetten?
+W: Um was?
+V: Wenn ich gewinne, trägst du die Kopfhörer zur Post.
+W: Abgemacht.
+V: Die Frist beginnt nicht, bevor er dich unterrichtet hat.
+   [Zitatkarte] Die Widerrufsfrist beginnt nicht, bevor der Unternehmer den Verbraucher … unterrichtet hat
+W: Und wenn er das nicht gemacht hat?
+V: Dann hast du zwölf Monate und 14 Tage.
+W: Zwölf Monate?
+V: Nur ohne Belehrung. Mit sind es die 14 Tage.
+W: Und wo steht, ob er mich belehrt hat?
+V: Guck nach, ob er dich überhaupt belehrt hat.
+W: Da steht ein Widerrufsformular drin. Ich trage sie wohl selbst zur Post.
 ```
 

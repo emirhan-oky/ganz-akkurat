@@ -20,8 +20,8 @@ Regel obendrauf. Frühere Befunde werden nicht ersetzt, sondern Alternativen —
 
 ## Der Pool
 
-**31 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
-gelegt, Durchgang 2 auf zwei aufgefüllt, Durchgang 3 füllt auf drei auf; Szenario 4 ist mit vieren fertig.
+**37 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
+gelegt, Durchgang 2 auf zwei und Durchgang 3 auf drei aufgefüllt; Szenario 4 ist mit vieren fertig. **Es fehlt Durchgang 4** — elf Dialoge.
 
 | | Szenario | Beispiele | wie die Wendung gebaut ist |
 |---|---|---|---|
@@ -31,12 +31,12 @@ gelegt, Durchgang 2 auf zwei aufgefüllt, Durchgang 3 füllt auf drei auf; Szena
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
 | 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
 | 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
-| 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
-| 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
-| 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |
-| 10 | Die Wette | 2 | die Zitatkarte entscheidet, und der Verlierer liest sie vor |
-| 11 | Watti erzählt es falsch weiter | 2 | aus einer Wahlmöglichkeit wird ein Verbot |
-| 12 | Volti hat es aufgegeben | 2 | Watti fragt zum vierten Mal |
+| 7 | Watti hat einen Plan | 3 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 3 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 3 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |
+| 10 | Die Wette | 3 | die Zitatkarte entscheidet, und der Verlierer liest sie vor |
+| 11 | Watti erzählt es falsch weiter | 3 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 3 | Watti fragt zum vierten Mal |
 
 **Die Blöcke werden gezogen, nicht abgeschrieben** — `npm run szenarienblock -- <id>`
 baut sie aus `daten/entwuerfe/`. Am 03.09.2026 fiel auf, dass drei Dokumente

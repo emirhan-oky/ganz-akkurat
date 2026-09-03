@@ -30,7 +30,7 @@ export const achtzigProzentNachbar: Short = {
   suchbegriff: 'Handy laden 80 Prozent',
   kaltstart: {
     art: 'gewissheit',
-    satz: 'Ich hab gehört, neue Handys laden gar nicht mehr voll.',
+    satz: 'Ich habe gehört, neue Handys laden gar nicht mehr voll.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'nachbarhaeuser' },
   },
   vorspann: 'Der Nachbar weiß es besser',
@@ -180,7 +180,7 @@ export const achtzigProzentNachbar: Short = {
         gegenueber: { von: 'zeigen', nach: 'achselzucken' },
       },
       rundlauf:
-        'Beim zweiten Sehen ist Wattis „ich hab gehört" der eigentliche Fehler – und am Ende gibt er es genauso weiter.',
+        'Beim zweiten Sehen ist Wattis „ich habe gehört" der eigentliche Fehler – und am Ende gibt er es genauso weiter.',
     },
   ],
 

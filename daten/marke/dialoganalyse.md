@@ -339,6 +339,151 @@ danach nichts mehr kommt.
 Jetzt: „Dann liegt er in dem Stapel neben deinem Bett. Such ihn, kleiner." Ein
 Bild, eine Anweisung, fertig.
 
+### 68 · Der Kaltstart hängt nichts an
+
+„Ich arbeite den Sommer aus Spanien, **mit meinem Handyvertrag**." — *„das ist
+kein guter Satz."* Der Vertrag stand hinten dran, weil die Regel ein
+zusammengesetztes Substantiv verlangt, und ein angehängtes Substantiv ist kein
+Satz, den jemand sagt.
+
+Jetzt steht er im Gepäck: „Koffer, Laptop, Handyvertrag." Damit trägt er die
+Pointe schon vor dem Vorhang — er ist eben **kein** Gepäckstück. **Die
+Vorschrift erfüllt man nicht, indem man das Wort anhängt, sondern indem man
+einen Satz baut, in dem es hingehört.**
+
+### 69 · Es gibt keine Zeitsprünge
+
+`elektroschrott-supermarkt` endete mit „Und, hast du ihn abgegeben?" — *„mach
+hier keine Zeitsprünge. Das versteht man einfach nicht. Wir haben immerhin
+immer dieselbe Kulisse."*
+
+Der Short spielt in einem Raum, und der einzige Schnitt ist der Vorhang am
+Anfang. Eine Zeile, die einen vergangenen Tag voraussetzt, hat im Bild nichts,
+was ihn zeigt. **Der Rückfall muss im Gespräch stattfinden**: „Leg ihn schon
+mal an die Tür." — „Mach ich gleich." ist derselbe Rückfall, nur sichtbar.
+
+**Das betrifft das ganze Szenario 8.** Der Rückfall verführt zum Zeitsprung,
+weil er von Wiederholung handelt — und genau die lässt sich nicht schneiden.
+
+### 70 · Auch der Kaltstart braucht den Gegenstand, nicht den Sammelbegriff
+
+„Mein Elektroschrott stapelt sich" — Elektroschrott ist eine Kategorie, ein
+Föhn ist ein Ding. Befund 65, angewendet auf den ersten Satz, und dort wiegt er
+schwerer: Der Kaltstart ist die Hook.
+
+### 72 · Die Beschimpfung hängt am Zug, nicht am Gefühl
+
+*„Mir fehlen die Beschimpfungen. Ich verstehe aber, dass es schwer für dich
+ist zu ermitteln, wann du es einbauen sollst."* — Gemessen an 32
+Beschimpfungen in 23 Shorts ist es ermittelbar, und die Quote je Zug sagt es
+deutlich:
+
+| Zug | Beschimpfungen | von … Zeilen | Quote |
+|---|---|---|---|
+| `richtigstellen` | 6 | 38 | **16 %** |
+| `gegenbeispiel` | 1 | 7 | **14 %** |
+| `widersprechen` | 2 | 23 | 9 % |
+| `zuspitzen` | 3 | 40 | 7,5 % |
+| `beantworten` | 9 | 173 | 5 % |
+| `nachhaken` | 1 | 187 | **0,5 %** |
+
+**Sie sitzt dort, wo Volti korrigiert** — beim Richtigstellen dreißigmal
+häufiger als beim Nachfragen. Wo er nur Auskunft gibt („Fünf Arbeitstage."),
+steht sie fast nie; wo er einen Irrtum umdreht, steht sie fast immer.
+
+### 73 · „Du Idiot" straft, „kleiner" versöhnt
+
+Der zweite Fund derselben Messung, und er war neu: Die beiden Wörter stehen an
+verschiedenen Positionen.
+
+- **„du Idiot" / „du Pfosten"** — Zuspitzung und Kipppunkt, an der Korrektur:
+  „Ein Schraubendreher ist handelsüblich, du Pfosten.", „Falsch herum du
+  Idiot.", „Dein Vater hat auch noch ein Faxgerät du Idiot."
+- **„kleiner"** — fast nur im **Nachschlag**: „Dann bist du so langweilig wie
+  ich, kleiner.", „Die lade ich hier vor, kleiner.", „Du sagst gar nichts, weil
+  ich rede, kleiner."
+
+Das eine straft mitten im Streit, das andere versöhnt am Ende. **Und das
+erklärt den Befund vom 03.09. nachträglich:** „kleiner" fünfmal automatisch ans
+Ende zu setzen war deshalb falsch, weil das Wort dort zwar hingehört — aber als
+Geste und nicht als Pflichtbaustein.
+
+### 74 · Keine Apokope. „Ich habe", nicht „ich hab"
+
+*„Ich erzähle mit e."* — Gemessen über alle Entwürfe: **Emirhan verkürzt nie**
+(0 von 9 Stellen), ich in **6 von 11**. „Ich hab", „ich frag", „ich erzähl".
+
+Ich hatte es für Umgangssprache gehalten. Der Skill sagt seit dem 02.09. das
+Gegenteil, und zwar an derselben Sorte Fehler: **„Umgangssprache heißt nicht
+ungrammatisch."** Dort ging es um „der macht lauter" statt „der wird lauter" —
+hier um das weggelassene E.
+
+**Der Grund liegt im Untertitel.** Der Sprechtext ist Wort für Wort das, was im
+Bild steht, und eine apokopierte Form liest sich als Tippfehler, auch wenn sie
+sich gut anhört. Dieselbe Begründung wie bei den Ziffern.
+
+## Der Belegprüfer an Durchgang 3 — zwanzig Stellen, und einer war falsch
+
+**Mehr als beim letzten Durchgang (17), obwohl die Selbstprüfung dazwischenlag.**
+Das ist der wichtigste Befund des Tages, und er sagt etwas über die Prüfung
+selbst.
+
+### 75 · Ich prüfe gegen das Zitat, er prüft gegen die Seite
+
+Meine Selbstprüfung fragt „trägt das Zitat diesen Satz?". Der Belegprüfer
+fragt „trägt die **Seite** diesen Satz?" — er ruft sie ab und liest Vor- und
+Folgesatz. Ich prüfe gegen den Ausschnitt, den ich beim Suchen gefunden habe,
+und der ist genau der, aus dem ich die Zeile gebaut habe.
+
+**Deshalb finden sechs Prüffragen zwanzig Fälle nicht.** Die Frage „steht die
+Einschränkung im Zitat?" beantwortet sich selbst mit Ja, wenn das Zitat die
+Einschränkung gar nicht enthält.
+
+### 76 · Eine hinreichende Bedingung ist keine notwendige
+
+Der schwerste Fund, und er hat einen ganzen Short gekippt. `roaming-sommer`
+ließ Volti sagen: „Du brauchst einen überwiegenden Inlandsaufenthalt. Sonst
+darf er dir was aufschlagen."
+
+Das Zitat sagt: Ein überwiegender Inlandsaufenthalt „**gilt als Nachweis
+dafür, dass keine missbräuchliche Nutzung vorliegt**". Wer ihn hat, ist sicher —
+daraus folgt nicht, dass alle anderen zahlen. Artikel 5 sagt das Gegenteil:
+Reißen beide Kriterien, müssen **zusätzliche Risikoanzeichen** dazukommen, dann
+ein Hinweis, dann mindestens zwei Wochen.
+
+**Und der zitierte Fall war nicht Wattis.** „Permanentes Roaming" meint den
+Vertrag aus einem Land, in dem der Kunde „weder seinen gewöhnlichen Aufenthalt
+noch stabile Bindungen hat" — Watti hat einen deutschen Vertrag und wohnt in
+Deutschland.
+
+**Der Umbau hat den Short besser gemacht.** Der Kipppunkt ist jetzt der Brief,
+der vor jeder Strafe steht. Emirhans Entscheidung dazu war „erst die anderen,
+dann entscheiden" — und die richtige: Mit der ehrlichen Quelle war die Pointe
+da.
+
+### 77 · Ein Zitat kann von etwas ganz anderem handeln
+
+`energielabel-buchstabe` band seine zentrale Behauptung — beide Klassen stehen
+auf demselben Etikett — an einen Satz, der **Werbung** regelt: „jede visuell
+wahrnehmbare Werbung … enthält auf dem Etikett die Energieeffizienzklasse".
+Der Satzanfang stand außerhalb der Zeichenkette.
+
+Dazu zwei Sachfehler, die erst der Volltext zeigte: Die Sturzangabe ist auf dem
+Etikett eine **Klasse**, keine Zahl (die Zahl steht im Produktdatenblatt), und
+die Energieeffizienz läuft **A bis G**, die Reparierbarkeit nur bis E. Wattis
+„auch von A bis E" blieb unwidersprochen — in einem Short, dessen Pointe
+lautet, dass ein Buchstabe nur eine Frage beantwortet.
+
+**Nach der Korrektur ist die Pointe schärfer**: Zwei Skalen, verschiedene
+Längen, und Volti korrigiert es.
+
+### Was daraus für die Reihenfolge folgt
+
+**Der Belegprüfer gehört nicht ans Ende eines Durchgangs, sondern hinter jeden
+Dialog.** Bei `sekunde-vom-atom` lief er einzeln und fand zwei schwere Stellen,
+bevor der Dialog abgenommen war. Bei den acht anderen lief er gesammelt — und
+zwei davon waren zu diesem Zeitpunkt schon abgenommen und im Pool.
+
 ### Und was die Themenwahl gelernt hat
 
 **Der `werhatrecht`-Vorrat ist erschöpft.** Von acht Ideen sind fünf

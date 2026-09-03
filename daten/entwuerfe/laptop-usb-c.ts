@@ -39,10 +39,10 @@ export const laptopUsbC: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Watti, zum vierten Mal. Was denn, ich frag doch nur. Seit April 2026 müssen neue Laptops über USB-C laden.',
+        'Watti, zum vierten Mal. Was denn, ich frage doch nur. Seit April 2026 müssen neue Laptops über USB-C laden.',
       rede: [
         { sprecher: 'nachleser', zug: 'zuspitzen', machart: 'nebenbemerkung', text: 'Watti, zum vierten Mal.' },
-        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Was denn, ich frag doch nur.' },
+        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Was denn, ich frage doch nur.' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',

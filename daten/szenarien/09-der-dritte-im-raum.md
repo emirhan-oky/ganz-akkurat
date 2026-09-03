@@ -6,7 +6,9 @@
 
 **Und der Grund darf fehlen.** Im Beispiel unten sagt die Verordnung, *was* verlangt wird, und nennt keinen Grund dafür. Volti muss das zugeben — dieselbe Bewegung wie in `produktpass-akku`, und die ehrlichste Stelle des Shorts. Der erste Anlauf hatte den Grund erfunden, und die Quelle sagte fast das Gegenteil.
 
-**Beispiele:** 2 von vier
+**Und der Schluss hört eine Spur früher auf.** Ein Anlauf hängte an Wattis „Das erzähle ich meinem Kollegen." noch Voltis „Der ruft dann wieder beim Falschen an." — *„Der letzte Satz von Volti kann weg. Wozu dient der?"* Er sagte noch einmal, was der Short längst gezeigt hatte. Die strategische Auslassung gilt auch für die letzte Zeile.
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -68,5 +70,32 @@ W: Und wann soll ich jetzt laden?
 V: Wann immer du dran denkst.
 W: Das ist ja gar keine Regel.
 V: Du sollst weniger dumme Fragen stellen und mehr deinen Verstand nutzen.
+```
+
+
+---
+
+## nummer-mitnehmen
+
+`absicht` · Kaltstart Watti  
+Quelle: `tkg-59-anbieterwechsel`
+
+```
+W: Ich bleibe bei meinem Mobilfunkanbieter, sonst ist die Nummer weg.
+   Heutiges Thema: Wattis Kollege hat da mal was gehört
+V: Watti, wer sagt dir, dass beim Anbieterwechsel die Nummer weg ist?
+W: Ein Kollege. Der hat das mal probiert.
+V: Und was hat dein Kollege gemacht?
+W: Beim alten Anbieter angerufen.
+V: Da liegt sein Fehler. Den Wechsel führt der neue.
+W: Also muss ich beim alten gar nichts sagen?
+V: Du sagst dem neuen, dass du deine Rufnummer mitnimmst.
+V: Den Rest machen die unter sich.
+   [Zitatkarte] Anbieterwechsel und Rufnummernmitnahme erfolgen unter Leitung des aufnehmenden Anbieters.
+W: Und wie lange bin ich dann offline?
+V: Der Dienst darf nicht länger als einen Arbeitstag unterbrochen sein.
+W: Und wenn sie sich Zeit lassen?
+V: Dann zahlst du dem alten nach Vertragsende nur noch den halben Anschluss.
+W: Das erzähle ich meinem Kollegen.
 ```
 

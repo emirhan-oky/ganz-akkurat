@@ -6,7 +6,9 @@
 
 **Der Schluss gehört der Beziehung, und zwar besonders hier.** „Beim fünften Mal sage ich es dir wieder." ist kein Nachgeben, sondern das Gegenteil: Er wird es wieder tun, weil er der große Bruder ist.
 
-**Beispiele:** 2 von vier
+**Aufgeben heißt nicht abbrechen.** Voltis letzte Zeile ist eine Prognose, keine Kapitulation: „Guckst du hin oder fragst mich wieder." Er weiß, dass es ein fünftes Mal gibt — und genau das macht die Figur, nicht der Abbruch.
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -62,5 +64,34 @@ W: Und meine Maus, die vom Flohmarkt?
 V: Watti.
 W: Was denn?
 V: Frag mich, wenn du eine neue Maus hast.
+```
+
+
+---
+
+## ladegeraet-piktogramm
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `eu-einheitlicher-ladeanschluss`
+
+```
+W: Im Karton war wieder kein Ladegerät. Das ist doch Absicht.
+   Heutiges Thema: Watti fragt zum vierten Mal
+V: Watti, zum vierten Mal frage ich mich, ob du auf den Karton guckst.
+W: Da stand nichts drauf.
+V: Ein Piktogramm.
+W: Was für ein Piktogramm?
+V: Ein Bildchen, das zeigt, ob ein Ladegerät drin ist.
+V: Gedruckt oder als Aufkleber, du Idiot.
+   [Zitatkarte] Das Piktogramm wird auf die Verpackung gedruckt oder als Aufkleber auf der Verpackung angebracht.
+W: Ich habe es online bestellt, da gibt es keinen Karton.
+V: Dann stand es neben dem Preis.
+W: Neben dem Preis? Da guckt doch keiner hin.
+W: Und wenn ich eins gewollt hätte?
+V: Wer es mit Ladegerät anbietet, muss es auch ohne anbieten. Andersrum steht da nichts.
+W: Also lag es an mir?
+V: Es lag daran, dass du vier Mal nicht hingeguckt hast.
+W: Und beim fünften Mal?
+V: Guckst du hin oder fragst mich wieder.
 ```
 

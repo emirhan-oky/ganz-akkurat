@@ -61,13 +61,13 @@ export const mobilfunkMesskampagne: Short = {
       belegId: 'verbindliches-nachweisverfahren',
       herausgeber: 'Bundesnetzagentur',
       sprechtext:
-        'Wie denn, mit einem Screenshot? Mit einer App vom Amt. Die Bundesnetzagentur stellt ein verbindliches Nachweisverfahren.',
+        'Wie denn, mit einem Screenshot? Die Bundesnetzagentur stellt ein verbindliches Nachweisverfahren.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'rueckfrage', text: 'Wie denn, mit einem Screenshot?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Mit einer App vom Amt. Die Bundesnetzagentur stellt ein verbindliches Nachweisverfahren.',
+          text: 'Die Bundesnetzagentur stellt ein verbindliches Nachweisverfahren.',
           quelleId: 'bnetza-internetgeschwindigkeit',
           belegId: 'verbindliches-nachweisverfahren',
         },
@@ -83,17 +83,17 @@ export const mobilfunkMesskampagne: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'dann haben Sie gegenüber Ihrem Anbieter ein Minderungs- oder Sonderkündigungsrecht',
+      zitat: 'Weichen die Ergebnisse erheblich ab, dann haben Sie ein Minderungs- oder Sonderkündigungsrecht',
       quelleId: 'bnetza-internetgeschwindigkeit',
       belegId: 'minderungs-oder-sonderkuendigungsrecht',
       sprechtext:
-        'Und dann? Dann hast du ein Minderungs- oder Sonderkündigungsrecht. Einfach so? Du musst das Messprotokoll vorlegen.',
+        'Und dann? Wenn sie erheblich abweichen, hast du ein Minderungs- oder Sonderkündigungsrecht. Einfach so? Du musst das Messprotokoll vorlegen.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und dann?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Dann hast du ein Minderungs- oder Sonderkündigungsrecht.',
+          text: 'Wenn sie erheblich abweichen, hast du ein Minderungs- oder Sonderkündigungsrecht.',
           quelleId: 'bnetza-internetgeschwindigkeit',
           belegId: 'minderungs-oder-sonderkuendigungsrecht',
         },
@@ -153,14 +153,14 @@ export const mobilfunkMesskampagne: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Das Recht ist da. Es kostet 14 Tage Messen.',
+      satz: 'Das Recht ist da. Es hängt an einer Messkampagne.',
       sprechtext:
-        'Und zwischen der dritten und vierten Messung 3 Stunden Pause. Und was rätst du mir? Miss. Sonst zahlst du weiter für 100 Megabit. Ich messe morgen. Hoffe ich für dich kleiner.',
+        'Und zwischen der dritten und vierten Messung eines Tages mindestens 3 Stunden Pause. Und was rätst du mir? Miss. Sonst zahlst du weiter für 100 Megabit. Ich messe morgen. Hoffe ich für dich kleiner.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'nachlegen',
-          text: 'Und zwischen der dritten und vierten Messung 3 Stunden Pause.',
+          text: 'Und zwischen der dritten und vierten Messung eines Tages mindestens 3 Stunden Pause.',
           quelleId: 'bnetza-internetgeschwindigkeit',
           belegId: 'drei-stunden-abstand',
         },

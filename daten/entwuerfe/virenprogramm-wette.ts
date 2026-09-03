@@ -32,7 +32,7 @@ export const virenprogrammWette: Short = {
   suchbegriff: 'Virenprogramm Handy',
   kaltstart: {
     art: 'stolzerfehler',
-    satz: 'Ich hab mir wieder ein Virenprogramm geholt. 40 Euro im Jahr.',
+    satz: 'Ich habe mir wieder ein Virenprogramm geholt. 40 Euro im Jahr.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'kassenbon' },
   },
   vorspann: 'Volti verliert seine erste Wette',

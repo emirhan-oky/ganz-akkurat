@@ -34,6 +34,12 @@ import { laptopUsbC } from './laptop-usb-c';
 import { sekundeVomAtom } from './sekunde-vom-atom';
 import { mobilfunkMesskampagne } from './mobilfunk-messkampagne';
 import { routerZwang } from './router-zwang';
+import { roamingSommer } from './roaming-sommer';
+import { elektroschrottSupermarkt } from './elektroschrott-supermarkt';
+import { nummerMitnehmen } from './nummer-mitnehmen';
+import { widerrufWette } from './widerruf-wette';
+import { energielabelBuchstabe } from './energielabel-buchstabe';
+import { ladegeraetPiktogramm } from './ladegeraet-piktogramm';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -85,7 +91,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang];
+export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.

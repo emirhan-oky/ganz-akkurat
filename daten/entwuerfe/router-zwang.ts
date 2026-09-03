@@ -94,7 +94,7 @@ export const routerZwang: Short = {
       quelleId: 'tkg-73-endeinrichtungen',
       belegId: 'netz-endet-am-abschlusspunkt',
       sprechtext:
-        'Dann steckst du ihn an die Anschlussdose. Da endet das Netz vom Anbieter. Also ist alles dahinter meins? Ab der Anschlussdose bist du dran.',
+        'Dann steckst du ihn an die Anschlussdose. Da endet das Netz vom Anbieter. Also ist alles hinter der Dose meine Sache? Ab der Anschlussdose musst du für den fachgerechten Anschluss sorgen.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -103,8 +103,14 @@ export const routerZwang: Short = {
           quelleId: 'tkg-73-endeinrichtungen',
           belegId: 'netz-endet-am-abschlusspunkt',
         },
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Also ist alles dahinter meins?' },
-        { sprecher: 'nachleser', zug: 'beantworten', text: 'Ab der Anschlussdose bist du dran.' },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'falscherschluss', text: 'Also ist alles hinter der Dose meine Sache?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Ab der Anschlussdose musst du für den fachgerechten Anschluss sorgen.',
+          quelleId: 'tkg-73-endeinrichtungen',
+          belegId: 'fachgerechter-anschluss',
+        },
       ],
       buehne: {
         art: 'figur',

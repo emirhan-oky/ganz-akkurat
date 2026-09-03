@@ -6,7 +6,9 @@
 
 **Und der Short darf nicht selbst zu weit erzählen.** Der erste Anlauf ließ das „Einige Geräte" der Quelle weg und schloss mit einem doppelten „Gar nicht." über den einen Drucker, um den es geht. **Ein Short über falsches Weitererzählen, der selbst zu weit erzählt, widerlegt sich im eigenen Bau.**
 
-**Beispiele:** 2 von vier
+**Und die Beschimpfung hängt am Zug.** Sie fehlte hier zunächst ganz — gemessen an 32 Beschimpfungen in 23 Shorts sitzt sie dort, wo Volti **korrigiert**: bei `richtigstellen` in jeder sechsten Zeile, bei `nachhaken` in jeder zweihundertsten. Hier steht sie an Voltis Widerspruch: „Auf dem Etikett stehen mehrere Buchstaben, du Idiot."
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -61,5 +63,37 @@ V: Muss es sogar. Steht auch da drin.
 W: Und was erzähle ich jetzt dem von nebenan?
 V: Dass er zuhören soll, bevor er weitererzählt.
 W: Das sage ich ihm genauso.
+```
+
+
+---
+
+## energielabel-buchstabe
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `eu-energielabel-smartphones`
+
+```
+W: Mein neues Handy hat ein A auf dem Energielabel. Bestes Gerät.
+   Heutiges Thema: Wattis Handy hat ein A
+V: Watti, ein A wofür?
+W: Ein A ist ein A. Steht auf dem Energielabel.
+V: Auf dem Etikett stehen mehrere Buchstaben, du Idiot.
+W: Wieso mehrere?
+V: Einer ist die Energieeffizienzklasse, die geht von A bis G.
+W: Und der andere?
+V: Wie gut sich dein Handy reparieren lässt. Der geht nur bis E.
+W: Also zweimal dieselbe Skala?
+V: Zwei verschiedene. A heißt am besten reparierbar.
+W: Also hab ich zweimal A?
+   [Zitatkarte] A (am besten reparierbar)
+V: Guck nach.
+W: Und da steht noch ein Buchstabe.
+V: Die Klasse fürs Fallenlassen.
+W: Auf einem Etikett?
+V: Auf einem Etikett.
+W: Und was erzähle ich jetzt im Büro?
+V: Dass du nachgeguckt hast.
+W: Ich erzähle lieber, dass mein Handy überall A hat.
 ```
 

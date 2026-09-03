@@ -94,8 +94,8 @@ W: Und wieso nicht?
 V: Der Anbieter darf dir einen Router geben. Vorschreiben darf er ihn nicht.
 W: Und wenn ich trotzdem einen eigenen kaufe?
 V: Dann steckst du ihn an die Anschlussdose. Da endet das Netz vom Anbieter.
-W: Also ist alles dahinter meins?
-V: Ab der Anschlussdose bist du dran.
+W: Also ist alles hinter der Dose meine Sache?
+V: Ab der Anschlussdose musst du für den fachgerechten Anschluss sorgen.
 W: Dann hattest du also recht.
 V: Keiner von uns beiden. Der Router war nie das Problem.
 W: Was denn dann?

@@ -8,7 +8,9 @@
 
 **Mir fehlt oft der Kontext, der eine Aussage erst verständlich macht.** „Da war mal was in Italien" gegen Emirhans Fassung „Das war mal in Italien der Fall. Zwei Hersteller hatten das mal gemacht." Ebenso „Update ist da" gegen „Neues **Handy**update ist da". *„Nach wie vor fehlen manchmal einfach die Informationen in den Aussagen, die den Kontext besser erschließen können. Das fehlt dir oft."* Ich kürze, bis nur das Stichwort übrig ist, und halte das für knapp — es ist aber unvollständig.
 
-**Beispiele:** 2 von vier
+**Und der Rückfall passiert im Gespräch, nicht nach einem Zeitsprung.** Ein Anlauf endete mit „Und, hast du ihn abgegeben?" — *„mach hier keine Zeitsprünge. Das versteht man einfach nicht. Wir haben immerhin immer dieselbe Kulisse."* Der Short spielt in einem Raum; der einzige Schnitt ist der Vorhang. „Mach ich gleich." ist derselbe Rückfall, nur sichtbar.
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -71,5 +73,35 @@ V: Die Behörde schreibt, die Geräte wurden danach schneller ersetzt.
 W: Und was mache ich jetzt?
 V: Erst lesen, was drinsteht.
 W: Ups, ist schon geladen.
+```
+
+
+---
+
+## elektroschrott-supermarkt
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `elektrog-17-ruecknahme`
+
+```
+W: Der Föhn liegt seit einem Jahr da, zum Wertstoffhof komme ich nie.
+   Heutiges Thema: Wattis Föhn fährt wieder mit heim
+V: Watti, was liegt da für ein Elektroschrott rum?
+W: Der alte Föhn. Der wartet seit einem Jahr auf den Wertstoffhof.
+V: Du kannst ihn morgen beim Einkaufen abgeben.
+W: In den Supermarkt?
+V: Wenn er groß genug ist und Elektrogeräte führt, muss er ihn nehmen.
+W: Und was ist mit meinem Föhn?
+V: Nichts an ihm darf größer als 25 Zentimeter sein.
+W: Der ist kleiner.
+V: Dann nehmen die dir den ab.
+   [Zitatkarte] Altgeräte, die in keiner äußeren Abmessung größer als 25 Zentimeter sind
+W: Und was muss ich dafür kaufen?
+V: Nichts. Die Rücknahme darf nicht an einen Kauf geknüpft werden.
+W: Und wie viele darf ich bringen?
+V: Drei pro Geräteart.
+W: Dann bin ich morgen den Föhn los. Danke großer Bruder.
+V: Leg ihn schon mal an die Tür.
+W: Mach ich gleich.
 ```
 

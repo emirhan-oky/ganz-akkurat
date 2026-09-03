@@ -122,7 +122,7 @@ Szenario, darin vier Beispiele — mit einem einzigen Beispiel baut jeder Entwur
 genau dieses eine nach. Eine neue Runde legt dort eine Datei ab und fasst diesen
 Skill nicht an.
 
-**Alle zwölf haben Beispiele, 31 von 48 seit dem 03.09.2026:**
+**Alle zwölf haben Beispiele, 37 von 48 seit dem 03.09.2026:**
 
 | | Szenario | Beisp. | wie die Wendung gebaut ist |
 |---|---|---|---|
@@ -132,12 +132,12 @@ Skill nicht an.
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
 | 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
 | 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
-| 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
-| 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
-| 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt |
-| 10 | Die Wette | 2 | die Zitatkarte entscheidet |
-| 11 | Watti erzählt es falsch weiter | 2 | aus einer Wahlmöglichkeit wird ein Verbot |
-| 12 | Volti hat es aufgegeben | 2 | Watti fragt zum vierten Mal |
+| 7 | Watti hat einen Plan | 3 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 3 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 3 | jemand außerhalb hat etwas gesagt |
+| 10 | Die Wette | 3 | die Zitatkarte entscheidet |
+| 11 | Watti erzählt es falsch weiter | 3 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 3 | Watti fragt zum vierten Mal |
 
 **Die Blöcke dort werden gezogen, nicht abgeschrieben** —
 `npm run szenarienblock -- <id>` baut sie aus `daten/entwuerfe/`.
@@ -251,7 +251,10 @@ wurden. Ein Satz mit Nebensatz ist keine Rede.
 - **Das Substantiv statt des Pronomens.** „Der Laptop spinnt", nicht „er
   spinnt". Mein häufigster Fehler, viermal in derselben Form.
 - **Umgangssprache heißt nicht ungrammatisch.** „Der **wird** lauter", nicht
-  „der macht lauter".
+  „der macht lauter". **Und keine Apokope:** „ich habe", „ich frage", „ich
+  erzähle" — nie „ich hab". Emirhan verkürzt in keiner einzigen seiner Zeilen;
+  ich tat es in sechs von elf. Im Untertitel liest sich die kurze Form als
+  Tippfehler.
 - **Zahlen als Ziffer, mit Einheit und Richtung.** „60 Watt oder 240 Watt, und
   mehr Watt heißt mehr Durchlass." Ausgeschrieben wurde
   „zweihundertvierzig" als „zweiundvierzig" gelesen.
@@ -345,8 +348,13 @@ Fragen, jede zeigt auf ein Kapitel, das es schon gibt.
 5. **Jeder Witz** — antwortet er auf die Zeile davor, oder steht er daneben?
    Steht er daneben, wird er **gestrichen**, nicht gedreht. → *Die eine Regel,
    an der alles scheitert*
-6. **Voltis Ärger** — fehlt die Beschimpfung, wo er sich ärgert? Sie klebt
-   hinten an, ohne Komma. → *Die beiden Figuren*
+6. **Voltis Ärger** — sie klebt hinten an, ohne Komma, und sitzt **am Zug**:
+   Bei `richtigstellen` und `gegenbeispiel` steht sie in jeder sechsten bis
+   siebten Zeile, bei `nachhaken` in jeder zweihundertsten. Gemessen an 32
+   Beschimpfungen in 23 Shorts. **Wo Volti korrigiert, schimpft er; wo er nur
+   Auskunft gibt, nicht.**
+   Und die beiden Wörter sind verschieden: **„du Idiot" straft** (Zuspitzung,
+   Kipppunkt), **„kleiner" versöhnt** (Nachschlag). → *Die beiden Figuren*
 7. **Jede behauptende Zeile** — steht das Zitat daneben, und trägt es *diesen*
    Satz? **Lies den Satz davor und den Satz danach in der Quelle.** → *Vor dem
    Vertonen*
@@ -378,10 +386,21 @@ siebzehnmal gerissen ist — bei grünem `pruefen` und grünem `quellen-pruefen`
 bessere Zeile — nach siebzehn Belegbefunden bin ich auf die Gegenseite gekippt
 und habe ein gedecktes Wort gegen ein steiferes getauscht.
 
-**Der Belegprüfer läuft vor der Vorlage, nicht danach.** Am 03.09.2026 hat
-Emirhan elf Dialoge abgenommen, in denen siebzehn Sätze mehr behaupteten als
-ihre Quelle. Er konnte es nicht sehen: Im Chat stand das Zitat als Kartentext
-daneben, nicht als vollständige Fundstelle mit ihrem Satz davor und danach.
+**Der Belegprüfer läuft vor der Vorlage, und zwar hinter jedem einzelnen
+Dialog.** Am 03.09.2026 hat Emirhan elf Dialoge abgenommen, in denen siebzehn
+Sätze mehr behaupteten als ihre Quelle; im nächsten Durchgang waren es zwanzig,
+obwohl diese Liste dazwischenlag.
+
+**Der Grund, und er ist der wichtigste Satz dieses Abschnitts:** Diese Liste
+prüft gegen das **Zitat**, der Belegprüfer gegen die **Seite**. Die Frage
+„steht die Einschränkung im Zitat?" beantwortet sich selbst mit Ja, wenn das
+Zitat die Einschränkung gar nicht enthält. Nur wer die Seite abruft und Vor-
+und Folgesatz liest, sieht das „Weichen die Ergebnisse **erheblich** ab", das
+vor der Fundstelle steht.
+
+**Und eine Denkfigur, die zweimal gerissen ist:** Eine hinreichende Bedingung
+ist keine notwendige. „X gilt als Nachweis, dass kein Missbrauch vorliegt"
+heißt nicht „ohne X gibt es Strafe".
 
 **Und wenn du eine Auswahl vorlegst:** Sortiere nach Ton, nicht nach
 Genauigkeit. Am 03.09.2026 standen vier von fünf besseren Titeln als Zweitwahl

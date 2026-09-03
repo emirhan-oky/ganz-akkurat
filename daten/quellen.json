@@ -461,6 +461,26 @@
           "id": "geraeteliste-ab-mobiltelefonen",
           "zitat": "1.1. tragbare Mobiltelefone, 1.2. Tablets, 1.3. Digitalkameras",
           "stuetzt": "Anhang Ia. Tablets sind Nummer 1.2 und fallen damit unter den Stichtag Dezember 2024."
+        },
+        {
+          "id": "auch-ohne-ladenetzteil-erwerben",
+          "zitat": "so bietet der Wirtschaftsakteur den Verbrauchern und anderen Endnutzern auch die Möglichkeit an, die Funkanlage ohne Ladenetzteil zu erwerben",
+          "stuetzt": "Wer das Gerät mit Ladegerät anbietet, muss es **auch ohne** anbieten. Die Wahl liegt beim Käufer, nicht beim Hersteller."
+        },
+        {
+          "id": "piktogramm-auf-der-verpackung",
+          "zitat": "Das Piktogramm wird auf die Verpackung gedruckt oder als Aufkleber auf der Verpackung angebracht.",
+          "stuetzt": "Ob ein Ladegerät dabei ist, steht als Piktogramm auf dem Karton — gedruckt oder als Aufkleber."
+        },
+        {
+          "id": "piktogramm-nahe-preisangabe",
+          "zitat": "im Falle des Fernabsatzes befindet sich das Piktogramm in der Nähe der Preisangabe",
+          "stuetzt": "Beim Onlinekauf steht das Piktogramm **neben dem Preis** — dort, wo jeder hinsieht und keiner es liest."
+        },
+        {
+          "id": "information-ob-ladenetzteil-enthalten",
+          "zitat": "die Information, ob ein Ladenetzteil im Lieferumfang von Funkanlagen im Sinne von Artikel 3 Absatz 4 enthalten ist",
+          "stuetzt": "Artikel 3a Absatz 2. **Was** das Piktogramm zeigt — der Satz davor zu „auf die Verpackung gedruckt“."
         }
       ]
     },
@@ -1317,7 +1337,7 @@
         {
           "id": "drei-stunden-abstand",
           "zitat": "Zwischen der dritten und vierten Messung eines Messtages muss ein größerer Abstand von mindestens drei Stunden eingehalten werden.",
-          "stuetzt": "Die Pause mitten am Messtag — der Grund, warum das Verfahren einen ganzen Tag kostet."
+          "stuetzt": "Die Pause gilt **an jedem Messtag**, und sie ist ein Mindestabstand — nicht genau drei Stunden."
         },
         {
           "id": "verbindliches-nachweisverfahren",
@@ -1375,6 +1395,202 @@
           "id": "netz-endet-am-abschlusspunkt",
           "zitat": "das öffentliche Telekommunikationsnetz endet am passiven Netzabschlusspunkt",
           "stuetzt": "Absatz 1. Hinter der Dose ist nicht mehr das Netz des Anbieters — daraus folgt die freie Wahl des Geräts."
+        },
+        {
+          "id": "fachgerechter-anschluss",
+          "zitat": "hat für deren fachgerechten Anschluss Sorge zu tragen",
+          "stuetzt": "Absatz 4. Wer ein eigenes Gerät betreibt, ist für seinen Anschluss zuständig — ab der Dose."
+        }
+      ]
+    },
+    {
+      "id": "eu-roaming-angemessene-nutzung",
+      "titel": "Durchführungsverordnung (EU) 2016/2286 — angemessene Nutzung beim Roaming",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32016R2286",
+      "herausgeber": "Europäische Kommission",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "zeitraum-mindestens-vier-monate",
+          "zitat": "solche Aufenthalts- und Nutzungsindikatoren zusammengenommen und über einen Zeitraum von mindestens vier Monaten",
+          "stuetzt": "Der Beobachtungszeitraum: **mindestens** vier Monate, und beobachtet werden Aufenthalt und Nutzung zusammen."
+        },
+        {
+          "id": "ueberwiegender-inlandsaufenthalt",
+          "zitat": "Sowohl eine überwiegende Inlandsnutzung als auch ein überwiegender Inlandsaufenthalt des Roamingkunden während des festgelegten Beobachtungszeitraums gilt als Nachweis dafür, dass keine missbräuchliche oder zweckwidrige Nutzung",
+          "stuetzt": "**Hinreichend, nicht notwendig**: Wer überwiegend daheim ist, gilt als unbedenklich. Umgekehrt folgt daraus kein Aufschlag."
+        },
+        {
+          "id": "jeder-tag-im-inlandsnetz",
+          "zitat": "gilt jeder Tag, an dem sich ein Roamingkunde im inländischen Netz eingebucht hat, als ein Tag des Inlandsaufenthalts dieses Kunden",
+          "stuetzt": "Gezählt wird das Einbuchen, nicht der Wohnsitz — ein Tag im deutschen Netz ist ein Inlandstag."
+        },
+        {
+          "id": "kein-permanentes-roaming",
+          "zitat": "Ihre Bestimmungen sollen aber kein permanentes Roaming in der Union ermöglichen",
+          "stuetzt": "Erwägungsgrund im Konjunktiv. Gemeint ist der Vertrag aus einem Land, in dem der Kunde **nicht** wohnt."
+        },
+        {
+          "id": "hinweisen-bevor-aufschlag",
+          "zitat": "auf das festgestellte Verhaltensmuster, das ein solches Risiko erkennen lässt, hinweisen, bevor er einen Aufschlag",
+          "stuetzt": "Artikel 5 Absatz 3. **Vor** jedem Aufschlag steht ein Hinweis — der Anbieter darf nicht einfach abrechnen."
+        },
+        {
+          "id": "nicht-kuerzer-als-zwei-wochen",
+          "zitat": "bei Ausbleiben einer Änderung des Nutzungsverhaltens innerhalb eines Zeitraums, der nicht kürzer als zwei Wochen sein darf",
+          "stuetzt": "Artikel 5 Absatz 4. Nach dem Hinweis bleiben mindestens zwei Wochen, das Verhalten zu ändern."
+        },
+        {
+          "id": "nachweis-gewoehnlicher-aufenthalt",
+          "zitat": "ungeachtet der Erbringung von Nachweisen seitens des Roamingkunden für seinen gewöhnlichen Aufenthalt im Mitgliedstaat des Roaminganbieters",
+          "stuetzt": "Artikel 5 Absatz 3. Der Kunde kann seinen gewöhnlichen Aufenthalt nachweisen — das bleibt ihm unbenommen."
+        }
+      ]
+    },
+    {
+      "id": "elektrog-17-ruecknahme",
+      "titel": "§ 17 ElektroG – Rücknahmepflicht der Vertreiber",
+      "url": "https://www.gesetze-im-internet.de/elektrog_2015/__17.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "lebensmittel-achthundert-quadratmeter",
+          "zitat": "Vertreiber von Lebensmitteln mit einer Gesamtverkaufsfläche von mindestens 800 Quadratmetern, die mehrmals im Kalenderjahr oder dauerhaft Elektro- und Elektronikgeräte anbieten",
+          "stuetzt": "Absatz 1. Auch der Supermarkt ist verpflichtet — ab 800 Quadratmetern und wenn er Elektrogeräte führt."
+        },
+        {
+          "id": "fuenfundzwanzig-zentimeter",
+          "zitat": "auf Verlangen des Endnutzers Altgeräte, die in keiner äußeren Abmessung größer als 25 Zentimeter sind, im Einzelhandelsgeschäft oder in unmittelbarer Nähe hierzu unentgeltlich zurückzunehmen",
+          "stuetzt": "Absatz 1 Nr. 2. Die Grenze ist die **größte** Abmessung: 25 Zentimeter, kostenlos, auf Verlangen."
+        },
+        {
+          "id": "kein-kaufzwang-drei-stueck",
+          "zitat": "die Rücknahme darf nicht an den Kauf eines Elektro- oder Elektronikgerätes geknüpft werden und ist auf drei Altgeräte pro Geräteart beschränkt",
+          "stuetzt": "Absatz 1 Nr. 2. Kein Kaufzwang — und die einzige Grenze sind drei Geräte je Art."
+        }
+      ]
+    },
+    {
+      "id": "tkg-59-anbieterwechsel",
+      "titel": "§ 59 TKG – Anbieterwechsel und Rufnummernmitnahme",
+      "url": "https://www.gesetze-im-internet.de/tkg_2021/__59.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "leitung-aufnehmender-anbieter",
+          "zitat": "Anbieterwechsel und Rufnummernmitnahme erfolgen unter Leitung des aufnehmenden Anbieters.",
+          "stuetzt": "Absatz 1. Der **neue** Anbieter führt den Wechsel — der Kunde muss beim alten nichts beantragen."
+        },
+        {
+          "id": "hoechstens-ein-arbeitstag",
+          "zitat": "Bei einem Anbieterwechsel darf der Dienst des Endnutzers nicht länger als einen Arbeitstag unterbrochen werden.",
+          "stuetzt": "Absatz 2. Die Obergrenze der Unterbrechung: ein Arbeitstag."
+        },
+        {
+          "id": "fuenfzig-prozent-reduziert",
+          "zitat": "dass sich die vereinbarten Anschlussentgelte nach Vertragsende um 50 Prozent reduzieren",
+          "stuetzt": "Absatz 3. Zieht sich der Wechsel hin, zahlt der Kunde dem alten Anbieter nur noch die Hälfte."
+        },
+        {
+          "id": "nicht-verzoegern",
+          "zitat": "sie verzögern oder missbrauchen den Wechsel oder die Rufnummernmitnahme nicht",
+          "stuetzt": "Absatz 1. Verzögern ist beiden Anbietern ausdrücklich untersagt."
+        },
+        {
+          "id": "zur-zusammenarbeit-verpflichtet",
+          "zitat": "Der aufnehmende und der abgebende Anbieter sowie die Betreiber öffentlicher Telekommunikationsnetze sind dabei zur Zusammenarbeit verpflichtet.",
+          "stuetzt": "Absatz 1. Die beiden Anbieter müssen zusammenarbeiten — der Kunde steht dabei nicht dazwischen."
+        }
+      ]
+    },
+    {
+      "id": "bgb-356-widerrufsfrist",
+      "titel": "§ 356 BGB – Widerrufsrecht bei außerhalb von Geschäftsräumen geschlossenen Verträgen und Fernabsatzverträgen",
+      "url": "https://www.gesetze-im-internet.de/bgb/__356.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "frist-beginnt-nicht-ohne-belehrung",
+          "zitat": "Die Widerrufsfrist beginnt nicht, bevor der Unternehmer den Verbraucher entsprechend den Anforderungen des Artikels 246a",
+          "stuetzt": "Absatz 3. Ohne Belehrung läuft die Frist gar nicht erst an — der Kern des Shorts."
+        },
+        {
+          "id": "zwoelf-monate-und-vierzehn-tage",
+          "zitat": "Das Widerrufsrecht erlischt spätestens zwölf Monate und 14 Tage nach dem in Absatz 2 oder § 355 Absatz 2 Satz 2 genannten Zeitpunkt.",
+          "stuetzt": "Absatz 4. Die Obergrenze, **wenn nicht belehrt wurde**: zwölf Monate und 14 Tage. Nicht der Normalfall."
+        }
+      ]
+    },
+    {
+      "id": "bgb-355-widerrufsrecht",
+      "titel": "§ 355 BGB – Widerrufsrecht bei Verbraucherverträgen",
+      "url": "https://www.gesetze-im-internet.de/bgb/__355.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "vierzehn-tage-frist",
+          "zitat": "Die Widerrufsfrist beträgt 14 Tage",
+          "stuetzt": "Absatz 2. Der Normalfall — und die Zahl, die jeder kennt."
+        }
+      ]
+    },
+    {
+      "id": "eu-energielabel-smartphones",
+      "titel": "Delegierte Verordnung (EU) 2023/1669 — Energieverbrauchskennzeichnung von Smartphones und Tablets",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R1669",
+      "herausgeber": "Europäische Kommission",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "reparierbarkeitsklasse-aus-index",
+          "zitat": "Die Reparierbarkeitsklasse eines Smartphones oder eines Slate-Tablets wird auf der Grundlage seines Reparierbarkeitsindex gemäß Tabelle 4 ermittelt.",
+          "stuetzt": "Neben der Energieeffizienz trägt das Etikett eine **zweite** Buchstabenklasse: die Reparierbarkeit."
+        },
+        {
+          "id": "a-am-besten-reparierbar",
+          "zitat": "A (am besten reparierbar)",
+          "stuetzt": "Tabelle 4. Auch die Reparierbarkeit läuft von A bis E — derselbe Buchstabe, eine andere Sache."
+        },
+        {
+          "id": "etikett-traegt-energieeffizienzklasse",
+          "zitat": "auf dem Etikett die Energieeffizienzklasse und das Spektrum der für das Etikett verfügbaren Energieeffizienzklassen enthält",
+          "stuetzt": "Das Etikett zeigt die Energieeffizienzklasse — und die ist nicht dieselbe Klasse wie die Reparierbarkeit."
+        },
+        {
+          "id": "stuerze-ohne-defekt",
+          "zitat": "Die Widerstandsfähigkeit bei versehentlichem Fallenlassen entspricht der Anzahl der Stürze",
+          "stuetzt": "Auf dem Etikett steht auch eine Sturzangabe — gemessen als Anzahl der Stürze ohne Defekt."
+        },
+        {
+          "id": "skala-a-bis-g",
+          "zitat": "die Skala der Energieeffizienzklassen von A bis G",
+          "stuetzt": "Anhang III. Die Energieeffizienz läuft A bis **G** — die Reparierbarkeit nur bis E. Zwei Skalen, verschiedene Längen."
+        },
+        {
+          "id": "reparierbarkeit-a-bis-e",
+          "zitat": "Der Bereich der Reparierbarkeitsklassen (A bis E)",
+          "stuetzt": "Anhang III. Was auf dem Etikett steht: das Piktogramm der Reparierbarkeitsklasse, A bis E."
+        },
+        {
+          "id": "klasse-freier-fall",
+          "zitat": "die Klasse der Zuverlässigkeit nach wiederholtem freien Fall",
+          "stuetzt": "Anhang III. Auf dem Etikett steht eine **Klasse**, kein Sturzwert — die Zahl gehört ins Produktdatenblatt."
         }
       ]
     }

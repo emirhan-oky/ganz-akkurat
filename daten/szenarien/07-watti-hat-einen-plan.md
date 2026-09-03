@@ -8,7 +8,9 @@ Wo die Quelle nur den Rechenweg nennt, nennt Volti den Rechenweg. Und eine Zahl 
 
 **Ein Rückbezug muss zeigen, worauf er zeigt.** Mein Ersatz für die ungedeckte Zeile lautete „Die streiten übers Kabel." — *„das ergibt wenig Sinn, das passt da nicht rein."* Der Satz verlangt, „die" auf Voltis zwei Lager zurückzurechnen **und** deren Streit auf ein Wort umzudeuten, das vorher nie fiel.
 
-**Beispiele:** 2 von vier
+**Und der Kaltstart hängt nichts an.** Ein Anlauf lautete „Ich arbeite den Sommer aus Spanien, mit meinem Handyvertrag." — *„das ist kein guter Satz."* Der Vertrag stand hinten dran, weil die Regel ein zusammengesetztes Substantiv verlangt. Jetzt steht er im Gepäck: „Koffer, Laptop, Handyvertrag." Damit trägt er die Pointe schon im ersten Satz — er ist eben **kein** Gepäckstück.
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -69,5 +71,36 @@ W: Also lag ich 8 Stunden auf einer Heizung?
 V: Du lagst 8 Stunden auf deiner Dummheit.
 W: Und wenn ich es danebenlege?
 V: Dann liegst du nicht drauf.
+```
+
+
+---
+
+## roaming-sommer
+
+`absicht` · Kaltstart Watti  
+Quelle: `eu-roaming-angemessene-nutzung`
+
+```
+W: Koffer, Laptop, Handyvertrag. Der Sommer geht nach Spanien.
+   Heutiges Thema: Wattis Anbieter schreibt ihm einen Brief
+V: Watti, wie lange willst du mit dem Handyvertrag in Spanien sitzen?
+W: Vier Monate. Kostet ja nichts extra.
+V: Roaming zu Inlandspreisen gilt für Reisen im Ausland. Dein Anbieter darf trotzdem hinschauen.
+W: Auf was denn?
+V: Auf deine Tage.
+W: Und wie lange schaut er hin?
+V: Mindestens vier Monate. Aufenthalt und Nutzung zusammen.
+W: Und wenn er dann vier Monate lang nur Spanien sieht?
+   [Zitatkarte] Aufenthalts- und Nutzungsindikatoren zusammengenommen und über einen Zeitraum von mindestens vier Monaten
+V: Dann schreibt er dir.
+W: Also kostet es was?
+V: Erst der Hinweis.
+V: Und dann hast du mindestens 2 Wochen Zeit, dein Verhalten zu ändern.
+   [Zahl] 2 Wochen nach dem Hinweis — so lange bleibt Zeit, bevor überhaupt etwas kostet
+W: Und was schreibe ich zurück?
+V: Dass du hier wohnst. Das darfst du nachweisen.
+W: Dann fliege ich zwischendurch einmal heim.
+V: Ach Watti...
 ```
 
