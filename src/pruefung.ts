@@ -1543,8 +1543,24 @@ export const shortPruefen = (short: Short, quellen: Quelle[]): Befund[] => {
             .join(' ')
         : szene.sprechtext;
     const text = ohneSatzzeichen(pruefText);
+    /*
+     * **An Wortgrenzen, nicht als Teilzeichenkette.**
+     *
+     * Bis zum 03.09.2026 stand hier `text.includes(w)`, und damit fing
+     * „morgen" auch „**morgens**". Emirhans Zeile „Weil es laden soll du
+     * Idiot, damit es **morgens** wieder voll ist." wurde als relative
+     * Zeitangabe abgelehnt — sie ist eine Tageszeit und altert nicht.
+     *
+     * Der Fehlalarm liegt auf der teuren Seite: Er haelt einen richtigen Short
+     * zurueck und laedt dazu ein, den Sprechtext gegen die Sprache zu
+     * verbiegen. Dieselbe Lehre wie bei `heute vor` einen Monat zuvor —
+     * **eine Wache, die Zeichenketten zaehlt, muss wenigstens Woerter
+     * zaehlen.**
+     */
+    const alsWort = (w: string): boolean =>
+      new RegExp(`(^|\\s)${w.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&')}(\\s|$)`).test(text);
     const woerter = [
-      ...HEUTEBEZUG.filter((w) => text.includes(w)),
+      ...HEUTEBEZUG.filter(alsWort),
       ...(HEUTE_VOR.test(pruefText) ? ['heute vor'] : []),
     ];
     const spanne = ZEITSPANNE.exec(pruefText);

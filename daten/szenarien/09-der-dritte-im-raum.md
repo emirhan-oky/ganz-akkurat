@@ -6,37 +6,67 @@
 
 **Und der Grund darf fehlen.** Im Beispiel unten sagt die Verordnung, *was* verlangt wird, und nennt keinen Grund dafür. Volti muss das zugeben — dieselbe Bewegung wie in `produktpass-akku`, und die ehrlichste Stelle des Shorts. Der erste Anlauf hatte den Grund erfunden, und die Quelle sagte fast das Gegenteil.
 
-**Beispiele:** 1 von vier
+**Beispiele:** 2 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
 ---
 
-## flugmodus-ansage
+## flugmodus
 
-`absicht` · Kaltstart Watti  
+`eswareinmal` · Kaltstart Watti  
 Quelle: `eu-mca-5g-an-bord`
 
 ```
-W: Die Frau vorne sagt, ich soll mein Handy ausmachen. Schon wieder.
-   Heutiges Thema: Wattis Flugmodus und die Ansage
-W: Volti, stürzt der Flieger ab, wenn ich mein Handy anlasse?
-V: Nein.
-W: Warum sagt sie es dann?
-V: An Bord muss eine Einheit verhindern, dass dein Handy sich bei den Netzen am Boden anmeldet.
-W: Und warum?
-V: Steht da nicht drin.
+W: Flugmodus an, Volti! Wir heben gleich ab.
+   Heutiges Thema: Watti rettet das Flugzeug
+W: Volti, ich hör die Turbinen schon.
+V: Watti, chill. Meiner ist längst aus.
+W: Gut, denn sonst stören wir die Bordelektronik. Und dann stürzen wir ab.
+V: Wir stören keinen Piloten.
+W: Wozu gibt es den Flugmodus denn sonst?
+V: Nicht wegen dem Netz im Flugzeug. Sondern wegen dem am Boden.
+W: Watt?
+V: Dein Handy versucht da oben, sich bei den Netzen am Boden anzumelden.
+V: Und an Bord muss etwas das verhindern.
+W: Ach, damit ich nicht im falschen Netz lande?
+V: Warum, steht da nicht.
    [Zitatkarte] versuchen, sich bei terrestrischen UMTS-Mobilfunknetzen anzumelden
-W: Du liest doch sonst alles nach.
-V: Dieses eine Mal steht es nicht da.
-W: Und trotzdem soll ich es ausmachen?
-V: Seit 2022 ist 5G an Bord sogar ausdrücklich vorgesehen.
-W: Und ausdrücklich seit wann?
-V: Bis zum 1. Januar 2026 musste das Anmelden verhindert werden.
-W: Also sagt sie etwas von damals?
-V: Sie sagt, was sie immer gesagt hat.
-W: Dann lasse ich den Flugmodus jetzt aus.
-V: Machst du nicht.
-W: Und warum nicht?
-V: Weil sie es gesagt hat, kleiner.
+W: Ich rette also gar nicht das Flugzeug?
+V: Du rettest gar nichts, du Idiot.
+V: Netz an Bord ist längst geregelt, und das bis 5G.
+W: Ohh, also kann ich weiter in Ruhe Anime streamen?
+V: Du hast sie vorhin schon runtergeladen. Schau offline du Idiot.
+W: Oh ja klar! Für die Leute da unten!
 ```
+
+
+---
+
+## akku-ganz-leer
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `uba-akku-laden`
+
+```
+W: Ich lade meinen Handyakku erst, wenn er ganz leer ist. So gehört sich das.
+   Heutiges Thema: Wattis Akku muss erst sterben
+V: Dein Handyakku geht gleich aus. Gib mal her.
+W: Nicht anstecken!
+V: Warum denn nicht?
+W: Weil er erst ganz leer werden muss.
+V: Wer sagt das?
+W: Unser Vater. Der macht das seit 30 Jahren so.
+V: Dein Vater hat auch noch ein Faxgerät du Idiot.
+V: Beim Umweltbundesamt steht das Gegenteil.
+W: Watt?
+V: Wer vorher nachlädt, hat ihn länger.
+   [Zitatkarte] Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist (0 %), sondern ihn immer bereits vorher wieder aufladen
+W: Also mache ich es seit Jahren falsch?
+V: Du machst es seit Jahren so richtig falsch.
+W: Und wann soll ich jetzt laden?
+V: Wann immer du dran denkst.
+W: Das ist ja gar keine Regel.
+V: Du sollst weniger dumme Fragen stellen und mehr deinen Verstand nutzen.
+```
+

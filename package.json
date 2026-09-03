@@ -28,7 +28,8 @@
     "ausreisser": "tsx skripte/ausreisser.ts",
     "aufschlaege": "tsx skripte/aufschlaege.ts",
     "laengen": "tsx skripte/laengen.ts",
-    "nachlegen": "tsx skripte/nachlegen.ts"
+    "nachlegen": "tsx skripte/nachlegen.ts",
+    "szenarienblock": "tsx skripte/szenarienblock.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",

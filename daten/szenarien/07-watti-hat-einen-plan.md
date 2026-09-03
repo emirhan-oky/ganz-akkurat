@@ -6,7 +6,9 @@
 
 Wo die Quelle nur den Rechenweg nennt, nennt Volti den Rechenweg. Und eine Zahl im Sprechtext verlangt eine `zahl`-Szene.
 
-**Beispiele:** 1 von vier
+**Ein Rückbezug muss zeigen, worauf er zeigt.** Mein Ersatz für die ungedeckte Zeile lautete „Die streiten übers Kabel." — *„das ergibt wenig Sinn, das passt da nicht rein."* Der Satz verlangt, „die" auf Voltis zwei Lager zurückzurechnen **und** deren Streit auf ein Wort umzudeuten, das vorher nie fiel.
+
+**Beispiele:** 2 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -42,3 +44,30 @@ W: Ich nehme eine mit.
 V: Und die anderen zwei?
 W: Die lade ich hier vor, kleiner.
 ```
+
+---
+
+## handyheizung
+
+`werhatrecht` · Kaltstart Watti  
+Quelle: `uba-akku-laden`
+
+```
+W: So Handyakku dran und aber unters Kissen, damit ich meinen Wecker höre.
+   Heutiges Thema: Wattis Handyheizung
+V: Warum liegt dein Handy unter dem Kopfkissen?
+W: Weil es laden soll du Idiot, damit es morgens wieder voll ist.
+V: Es hängt die halbe Nacht am Kabel, obwohl es längst voll ist, Idiot.
+W: Und? Schadet nicht.
+V: Sagen die einen. Die anderen sagen, es macht den Akku kaputt.
+W: Ja was denn nun?
+V: Beim Umweltbundesamt steht was anderes.
+W: Watt?
+V: Dass übermäßige Erwärmung ihn altern lässt. Und du liegst drauf.
+   [Zitatkarte] Übermäßige Erwärmung des Akkus lässt ihn schneller altern
+W: Also lag ich 8 Stunden auf einer Heizung?
+V: Du lagst 8 Stunden auf deiner Dummheit.
+W: Und wenn ich es danebenlege?
+V: Dann liegst du nicht drauf.
+```
+

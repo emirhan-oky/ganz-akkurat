@@ -270,6 +270,311 @@ behandelt und automatisch ans Ende gesetzt habe. **Der Reflex, aus einem Befund
 eine Regel zu machen, erzeugt genau die Schablone, gegen die der Pool gebaut
 ist** — und ein Vorrat mit Wache hätte ihn festgeschrieben statt aufgelöst.
 
+## Der Belegprüfer an Durchgang 2 — siebzehn Stellen, sechs Muster
+
+**Elf Dialoge, siebzehn ungedeckte Stellen.** Alle elf waren von Emirhan
+abgenommen, `npm run pruefen` war grün, `npm run quellen-pruefen` meldete 141
+bestätigte Zitate. **Keine dieser Prüfungen konnte es sehen** — sie prüfen, ob
+das Zitat auf der Seite steht, nicht ob es den Satz trägt, an dem es hängt.
+
+**Und der bitterste Teil:** Punkt 7 der Selbstprüfung, die ich am selben Tag in
+den Skill geschrieben habe, lautet *„Steht das Zitat daneben, und trägt es
+diesen Satz? Lies den Satz davor und den Satz danach."* Genau daran scheitern
+alle siebzehn. Die Liste war richtig — sie entstand nur nach den Dialogen.
+
+Sechs Muster, und sie wiederholen sich über die Shorts hinweg. **Sie sind die
+Prüfliste für alles, was ich künftig schreibe.**
+
+### 58 · Das Modalverb fällt beim Umschreiben zuerst weg
+
+„could reduce the speed" → „machte die Geräte langsamer". „verlängert werden
+**kann**" → „hält länger". „Übermäßige Erwärmung" → „Wärme". „**vor allem
+dann**, wenn es sich um ein fremdes handelt" → „Im öffentlichen WLAN".
+
+**Viermal dasselbe in elf Dialogen.** Der Grund ist nicht Nachlässigkeit,
+sondern Rhythmus: „kann" und „übermäßig" machen einen Satz länger und
+zögerlicher, und beim Kürzen auf Sprechlänge fallen sie als Erstes. Was übrig
+bleibt, klingt besser und behauptet mehr.
+
+**Die Gegenprobe:** Steht im Zitat ein „kann", „könnte", „vor allem", „einige",
+„übermäßig", „ideal" — dann steht es auch im Sprechtext. Es ist kein Füllwort,
+es ist die Aussage.
+
+### 59 · Ich baue die Kausalkette, die die Quelle nicht baut
+
+„Lief sie weiter und dann boom." Die ESA schreibt, die Funktion sei „**in den
+Simulationen nicht berücksichtigt** worden" — sie nennt als Ursache
+„specification and design errors". Zwischen „lief weiter" und „boom" liegt die
+16-Bit-Konvertierung, und **der Beleg dafür lag eingetragen daneben und kam im
+Short nicht vor.**
+
+Ebenso: „Es geht gar nicht ums Mitlesen" — das BSI nennt das Abgreifen zuerst.
+Der Kipppunkt behauptete das Gegenteil seiner eigenen Zitatkarte.
+
+**Wo ein „weil", „deshalb" oder „und dann" im Sprechtext steht, muss ein Zitat
+diesen Zusammenhang tragen** — nicht die beiden Enden einzeln.
+
+### 60 · Die Zeile hängt am nächstbesten Beleg statt am richtigen
+
+„Das war Dezember 2024" (über Tablets) hing an einem Zitat, das bei „1.9.
+Tastaturen" beginnt — Tablets sind Nummer 1.2. Weder der Gegenstand noch das
+Datum standen darin. „Akku, Kamera, Lautsprecher, Ladebuchse" hing an einem
+Zitat, das bei „die folgenden Ersatzteile" endet; die vier Teile standen
+dahinter, **und das Display, um das der ganze Short geht, stand in einem
+anderen Buchstaben.**
+
+**Beim Binden nicht fragen „welche Quelle", sondern „welcher Satz".** Das ist
+der Grund, aus dem es `belegId` überhaupt gibt — und ich habe ihn unterlaufen,
+indem ich die Kennung vergeben habe, ohne das Zitat noch einmal zu lesen.
+
+### 61 · Die Zitatkarte zeigt die Hälfte, die den Satz nicht trägt
+
+Die Karte in `ersatzteil-fuenf-tage` schnitt „während der ersten fünf Jahre"
+ab — genau die Einschränkung, die den Satz wahr macht. Die Karte in
+`akku-ganz-leer` endete bei „…vorher wieder aufladen" und zeigte damit die
+Bedingung ohne ihre Folge.
+
+**Die Karte ist eine Kürzung des Belegs, und jede Kürzung ist eine Behauptung
+darüber, was entbehrlich ist.** Sie darf höchstens 90 Zeichen tragen — dann
+gehört ein Zitat gewählt, das in 90 Zeichen vollständig ist, statt eines
+zurechtgeschnitten.
+
+### 62 · Aus einem dokumentierten Fall wird eine Regel
+
+„Weil dein Handy nach **jedem** Handyupdate langsamer ist" — die Behörde
+schreibt „**some** mobile phones" und untersucht zwei Fälle von 2016/17.
+„Sie schalten sie **heute** nach dem Abheben ab" — 1996 stand dort „the
+following corrective measures **will be applied**", eine Ankündigung.
+
+**Zwei Fälle sind kein Immer, und eine Ankündigung ist kein Vollzug.** Beide
+Male ist die Verallgemeinerung im Sprechtext entstanden, nicht in der Quelle —
+und beide Male klingt sie besser.
+
+### 63 · Der Nachschlag ist von der Belegpflicht befreit, nicht vom Beleg
+
+„500 Millionen Euro für einen Schalter" und „Mehr sagt das Amt nicht" stehen
+beide im Nachschlag und behaupten beide etwas über die Welt — die eine eine
+Geldsumme, die andere die Vollständigkeit einer Quelle, die tatsächlich mehr
+sagt (70 %, ausgeschaltet laden, keine Kälte).
+
+**Die Positionsbefreiung gilt Pointen, nicht Behauptungen.** Das steht seit dem
+02.09.2026 in `CLAUDE.md` und ist trotzdem zweimal passiert. Wattis Zahl ist
+jetzt ein Bild („eine halbe Rakete"), und aus „Mehr sagt das Amt nicht" ist
+eine Aussage über Watti geworden.
+
+### Was das über die Reihenfolge sagt
+
+**Der Belegprüfer gehört vor die Vorlage, nicht dahinter.** Emirhan hat elf
+Dialoge abgenommen, in denen siebzehn Sätze mehr behaupteten als ihre Quelle —
+er konnte es nicht sehen, weil das Zitat im Chat nur als Kartentext danebenstand
+und nicht als vollständige Fundstelle mit ihrem Satz davor und danach.
+
+## Durchgang 2, 03.09.2026 — sechzehn Befunde an elf Dialogen
+
+Je Szenario ein zweiter Beispieldialog, einer nach dem anderen vorgelegt. **Die
+Reihenfolge ist die Methode**: Ein Befund aus Dialog 3 soll schon in Dialog 4
+wirken. Vier auf einmal vorzulegen heißt, vier Dialoge mit demselben Fehler zu
+schreiben — genau das ist beim ersten Anlauf passiert, wo dreimal derselbe Satz
+„ab dem Tag, an dem das Modell aus dem Verkauf geht" stand.
+
+### Der Titel
+
+**42 ist zurückgezogen.** Er lautete „Die Themenzeile braucht ein Bild, keinen
+Vorgang" und leitete aus den alten *Themenzeilen* das Muster „zwei Gegenstände
+mit *und*" ab. Daraus sind fünf Titel in Folge entstanden — „Wattis 200 Apps
+und die Rakete", „Watti und die 800 Leben", „Watti und die zwei Jahre, die es
+nie gab", „Wattis Display und Voltis Gedächtnis", „Zwei Brüder und ein offenes
+Netz". Kein einziges Verb, kein einziges Bild. Urteil: *„die letzten Titel von
+dir waren echt nicht gut."*
+
+**Aus einem halb verstandenen Befund wird eine Schablone**, und sie wirkt
+sofort fünffach. Dieselbe Gefahr wie bei einer erfundenen Wache, nur von der
+anderen Seite: nicht falsch gebaut, sondern falsch gelesen.
+
+**53 · Der Titel ist ein Bild, in dem jemand etwas tut.** Emirhans eigene:
+„Wattis Akku muss erst sterben", „Volti zählt die Sekunden nach", „Volti rettet
+Wattis alten Laptop", „Volti packt Wattis Koffer aus", „Watti glaubt einem
+Aufkleber", „Wattis Handyheizung", „Watti und die 3 Musketiere", „Wattis Handy
+altert schneller". Fast alle sind **Sätze mit Verb**, und fast alle sind
+**metaphorisch** — Akkus sterben nicht, Handys altern nicht, ein Kopfkissen ist
+keine Heizung. *„Die Titel gerne etwas bildlicher, metaphorischer — ist immer
+ansprechender."*
+
+**56 · Der Titel trägt ein Urteil, keine Beschreibung.** Von fünf Paaren hat
+Emirhan viermal die Zweitwahl genommen. Verworfen: „Watti zählt die falschen
+Stecker", „Volti wartet keine fünf Tage", „Beide streiten am Thema vorbei",
+„Wattis Handy fällt durchs Raster". Genommen: „Wattis Akku stirbt 800 Tode",
+„Volti predigt und kauft neu", „Das Café-WLAN gehört jemandem", „Watti rechnet
+sich zwei Jahre schön".
+
+Die verworfenen sagen, **was passiert**. Die genommenen sagen, **was daran faul
+ist**: „predigt" ist ein Vorwurf, „schönrechnen" ist einer, „stirbt 800 Tode"
+ist Wattis eigene Übertreibung aus seiner Sicht. „Das Café-WLAN gehört
+jemandem" ist kein Bild, sondern ein schlichter Satz, der beunruhigt — er nennt
+das Dritte als Feststellung. **Meine waren korrekt und tonlos.**
+
+**57 · Ich kann sie schreiben, aber nicht erkennen.** Alle vier besseren
+standen als Zweitwahl in meiner eigenen Liste. Ich habe vier von fünf Mal die
+schwächere nach vorn gestellt — sortiert nach „sachlich präzise" statt nach
+„hat Ton". Beim fünften war es umgekehrt, und das bestätigt es: „Wattis Umzug
+sprengt eine Rakete" hat die Fallhöhe, „Watti nimmt alles mit" hat keine.
+
+**Das gilt über die Titel hinaus.** Überall, wo ich eine Auswahl vorlege,
+sortiere ich nach dem falschen Maß — und wo ich allein wähle, fällt es
+niemandem auf.
+
+### Die Zeile
+
+**43 · Volti bestätigt und ergänzt in einem Satz.** Auf „Wegen einer alten
+Einstellung?" antwortete meine Fassung mit einem neuen Satz, der das Wort
+vermied. *„Kann Volti nicht einfach sagen: ja, wegen einer alten Einstellung,
+die nur vor dem Start etwas tut."* Das „ja" plus die Wiederholung von Wattis
+eigenem Wort ist die Antwort; einem Synonym auszuweichen macht daraus eine
+zweite Behauptung.
+
+**44 · Der Kanal darf lautmalen.** „Lief sie weiter. Nichts mehr zu tun, und
+trotzdem an." → *„Lief sie weiter und dann boom."* — *„etwas bildlicher,
+gleicht mehr einem Gespräch."* Zwei knappe Aussagesätze nebeneinander sind
+Schriftsprache; ein Geräusch ist gesprochen.
+
+**49 · Eine Zeile muss ihren Gegenstand selbst nennen.** „Fünf Jahre gibt es
+jetzt" — *„5 Jahre gibt es was?"* Dass „Sicherheitsupdates" zwei Zeilen vorher
+im Kaltstart stand, hilft der Zeile nicht: Sie steht hinter dem Vorhang und
+trägt allein. Derselbe Fehler wie beim Zitat, dessen Subjekt außerhalb der
+geprüften Zeichenkette liegt.
+
+**52 · Ein Rückbezug muss zeigen, worauf er zeigt.** „Die streiten übers Kabel"
+verlangt, „die" auf Voltis zwei Lager zurückzurechnen **und** deren Streit auf
+ein Wort umzudeuten, das vorher nie fiel — zwei Schritte in einer Zeile, die
+nur eine Antwort sein soll. *„Das ergibt wenig Sinn, das passt da nicht rein."*
+
+**54 · Mir fehlt oft der Kontext, der eine Aussage erst verständlich macht.**
+„Da war mal was in Italien" gegen „Das war mal in Italien der Fall. Zwei
+Hersteller hatten das mal gemacht." Ebenso „Update ist da" gegen „Neues
+**Handy**update ist da", und „der Austausch ging danach schneller" — der
+Austausch wovon? *„Nach wie vor fehlen manchmal einfach die Informationen in
+den Aussagen, die den Kontext besser erschließen können. Das fehlt dir oft."*
+
+**Ich kürze, bis nur das Stichwort übrig ist, und halte das für knapp.** Es ist
+aber unvollständig. Knapp heißt: wenige Wörter, alle nötigen.
+
+### Der Witz und der Schluss
+
+**45 · Eine Zeile, die nicht witzig ist, wird gestrichen, nicht verbessert.**
+Wattis „Eine davon weckt mich um 6." — *„weil er wirklich unlustig ist."* Mein
+Reflex wäre gewesen, sie zu drehen, bis sie sitzt.
+
+**46 · Der Schluss darf einfacher sein als die Pointe davor.** „200 Apps, die
+alle noch vor dem Start denken" bindet an die Rakete zurück und ist zweimal um
+die Ecke. *„Von denen du vielleicht 5 brauchst"* trifft direkt. Und **Volti
+darf den letzten Satz haben** — der Schluss muss nicht bei Watti liegen.
+
+**47 · Ein Witz, der sich nicht ins Gespräch einfügt, ist keiner.** „Dreimal
+Steckdose, dreimal kaputter." — *„ein unfassbar schlimmer Satz. Du wolltest
+sicherlich witzig sein, aber das ist es echt nicht. Es muss sich in das
+Gespräch einfügen. Nicht einfach ein Witz ohne Bezug."* Seine Fassung
+antwortet auf Voltis Vorwurf **und** ist die Pointe: „Ich zähle leider genau,
+wie schnell mein Akku leer geht."
+
+**50 · Die Beschimpfung fehlt, wenn sie fehlt.** *„Beschimpfung fehlt mir."*
+Sie klebt hinten an, ohne Komma davor. Ich schreibe Volti trocken statt grob;
+der Ärger gehört zur Figur, nicht zur Ausnahme.
+
+**51 · Der Schluss darf auf die Beziehung ausweichen, statt zu antworten.**
+„Ich wollte nicht fünf Tage warten." beantwortet die Frage und schließt den
+Fall. *„Großer-Bruder-Kram eben."* antwortet gar nicht und ist trotzdem die
+Antwort: Volti beruft sich auf einen Rang statt auf einen Grund.
+
+**55 · Die Beziehung ist nicht die Schlussdekoration, sie ist das Material.**
+Mein Schluss handelte von der Wette, seiner von den Brüdern — „Wie redest du
+mit deinem großen Bruder?" und Wattis Konter mit Voltis eigenem Satz: „Das hast
+du mir beigebracht." *„Vergiss die Beziehung der beiden nicht."*
+
+**Dass der Schluss der Beziehung gehört, steht seit dem 02.09. im Skill.** Ich
+verliere sie trotzdem, sobald der Fakt trägt — und das ist der eigentliche
+Befund.
+
+### Was die Arbeitsweise gelernt hat
+
+**48 · Emirhan gibt den Takt.** Ein Dialog wird vorgelegt und zu Ende
+bearbeitet; der nächste kommt, wenn **er** es sagt. *„Halt, ich sage, wann es
+mit den Dialogen weitergeht. Wir sind noch beim 3."*
+
+**Ein Briefingbogen mit Dialog ist das Skript, egal was die Überschrift sagt.**
+Alle fünf Bögen mit „Vorschlag (Claude)" sind von Emirhan überschrieben — zwei
+davon waren nie Entwurf geworden und liegen jetzt als `handyheizung` und
+`akku-ganz-leer` im Pool. *„Immer erst deinen Dialog nehmen."*
+
+### Vier Themen sind vor der ersten Zeile gefallen
+
+Alle vier an derselben Ursache: **keine unbeteiligte Quelle, die sich abrufen
+lässt.** `gefaelschter-speicher` (die Verbraucherzentrale-Warnung von 2017 ist
+nicht mehr auffindbar), `defragmentieren` (nur Microsoft, also `plattform`),
+`ssd-ohne-strom` (JEDEC liefert JESD218 als PDF, und `quellen-pruefen` liest
+keine PDFs), `kabelknoten-studie` (PNAS antwortet automatischen Abrufen mit
+403, Europe PMC nur über eine REST-Schnittstelle).
+
+**Der Engpass ist der Beleg, nicht das Schreiben** — und am härtesten trifft es
+`eswareinmal`: Zehn Ideen, fast alle Technikgeschichte, über die weder Behörde
+noch Norm schreibt. Kein Thema des ganzen Durchgangs trug dieses Format.
+
+## Die zweite Lesung, 03.09.2026 — was seine Dialoge richtig machen
+
+Anlass war ein Fund: **Alle fünf Briefingbögen mit der Überschrift „Vorschlag
+(Claude)" sind von Emirhan überschrieben.** Die Überschrift hat gelogen, der
+Text nicht — „du Idiot", „Ay Ay sir!", „Meine alten Laptop", „kleiner". Zwei
+davon sind nie Entwurf geworden. Sein Auftrag dazu: *„schau dir meine Dialoge
+nochmal an und mache dir Befunde, was gut in diesen Dialogen ist."*
+
+Neun Befunde, geprüft gegen alles, was oben schon steht.
+
+**A · Volti setzt in einer zweiten eigenen Zeile nach.** „Unsere Sekunde kommt
+nicht von der Erde." / „Sondern kommt von einem Atom." Zwei Redeanteile, nicht
+ein Satz mit Komma. Ich baue an dieser Stelle immer einen Satz — er baut zwei
+und gewinnt damit eine Pause, in der der erste ankommt.
+
+**B · Volti sagt, was er nicht weiß — und das ist etwas anderes als
+Quellenvorsicht.** „Warum, weiß ich nicht. Ich weiß nur, dass feine Chips im
+All nichts aushalten." Oben steht „Steht nicht dabei." als **Streichung**, und
+das ist kein Widerspruch: Der gestrichene Satz redet über die Quelle, dieser
+über die Figur. **Ein Eingeständnis gehört dem, der spricht, nicht dem Beleg.**
+
+**C · „Wie, …" ist Voltis Erstaunen.** „Wie, die ISS flog mit alten Laptops?",
+„Wie, Powerbanks dürfen nicht in den Koffer?", „Wie, unsere Uhren gehen nicht
+nach der Erde?" Alle drei Volti-Kaltstarts fangen so an — ein halber Satz, der
+eine fremde Aussage zurückwirft. **Beobachtung, keine Vorschrift**: Wer daraus
+eine Regel macht, hat die Schablone gebaut, gegen die der Vorrat existiert.
+
+**D · Watti fragt nach der Instanz, und die Antwort ist ihr voller Name.** „Wer
+verbietet denn Powerbanks?" — „Das Luftfahrt-Bundesamt." „Und wer ist dafür
+verantwortlich?" — „Das Internationale Büro für Maß und Gewicht." Der
+Belegapparat wird zur Figur im Gespräch, statt als Einblendung danebenzustehen.
+
+**E · Volti verteidigt die Behörde, nicht den Hersteller.** „Wieso sollten wir
+uns bei einem Amt beschweren, die dafür sorgen, dass unsere Zeit einheitlich
+ist?" — gegen den Hersteller dagegen: „Der hat gehofft, dass du genau das
+denkst du Idiot." **Die Empörung des Kanals hat eine Richtung**, und sie steht
+nirgends aufgeschrieben.
+
+**F · Volti gibt eine Anweisung statt einer Erklärung.** „Ab ins Handgepäck
+damit und fertig." „Wann immer du dran denkst." Kurz, im Imperativ, ohne
+Begründung. Das widerspricht „kein Format verlangt eine Handlung" nicht: Es ist
+zwischen Brüdern gesagt, nicht zum Zuschauer.
+
+**G · Volti greift körperlich ein.** „Dein Handy geht gleich aus. Gib mal her."
+„Nein du Idiot, nimm sie wieder raus." „Wir bringen sie zurück." Er redet nicht
+nur über die Sache, er nimmt sie Watti ab — das ist Bühne und nicht bloß Rede.
+
+**H · Der Schluss kann ein Geständnis sein, das den ganzen Short umdreht.** Im
+Garantiesiegel-Dialog: „Das kann nicht passieren, weil ich sie ja kaputt
+gemacht habe." Volti hat die Kopfhörer selbst zerstört — rückwirkend war seine
+ganze Belehrung eine Wiedergutmachung, und niemand sagt es.
+
+**I · Der Short darf damit enden, dass es gar keine Regel gibt.** „Das ist ja
+gar keine Regel." — „Du sollst weniger dumme Fragen stellen und mehr deinen
+Verstand nutzen." Das ist die Anti-Erklärvideo-Haltung in zwei Zeilen: Watti
+will eine Vorschrift, und die Auflösung ist, dass keine existiert.
+
 ## Die Szenarien
 
 Zwölf Gesprächsformen, je vier Beispiele. Sie liegen in `daten/szenarien/`, und

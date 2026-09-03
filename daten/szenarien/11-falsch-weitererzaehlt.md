@@ -6,34 +6,60 @@
 
 **Und der Short darf nicht selbst zu weit erzählen.** Der erste Anlauf ließ das „Einige Geräte" der Quelle weg und schloss mit einem doppelten „Gar nicht." über den einen Drucker, um den es geht. **Ein Short über falsches Weitererzählen, der selbst zu weit erzählt, widerlegt sich im eigenen Bau.**
 
-**Beispiele:** 1 von vier
+**Beispiele:** 2 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
 ---
 
-## drucker-punkte-weitererzaehlt
+## drucker-gelbe-punkte
 
 `absicht` · Kaltstart Watti  
 Quelle: `bsi-yellow-dots`
 
 ```
-W: Ich habe der Nachbarin gerade das mit den Druckern erklärt.
-   Heutiges Thema: Wattis Erklärung im Treppenhaus
-W: Volti, ich habe der Nachbarin das mit den gelben Punkten erklärt.
-V: Was hast du ihr erzählt?
-W: Dass ihr Drucker ihren Namen auf jedes Blatt schreibt.
-V: Das habe ich nie gesagt, du Idiot.
-W: Und was hast du gesagt?
-V: Einige Geräte hinterlassen Wasserzeichen, mit denen ein Ausdruck einem konkreten Drucker zugeordnet werden kann.
-W: Also doch ihr Name.
-V: Das Gerät, nicht die Person.
-W: Und macht ihrer das überhaupt?
-V: Steht da nicht. Einige tun es, und welche, sagt keiner.
-W: Dann stelle ich das bei ihr eben ab.
-V: Die Funktion ist oft nicht dokumentiert und kann nicht abgeschaltet werden.
-W: Bei keinem?
-V: Bei denen, die es machen: gar nicht.
-W: Dann gehe ich nochmal runter und sage es ihr richtig.
-V: Sag ihr diesmal nur das, was ich gesagt habe.
+W: Er wird niemals herausfinden, wer die Beschwerde ausgedruckt hat.
+   Heutiges Thema: Watti und sein Farbdrucker
+V: Watti, wieso erhalte ich eine Beschwerde von dir per Post?
+W: Das ist eine Beschwerde an den Vermieter. Wie kommst du auf mich?
+V: Wusstest du eigentlich, dass einige Drucker ein Muster winziger gelber Punkte auf die Seite setzen?
+W: Watt?
+V: Damit lässt sich das ausgedruckte Blatt einem bestimmten Drucker zuordnen. Yellow Dots heißt das.
+W: Ja, weiß ich.
+V: Du?
+W: Und dass es laut BSI oft vom Hersteller nicht dokumentiert wird, wodurch man nicht weiß, ob jeder Drucker es tut.
+V: Aber ich weiß trotzdem, dass es von dir ist.
+W: Und wie willst du das beweisen?
+V: Wir leben hier alleine und ich bin dein Vermieter du Idiot.
+W: Also darf ich jetzt eine Katze haben oder nicht? Sonst kriegst du noch einen Brief.
 ```
+
+
+---
+
+## achtzig-prozent-nachbar
+
+`absicht` · Kaltstart Watti  
+Quelle: `eu-oekodesign-handys`
+
+```
+W: Ich hab gehört, neue Handys laden gar nicht mehr voll.
+   Heutiges Thema: Der Nachbar weiß es besser
+V: Wer erzählt denn so was?
+W: Der von nebenan. Die EU hat neuen Handys das Vollladen verboten.
+V: Verboten hat die niemand was.
+W: Doch, bei 80 Prozent ist Schluss. Der hat es mir genau erklärt.
+   [Zahl] 80 % — dort endet die optionale Ladefunktion
+V: Da steht, dass es die Funktion geben muss. Nicht, dass sie an ist.
+W: Also kann ich sie anmachen?
+V: Du kannst. Du musst nicht.
+   [Zitatkarte] eine vom Nutzer wählbare optionale Ladefunktion aufweisen, die den Ladevorgang automatisch beendet
+W: Und warum sollte ich?
+V: Weil dein Handy dir beim ersten Laden sagt, dass der Akku dann länger halten kann.
+W: Das sagt es mir?
+V: Muss es sogar. Steht auch da drin.
+W: Und was erzähle ich jetzt dem von nebenan?
+V: Dass er zuhören soll, bevor er weitererzählt.
+W: Das sage ich ihm genauso.
+```
+

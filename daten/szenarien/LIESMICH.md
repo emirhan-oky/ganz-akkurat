@@ -20,22 +20,30 @@ Regel obendrauf. Frühere Befunde werden nicht ersetzt, sondern Alternativen —
 
 ## Der Pool
 
-**Alle zwölf Szenarien haben Beispiele, seit dem 03.09.2026.**
+**28 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
+gelegt, Durchgang 2 auf zwei aufgefüllt; Szenario 4 ist mit vieren fertig.
 
 | | Szenario | Beispiele | wie die Wendung gebaut ist |
 |---|---|---|---|
-| 1 | Volti belehrt Watti | 2 | der Normalfall — braucht keine weiteren, sondern Konkurrenz |
-| 2 | Watti fragt um Rat | 1 | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | 1 | Volti kontert mit dem Satz danach |
+| 1 | Volti belehrt Watti | 3 | der Normalfall — die Ariane als Gegenstand fern vom Verbraucherrecht |
+| 2 | Watti fragt um Rat | 2 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 2 | Volti kontert mit dem Satz danach |
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
-| 5 | Volti wird ertappt | 2 | er tut selbst, wovon er abrät |
-| 6 | Beide liegen daneben | 1 | die Quelle sagt ein Drittes |
-| 7 | Watti hat einen Plan | 1 | Volti rechnet vor, was daraus wird |
-| 8 | Der Rückfall | 1 | am Ende macht Watti es wieder |
-| 9 | Der Dritte im Raum | 1 | jemand außerhalb hat etwas gesagt |
-| 10 | Die Wette | 1 | die Zitatkarte entscheidet |
-| 11 | Watti erzählt es falsch weiter | 1 | er gibt den Fakt weiter und verdreht ihn |
-| 12 | Volti hat es aufgegeben | 1 | Watti fragt zum vierten Mal |
+| 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
+| 6 | Beide liegen daneben | 2 | die Quelle sagt ein Drittes |
+| 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |
+| 10 | Die Wette | 2 | die Zitatkarte entscheidet, und der Verlierer liest sie vor |
+| 11 | Watti erzählt es falsch weiter | 2 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 2 | Watti fragt zum vierten Mal |
+
+**Die Blöcke werden gezogen, nicht abgeschrieben** — `npm run szenarienblock -- <id>`
+baut sie aus `daten/entwuerfe/`. Am 03.09.2026 fiel auf, dass drei Dokumente
+noch Dialoge zeigten, die längst verworfen waren: `akku-wechselbar-neu`,
+`flugmodus-ansage`, `drucker-punkte-weitererzaehlt`. Sie standen nur hier und
+in keinem Entwurf. **Eine zweite Fassung desselben Dialogs läuft beim ersten
+Umbau lautlos auseinander.**
 
 Zwölf Szenarien mal vier Formate mal sechzehn Witzbauarten.
 

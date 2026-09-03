@@ -6,7 +6,11 @@
 
 **Und die Quelle kann weiter reichen als der Konter.** Im Beispiel unten gibt dieselbe BSI-Seite Wattis Hammer am Ende recht — Überschreiben erreicht nur, wozu das Programm Zugriff hat. Der Belegprüfer hat das am 02.09.2026 gefunden, nachdem der Short in der Gegenrichtung fertig war. **Wer den Satz danach zitiert, liest auch den Satz danach.**
 
-**Beispiele:** 1 von vier
+**Eine Zeile muss ihren Gegenstand selbst nennen.** „Fünf Jahre gibt es jetzt" — *„5 Jahre gibt es was?"* Dass „Sicherheitsupdates" zwei Zeilen vorher im Kaltstart stand, hilft der Zeile nicht; sie steht hinter dem Vorhang und trägt allein.
+
+**Die Beschimpfung fehlt, wenn sie fehlt.** *„Beschimpfung fehlt mir."* Sie klebt hinten an, ohne Komma davor — etwa jede dreizehnte Zeile in Emirhans eigenen Dialogen.
+
+**Beispiele:** 2 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -41,3 +45,31 @@ W: Also war der Hammer doch richtig?
 V: Schon das Verbiegen der Scheiben macht die gängigen Methoden der Datenrettung unbrauchbar.
 W: Dann gib mir den Hammer wieder, großer Bruder.
 ```
+
+---
+
+## updatefrist-stichtag
+
+`absicht` · Kaltstart Watti  
+Quelle: `eu-oekodesign-handys`
+
+```
+W: Mein Handy hält noch ewig, das kriegt ja noch Sicherheitsupdates.
+   Heutiges Thema: Watti rechnet sich zwei Jahre schön
+V: Watti, seit wann hast du das?
+W: Drei Jahre. Fünf Jahre Sicherheitsupdates gibt es jetzt, also hab ich noch zwei.
+V: Nein. Die Regel gilt erst seit Juni 2025.
+W: Und meins?
+V: Deins stand vorher im Laden. Diese Regel gilt dafür nicht.
+W: Also kann der Hersteller bei meinem einfach aufhören?
+V: Nach dieser Verordnung schuldet er deinem nichts.
+   [Zitatkarte] Sie gilt ab dem 20. Juni 2025.
+W: Und bei neuen?
+V: Fünf Jahre, ab dem Tag, an dem das Modell aus dem Verkauf geht.
+W: Ab Verkaufsende? Nicht ab Kauf?
+V: Ab Verkaufsende.
+W: Dann kaufe ich das nächste erst, wenn es keiner mehr will.
+V: Dann kriegst du fünf Jahre auf ein Handy, das keiner mehr will, du Idiot.
+W: Klingt nach mir.
+```
+

@@ -410,6 +410,35 @@ zweite Frage.
 zwei Tagen. Genau die Sorte Wiederholung, die der Vergleich sichtbar machen
 soll; bisher hätte sie niemand bemerkt.
 
+## Durchgang 2 der Beispieldialoge · 03.09.2026
+
+Elf Dialoge, einer nach dem anderen vorgelegt und abgenommen. **Der Pool steht
+bei 28 von 48**, alle zwölf Szenarien haben Beispiele.
+
+- [x] ~~**Sechs neue Quellen**, 21 neue Fundstellen: ESA und University of
+      Minnesota zur Ariane 501, die Ökodesign-Verordnung 2023/1670 mit acht
+      Belegen, die italienische Wettbewerbsbehörde, zwei BSI-Seiten. Dazu drei
+      Belege an der Ladeanschluss-Richtlinie. **141 Zitate, 0 Beanstandungen**~~
+- [x] ~~**Elf Entwürfe** in `daten/entwuerfe/`, `GEPARKT` steht bei 28~~
+- [x] ~~**`npm run szenarienblock`** zieht die Dialogblöcke aus den Entwürfen.
+      Drei Szenariendokumente zeigten noch Dialoge, die am 03.09. verworfen
+      worden waren — sie standen nur dort und in keinem Entwurf~~
+- [x] ~~**Sechzehn Befunde (42–57)** in `dialoganalyse.md`. Einer zieht einen
+      früheren zurück: Befund 42 war falsch abgeleitet und hat fünf Titel in
+      Folge verdorben~~
+- [x] ~~**Schritt 6 des Skills hatte keine Selbstprüfung.** „Siehe unten", und
+      unten stand nichts — seit es den Verweis gibt. Jetzt sieben Prüffragen,
+      jede zeigt auf ein Kapitel, das schon da war~~
+- [x] ~~**`zeitbezug` suchte Teilzeichenketten** und hat „morgen" in
+      „**morgens**" gefunden. Emirhans Zeile „damit es morgens wieder voll ist"
+      wurde als relative Zeitangabe abgelehnt. Jetzt an Wortgrenzen~~
+- [x] ~~**Neun Ideen auf `belegt`** mit ihren Quellen~~
+
+**Vier Themen sind vor der ersten Zeile gefallen**, alle an derselben Ursache:
+keine unbeteiligte Quelle, die sich abrufen lässt. `gefaelschter-speicher`,
+`defragmentieren`, `ssd-ohne-strom` (JEDEC nur als PDF), `kabelknoten-studie`
+(PNAS antwortet 403). **Der Engpass ist der Beleg, nicht das Schreiben.**
+
 ### Offen aus demselben Plan
 
 *Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
@@ -2171,10 +2200,12 @@ seinem Material gemessen.
 
 ### Offen
 
-- [ ] ▸ **Die Szenarien 6 bis 12 brauchen ihre vier Beispiele.** Beide daneben ·
-      Wattis Plan · der Rückfall · der Dritte im Raum · die Wette · falsch
-      weitererzählt · Volti hat es aufgegeben. Jede Runde legt eine Datei in
-      `daten/szenarien/` ab
+- [x] ~~**Die Szenarien 6 bis 12 brauchen Beispiele.** Alle zwölf haben jetzt
+      welche — Durchgang 2 hat elf Dialoge gelegt, zwei davon Emirhans eigene
+      aus `daten/briefings/`~~
+- [ ] ▸ **Durchgang 3 und 4: je Szenario zwei weitere Beispiele.** 28 von 48
+      stehen; es fehlen 20. Einer nach dem anderen, Emirhan gibt den Takt, jede
+      Korrektur wird ein Befund
 - [ ] **Die zehn Dialoge sind noch nicht vertont.** Sie stehen in `GEPARKT`;
       ein Lauf mit Ton kostet Kontingent und braucht Emirhans Zusage
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit

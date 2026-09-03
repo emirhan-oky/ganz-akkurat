@@ -19,6 +19,7 @@ npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt
 npm run stimmproben       # Hörproben mehrerer Stimmen, `--paar` für beide Rollen
 npm run stimmprobe-v3     # legt Reglerstufen und Tags als Hörproben ab
+npm run szenarienblock    # zieht einen Dialogblock aus einem Entwurf
 npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf
 npm run markenbilder      # Profilbild und Banner aus video/Marke.tsx
 npm run rueckblick        # holt, was aus den Videos geworden ist
@@ -660,7 +661,11 @@ Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersich
   die Belegpflicht, auf den Titel angewandt. Kein Ausrufezeichen, kein Emoji,
   keine Konfrontation gegen den Zuschauer.
 - **Zeitangaben** — „seit heute", „gestern", „diese Woche", „seit N Tagen"
-  werden hart abgelehnt. Siehe unten.
+  werden hart abgelehnt. Siehe unten. **Geprüft wird an Wortgrenzen**, seit die
+  Regel am 03.09.2026 „morgen" in Emirhans „damit es **morgens** wieder voll
+  ist" gefunden hat. Eine Tageszeit altert nicht, und der Fehlalarm liegt auf
+  der teuren Seite: Er hält einen richtigen Short zurück und lädt dazu ein, den
+  Sprechtext gegen die Sprache zu verbiegen.
 
 ## Sprache und Humor
 

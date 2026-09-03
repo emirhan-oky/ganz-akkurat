@@ -112,7 +112,8 @@ stehen.
 
 **6 · Die Selbstprüfung.**
 
-Siehe unten. Sie ist der Teil, den `npm run pruefen` nicht übernehmen kann.
+Sie steht unten unter „Bevor du ihn vorlegst" und ist der Teil, den
+`npm run pruefen` nicht übernehmen kann.
 
 ## Wo die Wege stehen: `daten/szenarien/`
 
@@ -121,16 +122,25 @@ Szenario, darin vier Beispiele — mit einem einzigen Beispiel baut jeder Entwur
 genau dieses eine nach. Eine neue Runde legt dort eine Datei ab und fasst diesen
 Skill nicht an.
 
-Zwölf Szenarien sind benannt, fünf haben Beispiele:
+**Alle zwölf haben Beispiele, 28 von 48 seit dem 03.09.2026:**
 
-| | Szenario | wie die Wendung gebaut ist |
-|---|---|---|
-| 1 | Volti belehrt Watti | der Normalfall |
-| 2 | Watti fragt um Rat | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | Volti kontert mit dem Satz danach |
-| 4 | Watti kontert erfolgreich | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
-| 5 | Volti wird ertappt | er tut selbst, wovon er abrät |
-| 6–12 | noch ohne Beispiel | Beide daneben · Wattis Plan · der Rückfall · der Dritte im Raum · die Wette · falsch weitererzählt · Volti hat es aufgegeben |
+| | Szenario | Beisp. | wie die Wendung gebaut ist |
+|---|---|---|---|
+| 1 | Volti belehrt Watti | 3 | der Normalfall |
+| 2 | Watti fragt um Rat | 2 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 2 | Volti kontert mit dem Satz danach |
+| 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
+| 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
+| 6 | Beide liegen daneben | 2 | die Quelle sagt ein Drittes |
+| 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt |
+| 10 | Die Wette | 2 | die Zitatkarte entscheidet |
+| 11 | Watti erzählt es falsch weiter | 2 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 2 | Watti fragt zum vierten Mal |
+
+**Die Blöcke dort werden gezogen, nicht abgeschrieben** —
+`npm run szenarienblock -- <id>` baut sie aus `daten/entwuerfe/`.
 
 **Der Zug `erinnern` macht Szenario 4 und 5 überhaupt möglich.** Wattis Konter
 ist fast nie ein Fakt aus einer Behördenquelle, sondern etwas aus ihrer
@@ -268,6 +278,18 @@ wurden. Ein Satz mit Nebensatz ist keine Rede.
   ihn", nicht „Blocker".
 - **Ein Schaden oder eine Umkehrung steckt drin.** „Watti installiert sieben
   Werbeblocker" ist eine Feststellung, kein Video.
+- **Er trägt ein Urteil, keine Beschreibung.** „Volti **predigt** und kauft
+  neu" statt „Volti wartet keine fünf Tage". „Watti **rechnet sich** zwei Jahre
+  **schön**" statt „Wattis Handy fällt durchs Raster". Beschreibungen sind
+  korrekt und tonlos; ein Urteil sagt, was daran faul ist.
+- **Und er darf metaphorisch sein.** „Wattis Akku muss erst **sterben**",
+  „Wattis **Handyheizung**", „Wattis Umzug **sprengt** eine Rakete". Akkus
+  sterben nicht, ein Kopfkissen ist keine Heizung.
+
+**Am 03.09.2026 sind fünf Titel in Folge an diesen Regeln vorbeigegangen**, weil
+ich aus einer Korrektur das Muster „zwei Gegenstände mit *und*" abgeleitet habe.
+Aus einem halb verstandenen Befund wird eine Schablone, und sie wirkt sofort
+fünffach.
 
 ## Die Beschreibung trägt, was der Short nicht schafft
 
@@ -295,6 +317,65 @@ Vorabprüfung nicht dauerhaft rot ist.
 **Was es nicht prüfen kann und du prüfen musst:** ob die Reaktion etwas
 hinzufügt, ob die Lage trägt, ob der Kipppunkt wirklich kippt, und ob eine
 Zeile ihrem Sprecher gehört.
+
+## Bevor du ihn vorlegst
+
+**Diese Liste stand bis zum 03.09.2026 nur als Verweis da** — Schritt 6 sagte
+„siehe unten", und unten stand nichts. An diesem Tag habe ich in elf Dialogen
+sechs Regeln gebrochen, die **schon in diesem Skill stehen**: fünfmal die
+Titelregel, zweimal den Schluss auf die Beziehung, zweimal die Beschimpfung.
+
+**Der Skill war nicht zu dünn. Ich habe ihn nicht gelesen.** Deshalb sieben
+Fragen, jede zeigt auf ein Kapitel, das es schon gibt.
+
+1. **Der Titel** — ein Satz mit Verb, ein Bild, ein Urteil? „Volti predigt und
+   kauft neu", nicht „Volti wartet keine fünf Tage". → *Der Titel*
+2. **Der Kaltstart** — nennt er das zusammengesetzte Substantiv, und weiß der
+   Zuschauer beim ersten Satz, wovon die Rede ist? „Neues **Handy**update ist
+   da", nicht „Update ist da". → *2 · Der Kaltstart*
+3. **Der Schluss** — gehört er der Beziehung? Er darf ausweichen statt zu
+   antworten: „Großer-Bruder-Kram eben." → *5 · Der Bogen*
+4. **Jede Zeile** — nennt sie ihren Gegenstand, oder steht er nur im Satz
+   davor? Hinter dem Vorhang trägt jede Zeile allein.
+5. **Jeder Witz** — antwortet er auf die Zeile davor, oder steht er daneben?
+   Steht er daneben, wird er **gestrichen**, nicht gedreht. → *Die eine Regel,
+   an der alles scheitert*
+6. **Voltis Ärger** — fehlt die Beschimpfung, wo er sich ärgert? Sie klebt
+   hinten an, ohne Komma. → *Die beiden Figuren*
+7. **Jede behauptende Zeile** — steht das Zitat daneben, und trägt es *diesen*
+   Satz? **Lies den Satz davor und den Satz danach in der Quelle.** → *Vor dem
+   Vertonen*
+
+**Und für Punkt 7 sechs Fragen einzeln**, weil er am 03.09.2026 an elf Dialogen
+siebzehnmal gerissen ist — bei grünem `pruefen` und grünem `quellen-pruefen`:
+
+- **Steht im Zitat ein „kann", „vor allem", „einige", „übermäßig", „ideal"?**
+  Dann steht es auch im Sprechtext. Modalverben fallen beim Kürzen auf
+  Sprechlänge als Erstes weg, und was übrig bleibt, klingt besser und behauptet
+  mehr. Viermal in elf Dialogen.
+- **Steht ein „weil", „deshalb", „und dann" im Sprechtext?** Dann muss ein
+  Zitat den *Zusammenhang* tragen, nicht die beiden Enden einzeln.
+- **Nennt das Zitat den Gegenstand der Zeile beim Namen?** „Das war Dezember
+  2024" über Tablets hing an einer Liste, die bei „1.9. Tastaturen" beginnt.
+  Beim Binden nicht fragen „welche Quelle", sondern „welcher Satz".
+- **Trägt die Zitatkarte noch, was der Beleg trägt?** 90 Zeichen sind eine
+  Kürzung, und jede Kürzung behauptet, was entbehrlich ist. Lieber ein Zitat
+  wählen, das in 90 Zeichen vollständig ist, als eines zurechtschneiden.
+- **Wird aus einem Fall ein Immer?** Zwei dokumentierte Fälle sind kein „nach
+  jedem Update", und eine angekündigte Maßnahme („will be applied") ist keine
+  heutige Praxis.
+- **Behauptet der Nachschlag etwas?** Die Positionsbefreiung gilt Pointen,
+  nicht Behauptungen. Eine Geldsumme ist eine Behauptung, „mehr sagt das Amt
+  nicht" auch.
+
+**Der Belegprüfer läuft vor der Vorlage, nicht danach.** Am 03.09.2026 hat
+Emirhan elf Dialoge abgenommen, in denen siebzehn Sätze mehr behaupteten als
+ihre Quelle. Er konnte es nicht sehen: Im Chat stand das Zitat als Kartentext
+daneben, nicht als vollständige Fundstelle mit ihrem Satz davor und danach.
+
+**Und wenn du eine Auswahl vorlegst:** Sortiere nach Ton, nicht nach
+Genauigkeit. Am 03.09.2026 standen vier von fünf besseren Titeln als Zweitwahl
+in meiner eigenen Liste — ich kann sie schreiben und erkenne sie nicht.
 
 ## Vor dem Vertonen
 

@@ -441,6 +441,26 @@
           "id": "mit-den-ju-ngsten",
           "zitat": "Mit den jüngsten freiwilligen Initiativen konnte zwar eine stärkere Standardisierung",
           "stuetzt": "Die freiwilligen Initiativen der Hersteller haben ausdrücklich nicht gereicht — das steht in der Begründung der Richtlinie."
+        },
+        {
+          "id": "fristen-dezember-und-april",
+          "zitat": "Sie wenden diese Vorschriften ab dem 28. Dezember 2024 für die in Anhang Ia Teil I Nummern 1.1 bis 1.12 genannten Kategorien oder Klassen von Funkanlagen und ab dem 28. April 2026",
+          "stuetzt": "Artikel 2. Zwei Stichtage: 1.1 bis 1.12 im Dezember 2024, Nummer 1.13 im April 2026."
+        },
+        {
+          "id": "geraeteliste-bis-laptops",
+          "zitat": "1.9. Tastaturen, 1.10. Mäuse, 1.11. tragbare Navigationssysteme, 1.12. Ohrhörer, 1.13. Laptops.",
+          "stuetzt": "Anhang Ia. Laptops sind Nummer 1.13 und fallen damit unter den späteren Stichtag."
+        },
+        {
+          "id": "laptops-alle-tragbaren-computer",
+          "zitat": "Bei Laptops fallen alle tragbaren Computer, einschließlich Laptops, Notebooks, Ultrabooks, Hybridgeräte oder Convertibles und Netbooks, unter diese Funkanlagen.",
+          "stuetzt": "Erwägungsgrund 14. Netbooks und Convertibles zählen ausdrücklich mit."
+        },
+        {
+          "id": "geraeteliste-ab-mobiltelefonen",
+          "zitat": "1.1. tragbare Mobiltelefone, 1.2. Tablets, 1.3. Digitalkameras",
+          "stuetzt": "Anhang Ia. Tablets sind Nummer 1.2 und fallen damit unter den Stichtag Dezember 2024."
         }
       ]
     },
@@ -1041,6 +1061,212 @@
           "id": "frei-von-sachmaengeln",
           "zitat": "Die Sache ist frei von Sachmängeln, wenn sie bei Gefahrübergang den subjektiven Anforderungen, den objektiven Anforderungen und den Montageanforderungen dieser Vorschrift entspricht.",
           "stuetzt": "§ 434 legt fest, woran sich entscheidet, ob eine Kaufsache mangelhaft ist."
+        }
+      ]
+    },
+    {
+      "id": "esa-ariane-501",
+      "titel": "Ariane 501 – Presentation of Inquiry Board report",
+      "url": "https://www.esa.int/Newsroom/Press_Releases/Ariane_501_-_Presentation_of_Inquiry_Board_report",
+      "herausgeber": "Europäische Weltraumorganisation",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "siebenunddreissig-sekunden",
+          "zitat": "The failure of Ariane 501 was caused by the complete loss of guidance and attitude information 37 seconds after start of the main engine ignition sequence (30 seconds after lift-off).",
+          "stuetzt": "Der Zeitpunkt, an dem die Steuerung ausfiel. Die Zahl trägt den Kern des Shorts."
+        },
+        {
+          "id": "purpose-only-before-liftoff",
+          "zitat": "alignement function of the inertial reference system, which served a purpose only before lift-off (but remained operative afterwards), was not taken into account in the simulations",
+          "stuetzt": "Die Funktion hatte nach dem Abheben keinen Zweck mehr und lief trotzdem weiter. Die Schreibweise „alignement“ steht so im Original."
+        },
+        {
+          "id": "switch-off-after-liftoff",
+          "zitat": "switch-off or inhibition of the alignment function after liftoff",
+          "stuetzt": "Die Korrekturmaßnahme der ESA: Die Funktion wird heute nach dem Abheben abgeschaltet."
+        },
+        {
+          "id": "corrective-measures-will-be-applied",
+          "zitat": "the following corrective measures will be applied",
+          "stuetzt": "Der Satz vor der Maßnahmenliste. 1996 angekündigt — nicht als heutige Praxis berichtet."
+        }
+      ]
+    },
+    {
+      "id": "umn-ariane-bericht",
+      "titel": "The Explosion of the Ariane 5 – Auszüge aus dem Bericht des Inquiry Board",
+      "url": "https://www-users.cse.umn.edu/~arnold/disasters/ariane5rep.html",
+      "herausgeber": "Douglas N. Arnold, University of Minnesota",
+      "geprueftAm": "2026-09-03",
+      "art": "wissenschaft",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "sri-gleich-wie-ariane-4",
+          "zitat": "The design of the Ariane 5 SRI is practically the same as that of an SRI which is presently used on Ariane 4, particularly as regards the software.",
+          "stuetzt": "Die Steuerung kam unverändert aus der Ariane 4 — der Kern des Vergleichs mit Wattis Handywechsel."
+        },
+        {
+          "id": "groesser-als-16-bit",
+          "zitat": "The floating point number which was converted had a value greater than what could be represented by a 16-bit signed integer.",
+          "stuetzt": "Die Zahl passte nicht in ihr Feld. Steht auf der ESA-Seite nicht, nur im Volltext des Berichts."
+        },
+        {
+          "id": "broke-up-and-exploded",
+          "zitat": "the launcher veered off its flight path, broke up and exploded",
+          "stuetzt": "Die Rakete ist explodiert. Der Satz steht im Bericht, nicht in der ESA-Pressemitteilung."
+        }
+      ]
+    },
+    {
+      "id": "eu-oekodesign-handys",
+      "titel": "Verordnung (EU) 2023/1670 — Ökodesign für Smartphones und Tablets",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R1670",
+      "herausgeber": "Europäische Kommission",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "achthundert-zyklen-achtzig-prozent",
+          "zitat": "Hersteller, Importeure oder Bevollmächtigte stellen sicher, dass die Geräte mindestens 800 Zyklen lang eine Restkapazität von 80 % erreichen",
+          "stuetzt": "Anhang II Nr. 4. Nach 800 Zyklen bleiben 80 Prozent — nicht null."
+        },
+        {
+          "id": "batterielaufzeit-in-zyklen",
+          "zitat": "„Batterielaufzeit in Zyklen“ bezeichnet die Anzahl der Ladungs- und Entladungszyklen, ausgedrückt in Zyklen, denen eine Batterie standhalten kann, bis ihre nutzbare elektrische Leistung 80 % ihrer Nennkapazität erreicht hat",
+          "stuetzt": "Artikel 2. Gezählt wird die Kapazität, nicht das Anstecken — das trägt Voltis Zyklusrechnung."
+        },
+        {
+          "id": "gilt-ab-zwanzigstem-juni",
+          "zitat": "Diese Verordnung tritt am zwanzigsten Tag nach ihrer Veröffentlichung im Amtsblatt der Europäischen Union in Kraft. Sie gilt ab dem 20. Juni 2025.",
+          "stuetzt": "Artikel 10. Der Stichtag — ältere Geräte fallen nicht darunter. Das „Sie“ braucht den Satz davor, deshalb steht er mit im Zitat."
+        },
+        {
+          "id": "fuenf-jahre-aktualisierungen",
+          "zitat": "Ab dem Datum der Beendigung des Inverkehrbringens und für einen Mindestzeitraum von fünf Jahren sind von Herstellern, Importeuren oder Bevollmächtigten zur Verfügung gestellte Sicherheits-, Korrektur- oder Funktionsaktualisierungen",
+          "stuetzt": "Anhang II Nr. 6. **Der Ankerpunkt steht im Zitat**: Die Frist läuft ab dem Ende des Inverkehrbringens, nicht ab dem Kauf."
+        },
+        {
+          "id": "sieben-jahre-ersatzteile",
+          "zitat": "stellen Hersteller, Importeure oder Bevollmächtigte fachlich kompetenten Reparateuren für einen Mindestzeitraum von sieben Jahren nach dem Datum der Beendigung des Inverkehrbringens mindestens die folgenden Ersatzteile",
+          "stuetzt": "Anhang II Nr. 1. Die Pflicht gilt gegenüber fachlich kompetenten Reparateuren, nicht gegenüber jedem."
+        },
+        {
+          "id": "fuenf-arbeitstage-lieferung",
+          "zitat": "während der ersten fünf Jahre des in Nummer 1 Buchstaben a und c genannten Zeitraums Ersatzteile innerhalb von fünf Arbeitstagen nach Eingang des Auftrags geliefert werden",
+          "stuetzt": "Anhang II Nr. 3. Die Lieferfrist für Ersatzteile, in den ersten fünf Jahren."
+        },
+        {
+          "id": "optionale-ladefunktion-achtzig",
+          "zitat": "Hersteller, Importeure oder Bevollmächtigte stellen sicher, dass die Geräte eine vom Nutzer wählbare optionale Ladefunktion aufweisen, die den Ladevorgang automatisch beendet, wenn die Batterie zu 80 % ihrer vollen Kapazität aufgeladen ist",
+          "stuetzt": "Anhang II Nr. 5. **Wählbar und optional** — es gibt kein Verbot, voll zu laden."
+        },
+        {
+          "id": "nutzer-wird-informiert",
+          "zitat": "Der Nutzer wird beim erstmaligen Aufladen des Geräts oder während der Installation automatisch darüber informiert, dass die Lebensdauer der Batterie verlängert werden kann, wenn diese Funktion gewählt wird",
+          "stuetzt": "Anhang II Nr. 5. Das Gerät muss den Hinweis von sich aus geben."
+        },
+        {
+          "id": "vollstaendige-zyklen-nennkapazitaet",
+          "zitat": "Anzahl der vollständigen Ladungs-/Entladungszyklen (Bezugswert: Nennkapazität)",
+          "stuetzt": "Anhang II Nr. 6. Gezählt werden **vollständige** Zyklen, gemessen an der Nennkapazität — nicht Steckvorgänge."
+        },
+        {
+          "id": "zehn-arbeitstage-danach",
+          "zitat": "während der verbleibenden zwei Jahre des in Nummer 1 Buchstaben a und c genannten Zeitraums Ersatzteile innerhalb von zehn Arbeitstagen nach Eingang des Auftrags geliefert werden",
+          "stuetzt": "Anhang II Nr. 3. Die fünf Arbeitstage gelten nur in den ersten fünf Jahren, danach sind es zehn."
+        },
+        {
+          "id": "displaybaugruppe-endnutzer",
+          "zitat": "Batterie oder Batterien; b) Rückwand oder Rückwandbaugruppe, wenn sie zum Austausch der Batterie vollständig entfernt werden muss; c) Schutzfolie für ein klappbares Display; d) Displaybaugruppe",
+          "stuetzt": "Anhang II Nr. 1 b. Die Displaybaugruppe steht in der Liste für Reparateure **und Endnutzer**, nicht in der unter Buchstabe a."
+        }
+      ]
+    },
+    {
+      "id": "agcm-updates-strafe",
+      "titel": "PS11009-PS11039 – Apple and Samsung fined for software updates",
+      "url": "https://en.agcm.it/en/media/press-releases/2018/10/PS11009-PS11039",
+      "herausgeber": "Autorità Garante della Concorrenza e del Mercato",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "apple-update-ohne-warnung",
+          "zitat": "Apple released, in February 2017, a new update (iOS 10.2.1), without warning consumers that its installation could reduce the speed of execution and functionality of devices.",
+          "stuetzt": "Das Update machte die Geräte langsamer, ohne dass es dazugesagt wurde."
+        },
+        {
+          "id": "speeding-up-replacement",
+          "zitat": "which caused serious malfunctions and significantly reduced their performance, in this way speeding up their replacement with more recent products",
+          "stuetzt": "Die Behörde stellt fest, dass der Austausch dadurch beschleunigt wurde."
+        },
+        {
+          "id": "apple-und-samsung-bestraft",
+          "zitat": "Apple and Samsung fined for software updates that have caused serious troubles",
+          "stuetzt": "Beide Hersteller haben eine Strafe erhalten. Steht als Titel der Pressemitteilung."
+        },
+        {
+          "id": "optimized-for-next-model",
+          "zitat": "to install the new operating system iOS 10, optimized for the next model iPhone7, without informing consumers of the greater energy demand of the new operating system",
+          "stuetzt": "Der Mechanismus: Das System war für das **nächste** Modell gebaut. Trägt Voltis „für ein Gerät, das du gar nicht hast“."
+        },
+        {
+          "id": "some-mobile-phones",
+          "zitat": "have reduced functionality of some mobile phones",
+          "stuetzt": "Die Behörde sagt **einige** Geräte, nicht alle. Der Satz „nach jedem Update“ ginge darüber hinaus."
+        }
+      ]
+    },
+    {
+      "id": "bsi-oeffentliches-wlan",
+      "titel": "Sicherheitstipps im privaten und öffentlichen WLAN",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Router-WLAN-VPN/Sicherheitstipps-fuer-privates-und-oeffentliches-WLAN/sicherheitstipps-fuer-privates-und-oeffentliches-wlan.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "schadsoftware-eingeschleust",
+          "zitat": "Daten können abgegriffen oder Schadsoftware auf Ihr Gerät eingeschleust werden.",
+          "stuetzt": "Das Risiko liegt nicht nur im Mitlesen, sondern in dem, was auf das Gerät kommt."
+        },
+        {
+          "id": "keine-angriffsflaeche",
+          "zitat": "Auch beim Gebrauch im öffentlichen Raum gilt: Ein abgeschaltetes WLAN bietet keine Angriffsfläche.",
+          "stuetzt": "Der einfachste Rat des BSI: ausschalten, wenn man es nicht braucht."
+        },
+        {
+          "id": "betreiber-nicht-bekannt",
+          "zitat": "dessen Betreiber und Hintergründe Sie nicht kennen",
+          "stuetzt": "Der Betreiber ist das Dritte, das beide Lager übersehen. Zitate mit „WLAN-Netz“ sind hier unauffindbar — siehe Hinweis unten."
+        }
+      ]
+    },
+    {
+      "id": "bsi-virenschutz",
+      "titel": "Virenschutz und falsche Antivirensoftware",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Virenschutz-Firewall/Virenschutzprogramme/virenschutzprogramme.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "alle-geraete-virenschutz",
+          "zitat": "Tatsächlich sollten all Ihre Geräte einen Virenschutz haben.",
+          "stuetzt": "Das BSI empfiehlt Virenschutz für alle Geräte, nicht nur für den Rechner."
+        },
+        {
+          "id": "irrglaube-nur-pcs",
+          "zitat": "Weit verbreitet ist der Irrglaube, dass nur auf Laptops oder PCs eine Antivirensoftware installiert sein sollte.",
+          "stuetzt": "Die Annahme, nur PCs bräuchten Schutz, nennt das BSI ausdrücklich einen Irrglauben."
         }
       ]
     }

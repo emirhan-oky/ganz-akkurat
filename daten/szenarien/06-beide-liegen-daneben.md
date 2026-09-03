@@ -10,7 +10,7 @@
 
 **Und zwei Pronomen hintereinander über zwei verschiedene Dinge zerstören den Schluss.** Volti sagte „Und **deins** kann alles oder gar nichts" über Wattis Kabel, Watti antwortete „**Deins** ist also auch nur geraten" über Voltis — dazu falsch herum, denn das unbekannte war Voltis Fundkabel. Das Urteil dazu lautete nicht „falsch", sondern *„ich checke einfach nicht, in welche Richtung du willst."*
 
-**Beispiele:** 1 von vier
+**Beispiele:** 2 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -42,3 +42,33 @@ W: Also hatte ich doch recht mit dem Kabel.
 V: Du hattest recht, dass es drauf ankommt. Nicht warum.
 W: Nehme ich.
 ```
+
+---
+
+## cafe-wlan
+
+`werhatrecht` · Kaltstart Watti  
+Quelle: `bsi-oeffentliches-wlan`
+
+```
+W: Im Café-WLAN mache ich nichts, da liest doch jeder mit.
+   Heutiges Thema: Das Café-WLAN gehört jemandem
+V: Watti, wer liest im Café-WLAN mit?
+W: Alle. Offenes Netz, offene Daten.
+V: Heute ist fast alles verschlüsselt.
+W: Und warum sagen dann alle, man soll da nichts machen?
+V: Weil sie es von früher haben.
+W: Wer hat jetzt recht?
+V: Keiner von uns beiden. Da steht beides drin.
+W: Beides?
+V: Abgreifen und Schadsoftware auf deinem Gerät.
+   [Zitatkarte] Daten können abgegriffen oder Schadsoftware auf Ihr Gerät eingeschleust werden.
+W: Ein öffentliches WLAN kann mir was schicken?
+V: Wenn du seinen Betreiber nicht kennst, ja. Das ist der Punkt.
+W: Und was mache ich?
+V: WLAN aus, wenn du es nicht brauchst. Steht so beim Amt.
+W: Aus? Das ist die ganze Lösung?
+V: Ein ausgeschaltetes WLAN hat keine Angriffsfläche.
+W: Dann ist mein Handy nachts das sicherste der Welt.
+```
+

@@ -20,6 +20,17 @@ import { flugmodus } from './flugmodus';
 import { schaltsekundeWette } from './schaltsekunde-wette';
 import { druckerGelbePunkte } from './drucker-gelbe-punkte';
 import { autoEreignisspeicher } from './auto-ereignisspeicher';
+import { arianeAlteEinstellung } from './ariane-alte-einstellung';
+import { ladezyklenSteckdose } from './ladezyklen-steckdose';
+import { updatefristStichtag } from './updatefrist-stichtag';
+import { ersatzteilFuenfTage } from './ersatzteil-fuenf-tage';
+import { cafeWlan } from './cafe-wlan';
+import { handyheizung } from './handyheizung';
+import { updateItalien } from './update-italien';
+import { akkuGanzLeer } from './akku-ganz-leer';
+import { virenprogrammWette } from './virenprogramm-wette';
+import { achtzigProzentNachbar } from './achtzig-prozent-nachbar';
+import { laptopUsbC } from './laptop-usb-c';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -71,7 +82,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher];
+export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
