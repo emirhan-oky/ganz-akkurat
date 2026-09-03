@@ -8,7 +8,7 @@
 
 **Der Titel ist ein Titel und muss verkaufen.** „Wattis Akku und die Steckdose" nennt zwei Gegenstände und verspricht nichts.
 
-**Beispiele:** 2 von vier
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -70,5 +70,37 @@ W: Und was mache ich jetzt?
 V: Steck ihn an, wenn er leer ist. Sonst nichts.
 W: Nichts machen kann ich.
 V: Weiß ich.
+```
+
+
+---
+
+## mobilfunk-messkampagne
+
+`absicht` · Kaltstart Watti  
+Quelle: `bnetza-internetgeschwindigkeit`
+
+```
+W: Mein Vertrag verspricht 100 Megabit, mein Handy schafft 12.
+   Heutiges Thema: Watti beweist es 14 Tage lang
+W: Volti, mein Mobilfunkvertrag ist teuer und das Internet zu langsam. Kann ich da was machen?
+V: Ja. Du kannst es beweisen.
+W: Wie denn, mit einem Screenshot?
+V: Mit einer App vom Amt. Die Bundesnetzagentur stellt ein verbindliches Nachweisverfahren.
+W: Und dann?
+V: Dann hast du ein Minderungs- oder Sonderkündigungsrecht.
+W: Einfach so?
+V: Du musst das Messprotokoll vorlegen.
+   [Zitatkarte] dann haben Sie gegenüber Ihrem Anbieter ein Minderungs- oder Sonderkündigungsrecht
+W: Klingt machbar. Wie viele Messungen?
+V: Höchstens 30 in 14 Tagen.
+V: An höchstens 5 Messtagen.
+W: 30?
+   [Zahl] 30 Messungen — höchstens, verteilt auf 14 Tage und 5 Messtage
+V: Und zwischen der dritten und vierten Messung 3 Stunden Pause.
+W: Und was rätst du mir?
+V: Miss. Sonst zahlst du weiter für 100 Megabit.
+W: Ich messe morgen.
+V: Hoffe ich für dich kleiner.
 ```
 

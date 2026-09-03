@@ -10,7 +10,11 @@
 
 **Und zwei Pronomen hintereinander über zwei verschiedene Dinge zerstören den Schluss.** Volti sagte „Und **deins** kann alles oder gar nichts" über Wattis Kabel, Watti antwortete „**Deins** ist also auch nur geraten" über Voltis — dazu falsch herum, denn das unbekannte war Voltis Fundkabel. Das Urteil dazu lautete nicht „falsch", sondern *„ich checke einfach nicht, in welche Richtung du willst."*
 
-**Beispiele:** 2 von vier
+**Und das Thema braucht einen Gegenstand.** Der Vorläufer dieses Beispiels war ein Cookie-Banner-Dialog: sauber belegt, Prüfung grün, das Dritte echt — und unverständlich. *„Irgendwie checke ich den Dialog nicht. Worum geht es hier?"* Er redete über „die", „manche", „der Teil" — vier Wörter für Sachen, die nie einen Namen bekommen. Ein Router steht im Regal.
+
+**Und der Gegenstand muss eindeutig sein.** „Ab der Dose bist du dran" wurde als **Steck**dose gelesen. Gemeint ist der Netzabschlusspunkt; jetzt steht dort „Anschlussdose".
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -70,5 +74,38 @@ V: WLAN aus, wenn du es nicht brauchst. Steht so beim Amt.
 W: Aus? Das ist die ganze Lösung?
 V: Ein ausgeschaltetes WLAN hat keine Angriffsfläche.
 W: Dann ist mein Handy nachts das sicherste der Welt.
+```
+
+
+---
+
+## router-zwang
+
+`werhatrecht` · Kaltstart Watti  
+Quelle: `tkg-73-endeinrichtungen`
+
+```
+W: Mein Anbieterrouter ist Schrott, tauschen darf man ihn ja nicht.
+   Heutiges Thema: Wattis Router hat einen Zettel
+V: Watti, wer sagt dir, dass du deinen Anbieterrouter nicht tauschen darfst?
+W: Steht bestimmt im Vertrag, so was steht immer drin.
+V: Steht da nicht.
+W: Und wieso nicht?
+V: Der Anbieter darf dir einen Router geben. Vorschreiben darf er ihn nicht.
+W: Und wenn ich trotzdem einen eigenen kaufe?
+V: Dann steckst du ihn an die Anschlussdose. Da endet das Netz vom Anbieter.
+W: Also ist alles dahinter meins?
+V: Ab der Anschlussdose bist du dran.
+W: Dann hattest du also recht.
+V: Keiner von uns beiden. Der Router war nie das Problem.
+W: Was denn dann?
+V: Die Zugangsdaten. Die musst du haben.
+   [Zitatkarte] in Textform unaufgefordert und kostenfrei bei Vertragsschluss zur Verfügung zu stellen
+W: Und wo kriege ich die her?
+V: Die hast du schon. Unaufgefordert und kostenfrei, bei Vertragsschluss.
+W: In welchem Brief soll das gestanden haben?
+V: In dem, den du weggeschmissen hast.
+W: Ich schmeiße nichts weg.
+V: Dann liegt er in dem Stapel neben deinem Bett. Such ihn, kleiner.
 ```
 

@@ -771,6 +771,21 @@
           "id": "increased-in-or-before-2035",
           "zitat": "will be increased in, or before, 2035",
           "stuetzt": "Der Termin: spätestens 2035 ist Schluss mit der Schaltsekunde."
+        },
+        {
+          "id": "utc-produced-by-bipm",
+          "zitat": "Coordinated Universal Time (UTC) is a time scale produced by the International Bureau of Weights and Measures (BIPM)",
+          "stuetzt": "Das BIPM **erzeugt** UTC. Die Schaltsekunde ordnet dagegen der IERS an — zwei verschiedene Stellen."
+        },
+        {
+          "id": "utc-basis-of-civil-time",
+          "zitat": "UTC is the only recommended time scale for international reference and the basis of civil time in most countries",
+          "stuetzt": "UTC ist die Grundlage der bürgerlichen Zeit in den meisten Ländern — das trägt „damit unsere Zeit einheitlich ist“."
+        },
+        {
+          "id": "beobachtet-vom-iers",
+          "zitat": "as observed by the International Earth Rotation and Reference Systems Service (IERS)",
+          "stuetzt": "Die Differenz UT1−UTC beobachtet der IERS. **Nicht das BIPM** — der Unterschied steht außerhalb des Schaltsekunden-Zitats."
         }
       ]
     },
@@ -1267,6 +1282,99 @@
           "id": "irrglaube-nur-pcs",
           "zitat": "Weit verbreitet ist der Irrglaube, dass nur auf Laptops oder PCs eine Antivirensoftware installiert sein sollte.",
           "stuetzt": "Die Annahme, nur PCs bräuchten Schutz, nennt das BSI ausdrücklich einen Irrglauben."
+        }
+      ]
+    },
+    {
+      "id": "bnetza-internetgeschwindigkeit",
+      "titel": "Internetgeschwindigkeit — Nachweisverfahren im Festnetz und Mobilfunk",
+      "url": "https://www.bundesnetzagentur.de/DE/Vportal/TK/InternetTelefon/Internetgeschwindigkeit/start.html",
+      "herausgeber": "Bundesnetzagentur",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "minderungs-oder-sonderkuendigungsrecht",
+          "zitat": "Weichen die Ergebnisse der Messungen erheblich von den vertraglich vereinbarten Internetgeschwindigkeiten ab (Minderleistung), dann haben Sie gegenüber Ihrem Anbieter ein Minderungs- oder Sonderkündigungsrecht.",
+          "stuetzt": "Bei erheblicher Abweichung gibt es ein Minderungs- **oder** Sonderkündigungsrecht — beides gegenüber dem Anbieter, nicht gegenüber dem Amt."
+        },
+        {
+          "id": "messprotokoll-vorlegen",
+          "zitat": "Wichtig: Sie müssen dafür das Messprotokoll vorlegen.",
+          "stuetzt": "Ohne das Protokoll aus der App gibt es kein Recht — die Messung ist die Bedingung."
+        },
+        {
+          "id": "maximal-dreissig-messungen",
+          "zitat": "Bitte führen Sie maximal 30 Messungen (Messkampagne) innerhalb von 14 Tagen nach dem Start der Messkampagne durch.",
+          "stuetzt": "**Maximal** 30 in 14 Tagen, nicht genau 30. Der Umfang der Messkampagne."
+        },
+        {
+          "id": "fuenf-messtage",
+          "zitat": "Bitte messen Sie an maximal fünf unterschiedlichen Messtagen",
+          "stuetzt": "Die Messungen verteilen sich auf höchstens fünf Tage."
+        },
+        {
+          "id": "drei-stunden-abstand",
+          "zitat": "Zwischen der dritten und vierten Messung eines Messtages muss ein größerer Abstand von mindestens drei Stunden eingehalten werden.",
+          "stuetzt": "Die Pause mitten am Messtag — der Grund, warum das Verfahren einen ganzen Tag kostet."
+        },
+        {
+          "id": "verbindliches-nachweisverfahren",
+          "zitat": "Die Bundesnetzagentur stellt für das Festnetz und den Mobilfunk ein verbindliches Nachweisverfahren zur Verfügung",
+          "stuetzt": "Das Verfahren kommt von der Behörde und ist verbindlich — es gilt für Festnetz **und** Mobilfunk."
+        }
+      ]
+    },
+    {
+      "id": "tdddg-25-endeinrichtungen",
+      "titel": "§ 25 TDDDG – Schutz der Privatsphäre bei Endeinrichtungen",
+      "url": "https://www.gesetze-im-internet.de/ttdsg/__25.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "nur-zulaessig-wenn-eingewilligt",
+          "zitat": "sind nur zulässig, wenn der Endnutzer auf der Grundlage von klaren und umfassenden Informationen eingewilligt hat",
+          "stuetzt": "Absatz 1. Zugriff auf das Gerät braucht eine Einwilligung. Kein Entwurf nutzt sie — der Cookie-Short ist am 03.09.2026 gefallen."
+        },
+        {
+          "id": "unbedingt-erforderlich-dienst",
+          "zitat": "unbedingt erforderlich ist, damit der Anbieter eines digitalen Dienstes einen vom Nutzer ausdrücklich gewünschten digitalen Dienst zur Verfügung stellen kann",
+          "stuetzt": "Absatz 2 Nr. 2. Was für den Dienst **unbedingt erforderlich** ist, läuft ohne Einwilligung — das Dritte, das beide Lager übersehen."
+        }
+      ]
+    },
+    {
+      "id": "tkg-73-endeinrichtungen",
+      "titel": "§ 73 TKG – Anschluss von Telekommunikationsendeinrichtungen",
+      "url": "https://www.gesetze-im-internet.de/tkg_2021/__73.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "nicht-zwingend-vorschreiben",
+          "zitat": "Sie können dem Endnutzer Telekommunikationsendeinrichtungen überlassen, dürfen aber deren Anschluss und Nutzung nicht zwingend vorschreiben.",
+          "stuetzt": "Absatz 3. Der Anbieter darf einen Router mitgeben, aber nicht vorschreiben — die Routerfreiheit."
+        },
+        {
+          "id": "zugangsdaten-unaufgefordert",
+          "zitat": "Notwendige Zugangsdaten und Informationen für den Anschluss von Telekommunikationsendeinrichtungen und die Nutzung der Telekommunikationsdienste haben sie dem Endnutzer in Textform unaufgefordert und kostenfrei",
+          "stuetzt": "Absatz 3. **Unaufgefordert und kostenfrei** — der Kunde hat die Daten längst. Der Zeitpunkt „bei Vertragsschluss“ steht direkt dahinter."
+        },
+        {
+          "id": "bei-vertragsschluss-zur-verfuegung",
+          "zitat": "haben sie dem Endnutzer in Textform unaufgefordert und kostenfrei bei Vertragsschluss zur Verfügung zu stellen",
+          "stuetzt": "Absatz 3, die zweite Hälfte desselben Satzes: der Zeitpunkt. In Textform, bei Vertragsschluss."
+        },
+        {
+          "id": "netz-endet-am-abschlusspunkt",
+          "zitat": "das öffentliche Telekommunikationsnetz endet am passiven Netzabschlusspunkt",
+          "stuetzt": "Absatz 1. Hinter der Dose ist nicht mehr das Netz des Anbieters — daraus folgt die freie Wahl des Geräts."
         }
       ]
     }

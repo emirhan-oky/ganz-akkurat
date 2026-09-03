@@ -10,7 +10,9 @@
 
 **Die Beschimpfung fehlt, wenn sie fehlt.** *„Beschimpfung fehlt mir."* Sie klebt hinten an, ohne Komma davor — etwa jede dreizehnte Zeile in Emirhans eigenen Dialogen.
 
-**Beispiele:** 2 von vier
+**Und die Zitatkarte darf nicht das Gegenteil zeigen.** In `sekunde-vom-atom` stand unter Voltis Satz „Unsere Sekunde kommt nicht von der Erde" die Karte „Die Drehung der Erde um ihre Achse definiert unser natürliches Zeitmaß" — der volle PTB-Satz endet mit „**, die Länge des Tages**". Die Erddrehung definiert den Tag, nicht die Sekunde.
+
+**Beispiele:** 3 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -71,5 +73,36 @@ V: Ab Verkaufsende.
 W: Dann kaufe ich das nächste erst, wenn es keiner mehr will.
 V: Dann kriegst du fünf Jahre auf ein Handy, das keiner mehr will, du Idiot.
 W: Klingt nach mir.
+```
+
+
+---
+
+## sekunde-vom-atom
+
+`gibtswirklich` · Kaltstart Volti  
+Quelle: `ptb-schaltsekunden`, `bipm-schaltsekunde`
+
+```
+W: Wie, unsere Sekunde kommt gar nicht von der Erde?
+   Heutiges Thema: Volti zählt die Sekunden nach
+W: Meine Uhr geht eine Sekunde hinter deiner.
+V: Vielleicht geht sie richtig.
+W: Wie, richtig?
+V: Unsere Sekunde kommt nicht von der Erde.
+V: Sondern kommt von einem Atom.
+   [Zitatkarte] die Zeiteinheit an eine atomare Naturkonstante anzuschließen
+W: Watt?
+V: Die Erde dreht sich recht ungleichmäßig.
+V: Ein Atom nicht.
+W: Und dann?
+V: Damit beide nicht auseinanderlaufen, schiebt man eine Schaltsekunde ein.
+W: Und wer bestimmt, wie lang eine Sekunde ist?
+V: Das Internationale Büro für Maß und Gewicht.
+W: Und die dürfen das einfach, ohne dich zu fragen?
+V: Die machen die Zeit.
+W: Und keiner beschwert sich?
+V: Wieso sollten wir uns bei einem Amt beschweren, die dafür sorgen, dass unsere Zeit einheitlich ist?
+W: Ja stimmt auch wieder, ich Idiot.
 ```
 

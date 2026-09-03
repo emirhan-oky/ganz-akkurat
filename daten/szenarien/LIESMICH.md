@@ -20,17 +20,17 @@ Regel obendrauf. Frühere Befunde werden nicht ersetzt, sondern Alternativen —
 
 ## Der Pool
 
-**28 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
-gelegt, Durchgang 2 auf zwei aufgefüllt; Szenario 4 ist mit vieren fertig.
+**31 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
+gelegt, Durchgang 2 auf zwei aufgefüllt, Durchgang 3 füllt auf drei auf; Szenario 4 ist mit vieren fertig.
 
 | | Szenario | Beispiele | wie die Wendung gebaut ist |
 |---|---|---|---|
 | 1 | Volti belehrt Watti | 3 | der Normalfall — die Ariane als Gegenstand fern vom Verbraucherrecht |
-| 2 | Watti fragt um Rat | 2 | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | 2 | Volti kontert mit dem Satz danach |
+| 2 | Watti fragt um Rat | 3 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 3 | Volti kontert mit dem Satz danach |
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
 | 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
-| 6 | Beide liegen daneben | 2 | die Quelle sagt ein Drittes |
+| 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
 | 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
 | 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
 | 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |

@@ -122,16 +122,16 @@ Szenario, darin vier Beispiele — mit einem einzigen Beispiel baut jeder Entwur
 genau dieses eine nach. Eine neue Runde legt dort eine Datei ab und fasst diesen
 Skill nicht an.
 
-**Alle zwölf haben Beispiele, 28 von 48 seit dem 03.09.2026:**
+**Alle zwölf haben Beispiele, 31 von 48 seit dem 03.09.2026:**
 
 | | Szenario | Beisp. | wie die Wendung gebaut ist |
 |---|---|---|---|
 | 1 | Volti belehrt Watti | 3 | der Normalfall |
-| 2 | Watti fragt um Rat | 2 | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | 2 | Volti kontert mit dem Satz danach |
+| 2 | Watti fragt um Rat | 3 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 3 | Volti kontert mit dem Satz danach |
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
 | 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
-| 6 | Beide liegen daneben | 2 | die Quelle sagt ein Drittes |
+| 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
 | 7 | Watti hat einen Plan | 2 | die Quelle redet von etwas anderem als beide Lager |
 | 8 | Der Rückfall | 2 | am Ende macht Watti es wieder |
 | 9 | Der Dritte im Raum | 2 | jemand außerhalb hat etwas gesagt |
@@ -328,6 +328,11 @@ Titelregel, zweimal den Schluss auf die Beziehung, zweimal die Beschimpfung.
 **Der Skill war nicht zu dünn. Ich habe ihn nicht gelesen.** Deshalb sieben
 Fragen, jede zeigt auf ein Kapitel, das es schon gibt.
 
+0. **Der Gegenstand** — kannst du zeichnen, worum gestritten wird? Und füllt
+   ihn niemand mit dem falschen Ding? „Cookie" ist unsichtbar, „Dose" wird als
+   Steckdose gelesen, „Anschlussdose" nicht. Ein Dialog ohne Gegenstand redet
+   über „die", „manche", „der Teil" — und den versteht niemand, auch wenn jede
+   Zeile belegt ist.
 1. **Der Titel** — ein Satz mit Verb, ein Bild, ein Urteil? „Volti predigt und
    kauft neu", nicht „Volti wartet keine fünf Tage". → *Der Titel*
 2. **Der Kaltstart** — nennt er das zusammengesetzte Substantiv, und weiß der
@@ -367,6 +372,11 @@ siebzehnmal gerissen ist — bei grünem `pruefen` und grünem `quellen-pruefen`
 - **Behauptet der Nachschlag etwas?** Die Positionsbefreiung gilt Pointen,
   nicht Behauptungen. Eine Geldsumme ist eine Behauptung, „mehr sagt das Amt
   nicht" auch.
+
+**Und die Gegenprobe dazu:** Belegtreue heißt nicht, das Wort der Quelle zu
+übernehmen. „Ein Atom nicht" ist durch „atomare Naturkonstante" gedeckt und die
+bessere Zeile — nach siebzehn Belegbefunden bin ich auf die Gegenseite gekippt
+und habe ein gedecktes Wort gegen ein steiferes getauscht.
 
 **Der Belegprüfer läuft vor der Vorlage, nicht danach.** Am 03.09.2026 hat
 Emirhan elf Dialoge abgenommen, in denen siebzehn Sätze mehr behaupteten als

@@ -31,6 +31,9 @@ import { akkuGanzLeer } from './akku-ganz-leer';
 import { virenprogrammWette } from './virenprogramm-wette';
 import { achtzigProzentNachbar } from './achtzig-prozent-nachbar';
 import { laptopUsbC } from './laptop-usb-c';
+import { sekundeVomAtom } from './sekunde-vom-atom';
+import { mobilfunkMesskampagne } from './mobilfunk-messkampagne';
+import { routerZwang } from './router-zwang';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -82,7 +85,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC];
+export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.

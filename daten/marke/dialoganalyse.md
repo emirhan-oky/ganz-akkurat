@@ -270,6 +270,87 @@ behandelt und automatisch ans Ende gesetzt habe. **Der Reflex, aus einem Befund
 eine Regel zu machen, erzeugt genau die Schablone, gegen die der Pool gebaut
 ist** — und ein Vorrat mit Wache hätte ihn festgeschrieben statt aufgelöst.
 
+## Durchgang 3, 03.09.2026 — vier Befunde, und zwei davon über Verständlichkeit
+
+Je Szenario ein drittes Beispiel. Nach den siebzehn Belegstellen aus Durchgang
+2 lief der Belegprüfer diesmal **vor** der Vorlage — und trotzdem sind zwei
+Dialoge daran gescheitert, dass sie niemand versteht.
+
+### 64 · Belegtreue heißt nicht, das Wort der Quelle zu übernehmen
+
+In `sekunde-vom-atom` stand nach der Belegkorrektur „Eine Naturkonstante
+nicht." — Emirhans Rückfrage war die kürzeste mögliche: *„Wieso steht hier
+nicht einfach Atom?"*
+
+„Atom" **steht** im Zitat („atomare Naturkonstante"), und zwei Zeilen vorher
+sagt Volti bereits „Sondern kommt von einem Atom", gedeckt durch dasselbe
+Zitat. „Naturkonstante" ist dazu ein Fachwort, das Watti nie sagen würde —
+Humorregel 1.
+
+**Nach siebzehn Belegbefunden bin ich auf die Gegenseite gekippt** und habe ein
+gedecktes Wort gegen ein steiferes getauscht. Belegtreue heißt, nichts zu
+behaupten, was die Quelle nicht trägt — nicht, ihr Vokabular zu übernehmen.
+**Eine Korrektur nach dem Belegprüfer ist nicht automatisch eine
+Verbesserung.**
+
+### 65 · Ein Thema ohne Gegenstand ergibt einen Dialog über Kategorien
+
+`cookie-banner-ablehnen` war sauber belegt, die Prüfung grün, das Dritte echt —
+und Emirhans Urteil: *„Irgendwie checke ich den Dialog nicht. Liegt es an mir?
+Worum geht es hier?"*
+
+Es lag nicht an ihm. Der Dialog redete über **„die", „manche", „der Teil",
+„der andere Teil"** — vier Wörter für Sachen, die nie einen Namen bekommen. Der
+Drucker hat gelbe Punkte, der Akku hat ein Kopfkissen, das Ladekabel hat einen
+Bahnsteig. Cookies haben nichts, was man zeigen kann.
+
+Dazu: **Watti war nichts passiert.** Er klickt halt jeden Tag — keine Lage,
+kein Schaden, kein Zeitpunkt. Genau das, wovor Schritt 1 des Skills warnt.
+
+**Der Prüfstein vor dem Schreiben: Kann ich zeichnen, worum gestritten wird?**
+Beim Cookie-Banner ist die Antwort nein, beim Router steht er im Regal.
+
+### 66 · Ein Wort, das der Zuschauer mit dem falschen Gegenstand füllt, ist kein Gegenstand
+
+In `router-zwang` stand „Ab der Dose bist du dran." Gemeint ist der passive
+Netzabschlusspunkt, die Dose an der Wand. Emirhans Rückfrage: *„Hier aber der
+Steckdose. Wieso nur Dose?"*
+
+**Er hat es als Steckdose gelesen — und damit ist der Beweis erbracht.** Ein
+Gegenstand muss nicht nur konkret sein, sondern eindeutig. „Anschlussdose"
+lässt sich nicht mit dem falschen Ding füllen; „Dose" schon.
+
+Das ist die Fortsetzung von Befund 65 und dessen schärfere Fassung: Ein
+Gegenstand, der beim Hören zu einem anderen wird, ist so unbrauchbar wie gar
+keiner.
+
+### 67 · Der Schluss braucht einen Schritt, keine Kette
+
+Der erste Schluss von `router-zwang` lautete: „In dem Brief, den du
+weggeschmissen hast." — „Ich schmeiße nichts weg, ich sammle." — „Dein Router
+steht noch im Karton kleiner." Emirhan: *„Das hier verstehe ich nicht?"*
+
+Gemeint war: Watti sammelt so viel, dass er nicht einmal den Router ausgepackt
+hat, also findet er den Brief nie. **Drei Ecken in zwei Zeilen.** Der Skill
+sagt es für die Lage („Ein Gegenstand, eine Handlung, eine Folge — keine
+Kette"); es gilt für den Schluss genauso, und dort fällt es härter auf, weil
+danach nichts mehr kommt.
+
+Jetzt: „Dann liegt er in dem Stapel neben deinem Bett. Such ihn, kleiner." Ein
+Bild, eine Anweisung, fertig.
+
+### Und was die Themenwahl gelernt hat
+
+**Der `werhatrecht`-Vorrat ist erschöpft.** Von acht Ideen sind fünf
+verbraucht, `cookie-banner-ablehnen` ist an Befund 65 gefallen, `reis-im-handy`
+an der Belegregel (nur Herstellerseiten), `megapixel-streit` hat keine frei
+abrufbare Norm. `router-zwang` kam aus keiner Ideendatei, sondern aus einer
+Suche nach „Streitfall **plus** Gegenstand **plus** Behördenquelle".
+
+**Das ist das Auswahlkriterium, das dem Ideenvorrat fehlt.** Er führt
+`belegpfad` — welche Instanz das belegen könnte — aber nichts darüber, ob es
+etwas zu zeigen gibt.
+
 ## Der Belegprüfer an Durchgang 2 — siebzehn Stellen, sechs Muster
 
 **Elf Dialoge, siebzehn ungedeckte Stellen.** Alle elf waren von Emirhan
