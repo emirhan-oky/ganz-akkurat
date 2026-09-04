@@ -1036,15 +1036,18 @@ sie lässt die Fläche leer, und im Feed fällt das auf.
 **Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein Datenblatt
 behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben.
 
-**Eine Probe ohne Tonspur prüft ein anderes Bild.** `Sprecherstand` hält einen
-Short ohne `abschnitte` für einstimmig, und dann reserviert die Bühne unten
-270 Pixel für den Untertitel — die im zweistimmigen Video niemand braucht, weil
-dort die Redespalten stehen. `npm run bildrand` hat so 75 Standbilder mit zu
-kleinen Figuren gemessen und für gut befunden. **Eine Probe, die kleinere
-Figuren misst, kann nicht sehen, dass die großen herausragen**; sie ist genau
-dort still, wo sie gebraucht wird. Sie legt seit dem 01.09.2026 eine
-Tonspur-Attrappe in die Props — und liest ihre Bildnummern aus **demselben**
+**Eine Probe ohne Tonspur prüft ein anderes Bild.** `npm run bildrand` hat
+einmal 75 Standbilder mit zu kleinen Figuren gemessen und für gut befunden:
+`Sprecherstand` hielt einen Short ohne `abschnitte` für einstimmig, und die
+Bühne reservierte dann unten 270 Pixel für den Untertitel. **Eine Probe, die
+kleinere Figuren misst, kann nicht sehen, dass die großen herausragen** — sie
+ist genau dort still, wo sie gebraucht wird. Sie legt seit dem 01.09.2026 eine
+Tonspur-Attrappe in die Props und liest ihre Bildnummern aus **demselben**
 angereicherten Short, weil `szenenZeitplan` mit Tonspur anders rechnet als ohne.
+
+**Die Untertitelzone selbst ist am 04.09.2026 gefallen** (siehe „Die Bühne"),
+und die Attrappe bleibt trotzdem: Ohne Abschnitte gibt es keine Sprechstärke,
+also neigt `HINLEHNEN` keine Figur — und geneigt reichen sie weiter.
 
 **Eine Zeichnung ist erst geprüft, wenn sie gerendert danebensteht.** Diese
 Regel hat sich zehnmal bewährt, und jedes Mal sah der Code vorher richtig aus.
@@ -1588,10 +1591,26 @@ er nicht passt (Untergrenze 0,7). **Diese Messung wird nicht angefasst.** Ihre
 Kommentare dokumentieren drei gescheiterte Anläufe; einer rechnete
 `passung = 0` und machte **jede Szene leer**.
 
-Die Bühne zu lockern stand im Plan und ist am 25.08.2026 verworfen worden: Die
-270 Pixel Untertitelzone sind nicht frei, dort sitzen die Redespalten. Eine
-Beschränkung zu lösen, für die es keinen Bedarf gibt, ist in dieser Datei
-besonders teuer.
+**Die Untertitelzone ist am 04.09.2026 gefallen, und die Bühne hat nur noch
+eine Höhe.** 270 Pixel waren unten für den Untertitel reserviert; seit dem
+31.08. gab es dafür zwei Höhen, und die Weiche stand auf `!zweistimmig`.
+
+**Gewirkt hat sie zuletzt in keinem gesendeten Video.** `zweistimmigkeit`
+verlangt zwei Szenen mit beiden Stimmen, also ist jeder vertonte Short
+zweistimmig — die Zone war dort längst aus. Übrig blieb ihre Wirkung genau da,
+wo **keine** Tonspur vorliegt: im Trockenlauf, in der Vorschau, in den Proben.
+Am Standbild vom 04.09. stand die Kulisse dort 150 Pixel zu hoch, die Belegzeile
+lag über dem Fenster, und unten blieben 270 Pixel leer. **Eine Vorschau, die ein
+anderes Bild zeigt als das fertige Video, ist keine Vorschau.**
+
+Der Beweis, dass am Gesendeten nichts hängt, ist gemessen und nicht überlegt:
+Dasselbe Standbild vor und nach dem Ausbau, mit derselben Tonspur, ist
+**byte-identisch**. Die Gegenprobe ohne Ton unterscheidet sich — und gleicht
+seitdem dem fertigen Video.
+
+Die Überlaufmessung selbst ist unangetastet. Sie zu lockern stand einmal im Plan
+und ist am 25.08.2026 verworfen worden: Eine Beschränkung zu lösen, für die es
+keinen Bedarf gibt, ist in dieser Datei besonders teuer.
 
 **Die Figur und ihr Symbol stehen in getrennten Hälften.** Ein Symbol sitzt
 fest in der rechten Bühnenhälfte; `stand: 'rechts'` setzte die Figur auf

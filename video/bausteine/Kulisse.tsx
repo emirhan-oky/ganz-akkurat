@@ -255,10 +255,8 @@ const Wandschmuck: React.FC<{ boden: number }> = ({ boden }) => (
  * der Rahmen, und ein Zimmer, das ueber den Vorhang laeuft, waere kein Zimmer
  * hinter einer Buehne mehr.
  */
-export const Kulisse: React.FC<{ mitUntertitelzone?: boolean }> = ({
-  mitUntertitelzone = false,
-}) => {
-  const boden = standlinieImBild(mitUntertitelzone) - SOCKEL;
+export const Kulisse: React.FC = () => {
+  const boden = standlinieImBild() - SOCKEL;
   return (
     <svg
       viewBox={`0 0 ${FORMAT.breite} ${FORMAT.hoehe}`}

@@ -347,7 +347,7 @@ export const Zuwendungsprobe: React.FC = () => (
  */
 export const Haltungsprobe: React.FC<{ zug?: Zug }> = ({ zug = 'behaupten' }) => (
   <AbsoluteFill style={{ backgroundColor: FARBEN.grund, alignItems: 'center', justifyContent: 'center' }}>
-    <div style={{ width: BUEHNE.breite, height: BUEHNE.hoeheOhneUntertitel, display: 'flex' }}>
+    <div style={{ width: BUEHNE.breite, height: BUEHNE.hoehe, display: 'flex' }}>
       <Sprecherstand abschnitte={spricht('nachleser', zug)}>
         <Buehnenbild
           buehne={{ art: 'figur', von: 'ruhe', nach: 'ruhe', gegenueber: { von: 'ruhe', nach: 'ruhe' } }}

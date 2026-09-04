@@ -2377,8 +2377,18 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
       am selben Morgen gesendet. Emirhan hat sie in den Apps gelöscht, `probe/`
       in R2 ist geleert, `laeufe/2026-09-02/` ist weg. **Offen bleibt, warum
       `saveToDraft: true` nicht gehalten hat**~~
-- [ ] **`UNTERTITEL_ZONE` ist nicht angefasst.** Sie sieht tot aus, geht aber in
-      `SPIELFLAECHE.hoehe` ein und bestimmt Standlinie und Figurengröße. Sie zu
-      entfernen ergibt ein **anderes Bild** — eine Bildentscheidung mit
-      Neurender, kein Aufräumen
+- [x] ~~**`UNTERTITEL_ZONE` ist gefallen — und meine Vorsicht war falsch.** Ich
+      hatte sie als „Bildentscheidung mit Neurender" zurückgestellt. Gemessen
+      trifft das nicht zu: Die Weiche stand auf `!zweistimmig`, und seit
+      `zweistimmigkeit` zwei Szenen mit beiden Stimmen verlangt, ist **jeder
+      vertonte Short zweistimmig** — die Zone war im gesendeten Video längst
+      aus. Der Beweis: dasselbe Standbild vor und nach dem Ausbau ist
+      **byte-identisch** (gleicher SHA-256)~~
+- [x] ~~**Gewirkt hat sie nur noch dort, wo keine Tonspur vorliegt**, und dort
+      falsch: In der tonlosen Vorschau stand die Kulisse 150 Pixel zu hoch, die
+      Belegzeile lag über dem Fenster, unten blieben 270 Pixel leer. Seit dem
+      Ausbau zeigt der Trockenlauf dasselbe Bild wie das fertige Video~~
+- [x] ~~Mit ihr gegangen: `BUEHNE.hoeheOhneUntertitel` (die zweite Höhe),
+      `UntertitelzoneContext` samt `useUntertitelzone`, der Parameter an
+      `standlinieImBild()` und die Prop `mitUntertitelzone` an der Kulisse~~
 - [ ] ▸ **Danach die Struktur:** welche Rubrik an welchem Tag läuft

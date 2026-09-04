@@ -27,20 +27,6 @@ import { ZUGARTEN, type Sprecher, type Tonspur, type Untertitelwort } from '../.
 const SprecherContext = createContext<Sprecher | undefined>(undefined);
 
 /**
- * Ob dieser Short unten eine Untertitelzone braucht.
- *
- * **Eine Eigenschaft des Shorts, nicht des Bildes.** Sie steht deshalb hier
- * und nicht in `Buehne.tsx`: Dort waere sie eine Prop, die drei Ebenen
- * durchgereicht werden muesste, und sie aendert sich innerhalb eines Shorts
- * nie — im Gegensatz zum Sprecher, der mit jedem Bild wechseln kann.
- *
- * Die Vorgabe ist `true`, also die alte Aufteilung. Wer `Buehne` ausserhalb
- * eines Shorts rendert — jede Probe tut das —, bekommt damit das Verhalten von
- * vor dem 31.08.2026 und nicht versehentlich eine andere Geometrie.
- */
-const UntertitelzoneContext = createContext<boolean>(true);
-
-/**
  * Die Wortzeitstempel des Shorts, fuer den Lippensync.
  *
  * **Absolut, nicht je Szene.** `useCurrentFrame()` zaehlt innerhalb einer
@@ -177,10 +163,12 @@ export const Sprecherstand: React.FC<{
    *
    * **Der Kaltstart braucht die Ausnahme.** Vor dem Vorhang spricht genau eine
    * Figur, also gibt es dort genau einen Abschnitt — und die Ableitung hielte
-   * den Short fuer einstimmig. Das kostete nicht nur den Mund der Figur: Sie
-   * schaltet zugleich die Untertitelzone ein, und die Buehne waere 270 Pixel
-   * niedriger als in jeder Szene danach. **Die Figur stuende im Kaltstart auf
-   * einer anderen Standlinie als hinter dem Vorhang.**
+   * den Short fuer einstimmig. Das kostet den **Mund der Figur**: Ohne
+   * Sprechstaerke bleibt er geschlossen, waehrend sie redet.
+   *
+   * Bis zum 04.09.2026 kostete es mehr — die Ableitung schaltete zugleich die
+   * Untertitelzone ein, und die Figur stand im Kaltstart 270 Pixel tiefer als
+   * hinter dem Vorhang. Die Zone ist weg, die Ausnahme bleibt noetig.
    *
    * Die Ableitung bleibt die Vorgabe; sie stimmt fuer jeden Short. Was hier
    * ueberschrieben wird, ist ein Ausschnitt daraus, nicht der Short.
@@ -208,8 +196,7 @@ export const Sprecherstand: React.FC<{
       : undefined;
 
   return (
-    <UntertitelzoneContext.Provider value={!zweistimmig}>
-      <WoerterContext.Provider value={woerter}>
+    <WoerterContext.Provider value={woerter}>
         <SekundeContext.Provider value={frame / fps}>
           <StaerkeContext.Provider value={staerke}>
             <AufrichtungContext.Provider value={haltung}>
@@ -217,16 +204,13 @@ export const Sprecherstand: React.FC<{
             </AufrichtungContext.Provider>
           </StaerkeContext.Provider>
         </SekundeContext.Provider>
-      </WoerterContext.Provider>
-    </UntertitelzoneContext.Provider>
+    </WoerterContext.Provider>
   );
 };
 
 /** `undefined`, solange der Short einstimmig ist. */
 export const useSprecher = (): Sprecher | undefined => useContext(SprecherContext);
 
-/** `true`, solange unten ein Untertitel steht und Platz braucht. */
-export const useUntertitelzone = (): boolean => useContext(UntertitelzoneContext);
 
 /** Die Wortzeitstempel — `undefined` ohne Tonspur, also in jeder Probe. */
 export const useWoerter = (): Untertitelwort[] | undefined => useContext(WoerterContext);

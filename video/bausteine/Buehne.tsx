@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { AbsoluteFill, continueRender, delayRender, interpolate, useCurrentFrame } from 'remotion';
-import { BUEHNE, SICHERE_ZONE, UNTERTITEL_ZONE } from '../../src/marke';
-import { useUntertitelzone } from './Sprecherstand';
+import { BUEHNE, SICHERE_ZONE } from '../../src/marke';
 
 /**
  * Nutzflaeche innerhalb der sicheren Zone.
@@ -84,24 +83,20 @@ export const Buehne: React.FC<{
   const frame = useCurrentFrame();
 
   /*
-   * **Die Buehne ist seit dem 31.08.2026 unterschiedlich hoch.**
+   * **Eine Hoehe, seit dem 04.09.2026.**
    *
-   * Zweistimmige Shorts tragen unten keinen Text mehr, und die reservierten
-   * 270 Pixel standen danach leer im Bild — genau der Fehler, den der
-   * Kommentar an `UNTERTITEL_ZONE` schon einmal beschreibt.
+   * Von 31.08. bis dahin waren es zwei: Ein Short mit Untertitel bekam unten
+   * 270 Pixel weniger. Der Untertitel ist ausgebaut, und die Fallunterscheidung
+   * wirkte zuletzt nur noch dort, wo keine Tonspur vorliegt — sie zeigte in der
+   * Vorschau ein Bild, das es im fertigen Video nicht gibt.
    *
    * **Die Ueberlaufmessung darunter ist unveraendert.** Sie rechnet weiter
    * „Platz gegen Bedarf" mit denselben zwei Knoten und derselben Wache gegen
-   * Null; nur der Platz kommt jetzt von aussen statt aus einer Konstante. Das
-   * ist die kleinstmoegliche Aenderung an einer Datei, deren Kommentare drei
-   * gescheiterte Anlaeufe dieser Messung dokumentieren — einer rechnete
-   * `passung = 0` und machte jede Szene leer.
-   *
-   * Die Vorgabe im Context ist `true`, also die alte Aufteilung: Jede Probe,
-   * die `Buehne` ausserhalb eines Shorts rendert, behaelt ihre Geometrie.
+   * Null. Das ist die kleinstmoegliche Aenderung an einer Datei, deren
+   * Kommentare drei gescheiterte Anlaeufe dieser Messung dokumentieren — einer
+   * rechnete `passung = 0` und machte jede Szene leer.
    */
-  const untertitelzone = useUntertitelzone();
-  const hoehe = untertitelzone ? BUEHNE.hoehe : BUEHNE.hoeheOhneUntertitel;
+  const hoehe = BUEHNE.hoehe;
 
   const inhaltRef = useRef<HTMLDivElement>(null);
   const [passung, setPassung] = useState(1);
@@ -199,9 +194,7 @@ export const Buehne: React.FC<{
     <AbsoluteFill
       style={{
         paddingTop: SICHERE_ZONE.oben,
-        // Der Untertitel wohnt unten in der sicheren Zone mit, seit er nicht
-        // mehr im verdeckten Bereich sitzt. Die Buehne rendert nicht hinein.
-        paddingBottom: SICHERE_ZONE.unten + (untertitelzone ? UNTERTITEL_ZONE : 0),
+        paddingBottom: SICHERE_ZONE.unten,
         paddingLeft: SICHERE_ZONE.links,
         paddingRight: SICHERE_ZONE.rechts,
         width: BUEHNE.breite + SICHERE_ZONE.links + SICHERE_ZONE.rechts,

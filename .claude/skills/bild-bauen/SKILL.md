@@ -309,10 +309,14 @@ eine Untergrenze, keinen Restplatz.
 
 ## Der Rand, den niemand sieht
 
-Der Untertitel sitzt in seiner **270-Pixel-Zone** unten, darunter beginnt
-TikToks Bedienleiste. Rechts liegen die Schaltflächen. Die Bühne ist 1100 Pixel
-breit — was darüber hinausragt, ist auf dem Rechner sichtbar und auf dem Handy
-verdeckt.
+Unten beginnt TikToks Bedienleiste, rechts liegen die Schaltflächen. Die Bühne
+ist 1100 Pixel breit — was darüber hinausragt, ist auf dem Rechner sichtbar und
+auf dem Handy verdeckt.
+
+Bis zum 04.09.2026 saß dort unten der Untertitel in einer **270-Pixel-Zone**.
+Beide sind weg: der Untertitel, weil zweistimmige Shorts ihn nicht tragen, und
+die Zone, weil sie danach nur noch in Vorschau und Proben wirkte — und dort ein
+Bild erzeugte, das es im fertigen Video nicht gibt.
 
 **Auf dem Handy ansehen, nicht am Rechner.**
 

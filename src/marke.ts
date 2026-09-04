@@ -316,54 +316,31 @@ export const SPIELFLAECHE = {
 } as const;
 
 /**
- * Hoehe, die der Untertitel unten belegt.
+ * Nutzbare Flaeche fuer Szeneninhalt — die volle sichere Zone.
  *
- * Zwei Zeilen à 66 Pixel plus Abstand. Der Wert ist eine Reservierung, kein
- * Rahmen: Der Untertitel wird nicht auf diese Hoehe gesetzt, aber die Buehne
- * rendert nicht hinein. Ohne die Reservierung liegen Szenentext und
- * Untertitel uebereinander, sobald der Untertitel in die sichere Zone
- * gewandert ist.
+ * **Bis zum 04.09.2026 gab es hier zwei Hoehen**, und darunter eine Konstante
+ * `UNTERTITEL_ZONE = 270`: die Reservierung fuer den Untertitel unten. Sie ist
+ * gefallen, weil sie in **keinem gesendeten Video** mehr wirkte — die Bahn dahin
+ * lief ueber `useUntertitelzone`, und die stand auf `!zweistimmig`. Seit
+ * `zweistimmigkeit` zwei Szenen mit beiden Stimmen verlangt, ist jeder vertonte
+ * Short zweistimmig.
  *
- * 270 statt 200 seit dem 15.08.2026. Die reine Zwei-Zeilen-Rechnung ging auf,
- * liess aber keinen Zwischenraum: Im fertigen Beitrag stand der Untertitel
- * direkt an der Unterkante der Checkliste und beruehrte in einer anderen
- * Szene das Kontextsymbol. Die zusaetzlichen 70 Pixel sind kein Platz fuer
- * mehr Untertitel, sondern Luft davor.
- */
-export const UNTERTITEL_ZONE = 270;
-
-/**
- * Nutzbare Flaeche fuer Szeneninhalt.
+ * **Sie wirkte nur noch dort, wo keine Tonspur vorliegt** — im Trockenlauf, in
+ * der Vorschau, in den Proben. Genau dort richtet sie Schaden an: Am Standbild
+ * vom 04.09.2026 stand die Kulisse 150 Pixel zu hoch, die Belegzeile lag ueber
+ * dem Fenster, und unten blieben 270 Pixel leer. **Eine Vorschau, die ein
+ * anderes Bild zeigt als das fertige Video, ist keine Vorschau** — derselbe
+ * Befund wie bei `npm run bildrand` am 01.09.2026.
  *
- * Kleiner als die sichere Zone, weil der Untertitel unten mitwohnt. Der
- * Zugewinn liegt trotzdem auf der Hand: Vorher endete die Buehne bei 1340,
- * der Untertitel sass bei 1620, und die 280 Pixel dazwischen konnten von
- * keiner Szene bespielt werden — sie waren per Konstruktion leer. Jetzt
- * grenzen beide aneinander.
+ * Der alte Kommentar ist damit zum zweiten Mal eingeloest: „die 280 Pixel
+ * dazwischen konnten von keiner Szene bespielt werden — sie waren per
+ * Konstruktion leer."
  */
 export const BUEHNE = {
   x: SICHERE_ZONE.links,
   y: SICHERE_ZONE.oben,
   breite: FORMAT.breite - SICHERE_ZONE.links - SICHERE_ZONE.rechts,
-  hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten - UNTERTITEL_ZONE,
-  /**
-   * Die Hoehe **ohne** reservierte Untertitelzone — seit dem 31.08.2026.
-   *
-   * Zweistimmige Shorts tragen unten keinen Text mehr (siehe `Short.tsx`), und
-   * die 270 Pixel standen im ersten Standbild danach leer im Bild. Genau der
-   * Fehler, den der Kommentar an `UNTERTITEL_ZONE` schon einmal beschreibt:
-   * „die 280 Pixel dazwischen konnten von keiner Szene bespielt werden — sie
-   * waren per Konstruktion leer."
-   *
-   * **Der Gewinn ist groesser als die Zahl.** Das Buehnen-SVG ist 200 x 150
-   * Einheiten und passt sich mit `meet` der kleineren Seite an. Bei 972 Pixeln
-   * Breite und der alten Hoehe war die **Hoehe** die Grenze — die Figuren
-   * nutzten die Breite nicht aus. Mit den 270 zusaetzlichen Pixeln wandert die
-   * Grenze auf die Breite, und die Figuren werden deutlich groesser, ohne dass
-   * an ihrer Skalierung etwas geaendert wird.
-   */
-  hoeheOhneUntertitel:
-    FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten,
+  hoehe: FORMAT.hoehe - SICHERE_ZONE.oben - SICHERE_ZONE.unten,
 } as const;
 
 /**
@@ -385,11 +362,10 @@ export const BUEHNE = {
  * eingepasst, also **breitenbegrenzt**. Es sitzt vertikal zentriert im
  * Buehnenkasten; die Standlinie liegt bei y = 140 seiner Einheiten.
  */
-export const standlinieImBild = (mitUntertitelzone = false): number => {
-  const kastenHoehe = mitUntertitelzone ? BUEHNE.hoehe : BUEHNE.hoeheOhneUntertitel;
+export const standlinieImBild = (): number => {
   const proEinheit = BUEHNE.breite / 200;
   const genutzt = 150 * proEinheit;
-  const oben = BUEHNE.y + (kastenHoehe - genutzt) / 2;
+  const oben = BUEHNE.y + (BUEHNE.hoehe - genutzt) / 2;
   return oben + 140 * proEinheit;
 };
 

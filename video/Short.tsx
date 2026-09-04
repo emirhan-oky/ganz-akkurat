@@ -1,5 +1,5 @@
 import { AbsoluteFill, Audio, Easing, Sequence, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from 'remotion';
-import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, UNTERTITEL_ZONE, VORHANG } from '../src/marke';
+import { ABSTAND, FARBEN, FORMAT, KENNZEICHNUNG, KOPFZEILE_OBEN, RADIUS, SCHRIFT, SICHERE_ZONE, VORHANG } from '../src/marke';
 
 import type { Short as ShortDaten, Sprecher } from '../src/typen';
 import { FORMATE, KALTSTART_ARTEN, ZUGARTEN } from '../src/typen';
@@ -380,11 +380,12 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({
         einen Ort — der Vorhang bleibt der Rahmen, und ein Zimmer, das ueber
         ihn liefe, waere kein Zimmer hinter einer Buehne mehr.
 
-        Die Untertitelzone entscheidet ueber die Hoehe der Buehne und damit
-        ueber die Standlinie der Figuren; die Kulisse rechnet ihre Bodenkante
-        aus derselben Funktion.
+        **Die Bodenkante kommt aus `standlinieImBild()`** — derselben Funktion,
+        aus der die Figurenbuehne ihre Standlinie nimmt. Bis zum 04.09.2026 nahm
+        sie einen Schalter fuer die Untertitelzone entgegen; mit der Zone ist er
+        gegangen, und damit gibt es nur noch **eine** Standlinie.
       */}
-      <Kulisse mitUntertitelzone={(daten.tonspur?.abschnitte?.length ?? 1) <= 1} />
+      <Kulisse />
 
       {/*
         Bei zwei Sprechern liegt der Ton in Abschnitten vor, je einer mit
@@ -436,8 +437,9 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({
           Sequence, in der er steht.
 
           `zweistimmig` steht ausdruecklich auf `true`: Ein einzelner Abschnitt
-          gaelte sonst als einstimmiger Short und schaltete die Untertitelzone
-          ein — die Figur stuende 270 Pixel tiefer als hinter dem Vorhang.
+          gaelte sonst als einstimmiger Short, und die Figur redete mit
+          geschlossenem Mund. Bis zum 04.09.2026 kostete es zusaetzlich die
+          Standlinie — die Untertitelzone haette sie 270 Pixel tiefer gesetzt.
         */}
         <Sprecherstand
           zweistimmig

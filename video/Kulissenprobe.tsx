@@ -42,7 +42,7 @@ export const Kulissenprobe: React.FC<{ mitKulisse?: boolean; mitVorhang?: boolea
         left: BUEHNE.x,
         top: BUEHNE.y,
         width: BUEHNE.breite,
-        height: BUEHNE.hoeheOhneUntertitel,
+        height: BUEHNE.hoehe,
       }}
     >
       <svg

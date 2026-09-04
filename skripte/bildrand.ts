@@ -137,17 +137,24 @@ const main = async () => {
     for (const short of ALLE_ENTWUERFE as Short[]) {
       const props = path.join(ordner, `${short.id}.json`);
       /*
-       * **Die Probe braucht eine Tonspur-Attrappe, sonst prueft sie das
-       * falsche Layout.** `Sprecherstand` haelt einen Short ohne `abschnitte`
-       * fuer einstimmig, und dann reserviert `Buehne` unten 270 Pixel fuer den
-       * Untertitel. Die Buehne ist damit niedriger, die Figuren sind kleiner —
-       * und eine Probe, die kleinere Figuren misst, kann nicht sehen, dass die
-       * grossen herausragen. Sie waere genau dort still, wo sie gebraucht wird.
+       * **Die Probe braucht eine Tonspur-Attrappe.**
+       *
+       * Der urspruengliche Grund ist am 04.09.2026 entfallen: Ein Short ohne
+       * `abschnitte` galt als einstimmig, und dann reservierte `Buehne` unten
+       * 270 Pixel fuer den Untertitel — die Figuren waren kleiner, und eine
+       * Probe, die kleinere Figuren misst, kann nicht sehen, dass die grossen
+       * herausragen. Die Untertitelzone ist weg, die Buehne hat nur noch eine
+       * Hoehe.
+       *
+       * **Die Attrappe bleibt trotzdem, aus zwei anderen Gruenden**, und beide
+       * stehen im Bild: Ohne `abschnitte` gibt es keine Sprechstaerke — dann
+       * neigt `HINLEHNEN` keine Figur, und geneigt reichen sie weiter. Und ohne
+       * Tonspur rechnet `szenenZeitplan` die Laengen aus der Zeichenzahl statt
+       * aus den Startsekunden (siehe unten).
        *
        * Nur `abschnitte` zaehlen; `woerter` bleibt leer, weil der Lippensync
        * die Umrisse nicht veraendert. Die Sprecher wechseln je Szene, damit
-       * beide Figuren einmal mit voller Sprechstaerke gemessen werden —
-       * `HINLEHNEN` neigt sie, und geneigt reichen sie weiter.
+       * beide Figuren einmal mit voller Sprechstaerke gemessen werden.
        */
       const roh = szenenZeitplan(short);
       const letzte = roh[roh.length - 1]!;
