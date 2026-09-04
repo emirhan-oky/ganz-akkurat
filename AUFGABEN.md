@@ -2001,21 +2001,37 @@ und mehr Platz nach unten hätte daran nichts geändert.
 
 ## Vorschau in Buffer · 02.09.2026
 
-Das Video vom Vorabend liegt als **Entwurf** auf allen drei Kanälen — Status
-`draft` über `saveToDraft: true`, Termin vorsorglich auf den 24.12.2027. Ein
-Entwurf sendet nie von selbst und belegt keinen der zehn geplanten Plätze; die
-Kennungen stehen in `laeufe/2026-09-02/vorschau-buffer.json`.
+Das Video vom Vorabend sollte als **Entwurf** auf allen drei Kanälen liegen —
+Status `draft` über `saveToDraft: true`, Termin vorsorglich auf den 24.12.2027.
 
-- [ ] **Nach der Begutachtung aufräumen:** die drei Entwürfe in Buffer löschen,
-      `probe/` in R2 leeren
+**Es ist trotzdem gesendet worden**, am 02.09.2026 zwischen 8:40 und 8:44 Uhr,
+mit Links auf TikTok, YouTube und Instagram. Aufgefallen ist das am 04.09.2026
+beim Aufräumen: Buffer lehnte das Löschen mit „Account is not allowed to perform
+this action on post" ab, und eine Abfrage der gesendeten Beiträge fand alle drei
+mit `sentAt` und `externalLink`. **Die Begründung im Text hier war falsch, das
+Skript hatte recht** — es deutet genau diese Antwort seit dem 15.08.2026
+richtig.
+
+Emirhan hat die drei in den Apps gelöscht; die Kennungen und der Laufordner sind
+weg, `probe/` in R2 ist geleert.
+
+- [x] ~~Aufgeräumt: drei Beiträge in den Apps gelöscht, `probe/` in R2 geleert,
+      `laeufe/2026-09-02/` entfernt~~
+**Den Code dafür gibt es nicht mehr.** `saveToDraft` kommt in `src/` und
+`skripte/` heute nirgends vor; `beitragPlanen` legt ausschließlich geplante
+Beiträge an (`mode: customScheduled`, `schedulingType: automatic`). Der Aufruf
+vom 02.09. war ein einmaliger und ist mit ihm gegangen.
+
+- [ ] **Wer wieder eine Vorschau in Buffer baut, muss den Entwurfsstatus
+      nachweisen** — nicht annehmen. Eine Abfrage der gesendeten Beiträge zeigt
+      binnen Sekunden, ob etwas draußen ist. **Der sichere Weg bleibt die
+      Freigabeseite mit dem lokalen Video**, und der kostet nichts.
 - [x] ~~**Die drei Fassungen je Dienst sind byte-identisch.** Entschieden am
       04.09.2026, und zwar durch den Ausbau des Zeigers: Die Prop `dienst` ist
       gefallen, der Wochenlauf rendert eine Datei je Short, und
       `veroeffentlichen.ts` lädt sie für alle drei Kanäle hoch~~
-- [ ] **Die Tonspur sagt in Szene 2 noch „fremdes Gerät"**; der Entwurf sagt
-      „Von einem fremden Gerät". `--ton-behalten` lehnt die Kombination zu
-      Recht ab, die Vorschau ist an ihm vorbei aus den Props gebaut. Löst sich
-      mit dem ersten Lauf mit vollem Ton
+- [x] ~~**Die Tonspur sagte in Szene 2 noch „fremdes Gerät"**, der Entwurf „Von
+      einem fremden Gerät". Erledigt mit dem Lauf vom 04.09.~~
 
 ## Der Kaltstart vor dem Vorhang · 02.09.2026
 
@@ -2357,10 +2373,10 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
 - [x] ~~**Gegenprobe am Bild:** Standbild aus dem gesendeten Video gegen ein
       frisch gerendertes derselben Stelle — mittlere Abweichung 1,87 von 255,
       0,06 % der Bytes über 30. Das ist H.264-Rauschen, keine Geometrie~~
-- [ ] **Die drei Buffer-Vorschauentwürfe vom 02.09. löschen** und `probe/` in R2
-      leeren, dann `laeufe/2026-09-02/`. Der Aufruf wurde vom Sicherheitsfilter
-      abgelehnt; die Datei bleibt liegen, weil sie die einzige Stelle mit den
-      Beitrags-IDs ist
+- [x] ~~**Die drei „Vorschauentwürfe" vom 02.09.** waren keine: Buffer hatte sie
+      am selben Morgen gesendet. Emirhan hat sie in den Apps gelöscht, `probe/`
+      in R2 ist geleert, `laeufe/2026-09-02/` ist weg. **Offen bleibt, warum
+      `saveToDraft: true` nicht gehalten hat**~~
 - [ ] **`UNTERTITEL_ZONE` ist nicht angefasst.** Sie sieht tot aus, geht aber in
       `SPIELFLAECHE.hoehe` ein und bestimmt Standlinie und Figurengröße. Sie zu
       entfernen ergibt ein **anderes Bild** — eine Bildentscheidung mit
