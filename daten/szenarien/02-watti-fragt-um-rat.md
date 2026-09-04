@@ -8,7 +8,9 @@
 
 **Der Titel ist ein Titel und muss verkaufen.** „Wattis Akku und die Steckdose" nennt zwei Gegenstände und verspricht nichts.
 
-**Beispiele:** 3 von vier
+**Und der Rat kann an der falschen Norm hängen, obwohl er stimmt.** `updates-vom-haendler` stützte sich auf § 327f BGB — und § 327a Absatz 3 nimmt „Kaufverträge über Waren, die … ihre Funktionen ohne diese digitalen Produkte nicht erfüllen können" ausdrücklich aus. Eine Smartwatch ist genau so eine Ware. **Beim Binden nicht nur fragen „welcher Satz trägt das?", sondern eine Frage früher: „gilt dieser Abschnitt für den Fall im Dialog?"**
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -103,4 +105,27 @@ V: Miss. Sonst zahlst du weiter für 100 Megabit.
 W: Ich messe morgen.
 V: Hoffe ich für dich kleiner.
 ```
+## updates-vom-haendler
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `bgb-475b-ware-mit-digitalen-elementen`, `bgb-475c-dauerhafte-bereitstellung`
+
+```
+W: Meine Smartwatch kriegt keine Updates mehr, der Hersteller schweigt.
+   Heutiges Thema: Wattis Smartwatch bekommt Post vom Händler
+W: Volti, meine Smartwatch kriegt keine Updates mehr. Was kann ich machen?
+V: Schreib deinem Händler, bei dem du sie gekauft hast.
+W: Dem Laden? Der baut die doch gar nicht.
+V: Eine Uhr ohne Software ist keine Uhr. Dafür gibt es einen eigenen Paragrafen.
+W: Und was steht da drin?
+V: Dass dein Verkäufer dir Updates bereitstellen muss.
+W: Und wie lange?
+V: So lange, wie du es bei so einer Uhr erwarten kannst.
+W: Und wenn die App dauernd mitläuft?
+V: Dann mindestens zwei Jahre ab Ablieferung.
+   [Zitatkarte] mindestens aber für einen Zeitraum von zwei Jahren ab der Ablieferung der Ware
+W: Und was rätst du mir?
+V: Schreib ihn an.
+V: Aber installier die Updates, die kommen. Sonst haftet er dafür nicht.
+W: Die letzten drei Updates liegen noch auf der Uhr.
+```

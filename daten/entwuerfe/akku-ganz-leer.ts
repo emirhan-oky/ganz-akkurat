@@ -37,7 +37,7 @@ export const akkuGanzLeer: Short = {
   suchbegriff: 'Handyakku laden',
   kaltstart: {
     art: 'gewissheit',
-    satz: 'Ich lade meinen Handyakku erst, wenn er ganz leer ist. So gehört sich das.',
+    satz: 'Meinen Akku lade ich erst, wenn er ganz leer ist. Gehört sich so.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'steckdose' },
   },
   vorspann: 'Wattis Akku muss erst sterben',
@@ -68,14 +68,14 @@ export const akkuGanzLeer: Short = {
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Warum denn nicht?' },
         {
           sprecher: 'zeiger',
-          zug: 'beantworten',
+          zug: 'umdeuten',
           machart: 'rechtfertigung',
           text: 'Weil er erst ganz leer werden muss.',
         },
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Wer sagt das?' },
         {
           sprecher: 'zeiger',
-          zug: 'beantworten',
+          zug: 'erinnern',
           machart: 'falscheautoritaet',
           text: 'Unser Vater. Der macht das seit 30 Jahren so.',
         },
@@ -91,7 +91,7 @@ export const akkuGanzLeer: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist (0 %), sondern ihn immer bereits vorher wieder aufladen',
+      zitat: 'Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist … sondern ihn … vorher aufladen',
       quelleId: 'uba-akku-laden',
       belegId: 'wenn-sie-nicht-warten',
       herausgeber: 'Umweltbundesamt',

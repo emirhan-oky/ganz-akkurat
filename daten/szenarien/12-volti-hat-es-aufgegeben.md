@@ -8,7 +8,11 @@
 
 **Aufgeben heißt nicht abbrechen.** Voltis letzte Zeile ist eine Prognose, keine Kapitulation: „Guckst du hin oder fragst mich wieder." Er weiß, dass es ein fünftes Mal gibt — und genau das macht die Figur, nicht der Abbruch.
 
-**Beispiele:** 3 von vier
+**Ein Zähler funktioniert erst, wenn man mitzählen konnte.** Ein Anlauf begann mit „Watti, das ist die vierte Frage zum selben Paketstapel" — *„der Anfang macht schon keinen Sinn."* Der Zuschauer hatte keine der drei Fragen gehört, und Volti antwortete auf eine, die nie gestellt wurde. Jetzt fragt Watti zuerst, und der Zähler steht in der Mitte.
+
+**Und der Schluss gehört dem, der aufgibt.** Wattis „Die Bohrmaschine behalte ich auch." quittierte Voltis resigniertes „Watti." und nahm ihm die Wirkung. **Eine Antwort auf eine Pointe ist keine.**
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -95,3 +99,32 @@ W: Und beim fünften Mal?
 V: Guckst du hin oder fragst mich wieder.
 ```
 
+## vier-pakete-zurueck
+
+`absicht` · Kaltstart Watti  
+Quelle: `bgb-312g-ausnahmen`
+
+```
+W: Fünf Pakete, alles geht zurück. So läuft das online.
+   Heutiges Thema: Wattis fünf Pakete gehen zurück
+V: Watti, was ist in den fünf Paketen?
+W: Bohrmaschine, Kopfhörer, Spiele-CD, Kaffee und mein Namensschild.
+V: Die Bohrmaschine kannst du zurückschicken.
+W: Und die Kopfhörer, wo ich die Folie abgemacht habe?
+V: Versiegelte Ware aus Hygienegründen. Folie ab, Widerruf weg.
+W: Und die Spiele-CD?
+V: Auch versiegelt gewesen. Auch weg.
+W: Und der Kaffee, der bald abläuft?
+V: Watti, das ist die dritte Frage.
+W: Ich frag doch nur.
+V: Schnell verderbliche Ware. Auch nicht.
+W: Und mein Namensschild für die Tür?
+V: Da steht dein Name drauf.
+W: Also auch nicht?
+V: Individuell angefertigt. Das steht ganz oben in der Liste.
+W: Dreizehn Ausnahmen?
+   [Zitatkarte] Waren, die nicht vorgefertigt sind und für deren Herstellung eine individuelle Auswahl
+V: Dreizehn. Dein Händler darf trotzdem alles zurücknehmen, steht im selben Satz.
+W: Dann frage ich den.
+V: Watti.
+```

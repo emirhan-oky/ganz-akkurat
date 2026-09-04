@@ -61,7 +61,7 @@ export const ladegeraetPiktogramm: Short = {
     {
       art: 'zitatkarte',
       position: 'zuspitzung',
-      zitat: 'Das Piktogramm wird auf die Verpackung gedruckt oder als Aufkleber auf der Verpackung angebracht.',
+      zitat: 'Das Piktogramm wird auf die Verpackung gedruckt oder als Aufkleber … angebracht.',
       quelleId: 'eu-einheitlicher-ladeanschluss',
       belegId: 'piktogramm-auf-der-verpackung',
       herausgeber: 'Europäische Union',
@@ -98,7 +98,7 @@ export const ladegeraetPiktogramm: Short = {
       quelleId: 'eu-einheitlicher-ladeanschluss',
       belegId: 'piktogramm-nahe-preisangabe',
       sprechtext:
-        'Ich hab es online bestellt, da gibt es keinen Karton. Dann stand es neben dem Preis. Neben dem Preis? Da guckt doch keiner hin.',
+        'Ich habe es online bestellt, da gibt es keinen Karton. Dann stand es neben dem Preis. Neben dem Preis? Da guckt doch keiner hin.',
       rede: [
         {
           sprecher: 'zeiger',

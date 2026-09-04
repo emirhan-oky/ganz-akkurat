@@ -104,7 +104,7 @@ export const roamingSommer: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'Aufenthalts- und Nutzungsindikatoren zusammengenommen und über einen Zeitraum von mindestens vier Monaten',
+      zitat: 'Aufenthalts- und Nutzungsindikatoren … über einen Zeitraum von mindestens vier Monaten',
       quelleId: 'eu-roaming-angemessene-nutzung',
       belegId: 'zeitraum-mindestens-vier-monate',
       sprechtext:

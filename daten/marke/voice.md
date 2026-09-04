@@ -564,7 +564,7 @@ Lebens. Firmen und Behörden dürfen, wenn ein Beleg danebensteht.
 ## Aufbau
 
 - **Aufschlag:** greift zu — beschuldigt, behauptet, fordert heraus. Höchstens
-  3,5 Sekunden gesprochen. Er kündigt nichts an.
+  9 Sekunden gesprochen. Er kündigt nichts an.
 - **Bau:** linear, jeder Satz macht es schlimmer, teurer oder absurder.
 - **Schluss:** ein trockener Satz. Der Sonntagstyp endet stattdessen auf einer
   Restfrage.

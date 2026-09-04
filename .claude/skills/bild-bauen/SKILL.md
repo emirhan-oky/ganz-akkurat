@@ -215,6 +215,25 @@ und einmal rechts. Gemessen am 26.08.2026 greifen **`zeigen`, `erklaeren` und
 `achselzucken`** in die andere Figur, die übrigen sieben bleiben frei;
 `src/pruefung.ts` sperrt die drei seither.
 
+**Drei Sperren, und alle drei sind gerechnet statt geschrieben** — je einmal
+`zuBreiteWortwechselposen(WORTWECHSEL, …)` für den laufenden Short,
+`zuBreiteWortwechselposen(WORTWECHSEL_SCHLUSS, …)` für den Schluss und
+`zuBreiteSymbolposen` für die Einzelfigur mit Symbol. `skripte/schemapruefung.ts`
+hält jede gegen ihre Liste in `src/pruefung.ts`.
+
+| Sperre | Größe | greift ab | gesperrt |
+|---|---|---|---|
+| laufend | 0,73 | 68,5 | `achselzucken` |
+| **Schluss** | **0,92** | **54,3** | `staunen`, `achselzucken`, `hochschauen` |
+| mit Symbol | 1,0 | 55 | `staunen`, `achselzucken`, `hochschauen` |
+
+Die mittlere kam am 04.09.2026 dazu, auf Emirhans Satz „Manchmal ist Wattis Hand
+links aus dem Bild". **Sie war die ganze Zeit fällig und niemandem aufgefallen:**
+Ein Kommentar begründete die 0,92 damit, dass im Schluss ohnehin nur ruhige Posen
+stehen — das war eine Beobachtung an den damaligen Entwürfen und keine Wache.
+`npm run bildrand` kann sie nicht ersetzen: Die Probe misst die äußerste dunkle
+Spalte, und was jenseits des Randes liegt, ist im PNG gar nicht da.
+
 Sie rendert durch `Buehnenbild` selbst statt durch einen Nachbau der Anordnung.
 Ein Nachbau wäre eine zweite Geometrie neben der echten und liefe beim ersten
 Umbau lautlos auseinander.
@@ -315,9 +334,10 @@ Bildrand — die Kopfzeile liegt darüber, nicht daneben.
 
 **Links und rechts bleiben 100 Pixel gerafftes Tuch stehen**, über die ganze
 Laufzeit. Alles, was am Bildrand steht, rückt darum ein: Untertitel und
-Sprechblase links, der Like-Zeiger und der Schluss-Zeiger `tiktok` rechts. Wer
-`VORHANG.rand` erhöht, sieht den `tiktok`-Zeiger als Erstes klemmen — er reicht
-bis 908 Pixel.
+Sprechblase links, die Redespalten auf beiden Seiten. Bis zum 04.09.2026 stand
+hier, dass der Zeiger rechts als Erstes klemmt, wenn jemand `VORHANG.rand`
+erhöht — den Zeiger gibt es nicht mehr, und damit ist kein Element mehr
+namentlich das engste.
 
 **Die Szenen selbst sind nicht betroffen**, und das ist keine Umsicht, sondern
 Geometrie: Jede Szene rendert im Bühnen-SVG von x = 170 bis 880, auch bei

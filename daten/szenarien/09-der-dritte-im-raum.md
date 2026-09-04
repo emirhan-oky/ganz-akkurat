@@ -8,7 +8,11 @@
 
 **Und der Schluss hört eine Spur früher auf.** Ein Anlauf hängte an Wattis „Das erzähle ich meinem Kollegen." noch Voltis „Der ruft dann wieder beim Falschen an." — *„Der letzte Satz von Volti kann weg. Wozu dient der?"* Er sagte noch einmal, was der Short längst gezeigt hatte. Die strategische Auslassung gilt auch für die letzte Zeile.
 
-**Beispiele:** 3 von vier
+**Der Dritte ist glaubwürdiger, wenn er etwas erlebt hat.** In `balkonkraftwerk-nachbar` hat der Nachbar selbst eins auf dem Balkon — und ist deshalb **auf dem Stand seiner eigenen Anmeldung**. Er erzählt keinen Unsinn, er erzählt von damals. „Der hat selber eins auf dem Balkon" ist der Satz, mit dem Watti ihm recht gibt.
+
+**Und der Gegenstand wird gezeigt, bevor er benannt wird.** Der Short hieß zuerst in der ersten Zeile „Mein Balkonkraftwerk bleibt im Karton" — *„was zur Hölle ist ein Balkonkraftwerk? Noch nicht gehört oder gelesen."* Jetzt steht dort „Zwei Solarplatten für den Balkon", und der Name fällt eine Zeile später. **Ein unbekanntes Wort ist kein unbekanntes Ding.**
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -98,4 +102,30 @@ W: Und wenn sie sich Zeit lassen?
 V: Dann zahlst du dem alten nach Vertragsende nur noch den halben Anschluss.
 W: Das erzähle ich meinem Kollegen.
 ```
+## balkonkraftwerk-nachbar
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `eeg-8-steckersolar`, `bnetza-balkonkraftwerk-registrierung`
+
+```
+W: Zwei Solarplatten für den Balkon. Und jetzt trau ich mich nicht.
+   Heutiges Thema: Wattis Solarplatten bleiben im Karton
+V: Watti, warum hängen die Solarplatten nicht am Balkon?
+W: So ein Balkonkraftwerk muss man anmelden, sagt der Nachbar.
+V: Dein Nachbar ist auf dem Stand von vorgestern.
+W: Der hat selber eins auf dem Balkon.
+V: Dann hat er es damals so gemacht.
+W: Und was gilt jetzt?
+V: Neben der Registrierung darf der Netzbetreiber keine Meldung verlangen.
+W: Einfach so einstecken?
+   [Zitatkarte] zusätzliche … Meldungen von Anlagen nach Satz 1 können nicht verlangt werden
+V: Wenn die Platten zusammen unter 2 Kilowatt bleiben und der Wechselrichter unter 800 Voltampere liegt.
+W: Steht auf dem Karton, beides.
+   [Zahl] 800 Voltampere — Wechselrichterleistung zusammen, dazu bis 2 Kilowatt installierte Leistung
+W: Und melden muss ich gar nichts?
+V: Doch. Ins Marktstammdatenregister. Das bleibt.
+W: Also doch Papierkram.
+V: Du trägst fünf Angaben ein, mehr nicht.
+W: Dann sage ich dem Nachbarn Bescheid.
+V: Der glaubt dir kein Wort.
+```

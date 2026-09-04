@@ -27,24 +27,37 @@ import {
  *   npm run veroeffentlichen -- <lauf-id>            Probelauf, plant nichts
  *   npm run veroeffentlichen -- <lauf-id> --wirklich Legt Beitraege wirklich an
  *   npm run veroeffentlichen -- <lauf-id> --ab=2026-08-17  Wochenbeginn setzen
+ *   npm run veroeffentlichen -- <lauf-id> --termine=2026-09-04T18:00,…  Termine von Hand
  *
  * Der Probelauf ist Standard. Geplante Beitraege lassen sich nur einzeln von
  * Hand wieder entfernen — ein versehentlicher Durchlauf waere teuer an Zeit.
  */
 
-/**
- * Die drei Fassungen, die der Wochenlauf je Short baut.
- *
- * Deckt sich mit `DIENSTE` in `skripte/wochenlauf.ts` und mit den Werten, die
- * Buffer als `kanal.service` liefert — daran haengt die Zuordnung von Fassung
- * zu Kanal.
- */
-const DIENSTE = ['tiktok', 'instagram', 'youtube'] as const;
-
 const WIRKLICH = process.argv.includes('--wirklich');
 const LAUF_ID = process.argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 /** Wochenbeginn, falls nicht der naechste Montag gemeint ist. */
 const AB = process.argv.find((a) => a.startsWith('--ab='))?.slice('--ab='.length);
+
+/**
+ * Termine von Hand, je Short einer, in der Reihenfolge der Freigabe.
+ *
+ * **Der Zeitplan kann genau eine Form: ein Video je Tag zur Uhrzeit seines
+ * Formats.** Das ist die Regel des Takts und bleibt die Voreinstellung — aber
+ * am 04.09.2026 sollten vier Videos auf drei Tage, zwei davon am selben Tag zu
+ * verschiedenen Stunden. Ohne diesen Schalter waere der Ausweg gewesen, den
+ * Lauf viermal mit verschiedenem `--ab=` aufzurufen und dazu die Uhrzeit am
+ * Format zu verbiegen — **eine Regel zu verbiegen, um sie einmal zu umgehen,
+ * hinterlaesst sie verbogen.**
+ *
+ * Er ersetzt `zeitplanBauen` vollstaendig und vertraegt sich deshalb nicht mit
+ * `--ab=`. `nichtInDerVergangenheit` laeuft hinterher wie sonst auch.
+ */
+const TERMINE = process.argv
+  .find((a) => a.startsWith('--termine='))
+  ?.slice('--termine='.length)
+  .split(',')
+  .map((s) => s.trim())
+  .filter((s) => s.length > 0);
 
 const main = async () => {
   if (!LAUF_ID) throw new Error('Lauf-Kennung fehlt. Beispiel: npm run veroeffentlichen -- 2026-08-11');
@@ -155,14 +168,23 @@ const main = async () => {
    * (`ablage`), einplanen (`buffer`), Buchfuehrung (`verlauf`), und die
    * Uebersicht, aus der die Freigabe entsteht (`freigabeseite`).
    *
+   * `daten/marke/` — die drei Prosadateien des Kanals (`brand-profile.md`,
+   * `voice.md`, `dialoganalyse.md`). Sie werden von Menschen und Skills
+   * gelesen, von keiner Zeile Code: Ein `grep` ueber `src/`, `video/` und
+   * `skripte/` findet sie nur in Kommentaren. Am 04.09.2026 hat ein
+   * nachgetragener Befund vier fertige Videos fuer veraltet erklaert —
+   * **eine Notiz ueber die Sprache aendert kein Bild.**
+   *
    * **Nicht ausgenommen und niemals auszunehmen** sind `marke`, `zeit`,
    * `typen`, `illustration`, `pruefung`, `stimme` und `medien`: Die ersten
    * vier bestimmen das Bild, die letzten beiden Ton und Lautheit — und die
-   * stecken in derselben Datei.
+   * stecken in derselben Datei. `src/marke.ts` und `daten/marke/` sind
+   * verschiedene Dinge mit demselben Wort.
    */
   const NICHT_UEBERWACHT = new Set([
     path.join('daten', 'verlauf.json'),
     path.join('daten', 'rueckblick.json'),
+    path.join('daten', 'marke'),
     path.join('src', 'ablage.ts'),
     path.join('src', 'youtube.ts'),
     path.join('src', 'buffer.ts'),
@@ -188,19 +210,17 @@ const main = async () => {
   );
 
   /*
-   * Geprueft wird **jede** Fassung, nicht nur eine. Fehlte eine, entstuende
-   * der Beitrag fuer diesen Kanal ohne Video — und das faellt erst zum
-   * Sendetermin auf. Eine veraltete Fassung waere ebenso still: Sie traegt
-   * dann das Zeichen von vorgestern.
+   * Eine Datei je Short, seit dem 04.09.2026. Vorher lag hier eine Fassung je
+   * Dienst, weil das Folgen-Zeichen an der Signatur je Plattform woanders hin
+   * deutete — mit dem Zeiger ist der Unterschied gegangen. **Ein Short ist
+   * derselbe, egal wo er landet.**
    */
   const veraltet: string[] = [];
   for (const short of shorts) {
-    for (const dienst of DIENSTE) {
-      const datei = path.join(wurzel, 'videos', `${short.id}.${dienst}.mp4`);
-      const stand = await fs.stat(datei).catch(() => null);
-      if (!stand) throw new Error(`Videodatei fehlt: ${datei}`);
-      if (stand.mtimeMs < quellstand && !veraltet.includes(short.id)) veraltet.push(short.id);
-    }
+    const datei = path.join(wurzel, 'videos', `${short.id}.mp4`);
+    const stand = await fs.stat(datei).catch(() => null);
+    if (!stand) throw new Error(`Videodatei fehlt: ${datei}`);
+    if (stand.mtimeMs < quellstand) veraltet.push(short.id);
   }
 
   if (veraltet.length > 0) {
@@ -237,36 +257,29 @@ const main = async () => {
   const urls = new Map<string, string>();
 
   /*
-   * **Drei Fassungen je Short, eine je Dienst.** Bis zum 24.08.2026 lag hier
-   * eine Datei, und `urls.get(short.id)` stand trotzdem **innerhalb** der
-   * Kanalschleife — alle drei Kanaele bekamen dieselbe. Seit das Folgen-
-   * Zeichen an der Signatur haengt, waere das ein falsches Zeichen auf zwei
-   * von drei Kanaelen, und das ist schlechter als keines: Es deutet auf einen
-   * Knopf, den es dort nicht gibt.
-   *
-   * Der Schluessel folgt dem Muster von `schonDraussen`: `id\0dienst`.
+   * **Eine Datei je Short, alle drei Kanaele teilen sie.** Bis zum 24.08.2026
+   * war das schon einmal so, dann kam das Folgen-Zeichen je Plattform dazu und
+   * verlangte drei Fassungen. Am 04.09.2026 ist der Zeiger gestrichen, und
+   * damit ist der Unterschied wieder weg — samt zwei Dritteln der Renderzeit
+   * und zwei Dritteln des Uploads.
    */
-  const fassungsschluessel = (id: string, dienst: string) => `${id}\u0000${dienst}`;
-
   for (const short of shorts) {
-    for (const dienst of DIENSTE) {
-      const lokal = path.join(wurzel, 'videos', `${short.id}.${dienst}.mp4`);
-      const zielpfad = `${LAUF_ID}/${short.id}.${dienst}.mp4`;
+    const lokal = path.join(wurzel, 'videos', `${short.id}.mp4`);
+    const zielpfad = `${LAUF_ID}/${short.id}.mp4`;
 
-      if (WIRKLICH) {
-        const url = await hochladen(zugang, lokal, zielpfad);
-        if (!(await oeffentlichErreichbar(url))) {
-          throw new Error(
-            `${url} ist nicht öffentlich erreichbar. Buffer könnte das Video nicht laden – ` +
-              'im R2-Dashboard den öffentlichen Zugriff für den Bucket freigeben.',
-          );
-        }
-        urls.set(fassungsschluessel(short.id, dienst), url);
-        console.log(`   ${short.id}  ${dienst.padEnd(10)} → ${url}`);
-      } else {
-        urls.set(fassungsschluessel(short.id, dienst), `${zugang.oeffentlicheBasis}/${zielpfad}`);
-        console.log(`   ${short.id}  ${dienst.padEnd(10)} → würde nach ${zielpfad} geladen`);
+    if (WIRKLICH) {
+      const url = await hochladen(zugang, lokal, zielpfad);
+      if (!(await oeffentlichErreichbar(url))) {
+        throw new Error(
+          `${url} ist nicht öffentlich erreichbar. Buffer könnte das Video nicht laden – ` +
+            'im R2-Dashboard den öffentlichen Zugriff für den Bucket freigeben.',
+        );
       }
+      urls.set(short.id, url);
+      console.log(`   ${short.id}  → ${url}`);
+    } else {
+      urls.set(short.id, `${zugang.oeffentlicheBasis}/${zielpfad}`);
+      console.log(`   ${short.id}  → würde nach ${zielpfad} geladen`);
     }
   }
   console.log('');
@@ -285,12 +298,35 @@ const main = async () => {
    * Moeglichkeit.
    */
   const jetzt = new Date();
-  const beginn = AB ? new Date(`${AB}T00:00:00`) : naechsterMontag(jetzt);
-  if (AB && beginn.getDay() !== 1) {
-    console.log(`   ⚠ ${AB} ist kein Montag – die Wochentage verschieben sich entsprechend.`);
+  if (TERMINE && AB) {
+    throw new Error('--termine= und --ab= schliessen sich aus: --termine setzt jeden Termin selbst.');
   }
 
-  const geplanteZeiten = zeitplanBauen(shorts, beginn);
+  let geplanteZeiten: Date[];
+  if (TERMINE) {
+    if (TERMINE.length !== shorts.length) {
+      throw new Error(
+        `--termine= nennt ${TERMINE.length} Termin(e), freigegeben sind ${shorts.length} Video(s). ` +
+          'Je Video genau ein Termin, in der Reihenfolge der Freigabe.',
+      );
+    }
+    geplanteZeiten = TERMINE.map((s, i) => {
+      const d = new Date(s.length <= 10 ? `${s}T00:00:00` : s);
+      if (Number.isNaN(d.getTime())) {
+        throw new Error(`--termine=: „${s}" ist kein Zeitpunkt. Erwartet wird 2026-09-04T18:00.`);
+      }
+      console.log(
+        `   ${shorts[i]!.id.padEnd(22)} ${d.toLocaleString('de-DE', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}  (von Hand)`,
+      );
+      return d;
+    });
+  } else {
+    const beginn = AB ? new Date(`${AB}T00:00:00`) : naechsterMontag(jetzt);
+    if (AB && beginn.getDay() !== 1) {
+      console.log(`   ⚠ ${AB} ist kein Montag – die Wochentage verschieben sich entsprechend.`);
+    }
+    geplanteZeiten = zeitplanBauen(shorts, beginn);
+  }
   const zeiten = nichtInDerVergangenheit(geplanteZeiten, jetzt);
   const nachgezogen = zeiten.filter((z, i) => z.getTime() !== geplanteZeiten[i]!.getTime()).length;
   if (nachgezogen > 0) {
@@ -387,7 +423,7 @@ const main = async () => {
        * Video-URL an Buffer — der Beitrag entstuende, nur ohne Video, und der
        * Fehler faellt erst zum Sendetermin auf.
        */
-      const videoUrl = urls.get(fassungsschluessel(short.id, kanal.service));
+      const videoUrl = urls.get(short.id);
       if (!videoUrl) {
         console.log(`   ${short.id}  ${kanal.service}: keine Fassung gerendert, übersprungen`);
         continue;

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import { Quelle } from '../src/typen';
+import { ALLE_ENTWUERFE } from '../daten/entwuerfe/index';
 
 /**
  * Belegpruefung: Steht das Zitat wirklich auf der Seite?
@@ -101,8 +102,25 @@ const normalisieren = (text: string): string =>
  *
  * Die OJ-Kennung wandert dabei **ohne** ihr `OJ:`-Praefix in den Pfad
  * (`resource/oj/L_202401799`); mit Praefix antwortet Cellar 404.
+ *
+ * ## Und eine dritte Form: die konsolidierte Fassung
+ *
+ * Ein geaenderter Rechtsakt hat neben seiner Urfassung (`32013D0010`) eine
+ * **konsolidierte** — dieselbe Nummer mit einer fuehrenden Null und dem
+ * Stichtag dahinter: `02013D0010-20210104`. Sie ist die Fassung, die heute
+ * gilt, und deshalb die, die ein Beleg nennen sollte.
+ *
+ * Bis zum 03.09.2026 schnitt das Regex den Stichtag ab, und
+ * `resource/celex/02013D0010` antwortet 404 — eine konsolidierte Fassung ohne
+ * ihren Stichtag ist nicht adressierbar. **Zum zweiten Mal derselbe Befund:**
+ * die Wache haengt an einer Schreibweise, und die Sache dahinter ist
+ * dieselbe. Beim ersten Mal war es die Amtsblatt-Kennung.
+ *
+ * Der Ausweg beim ersten Mal war ein zweites Regex daneben, weil die Form
+ * wirklich eine andere ist. Hier genuegt ein optionaler Anhang: Es ist
+ * dieselbe Nummer, nur laenger.
  */
-const CELEX = /eur-lex\.europa\.eu\/.*CELEX(?::|%3A)([0-9][0-9A-Z]+)/i;
+const CELEX = /eur-lex\.europa\.eu\/.*CELEX(?::|%3A)([0-9][0-9A-Z]+(?:-\d{8})?)/i;
 const AMTSBLATT = /eur-lex\.europa\.eu\/.*uri=OJ(?::|%3A)([A-Z]_\d+)/i;
 
 /** Der Kopf, den Cellar braucht — beide Zeilen sind gemessen, siehe oben. */
@@ -247,7 +265,53 @@ const main = async () => {
       continue;
     }
 
-    const treffer = quelle.belegt.map((b) => ({ beleg: b, gefunden: text.includes(normalisieren(b.zitat)) }));
+    /*
+     * **Auch die Zitatkarten, nicht nur die Belege.**
+     *
+     * Bis zum 03.09.2026 las diese Pruefung ausschliesslich
+     * `quelle.belegt[].zitat`. Was im **Bild** steht — `szene.zitat` mit
+     * Zitatbalken und Herausgeber darunter — hatte ausser dem Renderer keinen
+     * Leser. Und genau dort war gekuerzt worden: „Der Unternehmer hat
+     * sicherzustellen, dass dem Verbraucher Aktualisierungen bereitgestellt
+     * werden" liess drei Einschraenkungen weg und kam als Zeichenkette auf der
+     * Seite gar nicht vor.
+     *
+     * Der Belegpruefer hat es gefunden, keine Wache. **Die sichtbarste Stelle
+     * des ganzen Belegapparats war die einzige ungepruefte** — dieselbe Sorte
+     * Loch wie die Tonspur-Attrappe am 01.09.2026 und `GEPARKT` am 02.09.
+     */
+    const karten = ALLE_ENTWUERFE.flatMap((s) =>
+      s.szenen
+        .filter((sz): sz is typeof sz & { art: 'zitatkarte' } => sz.art === 'zitatkarte')
+        .filter((sz) => sz.quelleId === quelle.id)
+        .map((sz) => ({ id: `${s.id} · Karte`, zitat: sz.zitat, stuetzt: '' })),
+    );
+
+    /*
+     * **Eine gekennzeichnete Auslassung wird stueckweise geprueft.**
+     *
+     * Eine Karte hat 90 Zeichen, und mancher Satz im Gesetzblatt hat 220 —
+     * § 356 Absatz 3 BGB traegt Verneinung und Verb an den beiden Enden von
+     * „Die Widerrufsfrist beginnt nicht, bevor der Unternehmer den Verbraucher
+     * entsprechend den Anforderungen des Artikels 246a … unterrichtet hat".
+     * Kein Ausschnitt dieser Laenge traegt beides.
+     *
+     * **Der Unterschied ist die Kennzeichnung, nicht die Kuerzung.** Ein „…"
+     * sagt dem Zuschauer, dass hier etwas fehlt; ein stiller Schnitt behauptet
+     * einen zusammenhaengenden Satz, den es nicht gibt. Geprueft wird deshalb
+     * jedes Stueck einzeln — die Auslassung darf Woerter weglassen, keine
+     * Wortfolge erfinden.
+     */
+    const stuecke = (zitat: string): string[] =>
+      zitat
+        .split(/\s*(?:…|\.\.\.)\s*/)
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+
+    const treffer = [...quelle.belegt, ...karten].map((b) => ({
+      beleg: b,
+      gefunden: stuecke(b.zitat).every((s) => text.includes(normalisieren(s))),
+    }));
     const fehlend = treffer.filter((t) => !t.gefunden);
     geprueft += treffer.length;
 

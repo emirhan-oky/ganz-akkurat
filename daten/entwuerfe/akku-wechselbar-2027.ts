@@ -156,13 +156,13 @@ export const akkuWechselbar2027: Short = {
       quelleId: 'eu-batterie-entnehmbar',
       belegId: 'artikel-11-gilt-ab',
       sprechtext:
-        'Also gehe ich dann wieder im Februar zur Werkstatt? Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht, das ist ja schon verkauft.',
+        'Also mache ich das dann selber? Das gilt für Handys ab Februar 2027, du Pfosten. Und für deins gilt es gar nicht, das ist ja schon verkauft.',
       rede: [
         {
           sprecher: 'zeiger',
           zug: 'nachhaken',
           machart: 'falscheautoritaet',
-          text: 'Also gehe ich dann wieder im Februar zur Werkstatt?',
+          text: 'Also mache ich das dann selber?',
         },
         {
           sprecher: 'nachleser',

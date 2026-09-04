@@ -57,7 +57,20 @@ eine `belegId`.
 
 **Er nennt das zusammengesetzte Substantiv**, das das Thema festnagelt —
 Akkuwechsel, Flugmodus, Handyversicherung, Kabelschublade. Nicht „die
-Versicherung", nicht „der Aufkleber".
+Versicherung", nicht „der Aufkleber". *„Dadurch ist der Kontext sofort klar."*
+
+**Dazu zwei Fragen, und zusammen sind es drei Ebenen** — sie widersprechen
+einander nicht, sie kommen nacheinander:
+
+| Ebene | Frage |
+|---|---|
+| **Welches Wort** | Nennt der Satz das zusammengesetzte Substantiv? |
+| **Wo im Satz** | Steht es dort, wo es hingehört — oder hinter einem Komma angehängt? „Ich arbeite den Sommer aus Spanien, **mit meinem Handyvertrag**" erfüllt die Vorschrift und ist trotzdem kein Satz, den jemand sagt. Richtig: „Koffer, Laptop, Handyvertrag." |
+| **Ob bekannt** | Würde jemand aus der Zielgruppe beim Hören zurückfragen? Dann kommt das Ding zuerst: „Zwei Solarplatten für den Balkon", und der Name eine Zeile später. Bei „Akkuwechsel" oder „Flugmodus" ist das nicht nötig |
+
+**Am 04.09.2026 standen diese drei einen Tag lang als Widerspruch in der
+Analyse**, weil die letzten beiden beim Befolgen der ersten entstanden sind.
+Sie sind ihre Fortsetzung. → Befund 2, 68, 91, 115
 
 **Und er gehört Wattis Sache.** Ein Kaltstart ist ein Selbstgespräch; ein
 Bericht über den anderen hat keinen, an den er sich richtet. „Volti lädt mit
@@ -122,22 +135,22 @@ Szenario, darin vier Beispiele — mit einem einzigen Beispiel baut jeder Entwur
 genau dieses eine nach. Eine neue Runde legt dort eine Datei ab und fasst diesen
 Skill nicht an.
 
-**Alle zwölf haben Beispiele, 37 von 48 seit dem 03.09.2026:**
+**Alle zwölf haben vier Beispiele, seit dem 04.09.2026 — der Vorrat ist voll:**
 
 | | Szenario | Beisp. | wie die Wendung gebaut ist |
 |---|---|---|---|
-| 1 | Volti belehrt Watti | 3 | der Normalfall |
-| 2 | Watti fragt um Rat | 3 | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | 3 | Volti kontert mit dem Satz danach |
+| 1 | Volti belehrt Watti | 4 | der Normalfall |
+| 2 | Watti fragt um Rat | 4 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 4 | Volti kontert mit dem Satz danach |
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
-| 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
-| 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
-| 7 | Watti hat einen Plan | 3 | die Quelle redet von etwas anderem als beide Lager |
-| 8 | Der Rückfall | 3 | am Ende macht Watti es wieder |
-| 9 | Der Dritte im Raum | 3 | jemand außerhalb hat etwas gesagt |
-| 10 | Die Wette | 3 | die Zitatkarte entscheidet |
-| 11 | Watti erzählt es falsch weiter | 3 | aus einer Wahlmöglichkeit wird ein Verbot |
-| 12 | Volti hat es aufgegeben | 3 | Watti fragt zum vierten Mal |
+| 5 | Volti wird ertappt | 4 | er tut selbst, wovon er abrät |
+| 6 | Beide liegen daneben | 4 | die Quelle sagt ein Drittes |
+| 7 | Watti hat einen Plan | 4 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 4 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 4 | jemand außerhalb hat etwas gesagt |
+| 10 | Die Wette | 4 | die Zitatkarte entscheidet |
+| 11 | Watti erzählt es falsch weiter | 4 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 4 | Watti fragt zum vierten Mal |
 
 **Die Blöcke dort werden gezogen, nicht abgeschrieben** —
 `npm run szenarienblock -- <id>` baut sie aus `daten/entwuerfe/`.
@@ -242,9 +255,16 @@ sie beim Schreiben danebenliegt.
 
 Aus der Messung an Emirhans neun Dialogen — `daten/marke/dialoganalyse.md`.
 
-**Seine Zeilen haben im Schnitt 65 Zeichen, meine hatten 35.** Der Unterschied
-ist kein Stil, sondern der Grund, warum meine Fassungen als Telegramm gelesen
-wurden. Ein Satz mit Nebensatz ist keine Rede.
+**Gemessen: Watti 41 Zeichen je Zeile, Volti 50.** Am 02.09.2026 lagen meine bei
+35 — das war der Grund, warum meine Fassungen als Telegramm gelesen wurden. Ein
+Satz mit Nebensatz ist keine Rede.
+
+**Der Abstand ist inzwischen weg.** `npm run dialogprobe` misst am 04.09.2026
+über 44 eigene Dialoge: Watti 38, Volti 47. Die Regel hat gewirkt, und sie steht
+hier nicht mehr als Forderung, sondern als **Maß**: Wer deutlich darunter liegt,
+schreibt Telegramme; wer deutlich darüber liegt, hält Vorträge. Bis zum
+04.09.2026 stand hier „65 Zeichen" — eine Zahl, die in keiner Messung vorkommt
+und mich zu unnötig langen Sätzen getrieben hat.
 
 - **Die Folge sagen, nicht den Mechanismus.** „Desto **auffälliger** bist du",
   nicht „desto seltener".
@@ -323,44 +343,39 @@ Zeile ihrem Sprecher gehört.
 
 ## Bevor du ihn vorlegst
 
-**Diese Liste stand bis zum 03.09.2026 nur als Verweis da** — Schritt 6 sagte
-„siehe unten", und unten stand nichts. An diesem Tag habe ich in elf Dialogen
-sechs Regeln gebrochen, die **schon in diesem Skill stehen**: fünfmal die
-Titelregel, zweimal den Schluss auf die Beziehung, zweimal die Beschimpfung.
+**Diese Liste hatte am 03.09.2026 acht Punkte, und am 04.09. habe ich vier davon
+gebrochen** — die Beschimpfung, den verblosen Satz, den Gegenstand, den Schluss.
+Punkt 6 nannte die Beschimpfung samt Quote; sie fehlte in sieben von neun
+Dialogen dieses Tages.
 
-**Der Skill war nicht zu dünn. Ich habe ihn nicht gelesen.** Deshalb sieben
-Fragen, jede zeigt auf ein Kapitel, das es schon gibt.
+**Zweimal dieselbe Liste zu schreiben hilft nicht.** Was ein zweiter Leser
+zuverlässig findet, steht seit dem 04.09.2026 in
+`.claude/agents/dialogpruefer.md` und wird dort geprüft, nicht hier abgefragt:
+Beschimpfung am Zug, Zeile ohne Auslöser, Gegenstand, Witz ohne Anschluss,
+Schluss, Titel, Wattis Zustimmung, zwei Pronomen. Zwölf Muster, an Emirhans
+sechs Dialogen geeicht — sieben davon sind dabei enger geworden, weil sie in
+seinem Material anschlugen.
 
-0. **Der Gegenstand** — kannst du zeichnen, worum gestritten wird? Und füllt
-   ihn niemand mit dem falschen Ding? „Cookie" ist unsichtbar, „Dose" wird als
-   Steckdose gelesen, „Anschlussdose" nicht. Ein Dialog ohne Gegenstand redet
-   über „die", „manche", „der Teil" — und den versteht niemand, auch wenn jede
-   Zeile belegt ist.
-1. **Der Titel** — ein Satz mit Verb, ein Bild, ein Urteil? „Volti predigt und
-   kauft neu", nicht „Volti wartet keine fünf Tage". → *Der Titel*
-2. **Der Kaltstart** — nennt er das zusammengesetzte Substantiv, und weiß der
-   Zuschauer beim ersten Satz, wovon die Rede ist? „Neues **Handy**update ist
-   da", nicht „Update ist da". → *2 · Der Kaltstart*
-3. **Der Schluss** — gehört er der Beziehung? Er darf ausweichen statt zu
-   antworten: „Großer-Bruder-Kram eben." → *5 · Der Bogen*
-4. **Jede Zeile** — nennt sie ihren Gegenstand, oder steht er nur im Satz
-   davor? Hinter dem Vorhang trägt jede Zeile allein.
-5. **Jeder Witz** — antwortet er auf die Zeile davor, oder steht er daneben?
-   Steht er daneben, wird er **gestrichen**, nicht gedreht. → *Die eine Regel,
-   an der alles scheitert*
-6. **Voltis Ärger** — sie klebt hinten an, ohne Komma, und sitzt **am Zug**:
-   Bei `richtigstellen` und `gegenbeispiel` steht sie in jeder sechsten bis
-   siebten Zeile, bei `nachhaken` in jeder zweihundertsten. Gemessen an 32
-   Beschimpfungen in 23 Shorts. **Wo Volti korrigiert, schimpft er; wo er nur
-   Auskunft gibt, nicht.**
-   Und die beiden Wörter sind verschieden: **„du Idiot" straft** (Zuspitzung,
-   Kipppunkt), **„kleiner" versöhnt** (Nachschlag). → *Die beiden Figuren*
-7. **Jede behauptende Zeile** — steht das Zitat daneben, und trägt es *diesen*
+**Hier bleibt, was er nicht sehen kann**, weil es ein Urteil über Bedeutung
+verlangt und keine Form hat:
+
+1. **Trägt die Lage?** Ein Zeitpunkt, ein Schaden, einer, dem er passiert. „Der
+   Routinewechsel bringt nichts" ist ein Thema; „Jemand war in meinem Konto, und
+   ich wechsle brav alle 90 Tage" ist eine Lage. → *1 · Die Lage*
+2. **Fügt die Reaktion etwas hinzu?** Eine Reaktion, die den Fakt zusammenfasst,
+   ist keine. `npm run pruefen` wird dabei grün, und der Prüfer sieht es auch
+   nicht — er kennt die Form, nicht den Zuwachs. → *Die eine Regel, an der alles
+   scheitert*
+3. **Kippt der Kipppunkt wirklich?** Oder erklärt er nur weiter?
+4. **Gehört die Zeile ihrem Sprecher?** Der Härtetest: Ließe sie sich tauschen,
+   ohne dass es auffällt, gehört sie keinem von beiden.
+5. **Jede behauptende Zeile** — steht das Zitat daneben, und trägt es *diesen*
    Satz? **Lies den Satz davor und den Satz danach in der Quelle.** → *Vor dem
    Vertonen*
 
-**Und für Punkt 7 sechs Fragen einzeln**, weil er am 03.09.2026 an elf Dialogen
-siebzehnmal gerissen ist — bei grünem `pruefen` und grünem `quellen-pruefen`:
+**Punkt 5 hat einen eigenen Prüfer und trotzdem eine Liste**, weil er am
+03.09.2026 an elf Dialogen siebzehnmal gerissen ist — bei grünem `pruefen` und
+grünem `quellen-pruefen`. Am 04.09. kamen 29 Stellen an acht Dialogen dazu:
 
 - **Steht im Zitat ein „kann", „vor allem", „einige", „übermäßig", „ideal"?**
   Dann steht es auch im Sprechtext. Modalverben fallen beim Kürzen auf
@@ -380,11 +395,38 @@ siebzehnmal gerissen ist — bei grünem `pruefen` und grünem `quellen-pruefen`
 - **Behauptet der Nachschlag etwas?** Die Positionsbefreiung gilt Pointen,
   nicht Behauptungen. Eine Geldsumme ist eine Behauptung, „mehr sagt das Amt
   nicht" auch.
+- **Hast du `stuetzt` gelesen?** Das Feld ist die Gebrauchsanweisung des
+  Belegs, kein Kommentar. Am 03.09.2026 stand dort „7 Watt nach zwei Jahren,
+  **davor 8**" — und im Dialog stand trotzdem 7.
+- **Gilt dieser Abschnitt für den Fall im Dialog?** Vor „welcher Satz trägt
+  das?" kommt eine Frage früher: Ein Gesetz hat einen Anwendungsbereich, und der
+  steht nie in dem Satz, den man zitieren will. **Dreimal an zwei Tagen
+  gerissen** — § 327f nimmt Waren mit digitalen Elementen aus, der EZB-Beschluss
+  von 2013 sagt in der geltenden Fassung das Gegenteil, und Artikel 4 der
+  Digitale-Dienste-Verordnung erfasst den privaten WLAN-Gastgeber erst über § 7
+  DDG. **Öffne den Paragrafen davor und danach.** → Befund 92
+- **Gibt es die Welt noch, in der die Figur handelt?** Eine Zahl kann stimmen
+  und ihre Lage trotzdem nicht: UMTS ist seit 2021 abgeschaltet, Watti kann im
+  Zug kein 3G wählen. Die Datierung im Dialog deckt die Zahl, nicht die
+  Handlung. → Befund 93
+- **Definiert die Quelle den Begriff, den die Figur ausspricht?** „Gerät",
+  „Vertreiber", „Endnutzer", „Funkanlage" sind Legalbegriffe mit einem
+  Anwendungsbereich. Der Fernseher fiel nicht unter „das Gerät" der
+  Standby-Verordnung — genau das Beispiel, an dem der Short hing.
 
 **Und die Gegenprobe dazu:** Belegtreue heißt nicht, das Wort der Quelle zu
 übernehmen. „Ein Atom nicht" ist durch „atomare Naturkonstante" gedeckt und die
 bessere Zeile — nach siebzehn Belegbefunden bin ich auf die Gegenseite gekippt
 und habe ein gedecktes Wort gegen ein steiferes getauscht.
+
+**Und der Dialogprüfer daneben, aus demselben Grund.**
+`.claude/agents/dialogpruefer.md` liest denselben Dialog gegen zwölf Muster, die
+an Emirhans Material gemessen sind — Beschimpfung am Zug, Zeile ohne Auslöser,
+Gegenstand, Schluss, Titel. Die Zahlen dazu kommen aus `npm run dialogprobe`.
+
+**Er ist entstanden, weil diese Liste hier nicht gewirkt hat.** Punkt 6 nennt die
+Beschimpfung samt Quote; am 04.09.2026 fehlte sie in sieben von neun Dialogen.
+Was ein zweiter Leser zuverlässig findet, braucht keine vierte Fassung daneben.
 
 **Der Belegprüfer läuft vor der Vorlage, und zwar hinter jedem einzelnen
 Dialog.** Am 03.09.2026 hat Emirhan elf Dialoge abgenommen, in denen siebzehn
@@ -408,8 +450,8 @@ in meiner eigenen Liste — ich kann sie schreiben und erkenne sie nicht.
 
 ## Vor dem Vertonen
 
-`npm run pruefen`, dann `npm run belege` von Hand lesen, dann den Subagenten
-`belegpruefer`. Er hat am 01.09.2026 in einem Durchgang elf Stellen gefunden,
+`npm run pruefen`, dann `npm run dialogprobe -- <id>`, dann `npm run belege` von
+Hand lesen, dann die beiden Subagenten `dialogpruefer` und `belegpruefer`. Er hat am 01.09.2026 in einem Durchgang elf Stellen gefunden,
 davon **neun an einem Wort außerhalb der geprüften Zeichenkette** — und eine,
 in der der Short das Gegenteil dessen behauptete, was die Quelle sagt, während
 `npm run quellen-pruefen` grün war.

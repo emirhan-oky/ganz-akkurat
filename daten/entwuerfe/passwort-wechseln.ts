@@ -47,7 +47,7 @@ export const passwortWechseln: Short = {
   format: 'werhatrecht',
   sachgebiet: 'netz',
   bauform: 'zitatkarte',
-  arbeitstitel: 'Ein Passwort für alles',
+  arbeitstitel: 'Watti wechselt fleißig das falsche Passwort',
   weitererzaehlt: 'für jedes Benutzerkonto ein eigenes Passwort',
   suchbegriff: 'Passwort wechseln',
   /*
@@ -311,17 +311,17 @@ export const passwortWechseln: Short = {
 
   texte: {
     tiktok: {
-      titel: 'Ein Passwort für alles',
+      titel: 'Watti wechselt fleißig das falsche Passwort',
       beschreibung: 'Passwort wechseln nach Kalender: Das BSI sagt, das erhöht die Sicherheit nicht automatisch.',
       hashtags: ['#passwortsicherheit', '#bsi', '#passkeys', '#zweifaktor', '#ganzakkurat'],
     },
     instagram: {
-      titel: 'Ein Passwort für alles',
+      titel: 'Watti wechselt fleißig das falsche Passwort',
       beschreibung: 'Dein Passwort wechseln musst du nicht nach Kalender, sondern bei einem Hinweis.',
       hashtags: ['#passwortsicherheit', '#onlinesicherheit', '#bsi', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Ein Passwort für alle Konten',
+      titel: 'Der Kalender entscheidet nicht, wann ein Passwort weg muss',
       beschreibung: 'Passwort wechseln nach BSI: Warum der Routinewechsel die Sicherheit nicht automatisch erhöht.',
       hashtags: ['#passwort', '#bsi', '#itsicherheit', '#ganzakkurat'],
     },

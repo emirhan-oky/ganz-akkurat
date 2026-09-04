@@ -151,10 +151,15 @@ export const ZEICHEN_PRO_SEKUNDE = 14.3;
  * gestrichen, und uebrig blieb eine **leere Buehne** am Videoende. Aufgefallen
  * ist das am Standbild des letzten Bildes.
  *
- * Jetzt steht dort etwas: Der Zeiger blickt in die Richtung des Folgen-Knopfs,
- * und eine Geste, die mit dem letzten Wort verschwindet, sieht niemand.
- * Dieselbe Zahl, ein anderer Grund — und diesmal waechst die **Schlussszene**
- * mit, nicht nur die Komposition. Genau das war der alte Fehler.
+ * Jetzt steht dort etwas, und diesmal waechst die **Schlussszene** mit, nicht
+ * nur die Komposition. Genau das war der alte Fehler.
+ *
+ * **Der Grund ist seit dem 01.09.2026 der Abspann und war es hier bis zum
+ * 04.09. nicht.** An dieser Stelle stand noch der Zeiger, der auf den
+ * Folgen-Knopf deutete — den gibt es seit dem 04.09.2026 nicht mehr, und er
+ * war schon vorher nicht der Grund. **Eine richtige Zahl mit einer veralteten
+ * Begruendung ist die Sorte Altlast, die beim naechsten Umbau falsch
+ * weitergedacht wird.**
  *
  * Wer sie streichen will: erst das letzte Bild eines Videos ziehen.
  *

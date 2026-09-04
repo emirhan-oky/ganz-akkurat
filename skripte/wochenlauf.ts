@@ -116,35 +116,6 @@ const STIMMEN = {
 const NUR = process.argv.find((a) => a.startsWith('--nur='))?.slice('--nur='.length);
 
 /**
- * Die drei Fassungen je Short.
- *
- * Ein Short ist derselbe, egal wo er landet — nur das Folgen-Zeichen an der
- * Signatur wechselt. Ein **falsches** Zeichen waere schlechter als keines: Es
- * deutet auf einen Knopf, den es dort nicht gibt.
- */
-const DIENSTE = ['tiktok', 'instagram', 'youtube'] as const;
-type Dienst = (typeof DIENSTE)[number];
-
-/**
- * Welche Fassungen dieser Lauf rendert.
- *
- * Der volle Lauf baut alle drei; **der Teillauf nur eine.** Ein Teillauf ist
- * eine Ansicht und keine Woche — dieselbe Begruendung, aus der er auch den
- * Verlauf nicht fortschreibt. Beim Iterieren am Bild verdreifachte sich sonst
- * jede Runde, ohne dass man dabei mehr saehe.
- *
- * `--dienst=youtube` waehlt, welche Fassung der Teillauf zeigt.
- */
-const DIENST_WAHL = process.argv.find((a) => a.startsWith('--dienst='))?.slice('--dienst='.length);
-if (DIENST_WAHL !== undefined && !DIENSTE.includes(DIENST_WAHL as Dienst)) {
-  console.error(`\n--dienst=${DIENST_WAHL} kennt niemand. Möglich: ${DIENSTE.join(', ')}\n`);
-  process.exit(1);
-}
-const FASSUNGEN: readonly Dienst[] = NUR
-  ? [(DIENST_WAHL as Dienst | undefined) ?? 'tiktok']
-  : DIENSTE;
-
-/**
  * Die sieben Shorts dieses Laufs — einer je Format und Wochentag.
  *
  * Seit dem 16.08.2026 sieben statt fuenf: ein Format je Wochentag, jedes
@@ -680,10 +651,9 @@ const main = async () => {
 
   for (const short of zuRendern) {
     /*
-     * Die Props-Datei **ohne** Dienst-Suffix bleibt bestehen, auch wenn
-     * gerendert wird aus den Fassungsdateien daneben. `--ton-behalten` sucht
-     * in `laeufe/*\/props/<id>.json` nach einer brauchbaren Tonspur; faende
-     * es dort nichts mehr, waere jeder spaetere Lauf ohne Ton wieder ein Lauf
+     * Aus dieser Datei wird gerendert, und `--ton-behalten` sucht sie: Es
+     * durchsucht `laeufe/*\/props/<id>.json` nach einer brauchbaren Tonspur.
+     * Faende es dort nichts, waere jeder spaetere Lauf ohne Ton wieder einer
      * mit Verbrauch.
      */
     const propsDatei = path.join(propsOrdner, `${short.id}.json`);
@@ -727,37 +697,26 @@ const main = async () => {
      * Megabyte und sonst nichts.
      */
     /*
-     * Eine Fassung je Dienst. Sie unterscheiden sich in genau einem Zeichen
-     * an der Signatur — und ohne den Unterschied waere die Prop `dienst` in
-     * `video/Short.tsx` folgenlos, weil `veroeffentlichen.ts` bis zum
-     * 24.08.2026 eine Datei an alle drei Kanaele haengte.
+     * **Eine Fassung, nicht drei.** Bis zum 04.09.2026 rendete der Lauf je
+     * Short dreimal dasselbe Video — einmal je Dienst. Der Unterschied war ein
+     * Zeichen an der Signatur, und das ist am 01.09.2026 mit ihr gegangen:
+     * `cmp` auf TikTok und YouTube meldete danach keinen Unterschied mehr.
+     *
+     * **Ein Short ist derselbe, egal wo er landet.** Als Emirhan am 04.09. den
+     * Zeiger vollstaendig strich, fiel die letzte Begruendung fuer die Prop
+     * `dienst` — und mit ihr zwei Drittel der Renderzeit. Der Lauf mit vier
+     * Shorts brauchte fuer zwoelf Fassungen fuenfzehn Minuten.
      */
-    let mb = 0;
-    let technisch: Awaited<ReturnType<typeof videoPruefen>> = [];
+    const ziel = path.join(videoOrdner, `${short.id}.mp4`);
+    await ausfuehren('npx', [
+      'remotion', 'render', 'video/index.ts', 'Short', ziel,
+      `--props=${propsDatei}`, '--log=error', '--timeout=120000', '--crf=16',
+    ], { maxBuffer: 32 * 1024 * 1024 });
 
-    for (const dienst of FASSUNGEN) {
-      const fassungProps = path.join(propsOrdner, `${short.id}.${dienst}.json`);
-      const ziel = path.join(videoOrdner, `${short.id}.${dienst}.mp4`);
-      await fs.writeFile(fassungProps, JSON.stringify({ daten: short, dienst }));
-
-      await ausfuehren('npx', [
-        'remotion', 'render', 'video/index.ts', 'Short', ziel,
-        `--props=${fassungProps}`, '--log=error', '--timeout=120000', '--crf=16',
-      ], { maxBuffer: 32 * 1024 * 1024 });
-
-      /*
-       * Gemessen und geprueft wird nur die **erste** Fassung. Die Dateien
-       * unterscheiden sich in drei Sekunden Bildinhalt, nicht in Aufloesung,
-       * Codec oder Tonspur — dieselben Befunde dreimal zu melden macht die
-       * Uebersicht unlesbar und faende nichts Neues.
-       */
-      if (dienst === FASSUNGEN[0]) {
-        mb = (await fs.stat(ziel)).size / 1_048_576;
-        technisch = await videoPruefen(ziel);
-        for (const b of technisch) {
-          ergebnis.befunde.push({ stufe: b.stufe, shortId: short.id, regel: 'datei', text: b.text });
-        }
-      }
+    const mb = (await fs.stat(ziel)).size / 1_048_576;
+    const technisch = await videoPruefen(ziel);
+    for (const b of technisch) {
+      ergebnis.befunde.push({ stufe: b.stufe, shortId: short.id, regel: 'datei', text: b.text });
     }
 
     const anmerkung = technisch.length > 0 ? `  ← ${technisch.map((b) => b.text).join(' ')}` : '';
@@ -766,9 +725,8 @@ const main = async () => {
     // wie die Zahl, um die es geht, wird auch dafuer gehalten.
     const laengeSek = gesamtdauerBilder(short) / FORMAT.bilderProSekunde;
     const renderSek = (Date.now() - beginn) / 1000;
-    const fassungen = FASSUNGEN.length > 1 ? `  ${FASSUNGEN.length} Fassungen` : '';
     console.log(
-      `   ${short.id}  ${laengeSek.toFixed(1)}s Video  ${mb.toFixed(1)} MB${fassungen}  ` +
+      `   ${short.id}  ${laengeSek.toFixed(1)}s Video  ${mb.toFixed(1)} MB  ` +
         `(Render ${renderSek.toFixed(0)}s)${anmerkung}`,
     );
   }
@@ -782,12 +740,7 @@ const main = async () => {
     shorts: zuRendern,
     quellen,
     befunde: ergebnis.befunde,
-    /*
-     * Die Freigabeseite zeigt **eine** Fassung. Drei Videoplayer je Short
-     * machten die Seite unuebersichtlich und zeigten nichts, was man nicht
-     * weiss — der Unterschied ist ein Zeichen an der Signatur.
-     */
-    videopfad: (s) => `videos/${s.id}.${FASSUNGEN[0]}.mp4`,
+    videopfad: (s) => `videos/${s.id}.mp4`,
     mitTon: HAT_TON,
   });
   const seitenPfad = path.join(wurzel, 'freigabe.html');

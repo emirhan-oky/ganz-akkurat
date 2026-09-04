@@ -2008,12 +2008,10 @@ Kennungen stehen in `laeufe/2026-09-02/vorschau-buffer.json`.
 
 - [ ] **Nach der Begutachtung aufräumen:** die drei Entwürfe in Buffer löschen,
       `probe/` in R2 leeren
-- [ ] **Die drei Fassungen je Dienst sind byte-identisch.** `cmp` auf TikTok
-      und YouTube meldet keinen Unterschied — der Zeiger in der Signatur war
-      das einzige, was `dienst` unterschied, und die Signatur ist seit dem
-      01.09. weg. Der Wochenlauf rendert dreimal dasselbe Video. Entweder
-      bekommt der Zeiger mitten im Video wieder eine dienstabhängige Richtung,
-      oder die Prop fällt samt der dreifachen Renderzeit
+- [x] ~~**Die drei Fassungen je Dienst sind byte-identisch.** Entschieden am
+      04.09.2026, und zwar durch den Ausbau des Zeigers: Die Prop `dienst` ist
+      gefallen, der Wochenlauf rendert eine Datei je Short, und
+      `veroeffentlichen.ts` lädt sie für alle drei Kanäle hoch~~
 - [ ] **Die Tonspur sagt in Szene 2 noch „fremdes Gerät"**; der Entwurf sagt
       „Von einem fremden Gerät". `--ton-behalten` lehnt die Kombination zu
       Recht ab, die Vorschau ist an ihm vorbei aus den Props gebaut. Löst sich
@@ -2203,9 +2201,62 @@ seinem Material gemessen.
 - [x] ~~**Die Szenarien 6 bis 12 brauchen Beispiele.** Alle zwölf haben jetzt
       welche — Durchgang 2 hat elf Dialoge gelegt, zwei davon Emirhans eigene
       aus `daten/briefings/`~~
-- [ ] ▸ **Durchgang 3 und 4: je Szenario zwei weitere Beispiele.** 28 von 48
-      stehen; es fehlen 20. Einer nach dem anderen, Emirhan gibt den Takt, jede
-      Korrektur wird ein Befund
+- [x] ~~**Durchgang 3 und 4: je Szenario zwei weitere Beispiele.** 48 von 48
+      stehen, alle zwölf Szenarien voll — 04.09.2026~~
+
+## Der Dialog bekommt einen zweiten Leser · 04.09.2026
+
+Emirhans Frage: *„Wieso hältst du dich nicht an die Befunde? Sind es zu viele?"*
+**Die Messung sagt nein.** Gebrochen wurden die prominentesten Regeln — die
+Beschimpfung steht an drei Orten mit Quotentabelle und fehlte in sieben von neun
+Dialogen des Tages. Nicht die Zahl ist die Ursache, sondern dass beim Schreiben
+der Satz gewinnt, der gerade gut klingt.
+
+- [x] ~~`npm run dialogprobe` gebaut und an Emirhans sechs Dialogen geeicht —
+      es misst Watti 41,3 Zeichen, die Handzählung vom 02.09. hatte 41~~
+- [x] ~~Die Verbheuristik ist **zweimal gescheitert** (26 und 4 Fehlalarme im
+      Eichmaterial) und aus dem Zählwerk geflogen — sie geht an den Prüfer~~
+- [x] ~~`.claude/agents/dialogpruefer.md`, zwölf Muster, jedes mit Nachweis~~
+- [x] ~~**18 von 53 Entwürfen brachen das Schema**, `npm run pruefen` war
+      grün — 16 behoben, die Sichtbarkeit in `schemapruefung.ts` repariert~~
+- [x] ~~Drei widersprüchliche Zahlen zusammengeführt: Kaltstart 4,0 → 5,2
+      (CLAUDE.md), Aufschlag 3,5 → 9 (`voice.md`), Pool-Stand 38 → 48 (Skill)~~
+- [x] ~~Die Zeichenzahl im Skill war falsch: „65 gegen 35" steht in keiner
+      Messung. Gemessen sind Watti 41 / Volti 50 bei ihm, 38 / 47 bei mir~~
+- [x] ~~Ein Nummernkreis: `S1`–`S8`, `1`–`108`, `LA`–`LI`. Vorher gab es
+      Befund 1 und 8 zweimal~~
+- [x] ~~Vierzehn Befunde aus dem Szenarienordner nachgetragen (95–108)~~
+- [x] ~~Die elf Doppelungsgruppen und die acht Widersprüche stehen als Tabelle
+      am Ende der Analyse~~
+- [x] ~~**Die Gegenprobe des Dialogprüfers ausgewertet.** Sieben von zwölf
+      Mustern waren zu weit gefasst und sind enger geworden; dazu zwei
+      Messfehler im Zählwerk, die die Quote von 25 auf 50 % korrigiert haben.
+      Befunde 109–111~~
+- [x] ~~**Die Selbstprüfung im Skill gekürzt** — von acht Punkten auf fünf.
+      Übrig bleibt, was der Prüfer nicht sehen kann: ob die Lage trägt, ob die
+      Reaktion etwas hinzufügt, ob der Kipppunkt kippt, ob die Zeile ihrem
+      Sprecher gehört, und die Belegfragen~~
+- [x] ~~**Der Prüferlauf über die neun Dialoge vom 04.09.**: elf Funde an
+      abgenommenen, belegten, schemakonformen Dialogen. Sechs davon sind
+      Pronomen ohne Bezugswort — Befund 23 in seiner dritten Fassung. Alle
+      behoben, Befunde 112–114~~
+- [x] ~~Die zwei Schemabrüche in Emirhans Dialogen behoben, die Februarzeile
+      und der Titel „Ein Passwort für alles" geändert~~
+- [x] ~~Alle zehn Szenariendokumente neu gezogen — sie trugen veralteten
+      Wortlaut und die npm-Kopfzeilen mit im Text (Befund 108, an mir selbst)~~
+- [x] ~~**Die acht Widersprüche geprüft — keiner war einer.** Drei lösten sich
+      im eigenen Text auf (25, LB, 15/LF), fünf reden über verschiedene Ebenen.
+      Übrig blieben vier Halbsätze statt acht Entscheidungen. Befunde 115, 116~~
+- [x] ~~Die Kaltstartkette steht: welches Wort (2) — wo im Satz (68) — ob
+      bekannt (91). Befund 68 ist jetzt ein Satzbaubefund, 91 gilt nur
+      unbekannten Wörtern~~
+- [ ] **Zwei Schemabrüche in Emirhans Dialogen** (`handyheizung`,
+      `akku-ganz-leer`): Kaltstart zu lang, Zitatkarte zu lang, Zuspitzung ohne
+      Quelle, vier statt fünf Szenen. **Hier verliert die Regel, nicht die
+      Zeile** — seine Entscheidung
+- [ ] **Acht Widersprüche in der Analyse**, je zwei Befunde gegeneinander. Der
+      teuerste ist W1: Befund 2 (Kaltstart nennt das zusammengesetzte
+      Substantiv) hat 68 und 91 selbst verursacht
 - [ ] **Die zehn Dialoge sind noch nicht vertont.** Sie stehen in `GEPARKT`;
       ein Lauf mit Ton kostet Kontingent und braucht Emirhans Zusage
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
@@ -2227,3 +2278,34 @@ seinem Material gemessen.
 - [ ] **`werhatrecht` verlangt `irrtum: 'beide'`**, und in Emirhans Dialog irrt
       nur Watti. Das zweite Lager spricht jetzt aus seinem Mund („Das merkt
       sich doch keiner") — ob das reicht, entscheidet das fertige Video
+
+
+## Vier Korrekturen am fertigen Video · 04.09.2026
+
+Emirhans Urteil an den ersten vier Videos im neuen Bau: *„ich finde die Videos
+so unfassbar viel besser."* Vier Änderungen blieben, alle am Bild oder am Ton,
+keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nichts.
+
+- [x] ~~**Der Zeiger ist ausgebaut**, beide: der Gefällt-mir-Zeiger mitten im
+      Video und der Schluss-Zeiger, der seit dem 01.09. ohnehin nie mehr
+      gezeichnet wurde. Mit ihm gingen `FOLGEPOSEN`, `ZEIGER_PLATZ`,
+      `Plattformzeichen`, `video/Gestenprobe.tsx`, die Töne `gefaellt` und
+      `folgen` und die Prop `dienst`~~
+- [x] ~~**Eine Videodatei je Short statt drei.** `wochenlauf.ts`,
+      `veroeffentlichen.ts` und die Freigabeseite kennen keine Fassungen mehr~~
+- [x] ~~**`npm run bildrand` prüft wieder beide Kanten in jeder Szene** — die
+      Ausnahme galt nur dem Zeiger~~
+- [x] ~~**Der Vorhang bekommt beim Zufahren einen Ton.** `schliessung`: der
+      Hauch abwärts (1700 → 700 Hz) statt aufwärts, längerer Anstieg am
+      Grundton, 0,62 s statt 0,96, gemessener Ziel-RMS 0,019~~
+- [x] ~~**Befund 117:** Der Name des anderen als eigene Zeile am Schluss ist
+      Enttäuschung, im Satz eine normale Anrede. Muster im `dialogpruefer`~~
+- [x] ~~**Wattis Hand am linken Bildrand gefunden und gesperrt.** Ursache:
+      `WORTWECHSEL_SCHLUSS` steht auf 0,92, und `staunen` greift dort 58,8 von
+      50 Einheiten. `ZU_BREIT_IM_SCHLUSS` ist die dritte Sperre derselben
+      Bauart — gerechnet, nicht geschrieben, mit Wache in der Schemaprüfung.
+      Sie hat sofort drei der vier Shorts gemeldet~~
+- [ ] ▸ **Neu rendern mit `--ton-behalten`, Standbilder ziehen, Freigabe**
+- [ ] **Danach committen**, dann den Projektordner aufräumen: 188 MB in einem
+      Laufordner, 115 von 209 versionierten Dateien sind fremde Skills
+- [ ] **Danach die Struktur:** welche Rubrik an welchem Tag läuft

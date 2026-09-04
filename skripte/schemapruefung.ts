@@ -5,6 +5,7 @@ import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
 import { laufPruefen,
   shortPruefen,
+  ZU_BREIT_IM_SCHLUSS,
   ZU_BREIT_IM_WORTWECHSEL,
   ZU_BREIT_MIT_SYMBOL,
 } from '../src/pruefung';
@@ -62,12 +63,31 @@ const PRUEFLINGE: Pruefling[] = [
   { name: 'geparkt', daten: GEPARKT, blockierend: false },
 ];
 
+/**
+ * **Schemabrueche in `GEPARKT` werden gezaehlt, auch wenn sie nicht
+ * blockieren.**
+ *
+ * Am 04.09.2026 brachen **18 von 53 Entwuerfen** das Schema, und die
+ * Schlusszeile sagte trotzdem „keine blockierenden Verstoesse": Die Meldungen
+ * standen als `·` unter sechzig Hinweisen und waren nicht zu sehen. Gefunden
+ * hat es kein Auge, sondern das erste Skript, das die Entwuerfe parsen wollte —
+ * es stuerzte beim zweiten Datensatz ab.
+ *
+ * Der Grund fuer die Nicht-Blockierung bleibt richtig: Ein geparkter Entwurf
+ * darf die Vorabpruefung nicht dauerhaft rot faerben. **Aber ein Schemabruch
+ * ist kein Regelhinweis.** Ein Hinweis sagt, dass etwas besser ginge; ein
+ * Schemabruch macht die Datei fuer jedes Werkzeug unlesbar. Deshalb hat er
+ * jetzt eine eigene Zeile am Ende, mit Zahl.
+ */
+let geparkteBrueche = 0;
+
 const pruefen = ({ name, daten, blockierend }: Pruefling): number => {
   let fehler = 0;
   for (const eintrag of daten) {
     const ergebnis = Short.safeParse(eintrag);
     if (ergebnis.success) continue;
     fehler++;
+    if (!blockierend) geparkteBrueche++;
     const id = (eintrag as { id?: string }).id ?? '(ohne id)';
     const melden = blockierend ? console.error : console.warn;
     melden(`${blockierend ? '✕' : '·'} ${name} · ${id}`);
@@ -220,6 +240,24 @@ if (erwartet.join(',') !== gesetzt.join(',')) {
     `✗ Fehler  · [figur] Die Wortwechsel-Sperre in \`src/pruefung.ts\` steht auf ` +
       `[${gesetzt.join(', ') || '—'}], gerechnet sind [${erwartet.join(', ') || '—'}]. ` +
       'Die Anordnung oder die Reichweiten haben sich geändert.',
+  );
+  fehler += 1;
+}
+
+/*
+ * ## Und dasselbe für den Schluss
+ *
+ * Dritte Liste derselben Bauart, seit dem 04.09.2026. Sie fällt aus derselben
+ * Funktion wie die laufende Sperre, nur mit `WORTWECHSEL_SCHLUSS` — dort stehen
+ * die Figuren auf 0,92 statt 0,73 und ragen früher heraus.
+ */
+const erwartetSchluss = zuBreiteWortwechselposen(WORTWECHSEL_SCHLUSS, AUSSENREICHWEITE).sort();
+const gesetztSchluss = [...ZU_BREIT_IM_SCHLUSS].sort();
+if (erwartetSchluss.join(',') !== gesetztSchluss.join(',')) {
+  console.error(
+    `✗ Fehler  · [figur] Die Schluss-Sperre in \`src/pruefung.ts\` steht auf ` +
+      `[${gesetztSchluss.join(', ') || '—'}], gerechnet sind [${erwartetSchluss.join(', ') || '—'}]. ` +
+      'Die Anordnung im Schluss oder die Reichweiten haben sich geändert.',
   );
   fehler += 1;
 }
@@ -438,6 +476,12 @@ console.log(
   `✓ Schema: ${gesamt} Shorts geprüft, keine blockierenden Verstöße` +
     (hinweise > 0 ? ` (${hinweise} Hinweis${hinweise === 1 ? '' : 'e'})` : ''),
 );
+if (geparkteBrueche > 0) {
+  console.log(
+    `⚠ Schema: ${geparkteBrueche} geparkte${geparkteBrueche === 1 ? 'r Short entspricht' : ' Shorts entsprechen'} ` +
+      `nicht dem Schema — kein Skript kann ${geparkteBrueche === 1 ? 'ihn' : 'sie'} lesen.`,
+  );
+}
 console.log(
   `✓ Figur:  ${nachleser.teile.length} Teile, ${Object.keys(nachleser.gelenke).length} Gelenke, ` +
     `${Object.keys(POSEN).length} Posen`,

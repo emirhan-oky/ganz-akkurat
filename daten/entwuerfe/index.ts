@@ -40,6 +40,17 @@ import { nummerMitnehmen } from './nummer-mitnehmen';
 import { widerrufWette } from './widerruf-wette';
 import { energielabelBuchstabe } from './energielabel-buchstabe';
 import { ladegeraetPiktogramm } from './ladegeraet-piktogramm';
+import { standbyHalbesWatt } from './standby-halbes-watt';
+import { updatesVomHaendler } from './updates-vom-haendler';
+import { geldscheinDrucken } from './geldschein-drucken';
+import { kassenzettelAusschluss } from './kassenzettel-ausschluss';
+import { blitzerApp } from './blitzer-app';
+import { streamenImZug } from './streamen-im-zug';
+import { wlanPasswortAbmahnung } from './wlan-passwort-abmahnung';
+import { balkonkraftwerkNachbar } from './balkonkraftwerk-nachbar';
+import { technikerTermin } from './techniker-termin';
+import { vierPaketeZurueck } from './vier-pakete-zurueck';
+import { handyAmSteuer } from './handy-am-steuer';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -77,12 +88,7 @@ import { ladegeraetPiktogramm } from './ladegeraet-piktogramm';
  * Zuschauer mit dem, was im Feed wie dasselbe Video aussieht. Bei vier von
  * acht geht das Abwechseln genau auf: jede zweite Stelle ein `absicht`.
  */
-export const WOCHENLAUF: Short[] = [
-  raumstationAlteRechner,
-  ersatzteilFreischalten,
-  passwortWechseln,
-  erstesLaden,
-];
+export const WOCHENLAUF: Short[] = [blitzerApp, vierPaketeZurueck, flugmodus, geldscheinDrucken];
 
 /**
  * Entwuerfe, die noch nicht tragen.
@@ -91,7 +97,7 @@ export const WOCHENLAUF: Short[] = [
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, flugmodus, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm];
+export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.

@@ -20,23 +20,22 @@ Regel obendrauf. Frühere Befunde werden nicht ersetzt, sondern Alternativen —
 
 ## Der Pool
 
-**37 von 48 Beispielen, Stand 03.09.2026.** Durchgang 1 hat je Szenario eines
-gelegt, Durchgang 2 auf zwei und Durchgang 3 auf drei aufgefüllt; Szenario 4 ist mit vieren fertig. **Es fehlt Durchgang 4** — elf Dialoge.
+**48 von 48 Beispielen, Stand 04.09.2026 — der Vorrat ist voll.** Durchgang 1 hat je Szenario eines gelegt, Durchgang 2 auf zwei, Durchgang 3 auf drei und Durchgang 4 auf vier aufgefüllt.
 
 | | Szenario | Beispiele | wie die Wendung gebaut ist |
 |---|---|---|---|
-| 1 | Volti belehrt Watti | 3 | der Normalfall — die Ariane als Gegenstand fern vom Verbraucherrecht |
-| 2 | Watti fragt um Rat | 3 | Volti antwortet **und rät** |
-| 3 | Watti weiß etwas und schließt falsch | 3 | Volti kontert mit dem Satz danach |
+| 1 | Volti belehrt Watti | 4 | der Normalfall — die Ariane als Gegenstand fern vom Verbraucherrecht |
+| 2 | Watti fragt um Rat | 4 | Volti antwortet **und rät** |
+| 3 | Watti weiß etwas und schließt falsch | 4 | Volti kontert mit dem Satz danach |
 | 4 | Watti kontert erfolgreich | 4 | Erinnerung · Gegenbeispiel · Frage ohne Antwort in der Quelle · Zufallstreffer |
-| 5 | Volti wird ertappt | 3 | er tut selbst, wovon er abrät |
-| 6 | Beide liegen daneben | 3 | die Quelle sagt ein Drittes |
-| 7 | Watti hat einen Plan | 3 | die Quelle redet von etwas anderem als beide Lager |
-| 8 | Der Rückfall | 3 | am Ende macht Watti es wieder |
-| 9 | Der Dritte im Raum | 3 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |
-| 10 | Die Wette | 3 | die Zitatkarte entscheidet, und der Verlierer liest sie vor |
-| 11 | Watti erzählt es falsch weiter | 3 | aus einer Wahlmöglichkeit wird ein Verbot |
-| 12 | Volti hat es aufgegeben | 3 | Watti fragt zum vierten Mal |
+| 5 | Volti wird ertappt | 4 | er tut selbst, wovon er abrät |
+| 6 | Beide liegen daneben | 4 | die Quelle sagt ein Drittes |
+| 7 | Watti hat einen Plan | 4 | die Quelle redet von etwas anderem als beide Lager |
+| 8 | Der Rückfall | 4 | am Ende macht Watti es wieder |
+| 9 | Der Dritte im Raum | 4 | jemand außerhalb hat etwas gesagt — der Vater, der Nachbar |
+| 10 | Die Wette | 4 | die Zitatkarte entscheidet, und der Verlierer liest sie vor |
+| 11 | Watti erzählt es falsch weiter | 4 | aus einer Wahlmöglichkeit wird ein Verbot |
+| 12 | Volti hat es aufgegeben | 4 | Watti fragt zum vierten Mal |
 
 **Die Blöcke werden gezogen, nicht abgeschrieben** — `npm run szenarienblock -- <id>`
 baut sie aus `daten/entwuerfe/`. Am 03.09.2026 fiel auf, dass drei Dokumente

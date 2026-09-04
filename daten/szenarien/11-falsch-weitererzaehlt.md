@@ -8,7 +8,11 @@
 
 **Und die Beschimpfung hängt am Zug.** Sie fehlte hier zunächst ganz — gemessen an 32 Beschimpfungen in 23 Shorts sitzt sie dort, wo Volti **korrigiert**: bei `richtigstellen` in jeder sechsten Zeile, bei `nachhaken` in jeder zweihundertsten. Hier steht sie an Voltis Widerspruch: „Auf dem Etikett stehen mehrere Buchstaben, du Idiot."
 
-**Beispiele:** 3 von vier
+**Aus einem „nur … wenn" wird ein Verbot.** § 23 Absatz 1a StVO sagt beides in einem Satz — die Erlaubnis und ihre Bedingung —, und beim Weitererzählen fällt die zweite Hälfte weg: „Handy am Steuer ist verboten, das weiß jeder."
+
+**Und Watti behält an einer Stelle recht.** Die Videobrille darf wirklich gar nicht benutzt werden. Wer eine Ausnahme unterschlägt, macht aus einer richtigen Regel eine falsche; wer sie nennt, macht aus einem Vortrag ein Gespräch.
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -96,4 +100,26 @@ W: Und was erzähle ich jetzt im Büro?
 V: Dass du nachgeguckt hast.
 W: Ich erzähle lieber, dass mein Handy überall A hat.
 ```
+## handy-am-steuer
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `stvo-23-blitzerwarner`
+
+```
+W: Beifahrer sein heißt aufpassen. Handy am Steuer kostet Punkte.
+   Heutiges Thema: Wattis Regel für das Auto
+V: Watti, warum guckst du mir auf die Hand?
+W: Du hast dein Handy angefasst. Handy am Steuer ist verboten, das weiß jeder.
+V: Da steht nicht verboten du Pfosten. Da steht: nur benutzen, wenn du es weder aufnimmst noch hältst.
+W: Also darf ich draufdrücken?
+V: Nur mit einer kurzen Blickzuwendung, angepasst an die Verhältnisse.
+W: Und was heißt kurz?
+V: Kürzer, als du gerade guckst.
+W: Und mein Navi?
+V: Das steht in derselben Liste. Tablets und Berührungsbildschirme auch.
+W: Dann habe ich es dem Papa falsch erzählt.
+V: Bei einem Gerät hattest du recht.
+W: Bei welchem?
+V: Einer Videobrille auf dem Kopf. Die darf gar nicht benutzt werden.
+W: Dann fahre ich ab jetzt mit Brille, großer Bruder.
+```

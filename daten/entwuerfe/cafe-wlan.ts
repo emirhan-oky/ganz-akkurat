@@ -32,7 +32,7 @@ export const cafeWlan: Short = {
     satz: 'Im Café-WLAN mache ich nichts, da liest doch jeder mit.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'mikrofon' },
   },
-  vorspann: 'Das Café-WLAN gehört jemandem',
+  vorspann: 'Wattis Café-WLAN gehört jemandem',
 
   szenen: [
     {

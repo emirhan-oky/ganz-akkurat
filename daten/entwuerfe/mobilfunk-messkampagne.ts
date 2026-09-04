@@ -83,7 +83,7 @@ export const mobilfunkMesskampagne: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'Weichen die Ergebnisse erheblich ab, dann haben Sie ein Minderungs- oder Sonderkündigungsrecht',
+      zitat: 'dann haben Sie gegenüber Ihrem Anbieter ein Minderungs- oder Sonderkündigungsrecht.',
       quelleId: 'bnetza-internetgeschwindigkeit',
       belegId: 'minderungs-oder-sonderkuendigungsrecht',
       sprechtext:
@@ -182,7 +182,7 @@ export const mobilfunkMesskampagne: Short = {
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },
       rundlauf:
-        'Beim zweiten Sehen weiß man, dass Wattis „verspricht 100 Megabit, schafft 12" keine Beschwerde ist, sondern der Anfang einer Rechnung, die er nie aufmachen wird.',
+        'Beim zweiten Sehen ist „verspricht 100 Megabit, schafft 12" keine Beschwerde, sondern der Anfang einer Rechnung, die Watti nie aufmachen wird.',
     },
   ],
 

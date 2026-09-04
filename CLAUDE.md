@@ -15,6 +15,7 @@ drei Bedeutungen: den **Akku** vorn, die **Genauigkeit** als Haltung, den
 npm run pruefen           # tsc --noEmit && Schema- und Regelprüfung
 npm run quellen-pruefen   # ruft jede Quellen-URL ab, sucht das Zitat
 npm run belege            # stellt Sprechtext und Zitat nebeneinander
+npm run dialogprobe       # zählt den Dialog gegen Emirhans gemessene Werte
 npm run sprechprobe       # misst die Sprechdauer, kostet kein Kontingent
 npm run pausenprobe       # misst, wie lange die Stimme wirklich schweigt
 npm run stimmproben       # Hörproben mehrerer Stimmen, `--paar` für beide Rollen
@@ -78,8 +79,23 @@ liest; es beschafft keine. Und `watch` behebt die Schwäche, die
 `viral-reverse-engineering` selbst nennt — ein Agent kann ein Video hinter
 einem Link nicht sehen.
 
-Der Subagent `belegpruefer` liest die Behauptung-Zitat-Paare in eigenem Kontext
-und meldet, wo ein Satz mehr behauptet, als sein Zitat trägt.
+**Zwei Subagenten lesen in eigenem Kontext, und beide schreiben nicht.** Der
+`belegpruefer` meldet, wo ein Satz mehr behauptet, als sein Zitat trägt. Der
+`dialogpruefer` meldet, wo ein Dialog von dem abweicht, was an Emirhans eigenen
+Dialogen gemessen wurde — Figur, Sprache, Verständlichkeit.
+
+**Der zweite ist am 04.09.2026 aus einer Zahl entstanden.** Die
+Beschimpfungsregel stand an drei Orten, mit Quotentabelle, und fehlte trotzdem in
+sieben von neun Dialogen dieses Tages. **Wer schreibt, übersieht die Regel, die
+dem eigenen Satz im Weg steht** — deshalb hat der Belegapparat einen zweiten
+Leser, und deshalb hat der Dialog jetzt auch einen.
+
+`npm run dialogprobe` liefert ihm die Zahlen: Beschimpfungen je Short und je
+korrigierendem Zug, Zeichen je Zeile getrennt nach Figur, Wattis Fragenanteil —
+jeweils neben dem Wert aus den sechs Dialogen, deren Wortlaut von Emirhan
+stammt. **Es ist keine Wache und meldet keine Fehler.** Eine Zahl neben einer
+Vergleichszahl erzwingt nichts; ein Fehler, der eine Beschimpfung verlangt,
+machte aus dem Witz eine Pflichtübung.
 
 ## Die Ausrichtung
 
@@ -144,7 +160,9 @@ Zwei Regeln für alle vier:
    die seit dem 25.08.2026 die wichtigere ist: Sie darf **Watti** treffen. Er
    steht für den Zuschauer und sagt es selbst. Siehe „Zwei Stimmen".
 2. **Kein Format verlangt eine Handlung.** „Steh auf und prüf das" ist Arbeit.
-   Schätzen ist die feine Ausnahme: Es passiert unwillkürlich.
+   Schätzen ist die feine Ausnahme: Es passiert unwillkürlich. **Sie gilt dem
+   Zuschauer, nicht dem Bruder:** Voltis „Gib mal her." und „Schreib ihn an."
+   sind Handlung im Stück und kosten den Zuschauer nichts.
 
 ### `sachgebiet` — die stille zweite Achse
 
@@ -203,8 +221,15 @@ Reihe von Stationen sein.
 
 ### `kaltstart` — was vor dem Vorhang steht
 
-Seit dem 02.09.2026. Eine Figur, ein Symbol, ein Satz, höchstens 4,0 Sekunden —
+Seit dem 02.09.2026. Eine Figur, ein Symbol, ein Satz, höchstens 5,2 Sekunden —
 dann fällt der Vorhang darüber und die Show fängt an.
+
+**Die Zahl stand hier zweimal falsch.** Zuerst 3,5, geerbt vom Aufschlag; dann
+4,0, als sie einmal angehoben wurde. Der Code steht seit dem 02.09.2026 auf
+**5,2**, an zehn Kaltstarts gemessen, und `typen.ts` erzwingt die 68 Zeichen
+dazu. Die 4,0 blieben hier stehen und wurden am 04.09.2026 gefunden — von einem
+Skript, das die drei Orte nebeneinanderlegte. **Eine Zahl, die an drei Stellen
+steht, ist an zweien veraltet.**
 
 **Die 3,5 des Aufschlags galten hier zuerst und waren zu eng.** Sie gelten ihm,
 weil er eine Szene unter sechs ist und kein Monolog werden darf; der Kaltstart
@@ -518,6 +543,37 @@ jemand sie wieder einbaut:
 | `GeraeteArt` | neun Gerätezeichnungen, mit der Kaufberatung gegangen |
 | `src/illustration.ts` | schlug Symbole aus dem Szenentext vor — der Erklärvideo-Reflex in Codeform |
 | `stab` | der Zeigestab sah im Video aus wie eine Figur ohne Hände, die einen Stock hält |
+| der **Zeiger in der Signatur** | die kleine Figur, die auf den Folgen- und Gefällt-mir-Knopf deutete. Gestrichen am 04.09.2026 auf Ansage: „Den brauchen wir nicht mehr." |
+
+**Der Zeiger nimmt fünf Dinge mit**, und die Begründungen bleiben hier stehen,
+damit sie niemand erneut versucht:
+
+- Die Prop `dienst` und mit ihr die **drei Fassungen je Short**. Sie waren
+  byte-identisch — der Zeiger war das einzige, was sie unterschied. Der
+  Wochenlauf rendert seitdem eine Datei, `veroeffentlichen.ts` lädt sie für
+  alle drei Kanäle hoch, und ein Lauf mit vier Shorts kostet ein Drittel der
+  Zeit.
+- Die Töne `gefaellt` und `folgen`. Von den Markentönen bleiben `auftakt`,
+  `oeffnung`, `kipppunkt` — und seit demselben Tag `schliessung`.
+- Die Ausnahme in `npm run bildrand`: In der Zeigerszene wurde nur die **linke**
+  Kante geprüft, weil der Zeiger mit Absicht rechts herausragte. Jetzt prüft die
+  Probe wieder beide Kanten in jeder Szene.
+- `Plattformzeichen` in `Geraete.tsx` (tot seit dem 24.08.2026) und
+  `video/Gestenprobe.tsx`.
+
+**Drei Sackgassen und drei Messwerte**, falls jemand wieder auf einen Knopf
+zeigen will: Der Nachleser konnte es nicht selbst — er steht schon auf der
+Bühne, ein Übersteuern mittendrin wäre ein Sprung. Eine **körperlose Hand**
+wurde im fertigen Video als Schlüssel erkannt. Ein **gezeichnetes
+Plattformzeichen** deutet auf nichts: Ein Zeichen, das wir selbst malen, ist
+nicht der Knopf der App. Dazu: Unter **siebzig Grad** sieht man keine Geste, der
+Arm hängt in Ruhe schon schräg nach außen. Der **Unterarm darf nicht
+mitdrehen** — beide Vorzeichen drehen zum Körper hin. Und für „unten Mitte" gibt
+es **keinen Armwinkel**; das ging nur über die Position.
+
+**Ein Satz überlebt, weil er jeder zeigenden Pose gilt:** Zwei gleiche Arme sind
+keine Geste, sondern eine Haltung. Erst die Asymmetrie macht den linken zum
+zeigenden.
 
 Das alte Vokabular war **Erklärvideo-Vokabular**: Lösung, Merkmal, Bewertung,
 Punkte zum Mitnehmen — jedes Feld setzt voraus, dass der Zuschauer etwas lernen
@@ -861,10 +917,10 @@ das nicht die Überlegung, sondern die Gegenprobe an einer echten Datei aus
 
 **Die berechneten Markentöne sind nicht versioniert** (`*.wav` in
 `.gitignore`) und entstehen mit `npm run toene`. `npm run pruefen` prüft seit
-demselben Tag, dass alle fünf da sind — der schlechtere Fall ist nicht der
+demselben Tag, dass alle vier da sind — der schlechtere Fall ist nicht der
 Absturz, sondern das **stumme Video**, das durchgeht.
 
-Die Liste der fünf steht in `MARKENTOENE` in `src/marke.ts` und nicht im
+Die Liste der vier steht in `MARKENTOENE` in `src/marke.ts` und nicht im
 Skript, das sie erzeugt. Der erste Anlauf legte sie dorthin, und die Wache
 importierte sie von da — aber `skripte/toene.ts` hat ein `await main()` am
 Modulende. **Der Import erzeugte die Dateien, deren Vorhandensein die Wache
@@ -1180,13 +1236,28 @@ liegt der Kaltstart davor, also fällt er über eine Szene. Siehe `kaltstart`.
 
 ### Der Ton des Vorspanns
 
-Vier Klänge, und drei davon kosten nichts.
+Vier Klänge, und drei davon kosten nichts — die Themenansage kommt aus der
+Vertonung, der Rest ist berechnet.
 
 | | was | woher |
 |---|---|---|
 | **Auftakt** | D-Dur-Dreiklang aufsteigend, auf der Vorhangzufahrt | `skripte/toene.ts`, berechnet |
 | **Themenansage** | „Heutiges Thema: …" | aus der Vertonung, je Short |
-| **Öffnung** | Hauch plus Grundton D4 | berechnet |
+| **Öffnung** | Hauch plus Grundton D4, aufsteigend | berechnet |
+| **Schließung** | derselbe Klang abwärts, kürzer und weicher | berechnet |
+
+**Der Schließton kam am 04.09.2026 dazu**, auf Emirhans Bitte: „Eben derselbe
+wie wenn der Vorhang aufgeht, nur etwas abgerundeter fürs Zugehen." Zwei
+Änderungen tragen das, und beide standen schon im Kommentar der Öffnung: Der
+Hauch läuft **abwärts** (1700 → 700 Hz), weil beim Schließen der Stoff auf einen
+zukommt, und der Grundton hat einen längeren Anstieg bei kleinerem Abfall.
+
+**Die Länge ist hier die harte Grenze**, anders als beim Öffnen. Die Öffnung
+darf 0,96 Sekunden klingen, weil sie in eine leere erste Szene hineinläuft;
+hinter der Schlussfahrt steht sofort Voltis „Wir haben nachgelesen." Deshalb
+0,62 Sekunden und ein **gemessener** Ziel-RMS von 0,019 — ein Viertel der
+Sprache. Ein fester Pegelfaktor wäre dasselbe Versehen wie beim Kipppunktton, wo
+dieselbe Fassung je nach Phasenlage zwischen 0,072 und 0,144 lag.
 
 **Showtitel und Einwurf sind am 02.09.2026 gestrichen** — zehn feste Aufnahmen,
 die niemand mehr abruft. Auf der Karte steht seitdem fest „Die Volti & Watti
@@ -1221,7 +1292,7 @@ allein aber fremd). Der Ausweg war nicht, das Rauschen wegzulassen, sondern es
 **auf seine Aufgabe zu beschränken**: Es zeigt eine Richtung an, den Rest trägt
 ein Ton, der ohnehin zur Marke gehört.
 
-**Alle vier Klänge stehen auf D und A.** Das war nicht der Ausgangspunkt —
+**Alle berechneten Klänge stehen auf D und A.** Das war nicht der Ausgangspunkt —
 `folgen` stand schon darauf, die Terz dazwischen war die einzige Note, die
 fehlte.
 
@@ -1237,7 +1308,7 @@ mehr.
 
 ### Der Ton am Kipppunkt
 
-Seit dem 01.09.2026 gibt es einen fünften Klang: `kipppunkt`, A2, 0,9 Sekunden,
+Seit dem 01.09.2026 gibt es einen Klang mitten im Short: `kipppunkt`, A2, 0,9 Sekunden,
 langsam anschwellend und wieder weg.
 
 **Er sollte ein Publikum sein und ist keins.** Der Kanal ist eine Show, und
@@ -1535,49 +1606,6 @@ der erste Satz danach wieder passt (ein Feld, keine Prüfung — beurteilen kann
 das kein Skript), und **`weitererzaehlt`** muss im verketteten Sprechtext
 vorkommen. Prüfbar ist die andere Hälfte: **Der Schlusssatz darf nicht
 abbinden.** „Fazit", „kurz gesagt", „schreib es in die Kommentare".
-
-### Der Zeiger in der Signatur
-
-`FOLGEPOSEN` in `video/bausteine/posen.ts`, eine je Dienst — bewusst außerhalb
-von `POSEN`, denn jenes Record ist das Vokabular für Entwürfe.
-
-| Dienst | Knopf | Lösung |
-|---|---|---|
-| `tiktok` | rechts, mittlere Höhe | rechter Arm waagerecht nach rechts |
-| `instagram` | unten links | gestreckter Arm nach unten-links, Figur unter der Bühne |
-| `youtube` | unten Mitte | **dieselbe Geste, andere Position** |
-
-Drei Messwerte, die man kennen muss:
-
-- **Unter siebzig Grad sieht man nichts** — der Arm hängt in Ruhe schon schräg
-  nach außen.
-- **Der Unterarm darf nicht mitdrehen.** Oberarm −34 plus Unterarm −22 klappte
-  den ganzen Arm vor die Brust: Beide Vorzeichen drehen zum Körper hin.
-- **Für „unten Mitte" gibt es keinen Armwinkel.** Acht Kandidaten zwischen +20
-  und −30 standen nebeneinander: Jeder negative Oberarmwert klappt den Arm nach
-  oben vor den Körper. Der Arm hängt in Ruhe schon fast senkrecht — Instagram
-  funktioniert nur, weil unten *links* von der Ruhelage wegführt. Gelöst über
-  die **Position** statt über die Pose.
-
-**Es bleibt eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geräte sind
-höher, und die Apps schneiden verschieden.
-
-Der Zeiger tritt mitten im Video halb von rechts ins Bild und schaut nach
-rechts — dort liegt der Like-Knopf auf allen drei Plattformen. **Er hängt an
-einer Szene, nicht an einer Uhrzeit:** `hinweisSzene` sucht die letzte Szene
-ohne Requisite vor dem Schluss, weil das Szenensymbol fest in der rechten
-Bühnenhälfte sitzt und alles trifft, was von rechts hereinkommt.
-
-Drei Sackgassen, damit sie niemand erneut versucht: Der Nachleser konnte es
-nicht selbst (er steht schon auf der Bühne, ein Übersteuern mittendrin wäre ein
-Sprung). Eine **körperlose Hand** wurde im fertigen Video als Schlüssel
-erkannt. Und ein **gezeichnetes Plattformzeichen** deutet auf nichts — ein
-Zeichen, das wir selbst malen, ist nicht der Knopf der App.
-
-`dienst` ist eine Prop des Renders, kein Feld im Schema: Ein Short ist derselbe,
-egal wo er landet. Der Wochenlauf baut **drei Fassungen je Short** —
-`videos/<id>.<dienst>.mp4` —, und `veroeffentlichen.ts` wählt je Kanal die
-passende. Der Teillauf `--nur=<id>` bleibt einfassig.
 
 ## Länge
 

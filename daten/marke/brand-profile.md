@@ -98,7 +98,9 @@
   Sprechtext, Links in der Beschreibung.
 - **Harte Regel:** Kein Format verlangt eine Handlung. „Steh auf und prüf das"
   ist Arbeit, und Arbeit verliert im Feed. Einzige Ausnahme ist Schätzen — das
-  passiert unwillkürlich.
+  passiert unwillkürlich. **Sie gilt dem Zuschauer, nicht dem Bruder:** Voltis
+  „Gib mal her." und „Schreib ihn an." sind Handlung im Stück und kosten den
+  Zuschauer nichts.
 
 ## Channels
 - **Aktiv:** TikTok, Instagram, YouTube Shorts — `@ganzakkurat` überall.

@@ -12,7 +12,9 @@
 
 **Und die Zitatkarte darf nicht das Gegenteil zeigen.** In `sekunde-vom-atom` stand unter Voltis Satz „Unsere Sekunde kommt nicht von der Erde" die Karte „Die Drehung der Erde um ihre Achse definiert unser natürliches Zeitmaß" — der volle PTB-Satz endet mit „**, die Länge des Tages**". Die Erddrehung definiert den Tag, nicht die Sekunde.
 
-**Beispiele:** 3 von vier
+**Und der Konter muss einen Satz treffen, den jemand gesagt hat.** In `geldschein-drucken` hatte Watti recht: Ein Schein in Originalgröße steht unter keinem der sechs Buchstaben der Erlaubnisliste. Volti korrigierte ihn trotzdem — **der Konter traf den Fakt statt den Schluss**, und damit war es kein Szenario 3 mehr. Der falsche Schluss gehört Watti; wo er nicht als Zeile dasteht, muss Volti ihn erfinden. Zwei Zeilen haben es geheilt: „Für deinen Ausdruck stimmt das sogar." — „Also fällt der Spieleabend aus."
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -106,3 +108,34 @@ V: Wieso sollten wir uns bei einem Amt beschweren, die dafür sorgen, dass unser
 W: Ja stimmt auch wieder, ich Idiot.
 ```
 
+
+## geldschein-drucken
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `ezb-reproduktion-banknoten`
+
+```
+W: Mein Drucker verweigert den Geldschein. Verboten ist eben verboten.
+   Heutiges Thema: Wattis Drucker hat Angst vor Geld
+V: Watti, warum liegt ein Geldschein auf dem Drucker?
+W: Spieleabend. Unser Spielgeld ist weg, ich wollte welches drucken.
+V: Und warum liegt der 50er noch da?
+W: Weil das verboten ist. Steht bei der Zentralbank, ich lese auch mal was.
+V: Was steht da genau?
+W: Herstellung, Besitz, Transport, Verbreitung. Alles verboten.
+W: Besitz! Mein Fehldruck liegt noch im Drucker.
+V: Für deinen Ausdruck stimmt das sogar.
+W: Also fällt der Spieleabend aus.
+   [Zitatkarte] Reproduktionen, die den … Kriterien nicht entsprechen … Besitz … als verboten
+V: Du hast einen Absatz zu früh aufgehört du Idiot.
+W: Was steht denn danach?
+V: Welche rechtmäßig sind.
+V: Einseitig gedruckt, 125 Prozent oder mehr, in Länge und Breite.
+W: Größer? Ich wollte ihn kleiner machen.
+V: Kleiner geht auch. 75 Prozent oder weniger.
+W: Und dazwischen?
+V: Dazwischen hilft dir das Material. Was sich nicht wie Papier anfühlt, geht auch.
+   [Zahl] 125 % oder mehr — in Länge und Breite, einseitig gedruckt. Oder Abmessungen von höchstens 75 %.
+W: Also drucke ich auf ein Handtuch.
+V: Und räum den Fehldruck weg, bevor du ihn besitzt.
+```

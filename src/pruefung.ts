@@ -372,6 +372,33 @@ export const ZU_BREIT_IM_WORTWECHSEL = new Set(['achselzucken']);
 export const ZU_BREIT_MIT_SYMBOL = new Set(['staunen', 'achselzucken', 'hochschauen']);
 
 /**
+ * Posen, die **im Schluss** aus dem Bild ragen — die dritte Sperre derselben
+ * Bauart, seit dem 04.09.2026.
+ *
+ * **Der Anlass ist Emirhans Satz zum fertigen Video:** „Manchmal ist Wattis
+ * Hand links aus dem Bild." Die Ursache stand in einem Kommentar, der sich
+ * selbst widerlegt: `WORTWECHSEL_SCHLUSS` steht auf 0,92 statt 0,73, „weil im
+ * Schluss `ansprechen` und die ruhigen Posen daneben stehen, alle bei 52 — die
+ * Grenze, die 0,73 erzwingt, liegt in dieser Szene gar nicht an."
+ *
+ * **Das war eine Beobachtung an den damaligen Entwuerfen, keine Wache.** Sobald
+ * eine Schlussszene mit `staunen` beginnt — und drei der vier Shorts im Lauf
+ * vom 04.09. tun genau das —, liegt die Grenze sehr wohl an: 63,9 x 0,92 sind
+ * 58,8 gegen 50 Einheiten Feld, also fehlen 8,8. Bei 0,73 waeren es 46,6 und
+ * damit im Bild.
+ *
+ * **`npm run bildrand` kann es prinzipiell nicht finden.** Die Probe misst die
+ * aeusserste dunkle Spalte, und was jenseits des Randes liegt, ist im PNG gar
+ * nicht erst da — derselbe Befund wie am 01.09.2026 beim Arm, der am Ellenbogen
+ * endete.
+ *
+ * Wie ihre beiden Geschwister ist die Liste **gerechnet und nicht
+ * geschrieben**: `zuBreiteWortwechselposen(WORTWECHSEL_SCHLUSS, …)`, und
+ * `skripte/schemapruefung.ts` haelt beide gegeneinander.
+ */
+export const ZU_BREIT_IM_SCHLUSS = new Set(['staunen', 'achselzucken', 'hochschauen']);
+
+/**
  * Wie lange der Kaltstart hoechstens spricht.
  *
  * **5,2 Sekunden und nicht die 3,5 des Aufschlags.** Die Begruendung steht am
@@ -3202,16 +3229,26 @@ const laufweiteBefunde = (shorts: Short[], verlauf: Verlaufslauf[] = []): Befund
             szene.buehne.gegenueber.nach,
           ],
         ];
-        const treffer = [...new Set(ketten.filter((p) => ZU_BREIT_IM_WORTWECHSEL.has(p)))];
+        /*
+         * **Im Schluss gilt die schaerfere Liste.** Dort stehen die Figuren auf
+         * 0,92 statt 0,73, und was groesser ist, ragt frueher heraus — die
+         * Sperre wandert also mit der Groesse, nicht mit der Szenenart.
+         */
+        const imSchluss = 'art' in szene && szene.art === 'schluss';
+        const sperre = imSchluss ? ZU_BREIT_IM_SCHLUSS : ZU_BREIT_IM_WORTWECHSEL;
+        const treffer = [...new Set(ketten.filter((p) => sperre.has(p)))];
         if (treffer.length > 0) {
           befunde.push({
             stufe: 'fehler',
             shortId: short.id,
             regel: 'bildvielfalt',
-            text:
-              `„${treffer.join('", „')}" im Wortwechsel: Der äußere Arm ragt aus dem Bild. ` +
-              'Diese Posen breiten beide Arme aus und brauchen die ganze Bühnenbreite – ' +
-              'zu zweit gibt es die nicht. Für eine Figur allein bleiben sie erlaubt.',
+            text: imSchluss
+              ? `„${treffer.join('", „')}" im Schluss: Der äußere Arm ragt aus dem Bild. ` +
+                'Dort stehen die Figuren auf 0,92 statt 0,73, und diese Posen greifen weiter ' +
+                'als 54 Einheiten – mehr passt neben die zweite Figur nicht.'
+              : `„${treffer.join('", „')}" im Wortwechsel: Der äußere Arm ragt aus dem Bild. ` +
+                'Diese Posen breiten beide Arme aus und brauchen die ganze Bühnenbreite – ' +
+                'zu zweit gibt es die nicht. Für eine Figur allein bleiben sie erlaubt.',
           });
         }
       }

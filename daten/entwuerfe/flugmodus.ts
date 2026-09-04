@@ -66,7 +66,7 @@ export const flugmodus: Short = {
         wer: 'zeiger',
         von: 'zeigen',
         nach: 'ansprechen',
-        gegenueber: { von: 'ruhe', nach: 'achselzucken' },
+        gegenueber: { von: 'ruhe', nach: 'stutzen' },
       },
     },
     {
@@ -104,7 +104,7 @@ export const flugmodus: Short = {
         wer: 'zeiger',
         von: 'ansprechen',
         nach: 'stutzen',
-        gegenueber: { von: 'achselzucken', nach: 'erklaeren' },
+        gegenueber: { von: 'stutzen', nach: 'erklaeren' },
       },
     },
     {
@@ -207,7 +207,7 @@ export const flugmodus: Short = {
         wer: 'zeiger',
         von: 'nachdenken',
         nach: 'zeigen',
-        gegenueber: { von: 'erklaeren', nach: 'achselzucken' },
+        gegenueber: { von: 'erklaeren', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen ist Wattis Kommando am Anfang doppelt komisch: Er befiehlt Volti etwas, das der längst getan hat, und aus einem Grund, den es nicht gibt.',

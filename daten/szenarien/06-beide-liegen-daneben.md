@@ -14,7 +14,9 @@
 
 **Und der Gegenstand muss eindeutig sein.** „Ab der Dose bist du dran" wurde als **Steck**dose gelesen. Gemeint ist der Netzabschlusspunkt; jetzt steht dort „Anschlussdose".
 
-**Beispiele:** 3 von vier
+**Und der Short darf nicht zweimal dasselbe mit gegensätzlichem Vorzeichen sagen.** In `blitzer-app` hieß es in der Mitte „Von Sitzplätzen steht da nichts" — also liegt Volti falsch — und im Schluss „Da schweigt der Paragraf" — also liegt er richtig. **Das „Keiner von uns beiden" muss beide Hälften wirklich treffen**, sonst widerlegt der Short eine Position, der er am Ende recht gibt. Gefunden hat es der Belegprüfer, nicht das Lesen.
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -108,4 +110,28 @@ V: In dem, den du weggeschmissen hast.
 W: Ich schmeiße nichts weg.
 V: Dann liegt er in dem Stapel neben deinem Bett. Such ihn, kleiner.
 ```
+## blitzer-app
 
+`werhatrecht` · Kaltstart Watti  
+Quelle: `stvo-23-blitzerwarner`
+
+```
+W: Ich lösche die Blitzer-App. Nicht dass ich noch Punkte kriege.
+   Heutiges Thema: Wattis Blitzer-App stirbt umsonst
+V: Watti, warum löschst du deine Blitzer-App?
+W: Weil die verboten ist.
+V: Verboten sind die Kästen am Armaturenbrett. Deine App nicht.
+W: Wer hat jetzt recht?
+V: Keiner von uns beiden. Es hängt am Gerät und an der Funktion.
+W: Was steht denn da?
+V: Wer fährt, darf ein Gerät nicht mal betriebsbereit mitführen, wenn es dafür gebaut ist.
+W: Also doch löschen!
+V: Nein.
+V: Dafür gebaut ist zum Beispiel ein Radarwarner.
+W: Und mein Handy?
+V: Dein Handy kann auch telefonieren. Da darf die Funktion nicht laufen.
+W: Also das Handy bleibt, die App bleibt, und ich mache sie nicht an.
+W: Und wenn du fährst und ich mache sie an?
+V: Dann redet der Paragraf von mir.
+W: Dann fahre ich ab jetzt immer bei dir mit.
+```

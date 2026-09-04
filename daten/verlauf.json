@@ -146,6 +146,35 @@
           "dauerSek": 32.1
         }
       ]
+    },
+    {
+      "lauf": "2026-09-04",
+      "shorts": [
+        {
+          "format": "werhatrecht",
+          "sachgebiet": "fahren",
+          "themaId": "blitzer-app-verboten",
+          "dauerSek": 53.3
+        },
+        {
+          "format": "absicht",
+          "sachgebiet": "recht",
+          "themaId": "widerruf-ausnahmen",
+          "dauerSek": 57.7
+        },
+        {
+          "format": "eswareinmal",
+          "sachgebiet": "netz",
+          "themaId": "flugmodus-herkunft",
+          "dauerSek": 55.7
+        },
+        {
+          "format": "gibtswirklich",
+          "sachgebiet": "drucken",
+          "themaId": "kopierer-geldscheine",
+          "dauerSek": 69.9
+        }
+      ]
     }
   ]
 }

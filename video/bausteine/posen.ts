@@ -460,105 +460,7 @@ export const poseAus = ({
   };
 };
 
-/**
- * Die drei Folge-Posen des Zeigers — eine je Dienst.
- *
- * **Bewusst ausserhalb von `POSEN`.** Jenes Record folgt dem Enum `PosenName`
- * und ist damit das Vokabular, aus dem **Entwuerfe** eine Haltung waehlen.
- * Diese drei gehoeren nicht dorthin: Sie sind Teil der Signatur, kein
- * Szenenmittel, und ein Entwurf soll sie nicht setzen koennen.
- *
- * **Was sie zeigen, gehoert uns nicht.** Der Folgen-Knopf liegt bei jedem
- * Dienst woanders, als Overlay der App ueber unserem Video. Zeichnen koennen
- * wir ihn nicht, in seine Richtung deuten schon.
- *
- * | Dienst | Knopf | Geste |
- * |---|---|---|
- * | `tiktok` | rechts, mittlere Hoehe | rechter Arm waagerecht nach rechts |
- * | `instagram` | unten links | linker Arm gestreckt nach links-unten |
- * | `youtube` | unten Mitte | linker Arm nach unten |
- *
- * **Es ist eine Richtung, kein Zielen.** Unser Video ist 9:16, die Geraete
- * sind hoeher, und die Apps schneiden oder rahmen verschieden. Wo der Knopf
- * relativ zu unserem Bildinhalt landet, haengt am Geraet — „nach rechts"
- * ueberlebt das, ein Pfeil auf einen Punkt nicht.
- *
- * Der Blick geht mit: `blick` ist ein Versatz der Pupille in SVG-Konvention,
- * x positiv nach rechts, y positiv nach unten.
- */
-export const FOLGEPOSEN = {
-  /*
-   * Die Winkel sind beim ersten Standbild **verdoppelt** worden. Mit -46 und
-   * +22 Grad sahen die drei Fassungen fast gleich aus: Der Arm haengt in der
-   * Ruhelage schon schraeg nach aussen, und eine Drehung um zwanzig Grad
-   * verschwindet darin. Erst ab rund siebzig Grad steht er waagerecht und die
-   * Geste ist als Zeigen zu lesen — dieselbe Groessenordnung wie bei `zeigen`
-   * (-68).
-   */
-  tiktok: p({
-    drehung: { oberarm_rechts: -74, unterarm_rechts: -14, koerper: 6 },
-    blick: [3, 0.2],
-    mund: 'laecheln',
-  }),
-  /*
-   * **Nach unten zu deuten ist die schwerste Richtung**, und drei Runden
-   * Standbild (`video/Gestenprobe.tsx`) liegen hinter diesen drei Zahlen. Der
-   * linke Arm haengt in Ruhe bereits nach unten, also traegt die Geste nicht
-   * der Winkel, sondern die **Streckung**: Der Unterarm steht auf seinem
-   * Maximum von +15 — weiter geht das Gelenk nicht, ein Ellbogen ueberstreckt
-   * nicht —, und die Richtung macht allein der Oberarm.
-   *
-   * Zwei Sackgassen davor, beide am Bild gesehen: Ein abstehender Ellbogen
-   * (Oberarm heraus, Unterarm herunter) liest sich als **Winken**. Und ein
-   * negativer Unterarm klappt nicht nach aussen, sondern vor den Koerper —
-   * die Hand landet auf dem Ladebalken.
-   *
-   * Der Arm zeigt schraeg, nicht senkrecht: Die Figur steht ueber dem Knopf
-   * und leicht rechts davon, und eine Senkrechte verfehlte ihn nach rechts.
-   *
-   * **Der rechte Arm liegt bewusst an.** Ohne ihn standen beide Arme gleich
-   * weit schraeg ab, und zwei gleiche Arme sind keine Geste, sondern eine
-   * Haltung. Erst die Asymmetrie macht den linken zum zeigenden.
-   */
-  instagram: p({
-    drehung: { oberarm_links: 20, unterarm_links: 15, oberarm_rechts: 16, koerper: -8 },
-    blick: [-2.5, 2.8],
-    mund: 'laecheln',
-  }),
-  /*
-   * **Dieselbe Geste wie bei Instagram, an einer anderen Stelle im Bild.**
-   *
-   * Der Abonnieren-Knopf sitzt bei YouTube unten **Mitte**, nicht unten links,
-   * und dafuer gibt es keinen eigenen Armwinkel: Die Gestenprobe vom
-   * 25.08.2026 hat acht Kandidaten zwischen +20 und -30 nebeneinander
-   * gestellt, und **jeder negative Oberarm klappte den Arm nach oben vor den
-   * Koerper** — die Hand lag auf dem Ladebalken. Negativ dreht zum Koerper
-   * hin, und aus einer Ruhelage, die schon fast senkrecht haengt, fuehrt das
-   * nicht tiefer, sondern herum.
-   *
-   * Damit bleibt nur ein Winkel, der nach unten zeigt, und das ist der
-   * Ruhewinkel selbst — also gar keine Geste. Instagram funktioniert nur
-   * deshalb, weil unten **links** von der Ruhelage wegfuehrt.
-   *
-   * Geloest ueber die Position statt ueber die Pose: Die Figur steht in
-   * `ZEIGER_PLATZ` weiter rechts, und die geprueste Geste nach unten-links
-   * trifft damit die Mitte. Wer hier einen eigenen Winkel sucht, sollte
-   * zuerst das Standbild der Probe ansehen.
-   */
-  youtube: p({
-    drehung: { oberarm_links: 20, unterarm_links: 15, oberarm_rechts: 16, koerper: -8 },
-    blick: [-2.5, 2.8],
-    mund: 'laecheln',
-  }),
-} as const;
 
-/**
- * Prueft, dass jede Pose nur Gelenke nennt, die es im Rig gibt.
- *
- * Ein Tippfehler in einem Gelenknamen ist sonst unsichtbar: Der Renderer
- * schlaegt ihn nach, findet nichts und zeichnet die Ruhelage. Die Figur wirkt
- * dann steif, und niemand sucht die Ursache in einem Buchstaben.
- */
 /**
  * Wie weit eine Pose **nach aussen** reicht, in Buehneneinheiten ab der
  * Figurenmitte.
@@ -606,7 +508,7 @@ export const posenPruefen = (rig: Rig): string[] => {
   const bekannt = new Set(Object.keys(rig.gelenke));
   const befunde: string[] = [];
 
-  for (const [name, pose] of [...Object.entries(POSEN), ...Object.entries(FOLGEPOSEN)]) {
+  for (const [name, pose] of Object.entries(POSEN)) {
     for (const [id, winkel] of Object.entries(pose.drehung)) {
       if (!bekannt.has(id)) {
         befunde.push(`Pose „${name}" dreht „${id}" — kein Gelenk im Rig.`);

@@ -9,24 +9,6 @@ import { FORMAT, SPIELFLAECHE, VORHANG } from '../src/marke';
 import { kaltstartSek, szenenZeitplan } from '../src/zeit';
 import type { Short } from '../src/typen';
 
-/**
- * Welche Szene den Gefaellt-mir-Zeiger traegt.
- *
- * **Abgeschrieben aus `video/Short.tsx:91`, und das ist hier vertretbar:** Der
- * Renderer darf von einem Pruefskript nichts wissen, und eine Komponente aus
- * `video/` in ein Node-Skript zu ziehen, holt die halbe Remotion-Laufzeit mit.
- * Laeuft die Regel dort auseinander, meldet diese Probe hoechstens einmal zu
- * viel — sie wird nie still falsch.
- */
-const hinweisSzene = (short: Short): number | null => {
-  for (let i = short.szenen.length - 2; i >= 1; i -= 1) {
-    const szene = short.szenen[i]!;
-    const buehne = 'buehne' in szene ? szene.buehne : undefined;
-    if (buehne === undefined || buehne.art !== 'figur' || buehne.requisite === undefined) return i;
-  }
-  return null;
-};
-
 const ausfuehren = promisify(execFile);
 
 /**
@@ -192,7 +174,7 @@ const main = async () => {
           })),
         },
       };
-      await fs.writeFile(props, JSON.stringify({ daten: mitTon, dienst: 'tiktok' }));
+      await fs.writeFile(props, JSON.stringify({ daten: mitTon }));
       /*
        * **Der Zeitplan kommt aus dem Short mit Attrappe, nicht ohne.** Mit
        * Tonspur rechnet `szenenZeitplan` die Laengen aus den Startsekunden
@@ -213,7 +195,7 @@ const main = async () => {
        * kleinen Figuren gemessen und fuer gut befunden.
        *
        * Er beginnt bei Bild 0 und endet, wenn der Vorhang zu ist. Der Index
-       * −1 haelt ihn aus `hinweisSzene` heraus, das Szenennummern vergleicht.
+       * −1 haelt ihn aus jeder Rechnung heraus, die Szenennummern vergleicht.
        */
       const kaltstartBilder = Math.round(kaltstartSek(mitTon) * 30);
       const abschnitte: [number, { startBild: number; dauerBilder: number }][] = [
@@ -240,22 +222,13 @@ const main = async () => {
           geprueft += 1;
 
           /*
-           * **Der Gefaellt-mir-Zeiger steht mit Absicht ausserhalb.**
-           *
-           * Er tritt in der letzten Szene ohne Requisite halb von rechts ins
-           * Bild und zeigt auf den Folgen-Knopf der App — das ist der ganze
-           * Zweck, und der Vertrag nennt ihn „eine Richtung, kein Zielen".
-           * Beim ersten Lauf dieser Probe hat er in allen vier Shorts gemeldet.
-           *
-           * Ihn generell zu ignorieren waere falsch: In dieser Szene steht auch
-           * die eigentliche Figur, und die soll nicht herausragen. Deshalb wird
-           * dort nur die **linke** Kante geprueft — der Zeiger kommt bei
-           * `tiktok`, dem Dienst dieser Probe, von rechts.
+           * **Beide Kanten, in jeder Szene.** Bis zum 04.09.2026 stand hier
+           * eine Ausnahme: In der Szene mit dem Gefaellt-mir-Zeiger wurde nur
+           * die linke Kante geprueft, weil der Zeiger mit Absicht von rechts
+           * ins Bild ragte. Mit dem Zeiger ist die Ausnahme gegangen — und
+           * damit sieht die Probe wieder, was sie sehen soll.
            */
-          const zeigerszene = i === hinweisSzene(short);
-          const zuWeitRechts = !zeigerszene && rand.rechts > SPIELFLAECHE.rechts;
-
-          if (rand.links < SPIELFLAECHE.links || zuWeitRechts) {
+          if (rand.links < SPIELFLAECHE.links || rand.rechts > SPIELFLAECHE.rechts) {
             befunde += 1;
             console.log(
               `  ✕ ${short.id} Szene ${i + 1}, Bild ${bild}: Figur reicht von ` +

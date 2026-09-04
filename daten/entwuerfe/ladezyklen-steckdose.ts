@@ -101,7 +101,7 @@ export const ladezyklenSteckdose: Short = {
       art: 'zahl',
       position: 'zuspitzung',
       wert: '1 Zyklus',
-      einheit: '= 100 % Nennkapazität',
+      einheit: '100 % Kapazität',
       bedeutung: 'so misst die Verordnung einen vollständigen Ladezyklus',
       quelleId: 'eu-oekodesign-handys',
       belegId: 'vollstaendige-zyklen-nennkapazitaet',

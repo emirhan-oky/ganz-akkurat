@@ -26,14 +26,14 @@ export const achtzigProzentNachbar: Short = {
   sachgebiet: 'laden',
   bauform: 'zitatkarte',
   arbeitstitel: 'Der Nachbar weiß es besser',
-  weitererzaehlt: 'Da steht, dass es die Funktion geben muss',
+  weitererzaehlt: 'Da steht, dass es die Funktion bei 80 Prozent geben muss',
   suchbegriff: 'Handy laden 80 Prozent',
   kaltstart: {
     art: 'gewissheit',
     satz: 'Ich habe gehört, neue Handys laden gar nicht mehr voll.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'stutzen', requisite: 'nachbarhaeuser' },
   },
-  vorspann: 'Der Nachbar weiß es besser',
+  vorspann: 'Wattis Nachbar weiß es besser',
 
   szenen: [
     {
@@ -67,14 +67,14 @@ export const achtzigProzentNachbar: Short = {
       quelleId: 'eu-oekodesign-handys',
       belegId: 'optionale-ladefunktion-achtzig',
       sprechtext:
-        'Verboten hat die niemand was. Doch, bei 80 Prozent ist Schluss. Der hat es mir genau erklärt.',
+        'Verboten hat die niemand was. Doch, vorher ist Schluss. Der hat es mir genau erklärt.',
       rede: [
         { sprecher: 'nachleser', zug: 'widersprechen', text: 'Verboten hat die niemand was.' },
         {
           sprecher: 'zeiger',
           zug: 'umdeuten',
           machart: 'rechtfertigung',
-          text: 'Doch, bei 80 Prozent ist Schluss. Der hat es mir genau erklärt.',
+          text: 'Doch, vorher ist Schluss. Der hat es mir genau erklärt.',
         },
       ],
       buehne: {
@@ -88,17 +88,17 @@ export const achtzigProzentNachbar: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'eine vom Nutzer wählbare optionale Ladefunktion aufweisen, die den Ladevorgang automatisch beendet',
+      zitat: 'eine vom Nutzer wählbare optionale Ladefunktion … die den Ladevorgang automatisch beendet',
       quelleId: 'eu-oekodesign-handys',
       belegId: 'optionale-ladefunktion-achtzig',
       herausgeber: 'Europäische Kommission',
       sprechtext:
-        'Da steht, dass es die Funktion geben muss. Nicht, dass sie an ist. Also kann ich sie anmachen? Du kannst. Du musst nicht.',
+        'Da steht, dass es die Funktion bei 80 Prozent geben muss. Nicht, dass sie an ist. Also kann ich sie anmachen? Du kannst. Du musst nicht.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Da steht, dass es die Funktion geben muss. Nicht, dass sie an ist.',
+          text: 'Da steht, dass es die Funktion bei 80 Prozent geben muss. Nicht, dass sie an ist.',
           quelleId: 'eu-oekodesign-handys',
           belegId: 'optionale-ladefunktion-achtzig',
         },

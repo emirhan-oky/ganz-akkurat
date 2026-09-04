@@ -91,7 +91,8 @@ const teil2 = async () => {
     const dateien = await fs.readdir(propsOrdner).catch(() => [] as string[]);
 
     for (const datei of dateien.sort()) {
-      // Nur die dienstlose Fassung: Die drei Dienstdateien sind Kopien davon.
+      // Alte Laeufe legten je Dienst eine Kopie ab (<id>.tiktok.json); die
+      // haben drei Punktteile und werden hier uebersprungen.
       if (!datei.endsWith('.json') || datei.split('.').length !== 2) continue;
 
       const roh = JSON.parse(await fs.readFile(path.join(propsOrdner, datei), 'utf8')) as {

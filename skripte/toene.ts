@@ -642,26 +642,6 @@ const main = async () => {
   await fs.mkdir(ordner, { recursive: true });
 
   /*
-   * **gefaellt** — ein kurzer, heller Pop mit steigender Tonhoehe.
-   *
-   * Steigend, weil er auf etwas zeigt: Er hebt an, statt abzuschliessen. 130
-   * Millisekunden, damit er unter der Stimme durchgeht und nicht ueber ihr
-   * steht.
-   */
-  const gefaellt = ton(0.13, (t) => 660 + 520 * t * 8, { abfall: 34, oktave: 0.22 });
-
-  /*
-   * **folgen** — zwei Toene, eine Quinte auseinander, der zweite nach 90 ms.
-   *
-   * Zwei statt einem, weil der Schluss bestaetigt und nicht hinweist. Die
-   * Quinte klingt aufgeloest; eine Sekunde oder Terz klaenge nach Frage.
-   */
-  const folgen = nacheinander([
-    { ab: 0, proben: ton(0.4, () => 587.33, { abfall: 13 }) }, // D5
-    { ab: 0.09, proben: ton(0.42, () => 880, { abfall: 11 }) }, // A5
-  ]);
-
-  /*
    * **auftakt** — der Dreiklang, mit dem die Show beginnt.
    *
    * D-Dur: D5, Fis5, A5, je 70 Millisekunden versetzt. Er stand am 31.08.2026
@@ -677,11 +657,11 @@ const main = async () => {
    * nichts mehr zu. **Ein Name, der eine Bewegung nennt, die es nicht gibt, ist
    * die Sorte Altlast, die spaeter niemand mehr aufloest.**
    *
-   * Er endet auf demselben A5 wie `folgen` und teilt dessen Grundton D5. Die
-   * Markentoene sind damit **derselbe Akkord in mehreren Rollen**: ein Pop beim
-   * Hinweis, eine Quinte beim Schluss, der volle Dreiklang beim Auftritt. Das
-   * war nicht der Ausgangspunkt — `folgen` stand schon auf D und A, die Terz
-   * dazwischen war die einzige Note, die fehlte.
+   * Er steht auf D5, Fis5 und A5 und teilt seinen Grundton mit `oeffnung` und
+   * `schliessung` (D4, eine Oktave tiefer) sowie mit `kipppunkt` (A2, die
+   * Quinte zwei Oktaven darunter). **Alle vier Markentoene stehen auf D und
+   * A** — das war nicht der Ausgangspunkt, sondern hat sich beim Bauen so
+   * ergeben.
    */
   const auftakt = nacheinander([
     { ab: 0, proben: ton(0.5, () => 587.33, { abfall: 9, oktave: 0.24 }) }, // D5
@@ -728,6 +708,35 @@ const main = async () => {
   ]);
 
   /*
+   * **schliessung** — derselbe Ton, wenn der Vorhang wieder zufaehrt.
+   *
+   * **Zwei Aenderungen gegen `oeffnung`, und beide stehen schon in dessen
+   * Kommentar.** Der Hauch laeuft **abwaerts** (1700 → 700 Hz) statt aufwaerts:
+   * Beim Aufziehen entfernt sich der Stoff, beim Schliessen kommt er auf einen
+   * zu, und die Grenzfrequenz folgt der Bewegung. Und der Grundton hat einen
+   * laengeren Anstieg bei kleinerem Abfall — das ist das „abgerundeter", um das
+   * Emirhan am 04.09.2026 gebeten hat.
+   *
+   * **Die Laenge ist hier die harte Grenze, anders als bei der Oeffnung.** Die
+   * darf 0,96 Sekunden klingen, weil sie in eine leere erste Szene hineinlaeuft.
+   * Am Ende steht hinter der Fahrt (0,4 s) sofort Voltis „Wir haben
+   * nachgelesen." — deshalb 0,62 Sekunden und ein gemessener Ziel-RMS von
+   * 0,019, ein Viertel der Sprache (0,08).
+   *
+   * **Der Pegel ist gemessen und nicht gesetzt.** Beim Kipppunkt-Ton lag
+   * dieselbe Fassung zwischen RMS 0,072 und 0,144, je nachdem wie die Phasen
+   * des Rauschens zufaellig zusammenfielen; erst `aufPegel` machte die
+   * Fassungen vergleichbar.
+   */
+  const schliessung = aufPegel(
+    nacheinander([
+      { ab: 0, proben: swisch({ dauerSek: 0.4, vonHz: 1700, bisHz: 700, pegel: 0.3 }) },
+      { ab: 0.04, proben: ton(0.58, () => 293.66, { anstiegSek: 0.16, abfall: 4, oktave: 0.28 }) }, // D4
+    ]),
+    0.019,
+  );
+
+  /*
    * **kipppunkt** — der Ton, an dem die Wendung sitzt. A2, 0,9 Sekunden,
    * langsam anschwellend und wieder weg.
    *
@@ -760,10 +769,9 @@ const main = async () => {
    * in der Schemapruefung spaeter eine Datei vermisst, die nie erzeugt wurde.
    */
   const fertig: Record<(typeof MARKENTOENE)[number], Float32Array> = {
-    gefaellt,
-    folgen,
     auftakt,
     oeffnung,
+    schliessung,
     kipppunkt,
   };
 
@@ -772,7 +780,11 @@ const main = async () => {
     const ziel = path.join(ordner, `${name}.wav`);
     await fs.writeFile(ziel, wav(proben));
     const kb = (proben.length * 2 + 44) / 1024;
-    console.log(`   ${name.padEnd(10)} ${(proben.length / RATE).toFixed(2)}s  ${kb.toFixed(0)} KB  ${ziel}`);
+    const { rms, ueber2k } = messen(proben);
+    console.log(
+      `   ${name.padEnd(12)} ${(proben.length / RATE).toFixed(2)}s  ${kb.toFixed(0).padStart(3)} KB  ` +
+        `RMS ${rms.toFixed(3)}  über 2 kHz ${(ueber2k * 100).toFixed(0)} %`,
+    );
   }
 };
 

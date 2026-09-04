@@ -12,7 +12,11 @@
 
 **Eine Zeile, die nicht witzig ist, wird gestrichen, nicht verbessert.** Wattis „Eine davon weckt mich um 6." — *„weil er wirklich unlustig ist."*
 
-**Beispiele:** 3 von vier
+**Und `stuetzt` ist die Gebrauchsanweisung des Belegs.** In diesem Short stand „Der darf 7 Watt" — geltend sind 8, die 7 kommen erst 2027. **Im `stuetzt`-Feld der Quelle stand es sogar**: „7 Watt nach zwei Jahren, davor 8." Die Belegdatenbank wusste es, der Dialog nicht; zwischen beidem lagen zehn Minuten.
+
+**Dazu ein Legalbegriff, der kein Alltagswort ist.** „Das Gerät" meint in dieser Verordnung nur die Produkte aus Anhang II — elektronische Displays fallen heraus. Der Fernseher, an dem Watti alles festmachte, war ausgerechnet das ausgeschlossene Beispiel; jetzt steht dort die Spielekonsole.
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -97,5 +101,35 @@ W: Und was haben sie danach dagegen gemacht?
 V: Abschalten nach dem Abheben. Stand so in den Maßnahmen danach.
 W: Eine halbe Rakete für einen Schalter, den keiner umgelegt hat.
 V: Und du hast 200 Apps, von denen du vielleicht 5 brauchst.
+```
+
+
+---
+
+## standby-halbes-watt
+
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `eu-oekodesign-standby`
+
+```
+W: Ich ziehe abends alle Stecker. Der Standby frisst mein Geld.
+   Heutiges Thema: Watti zieht jeden Abend alle Stecker
+V: Watti, wie viel frisst dein Standby denn?
+W: Viel. Deshalb ziehe ich ja die Stecker.
+V: Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen.
+W: Ein halbes?
+V: Ein halbes, du Idiot. Und ab Mai 2027 nur noch 0,3.
+   [Zitatkarte] Die Leistungsaufnahme des Geräts im Aus-Zustand darf 0,50 W nicht überschreiten.
+W: Und meine Konsole hängt im WLAN.
+V: Dann darf sie 2 Watt.
+V: Das ist nichts, und du stehst jeden Abend auf.
+W: Und was ist mit dem Router?
+V: Der darf 8 Watt, solange er im Netz hängt.
+W: 8?
+V: Router und Modems zählen extra.
+   [Zahl] 8 Watt — so viel darf ein Router im vernetzten Bereitschaftsbetrieb ziehen
+W: Also ziehe ich ab jetzt den Router raus.
+V: Und wie kommst du dann ins Netz?
+W: Gar nicht. Dann ziehe ich weiter die Konsole.
 ```
 

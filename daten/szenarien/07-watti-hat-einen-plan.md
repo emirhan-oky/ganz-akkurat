@@ -10,7 +10,11 @@ Wo die Quelle nur den Rechenweg nennt, nennt Volti den Rechenweg. Und eine Zahl 
 
 **Und der Kaltstart hängt nichts an.** Ein Anlauf lautete „Ich arbeite den Sommer aus Spanien, mit meinem Handyvertrag." — *„das ist kein guter Satz."* Der Vertrag stand hinten dran, weil die Regel ein zusammengesetztes Substantiv verlangt. Jetzt steht er im Gepäck: „Koffer, Laptop, Handyvertrag." Damit trägt er die Pointe schon im ersten Satz — er ist eben **kein** Gepäckstück.
 
-**Beispiele:** 3 von vier
+**Und die Rechnung darf auch aus einer Behörden-Pressemitteilung kommen.** In `streamen-im-zug` stehen alle vier Zahlen wörtlich in einer Mitteilung des Umweltbundesamts — samt dem Satz, der die Pointe trägt: „Nicht berücksichtigt wird bei dieser Berechnung der Stromverbrauch des Endgeräts." **Wattis ganzer Plan hängt an dem einen Posten, den die Zahlen gar nicht enthalten**, und den musste ich nicht erfinden.
+
+**Eine Messung ohne Jahr behauptet den heutigen Stand.** Die Zahlen sind von 2020, und Volti sagt es im Dialog. Absolute Daten altern nicht.
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -103,4 +107,32 @@ V: Dass du hier wohnst. Das darfst du nachweisen.
 W: Dann fliege ich zwischendurch einmal heim.
 V: Ach Watti...
 ```
+## streamen-im-zug
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `uba-streaming-uebertragung`
+
+```
+W: Ab jetzt streame ich nur noch mobil. Spart Strom zu Hause.
+   Heutiges Thema: Wattis Serienabend im Zug
+V: Watti, warum guckst du deine Serie über Mobilfunk?
+W: Weil der Strom dann nicht von meiner Rechnung geht.
+V: Und wo geht er dann hin?
+W: In den Funkmast. Nicht mein Problem.
+V: Rechnen wir dein Streaming mal durch. Eine Stunde HD-Video über Glasfaser sind 2 Gramm CO2.
+W: Für was alles?
+V: Rechenzentrum und Übertragung.
+W: Sagt wer?
+V: Das Umweltbundesamt, 2020.
+W: Und bei mir im Zug?
+   [Zahl] 2 Gramm — je Stunde HD-Video über Glasfaser, für Rechenzentrum und Datenübertragung
+V: Über 5G etwa 5.
+W: Und das war es?
+V: Über das alte 3G waren es 90.
+W: 90 Gramm für dieselbe Stunde?
+V: Für dieselbe Stunde.
+W: Dann nehme ich eben 5G.
+V: Und den Strom für dein Handy zahlst du trotzdem selbst.
+V: Der steht in keiner der Zahlen.
+W: Wieso, ich lade doch bei dir.
+```

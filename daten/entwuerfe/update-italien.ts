@@ -133,7 +133,7 @@ export const updateItalien: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'a new update (iOS 10.2.1), without warning consumers that its installation could reduce the speed',
+      zitat: 'a new update (iOS 10.2.1), without warning consumers … could reduce the speed',
       quelleId: 'agcm-updates-strafe',
       belegId: 'apple-update-ohne-warnung',
       sprechtext:

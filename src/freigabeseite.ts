@@ -38,25 +38,6 @@ const behauptung = (szene: Szene): string => {
   }
 };
 
-/**
- * Welche Fassung im Player laeuft, aus dem Dateinamen gelesen.
- *
- * Der Wochenlauf legt `videos/<id>.<dienst>.mp4` an; die Freigabeseite zeigt
- * eine davon. Drei Player je Short waeren unuebersichtlich und zeigten nichts,
- * was man nicht weiss — die Fassungen unterscheiden sich in der Blickrichtung
- * des Zeigers am Schluss, sonst in nichts.
- */
-const DIENSTNAMEN: Record<string, string> = {
-  tiktok: 'TikTok-Fassung',
-  instagram: 'Instagram-Fassung',
-  youtube: 'YouTube-Fassung',
-};
-
-/** Nur der Name, fuer die Kopfzeile — dort ist kein Platz fuer den Zusatz. */
-const fassungKurz = (pfad: string): string => {
-  const teile = pfad.replace(/\.mp4$/, '').split('.');
-  return DIENSTNAMEN[teile[teile.length - 1] ?? ''] ?? 'Vorschau';
-};
 
 export const freigabeseiteBauen = (opts: {
   laufId: string;
@@ -322,9 +303,7 @@ export const freigabeseiteBauen = (opts: {
 <body>
 <header>
   <h1><span class="duenn">Ganz&#8202;</span><span class="fett">akkurat</span> · Freigabe</h1>
-  <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}${
-    shorts.length > 0 ? ` · <b>${escape(fassungKurz(videopfad(shorts[0]!)))}</b>` : ''
-  }</p>
+  <p class="unterzeile">Lauf ${escape(laufId)}${mitTon ? '' : ' · Trockenlauf ohne Vertonung'}</p>
   <div class="bilanz">
     <div class="zahl"><b>${shorts.length}</b>Videos</div>
     <div class="zahl ${fehlerGesamt > 0 ? 'warn' : ''}"><b>${fehlerGesamt}</b>Fehler</div>

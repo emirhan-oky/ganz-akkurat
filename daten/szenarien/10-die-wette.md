@@ -8,7 +8,11 @@
 
 **Die Beziehung ist nicht die Schlussdekoration, sie ist das Material.** Mein Schluss handelte von der Wette: „Ich hab noch nie eine Wette gegen dich verloren." Emirhans handelt von den Brüdern — Volti weicht auf seinen Rang aus, und Watti schlägt ihn mit seinem eigenen Satz: „Das hast du mir beigebracht." *„Vergiss die Beziehung der beiden nicht."*
 
-**Beispiele:** 3 von vier
+**Auch Volti verliert, und im Vorrat steht es jetzt 2:2.** In `techniker-termin` weiß Watti es besser, und **warum er es weiß, steht im Dialog**: Er hat acht Stunden im Flur auf den Techniker gewartet und dabei nachgelesen. Die Wartezeit, über die er sich beschwert, ist der Grund, warum er gewinnt.
+
+**Die Bedingung des Gesetzes gehört ins Gespräch, nicht in einen Nebensatz.** „Und wenn du selbst schuld bist am Termin?" — „Dann gibt es nichts. Ich saß aber da."
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -100,4 +104,31 @@ W: Und wo steht, ob er mich belehrt hat?
 V: Guck nach, ob er dich überhaupt belehrt hat.
 W: Da steht ein Widerrufsformular drin. Ich trage sie wohl selbst zur Post.
 ```
+## techniker-termin
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `tkg-58-entstoerung`
+
+```
+W: Acht Stunden habe ich im Flur gewartet, und der Techniker kam nicht.
+   Heutiges Thema: Wattis Techniker kommt nicht
+V: Watti, warum sitzt du im Flur?
+W: Der Techniker vom Internetanbieter sollte kommen.
+V: Pech. Mach einen neuen Termin aus.
+W: Und meine 10 Euro?
+V: Welche 10 Euro?
+W: Der Termin war vereinbart und er hat ihn versäumt. Dafür gibt es 10 Euro. Wetten?
+   [Zahl] 10 Euro — je Termin, den dein Anbieter versäumt — oder 20 % vom festen Monatsentgelt
+V: Wetten. Wenn ich gewinne, machst du eine Woche den Abwasch.
+W: Und wenn ich gewinne, machst du ihn.
+V: Abgemacht. Ich lese vor.
+V: Für jeden versäumten Termin eine Entschädigung in Höhe von 10 Euro.
+W: Oder 20 Prozent vom Monatsentgelt, wenn du jeden Monat dasselbe zahlst. Je nachdem, welcher Betrag höher ist.
+   [Zitatkarte] für jeden versäumten Termin eine Entschädigung in Höhe von 10 Euro
+V: Woher weißt du das?
+W: Acht Stunden im Flur. Da liest man was.
+V: Und wenn du selbst schuld bist am Termin?
+W: Dann gibt es nichts. Ich saß aber da.
+V: Eine Woche Abwasch.
+W: Und den neuen Termin machst du.
+```

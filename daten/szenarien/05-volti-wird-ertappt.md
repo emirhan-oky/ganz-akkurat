@@ -6,7 +6,11 @@
 
 **Der Schluss darf auf die Beziehung ausweichen, statt zu antworten.** „Ich wollte nicht fünf Tage warten." beantwortet die Frage und schließt den Fall. *„Großer-Bruder-Kram eben."* antwortet gar nicht und ist trotzdem die Antwort: Volti beruft sich auf einen Rang statt auf einen Grund.
 
-**Beispiele:** 3 von vier
+**Und das Beispiel für eine Regel kommt aus dem erzählten Fall.** „Beim Nachbarn darf er die Gewährleistung ausschließen" — *„ich verstehe das mit dem Nachbarn nicht. Wo kommt der Nachbar jetzt her?"* Der Nachbar ist das juristische Schulbeispiel für den Privatverkauf und stand in einem Short, in dem es keinen gibt. Der Gegenstand war da: Voltis Monitor ist aus einer Anzeige.
+
+**Der Belegprüfer hat den Tausch dann halb zurückgenommen, und beide hatten recht.** Eine Kleinanzeige ist ein Vertriebsweg, kein Status — § 14 BGB macht jemanden zum Unternehmer über sein Handeln, und wer regelmäßig Anzeigen schaltet, kann einer sein. Der erzählerische Einwand und der juristische treffen sich in einer Zeile, die beides nennt: „Kommt drauf an, wer sie geschaltet hat."
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.
 Bis zum 03.09.2026 stand hier der Stand aus dem Chat, und damit zwölf Zeilen, die
@@ -94,4 +98,28 @@ V: Das war was anderes.
 W: Was denn?
 V: Großer-Bruder-Kram eben.
 ```
+## kassenzettel-ausschluss
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `bgb-476-abweichende`, `bgb-474-verbrauchsgueterkauf`
+
+```
+W: Auf meinem Kassenzettel steht „keine Gewährleistung". Zu spät.
+   Heutiges Thema: Voltis Monitor hat keine Rechte
+V: Watti, warum liest du einen Kassenzettel?
+W: Weil da steht, dass ich keine Gewährleistung habe.
+V: Reparatur oder Geld zurück kann er dir damit nicht nehmen.
+W: Auch wenn ich unterschrieben habe?
+V: Unterschreiben reicht nicht. Es müsste ausdrücklich und gesondert vereinbart sein.
+   [Zitatkarte] die Abweichung … im Vertrag ausdrücklich und gesondert vereinbart wurde
+W: Und wenn es kein Händler ist?
+V: Der Paragraf gilt nur, wenn du bei einem Unternehmer kaufst.
+W: Also privat, aus so einer Anzeige?
+V: Kommt drauf an, wer sie geschaltet hat.
+W: Wie bei deinem Monitor?
+V: Was ist mit meinem Monitor?
+W: Den hast du aus einer Anzeige. Von einer Privatperson.
+V: Der hat fast nichts gekostet.
+W: Und jetzt flackert er.
+V: Ja gut, einmal ist keinmal.
+```

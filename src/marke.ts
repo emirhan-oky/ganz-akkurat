@@ -242,8 +242,13 @@ export const mische = (a: string, b: string, t: number): string => {
  *
  * `*.wav` steht in `.gitignore` — die Dateien sind nicht versioniert und
  * entstehen mit `npm run toene`.
+ *
+ * **Vier statt fuenf, seit dem 04.09.2026.** `gefaellt` und `folgen` gehoerten
+ * dem Zeiger in der Signatur; mit ihm sind beide gegangen. Dafuer kam
+ * `schliessung` dazu — der Vorhang bekommt beim Zufahren denselben Ton wie beim
+ * Oeffnen, nur abgerundet.
  */
-export const MARKENTOENE = ['gefaellt', 'folgen', 'auftakt', 'oeffnung', 'kipppunkt'] as const;
+export const MARKENTOENE = ['auftakt', 'oeffnung', 'schliessung', 'kipppunkt'] as const;
 
 export const VORHANG = {
   oben: 0,

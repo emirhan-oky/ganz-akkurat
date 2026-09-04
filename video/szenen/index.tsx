@@ -4,14 +4,12 @@ import type { Buehnenbild as BuehnenbildDaten, KontextArt, Szene } from '../../s
 import { Buehne } from '../bausteine/Buehne';
 import { Figur } from '../bausteine/Figur';
 import { nachleser } from '../../daten/figur/nachleser';
-import { zeiger } from '../../daten/figur/zeiger';
-import { FOLGEPOSEN, POSEN } from '../bausteine/posen';
+import { POSEN } from '../bausteine/posen';
 import {
   Buehnenbild,
   WORTWECHSEL_SCHLUSS,
   type Wortwechselstand,
 } from '../bausteine/Buehnenbild';
-import type { Dienst } from '../bausteine/Geraete';
 import { Wortmarke } from '../bausteine/Wortmarke';
 import {
   abschnitt,
@@ -529,128 +527,16 @@ const Zahl: React.FC<SzenenProps<'zahl'>> = ({ szene, dauer }) => {
  * Keine Dauerbewegung: Der letzte Frame ist der, den die Plattform als
  * Vorschaubild nimmt, wenn wiederholt wird. Der soll stehen.
  */
-/**
- * Wo der Zeiger in der Signatur steht — je Dienst.
- *
- * Zwei Plaetze, nicht ein Versatz: **In der Zeile** steht er rechts neben dem
- * Spruch, auf dessen Hoehe. **Frei** verlaesst er die Zeile und sitzt unten in
- * der Buehne, ueber dem Knopf.
- *
- * Der Unterschied kommt daher, wo die Apps ihren Folgen-Knopf haben. Bei
- * TikTok liegt er **rechts auf mittlerer Hoehe** — genau dort, wo die Signatur
- * ohnehin endet, und ein Versatz nach aussen genuegt. Bei Instagram liegt er
- * **unten links** neben dem Kanalnamen, also weder auf der Hoehe des Spruchs
- * noch auf seiner Seite. Ein Zeiger, der von rechts oben dorthin deutet,
- * deutet quer ueber den eigenen Schlusssatz.
- *
- * Negative Werte in der Zeile schieben ihn ueber die sichere Zone hinaus. Das
- * ist vertretbar: Es ist kein Text und keine Aussage, sondern eine Geste, die
- * aus dem Bild deutet. Selbst wenn eine App ein Stueck verdeckt, bleibt die
- * Richtung lesbar.
- *
- * **Der freie Platz liegt ausserhalb der Buehne**, und das ist eine bewusste
- * Ausnahme von der Regel, dass jede Szene nur im Rahmen rendert. Die Buehne
- * endet bei y = 1150, der Untertitel darunter bei 1388, und der Folgen-Knopf
- * sitzt erst bei rund 1594 — eine Figur am Buehnenboden stuende 450 Pixel
- * ueber dem, worauf sie deutet.
- *
- * Die Zone dazwischen ist sonst gesperrt, weil die Apps dort ihre
- * Bedienelemente einblenden. Hier traegt die Ausnahme, weil die Fassung fuer
- * **genau eine App** gerendert wird: Bei Reels liegen Kanalname und Knopf
- * tiefer, und der Streifen darueber bleibt frei. Auf einer anderen Plattform
- * waere derselbe Platz verdeckt — deshalb steht er in einer Tabelle je Dienst
- * und nicht als allgemeine Regel.
- *
- * Die Grenzen sind hart und in beide Richtungen begruendet: nicht hoeher als
- * 1388, sonst laeuft der Untertitel hinein; nicht tiefer als rund 1570, sonst
- * steht die Figur auf dem Knopf statt ueber ihm.
- *
- * `links` und `unten` sind Abstaende zum **Bildrand**, nicht zur Buehne. Der
- * Knopf sitzt auf rund 38 % der Bildbreite, also bei 410; der Kasten ist 240
- * breit und die Figur darin ungefaehr mittig, deshalb 290.
- */
-type ZeigerPlatz =
-  | { art: 'zeile'; versatz: number }
-  | { art: 'frei'; links: number; unten: number; breite: number };
-
-const ZEIGER_PLATZ: Record<Dienst, ZeigerPlatz> = {
-  /*
-   * Der Versatz war einmal glatte −86 und richtete sich am **Bildrand** aus.
-   * Seit dem 31.08.2026 steht dort der geraffte Vorhangstreifen, und der liegt
-   * ueber den Szenen — die Figur waere hinter ihm verschwunden.
-   *
-   * Sie rueckt deshalb um dessen Breite ein und steht zur **Innenkante des
-   * Vorhangs** jetzt so, wie sie vorher zum Bildrand stand. Die Geste bleibt
-   * dieselbe: Sie deutet aus dem Bild heraus, und es war ohnehin nie ein
-   * Zielen, sondern eine Richtung.
-   */
-  tiktok: { art: 'zeile', versatz: -86 + VORHANG.rand },
-  instagram: { art: 'frei', links: 290, unten: 348, breite: 240 },
-  youtube: { art: 'frei', links: 580, unten: 348, breite: 240 },
-};
-
-const Schluss: React.FC<SzenenProps<'schluss'> & { dienst: Dienst }> = ({
-  szene,
-  dauer,
-  dienst,
-}) => {
+const Schluss: React.FC<SzenenProps<'schluss'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const laengstesWort = Math.max(...szene.satz.split(/\s+/).map((w) => w.length));
   const groesse = laengstesWort <= 13 ? GROESSEN.ueberschrift : 62;
 
-  const platz = ZEIGER_PLATZ[dienst];
-
-  /*
-   * Kein zweites `viewBox` um die Figur herum: Sie bringt ihr eigenes SVG mit
-   * `width="100%"` mit, und in einem aeusseren viewBox-SVG verschwindet sie
-   * spurlos — im ersten Anlauf stand hier nur der Spruch, ohne Fehler und ohne
-   * Figur. Der Kasten hat stattdessen das Seitenverhaeltnis ihres Zeichenraums
-   * (200 zu 150).
-   *
-   * **Hier steht der Zeiger, nicht der Nachleser.** Der Kanal hat seit dem
-   * 24.08.2026 zwei Figuren mit geteilter Arbeit: Der Nachleser traegt den
-   * Inhalt, der Zeiger alles, was der Zuschauer tun kann. Der Schluss ist die
-   * Stelle, an der etwas verlangt wird — also gehoert sie ihm.
-   *
-   * Er blickt und zeigt je nach Dienst woanders hin, weil der Folgen-Knopf
-   * ueberall woanders liegt. Ein gezeichnetes Plus stand hier bis zum
-   * 24.08.2026 und ist gestrichen: Ein Zeichen, das wir selbst malen, deutet
-   * auf nichts.
-   */
-  /*
-   * Gestaucht wie auf der Buehne. Ohne das waere Watti in der Signatur schlank
-   * und mitten im Video eine Knopfzelle — zwei Umrisse fuer dieselbe Figur
-   * heben genau die Wiedererkennung wieder auf, fuer die die Stauchung da ist.
-   */
-  const figur = <Figur rig={zeiger} pose={FOLGEPOSEN[dienst]} />;
 
   return (
     <>
-      {/*
-       * Der freie Platz haengt nicht an der Buehne, sondern am Bild — deshalb
-       * ein eigener `AbsoluteFill` neben ihr statt eines Slots in ihr. Er
-       * steht **vor** der Buehne im Markup, damit die Figur hinter dem Text
-       * liegt, falls beide sich je beruehren.
-       */}
-      {platz.art === 'frei' && szene.buehne === undefined && (
-        <AbsoluteFill>
-          <div
-            style={{
-              ...auftritt(frame, fps, 12),
-              position: 'absolute',
-              left: platz.links,
-              bottom: platz.unten,
-              width: platz.breite,
-              height: (platz.breite * 3) / 4,
-            }}
-          >
-            {figur}
-          </div>
-        </AbsoluteFill>
-      )}
-
       {/*
         **Seit dem 01.09.2026 traegt der Schluss dieselbe Buehne wie jede andere
         Szene.** Vorher standen hier Satz, Strich und Spruch — und die beiden
@@ -825,11 +711,7 @@ const Zitatkarte: React.FC<SzenenProps<'zitatkarte'>> = ({ szene, dauer }) => {
 
 /* ──────────────────────────── Verteiler ────────────────────────────── */
 
-export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Dienst }> = ({
-  szene,
-  dauer,
-  dienst,
-}) => {
+export const SzeneRendern: React.FC<{ szene: Szene; dauer: number }> = ({ szene, dauer }) => {
   switch (szene.art) {
     case 'text':
       return <NurBuehne szene={szene} dauer={dauer} />;
@@ -840,7 +722,7 @@ export const SzeneRendern: React.FC<{ szene: Szene; dauer: number; dienst: Diens
     case 'zitatkarte':
       return <Zitatkarte szene={szene} dauer={dauer} />;
     case 'schluss':
-      return <Schluss szene={szene} dauer={dauer} dienst={dienst} />;
+      return <Schluss szene={szene} dauer={dauer} />;
   }
 
   /*

@@ -31,7 +31,6 @@ import { Kaltstartzeile, Redespalten } from './bausteine/Redespalten';
 import { Sprechblase } from './bausteine/Sprechblase';
 import { Sprecherstand } from './bausteine/Sprecherstand';
 import { Kaltstartbild, SzeneRendern } from './szenen';
-import type { Dienst } from './bausteine/Geraete';
 import { Figur } from './bausteine/Figur';
 import { zeiger } from '../daten/figur/zeiger';
 import { POSEN } from './bausteine/posen';
@@ -45,84 +44,8 @@ import { POSEN } from './bausteine/posen';
  * Pflicht, keine Gestaltungsentscheidung.
  */
 
-/** Dünner Fortschrittsbalken am oberen Rand. Zeigt, dass es bald vorbei ist. */
-/**
- * Der Like-Hinweis — der Zeiger schaut aus dem Bild nach rechts.
- *
- * **Der Like-Knopf liegt bei allen drei Plattformen rechts**, als Overlay der
- * App ueber unserem Video. Zeichnen koennen wir ihn nicht, in seine Richtung
- * schauen schon — und anders als beim Folgen-Knopf braucht dieser Hinweis
- * deshalb keine drei Fassungen.
- *
- * **Warum der zweite Akku und nicht der Nachleser.** Mitten im Video steht der
- * Nachleser schon auf der Buehne und kann nicht gleichzeitig nach rechts
- * schauen. Drei Anlaeufe mit einer koerperlosen Hand sind daran gescheitert:
- * Im fertigen Video wurde sie als **Schluessel** gelesen. Eine Hand ist im Rig
- * ein Kreis am Strich — was sie zur Hand macht, ist der Koerper daran.
- *
- * Er ist kleiner als der Nachleser und kommt halb von rechts ins Bild: Er ist
- * zu Besuch, nicht Teil der Szene.
- */
-const GEFAELLT_BILDER = 46;
-
-const Gefaelltmir: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const herein = spring({ frame, fps, config: { damping: 15, mass: 0.55 } });
-  const hinaus = interpolate(frame, [GEFAELLT_BILDER - 10, GEFAELLT_BILDER], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  });
-  const x = interpolate(herein, [0, 1], [190, 0]) + hinaus * 190;
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        /* Der Streifen des Vorhangs liegt am Bildrand, und der Zeiger deutet
-           aus dem Bild heraus — nicht auf eine Kulisse. Er rueckt um dessen
-           Breite ein, die Einlaufbewegung bleibt davon unberuehrt. */
-        right: VORHANG.rand - 14,
-        bottom: SICHERE_ZONE.unten + UNTERTITEL_ZONE + 20,
-        width: 180,
-        height: 135,
-        transform: `translateX(${x}px)`,
-        opacity: 1 - hinaus,
-      }}
-    >
-      <Figur rig={zeiger} pose={POSEN.zeigen} />
-    </div>
-  );
-};
-
-/**
- * In welcher Szene der Like-Hinweis auftritt — oder gar nicht.
- *
- * **Das Szenensymbol sitzt fest in der rechten Buehnenhaelfte**, und alles,
- * was von rechts hereinkommt, trifft es. Genau daran ist der Hinweis dreimal
- * gescheitert: neben der Steckdose, neben der Lupe, neben dem Haken.
- *
- * Deshalb sucht er sich seine Szene statt einer festen Uhrzeit: die **letzte
- * ohne Requisite** vor dem Schluss. Findet er keine, entfaellt er — lieber
- * keiner als einer im Gedraenge.
- */
-const hinweisSzene = (daten: ShortDaten): number | null => {
-  for (let i = daten.szenen.length - 2; i >= 1; i--) {
-    const szene = daten.szenen[i]!;
-    const buehne = 'buehne' in szene ? szene.buehne : undefined;
-    const frei = buehne === undefined || buehne.art !== 'figur' || buehne.requisite === undefined;
-    if (frei) return i;
-  }
-  return null;
-};
-
 /**
  * Bei welchem Bild der Kipppunktton einsetzt — oder gar nicht.
- *
- * Er steht hier neben `hinweisSzene`, weil beide dieselbe Frage beantworten:
- * **welche Stelle im Short traegt das?** Getrennt aufgeschrieben liefen sie
- * beim naechsten Umbau auseinander.
  *
  * ## Die erste Kipppunkt-Szene, nicht beide
  *
@@ -245,18 +168,6 @@ const Kennzeichnung: React.FC<{ werbung: ShortDaten['kennzeichnung']['werbung'];
 const BELEG_MAXBILDER = 90;
 
 /**
- * Der Dienst ist eine Eigenschaft des **Renders**, nicht des Shorts.
- *
- * Ein Short ist derselbe, egal wo er landet; nur das Folgen-Zeichen an der
- * Signatur wechselt. Deshalb steht `dienst` hier als Prop und nicht im Schema.
- *
- * **Optional mit Vorgabe ist Absicht.** So bleibt `daten/beispiel-short.ts`
- * als Standard-Prop der Komposition gueltig und `npm run lauf` laeuft
- * unveraendert weiter. Wuerde die Prop pflichtig, riss die Standard-Prop das
- * Schema — und dann bleibt Remotion in einem unerfuellten Promise stehen, ohne
- * Fehlermeldung, bis jemand abbricht.
- */
-/**
  * Die Flaeche des Stoffs — bis an alle vier Bildraender.
  *
  * Er beginnt bei y = 0 und laeuft hinter der Kopfzeile durch. Ein Vorhang
@@ -294,14 +205,12 @@ const KARTENFLAECHE = {
   right: 0,
 } as const;
 
-export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
+export const Short: React.FC<{ daten: ShortDaten }> = ({
   daten,
-  dienst = 'tiktok',
 }) => {
   const plan = szenenZeitplan(daten);
   const { fps: bilderProSekunde, durationInFrames } = useVideoConfig();
 
-  const hinweisIndex = hinweisSzene(daten);
   const kipppunktAb = kipppunktBild(daten, plan, bilderProSekunde);
 
   /*
@@ -566,7 +475,7 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
         if (!zeit) return null;
         return (
           <Sequence key={i} from={zeit.startBild} durationInFrames={zeit.dauerBilder} name={`${i + 1} ${szene.art}`}>
-            <SzeneRendern szene={szene} dauer={zeit.dauerBilder} dienst={dienst} />
+            <SzeneRendern szene={szene} dauer={zeit.dauerBilder} />
           </Sequence>
         );
       })}
@@ -715,24 +624,23 @@ export const Short: React.FC<{ daten: ShortDaten; dienst?: Dienst }> = ({
       </Sequence>
 
       {/*
-        Der Like-Hinweis haengt an einer Szene, nicht an einer Uhrzeit — siehe
-        `hinweisSzene`. Acht Bilder Versatz, damit er nicht mit dem Schnitt
-        zusammenfaellt.
+        **Und derselbe Ton, wenn er wieder zufaehrt** — seit dem 04.09.2026.
+        Emirhan: „Wenn der Vorhang wieder zugeht, will ich dafuer einen Ton
+        haben. Eben derselbe wie wenn der Vorhang aufgeht, nur etwas
+        abgerundeter fuers Zugehen."
 
-        `Sequence` und nicht ein Zeitvergleich im Bauteil: So sieht man ihn im
-        Remotion-Studio als eigene Spur und kann ihn dort anspringen.
+        Er steht **ausserhalb** der Abspann-`Sequence`, aus demselben Grund wie
+        die Oeffnung eine Ebene hoeher liegt als der Vorspann: Innen gemountet
+        beginnt sein Ausklang, wo die Sequence anfaengt, und Voltis „Wir haben
+        nachgelesen." setzt genau dort ein. Er faengt mit der Fahrt an, nicht
+        mit der Karte.
+
+        Ohne `durationInFrames` und ohne `volume`: Laenge und Pegel stehen in
+        der Datei, wo sie messbar sind.
       */}
-      {hinweisIndex !== null && plan[hinweisIndex] && (
-        <Sequence
-          from={plan[hinweisIndex]!.startBild + 8}
-          durationInFrames={Math.min(GEFAELLT_BILDER, plan[hinweisIndex]!.dauerBilder - 8)}
-          layout="none"
-          name="Gefällt mir"
-        >
-          <Gefaelltmir />
-          <Audio src={staticFile('ton/marke/gefaellt.wav')} volume={0.5} />
-        </Sequence>
-      )}
+      <Sequence from={abspannAbBild} layout="none" name="Vorhang zu">
+        <Audio src={staticFile('ton/marke/schliessung.wav')} />
+      </Sequence>
 
       {/*
         Der Kipppunktton — siehe `kipppunktBild` oben, wo steht, warum er an

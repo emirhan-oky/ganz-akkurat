@@ -42,7 +42,7 @@ export const handyheizung: Short = {
   suchbegriff: 'Akku Erwärmung',
   kaltstart: {
     art: 'imvollzug',
-    satz: 'So Handyakku dran und aber unters Kissen, damit ich meinen Wecker höre.',
+    satz: 'So Handyakku dran, unters Kissen, damit ich meinen Wecker höre.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'steckdose' },
   },
   vorspann: 'Wattis Handyheizung',
@@ -74,19 +74,14 @@ export const handyheizung: Short = {
       art: 'text',
       position: 'zuspitzung',
       sprechtext:
-        'Es hängt die halbe Nacht am Kabel, obwohl es längst voll ist, Idiot. Und? Schadet nicht. Sagen die einen. Die anderen sagen, es macht den Akku kaputt.',
+        'Es hängt die halbe Nacht am Kabel, obwohl es längst voll ist, Idiot. Und? Schadet nicht.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'zuspitzen',
           text: 'Es hängt die halbe Nacht am Kabel, obwohl es längst voll ist, Idiot.',
         },
-        { sprecher: 'zeiger', zug: 'umdeuten', machart: 'nebenbemerkung', text: 'Und? Schadet nicht.' },
-        {
-          sprecher: 'nachleser',
-          zug: 'einschraenken',
-          text: 'Sagen die einen. Die anderen sagen, es macht den Akku kaputt.',
-        },
+        { sprecher: 'zeiger', zug: 'umdeuten', text: 'Und? Schadet nicht.' },
       ],
       buehne: {
         art: 'figur',
@@ -97,6 +92,33 @@ export const handyheizung: Short = {
       },
     },
     {
+      /*
+       * **Die fuenfte Szene, geteilt an der Naht.** Der Dialog hatte vier und
+       * riss damit das Minimum des Schemas — gefunden am 04.09.2026, als zum
+       * ersten Mal ein Skript alle Entwuerfe parsen wollte. Geteilt wurde
+       * nicht gekuerzt: Der Streitfall steht jetzt fuer sich, und Wattis „Ja
+       * was denn nun?" schliesst ihn ab, statt die Zitatkarte zu eroeffnen.
+       */
+      art: 'text',
+      position: 'zuspitzung',
+      sprechtext: 'Sagen die einen. Die anderen sagen, es macht den Akku kaputt. Ja was denn nun?',
+      rede: [
+        {
+          sprecher: 'nachleser',
+          zug: 'zuspitzen',
+          text: 'Sagen die einen. Die anderen sagen, es macht den Akku kaputt.',
+        },
+        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Ja was denn nun?' },
+      ],
+      buehne: {
+        art: 'figur',
+        wer: 'zeiger',
+        von: 'achselzucken',
+        nach: 'stutzen',
+        gegenueber: { von: 'zeigen', nach: 'erklaeren' },
+      },
+    },
+    {
       art: 'zitatkarte',
       position: 'kipppunkt',
       zitat: 'Übermäßige Erwärmung des Akkus lässt ihn schneller altern',
@@ -104,9 +126,8 @@ export const handyheizung: Short = {
       belegId: 'u-berma-ssige-erwa',
       herausgeber: 'Umweltbundesamt',
       sprechtext:
-        'Ja was denn nun? Beim Umweltbundesamt steht was anderes. Watt? Dass übermäßige Erwärmung ihn altern lässt. Und du liegst drauf.',
+        'Beim Umweltbundesamt steht was anderes. Watt? Dass übermäßige Erwärmung ihn altern lässt. Und du liegst drauf.',
       rede: [
-        { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Ja was denn nun?' },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
@@ -124,9 +145,9 @@ export const handyheizung: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'staunen',
-        gegenueber: { von: 'zeigen', nach: 'lesen' },
+        gegenueber: { von: 'erklaeren', nach: 'lesen' },
       },
     },
     {

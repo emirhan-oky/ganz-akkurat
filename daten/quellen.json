@@ -860,14 +860,14 @@
       "abrufart": "automatisch",
       "belegt": [
         {
-          "id": "kann-der-unternehmer-sich-nicht",
-          "zitat": "kann der Unternehmer sich nicht berufen",
-          "stuetzt": "Eine Abrede zum Nachteil des Käufers wirkt nicht — auch dann nicht, wenn sie auf einem Aufkleber steht."
+          "id": "unternehmer-kann-sich-nicht-berufen",
+          "zitat": "Auf eine vor Mitteilung eines Mangels an den Unternehmer getroffene Vereinbarung, die zum Nachteil des Verbrauchers von den §§ 433 bis 435, 437, 439 bis 441 und 443 … abweicht, kann der Unternehmer sich nicht berufen.",
+          "stuetzt": "Ein Händler kann sich auf eine vorher getroffene Abrede zum Nachteil des Käufers nicht berufen."
         },
         {
-          "id": "auf-eine-vor-mitteilung",
-          "zitat": "Auf eine vor Mitteilung eines Mangels an den Unternehmer getroffene Vereinbarung",
-          "stuetzt": "Gemeint ist alles, was vor der Mängelanzeige vereinbart wurde — der Aufkleber gehört dazu."
+          "id": "abweichung-ausdruecklich-und-gesondert",
+          "zitat": "die Abweichung im Sinne der Nummer 1 im Vertrag ausdrücklich und gesondert vereinbart wurde",
+          "stuetzt": "Von den objektiven Anforderungen darf nur abgewichen werden, wenn der Käufer eigens in Kenntnis gesetzt wurde und die Abweichung gesondert vereinbart ist."
         }
       ]
     },
@@ -1591,6 +1591,424 @@
           "id": "klasse-freier-fall",
           "zitat": "die Klasse der Zuverlässigkeit nach wiederholtem freien Fall",
           "stuetzt": "Anhang III. Auf dem Etikett steht eine **Klasse**, kein Sturzwert — die Zahl gehört ins Produktdatenblatt."
+        }
+      ]
+    },
+    {
+      "id": "eu-oekodesign-standby",
+      "titel": "Verordnung (EU) 2023/826 — Ökodesign für Aus-Zustand, Bereitschaft und vernetzte Bereitschaft",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32023R0826",
+      "herausgeber": "Europäische Kommission",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "aus-zustand-null-fuenf-watt",
+          "zitat": "Die Leistungsaufnahme des Geräts im Aus-Zustand darf 0,50 W nicht überschreiten.",
+          "stuetzt": "Anhang III. „Das Gerät“ meint die in **Anhang II** aufgezählten Produkte, nicht alles an der Steckdose."
+        },
+        {
+          "id": "spaeter-null-drei-watt",
+          "zitat": "Zwei Jahre nach dem Geltungsbeginn dieser Verordnung darf die Leistungsaufnahme des Geräts im Aus-Zustand 0,30 W nicht überschreiten.",
+          "stuetzt": "Anhang III. Zwei Jahre nach Geltungsbeginn sinkt die Grenze auf 0,30 W."
+        },
+        {
+          "id": "vernetzte-geraete-zwei-watt",
+          "zitat": "Die Leistungsaufnahme vernetzter Geräte mit Ausnahme von HiNA-Geräten und von Geräten mit HiNA-Funktionen darf im vernetzten Bereitschaftsbetrieb 2,00 W nicht überschreiten.",
+          "stuetzt": "Anhang III. 2 Watt für vernetzte Geräte aus Anhang II — **Fernseher fallen nicht darunter**, für sie gilt VO 2019/2021."
+        },
+        {
+          "id": "hina-geraete-sieben-watt",
+          "zitat": "darf die Leistungsaufnahme von HiNA-Geräten und von Geräten mit HiNA-Funktionen im vernetzten Bereitschaftsbetrieb 7,00 W nicht überschreiten",
+          "stuetzt": "Anhang III. **Erst zwei Jahre nach Geltungsbeginn**, also ab 9. Mai 2027. Bis dahin gelten 8 Watt."
+        },
+        {
+          "id": "hina-sind-router-und-modems",
+          "zitat": "„vernetztes Gerät mit hoher Netzwerk-Verfügbarkeit“ oder „HiNA-Gerät“ bezeichnet ein Gerät, das als Hauptfunktion(en) ausschließlich eine oder mehrere der folgenden Funktionen erfüllt: Funktionen eines Routers",
+          "stuetzt": "Anhang I Nr. 8. Was ein HiNA-Gerät ist — Router, Switch, Zugangspunkt, Hub, Modem. **Nicht** Artikel 2."
+        },
+        {
+          "id": "alte-verordnung-aufgehoben",
+          "zitat": "Die Verordnung (EG) Nr. 1275/2008 wird mit Wirkung vom 9. Mai 2025 aufgehoben.",
+          "stuetzt": "Artikel 9. Vorher galten andere Grenzwerte — die Vorgängerverordnung ist seit Mai 2025 weg."
+        },
+        {
+          "id": "hina-heute-acht-watt",
+          "zitat": "Die Leistungsaufnahme von HiNA-Geräten und von Geräten mit HiNA-Funktionen darf im vernetzten Bereitschaftsbetrieb 8,00 W nicht überschreiten.",
+          "stuetzt": "Anhang III. Der **heute** geltende Wert für Router und Modems: 8 Watt. Die 7 kommen erst zwei Jahre nach Geltungsbeginn."
+        },
+        {
+          "id": "gilt-ab-neuntem-mai",
+          "zitat": "Sie gilt ab dem 9. Mai 2025.",
+          "stuetzt": "Artikel 10. Der Geltungsbeginn — der Anker für alle „zwei Jahre danach“. Die 0,30 W und die 7 W gelten ab 9. Mai 2027."
+        }
+      ]
+    },
+    {
+      "id": "bgb-475b-ware-mit-digitalen-elementen",
+      "titel": "§ 475b BGB – Sachmangel einer Ware mit digitalen Elementen",
+      "url": "https://www.gesetze-im-internet.de/bgb/__475b.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "kauf-ware-mit-digitalen-elementen",
+          "zitat": "Für den Kauf einer Ware mit digitalen Elementen (§ 327a Absatz 3 Satz 1), bei dem sich der Unternehmer verpflichtet, dass er oder ein Dritter die digitalen Elemente bereitstellt",
+          "stuetzt": "Der Anwendungsbereich: **gekaufte** Geräte mit Software. § 327f gilt hier gerade nicht — er nimmt diesen Fall aus."
+        },
+        {
+          "id": "aktualisierungen-waehrend-erwartbarem-zeitraum",
+          "zitat": "dem Verbraucher während des Zeitraums, den er aufgrund der Art und des Zwecks der Ware und ihrer digitalen Elemente sowie unter Berücksichtigung der Umstände und der Art des Vertrags erwarten kann, Aktualisierungen bereitgestellt werden",
+          "stuetzt": "Absatz 4 Nr. 2. Die Update-Pflicht des Verkäufers, bemessen an Art und Zweck der Ware — nicht am Preis."
+        },
+        {
+          "id": "haftet-nicht-bei-fehlender-installation",
+          "zitat": "so haftet der Unternehmer nicht für einen Sachmangel, der allein auf das Fehlen dieser Aktualisierung zurückzuführen ist",
+          "stuetzt": "Absatz 5. Nur für **diesen einen** Mangel, nur wenn informiert wurde, nur nach angemessener Frist. Kein allgemeiner Rechtsverlust."
+        }
+      ]
+    },
+    {
+      "id": "bgb-475c-dauerhafte-bereitstellung",
+      "titel": "§ 475c BGB – Ware mit digitalen Elementen bei dauerhafter Bereitstellung",
+      "url": "https://www.gesetze-im-internet.de/bgb/__475c.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-03",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "mindestens-zwei-jahre",
+          "zitat": "mindestens aber für einen Zeitraum von zwei Jahren ab der Ablieferung der Ware",
+          "stuetzt": "Absatz 2. Bei dauerhafter Bereitstellung: **mindestens zwei Jahre ab Ablieferung** — die feste Untergrenze."
+        }
+      ]
+    },
+    {
+      "id": "ezb-reproduktion-banknoten",
+      "titel": "Beschluss EZB/2013/10 über die Stückelung, Merkmale und Reproduktion sowie den Umtausch und Einzug von Euro-Banknoten (konsolidierte Fassung vom 04.01.2021)",
+      "herausgeber": "Europäische Zentralbank",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX%3A02013D0010-20210104",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-03",
+      "belegt": [
+        {
+          "id": "kriterien-nicht-erfuellt-unrechtmaessig",
+          "zitat": "Sofern die EZB oder eine NCB keine Ausnahme nach Absatz 5 gewährt hat, gelten Reproduktionen, die den im Absatz 3 festgelegten Kriterien nicht entsprechen, als unrechtmäßig",
+          "stuetzt": "Unrechtmäßig ist, was die Kriterien in Absatz 3 nicht erfüllt — es gibt eine Liste des Erlaubten."
+        },
+        {
+          "id": "herstellung-besitz-verboten",
+          "zitat": "deren Herstellung, Besitz, Transport, Verbreitung, Verkauf, Bewerbung, Einfuhr in die Union und Verwendung oder versuchte Verwendung für Transaktionen als verboten",
+          "stuetzt": "Verboten ist bei einer unrechtmäßigen Reproduktion auch der bloße Besitz, nicht nur das Drucken."
+        },
+        {
+          "id": "rechtmaessig-nach-kriterien",
+          "zitat": "Reproduktionen, die den folgenden Kriterien entsprechen, gelten als rechtmäßig, da bei ihnen nicht die Gefahr besteht, dass die Öffentlichkeit sie mit echten Euro-Banknoten verwechseln könnte",
+          "stuetzt": "Der Absatz danach zählt auf, welche Reproduktionen ausdrücklich erlaubt sind."
+        },
+        {
+          "id": "einseitig-125-oder-75",
+          "zitat": "einseitige Reproduktionen einer Euro-Banknote … wenn deren Abmessungen sowohl in der Länge als auch in der Breite 125 % oder mehr als 125 % bzw. 75 % oder weniger als 75 % der jeweiligen Banknote im Sinne von Artikel 1 betragen",
+          "stuetzt": "Einseitig gedruckt ist erlaubt, wenn Länge und Breite mindestens ein Viertel größer oder ein Viertel kleiner sind."
+        },
+        {
+          "id": "beidseitig-200-oder-50",
+          "zitat": "beidseitige Reproduktionen einer Euro-Banknote … wenn deren Abmessungen sowohl in der Länge als auch in der Breite 200 % oder mehr als 200 % bzw. 50 % oder weniger als 50 % der jeweiligen Banknote im Sinne von Artikel 1 betragen",
+          "stuetzt": "Beidseitig gedruckt gelten doppelte oder halbe Abmessungen."
+        },
+        {
+          "id": "material-unterscheidet-sich",
+          "zitat": "Reproduktionen, die aus einem Material bestehen, das sich eindeutig von Papier unterscheidet und deutlich anders aussieht und sich deutlich anders anfühlt",
+          "stuetzt": "Ein deutlich anderes Material macht eine Reproduktion unabhängig von ihrer Größe rechtmäßig."
+        }
+      ]
+    },
+    {
+      "id": "bgb-474-verbrauchsgueterkauf",
+      "titel": "§ 474 BGB — Verbrauchsgüterkauf",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/bgb/__474.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "verbraucher-von-unternehmer",
+          "zitat": "Verbrauchsgüterkäufe sind Verträge, durch die ein Verbraucher von einem Unternehmer eine Ware (§ 241a Absatz 1) kauft.",
+          "stuetzt": "Die Schutzvorschriften des Untertitels greifen nur, wenn auf der Verkäuferseite ein Unternehmer steht."
+        },
+        {
+          "id": "ergaenzend-die-folgenden-vorschriften",
+          "zitat": "Für den Verbrauchsgüterkauf gelten ergänzend die folgenden Vorschriften dieses Untertitels.",
+          "stuetzt": "§ 476 steht in diesem Untertitel und gilt deshalb nur für den Verbrauchsgüterkauf."
+        }
+      ]
+    },
+    {
+      "id": "stvo-23-blitzerwarner",
+      "titel": "§ 23 StVO — Sonstige Pflichten von Fahrzeugführenden (Absätze 1a und 1c)",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/stvo_2013/__23.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "nicht-betreiben-oder-mitfuehren",
+          "zitat": "Wer ein Fahrzeug führt, darf ein technisches Gerät nicht betreiben oder betriebsbereit mitführen, das dafür bestimmt ist, Verkehrsüberwachungsmaßnahmen anzuzeigen oder zu stören.",
+          "stuetzt": "Das Verbot trifft den, der fährt, und es beginnt schon beim betriebsbereiten Mitführen."
+        },
+        {
+          "id": "insbesondere-radarwarner",
+          "zitat": "Das gilt insbesondere für Geräte zur Störung oder Anzeige von Geschwindigkeitsmessungen (Radarwarn- oder Laserstörgeräte).",
+          "stuetzt": "Gemeint sind Geräte, die für diesen Zweck gebaut sind."
+        },
+        {
+          "id": "andere-geraete-nur-funktion",
+          "zitat": "Bei anderen technischen Geräten, die neben anderen Nutzungszwecken auch zur Anzeige oder Störung von Verkehrsüberwachungsmaßnahmen verwendet werden können, dürfen die entsprechenden Gerätefunktionen nicht verwendet werden.",
+          "stuetzt": "Bei einem Gerät mit mehreren Zwecken ist nicht das Gerät verboten, sondern nur die betreffende Funktion."
+        },
+        {
+          "id": "nur-benutzen-wenn-nicht-gehalten",
+          "zitat": "Wer ein Fahrzeug führt, darf ein elektronisches Gerät, das der Kommunikation, Information oder Organisation dient oder zu dienen bestimmt ist, nur benutzen, wenn 1. hierfür das Gerät weder aufgenommen noch gehalten wird",
+          "stuetzt": "Die Benutzung ist erlaubt, solange das Gerät weder aufgenommen noch gehalten wird."
+        },
+        {
+          "id": "kurze-blickzuwendung",
+          "zitat": "zur Bedienung und Nutzung des Gerätes nur eine kurze, den Straßen-, Verkehrs-, Sicht- und Wetterverhältnissen angepasste Blickzuwendung zum Gerät … erfolgt oder erforderlich ist",
+          "stuetzt": "Neben Sprachsteuerung ist eine kurze, den Verhältnissen angepasste Blickzuwendung zulässig."
+        },
+        {
+          "id": "auch-unterhaltungselektronik",
+          "zitat": "Geräte im Sinne des Satzes 1 sind auch Geräte der Unterhaltungselektronik oder Geräte zur Ortsbestimmung, insbesondere Mobiltelefone oder Autotelefone, Berührungsbildschirme, tragbare Flachrechner, Navigationsgeräte",
+          "stuetzt": "Die Regel gilt nicht nur dem Telefon, sondern auch Navigationsgeräten, Tablets und Touchscreens."
+        },
+        {
+          "id": "videobrille-verboten",
+          "zitat": "um ein auf dem Kopf getragenes visuelles Ausgabegerät, insbesondere eine Videobrille, darf dieses nicht benutzt werden",
+          "stuetzt": "Eine auf dem Kopf getragene Videobrille darf beim Fahren gar nicht benutzt werden."
+        }
+      ]
+    },
+    {
+      "id": "uba-streaming-uebertragung",
+      "titel": "Video-Streaming: Art der Datenübertragung entscheidend für Klimabilanz (Pressemitteilung 39/2020)",
+      "herausgeber": "Umweltbundesamt",
+      "url": "https://www.umweltbundesamt.de/presse/pressemitteilungen/video-streaming-art-der-datenuebertragung",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "glasfaser-zwei-gramm",
+          "zitat": "Die geringste CO 2 -Belastung entsteht, wenn das HD-Video bis nach Hause über einen Glasfaser-Anschluss gestreamt wird, mit lediglich zwei Gramm",
+          "stuetzt": "Ueber Glasfaser entstehen je Stunde HD-Video zwei Gramm CO2 fuer Rechenzentrum und Datenuebertragung."
+        },
+        {
+          "id": "vdsl-vier-gramm",
+          "zitat": "Bei Kupferkabel (VDSL) sind es vier Gramm.",
+          "stuetzt": "Über VDSL sind es vier Gramm je Stunde."
+        },
+        {
+          "id": "umts-neunzig-gramm",
+          "zitat": "Bei einer Datenübertagung mit UMTS (3G) sind es hingegen 90 Gramm",
+          "stuetzt": "Ueber UMTS waren es 90 Gramm je Stunde; die Pressemitteilung selbst nennt Glasfaser fast 50-mal effizienter."
+        },
+        {
+          "id": "fuenfg-etwa-fuenf-gramm",
+          "zitat": "Erfolgt die Datenübertragung stattdessen mit 5G Übertragungstechnik werden nur etwa fünf Gramm",
+          "stuetzt": "Über 5G sind es etwa fünf Gramm je Stunde."
+        },
+        {
+          "id": "endgeraet-nicht-beruecksichtigt",
+          "zitat": "Nicht berücksichtigt wird bei dieser Berechnung der Stromverbrauch des Endgeräts.",
+          "stuetzt": "Der Strom, den das Gerät selbst braucht, steckt in keiner dieser Zahlen."
+        }
+      ]
+    },
+    {
+      "id": "ddg-8-sperrung",
+      "titel": "§ 8 DDG — Anspruch auf Sperrung bei Rechtsverletzung",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/ddg/__8.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "sperrung-der-nutzung-verlangen",
+          "zitat": "so kann der Inhaber des Rechts von dem betroffenen Diensteanbieter die Sperrung der Nutzung von Informationen verlangen, um die Wiederholung der Rechtsverletzung zu verhindern",
+          "stuetzt": "Der Rechteinhaber kann eine Sperrung verlangen — mehr sieht die Vorschrift gegen den Anbieter nicht vor."
+        },
+        {
+          "id": "zumutbar-und-verhaeltnismaessig",
+          "zitat": "Die Sperrung muss zumutbar und verhältnismäßig sein.",
+          "stuetzt": "Die verlangte Sperrung ist an Zumutbarkeit und Verhältnismäßigkeit gebunden."
+        },
+        {
+          "id": "keine-kostenerstattung",
+          "zitat": "Ein Anspruch gegen den Diensteanbieter auf Erstattung der vor- und außergerichtlichen Kosten … besteht nicht, es sei denn, der Diensteanbieter arbeitet absichtlich mit einem Nutzer seines Dienstes zusammen",
+          "stuetzt": "Abmahn- und Anwaltskosten kann der Rechteinhaber nicht ersetzt verlangen, außer bei absichtlichem Zusammenwirken."
+        }
+      ]
+    },
+    {
+      "id": "dsa-4-reine-durchleitung",
+      "titel": "Verordnung (EU) 2022/2065 über einen Binnenmarkt für digitale Dienste, Artikel 4 — Reine Durchleitung",
+      "herausgeber": "Europäisches Parlament und Rat",
+      "url": "https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX%3A32022R2065",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "haftet-nicht-fuer-uebermittelte",
+          "zitat": "Zugang zu einem Kommunikationsnetz zu vermitteln, haftet der Diensteanbieter nicht für die übermittelten oder abgerufenen Informationen, sofern er",
+          "stuetzt": "Wer nur den Zugang zu einem Netz vermittelt, haftet nicht für das, was durchläuft — unter drei Bedingungen."
+        },
+        {
+          "id": "drei-bedingungen-durchleitung",
+          "zitat": "a) die Übermittlung nicht veranlasst, b) den Adressaten der übermittelten Informationen nicht auswählt und c) die übermittelten Informationen nicht auswählt oder verändert",
+          "stuetzt": "Die drei Bedingungen: nicht veranlasst, Adressaten nicht ausgewählt, Inhalte nicht ausgewählt oder verändert."
+        }
+      ]
+    },
+    {
+      "id": "eeg-8-steckersolar",
+      "titel": "§ 8 EEG 2023 — Anschluss, Absatz 5a (Steckersolargeräte)",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/eeg_2014/__8.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "zwei-kilowatt-achthundert-va",
+          "zitat": "Ein Steckersolargerät oder mehrere Steckersolargeräte mit einer installierten Leistung von insgesamt bis zu 2 Kilowatt und einer Wechselrichterleistung von insgesamt bis zu 800 Voltampere",
+          "stuetzt": "Die Sonderregel gilt bis 2 Kilowatt installierte Leistung und 800 Voltampere Wechselrichterleistung."
+        },
+        {
+          "id": "keine-zusaetzliche-meldung",
+          "zitat": "zusätzliche gegenüber dem Netzbetreiber abzugebende Meldungen von Anlagen nach Satz 1 können nicht verlangt werden",
+          "stuetzt": "Eine zusätzliche Meldung beim Netzbetreiber darf niemand verlangen."
+        },
+        {
+          "id": "registrierung-bleibt-unberuehrt",
+          "zitat": "Registrierungspflichten nach der Marktstammdatenregisterverordnung bleiben unberührt",
+          "stuetzt": "Die Registrierung im Marktstammdatenregister entfällt dadurch nicht."
+        }
+      ]
+    },
+    {
+      "id": "bnetza-balkonkraftwerk-registrierung",
+      "titel": "Bundesnetzagentur vereinfacht die Registrierung von Balkonkraftwerken (Pressemitteilung vom 28.03.2024)",
+      "herausgeber": "Bundesnetzagentur",
+      "url": "https://www.bundesnetzagentur.de/SharedDocs/Pressemitteilungen/DE/2024/20240328_MaStR_Reg.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "informiert-netzbetreiber-automatisch",
+          "zitat": "Die Bundesnetzagentur informiert den zuständigen Netzbetreiber automatisch über das Balkonkraftwerk, das neu an sein Netz angeschlossen wurde.",
+          "stuetzt": "Der Netzbetreiber erfährt es über die Registrierung, ohne dass der Betreiber ihn selbst anschreibt."
+        },
+        {
+          "id": "fuenf-angaben-statt-zwanzig",
+          "zitat": "fünf Angaben zu ihrem Balkonkraftwerk eintragen. Vorher waren es rund 20 Angaben.",
+          "stuetzt": "Die Registrierung verlangt seit dem 01.04.2024 fünf Angaben statt rund 20."
+        }
+      ]
+    },
+    {
+      "id": "tkg-58-entstoerung",
+      "titel": "§ 58 TKG — Entstörung",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/tkg_2021/__58.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "versaeumter-termin-zehn-euro",
+          "zitat": "kann der Verbraucher für jeden versäumten Termin eine Entschädigung in Höhe von 10 Euro oder 20 Prozent des vertraglich vereinbarten Monatsentgeltes bei Verträgen mit gleichbleibendem monatlichem Entgelt, je nachdem welcher Betrag höher ist",
+          "stuetzt": "Für jeden vom Anbieter versäumten Termin kann der Verbraucher 10 Euro oder 20 Prozent verlangen — Letzteres nur bei gleichbleibendem Monatsentgelt."
+        },
+        {
+          "id": "je-nachdem-welcher-betrag-hoeher",
+          "zitat": "je nachdem welcher Betrag höher ist, verlangen, es sei denn, der Verbraucher hat das Versäumnis des Termins zu vertreten",
+          "stuetzt": "Es gilt der höhere der beiden Beträge — außer der Kunde hat den geplatzten Termin selbst zu verantworten."
+        },
+        {
+          "id": "termine-dokumentieren",
+          "zitat": "Der Anbieter hat den Eingang einer Störungsmeldung sowie die Vereinbarung von Kundendienst- und Installationsterminen jeweils unverzüglich gegenüber dem Verbraucher zu dokumentieren.",
+          "stuetzt": "Der Anbieter muss den vereinbarten Termin selbst dokumentieren."
+        }
+      ]
+    },
+    {
+      "id": "bgb-312g-ausnahmen",
+      "titel": "§ 312g BGB — Widerrufsrecht, Absatz 2 (Ausnahmen)",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/bgb/__312g.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "individuell-angefertigt",
+          "zitat": "Verträge zur Lieferung von Waren, die nicht vorgefertigt sind und für deren Herstellung eine individuelle Auswahl oder Bestimmung durch den Verbraucher maßgeblich ist",
+          "stuetzt": "Bei individuell angefertigter Ware besteht kein Widerrufsrecht."
+        },
+        {
+          "id": "schnell-verderblich",
+          "zitat": "Verträge zur Lieferung von Waren, die schnell verderben können oder deren Verfallsdatum schnell überschritten würde",
+          "stuetzt": "Schnell verderbliche Ware ist vom Widerrufsrecht ausgenommen."
+        },
+        {
+          "id": "versiegelt-hygiene",
+          "zitat": "Verträge zur Lieferung versiegelter Waren, die aus Gründen des Gesundheitsschutzes oder der Hygiene nicht zur Rückgabe geeignet sind, wenn ihre Versiegelung nach der Lieferung entfernt wurde",
+          "stuetzt": "Bei versiegelter Hygieneware entfällt das Widerrufsrecht, sobald die Versiegelung entfernt ist."
+        },
+        {
+          "id": "versiegelte-software",
+          "zitat": "Verträge zur Lieferung von Ton- oder Videoaufnahmen oder Computersoftware in einer versiegelten Packung, wenn die Versiegelung nach der Lieferung entfernt wurde",
+          "stuetzt": "Bei geöffneter versiegelter Software oder Ton- und Videoaufnahmen entfällt das Widerrufsrecht."
+        },
+        {
+          "id": "soweit-nichts-anderes-vereinbart",
+          "zitat": "Das Widerrufsrecht besteht, soweit die Parteien nichts anderes vereinbart haben, nicht bei folgenden Verträgen",
+          "stuetzt": "Die Ausnahmen gelten nur, wenn die Parteien nichts Günstigeres vereinbart haben — ein Händler darf mehr zulassen."
+        }
+      ]
+    },
+    {
+      "id": "ddg-7-verantwortlichkeit",
+      "titel": "§ 7 DDG — Beschränkte Verantwortlichkeit",
+      "herausgeber": "Bundesministerium der Justiz",
+      "url": "https://www.gesetze-im-internet.de/ddg/__7.html",
+      "art": "behoerde",
+      "geprueftAm": "2026-09-04",
+      "belegt": [
+        {
+          "id": "gilt-auch-ohne-entgelt",
+          "zitat": "Die Artikel 4 bis 8 der Verordnung (EU) 2022/2065 gelten für alle Diensteanbieter einschließlich der öffentlichen Stellen unabhängig davon, ob für die Nutzung ein Entgelt erhoben wird.",
+          "stuetzt": "Die Haftungsfreistellung gilt auch, wenn für den Zugang nichts verlangt wird."
+        },
+        {
+          "id": "internetzugang-ueber-wlan",
+          "zitat": "Diensteanbieter, die Nutzern einen Internetzugang über ein drahtloses lokales Netzwerk zur Verfügung stellen",
+          "stuetzt": "Wer über ein WLAN einen Internetzugang bereitstellt, ist von den Vorschriften ausdrücklich erfasst."
+        },
+        {
+          "id": "kein-schadensersatz-keine-unterlassung",
+          "zitat": "so können sie auch nicht wegen einer rechtswidrigen Handlung eines Nutzers auf Schadensersatz oder Beseitigung oder Unterlassung einer Rechtsverletzung in Anspruch genommen werden",
+          "stuetzt": "Wer nach Artikel 4 nicht haftet, kann auch nicht auf Schadensersatz, Beseitigung oder Unterlassung belangt werden."
+        },
+        {
+          "id": "alle-kosten-dieser-ansprueche",
+          "zitat": "dasselbe gilt hinsichtlich aller Kosten für die Geltendmachung und Durchsetzung dieser Ansprüche",
+          "stuetzt": "Auch die Kosten für die Geltendmachung dieser Ansprüche kann niemand verlangen."
+        },
+        {
+          "id": "absichtlich-zusammenarbeitet",
+          "zitat": "Satz 1 ist nicht anzuwenden, wenn der Diensteanbieter absichtlich mit einem Nutzer seines Dienstes zusammenarbeitet, um rechtswidrige Handlungen zu begehen.",
+          "stuetzt": "Die Freistellung entfällt, wenn der Anbieter absichtlich mit dem Nutzer zusammenarbeitet."
         }
       ]
     }

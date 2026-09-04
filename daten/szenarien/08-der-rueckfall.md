@@ -10,7 +10,9 @@
 
 **Und der Rückfall passiert im Gespräch, nicht nach einem Zeitsprung.** Ein Anlauf endete mit „Und, hast du ihn abgegeben?" — *„mach hier keine Zeitsprünge. Das versteht man einfach nicht. Wir haben immerhin immer dieselbe Kulisse."* Der Short spielt in einem Raum; der einzige Schnitt ist der Vorhang. „Mach ich gleich." ist derselbe Rückfall, nur sichtbar.
 
-**Beispiele:** 3 von vier
+**Der verblose Satz ist keine Knappheit.** „Drei Bedingungen." — *„entweder es gibt 3 Bedingungen oder 3 Bedingungen dafür."* Am selben Tag derselbe Bau zweimal, beide von Emirhan gefunden: „Radarwarner." und „Drei Bedingungen." Die Regel „Jeder gesprochene Satz hat ein Verb" steht seit dem 25.08.2026 im Vertrag und hat keine Wache.
+
+**Beispiele:** 4 von vier
 
 *Der Wortlaut unten steht so in `daten/entwuerfe/` — dort ist die eine Wahrheit.*
 
@@ -104,4 +106,32 @@ W: Dann bin ich morgen den Föhn los. Danke großer Bruder.
 V: Leg ihn schon mal an die Tür.
 W: Mach ich gleich.
 ```
+## wlan-passwort-abmahnung
 
+`gibtswirklich` · Kaltstart Watti  
+Quelle: `ddg-7-verantwortlichkeit`, `dsa-4-reine-durchleitung`
+
+```
+W: Mein WLAN-Passwort kriegt keiner. Ich will keine Abmahnung.
+   Heutiges Thema: Wattis WLAN-Passwort bleibt geheim
+V: Watti, warum kriegt mein Besuch dein WLAN-Passwort nicht?
+W: Weil ich dann für alles hafte, was der macht.
+V: Wer einen Internetzugang über sein WLAN bereitstellt, haftet nicht für das, was durchläuft.
+W: Ich stelle doch nichts bereit, ich gebe ein Passwort raus.
+V: Genau das ist es. Auch wenn du nichts dafür nimmst.
+W: Einfach so?
+V: Es gibt drei Bedingungen. Du fängst nichts an.
+W: Und?
+V: Du suchst weder Empfänger noch Daten aus, und du änderst nichts.
+W: Das kriege ich hin.
+W: Und wenn der was runterlädt?
+V: Dann kann dich keiner auf Schadensersatz oder Unterlassung belangen.
+W: Und die Abmahnung?
+V: Die Kosten dafür genauso wenig.
+W: Und wenn ein Anwalt trotzdem schreibt?
+V: Seine Kosten zahlst du nicht. Außer du machst absichtlich mit.
+W: Mache ich nicht, ich schlafe nachts.
+   [Zitatkarte] aller Kosten für die Geltendmachung und Durchsetzung dieser Ansprüche
+V: Dann gib meinem Besuch jetzt das Passwort.
+W: Nächste Woche. Erst lese ich das selber nach.
+```

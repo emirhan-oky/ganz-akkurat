@@ -14,7 +14,6 @@ import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
 import { Haltungsprobe, Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
 import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
-import { Gestenprobe } from './Gestenprobe';
 import { Kulissenprobe } from './Kulissenprobe';
 import { Anordnungsprobe, AnordnungsprobeProps } from './Anordnungsprobe';
 
@@ -67,7 +66,6 @@ export const RemotionRoot: React.FC = () => (
   {/* Der Prueftisch fuer die Untertitelschrift. Geht nach der Entscheidung
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
-  <Composition id="Gestenprobe" component={Gestenprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
   {/* Der Musterbogen fuer die Bildaufteilung: acht Muster, 4 × 2, halbe
       Aufloesung. `--props='{"zonen":true}'` legt die App-Flaechen darueber. */}
   <Composition
