@@ -1269,9 +1269,16 @@ daraus ist der Kaltstart bezahlt. Die Formatpille in der Kopfzeile bleibt.
 standen in der Zeile *und* wurden gesprochen, während der Zuschauer noch gar
 nicht wusste, worum es geht.
 
-`daten/vorspannton.json` hält nur noch die zwei Abspannaufnahmen samt ihren
-gemessenen Dauern — **Remotion kann die Länge einer Tondatei nicht synchron
-lesen**, und Wattis „Wirklich." hängt daran.
+`daten/vorspannton.json` hält die zwei Abspannaufnahmen samt ihren gemessenen
+Dauern — und daneben die zehn stillgelegten Showaufnahmen. **Die MP3s bleiben
+liegen, obwohl niemand sie abruft:** Sie sind einmal bezahlt, `eleven_v3` ist
+nicht deterministisch, und 250 KB sind billiger als eine zweite Synthese. Was
+gefallen ist, ist der Weg dorthin — `npm run vorspannton` nimmt sie seit dem
+04.09.2026 nur noch mit `--shows` auf. **Ein Aufruf ohne Argument war der
+wahrscheinlichste und der teuerste.**
+
+`src/zeit.ts` liest aus der Datei nur `abspann` — **Remotion kann die Länge
+einer Tondatei nicht synchron lesen**, und Wattis „Wirklich." hängt daran.
 
 **Die Themenansage ist der einzige Vorspannton je Short.** Sie steht deshalb in
 der Tonspur und **nicht** in `abschnitte`: Die Aufschlagmessung filtert `woerter`

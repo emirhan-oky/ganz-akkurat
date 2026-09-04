@@ -2305,7 +2305,34 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
       50 Einheiten. `ZU_BREIT_IM_SCHLUSS` ist die dritte Sperre derselben
       Bauart — gerechnet, nicht geschrieben, mit Wache in der Schemaprüfung.
       Sie hat sofort drei der vier Shorts gemeldet~~
-- [ ] ▸ **Neu rendern mit `--ton-behalten`, Standbilder ziehen, Freigabe**
-- [ ] **Danach committen**, dann den Projektordner aufräumen: 188 MB in einem
-      Laufordner, 115 von 209 versionierten Dateien sind fremde Skills
-- [ ] **Danach die Struktur:** welche Rubrik an welchem Tag läuft
+- [x] ~~**Neu gerendert mit `--ton-behalten`**, 993 Standbilder geprüft,
+      Freigabe erteilt~~
+- [x] ~~**Die vier Videos sind eingeplant**, zwölf Beiträge über drei Kanäle:
+      Fr 04.09. 18:00 `blitzer-app`, Sa 12:00 `vier-pakete-zurueck`, Sa 18:00
+      `flugmodus`, So 12:00 `geldschein-drucken`. Dafür kann
+      `veroeffentlichen.ts` seit heute `--termine=` — der Zeitplan konnte nur
+      ein Video je Tag zur Uhrzeit seines Formats~~
+- [x] ~~**Committet**~~
+
+## Der Projektordner · 04.09.2026
+
+- [x] ~~**526 MB `laeufe/` auf 68 MB.** Die Videodateien der Läufe vom 25.08.,
+      30.08., 31.08. und 01.09. sind weg — `lauf.json`, `props/` und
+      `veroeffentlicht.json` bleiben, denn **das Archiv ist der Wortlaut, nicht
+      die MP4.** Der aktuelle Lauf bleibt vollständig, bis er gesendet ist~~
+- [x] ~~`tmp/standbilder` (21 MB), `graphify-out/` (3 MB), `belege.html` und die
+      drei berechneten Probenordner (Raun, Swisch, Vorhang) — alle
+      reproduzierbar~~
+- [x] ~~**Nicht angetastet: `public/ton/` (41 MB) und die drei Probenordner mit
+      ElevenLabs-Material.** Bezahlt und nicht deterministisch reproduzierbar —
+      dieselbe Asymmetrie wie überall im Projekt~~
+- [x] ~~**`npm run vorspannton` fehlte in `package.json`**, obwohl CLAUDE.md es
+      nennt. Nachgetragen — und der Probeaufruf hat sofort eine Aufnahme neu
+      bezahlt: Der Standardpfad nahm die zehn **gestrichenen** Showaufnahmen
+      auf. Er verlangt jetzt `--shows`, die Datei ist per `git checkout`
+      zurückgeholt~~
+- [ ] **Die 116 versionierten Skilldateien.** Vier Skills stehen in keiner Kette
+      in CLAUDE.md: `animation-vocabulary`, `instagram-growth`, `reels-script`,
+      `tiktok-growth`. 724 KB — kein Platzproblem, aber Übersicht.
+      **Deinstallieren ist eine Entscheidung, keine Aufräumarbeit**
+- [ ] ▸ **Danach die Struktur:** welche Rubrik an welchem Tag läuft

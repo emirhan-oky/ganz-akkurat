@@ -221,6 +221,35 @@ const main = async () => {
     return;
   }
 
+  /*
+   * **Die Showaufnahmen brauchen seit dem 04.09.2026 ein eigenes `--shows`.**
+   *
+   * Sie sind am 02.09.2026 gestrichen — auf der Karte steht fest „Die Volti &
+   * Watti Show", gesprochen wird sie nicht mehr, und `src/zeit.ts` liest aus
+   * `daten/vorspannton.json` nur noch `abspann`. Der Standardpfad dieses
+   * Skripts nahm aber weiter zehn Aufnahmen auf und **bezahlte sie**.
+   *
+   * Ein Aufruf ohne Argument ist der wahrscheinlichste, und er war der
+   * teuerste. Die Aufnahme bleibt moeglich — falls die Shows je zurueckkommen,
+   * ist das Skript der Weg dahin —, aber sie muss ab jetzt gemeint sein.
+   *
+   * **Gefunden, indem ich hineingetreten bin.** Beim Aufraeumen fiel auf, dass
+   * `npm run vorspannton` in `package.json` fehlte; der Probeaufruf nach dem
+   * Nachtragen hat sofort `gibtswirklich.volti.mp3` neu synthetisiert und
+   * bezahlt. Zurueckgeholt wurde sie mit `git checkout` — die versionierte
+   * Fassung ist die, deren Dauer in `daten/vorspannton.json` steht. **Eine
+   * neue Aufnahme haette die Datei still gegen eine andere getauscht, deren
+   * gemessene Dauer nirgends steht.**
+   */
+  if (!process.argv.includes('--shows')) {
+    console.log('\nGanz akkurat · Vorspannton\n');
+    console.log('   Die zehn Showaufnahmen sind am 02.09.2026 gestrichen — sie werden');
+    console.log('   nirgends mehr abgerufen, und eine Aufnahme kostet Kontingent.\n');
+    console.log('   npm run vorspannton -- --abspann   die zwei Abspannzeilen (aktiv)');
+    console.log('   npm run vorspannton -- --shows     die Showaufnahmen doch aufnehmen\n');
+    return;
+  }
+
   const nur = process.argv.find((a) => a.startsWith('--nur='))?.slice(6);
   const formate = (Object.keys(FORMATE) as Format[]).filter((f) => nur === undefined || f === nur);
   if (formate.length === 0) throw new Error(`Kein Format „${nur}". Bekannt: ${Object.keys(FORMATE).join(', ')}`);

@@ -21,6 +21,7 @@
     "buffer-probe": "tsx skripte/buffer-probe.ts",
     "zuruecknehmen": "tsx skripte/zuruecknehmen.ts",
     "toene": "tsx skripte/toene.ts",
+    "vorspannton": "tsx skripte/vorspannton.ts",
     "markenbilder": "tsx skripte/markenbilder.ts",
     "neuigkeiten": "tsx skripte/neuigkeiten.ts",
     "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",
