@@ -22,7 +22,8 @@ Dock-Problem. Ein Hilfe-Video erreicht nur die Schnittmenge derer, die gerade
 genau das haben — ein Staunfakt trifft jeden, der wischt.
 
 → Warum etwas geteilt wird, steht ausführlich in `viral-reverse-engineering`
-(Share-Trigger). Wie daraus ein erster Satz wird, in `hook-writer`.
+(Share-Trigger). Wie daraus ein erster Satz wird, steht in `skript-schreiben`
+unter „Der Kaltstart".
 
 ## Die vier Formate
 
@@ -93,7 +94,8 @@ steht in `HOOK_MACHARTEN` (`src/typen.ts`): fünf Macharten, formatunabhängig.
 - **Humor, Rundlauf, `weitererzaehlt`** — nicht mehr hier. Der Humor hängt am
   Format und steht bei `FORMATE`; die Rundlaufregeln stehen in `src/pruefung.ts`
   und in `daten/marke/voice.md`.
-- **Wie ein Thema zum Skript wird** — `short-form-video-script` (WATCH).
-- **Wie der erste Satz entsteht** — `hook-writer`.
+- **Wie ein Thema zum Skript wird** — `skript-schreiben`.
+- **Wie der erste Satz entsteht** — der Kaltstart, ebenfalls in
+  `skript-schreiben`, mit `KALTSTART_ARTEN` in `src/typen.ts`.
 - **Wer der Kanal ist und wie er klingt** — `daten/marke/brand-profile.md` und
   `voice.md`. Beide werden vor jedem Entwurf gelesen.

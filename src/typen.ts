@@ -2370,23 +2370,6 @@ export const KALTSTART_SPRECHER: Record<Format, Sprecher> = {
   empfehlung: 'zeiger',
 };
 
-/**
- * Die Wochentage — nur noch fuer Anzeige und Datumsrechnung.
- *
- * **Bis zum 20.08.2026 hing hier der Sendeplan.** Jedes Format hatte ein Feld
- * `tag`, die sieben festen belegten Montag bis Sonntag, und `zeitplanBauen`
- * las den Termin dort. Das ist gestrichen: Der Wochentag war eine Zusage an
- * Zuschauer, die es noch nicht gibt, und er zwang jede Woche dieselben acht
- * Formate in derselben Reihenfolge — genau die Wiederholung, die die
- * Retention-Ladder als Verteilungsrisiko nennt. Die Begruendung steht bei
- * `Format`.
- *
- * Die **Empfehlung** stand schon vorher ausserhalb des Plans, und aus einem
- * Grund, der bleibt: Seltenheit ist der Preis, den eine Empfehlung wert ist.
- * Wer woechentlich empfiehlt, ist ein Prospekt.
- */
-export const WOCHENTAGE = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'] as const;
-
 export const FORMATE: Record<
   Format,
   {

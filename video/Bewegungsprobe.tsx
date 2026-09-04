@@ -263,4 +263,3 @@ export const Bewegungsprobe: React.FC = () => (
 );
 
 export const BEWEGUNGSPROBE_BILDER = BLOECKE.length * BLOCKDAUER;
-export const BEWEGUNGSPROBE_MASSE = { breite: BREITE, hoehe: HOEHE };

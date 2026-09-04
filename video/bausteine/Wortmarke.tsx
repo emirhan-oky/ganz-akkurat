@@ -1,5 +1,5 @@
 import { interpolate, useCurrentFrame } from 'remotion';
-import { FARBEN, SCHRIFT, SPRUCH, mische } from '../../src/marke';
+import { FARBEN, SCHRIFT, mische } from '../../src/marke';
 import { FORMATE, type Format } from '../../src/typen';
 
 /**
@@ -295,46 +295,6 @@ export const Kopfzeile: React.FC<{
     )}
   </div>
 );
-
-/**
- * Der Spruch in der Schlussszene — an derselben Stelle wie der Beleg.
- *
- * Bis zum 18.08.2026 stand er unten im Bild, unter einem blauen Strich und
- * neben einer zweiten Wortmarke: ein **Vorhang**. Er sagte dem Zuschauer
- * optisch, dass Schluss ist — und genau das ist bei einem Short die falsche
- * Ansage, weil er von selbst wieder anlaeuft. Zwei Sekunden Abspann sind bei
- * zwanzig Sekunden Laufzeit elf Prozent, in denen nichts Neues kommt.
- *
- * Jetzt laeuft der Spruch **oben** mit, waehrend die Pointe steht. Der Platz
- * ist frei, weil die Schlussszene als einzige keinen Beleg traegt — sie
- * behauptet nichts, sie kommentiert. Und die Nachbarschaft stimmt: Wortmarke,
- * Formatpille, Beleg, Spruch sind alle vier Markenelemente.
- *
- * Die Wortmarke selbst wird dadurch nicht seltener. Sie steht in der
- * Kopfzeile, in jedem einzelnen Bild, das ganze Video lang — der Abspann hat
- * sie nur ein zweites Mal gezeigt.
- */
-export const Spruchzeile: React.FC = () => {
-  const frame = useCurrentFrame();
-  const auf = interpolate(frame, [0, 6], [0, 1], { extrapolateRight: 'clamp' });
-
-  return (
-    <span
-      style={{
-        fontFamily: SCHRIFT.wortmarke,
-        fontWeight: SCHRIFT.halbfett,
-        fontSize: 26,
-        color: FARBEN.tinteWeich,
-        letterSpacing: 0.2,
-        whiteSpace: 'nowrap',
-        opacity: auf,
-        transform: `translateY(${(1 - auf) * -8}px)`,
-      }}
-    >
-      {SPRUCH}
-    </span>
-  );
-};
 
 /**
  * Der Beleg im Bild — die Zeile, die den ganzen Kanal rechtfertigt.

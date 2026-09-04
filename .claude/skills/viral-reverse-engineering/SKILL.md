@@ -17,7 +17,7 @@ metadata:
 license: MIT
 ---
 
-> **Projekthinweis (Ganzakkurat):** Nur diese sieben Skills sind installiert — youtube-shorts, hook-writer, short-form-video-script, viral-reverse-engineering, tiktok-growth, brand-profile, voice-builder. Andere unten genannte Geschwister-Skills gibt es hier nicht; ignoriere Verweise darauf. Videos und Skripte sind deutsch: englische Hook-Muster sinngemäß übertragen, nicht wörtlich übersetzen.
+> **Projekthinweis (Ganz akkurat):** Dies ist seit dem 04.09.2026 der **einzige** zugekaufte Skill dieser Familie — alle unten genannten Geschwister (brand-profile, hook-writer, short-form-video-script, voice-builder, youtube-shorts, tiktok-growth, reels-script, competitor-analysis, analytics-and-reporting …) sind gelöscht; ignoriere jeden Verweis darauf. Was der Kanal ist und wie er klingt, steht in `daten/marke/brand-profile.md` und `voice.md`; das Skripthandwerk in `.claude/skills/skript-schreiben`. Videos und Skripte sind deutsch: englische Hook-Muster sinngemäß übertragen, nicht wörtlich übersetzen.
 
 
 # Viral Reverse-Engineering

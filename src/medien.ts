@@ -355,10 +355,3 @@ export const mittlererPegel = async (datei: string): Promise<number> => {
   return treffer ? Number(treffer[1]) : Number.NEGATIVE_INFINITY;
 };
 
-/** Laufzeit einer Datei in Sekunden. */
-export const dauerSekunden = async (datei: string): Promise<number> => {
-  const { stdout } = await ausfuehren(FFPROBE, [
-    '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', datei,
-  ]);
-  return Number(stdout.trim());
-};

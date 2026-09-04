@@ -58,26 +58,41 @@ Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen i
 | `humor-eichen` | aus Emirhans Zeilen und aus Vorbildern Humorregeln gewinnen |
 | `rueckblick-lesen` | die Zahlen holen und die Schwellen kennen |
 
-**Installiert:** die Inhaltskette (`brand-profile` → `voice-builder` →
-`hook-writer` → `short-form-video-script` → die Plattform-Skills →
-`viral-reverse-engineering`), die Bildkette (`character-rigging` →
-`svg-character-animation` → `character-animation-qa`,
-`remotion-best-practices`, `better-typography`, `ffmpeg`), die
-Auffindbarkeitskette (`social-seo` → `instagram-seo` → `hashtag-strategy`) und
-die Planungskette (`content-pillars` → `content-calendar`,
-`analytics-and-reporting`, `competitor-analysis`).
+**Zwei zugekaufte Skills sind übrig, und das ist das Ergebnis einer Messung.**
+Am 04.09.2026 standen 23 fremde Skills im Ordner; nachgesehen wurde, welcher
+davon in einem unserer acht eigenen Skills als Schritt vorkommt. **Zwei tun
+es** — die anderen 21 sind gelöscht.
 
-Dazu **`joke-engineering`** seit dem 25.08.2026 — der einzige Skill, der das
-Comedy-Handwerk lehrt. Er ist rein diagnostisch: Er benennt, *warum* eine Zeile
-flach ist, und schreibt nichts. Sein Befund „H4 Over-Explained: punchline is
-stated rather than implied" traf die ersten Entwürfe der Reaktionszeilen
-wörtlich.
+| bleibt | wo er im Ablauf steht |
+|---|---|
+| **`joke-engineering`** | Diagnose in `skript-schreiben`. Er ist rein diagnostisch: Er benennt, *warum* eine Zeile flach ist, und schreibt nichts. Sein Befund „H4 Over-Explained: punchline is stated rather than implied" traf die ersten Entwürfe der Reaktionszeilen wörtlich |
+| **`viral-reverse-engineering`** | Schritt 5 in `humor-eichen` — die Vorbilder zerlegen, und `watch` behebt die Schwäche, die er selbst nennt: Ein Agent kann ein Video hinter einem Link nicht sehen |
 
-Einschränkungen, die man kennen muss: **`npm run rueckblick` liest
-ausschließlich YouTube.** `analytics-and-reporting` sagt, *wie* man Zahlen
-liest; es beschafft keine. Und `watch` behebt die Schwäche, die
-`viral-reverse-engineering` selbst nennt — ein Agent kann ein Video hinter
-einem Link nicht sehen.
+**Was die 21 anderen beigetragen haben, ist längst übernommen** — und genau
+deshalb konnten sie gehen:
+
+- `brand-profile` und `voice-builder` haben `daten/marke/brand-profile.md` und
+  `voice.md` erzeugt. **Die Dateien bleiben, das Werkzeug ist fertig.**
+- `hook-writer` und `short-form-video-script` stecken in `HOOK_MACHARTEN` und
+  `MACHARTEN`.
+- `youtube-shorts` lieferte die Taktobergrenze 7 („post ~3–7/week, not spam").
+- Die Bildkette (`character-rigging` → `svg-character-animation` →
+  `character-animation-qa`) steht als sechs Prüfstufen im Skill `bild-bauen`,
+  der selbst sagt: „halten das Handwerk; hier steht, was für dieses Projekt
+  gilt." Dasselbe gilt für `ffmpeg` und `skripte/ff`.
+- Die Auffindbarkeits- und die Planungskette (`social-seo`, `instagram-seo`,
+  `hashtag-strategy`, `content-pillars`, `content-calendar`,
+  `analytics-and-reporting`, `competitor-analysis`, dazu `instagram-growth`,
+  `tiktok-growth`, `reels-script`, `animation-vocabulary`, `better-typography`)
+  haben **keine Spur hinterlassen**. Die Hashtag-Regel steht im Code, die Zahlen
+  holt `npm run rueckblick`.
+
+**Der Rückweg steht in `skills-lock.json`** — Quelle und Prüfsumme aller 21,
+sechs davon am selben Tag nachgetragen, weil sie nie darin standen. Und in der
+Git-Historie steht jede Datei im Wortlaut.
+
+Die Einschränkung, die bleibt: **`npm run rueckblick` liest ausschließlich
+YouTube.**
 
 **Zwei Subagenten lesen in eigenem Kontext, und beide schreiben nicht.** Der
 `belegpruefer` meldet, wo ein Satz mehr behauptet, als sein Zitat trägt. Der
@@ -1024,7 +1039,7 @@ behaupten würde** — Buchsenformen, Pinbelegungen, Leistungsangaben.
 **Eine Probe ohne Tonspur prüft ein anderes Bild.** `Sprecherstand` hält einen
 Short ohne `abschnitte` für einstimmig, und dann reserviert die Bühne unten
 270 Pixel für den Untertitel — die im zweistimmigen Video niemand braucht, weil
-dort die Sprechblase steht. `npm run bildrand` hat so 75 Standbilder mit zu
+dort die Redespalten stehen. `npm run bildrand` hat so 75 Standbilder mit zu
 kleinen Figuren gemessen und für gut befunden. **Eine Probe, die kleinere
 Figuren misst, kann nicht sehen, dass die großen herausragen**; sie ist genau
 dort still, wo sie gebraucht wird. Sie legt seit dem 01.09.2026 eine
@@ -1188,22 +1203,32 @@ der Kasten im Schluss ist höher als breit — es deckelt die **Breite**, und di
 zusätzliche Höhe bleibt ungenutzt. Das ist der Grund, warum die Figuren
 ausgerechnet in der höchsten Bühne des Shorts am kleinsten standen.
 
-### Die Sprechblase
+### Was den Text unten trug — Untertitel und Sprechblase
 
-Bei zwei Stimmen ersetzt `video/bausteine/Sprechblase.tsx` den Untertitel. Sie
-kann, was er nicht konnte: **zeigen, wer spricht** — Namensschild in der Farbe
-der Figur, Text auf ihrer Seite.
+**Beides ist am 04.09.2026 ausgebaut, und keins davon lief noch.** Der
+Untertitel wurde nur gezeichnet, wenn eine Tonspur **einen einzigen**
+Sprecherabschnitt hatte; `zweistimmigkeit` verlangt seit dem 26.08.2026 zwei
+Szenen mit beiden Stimmen, ohne Ausnahme. **Ein Zweig, den kein Short mehr
+erreichen kann.** Die `Sprechblase` stand als Import in `Short.tsx` und wurde
+nirgends gerendert, mit der Begründung daneben, sie zurückzudrehen sei „eine
+Zeile Arbeit".
 
-**Das Karaoke-Prinzip zieht mit um, statt ersetzt zu werden.** `gruppiere` kommt
-unverändert aus `Untertitel.tsx`; das aktive Wort steht weiter auf farbigem
-Grund, nur in der Farbe seines Sprechers. Der Untertitel war von den ersten
-Zuschauern ausdrücklich gelobt worden — ihn ersatzlos zu streichen hieße, eine
-der wenigen belegten Stärken wegzuwerfen.
+Das stimmt weiterhin — der Wortlaut steht in der Git-Historie. Und was die Blase
+konnte und der Untertitel nicht (**zeigen, wer spricht**), tragen heute das
+Namensschild über der Figur und die Farbe der Redespalte darunter.
 
-**Keine Blase mit Zipfel.** Ein Zipfel müsste auf den Mund zeigen, und der sitzt
-im SVG-Raum der Bühne, während der Text HTML ist. An dieser Kopplung ist die
-Symbolposition dreimal gescheitert. Seite und Farbe beantworten dieselbe Frage
-ohne eine umgerechnete Koordinate.
+**Das Karaoke-Prinzip ist geblieben.** `gruppiere` steht weiter in
+`Untertitel.tsx` — von der Datei ist nur diese Funktion übrig —, und
+`Redespalten` gruppiert damit; das aktive Wort steht auf farbigem Grund in der
+Farbe seines Sprechers. Der Untertitel war von den ersten Zuschauern
+ausdrücklich gelobt worden; ihn ersatzlos zu streichen hieße, eine der wenigen
+belegten Stärken wegzuwerfen.
+
+**Keine Blase mit Zipfel** — die Begründung bleibt für jeden künftigen Anlauf:
+Ein Zipfel müsste auf den Mund zeigen, und der sitzt im SVG-Raum der Bühne,
+während der Text HTML ist. An dieser Kopplung ist die Symbolposition dreimal
+gescheitert. Seite und Farbe beantworten dieselbe Frage ohne eine umgerechnete
+Koordinate.
 
 ### Der Vorhang
 
@@ -1398,7 +1423,7 @@ Kante daneben. Ein Sofa darf halb hinter Volti liegen, weil es breit ist.
 **Der große Satz über den Figuren ist dafür gestrichen** — `text` und
 `hervorhebung` gibt es im Schema nicht mehr. Der Anlass war ein Satz zum
 fertigen Video: „Das Geschriebene oben macht sowieso keinen Sinn." Er hatte
-doppelt recht. Bei zwei Stimmen trägt die Sprechblase den gesprochenen Satz
+doppelt recht. Bei zwei Stimmen tragen die Redespalten den gesprochenen Satz
 Wort für Wort — oben stand ein zweiter, anderer, und der Zuschauer las
 zweimal. **Und der Satz kostete mehr als seine eigene Höhe:** Er drückte die
 Bühne nach unten, und damit wanderte die Standlinie der Figuren je nach
@@ -1461,8 +1486,8 @@ wirkt es im Bild leer".
 **Sie hängen am Standplatz, nicht an der gerenderten Figur.** Die Kamera fährt
 im Bühnen-SVG bis Zoom 1,24 — wer den Text pixelgenau an die Figur bindet,
 rechnet zwischen SVG-Raum und Pixelraum um und lässt ihn bei jeder Fahrt
-mitwandern. Seite und Farbe statt einer umgerechneten Koordinate, wie schon bei
-der Sprechblase.
+mitwandern. Seite und Farbe statt einer umgerechneten Koordinate — dieselbe
+Antwort, die schon die Sprechblase gab, bevor sie ausgebaut wurde.
 
 **Welche Seite, entscheidet die Szene.** `wer` an der Figurenbühne darf
 wechseln, und die Spalten müssen dem folgen — im ersten Standbild stand Voltis
@@ -1564,7 +1589,7 @@ Kommentare dokumentieren drei gescheiterte Anläufe; einer rechnete
 `passung = 0` und machte **jede Szene leer**.
 
 Die Bühne zu lockern stand im Plan und ist am 25.08.2026 verworfen worden: Die
-270 Pixel Untertitelzone sind nicht frei, dort sitzt die Sprechblase. Eine
+270 Pixel Untertitelzone sind nicht frei, dort sitzen die Redespalten. Eine
 Beschränkung zu lösen, für die es keinen Bedarf gibt, ist in dieser Datei
 besonders teuer.
 
@@ -1755,8 +1780,9 @@ verändert hat.
 ## Takt
 
 **Vier Videos je Woche**, ein Video je Tag um 18:00, in der Reihenfolge der
-Liste. Obergrenze 7 — das ist das Ende der Spanne, die `youtube-shorts` nennt
-(„post ~3–7/week, not spam").
+Liste. Obergrenze 7 — das ist das Ende der Spanne aus dem Skill
+`youtube-shorts` („post ~3–7/week, not spam"), der seit dem 04.09.2026 gelöscht
+ist. **Die Zahl bleibt, ihre Quelle ist notiert.**
 
 Die Zahl kommt daraus, welcher Engpass zuerst greift:
 
@@ -1830,7 +1856,7 @@ R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env`. Die laufende Aufgabenliste steht in `AUFGABEN.md`.
 
 **Seit dem 25.08.2026 läuft der Umbau auf zwei Stimmen.** Schema, Vertonung,
-Sprechblase, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen.
+Redespalten, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen.
 **Kein Video im neuen Bau ist bisher veröffentlicht** — alle Zahlen oben
 stammen aus der einstimmigen Zeit.
 

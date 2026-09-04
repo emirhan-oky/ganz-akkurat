@@ -1,8 +1,6 @@
 import { Composition } from 'remotion';
 import { loadFont } from '@remotion/google-fonts/Inter';
 import { loadFont as ladePlayfair } from '@remotion/google-fonts/PlayfairDisplay';
-import { loadFont as ladeAnton } from '@remotion/google-fonts/Anton';
-import { loadFont as ladeArchivoBlack } from '@remotion/google-fonts/ArchivoBlack';
 import { FORMAT } from '../src/marke';
 import { Short as ShortDaten } from '../src/typen';
 import { gesamtdauerBilder } from '../src/zeit';
@@ -10,7 +8,6 @@ import { Short } from './Short';
 import { beispielShort } from '../daten/beispiel-short';
 import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
-import { Untertitelprobe } from './Untertitelprobe';
 import { Farbprobe } from './Farbprobe';
 import { Haltungsprobe, Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
 import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
@@ -37,10 +34,6 @@ ladePlayfair('italic', {
   weights: ['400', '500', '600', '700', '800', '900'],
   subsets: ['latin', 'latin-ext'],
 });
-
-/* Kandidaten der Untertitelprobe. Sie gehen mit ihr. */
-ladeArchivoBlack('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
-ladeAnton('normal', { weights: ['400'], subsets: ['latin', 'latin-ext'] });
 
 export const RemotionRoot: React.FC = () => (
   <>
@@ -104,7 +97,6 @@ export const RemotionRoot: React.FC = () => (
     durationInFrames={1}
     defaultProps={{ mitKulisse: true, mitVorhang: true }}
   />
-  <Composition id="Untertitelprobe" component={Untertitelprobe} width={1900} height={1100} fps={30} durationInFrames={1} />
   <Composition
     id="Short"
     component={Short}

@@ -146,18 +146,3 @@ export const atemvolumen = (frame: number, fps: number, versatz = 0) => {
   return { stauchung: { koerper: s }, dehnung: { koerper: 1 / s } };
 };
 
-/**
- * Der Aufprall einer Bewegung — Squash beim Ankommen, Stretch unterwegs.
- *
- * Gerechnet aus der Geschwindigkeit: Wo sich viel aendert, wird gestreckt; wo
- * die Bewegung ankommt und der Ueberschwinger zurueckfaellt, wird gestaucht.
- * Der Wert kommt von aussen, weil nur die aufrufende Stelle weiss, welche
- * Feder gerade laeuft.
- *
- * `tempo` ist die Aenderung von `t` je Bild. Bei der cartoonhaften Feder liegt
- * sie in der Spitze bei rund 0,25.
- */
-export const aufprall = (tempo: number, staerke = 0.5) => {
-  const s = 1 + tempo * staerke;
-  return { stauchung: { koerper: s }, dehnung: { koerper: 1 / s } };
-};

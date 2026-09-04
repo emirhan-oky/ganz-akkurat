@@ -2331,8 +2331,38 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
       bezahlt: Der Standardpfad nahm die zehn **gestrichenen** Showaufnahmen
       auf. Er verlangt jetzt `--shows`, die Datei ist per `git checkout`
       zurückgeholt~~
-- [ ] **Die 116 versionierten Skilldateien.** Vier Skills stehen in keiner Kette
-      in CLAUDE.md: `animation-vocabulary`, `instagram-growth`, `reels-script`,
-      `tiktok-growth`. 724 KB — kein Platzproblem, aber Übersicht.
-      **Deinstallieren ist eine Entscheidung, keine Aufräumarbeit**
+- [x] ~~**Die 21 zugekauften Skills gelöscht.** Gemessen wurde, welcher fremde
+      Skill in einem unserer acht eigenen als Schritt vorkommt: `joke-engineering`
+      (Diagnose in `skript-schreiben`) und `viral-reverse-engineering` (Schritt 5
+      in `humor-eichen`). **Die anderen 21 kommen in keinem Ablauf vor** — was sie
+      beigetragen haben, steht längst im Code oder in CLAUDE.md. 116 auf 9
+      versionierte Skilldateien~~
+- [x] ~~`skills-lock.json` vorher vervollständigt: sieben Skills standen nie
+      darin, obwohl sie installiert waren. **Ein Rückweg, den man erst beim
+      Löschen vermisst, ist keiner**~~
+- [x] ~~**31 MB Ton gelöscht**, dessen Text es nicht mehr gibt. Gemessen je Lauf,
+      ob der erste Satz der Tonspur noch im heutigen Entwurf steht: nur der vom
+      04.09. tut es. `passwort-wechseln` vom 01.09. hat nicht einmal einen
+      Kaltstart~~
+- [x] ~~**Fünf Laufordner gelöscht, die nichts mehr liefern.** `herkuenfteLesen`
+      parst sie nicht mehr — von 15 Shorts mit Zahlen hatten schon vorher 8 keine
+      Herkunft. Die Gegenprobe nach dem Löschen: **16 Herkünfte, genau wie
+      vorher**~~
+- [x] ~~Die drei ElevenLabs-Probenordner und 44 props-Kopien je Dienst~~
+- [x] ~~**Der einstimmige Bau ist aus dem Renderer raus.** `Sprechblase.tsx`
+      (importiert, nie gerendert), die `Untertitel`-Komponente samt ihrem Zweig
+      (`zweistimmigkeit` macht einen einzelnen Sprecherabschnitt unmöglich),
+      `Untertitelprobe.tsx` und sieben tote Exporte. `gruppiere` bleibt — es
+      trägt das Karaoke-Prinzip in den Redespalten~~
+- [x] ~~**Gegenprobe am Bild:** Standbild aus dem gesendeten Video gegen ein
+      frisch gerendertes derselben Stelle — mittlere Abweichung 1,87 von 255,
+      0,06 % der Bytes über 30. Das ist H.264-Rauschen, keine Geometrie~~
+- [ ] **Die drei Buffer-Vorschauentwürfe vom 02.09. löschen** und `probe/` in R2
+      leeren, dann `laeufe/2026-09-02/`. Der Aufruf wurde vom Sicherheitsfilter
+      abgelehnt; die Datei bleibt liegen, weil sie die einzige Stelle mit den
+      Beitrags-IDs ist
+- [ ] **`UNTERTITEL_ZONE` ist nicht angefasst.** Sie sieht tot aus, geht aber in
+      `SPIELFLAECHE.hoehe` ein und bestimmt Standlinie und Figurengröße. Sie zu
+      entfernen ergibt ein **anderes Bild** — eine Bildentscheidung mit
+      Neurender, kein Aufräumen
 - [ ] ▸ **Danach die Struktur:** welche Rubrik an welchem Tag läuft

@@ -52,18 +52,19 @@ braucht, wird bei dieser Stärke ein grauer Fleck.
 
 ## Figur und Kamera
 
-Seit dem 20.08.2026 trägt eine gerigte Figur die Shorts. Die Skills
-`character-rigging`, `svg-character-animation` und `character-animation-qa`
-halten das Handwerk; hier steht, was für dieses Projekt gilt.
+Seit dem 20.08.2026 trägt eine gerigte Figur die Shorts. Das Handwerk kam aus
+drei zugekauften Skills (`character-rigging`, `svg-character-animation`,
+`character-animation-qa`); **sie sind am 04.09.2026 gelöscht, weil alles, was
+für dieses Projekt gilt, hier steht** — die Bühnenmaße, die Posenregeln und die
+Prüfkette unten.
 
 **Die Zeitachse ist pausiert und wird vom Bild getrieben.** Nie
 `requestAnimationFrame`. Remotion rendert Bild für Bild und nicht in Echtzeit
 — eine selbstlaufende Zeitachse ergibt bei jedem Render eine andere Fassung,
 und keine davon entspricht der Vorschau.
 
-**Kein GSAP.** Der Skill `svg-character-animation` zeigt es mit einer
-pausierten GSAP-Timeline, aber die Bedingung ist die Bildsteuerung, nicht die
-Bibliothek. Remotions `interpolate` und `spring` sind per Bauart bildgetrieben,
+**Kein GSAP.** Der Weg über eine pausierte GSAP-Timeline funktioniert, aber
+die Bedingung ist die Bildsteuerung, nicht die Bibliothek. Remotions `interpolate` und `spring` sind per Bauart bildgetrieben,
 stehen in `bewegung.ts` schon im Projekt und teilen sich `TEMPO.feder` mit
 allem anderen. Eine zweite Zeitachsen-Bibliothek daneben wäre ein Fremdkörper
 mit eigenem Gefühl für Tempo.
@@ -379,7 +380,7 @@ Es ist ein abgespecktes ffmpeg mit Whitelist für Filter, Muxer und Decoder.
 
 ## Die Kette vor „fertig"
 
-Nach `character-animation-qa`, sechs Stufen:
+Sechs Stufen, aus `character-animation-qa` übernommen und hiergelassen:
 
 1. Schema — Figurendaten, Rig, Posen, Zeitachse
 2. Bestand — jedes genannte Teil und jeder Hintergrund existiert

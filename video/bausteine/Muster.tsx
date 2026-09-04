@@ -1,4 +1,3 @@
-import { FARBEN } from '../../src/marke';
 
 /**
  * Das Isometriemuster — Bannergrund aus Dreiecken, Umrissen und Leitungen.
@@ -288,51 +287,3 @@ export const Muster: React.FC<MusterEigenschaften> = ({
   );
 };
 
-/**
- * Der Spruch als Hauptsache, im Staerkekontrast der Wortmarke.
- *
- * „Wir haben" duenn, „nachgelesen." fett — dieselbe Machart wie „Ganz akkurat"
- * und deshalb ohne Logo wiedererkennbar. Der Punkt am Ende ist blau: der
- * einzige Akzent, den der Satz braucht, und die Stelle, an der die Marke
- * trocken wird.
- *
- * **Der Abstand ist hier ein anderer als in der Wortmarke.** Dort steht ein
- * Haarspalt (`&#8202;`), weil „Ganz akkurat" als ein Wort gelesen werden soll
- * — die Trennung leistet die Strichstaerke. Uebernommen in einen Satz ergab
- * das „Wir habennachgelesen.": Die Staerken wechseln zwar, aber ein Leser
- * erwartet zwischen zwei Woertern Luft und nicht nur Fettung. Hier steht
- * deshalb ein **normales** Leerzeichen. Der Zwischenschritt mit einem schmalen
- * (`&#8239;`) sah im Code vernuenftig aus und klebte bei 104 Pixeln immer
- * noch. In einem Satz gewinnt die Lesbarkeit gegen den Kontrast — der
- * Staerkewechsel traegt auch mit normalem Abstand, er muss die Trennung nur
- * nicht allein leisten.
- */
-export const SpruchGross: React.FC<{ groesse: number; farbe: string; duenn: number; fett: number; familie: string; akzent: string }> = ({
-  groesse,
-  farbe,
-  duenn,
-  fett,
-  familie,
-  akzent,
-}) => (
-  <span
-    style={{
-      fontFamily: familie,
-      fontSize: groesse,
-      color: farbe,
-      letterSpacing: -1,
-      whiteSpace: 'nowrap',
-      lineHeight: 1,
-    }}
-  >
-    <span style={{ fontWeight: duenn }}>Wir haben </span>
-    <span style={{ fontWeight: fett }}>nachgelesen</span>
-    <span style={{ fontWeight: fett, color: akzent }}>.</span>
-  </span>
-);
-
-export const MUSTERFARBEN = {
-  linie: FARBEN.linie,
-  dunkel: FARBEN.tinte,
-  akzent: FARBEN.blau,
-};

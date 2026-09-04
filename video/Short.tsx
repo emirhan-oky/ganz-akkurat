@@ -26,9 +26,7 @@ import {
 } from './bausteine/Vorhang';
 import vorspannDauern from '../daten/vorspannton.json';
 import { Belegzeile, Kopfzeile } from './bausteine/Wortmarke';
-import { Untertitel } from './bausteine/Untertitel';
 import { Kaltstartzeile, Redespalten } from './bausteine/Redespalten';
-import { Sprechblase } from './bausteine/Sprechblase';
 import { Sprecherstand } from './bausteine/Sprecherstand';
 import { Kaltstartbild, SzeneRendern } from './szenen';
 import { Figur } from './bausteine/Figur';
@@ -712,27 +710,24 @@ export const Short: React.FC<{ daten: ShortDaten }> = ({
         </div>
 
         {/*
-          ## Zweistimmige Shorts tragen seit dem 31.08.2026 keinen Text unten
+          ## Hier stand der Untertitel, und davor die Sprechblase
 
-          Bis dahin stand hier die `Sprechblase`: Text auf der Seite des
-          Sprechers, sein Name als farbiges Schild darueber. Im fertigen Video
-          zu zweit war das Urteil eindeutig — „das sieht mit den Untertiteln so
-          unfassbar scheisse aus, wenn beide Charaktere im Bild sind".
+          Beides ist am 04.09.2026 ausgebaut. Der Untertitel lief nur noch,
+          wenn eine Tonspur **einen einzigen** Sprecherabschnitt hatte — und
+          `zweistimmigkeit` verlangt seit dem 26.08.2026 zwei Szenen mit beiden
+          Stimmen, ohne Ausnahme. **Ein einstimmiger Short kann nicht mehr
+          entstehen, also lief der Zweig nie.**
 
-          **Die Zuordnung traegt jetzt der Name ueber der Figur** (`Namensschild`
-          in `Buehnenbild.tsx`): beide dauerhaft im Bild, der Sprechende in
-          seiner Kennfarbe. Damit ist die eine Sache, die die Blase konnte und
-          der Untertitel nicht, an einen anderen Ort gewandert statt verloren.
+          Die `Sprechblase` stand noch als Import da und wurde nirgends
+          gerendert; danebengeschrieben stand „zurueckzudrehen ist eine Zeile
+          Arbeit". Sie zurueckzuholen ist immer noch eine Zeile Arbeit — der
+          Wortlaut steht in der Git-Historie, und `gruppiere` in
+          `Untertitel.tsx` traegt das Karaoke-Prinzip weiter.
 
-          **Der Preis gehoert danebengeschrieben.** Wer ohne Ton schaut,
-          versteht in genau den Szenen nichts, die den Umbau tragen — und der
-          Untertitel war das einzige, was die ersten Zuschauer ausdruecklich
-          gelobt haben. Deshalb bleibt `Sprechblase.tsx` vollstaendig stehen:
-          Diese Zeile zurueckzudrehen ist eine Zeile Arbeit, nicht ein Neubau.
+          **Was die Blase konnte und der Untertitel nicht — zeigen, wer
+          spricht — traegt heute der Name ueber der Figur** (`Namensschild` in
+          `Buehnenbild.tsx`) und die Farbe der Redespalte darunter.
         */}
-        {daten.tonspur && (daten.tonspur.abschnitte?.length ?? 1) <= 1 && (
-          <Untertitel woerter={daten.tonspur.woerter} />
-        )}
 
         {/*
           **Zu zweit stehen die Redespalten unter den Figuren — seit dem
