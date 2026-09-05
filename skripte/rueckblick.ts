@@ -9,6 +9,7 @@ import {
   haltekurve,
   halteQuoteBei,
 } from '../src/youtube';
+import type { Kanalmessung } from '../src/rueckschau';
 
 /**
  * Der Rücklauf: was aus den Videos geworden ist.
@@ -35,31 +36,20 @@ const ABLAGE = 'daten/rueckblick.json';
 const AUFSCHLAG_SEK = 3.5;
 const NUR_ZEIGEN = process.argv.includes('--zeigen');
 
-/**
- * Was ein einzelner Kanal zu diesem Short meldet — seit dem 05.09.2026.
+/*
+ * `Kanalmessung` stand bis zum 05.09.2026 hier und steht jetzt in
+ * `src/rueckschau.ts`, wo auch das Zod-Schema dazu liegt.
+ *
+ * **Der Grund ist ein Fehler, den die Doppelung erzeugt hat**, und zwar noch
+ * am selben Tag: Das Skript schrieb `jeKanal` in die Ablage, die Rueckschau
+ * kannte das Feld nicht — und Zod streift ab, was es nicht kennt. Die Zahlen
+ * kamen an, wurden geschrieben und beim Lesen wieder weggeworfen, ohne dass
+ * irgendetwas einen Fehler warf.
  *
  * **Die Quelle ist Buffer, nicht die Plattform.** Es kostet keine App-Review
  * bei Meta und kein TikTok-Developer-Konto: Die Zahlen haengen am Beitrag, den
  * Buffer ohnehin verwaltet, und kommen mit demselben Token.
- *
- * Nicht jeder Kanal meldet alles — `undefined` heisst „dieser Dienst kennt die
- * Groesse nicht", `0` heisst „keine". Nur Instagram liefert `gespeichert` und
- * `neueAbos`, nur TikTok `sehdauerSek`.
  */
-type Kanalmessung = {
-  aufrufe: number;
-  reichweite?: number;
-  likes: number;
-  kommentare: number;
-  geteilt?: number;
-  gespeichert?: number;
-  neueAbos?: number;
-  /** Durchschnittliche Sehdauer in Sekunden — bisher nur von TikTok. */
-  sehdauerSek?: number;
-  /** Wann Buffer die Zahlen zuletzt geholt hat. */
-  stand: string | null;
-};
-
 type Messung = {
   gemessenAm: string;
   aufrufe: number;

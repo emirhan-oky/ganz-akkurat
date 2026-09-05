@@ -45,6 +45,35 @@ export const GENUG_FUER_MEDIAN = 8;
 /** Ab wie vielen Videos je Format sich Formate überhaupt vergleichen lassen. */
 export const GENUG_JE_FORMAT = 5;
 
+/**
+ * Was ein einzelner Kanal zu einem Short meldet — die Zahlen aus Buffer.
+ *
+ * **Hier steht die Form, nicht in `skripte/rueckblick.ts`.** Das Skript hat
+ * sie am 05.09.2026 selbst beschrieben, und dieselbe Form zweimal zu
+ * beschreiben ist in diesem Projekt schon dreimal auseinandergelaufen. Es
+ * importiert den Typ jetzt von hier; die Übersetzung der Buffer-Namen bleibt
+ * dort, denn die gehört zum Holen und nicht zum Lesen.
+ *
+ * `undefined` heißt „dieser Dienst kennt die Größe nicht", `0` heißt „keine".
+ * Der Unterschied trägt: Buffer schickt für YouTube kein `Reach` und für
+ * TikTok kein `Follows` — eine 0 an diesen Stellen wäre eine Messung, die
+ * niemand gemacht hat.
+ */
+export const Kanalmessung = z.object({
+  aufrufe: z.number(),
+  reichweite: z.number().optional(),
+  likes: z.number(),
+  kommentare: z.number(),
+  geteilt: z.number().optional(),
+  gespeichert: z.number().optional(),
+  neueAbos: z.number().optional(),
+  /** Durchschnittliche Sehdauer in Sekunden — bisher nur von TikTok. */
+  sehdauerSek: z.number().optional(),
+  /** Wann Buffer die Zahlen zuletzt geholt hat. */
+  stand: z.string().nullable(),
+});
+export type Kanalmessung = z.infer<typeof Kanalmessung>;
+
 export const Messung = z.object({
   gemessenAm: z.string(),
   aufrufe: z.number(),
@@ -54,8 +83,34 @@ export const Messung = z.object({
   haltequote: z.number().nullable(),
   geteilt: z.number().nullable(),
   neueAbos: z.number().nullable(),
+  /**
+   * Dieselbe Messung je Kanal, seit dem 05.09.2026.
+   *
+   * **Das Feld hat hier gefehlt, und das war kein Schönheitsfehler.** Zod
+   * streift ab, was nicht beschrieben ist: `skripte/rueckblick.ts` schrieb
+   * `jeKanal` in die Datei, und `rueckblickLesen` warf es beim Parsen wieder
+   * weg. Alle vier Leser — `ausreisser`, `aufschlaege`, `laengen`,
+   * `schemapruefung` — waren damit für Instagram und TikTok blind, obwohl die
+   * Zahlen dastanden. Eine Lücke, die keinen Fehler wirft, weil ein Feld
+   * einfach verschwindet.
+   *
+   * Optional, weil die Messungen vor diesem Tag es nicht haben. Pflicht
+   * gemacht hieße, jede ältere Messung zu verwerfen.
+   */
+  jeKanal: z.record(z.string(), Kanalmessung).optional(),
 });
 export type Messung = z.infer<typeof Messung>;
+
+/**
+ * Die drei Kanäle, in der Reihenfolge, in der sie in jeder Ausgabe stehen.
+ *
+ * Eine feste Liste und nicht die Schlüssel aus den Daten: Ein Kanal, der eine
+ * Woche lang nichts meldet, soll als Zeile mit einem Strich dastehen und nicht
+ * aus der Tabelle verschwinden — sonst liest sich ein Ausfall wie ein Kanal,
+ * den es nicht gibt.
+ */
+export const KANAELE = ['youtube', 'instagram', 'tiktok'] as const;
+export type Kanal = (typeof KANAELE)[number];
 
 export const Rueckblickeintrag = z.object({
   shortId: z.string(),
@@ -234,6 +289,39 @@ export const median = (werte: number[]): number | null => {
   const s = [...werte].sort((a, b) => a - b);
   const m = Math.floor(s.length / 2);
   return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
+};
+
+/**
+ * Die Messung, die als Vergleichspunkt für einen Zuwachs taugt.
+ *
+ * Gesucht wird die **jüngste** Messung, die mindestens `tage` älter ist als
+ * die neueste. Gibt es keine, ist es die älteste überhaupt — und dann sagt
+ * `spanneTage` daneben, worüber der Zuwachs wirklich geht.
+ *
+ * **Der Rückblick misst nicht so zuverlässig, wie sein Name verspricht.** Am
+ * 05.09.2026 standen sechs Messtage seit dem 18.08. in der Ablage, mit einer
+ * Lücke von sechs Tagen darin. Eine Auswertung, die „diese Woche" auf eine
+ * Zahl schreibt, die über elf Tage entstanden ist, erfindet eine Genauigkeit,
+ * die die Messreihe nicht hergibt. Deshalb wird die Spanne mitgeliefert und
+ * nicht verschwiegen.
+ */
+export const vergleichspunkt = (
+  messungen: Messung[],
+  tage: number,
+): { davor: Messung; jetzt: Messung; spanneTage: number } | null => {
+  if (messungen.length < 2) return null;
+  const s = [...messungen].sort((a, b) => a.gemessenAm.localeCompare(b.gemessenAm));
+  const jetzt = s[s.length - 1]!;
+  const grenze = new Date(new Date(jetzt.gemessenAm).getTime() - tage * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+  const passend = s.filter((m) => m.gemessenAm <= grenze);
+  const davor = passend.length > 0 ? passend[passend.length - 1]! : s[0]!;
+  if (davor.gemessenAm === jetzt.gemessenAm) return null;
+  const spanne = Math.round(
+    (new Date(jetzt.gemessenAm).getTime() - new Date(davor.gemessenAm).getTime()) / 86_400_000,
+  );
+  return { davor, jetzt, spanneTage: spanne };
 };
 
 /** `41 %`, oder ein Gedankenstrich. Nie `0 %` für „nicht gemessen". */

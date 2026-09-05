@@ -2391,4 +2391,33 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
 - [x] ~~Mit ihr gegangen: `BUEHNE.hoeheOhneUntertitel` (die zweite Höhe),
       `UntertitelzoneContext` samt `useUntertitelzone`, der Parameter an
       `standlinieImBild()` und die Prop `mitUntertitelzone` an der Kulisse~~
-- [ ] ▸ **Danach die Struktur:** welche Rubrik an welchem Tag läuft
+- [x] ~~**Die Struktur steht** (05.09.2026): fünf Videos je Woche auf Mo, Mi, Fr,
+      Sa, So um 18:00, Instagram um 20:00. Vier Rubriken je Woche, die
+      vorratsstärkste zweimal — keine Zuordnung zu Wochentagen~~
+
+## Sendestruktur und Sonntagsautomatik · 05.09.2026
+
+- [x] ~~**Recherche:** TikTok 18–20 Uhr (Samstag stärkster Tag), Instagram 20
+      Uhr, YouTube Shorts 12–15 und 17–20. Frequenz: 2–5 je Woche bringen 17 %
+      mehr Aufrufe je Beitrag als eines, der große Sprung liegt dort~~
+- [x] ~~**Instagram und TikTok müssen nicht angebunden werden** — Buffer liefert
+      ihre Kennzahlen mit dem Token aus `.env`. Der Nordstern (geteilt, neue
+      Abos) ist damit erstmals vollständig messbar, rückwirkend bis 17.08.~~
+- [x] ~~`SENDEPLAETZE`, `UHRZEIT_JE_DIENST`, `wochenAuswaehlen`,
+      `npm run wochenvorschlag`, `--auswahl=automatisch`~~
+- [x] ~~**Der Sonntagsdienst `de.ganzakkurat.wochenlauf`** läuft sonntags 12:07
+      und stellt die fünf Videos der Folgewoche zur Freigabe bereit. Kette
+      einmal vollständig getestet mit `--trocken`~~
+- [x] ~~45 Schlussposen getauscht; `npm run pruefen` meldet keinen
+      `bildvielfalt`-Hinweis mehr~~
+- [x] ~~**Ein Fehler von gestern repariert:** Beim Aufräumen gingen fünf
+      `veroeffentlicht.json` mit — zwölf Videos verloren ihre Buffer-Zuordnung.
+      `npm run zuordnung-wiederherstellen` holt sie zurück, 18 von 18 eindeutig~~
+- [ ] ▸ **Der Vorrat trägt genau eine Woche.** 33 ungesendete Entwürfe, davon
+      **27 Zitatkarten**, 4 Stationen, 2 Wechselreden — die Bauformregel lässt
+      höchstens zwei je Bauform und Woche zu. **Was fehlt, sind Wechselreden und
+      Stationen, nicht Themen.** „Es war einmal" hat gar keinen ungesendeten
+      Entwurf mehr
+- [ ] **Vier Shorts der ersten Auswahl liegen bei 69–78 Sekunden**, geschätzt
+      ohne Ton. Das Fenster endet bei 80; die Schätzung lag heute eher zu hoch
+      (63,6 geschätzt gegen 56,8 gemessen), aber der Abstand ist dünn
