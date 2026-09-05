@@ -2011,6 +2011,47 @@
           "stuetzt": "Die Freistellung entfällt, wenn der Anbieter absichtlich mit dem Nutzer zusammenarbeitet."
         }
       ]
+    },
+    {
+      "id": "bluetooth-namensherkunft",
+      "titel": "The Origin of the Bluetooth Name",
+      "url": "https://www.bluetooth.com/about-us/bluetooth-origin/",
+      "herausgeber": "Bluetooth SIG",
+      "geprueftAm": "2026-09-05",
+      "art": "standard",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "harald-blauzahn-toter-zahn",
+          "zitat": "to King Harald “Bluetooth” Gormsson who was well known for two things: Uniting Denmark and Norway in 958. His dead tooth, which was a dark blue/grey color, and earned him the nickname Bluetooth.",
+          "stuetzt": "Der Name geht auf Harald Gormsson zurueck, einen daenischen Koenig. Sein Spitzname kam von einem toten, blaugrauen Zahn."
+        },
+        {
+          "id": "platzhalter-bis-marketing",
+          "zitat": "Bluetooth was only intended as a placeholder until marketing could come up with something really cool.",
+          "stuetzt": "Der Name war ein Arbeitstitel und sollte ersetzt werden, sobald das Marketing einen besseren liefert."
+        },
+        {
+          "id": "markenrecherche-nicht-rechtzeitig",
+          "zitat": "A full trademark search on RadioWire couldn’t be completed in time for launch, making Bluetooth the only choice.",
+          "stuetzt": "Bei RadioWire wurde die Markenrecherche bis zum Start nicht fertig. RadioWire war aber nicht gesetzt — siehe `zwei-kandidaten-pan-vorn`."
+        },
+        {
+          "id": "logo-bindrune",
+          "zitat": "The Bluetooth logo is a bind rune merging the Younger Futhark runes",
+          "stuetzt": "Das Logo ist eine Binderune aus zwei Zeichen des juengeren Futhark."
+        },
+        {
+          "id": "drei-firmen-1996",
+          "zitat": "In 1996, three industry leaders, Intel, Ericsson, and Nokia, met to plan the standardization of this short-range radio technology",
+          "stuetzt": "1996 trafen sich Intel, Ericsson und Nokia fuer einen Funkstandard kurzer Reichweite. Der Name kam waehrend des Treffens auf, er war nicht der Anlass."
+        },
+        {
+          "id": "zwei-kandidaten-pan-vorn",
+          "zitat": "Bluetooth was to be replaced with either RadioWire or PAN (Personal Area Networking). PAN was the front runner, but an exhaustive search discovered it already had tens of thousands of hits throughout the internet.",
+          "stuetzt": "Zur Wahl standen zwei Namen, und PAN lag vorn. Er fiel an zehntausenden Internettreffern aus; RadioWire war der Nachruecker, nicht der Favorit."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { Idee, Short, type Quelle } from '../src/typen';
+import { Idee, Quelle, Short } from '../src/typen';
 import { beispielShort } from '../daten/beispiel-short';
 import { GEPARKT, WOCHENLAUF } from '../daten/entwuerfe';
 import { IDEEN, reichweiteInWochen } from '../daten/ideen';
@@ -159,10 +159,37 @@ for (const idee of IDEEN) {
  * zurueck; ihn hier zu laden hiesse, die Freigabe-Uebersicht in die
  * Vorabpruefung zu ziehen.
  */
-const quellen = (
-  JSON.parse(readFileSync('daten/quellen.json', 'utf8')) as { quellen?: Quelle[] } | Quelle[]
-);
-const quellenliste = Array.isArray(quellen) ? quellen : (quellen.quellen ?? []);
+const quellenRoh = JSON.parse(readFileSync('daten/quellen.json', 'utf8')) as
+  | { quellen?: unknown[] }
+  | unknown[];
+const quellenRohListe = Array.isArray(quellenRoh) ? quellenRoh : (quellenRoh.quellen ?? []);
+
+/*
+ * **Die Quellen werden geparst, nicht gecastet — seit dem 05.09.2026.**
+ *
+ * Hier stand ein `as Quelle[]`, und damit galt fuer `quellen.json` genau das,
+ * wogegen diese Datei ueberhaupt existiert: „TypeScript prueft Formen, nicht
+ * Werte." Ein `stuetzt` mit 180 Zeichen ging durch `npm run pruefen`, und erst
+ * `npm run wochenvorschlag` fiel darueber — mit einem rohen `ZodError` und ohne
+ * Hinweis darauf, welche Quelle gemeint ist.
+ *
+ * **Der teure Fall ist der Sonntagsdienst.** Er ruft den Wochenlauf ohne
+ * Menschen davor auf, und der parst die Quellen. Eine kaputte Quelle haette
+ * ihn abbrechen lassen, waehrend die Vorabpruefung gruen war.
+ */
+const quellenliste: Quelle[] = [];
+for (const [i, roh] of quellenRohListe.entries()) {
+  const ergebnis = Quelle.safeParse(roh);
+  if (ergebnis.success) {
+    quellenliste.push(ergebnis.data);
+    continue;
+  }
+  const kennung = (roh as { id?: string }).id ?? `Eintrag ${i + 1}`;
+  fehler += 1;
+  for (const problem of ergebnis.error.issues) {
+    console.error(`✕ Fehler  · [quelle] ${kennung}: ${problem.path.join('.')} — ${problem.message}`);
+  }
+}
 
 let hinweise = 0;
 for (const befund of laufPruefen(WOCHENLAUF, quellenliste).befunde) {

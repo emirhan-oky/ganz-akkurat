@@ -51,6 +51,7 @@ import { balkonkraftwerkNachbar } from './balkonkraftwerk-nachbar';
 import { technikerTermin } from './techniker-termin';
 import { vierPaketeZurueck } from './vier-pakete-zurueck';
 import { handyAmSteuer } from './handy-am-steuer';
+import { bluetoothBlauzahn } from './bluetooth-blauzahn';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -97,7 +98,7 @@ export const WOCHENLAUF: Short[] = [blitzerApp, vierPaketeZurueck, flugmodus, ge
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer];
+export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer, bluetoothBlauzahn];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
