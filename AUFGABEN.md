@@ -361,9 +361,11 @@ die man nicht vergessen kann.
 - [x] ~~Stufe 4: `EINGEFROREN.md` in `~/Desktop/horizont-bench` — der Bench
       existiert nicht mehr~~
 
-**Bedienung, ab sofort:** `cd ~/Documents/Youtube && claude` — sonst wird
-diese Datei und die CLAUDE.md gar nicht geladen. Plan-Modus vor allem, was
-mehr als eine Datei berührt.
+**Bedienung:** `cd ~/Projekte/Ganzakkurat && claude` — sonst werden diese Datei
+und die CLAUDE.md gar nicht geladen. Plan-Modus vor allem, was mehr als eine
+Datei berührt. *(Der Pfad stand hier bis zum 05.09.2026 auf
+`~/Documents/Youtube` und war damit zweimal veraltet — erst der Umzug nach
+`~/Projekte` am 20.08., dann die Umbenennung am 04.09.)*
 
 ## Der Rücklauf wird lesbar · 19.08.2026
 
@@ -2477,3 +2479,46 @@ wurden trotzdem nicht gespeichert**, weil geschrieben wird erst am Ende.
       Entweder füllt Buffer das Feld nicht, oder TikTok gibt es nicht heraus.
       Solange das ungeklärt ist, ist es die einzige Größe der Seite, deren Null
       nichts bedeutet
+
+## Der Stand am 05.09.2026, mittags
+
+Zwei Sitzungen haben heute parallel an diesem Projekt gearbeitet und beide in
+diese Datei geschrieben. Was daraus zusammen gilt:
+
+**Erledigt an diesem Tag:** die Sendestruktur (fünf Videos, Mo/Mi/Fr/Sa/So,
+Instagram um 20:00), die Kanalzahlen aus Buffer für alle drei Plattformen samt
+`npm run kanalwoche`, der Sonntagsdienst, die Wochenauswahl, 45 getauschte
+Schlussposen und die wiederhergestellte Buffer-Zuordnung.
+
+**Und ein Fehler, den erst die zweite Sitzung fand:** `jeKanal` stand nicht im
+Zod-Schema von `src/rueckschau.ts`, und Zod streift ab, was es nicht kennt. Die
+Kanalzahlen kamen also an und wurden beim Lesen wieder weggeworfen —
+`ausreisser`, `aufschlaege` und `laengen` waren für Instagram und TikTok blind,
+ohne dass etwas einen Fehler warf. **Eine Messung, die nicht ankommt, sieht aus
+wie eine, die nichts findet.**
+
+### Was jetzt drängt
+
+- [ ] ▸ **Der Mac schläft zu den Dienstterminen.** `pmset -g log` zeigt für
+      gestern 19:15 DarkWake — `nachlegen` konnte nicht laufen, `runs = 0`
+      stimmt und ist kein Fehler im Dienst. **Ein Aufweckzeitplan fehlt**
+      (`pmset -g sched` ist leer), und der Ruhezustand steht auf einer Minute.
+      **Ohne ihn läuft der Wochenlauf morgen um 12:07 nicht.** Der Eingriff
+      braucht `sudo` und damit Emirhans Zustimmung:
+      `sudo pmset repeat wakeorpoweron S 12:00:00`
+- [ ] **Der Vorrat trägt genau eine Woche.** 33 ungesendete Entwürfe, davon
+      **27 Zitatkarten**, 4 Stationen, 2 Wechselreden — bei höchstens zwei je
+      Bauform und Woche. **Was fehlt, sind Wechselreden und Stationen, nicht
+      Themen.** „Es war einmal" hat gar keinen ungesendeten Entwurf mehr
+- [ ] **Vier Commits stehen lokal**, nicht gepusht
+
+### Zwei Beobachtungen, die noch keine Aufgabe sind
+
+- **TikTok trägt den Kanal.** `fernseher-hoert` hat 7 Aufrufe auf YouTube und
+  271 auf TikTok, `blitzer-app` 13 gegen 228. Neun Wochen lang wurde an der
+  schwächsten der drei Plattformen gemessen — jede Schwelle in
+  `rueckblick-lesen` steht auf YouTube-Zahlen und gehört nachgerechnet, sobald
+  drei Wochen Kanaldaten vorliegen
+- **Vier Shorts der ersten automatischen Auswahl liegen bei 69–78 Sekunden**,
+  geschätzt ohne Ton. Das Fenster endet bei 80. Die Schätzung lag am 04.09.
+  eher zu hoch (63,6 gegen 56,8 gemessen), aber der Abstand ist dünn
