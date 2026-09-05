@@ -12,6 +12,7 @@ import { durchschnittsdauer, verlaufLesen, verlaufSchreiben } from '../src/verla
 import { gesamtdauerBilder, tonspurNeuLegen } from '../src/zeit';
 import { FORMAT } from '../src/marke';
 import { WOCHENLAUF } from '../daten/entwuerfe';
+import { wochenAuswaehlen } from '../src/wochenauswahl';
 
 const ausfuehren = promisify(execFile);
 
@@ -116,20 +117,38 @@ const STIMMEN = {
 const NUR = process.argv.find((a) => a.startsWith('--nur='))?.slice('--nur='.length);
 
 /**
- * Die sieben Shorts dieses Laufs — einer je Format und Wochentag.
+ * Die Woche selbst zusammenstellen, statt `WOCHENLAUF` zu lesen.
  *
- * Seit dem 16.08.2026 sieben statt fuenf: ein Format je Wochentag, jedes
- * mit einem eigenen Fakt und einer woertlich geprueften Quelle.
+ * ```
+ * npm run lauf -- --mit-ton --auswahl=automatisch
+ * ```
  *
- * Die Reihenfolge in `WOCHENLAUF` ist nur noch Lesereihenfolge — welchen Tag
- * ein Short bekommt, steht am Format (`FORMATE[...].tag`), und
- * `zeitplanBauen` in `src/buffer.ts` liest es dort. Vorher haette das
- * Vertauschen zweier Eintraege stillschweigend zwei Sendetermine verschoben.
+ * **Dafuer gibt es den Sonntagsdienst.** Er laeuft ohne Menschen davor und
+ * kann deshalb keine Liste von Hand lesen, die jemand vorher pflegen muesste.
+ * `wochenAuswaehlen` sucht fuenf Entwuerfe, die Format, Bauform und Sachgebiet
+ * gleichzeitig erfuellen — von Hand ist das nicht mehr zu treffen, eine Suche
+ * ueber 4.000 Kombinationen fand am 04.09.2026 nichts.
+ *
+ * **Er schreibt keinen Code.** `WOCHENLAUF` in `daten/entwuerfe/index.ts`
+ * bleibt die Liste von Hand und bleibt der Normalfall; dieser Schalter umgeht
+ * sie zur Laufzeit. Ein Dienst, der Quelldateien aendert, waere ein Dienst,
+ * dessen Ergebnis niemand mehr nachlesen kann.
+ */
+const AUSWAHL_AUTOMATISCH = process.argv.includes('--auswahl=automatisch');
+
+/**
+ * Die Shorts dieses Laufs.
+ *
+ * Die Reihenfolge ist der **Sendeplan**: `SENDEPLAETZE` in `src/buffer.ts` legt
+ * Position 1 auf Montag, Position 2 auf Mittwoch und so fort. Wer zwei
+ * Eintraege vertauscht, vertauscht zwei Sendetermine — das war vor dem
+ * 04.09.2026 anders und ist der Preis dafuer, dass fuenf Videos auf fuenf
+ * ungleich verteilte Tage passen.
  *
  * Die Liste steht in `daten/entwuerfe/index.ts` und nicht hier, damit die
  * Schemapruefung dieselbe sieht.
  */
-const ENTWUERFE: Short[] = NUR ? WOCHENLAUF.filter((s) => s.id === NUR) : WOCHENLAUF;
+let ENTWUERFE: Short[] = NUR ? WOCHENLAUF.filter((s) => s.id === NUR) : WOCHENLAUF;
 
 const laufId = () => {
   const d = new Date();
@@ -211,6 +230,39 @@ const main = async () => {
     }
     console.log('Teillauf: laufweite Regeln aus, Verlauf wird nicht fortgeschrieben');
   }
+  /*
+   * Die Quellen werden **einmal** gelesen, seit die Pruefung auch vor der
+   * Vertonung laeuft — und seit dem 04.09.2026 auch vor der **Auswahl**, die
+   * dieselben Quellen braucht. Zweimal einlesen hiesse, dass ein Lauf mit zwei
+   * verschiedenen Staenden von `quellen.json` arbeiten koennte, falls die
+   * Datei dazwischen geschrieben wird — eine Doppelung ohne Wache.
+   */
+  const rohQuellen = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as {
+    quellen: unknown[];
+  };
+  const quellen = rohQuellen.quellen.map((q) => Quelle.parse(q));
+
+  /*
+   * **Die Auswahl steht vor Schritt 1**, weil sie bestimmt, was geprueft wird.
+   *
+   * Findet sie nichts, bricht der Lauf ab, **bevor** irgendetwas bezahlt ist.
+   * Das ist der Fall, der eintritt, wenn der Vorrat leerlaeuft — und er tritt
+   * beim Sonntagsdienst ein, wo niemand danebensitzt.
+   */
+  if (AUSWAHL_AUTOMATISCH) {
+    if (NUR) throw new Error('--auswahl=automatisch und --nur= schliessen sich aus.');
+    const auswahl = wochenAuswaehlen(quellen, await verlaufLesen());
+    console.log(`Auswahl: automatisch — Vorrat trägt noch ${auswahl.reichweiteWochen} volle Woche(n)`);
+    if (auswahl.shorts.length === 0) {
+      console.log(`\n✕ Keine gültige Woche.\n  ${auswahl.grund}\n`);
+      process.exit(1);
+    }
+    ENTWUERFE = auswahl.shorts;
+    for (const [i, s] of ENTWUERFE.entries()) {
+      console.log(`   ${['Mo', 'Mi', 'Fr', 'Sa', 'So'][i] ?? '  '}  ${s.id}  (${s.format}, ${s.bauform})`);
+    }
+  }
+
   console.log();
 
   /* ── 1  Entwuerfe validieren ─────────────────────────────────────── */
@@ -232,16 +284,6 @@ const main = async () => {
   }
   console.log(`   ${shorts.length} Entwürfe entsprechen dem Schema`);
 
-  /*
-   * Die Quellen werden **einmal** gelesen, seit die Pruefung auch vor der
-   * Vertonung laeuft. Zweimal einlesen hiesse, dass ein Lauf mit zwei
-   * verschiedenen Staenden von `quellen.json` arbeiten koennte, falls die
-   * Datei dazwischen geschrieben wird — eine Doppelung ohne Wache.
-   */
-  const rohQuellen = JSON.parse(await fs.readFile('daten/quellen.json', 'utf8')) as {
-    quellen: unknown[];
-  };
-  const quellen = rohQuellen.quellen.map((q) => Quelle.parse(q));
   console.log(`   Zeichenbedarf bei Vertonung: ${shorts.reduce((n, s) => n + zeichenverbrauch(s), 0)}\n`);
 
   /* ── 2  Vertonen (nur mit --mit-ton) ─────────────────────────────── */

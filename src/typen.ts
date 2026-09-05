@@ -2419,26 +2419,6 @@ export const FORMATE: Record<
      */
     farbe: string;
     farbeHell: string;
-    /**
-     * Sendezeit als volle Stunde.
-     *
-     * Stand bis zum 17.08.2026 als Konstante `UHRZEIT = 18` in
-     * `zeitplanBauen` und war dort richtig, solange ein Tag genau ein Format
-     * trug. Mit dem zweiten Mittwochsvideo waeren zwei Shorts auf dieselbe
-     * Minute gefallen — sie haetten sich gegenseitig die Reichweite genommen,
-     * und zwar unbemerkt, weil der Plan formal stimmt.
-     *
-     * **Das Feld `tag` ist am 20.08.2026 gestrichen worden**, die Uhrzeit
-     * nicht. Der Wochentag war eine Zusage an Zuschauer, die es noch nicht
-     * gibt, und stand der Neuheit im Weg (Begruendung bei `Format`). Die
-     * Uhrzeit bleibt, weil sie kein Versprechen ist, sondern eine Annahme
-     * ueber den Feed: abends laeuft Kurzvideo besser als frueh morgens.
-     *
-     * Achtzehn Uhr ist der Hauptplatz. Wo an einem Tag zwei Videos laufen,
-     * liegt das zweite mittags — weit genug entfernt, dass die beiden nicht
-     * dieselbe Feed-Sitzung teilen.
-     */
-    uhrzeit: number;
     haltung: string;
     reaktion: string;
     /** Woran die Wendung auf Position 3 haengt. Je Sendeplatz eine andere. */
@@ -2453,7 +2433,6 @@ export const FORMATE: Record<
     show: 'Facts',
     farbe: '#4C61B0',
     farbeHell: '#E3E5ED',
-    uhrzeit: 18,
     /*
      * **Hier stand bis zum 31.08.2026 ein Freibrief.** Der Wortlaut war: „Sie
      * brauchen keine Pointe — die Sache selbst ist die Pointe." Damit schrumpfte
@@ -2481,7 +2460,6 @@ export const FORMATE: Record<
     show: 'Märchenstunde',
     farbe: '#992F68',
     farbeHell: '#EDDEE3',
-    uhrzeit: 18,
     haltung:
       'Die Regel, die einmal richtig war, als Maerchen erzaehlt. Der Reiz liegt ' +
       'darin, dass niemand gelogen hat — die Technik hat sich unter der Regel ' +
@@ -2497,7 +2475,6 @@ export const FORMATE: Record<
     show: 'Kein Zufall',
     farbe: '#303C6C',
     farbeHell: '#DFDFE4',
-    uhrzeit: 18,
     haltung:
       'Nichts davon ist kaputt, es ist so gebaut. Der Unterschied zur blossen ' +
       'Absurditaet: Hier gibt es jemanden, der es entschieden hat. Die Wut ' +
@@ -2561,7 +2538,6 @@ export const FORMATE: Record<
     show: 'Beef',
     farbe: '#A33B2E',
     farbeHell: '#EFDFDB',
-    uhrzeit: 18,
     haltung:
       'Zwei benennbare Lager, und **beide** uebersehen etwas. Der einzige ' +
       'Sendeplatz, der nicht auf einer Pointe endet, sondern auf einer ' +
@@ -2577,7 +2553,6 @@ export const FORMATE: Record<
     show: 'Empfehlungen',
     farbe: '#9C5220',
     farbeHell: '#EEE2D9',
-    uhrzeit: 18,
     haltung:
       'Kaufhilfe mit Label im Bild. Der einzige Sendeplatz mit Partnerlinks ' +
       '(Variante A) und der einzige, auf dem ein Markenname fallen darf.',

@@ -33,6 +33,26 @@ import {
  * Hand wieder entfernen — ein versehentlicher Durchlauf waere teuer an Zeit.
  */
 
+/**
+ * Wann ein Beitrag auf welchem Dienst faellig wird — Stunde, seit dem
+ * 04.09.2026.
+ *
+ * **Der Sendeplatz sagt den Tag, der Dienst die Stunde.** `SENDEPLAETZE` in
+ * `src/buffer.ts` legt Montag, Mittwoch, Freitag, Samstag und Sonntag auf 18
+ * Uhr; wer hier eine andere Stunde nennt, verschiebt nur seinen eigenen Kanal.
+ *
+ * **Instagram liegt zwei Stunden spaeter, und das ist gemessen** (Metricool
+ * 2026): Dort faellt die staerkste Stunde auf 20 Uhr, waehrend TikTok zwischen
+ * 18 und 20 laeuft und YouTube Shorts zwischen 17 und 20. Ein gemeinsamer
+ * Termin fuer alle drei nimmt Instagram genau diese zwei Stunden.
+ *
+ * **Bis hierhin bekamen alle drei Kanaele dieselbe Faelligkeit**, obwohl
+ * `beitragPlanen` sie je Kanal entgegennimmt — verschenkt, nicht entschieden.
+ *
+ * Ein Dienst ohne Eintrag behaelt die Stunde seines Sendeplatzes.
+ */
+const UHRZEIT_JE_DIENST: Record<string, number> = { instagram: 20 };
+
 const WIRKLICH = process.argv.includes('--wirklich');
 const LAUF_ID = process.argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 /** Wochenbeginn, falls nicht der naechste Montag gemeint ist. */
@@ -409,9 +429,34 @@ const main = async () => {
   };
 
   for (const [i, short] of shorts.entries()) {
-    const faellig = zeiten[i]!;
+    const platzzeit = zeiten[i]!;
 
     for (const kanal of kanaele) {
+      /*
+       * Die Stunde je Dienst, der Tag vom Sendeplatz. `setHours` auf einer
+       * Kopie — `zeiten[i]` wird von drei Kanaelen gelesen, und ein `Date` ist
+       * veraenderlich: Wer das Original verstellt, verschiebt den naechsten
+       * Kanal mit.
+       *
+       * **Zwei Faelle nehmen die Verschiebung ausdruecklich aus**, und beide
+       * wuerden sonst still danebengehen:
+       *
+       * 1. **Von Hand gesetzte Termine** (`--termine=`). Wer eine Uhrzeit
+       *    nennt, meint sie. Sie um zwei Stunden zu verschieben, weil der
+       *    Kanal Instagram heisst, macht aus einer Ansage einen Vorschlag.
+       * 2. **Termine, die `nichtInDerVergangenheit` nachgezogen hat.** Ein
+       *    solcher liegt acht Minuten in der Zukunft; `setHours(20)` wuerde
+       *    ihn auf 20 Uhr **desselben** Tages setzen — abends also zurueck in
+       *    die Vergangenheit, und Buffer sendet ihn dann sofort oder gar nicht.
+       */
+      const faellig = new Date(platzzeit);
+      const stunde = UHRZEIT_JE_DIENST[kanal.service];
+      if (stunde !== undefined && !TERMINE) {
+        const verschoben = new Date(platzzeit);
+        verschoben.setHours(stunde, 0, 0, 0);
+        if (verschoben.getTime() > jetzt.getTime()) faellig.setHours(stunde, 0, 0, 0);
+      }
+
       const text = beitragstext(short, kanal.service, quellen);
       if (!text) {
         console.log(`   ${short.id}  ${kanal.service}: kein Text hinterlegt, übersprungen`);

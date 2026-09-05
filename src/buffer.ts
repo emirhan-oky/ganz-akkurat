@@ -481,6 +481,27 @@ export type GesendeterBeitrag = {
   dienst: string;
   gesendetAm: string | null;
   link: string | null;
+  /**
+   * Was die Plattform zu diesem Beitrag meldet — seit dem 05.09.2026.
+   *
+   * **Buffer liefert Kennzahlen fuer alle drei Kanaele**, im kostenlosen Tarif
+   * und mit demselben Token, das ohnehin in `.env` liegt. Bis dahin las
+   * `npm run rueckblick` „ausschliesslich YouTube", und der Nordstern des
+   * Kanals — geteilt und neue Abonnenten — war auf Instagram und TikTok
+   * unsichtbar.
+   *
+   * Die Namen kommen von Buffer und sind je Dienst verschieden: TikTok meldet
+   * „Video Views", Instagram „Views"; nur Instagram kennt „Saves" und
+   * „Follows", nur TikTok „Avg. Watch Time (sec)". Uebersetzt wird in
+   * `skripte/rueckblick.ts`, nicht hier — hier steht, was ankommt.
+   *
+   * **Es sind Momentaufnahmen**, keine Kurven: `metricsUpdatedAt` sagt, wann
+   * Buffer zuletzt nachgesehen hat. Deshalb schreibt der Rueckblick sie taeglich
+   * weg, statt sie bei Bedarf zu holen.
+   */
+  kennzahlen: { name: string; wert: number }[];
+  /** Wann Buffer die Kennzahlen zuletzt geholt hat. */
+  kennzahlenStand: string | null;
 };
 
 /**
@@ -506,7 +527,14 @@ export const gesendeteBeitraege = async (
       posts: {
         edges: {
           cursor: string;
-          node: { id: string; channelService: string; sentAt: string | null; externalLink: string | null };
+          node: {
+          id: string;
+          channelService: string;
+          sentAt: string | null;
+          externalLink: string | null;
+          metricsUpdatedAt: string | null;
+          metrics: { name: string; value: number }[] | null;
+        };
         }[];
         pageInfo: { hasNextPage: boolean };
       };
@@ -515,7 +543,7 @@ export const gesendeteBeitraege = async (
       schluessel,
       `query($i: PostsInput!, $after: String) {
          posts(input: $i, first: 100, after: $after) {
-           edges { cursor node { id channelService sentAt externalLink } }
+           edges { cursor node { id channelService sentAt externalLink metricsUpdatedAt metrics { name value } } }
            pageInfo { hasNextPage }
          }
        }`,
@@ -528,6 +556,8 @@ export const gesendeteBeitraege = async (
         dienst: e.node.channelService,
         gesendetAm: e.node.sentAt,
         link: e.node.externalLink,
+        kennzahlen: (e.node.metrics ?? []).map((m) => ({ name: m.name, wert: m.value })),
+        kennzahlenStand: e.node.metricsUpdatedAt,
       });
     }
 
@@ -573,41 +603,77 @@ export const geplanteJeKanal = async (
 /** Buffers Obergrenze je Kanal im kostenlosen Tarif. */
 export const GEPLANT_MAXIMUM = 10;
 
-export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] =>
-  shorts.map((short, i) => {
-    const { uhrzeit } = FORMATE[short.format];
-    /*
-     * Ein Video je Tag, in der Reihenfolge der Liste.
-     *
-     * **Bis zum 20.08.2026 kam der Versatz aus `FORMATE[...].tag`** — montags
-     * die Skala, dienstags das Maerchen, sonntags der Streit. Der Wochentag
-     * ist mit dem Formatumbau gestrichen (Begruendung bei `Format` in
-     * `src/typen.ts`), und damit faellt die Rechnung auf die Listenposition
-     * zurueck.
-     *
-     * **Das ist genau die Fassung, die am 16.08.2026 als fehleranfaellig
-     * abgeloest wurde**, und der Einwand von damals gilt weiter: Wer zwei
-     * Eintraege vertauscht, verschiebt still zwei Sendetermine. Er wiegt nur
-     * nicht mehr dasselbe. Damals war der Wochentag ein Versprechen an den
-     * Zuschauer und gehoerte deshalb nicht an eine Array-Position; heute gibt
-     * es dieses Versprechen nicht mehr, und ein Termin ist nur noch ein
-     * Termin. Was bleibt, ist die Regel, dass die Reihenfolge der Liste
-     * absichtlich sein muss — die staerkste Sache zuerst.
-     */
-    const versatz = i;
+/**
+ * Die Sendeplaetze einer Woche — Wochentag und Uhrzeit, seit dem 04.09.2026.
+ *
+ * ## Warum Plaetze und nicht fortlaufende Tage
+ *
+ * Bis hierhin rechnete `zeitplanBauen` „ein Video je Tag ab dem Wochenbeginn",
+ * die Uhrzeit kam aus dem Format. Das trug vier Videos an vier
+ * aufeinanderfolgenden Tagen. Fuenf Videos auf Mo, Mi, Fr, Sa, So lassen sich
+ * so nicht ausdruecken: Zwischen Montag und Mittwoch liegt eine Luecke,
+ * zwischen Freitag, Samstag und Sonntag keine.
+ *
+ * **Der Wochentag ist damit nicht zurueck.** Was am 20.08.2026 gestrichen
+ * wurde, war die Zuordnung **Format → Tag** — montags die Skala, dienstags das
+ * Maerchen. Die gibt es nicht wieder: Welche Rubrik an welchem Platz laeuft,
+ * entscheidet die Woche, nicht der Kalender. Fest ist, **dass** gesendet wird,
+ * nicht **was**.
+ *
+ * ## Warum die Uhrzeit hier steht und nicht mehr am Format
+ *
+ * `FORMATE[...].uhrzeit` stand bei allen vier Formaten auf 18 und trug damit
+ * nichts mehr bei. Die Zeit gehoert zum **Platz**: Der Zuschauer sieht den
+ * Feed, nicht die Rubrik.
+ *
+ * ## Woher die Zahlen kommen
+ *
+ * Gemessen von Metricool 2026 (2 Mio. TikTok-Beitraege aus 92.000 Konten) und
+ * Sprout Social (2 Mrd. Interaktionen, Nov 2025 bis Feb 2026): TikTok laeuft
+ * 18 bis 20 Uhr am besten, **Samstag** ist dort der staerkste Tag; YouTube
+ * Shorts 12 bis 15 und 17 bis 20 Uhr; Instagram hat um **20 Uhr** die meisten
+ * Aufrufe — siehe `UHRZEIT_JE_DIENST` in `skripte/veroeffentlichen.ts`.
+ *
+ * **Die eigenen Zahlen sagen dazu nichts**, und das gehoert danebengeschrieben:
+ * 13 der 15 gemessenen Videos liefen um 18 Uhr, zwei um 12 — bei einer
+ * Streuung von 7 bis 701 Aufrufen. Der Unterschied zwischen den Plaetzen ist um
+ * ein Vielfaches kleiner als die Streuung innerhalb eines Platzes.
+ */
+export const SENDEPLAETZE = [
+  { tag: 1, uhrzeit: 18 }, // Montag
+  { tag: 3, uhrzeit: 18 }, // Mittwoch
+  { tag: 5, uhrzeit: 18 }, // Freitag
+  { tag: 6, uhrzeit: 18 }, // Samstag — staerkster TikTok-Tag
+  { tag: 0, uhrzeit: 18 }, // Sonntag
+] as const;
+
+/**
+ * Die Termine einer Woche, je Short einer.
+ *
+ * `beginn` ist der Montag der Sendewoche; die Plaetze liegen darauf. Der
+ * Sonntag gehoert ans **Ende** der Woche und nicht an ihren Anfang — deshalb
+ * rechnet die Zeile unten `(tag + 6) % 7`, was aus dem Sonntag den sechsten Tag
+ * nach Montag macht.
+ *
+ * **Mehr Shorts als Plaetze gibt es nicht.** Der Takt ist fuenf, die Liste hat
+ * fuenf Eintraege; ein sechster Short bekaeme sonst still den Montag der
+ * Folgewoche. Er wirft.
+ */
+export const zeitplanBauen = (shorts: Short[], beginn: Date): Date[] => {
+  if (shorts.length > SENDEPLAETZE.length) {
+    throw new Error(
+      `${shorts.length} Shorts, aber nur ${SENDEPLAETZE.length} Sendeplätze. ` +
+        'Der Takt ist fünf je Woche — mehr braucht einen zusätzlichen Platz in `SENDEPLAETZE`.',
+    );
+  }
+  return shorts.map((_, i) => {
+    const platz = SENDEPLAETZE[i]!;
     const zeitpunkt = new Date(beginn);
-    zeitpunkt.setDate(zeitpunkt.getDate() + versatz);
-    /*
-     * Die Uhrzeit kommt seit dem 17.08.2026 aus dem Format und nicht mehr aus
-     * einer Konstanten hier. Der Anlass ist der geteilte Mittwoch: „Das ist
-     * Absicht" um 18 Uhr, „Neu und keiner sagt es dir" um 12. Mit einer
-     * gemeinsamen Konstanten waeren beide auf dieselbe Minute gefallen und
-     * haetten sich die Reichweite genommen — ein Fehler, den kein Schema
-     * bemerkt, weil der Plan formal richtig bleibt.
-     */
-    zeitpunkt.setHours(uhrzeit, 0, 0, 0);
+    zeitpunkt.setDate(zeitpunkt.getDate() + ((platz.tag + 6) % 7));
+    zeitpunkt.setHours(platz.uhrzeit, 0, 0, 0);
     return zeitpunkt;
   });
+};
 
 /**
  * Vorlauf fuer einen Termin, der eigentlich schon vorbei ist.

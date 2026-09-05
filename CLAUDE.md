@@ -23,12 +23,14 @@ npm run stimmprobe-v3     # legt Reglerstufen und Tags als Hörproben ab
 npm run szenarienblock    # zieht einen Dialogblock aus einem Entwurf
 npm run neuigkeiten       # neue EU-Rechtsakte als Zulauf
 npm run markenbilder      # Profilbild und Banner aus video/Marke.tsx
-npm run rueckblick        # holt, was aus den Videos geworden ist
+npm run rueckblick        # holt, was aus den Videos geworden ist (alle drei Kanäle)
+npm run wochenvorschlag   # schlägt die fünf Shorts der nächsten Woche vor
 npm run ausreisser        # was hatte dieses eine? Zahlen neben Format und Thema
 npm run aufschlaege       # jeder Aufschlag neben seiner Haltequote
 npm run laengen           # Länge gegen Verweildauer, schweigt bei zu wenig
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
+npm run lauf -- --auswahl=automatisch   # Woche selbst zusammenstellen
 ```
 
 `npm run pruefen` muss vor jedem Lauf grün sein. Es prüft Schema **und** die
@@ -91,8 +93,10 @@ deshalb konnten sie gehen:
 sechs davon am selben Tag nachgetragen, weil sie nie darin standen. Und in der
 Git-Historie steht jede Datei im Wortlaut.
 
-Die Einschränkung, die bleibt: **`npm run rueckblick` liest ausschließlich
-YouTube.**
+**Die Einschränkung „`rueckblick` liest ausschließlich YouTube" ist am
+05.09.2026 gefallen** — und zwar ohne dass etwas angebunden werden musste:
+Buffer liefert die Kennzahlen aller drei Kanäle mit dem Token, das ohnehin in
+`.env` liegt. Siehe „Rücklauf".
 
 **Zwei Subagenten lesen in eigenem Kontext, und beide schreiben nicht.** Der
 `belegpruefer` meldet, wo ein Satz mehr behauptet, als sein Zitat trägt. Der
@@ -1763,6 +1767,40 @@ der Bezugspunkt wandert. **Absolute Daten altern nicht.**
 YouTube die Zahlen, `daten/rueckblick.json` sammelt sie nachtragend.
 `npm run ausreisser`, `npm run aufschlaege` und `npm run laengen` lesen sie.
 
+**Seit dem 05.09.2026 misst er alle drei Kanäle**, und dafür musste nichts
+angebunden werden. Am Buffer-Beitrag hängen `metrics` und `metricsUpdatedAt`,
+im kostenlosen Tarif und mit demselben Token:
+
+| Kanal | was ankommt |
+|---|---|
+| **TikTok** | Aufrufe, Reichweite, geteilt, Reaktionen, Kommentare, **durchschnittliche Sehdauer** |
+| **Instagram** | Aufrufe, Reichweite, **geteilt**, **gespeichert**, **neue Abos**, Reaktionen, Kommentare |
+| **YouTube** | Aufrufe, Reaktionen, Kommentare |
+
+**Damit ist der Nordstern erstmals vollständig messbar.** Geteilt und neue
+Abonnenten misst YouTube nur für sich; Instagram liefert beides. Der Weg über
+die Plattform-APIs hätte ein Business-Konto mit Facebook-Seite, eine
+Meta-App-Review von zwei bis vier Wochen und ein TikTok-Developer-Konto
+gekostet — für dieselben Werte.
+
+**Die Zahlen stehen als `jeKanal` neben den YouTube-Feldern, nicht in ihnen.**
+Die oberste Ebene bleibt YouTube, weil `ausreisser`, `aufschlaege` und `laengen`
+sie seit Wochen lesen: **Eine Zahl, die still ihre Bedeutung wechselt, macht
+jeden Vergleich mit älteren Messungen falsch.**
+
+Und was sofort sichtbar wurde: **TikTok trägt den Kanal.** `fernseher-hoert` hat
+7 Aufrufe auf YouTube und 271 auf TikTok; `blitzer-app` 13 gegen 228. Neun
+Wochen lang wurde an der schwächsten der drei Plattformen gemessen.
+
+**Eine Warnung dazu, aus einem eigenen Fehler:** Die Zuordnung Short →
+Buffer-Beitrag steht in `laeufe/<tag>/veroeffentlicht.json`. Am 04.09.2026 habe
+ich fünf Laufordner gelöscht, weil ihre `lauf.json` nicht mehr parste — die
+`veroeffentlicht.json` daneben tat das sehr wohl, und zwölf Videos verloren ihre
+Zuordnung. **Ich habe eine Datei nach dem Wert einer anderen beurteilt.**
+`npm run zuordnung-wiederherstellen` holt sie aus Buffer zurück (über die
+YouTube-`videoId` und ein Zeitfenster von 30 Minuten); es ist ein Notschlüssel,
+kein Teil der Kette.
+
 **Die Länge ist die offene Frage.** Keiner der vier Zielwerte ist gemessen;
 sie sind am 26.08.2026 gespreizt worden, damit es überhaupt etwas zu messen
 gibt. Die einzige fremde Messung (48–67 s) wurde bewusst **nicht** übernommen —
@@ -1798,24 +1836,52 @@ verändert hat.
 
 ## Takt
 
-**Vier Videos je Woche**, ein Video je Tag um 18:00, in der Reihenfolge der
-Liste. Obergrenze 7 — das ist das Ende der Spanne aus dem Skill
-`youtube-shorts` („post ~3–7/week, not spam"), der seit dem 04.09.2026 gelöscht
-ist. **Die Zahl bleibt, ihre Quelle ist notiert.**
+**Fünf Videos je Woche: Montag, Mittwoch, Freitag, Samstag, Sonntag um 18:00** —
+auf Instagram um 20:00. Die Plätze stehen als `SENDEPLAETZE` in `src/buffer.ts`,
+die Stunde je Dienst als `UHRZEIT_JE_DIENST` in `skripte/veroeffentlichen.ts`.
 
-Die Zahl kommt daraus, welcher Engpass zuerst greift:
+**Die Zahl ist gemessen, nicht geraten.** Buffers Auswertung von 11,4 Millionen
+Beiträgen: 2–5 je Woche bringen 17 % mehr Aufrufe je Beitrag als einer, 6–10
+bringen 29 %. **Der große Sprung liegt zwischen eins und 2–5**, darüber wird es
+flach — fünf ist der obere Rand des Optimums. Dazu die Warnung, die zum Kanal
+passt: Ein schwächeres Video täglich zieht den Schnitt stärker herunter, als ein
+starkes dreimal die Woche ihn hebt.
+
+**Die Uhrzeiten ebenso** (Metricool 2026, 2 Mio. TikTok-Beiträge aus 92.000
+Konten; Sprout Social, 2 Mrd. Interaktionen): TikTok 18–20 Uhr, **Samstag der
+stärkste Tag**; YouTube Shorts 12–15 und 17–20; Instagram hat um **20 Uhr** die
+meisten Aufrufe. Deshalb liegt Instagram zwei Stunden später — `beitragPlanen`
+nimmt je Kanal eine eigene Fälligkeit, und bis zum 04.09.2026 war das
+verschenkt.
+
+**Die eigenen Zahlen sagen dazu nichts**, und das gehört daneben: 13 der 15
+gemessenen Videos liefen um 18 Uhr, zwei um 12 — bei einer Streuung von 7 bis
+701 Aufrufen. Der Unterschied zwischen den Plätzen ist um ein Vielfaches
+kleiner als die Streuung innerhalb eines Platzes.
+
+**Die Obergrenze ist 6, nicht 7.** Der Skill `youtube-shorts` nannte 3–7
+(„post ~3–7/week, not spam"), und die 7 stand hier bis zum 05.09.2026. Sie ist
+mit der eigenen Bauformregel unvereinbar: Bei sieben Shorts erlaubt „keine
+Bauform über die Hälfte" höchstens drei je Bauform, und drei mal drei sind
+neun — bei drei Bauformen geht sieben nicht auf. Das Kapitel „Harte Regeln" sagt
+es selbst, die Takt-Tabelle sagte weiter 7.
+
+Welcher Engpass zuerst greift:
 
 | Engpass | trägt | Rechnung |
 |---|---|---|
-| **Ideenvorrat** | **9 Wochen** | 77 Ideen, je Format mit dem Minimum |
-| Formatabwechslung | 4 je Woche | vier Formate, keines zweimal hintereinander |
+| **Bauform im Vorrat** | **3 Wochen** | 35 Zitatkarten, 7 Wechselreden, 6 Stationen — höchstens 2 je Bauform und Woche |
+| Ideenvorrat | ~7 Wochen | 77 Ideen bei fünf je Woche |
+| Formatabwechslung | 5 je Woche | vier Formate, eines doppelt, keines hintereinander |
 | Produktion | ~26 je Woche | 11 min je Video, davon 6 min Beleg |
-| ElevenLabs | ~240 je Monat | rund 500 Zeichen je Video, 121.000 im Monat |
+| Buffer | 10 je Kanal | fünf geplante Beiträge je Kanal gegen ein Limit von zehn |
+| ElevenLabs | ~170 je Monat | rund 715 Zeichen je Video, 121.000 im Monat |
 
-**Der Ideenvorrat ist die Grenze, nicht die Produktion.** Bei mehr als vier
-Videos je Woche muss ein Format doppelt laufen, und dann wird aus der Regel ein
-Zwang statt einer Wache — genau davor warnt die Retention-Ladder: „volume
-without novelty is a negative".
+**Der Engpass ist seit dem 05.09.2026 die Bauform, nicht die Idee.** Von 48
+geschriebenen Dialogen sind 35 Zitatkarten; jede Woche braucht drei Videos, die
+keine sind, und davon gibt es dreizehn. `npm run wochenvorschlag` rechnet die
+Reichweite am knappsten Bestandteil und meldet sie bei jedem Aufruf. **Was
+fehlt, sind Wechselreden und Stationen** — nicht Themen.
 
 Die **Materialgrenze** für Aktuelles: Neue **Geräte** sind durch
 Herstellerankündigung (beteiligt) und Presse (nicht eintragbar) belegt und
@@ -1823,6 +1889,38 @@ fallen aus. Neue **Regeln, Normen und Grenzwerte** sind durch Behörden belegt �
 nur die gehen. Das klingt nach Einschränkung und ist der Vorteil: Über ein neues
 Handy berichten hunderttausend Kanäle am selben Tag; dass ein Recht auf
 Reparatur gilt, erzählt niemand.
+
+### Welche Rubrik wann
+
+**Vier Rubriken je Woche, die vorratsstärkste zweimal.** Keine Zuordnung zu
+Wochentagen — *„Mir ist es egal, was an welchem Tag kommt."*
+
+Die Regel folgt dem Bestand, statt ihn vorzuschreiben: Heute bekommt „Das gibt
+es wirklich" den zweiten Platz (21 Entwürfe), schrumpft der, wandert er von
+allein weiter. **„Es war einmal" bekommt ihn nie**, solange es der kleinste
+Vorrat ist — genau das Format, das mit zwei Entwürfen am Limit steht.
+
+**Der Wochentag ist damit nicht zurück.** Gestrichen wurde am 20.08.2026 die
+Zuordnung **Format → Tag**; die gibt es nicht wieder. Fest ist, **dass**
+gesendet wird, nicht **was**.
+
+`wochenAuswaehlen` in `src/wochenauswahl.ts` sucht die fünf, die Format, Bauform
+und Sachgebiet gleichzeitig erfüllen. Von Hand ist das nicht mehr zu treffen:
+Eine Suche über 4.000 Kombinationen fand am 04.09.2026 nichts.
+
+### Der Sonntagslauf
+
+`de.ganzakkurat.wochenlauf` stellt **sonntags um 12:07** die fünf Videos der
+Folgewoche bereit: Woche zusammenstellen, vertonen, rendern, Freigabeseite
+öffnen, Mitteilung schicken. Er plant nichts ein.
+
+**12:07 und nicht 12:00**, weil um 12:00 das Sonntagsvideo der laufenden Woche
+sendet. Zwei Dinge zur selben Minute sind zwei Dinge, die man hinterher nicht
+auseinanderhält.
+
+**Das ist die einzige Vertonung, die ohne vorherige Zusage läuft** — rund 3.600
+Zeichen je Woche. Findet die Auswahl keine gültige Woche, bricht der Lauf ab,
+**bevor** etwas bezahlt ist.
 
 ## Ideenvorrat
 

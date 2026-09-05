@@ -35,6 +35,31 @@ const ABLAGE = 'daten/rueckblick.json';
 const AUFSCHLAG_SEK = 3.5;
 const NUR_ZEIGEN = process.argv.includes('--zeigen');
 
+/**
+ * Was ein einzelner Kanal zu diesem Short meldet — seit dem 05.09.2026.
+ *
+ * **Die Quelle ist Buffer, nicht die Plattform.** Es kostet keine App-Review
+ * bei Meta und kein TikTok-Developer-Konto: Die Zahlen haengen am Beitrag, den
+ * Buffer ohnehin verwaltet, und kommen mit demselben Token.
+ *
+ * Nicht jeder Kanal meldet alles — `undefined` heisst „dieser Dienst kennt die
+ * Groesse nicht", `0` heisst „keine". Nur Instagram liefert `gespeichert` und
+ * `neueAbos`, nur TikTok `sehdauerSek`.
+ */
+type Kanalmessung = {
+  aufrufe: number;
+  reichweite?: number;
+  likes: number;
+  kommentare: number;
+  geteilt?: number;
+  gespeichert?: number;
+  neueAbos?: number;
+  /** Durchschnittliche Sehdauer in Sekunden — bisher nur von TikTok. */
+  sehdauerSek?: number;
+  /** Wann Buffer die Zahlen zuletzt geholt hat. */
+  stand: string | null;
+};
+
 type Messung = {
   gemessenAm: string;
   aufrufe: number;
@@ -46,6 +71,19 @@ type Messung = {
   haltequote: number | null;
   geteilt: number | null;
   neueAbos: number | null;
+  /**
+   * Dieselbe Messung je Kanal.
+   *
+   * **Die Felder darueber bleiben YouTube**, und das ist Absicht: `npm run
+   * ausreisser`, `aufschlaege` und `laengen` lesen sie seit Wochen, und eine
+   * Zahl, die still ihre Bedeutung wechselt, macht jeden Vergleich mit
+   * aelteren Messungen falsch. Was dazukommt, steht daneben.
+   *
+   * **Der Nordstern steht erst hier vollstaendig.** „Geteilt" und „neue
+   * Abonnenten" misst YouTube nur fuer sich; Instagram liefert beides, TikTok
+   * das Teilen. Wer den Kanal beurteilen will, summiert ueber `jeKanal`.
+   */
+  jeKanal?: Record<string, Kanalmessung>;
 };
 
 type Eintrag = {
@@ -93,6 +131,37 @@ const zuordnungenLesen = (): { shortId: string; beitragId: string; dienst: strin
 
 const prozent = (v: number | null): string => (v === null ? '   —' : `${v.toFixed(0).padStart(3)} %`);
 
+/**
+ * Buffers Kennzahlnamen in unsere Felder.
+ *
+ * **Jeder Dienst nennt dasselbe anders**, und das ist nicht zu vereinheitlichen,
+ * sondern zu uebersetzen: TikTok meldet „Video Views", Instagram „Views",
+ * YouTube wieder „Video Views". „Reactions" heisst bei uns `likes`.
+ *
+ * Was hier nicht steht, faellt weg — `Eng. Rate` etwa ist aus `likes` und
+ * `aufrufe` gerechnet und waere eine dritte Zahl fuer dasselbe.
+ */
+const KENNZAHLNAMEN: Record<string, keyof Omit<Kanalmessung, 'stand'>> = {
+  'Video Views': 'aufrufe',
+  Views: 'aufrufe',
+  Reach: 'reichweite',
+  Reactions: 'likes',
+  Comments: 'kommentare',
+  Shares: 'geteilt',
+  Saves: 'gespeichert',
+  Follows: 'neueAbos',
+  'Avg. Watch Time (sec)': 'sehdauerSek',
+};
+
+const kanalmessung = (b: { kennzahlen: { name: string; wert: number }[]; kennzahlenStand: string | null }): Kanalmessung => {
+  const m: Kanalmessung = { aufrufe: 0, likes: 0, kommentare: 0, stand: b.kennzahlenStand };
+  for (const k of b.kennzahlen) {
+    const feld = KENNZAHLNAMEN[k.name];
+    if (feld) m[feld] = k.wert;
+  }
+  return m;
+};
+
 const main = async () => {
   const schluessel = process.env.BUFFER_ACCESS_TOKEN;
   if (!schluessel) throw new Error('BUFFER_ACCESS_TOKEN fehlt in .env');
@@ -103,9 +172,8 @@ const main = async () => {
    * ist am 18.08.2026 passiert: Die Woche wurde nach der Bebilderung noch
    * einmal geplant, die alten Beiträge waren da schon aus Buffer gelöscht.
    */
-  const zuordnungen = zuordnungenLesen()
-    .filter((z) => z.dienst === 'youtube')
-    .reverse();
+  const alleZuordnungen = zuordnungenLesen().reverse();
+  const zuordnungen = alleZuordnungen.filter((z) => z.dienst === 'youtube');
 
   const organisationId = await organisationErmitteln(schluessel);
   const beitraege = new Map(
@@ -164,6 +232,25 @@ const main = async () => {
     const halte = kurve ? halteQuoteBei(kurve, AUFSCHLAG_SEK, laenge) : null;
     if (!kurve) ohneAnalytics++;
 
+    /*
+     * **Die Kanalzahlen kommen aus Buffer, die YouTube-Zahlen aus YouTube** —
+     * und zwar bewusst doppelt fuer YouTube.
+     *
+     * Buffers „Video Views" und YouTubes eigene Aufrufzahl weichen um Stunden
+     * voneinander ab, weil Buffer nur periodisch nachsieht. Die Data API ist
+     * hier die genauere Quelle und bleibt es fuer die Felder, an denen die
+     * Auswertungen haengen. Buffers Wert steht daneben in `jeKanal`, wo er den
+     * Vergleich **zwischen** den Kanaelen traegt — und dort kommt es auf
+     * Stunden nicht an.
+     */
+    const jeKanal: Record<string, Kanalmessung> = {};
+    for (const z of alleZuordnungen) {
+      if (z.shortId !== shortId) continue;
+      if (jeKanal[z.dienst]) continue; // der neueste Beitrag je Dienst gewinnt
+      const b = beitraege.get(z.beitragId);
+      if (b && b.kennzahlen.length > 0) jeKanal[z.dienst] = kanalmessung(b);
+    }
+
     const messung: Messung = {
       gemessenAm: heute,
       aufrufe: s.aufrufe,
@@ -173,12 +260,22 @@ const main = async () => {
       haltequote: halte === null ? null : halte * 100,
       geteilt: v && v.aufrufe > 0 ? v.geteilt : null,
       neueAbos: v && v.aufrufe > 0 ? v.neueAbos : null,
+      ...(Object.keys(jeKanal).length > 0 ? { jeKanal } : {}),
     };
 
     console.log(
       `${shortId.padEnd(22)} ${String(s.aufrufe).padStart(7)}  ${prozent(messung.haltequote)}  ` +
         `${prozent(messung.durchsicht)}  ${String(messung.geteilt ?? '—').padStart(7)}  ${s.titel}`,
     );
+    const kanaele = Object.entries(jeKanal).filter(([d]) => d !== 'youtube');
+    if (kanaele.length > 0) {
+      console.log(
+        '  '.padEnd(22) +
+          kanaele
+            .map(([d, m]) => `${d} ${m.aufrufe}▶ ${m.geteilt ?? 0}↗ ${m.neueAbos ?? 0}+`)
+            .join('   '),
+      );
+    }
 
     const vorher = ablage.shorts[shortId];
     const messungen = (vorher?.messungen ?? []).filter((m) => m.gemessenAm !== heute);

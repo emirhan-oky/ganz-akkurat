@@ -22,6 +22,8 @@
     "zuruecknehmen": "tsx skripte/zuruecknehmen.ts",
     "toene": "tsx skripte/toene.ts",
     "vorspannton": "tsx skripte/vorspannton.ts",
+    "wochenvorschlag": "tsx skripte/wochenvorschlag.ts",
+    "zuordnung-wiederherstellen": "tsx skripte/zuordnung-wiederherstellen.ts",
     "markenbilder": "tsx skripte/markenbilder.ts",
     "neuigkeiten": "tsx skripte/neuigkeiten.ts",
     "youtube-anmelden": "tsx skripte/youtube-anmelden.ts",
