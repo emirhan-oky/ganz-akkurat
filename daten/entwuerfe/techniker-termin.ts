@@ -174,7 +174,7 @@ export const technikerTermin: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'zeigen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'stutzen', nach: 'ansprechen' },
       },
       rundlauf:

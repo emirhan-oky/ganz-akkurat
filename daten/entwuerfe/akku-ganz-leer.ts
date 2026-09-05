@@ -177,7 +177,7 @@ export const akkuGanzLeer: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'ruhe',
         gegenueber: { von: 'zeigen', nach: 'ansprechen' },
       },
       rundlauf:

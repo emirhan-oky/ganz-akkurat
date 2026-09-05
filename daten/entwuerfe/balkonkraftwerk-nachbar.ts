@@ -180,7 +180,7 @@ export const balkonkraftwerkNachbar: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'zeigen',
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },

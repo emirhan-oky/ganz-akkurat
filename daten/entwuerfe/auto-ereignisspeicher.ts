@@ -219,7 +219,7 @@ export const autoEreignisspeicher: Short = {
         wer: 'nachleser',
         von: 'nachdenken',
         nach: 'ansprechen',
-        gegenueber: { von: 'stutzen', nach: 'achselzucken' },
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen ist Wattis Frage nach den Versicherungspapieren schon die Pointe: Der Zeuge saß die ganze Zeit in seinem eigenen Auto.',

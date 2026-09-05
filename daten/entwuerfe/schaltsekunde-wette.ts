@@ -190,7 +190,7 @@ export const schaltsekundeWette: Short = {
         wer: 'zeiger',
         von: 'zeigen',
         nach: 'ansprechen',
-        gegenueber: { von: 'achselzucken', nach: 'nachdenken' },
+        gegenueber: { von: 'ruhe', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, dass Watti recht hat – seine Wette klingt dann nach jemandem, der zufällig etwas Wahres aufgeschnappt hat.',

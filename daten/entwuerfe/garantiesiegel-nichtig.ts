@@ -188,7 +188,7 @@ export const garantiesiegelNichtig: Short = {
         wer: 'nachleser',
         von: 'lesen',
         nach: 'ansprechen',
-        gegenueber: { von: 'staunen', nach: 'stutzen' },
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, dass Volti die Kopfhörer selbst kaputt gemacht hat – und hört jede seiner Belehrungen anders.',

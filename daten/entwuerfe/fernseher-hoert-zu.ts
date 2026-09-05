@@ -178,7 +178,7 @@ export const fernseherHoertZu: Short = {
         wer: 'nachleser',
         von: 'stutzen',
         nach: 'ansprechen',
-        gegenueber: { von: 'ansprechen', nach: 'achselzucken' },
+        gegenueber: { von: 'ansprechen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen hört man den ersten Satz als das, was er ist: Watti lobt ein Gerät, das Volti selbst ausgesucht hat.',

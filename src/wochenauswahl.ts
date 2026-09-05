@@ -3,6 +3,7 @@ import { laufPruefen } from './pruefung';
 import { SENDEPLAETZE } from './buffer';
 import type { Quelle, Short } from './typen';
 import type { Verlaufslauf } from './verlauf';
+import { rueckblickLesenSync } from './rueckschau';
 
 /**
  * Die fuenf Shorts einer Sendewoche auswaehlen.
@@ -45,6 +46,8 @@ export type Wochenauswahl = {
   reichweiteWochen: number;
   /** Woran es klemmt, wenn nichts gefunden wurde. */
   grund?: string;
+  /** Der Vorrat **ohne** das, was schon draussen ist — die Zahl, die zaehlt. */
+  frisch: Short[];
 };
 
 /** Wie viele Shorts eine Woche traegt — die Zahl der Sendeplaetze. */
@@ -106,7 +109,27 @@ export const wochenAuswaehlen = (
   verlauf: Verlaufslauf[] = [],
   vorrat: Short[] = GEPARKT,
 ): Wochenauswahl => {
-  const reichweite = reichweiteInWochen(vorrat);
+  /*
+   * **Was draussen ist, kommt nicht wieder — und der Verlauf allein reicht
+   * dafuer nicht.**
+   *
+   * `verlauf.json` haelt, was ein **Wochenlauf** gesendet hat. Es fehlen darin
+   * die Shorts, die ueber einen Teillauf oder mit `--ton-behalten`
+   * hinausgingen: „Verlauf unberuehrt — diese Woche steht schon im Verlauf".
+   * Am 05.09.2026 schlug die Auswahl deshalb drei Shorts vor, die laengst
+   * draussen waren; der Verlauf kannte nur einen davon.
+   *
+   * `daten/rueckblick.json` weiss es besser: Dort steht, was Zahlen hat, und
+   * Zahlen hat nur, was gesendet wurde. **Die verlaesslichste Quelle fuer
+   * „schon draussen" ist die, die misst.**
+   */
+  const gesendet = new Set<string>([
+    ...verlauf.flatMap((l) => l.shorts.map((s) => s.themaId)),
+    ...Object.keys(rueckblickLesenSync()),
+  ]);
+  const frisch = vorrat.filter((s) => !gesendet.has(s.id) && !gesendet.has(s.themaId));
+  const reichweite = reichweiteInWochen(frisch);
+  vorrat = frisch;
 
   const jeFormat = new Map<string, Short[]>();
   for (const s of vorrat) {
@@ -115,7 +138,7 @@ export const wochenAuswaehlen = (
   }
   const nachVorrat = [...jeFormat.entries()].sort((a, b) => b[1].length - a[1].length);
   if (nachVorrat.length < 2) {
-    return { shorts: [], reichweiteWochen: reichweite, grund: 'Weniger als zwei Formate im Vorrat.' };
+    return { shorts: [], reichweiteWochen: reichweite, frisch, grund: 'Weniger als zwei Formate im Vorrat.' };
   }
 
   const doppelt = nachVorrat[0]![0];
@@ -167,7 +190,7 @@ export const wochenAuswaehlen = (
 
       if (vollstaendig) {
         const ergebnis = laufPruefen(liste, quellen, verlauf);
-        if (ergebnis.fehler.length === 0) return { shorts: liste, reichweiteWochen: reichweite };
+        if (ergebnis.fehler.length === 0) return { shorts: liste, reichweiteWochen: reichweite, frisch };
       }
 
       for (let i = PRO_WOCHE - 1; i >= 0; i--) {
@@ -180,6 +203,7 @@ export const wochenAuswaehlen = (
   return {
     shorts: [],
     reichweiteWochen: reichweite,
+    frisch,
     grund:
       `Keine gültige Woche aus ${vorrat.length} Entwürfen. Häufigste Ursache ist die ` +
       'Bauformregel: Bei fünf Shorts sind höchstens zwei je Bauform erlaubt, es braucht also ' +

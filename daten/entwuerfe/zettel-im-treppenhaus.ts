@@ -166,7 +166,7 @@ export const zettelImTreppenhaus: Short = {
         wer: 'zeiger',
         von: 'ansprechen',
         nach: 'ruhe',
-        gegenueber: { von: 'nachdenken', nach: 'achselzucken' },
+        gegenueber: { von: 'nachdenken', nach: 'ruhe' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, wer den Zettel aufgehängt hat – und Wattis erste Frage klingt nicht mehr neugierig, sondern wie ein Verhör.',

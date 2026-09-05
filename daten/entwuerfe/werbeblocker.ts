@@ -205,7 +205,7 @@ export const werbeblocker: Short = {
         wer: 'nachleser',
         von: 'lesen',
         nach: 'ansprechen',
-        gegenueber: { von: 'stutzen', nach: 'achselzucken' },
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen ist die Frage nach dem achten Blocker schon die Antwort: Jeder weitere macht ihn eindeutiger.',

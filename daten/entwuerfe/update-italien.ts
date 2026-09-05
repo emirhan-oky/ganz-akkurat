@@ -205,7 +205,7 @@ export const updateItalien: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'ruhe',
         gegenueber: { von: 'ansprechen', nach: 'stutzen' },
       },
       rundlauf:

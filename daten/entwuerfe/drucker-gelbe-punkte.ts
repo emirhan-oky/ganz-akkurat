@@ -216,8 +216,8 @@ export const druckerGelbePunkte: Short = {
         art: 'figur',
         wer: 'nachleser',
         von: 'ansprechen',
-        nach: 'achselzucken',
-        gegenueber: { von: 'staunen', nach: 'zeigen' },
+        nach: 'nachdenken',
+        gegenueber: { von: 'stutzen', nach: 'zeigen' },
       },
       rundlauf:
         'Beim zweiten Sehen ist Wattis erster Satz doppelt komisch: Er hat gar keinen Drucker überführt, sondern seinen Mitbewohner.',

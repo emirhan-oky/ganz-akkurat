@@ -178,7 +178,7 @@ export const mobilfunkMesskampagne: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },
       rundlauf:

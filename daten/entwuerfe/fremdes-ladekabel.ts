@@ -233,9 +233,9 @@ export const fremdesLadekabel: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'staunen',
+        von: 'stutzen',
         nach: 'ansprechen',
-        gegenueber: { von: 'lesen', nach: 'achselzucken' },
+        gegenueber: { von: 'lesen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, dass Voltis Fundkabel wirklich das Problem war – nur nicht aus dem Grund, den Watti im ersten Satz nennt.',

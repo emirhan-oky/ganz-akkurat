@@ -176,7 +176,7 @@ export const urlaubsfoto: Short = {
         wer: 'zeiger',
         von: 'zeigen',
         nach: 'ruhe',
-        gegenueber: { von: 'achselzucken', nach: 'ansprechen' },
+        gegenueber: { von: 'nachdenken', nach: 'ansprechen' },
       },
       rundlauf:
         'Beim zweiten Sehen ist Wattis erste Frage keine Frage mehr – er weiß die Antwort schon und lässt Volti hineinlaufen.',

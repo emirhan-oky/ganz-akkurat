@@ -330,9 +330,9 @@ export const raumstationAlteRechner: Short = {
        */
       buehne: {
         art: 'figur',
-        von: 'staunen',
+        von: 'stutzen',
         nach: 'ansprechen',
-        gegenueber: { von: 'nachdenken', nach: 'hochschauen' },
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
       rundlauf:
         'Beim zweiten Sehen ist „zu modern" keine Übertreibung mehr, sondern die genaue Beschreibung des Problems.',

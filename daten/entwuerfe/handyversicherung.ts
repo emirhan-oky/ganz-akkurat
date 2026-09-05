@@ -170,7 +170,7 @@ export const handyversicherung: Short = {
         wer: 'nachleser',
         von: 'nachdenken',
         nach: 'ansprechen',
-        gegenueber: { von: 'stutzen', nach: 'achselzucken' },
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen hört man den ersten Satz anders: Watti ist stolz auf sechs Euro, für die er nichts bekommt, was er nicht ohnehin hätte.',

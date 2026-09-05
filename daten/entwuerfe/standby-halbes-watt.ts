@@ -191,7 +191,7 @@ export const standbyHalbesWatt: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'ruhe',
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },
       rundlauf:

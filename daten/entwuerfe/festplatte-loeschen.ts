@@ -189,7 +189,7 @@ export const festplatteLoeschen: Short = {
         wer: 'nachleser',
         von: 'erklaeren',
         nach: 'ansprechen',
-        gegenueber: { von: 'staunen', nach: 'stutzen' },
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, dass Watti recht behält – und Voltis erste Frage nach dem Hammer klingt wie jemand, der zu früh sicher ist.',

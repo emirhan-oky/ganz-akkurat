@@ -153,7 +153,7 @@ export const produktpassAkku: Short = {
         art: 'figur',
         wer: 'nachleser',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'ruhe',
         gegenueber: { von: 'ansprechen', nach: 'zeigen' },
       },
       rundlauf:

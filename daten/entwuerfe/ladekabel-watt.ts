@@ -176,7 +176,7 @@ export const ladekabelWatt: Short = {
         wer: 'nachleser',
         von: 'lesen',
         nach: 'ansprechen',
-        gegenueber: { von: 'staunen', nach: 'zeigen' },
+        gegenueber: { von: 'stutzen', nach: 'zeigen' },
       },
       rundlauf:
         'Beim zweiten Sehen hört man, dass Watti von Anfang an recht hat – und dass er den Grund dafür bis zum Schluss nicht kennt.',

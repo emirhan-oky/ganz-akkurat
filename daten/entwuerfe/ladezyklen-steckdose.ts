@@ -210,7 +210,7 @@ export const ladezyklenSteckdose: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'zeigen', nach: 'ansprechen' },
       },
       rundlauf:

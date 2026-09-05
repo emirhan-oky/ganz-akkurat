@@ -210,7 +210,7 @@ export const sekundeVomAtom: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'ansprechen', nach: 'ruhe' },
       },
       rundlauf:

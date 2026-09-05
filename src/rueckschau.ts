@@ -1,5 +1,5 @@
 import fs from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
 import { Bauform, Format, Sachgebiet } from './typen';
@@ -74,6 +74,26 @@ const Rueckblickdatei = z.object({
 });
 
 /** Liest den Rückblick. Fehlt die Datei, ist er leer — kein Fehler. */
+/**
+ * Die Kennungen aller Shorts, die schon draussen sind — synchron.
+ *
+ * **Synchron, weil `wochenAuswaehlen` synchron ist**, und die Alternative waere
+ * gewesen, die Auswahl asynchron zu machen, damit sie eine Datei lesen kann,
+ * die 16 KB gross ist.
+ *
+ * Fehlt die Datei, ist nichts gesendet — das ist der Zustand eines frischen
+ * Klons und kein Fehler.
+ */
+export const rueckblickLesenSync = (datei = RUECKBLICKDATEI): Record<string, unknown> => {
+  try {
+    const roh = JSON.parse(readFileSync(datei, 'utf8')) as { shorts?: Record<string, unknown> };
+    return roh.shorts ?? {};
+  } catch (fehler) {
+    if ((fehler as NodeJS.ErrnoException).code === 'ENOENT') return {};
+    throw fehler;
+  }
+};
+
 export const rueckblickLesen = async (
   datei = RUECKBLICKDATEI,
 ): Promise<Rueckblickeintrag[]> => {

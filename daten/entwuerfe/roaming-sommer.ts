@@ -202,7 +202,7 @@ export const roamingSommer: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'ruhe',
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },
       rundlauf:

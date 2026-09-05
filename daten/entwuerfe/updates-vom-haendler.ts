@@ -176,8 +176,8 @@ export const updatesVomHaendler: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'staunen',
-        nach: 'achselzucken',
+        von: 'stutzen',
+        nach: 'nachdenken',
         gegenueber: { von: 'lesen', nach: 'ansprechen' },
       },
       rundlauf:

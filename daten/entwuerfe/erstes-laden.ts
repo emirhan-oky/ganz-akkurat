@@ -313,7 +313,7 @@ export const erstesLaden: Short = {
         art: 'figur',
         von: 'stutzen',
         nach: 'ansprechen',
-        gegenueber: { von: 'staunen', nach: 'ruhe' },
+        gegenueber: { von: 'stutzen', nach: 'ruhe' },
       },
       rundlauf:
         'Beim zweiten Sehen klingen die 12 Stunden nicht mehr nach Sorgfalt, sondern nach dem, was der Schlusssatz daraus macht.',

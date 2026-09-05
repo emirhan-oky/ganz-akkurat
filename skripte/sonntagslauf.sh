@@ -4,7 +4,11 @@
 #
 # Aufgerufen von `de.ganzakkurat.wochenlauf` (sonntags 12:07). Von Hand:
 #
-#   skripte/sonntagslauf.sh
+#   skripte/sonntagslauf.sh              wie sonntags, kostet Kontingent
+#   skripte/sonntagslauf.sh --trocken    dieselbe Kette ohne Vertonung
+#
+# **`--trocken` gibt es, damit die Kette pruefbar ist.** Ein Dienst, den man nur
+# testen kann, indem man ihn bezahlt, wird nicht getestet.
 #
 # ## Warum ein Shellskript und keine Zeile in der plist
 #
@@ -23,11 +27,14 @@ cd "$(dirname "$0")/.."
 
 melden() { osascript -e "display notification \"$2\" with title \"Ganz akkurat\" subtitle \"$1\"" >/dev/null 2>&1; }
 
-if npm run lauf -- --mit-ton --auswahl=automatisch; then
+TON="--mit-ton"
+[ "${1:-}" = "--trocken" ] && TON=""
+
+if npm run lauf -- $TON --auswahl=automatisch; then
   LAUF="laeufe/$(date +%Y-%m-%d)/freigabe.html"
   if [ -f "$LAUF" ]; then
     open "$LAUF"
-    melden "Woche steht bereit" "Fuenf Videos gerendert und vertont. Freigabeseite ist offen."
+    melden "Woche steht bereit" "Fuenf Videos gerendert${TON:+ und vertont}. Freigabeseite ist offen."
   else
     melden "Lauf fertig, Seite fehlt" "Der Lauf lief durch, aber $LAUF gibt es nicht."
   fi

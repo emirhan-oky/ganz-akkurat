@@ -218,7 +218,7 @@ export const powerbankWattstunden: Short = {
         wer: 'nachleser',
         von: 'lesen',
         nach: 'ansprechen',
-        gegenueber: { von: 'staunen', nach: 'zeigen' },
+        gegenueber: { von: 'stutzen', nach: 'zeigen' },
       },
       rundlauf:
         'Beim zweiten Sehen hört man den ersten Satz als Plan, der schon am Koffer scheitert – die Powerbanks dürfen dort gar nicht hinein.',

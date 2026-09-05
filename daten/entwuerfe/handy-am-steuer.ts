@@ -167,7 +167,7 @@ export const handyAmSteuer: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'staunen',
+        von: 'stutzen',
         nach: 'zeigen',
         gegenueber: { von: 'erklaeren', nach: 'ansprechen' },
       },

@@ -157,7 +157,7 @@ export const laptopUsbC: Short = {
         wer: 'zeiger',
         von: 'nachdenken',
         nach: 'stutzen',
-        gegenueber: { von: 'ansprechen', nach: 'achselzucken' },
+        gegenueber: { von: 'ansprechen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen weiß man, dass Wattis Frage nach dem Klotz die vierte war – und dass sie beim nächsten Mal wiederkommt.',

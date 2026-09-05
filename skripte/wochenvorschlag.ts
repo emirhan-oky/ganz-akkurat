@@ -23,13 +23,23 @@ const main = async () => {
 
   console.log('\nGanz akkurat · Wochenvorschlag\n');
 
+  const auswahl = wochenAuswaehlen(quellen, verlauf);
+
+  /*
+   * **Gezaehlt wird der frische Vorrat, nicht der geparkte.** Am 05.09.2026
+   * stand hier die Gesamtzahl — 48 Entwuerfe —, waehrend 18 davon laengst
+   * gesendet waren. Eine Zahl, die Gesendetes mitzaehlt, sagt genau dann etwas
+   * Falsches, wenn es darauf ankommt.
+   */
   const jeBauform = new Map<string, number>();
   const jeFormat = new Map<string, number>();
-  for (const s of GEPARKT) {
+  for (const s of auswahl.frisch) {
     jeBauform.set(s.bauform, (jeBauform.get(s.bauform) ?? 0) + 1);
     jeFormat.set(s.format, (jeFormat.get(s.format) ?? 0) + 1);
   }
-  console.log(`   Vorrat: ${GEPARKT.length} geparkte Entwürfe`);
+  console.log(
+    `   Vorrat: ${auswahl.frisch.length} ungesendete von ${GEPARKT.length} geparkten Entwürfen`,
+  );
   console.log(
     '   je Format:  ' +
       [...jeFormat.entries()].sort((a, b) => b[1] - a[1]).map(([f, n]) => `${f} ${n}`).join(' · '),
@@ -38,8 +48,6 @@ const main = async () => {
     '   je Bauform: ' +
       [...jeBauform.entries()].sort((a, b) => b[1] - a[1]).map(([f, n]) => `${f} ${n}`).join(' · '),
   );
-
-  const auswahl = wochenAuswaehlen(quellen, verlauf);
 
   /*
    * **Die Reichweite steht auch dann da, wenn nichts gefunden wurde.** Sie ist

@@ -177,7 +177,7 @@ export const achtzigProzentNachbar: Short = {
         wer: 'zeiger',
         von: 'nachdenken',
         nach: 'ansprechen',
-        gegenueber: { von: 'zeigen', nach: 'achselzucken' },
+        gegenueber: { von: 'zeigen', nach: 'nachdenken' },
       },
       rundlauf:
         'Beim zweiten Sehen ist Wattis „ich habe gehört" der eigentliche Fehler – und am Ende gibt er es genauso weiter.',

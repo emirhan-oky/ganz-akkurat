@@ -167,7 +167,7 @@ export const kabelschublade: Short = {
       buehne: {
         art: 'figur',
         wer: 'nachleser',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'ruhe',
         gegenueber: { von: 'zeigen', nach: 'ansprechen' },
       },

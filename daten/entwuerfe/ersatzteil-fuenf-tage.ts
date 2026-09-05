@@ -166,7 +166,7 @@ export const ersatzteilFuenfTage: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'ansprechen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'stutzen', nach: 'ruhe' },
       },
       rundlauf:
