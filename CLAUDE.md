@@ -28,6 +28,7 @@ npm run wochenvorschlag   # schlägt die fünf Shorts der nächsten Woche vor
 npm run ausreisser        # was hatte dieses eine? Zahlen neben Format und Thema
 npm run aufschlaege       # jeder Aufschlag neben seiner Haltequote
 npm run laengen           # Länge gegen Verweildauer, schweigt bei zu wenig
+npm run kanalwoche        # alle drei Kanäle nebeneinander, als Seite
 npm run lauf              # Wochenlauf, ohne Ton (Szenenlängen geschätzt)
 npm run lauf -- --mit-ton # kostet ElevenLabs-Kontingent
 npm run lauf -- --auswahl=automatisch   # Woche selbst zusammenstellen
@@ -1788,6 +1789,51 @@ Die oberste Ebene bleibt YouTube, weil `ausreisser`, `aufschlaege` und `laengen`
 sie seit Wochen lesen: **Eine Zahl, die still ihre Bedeutung wechselt, macht
 jeden Vergleich mit älteren Messungen falsch.**
 
+**Und genau dieses Danebenstellen hat sie beinahe unsichtbar gemacht.**
+`src/rueckschau.ts` beschreibt die Messung als Zod-Schema, und Zod streift ab,
+was nicht beschrieben ist. `jeKanal` stand nicht darin: Der Rückblick schrieb
+die Zahlen in die Datei, `rueckblickLesen` warf sie beim Parsen wieder weg, und
+alle vier Leser waren für Instagram und TikTok blind — ohne dass irgendetwas
+einen Fehler warf. **Eine Lücke, die kein Fehler ist, weil ein Feld einfach
+verschwindet.** Gefunden am 05.09.2026 mit einem Dreizeiler, der nach dem Parsen
+nachsieht.
+
+Die Form steht seitdem an **einer** Stelle — `Kanalmessung` in
+`src/rueckschau.ts`, importiert von `skripte/rueckblick.ts`. Sie war einen Tag
+lang zweimal beschrieben, und dieser eine Tag hat gereicht.
+
+### `npm run kanalwoche` — die Seite
+
+Sonntags um 11:30 legt `de.ganzakkurat.kanalwoche` die Seite `kanalwoche.html`
+an und öffnet sie: alle drei Kanäle nebeneinander, je Kanal und je Video. Sie
+holt nichts ab und kostet nichts — die Zahlen stehen schon in
+`daten/rueckblick.json`.
+
+**11:30, weil der Wochenlauf um 12:07 startet.** Wer die nächste Woche wählt,
+soll wissen, was die letzte getan hat; eine Auswertung danach kommt für die
+Entscheidung zu spät. Ein eigener Dienst und keine Zeile in `sonntagslauf.sh`:
+Der Lauf bricht ab, wenn keine gültige Woche zustande kommt, und das ist der
+häufigste Fall — die Auswertung hinge dann an einer Bedingung, mit der sie
+nichts zu tun hat.
+
+**Der Nordstern steht oben, die Aufrufe darunter.** Das ist kein Layout, sondern
+dieselbe Aussage wie im Rückblick: Aufrufe sagen, was der Algorithmus getan hat.
+Eine Seite, die mit der großen Zahl aufmacht, erzieht den Leser auf die falsche
+Größe.
+
+**Ein Strich ist keine Null.** Buffer schickt je Dienst verschiedene Felder —
+für YouTube kein `Reach`, für TikTok kein `Follows`. Wo der Dienst nichts meldet,
+steht ein Strich; eine 0 wäre eine Messung, die niemand gemacht hat. Geteilt und
+neue Abonnenten kommen für YouTube aus der Analytics API und sind als andere
+Herkunft gekennzeichnet — **der erste Anlauf setzte den Nordstern des größten
+Kanals auf einen Strich, obwohl beide Zahlen eine Ebene höher in derselben Datei
+standen.** Gesehen hat das nicht der Code, sondern das gerenderte Bild.
+
+**Der Verlauf ist gestrichelt gezeichnet.** Zwischen zwei Messtagen liegen bis zu
+sechs Tage, an denen nichts gemessen wurde; eine durchgezogene Linie behauptet
+die Zwischenwerte. Aus demselben Grund steht am Zuwachs die **tatsächliche**
+Spanne und nicht „diese Woche".
+
 Und was sofort sichtbar wurde: **TikTok trägt den Kanal.** `fernseher-hoert` hat
 7 Aufrufe auf YouTube und 271 auf TikTok; `blitzer-app` 13 gegen 228. Neun
 Wochen lang wurde an der schwächsten der drei Plattformen gemessen.
@@ -1944,6 +1990,7 @@ Streitfall ist, sieht man erst, wenn man es hat.
 | **Senden** | Buffers Server | zu den geplanten Terminen, Rechner darf aus sein |
 | **Nachlegen** | `de.ganzakkurat.nachlegen` | täglich 19:15, wenn ein Platz frei wird |
 | **Messen** | `de.ganzakkurat.rueckblick` | täglich 9:30 |
+| **Auswerten** | `de.ganzakkurat.kanalwoche` | sonntags 11:30, vor dem Wochenlauf |
 
 **Buffers kostenloser Tarif nimmt zehn geplante Beiträge je Kanal** — zwei
 Wochen lassen sich deshalb nicht auf Vorrat einplanen. `npm run nachlegen` löst

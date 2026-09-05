@@ -31,6 +31,7 @@
     "ausreisser": "tsx skripte/ausreisser.ts",
     "aufschlaege": "tsx skripte/aufschlaege.ts",
     "laengen": "tsx skripte/laengen.ts",
+    "kanalwoche": "tsx skripte/kanalwoche.ts",
     "nachlegen": "tsx skripte/nachlegen.ts",
     "szenarienblock": "tsx skripte/szenarienblock.ts",
     "dialogprobe": "tsx skripte/dialogprobe.ts"

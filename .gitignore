@@ -70,3 +70,6 @@ daten/neuigkeiten.json
 # Ausgelagert aus CLAUDE.md am 26.08.2026, als das Repo oeffentlich wurde.
 # Der Inhalt gehoert zur Arbeit, aber nicht in die Oeffentlichkeit.
 daten/geschaeft.md
+
+# Kanalwoche (erzeugt aus daten/rueckblick.json)
+kanalwoche.html

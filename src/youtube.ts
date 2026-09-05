@@ -6,23 +6,33 @@ import { spawn } from 'node:child_process';
  * Anbindung an YouTube — die einzige Quelle, aus der dieser Kanal erfaehrt,
  * was aus einem Video geworden ist.
  *
- * Warum nicht Buffer: Die Buffer-Schnittstelle **hat** ein `metrics`-Feld mit
- * sechzehn Metriktypen, aber sie fuellt es nicht. Am 18.08.2026 gemessen am
- * ersten Video des Kanals: YouTube meldete 112 Aufrufe, Buffer meldete 0 —
- * und `metricsUpdatedAt` lag **vor** `sentAt`. Buffer fasst die Zahlen einmal
- * beim Senden an und danach nie wieder; eine Mutation zum Nachladen gibt es
- * nicht. Waere das nicht aufgefallen, haette der Rueckblick jede Woche
- * Nullen mitgeschrieben — und niemandem waere es aufgefallen, weil eine Zahl
- * dastand.
+ * **Nicht mehr die einzige, seit dem 05.09.2026** — und was hier stand, ist
+ * das Lehrstueck dazu.
  *
- * Buffer bleibt trotzdem im Spiel: `externalLink` je Beitrag ist die einzige
- * Bruecke zwischen einem Entwurf auf der Platte und dem Video draussen.
+ * Es hiess: Buffers `metrics`-Feld existiert, aber Buffer fuellt es nicht. Am
+ * 18.08.2026 am ersten Video gemessen: YouTube meldete 112 Aufrufe, Buffer 0,
+ * und `metricsUpdatedAt` lag **vor** `sentAt`. Daraus wurde geschlossen, dass
+ * Buffer die Zahlen einmal beim Senden anfasst und danach nie wieder — und
+ * daraus wiederum, dass Instagram und TikTok ein Geschaeftskonto, eine
+ * Entwickleranmeldung und ein Freigabeverfahren braeuchten.
  *
- * Warum nur YouTube: TikTok laedt seine Zahlen per JavaScript nach, Instagram
- * gibt ohne Anmeldung gar nichts heraus. Beide wuerden ein Geschaeftskonto,
- * eine Entwickleranmeldung und ein Freigabeverfahren verlangen — fuer Zahlen
- * zu **demselben** Video mit **demselben** Aufschlag. Was an Sekunde 3,5 bei
- * YouTube haelt, haelt auch dort.
+ * Die Messung war richtig, die Verallgemeinerung nicht. Am 05.09.2026 noch
+ * einmal abgefragt: Buffer liefert Kennzahlen fuer alle drei Kanaele, im
+ * kostenlosen Tarif und mit demselben Token. Ein Beitrag, der am 18.08. eine
+ * Stunde alt war, hatte einfach noch keine. **Eine Messung an einem Tag alten
+ * Beitrag sagt etwas ueber den Beitrag und nichts ueber die Schnittstelle.**
+ *
+ * Warum diese Datei trotzdem bleibt, und zwar unveraendert:
+ *
+ * - Buffer liefert **Momentaufnahmen**, keine Kurven. Die Haltequote an
+ *   Sekunde 3,5 — die eine Zahl, an der dieser Kanal eine Regel hat — steckt
+ *   in der Haltekurve, und die gibt nur die Analytics API heraus.
+ * - **Geteilt und neue Abonnenten** schickt Buffer fuer YouTube gar nicht.
+ *   Beide stehen im Nordstern und kommen von hier.
+ * - Buffers Aufrufzahl hinkt Stunden hinterher, die Data API ist genauer.
+ *
+ * Und `externalLink` je Beitrag bleibt die einzige Bruecke zwischen einem
+ * Entwurf auf der Platte und dem Video draussen.
  *
  * Zwei Schnittstellen, zwei Zugangsarten:
  *

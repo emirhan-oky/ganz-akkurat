@@ -27,7 +27,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd ~/Documents/Youtube &amp;&amp; npm run nachlegen -- --wirklich --ab=2026-08-24</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; npm run nachlegen -- --wirklich --ab=2026-08-24</string>
   </array>
 
   <key>StartCalendarInterval</key>

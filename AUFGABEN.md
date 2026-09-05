@@ -2421,3 +2421,59 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
 - [ ] **Vier Shorts der ersten Auswahl liegen bei 69–78 Sekunden**, geschätzt
       ohne Ton. Das Fenster endet bei 80; die Schätzung lag heute eher zu hoch
       (63,6 geschätzt gegen 56,8 gemessen), aber der Abstand ist dünn
+
+## Die Kanalwoche · 05.09.2026
+
+Die Zahlen aller drei Kanäle kommen seit heute Morgen über Buffer an — gelesen
+hat sie niemand. Jetzt gibt es sonntags um 11:30 eine Seite dazu.
+
+- [x] ~~**`jeKanal` kam nie beim Leser an.** `src/rueckschau.ts` beschreibt die
+      Messung als Zod-Schema, und Zod streift ab, was nicht beschrieben ist:
+      Der Rückblick schrieb die Kanalzahlen in die Datei, `rueckblickLesen`
+      warf sie beim Parsen weg. Alle vier Leser waren für Instagram und TikTok
+      blind, ohne dass irgendetwas einen Fehler warf~~
+- [x] ~~**Die Form steht jetzt an einer Stelle.** `Kanalmessung` als Zod-Schema
+      in `src/rueckschau.ts`, importiert von `skripte/rueckblick.ts`. Sie war
+      einen Tag lang zweimal beschrieben, und dieser eine Tag hat gereicht~~
+- [x] ~~**`npm run kanalwoche`** → `src/kanalseite.ts`, erzeugt `kanalwoche.html`
+      wie `belege.html`. Nordstern, Aufrufe je Kanal, Verlauf, jedes Video mit
+      den drei Kanälen nebeneinander~~
+- [x] ~~**`de.ganzakkurat.kanalwoche`**, sonntags 11:30 — vor dem Wochenlauf um
+      12:07. Eingerichtet, mit `launchctl kickstart` einmal durchlaufen~~
+
+**Zwei Fehler hat erst das gerenderte Bild gezeigt**, keiner davon der Code:
+
+- **Der Nordstern des größten Kanals stand auf einem Strich.** Buffer schickt
+  für YouTube kein `Shares` und kein `Follows` — beide Zahlen stehen aber seit
+  Wochen eine Ebene höher in derselben Datei, aus der Analytics API. Sie werden
+  von dort genommen und als andere Herkunft gekennzeichnet.
+- **„1 Messtage".** Der Zähler zählte Tage mit Kanalzahlen und hieß wie einer,
+  der alle Messtage zählt. Es sind sechs Messtage und einer davon trägt
+  Kanalzahlen; die Seite sagt das jetzt.
+
+**Und ein Befund am Dienst selbst, der die Lücken in der Messreihe erklärt:**
+`launchctl print` sagte `runs = 0` — der tägliche Rückblick war eingerichtet und
+hatte nie gelaufen; die sechs Messtage seit dem 18.08. sind alle von Hand. Beim
+ersten Lauf über den Dienst brach er ab: „YouTube Analytics API: Internal error
+encountered", beim achten von 18 Videos. **Die sieben davor waren gemessen und
+wurden trotzdem nicht gespeichert**, weil geschrieben wird erst am Ende.
+
+- [x] ~~`try/catch` je Video um die beiden Analytics-Aufrufe. Ein Fehlschlag
+      nimmt eine Haltequote mit, nicht den Tag — dieselbe Lehre wie bei der
+      Vertonung am 01.09.2026. Die Fehler stehen nach der Tabelle, nicht statt
+      ihrer~~
+- [x] ~~**`skripte/rueckblick.plist` und `nachlegen.plist` zeigten auf
+      `~/Documents/Youtube`** — den Ordner gibt es nicht. Die installierten
+      Fassungen standen richtig; wer aus dem Repo neu installiert hätte, hätte
+      einen toten Dienst bekommen~~
+
+- [ ] **Warum der Dienst nie von selbst lief, ist offen.** Alle vier Agents
+      stehen auf `runs = 0`, auch `nachlegen`, das am 04.09. um 19:15 hätte
+      feuern müssen. Verdacht: Der Rechner schläft zu den Terminen. Zu prüfen
+      ist, ob ein zweiter Termin am Abend oder ein `StartInterval` hilft —
+      **eine Auswertung, die über Lücken hinwegrechnet, wäre die falsche
+      Antwort darauf**
+- [ ] **TikToks `Avg. Watch Time (sec)` steht an allen 18 Shorts auf 0.**
+      Entweder füllt Buffer das Feld nicht, oder TikTok gibt es nicht heraus.
+      Solange das ungeklärt ist, ist es die einzige Größe der Seite, deren Null
+      nichts bedeutet

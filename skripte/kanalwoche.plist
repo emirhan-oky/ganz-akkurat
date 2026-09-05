@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Woechentliche Kanalauswertung fuer „Ganz akkurat".
+
+  Legt `kanalwoche.html` an und oeffnet sie: alle drei Kanaele nebeneinander,
+  Nordstern zuerst, dann die Aufrufe.
+
+  Warum sonntags 11:30: Der Wochenlauf startet um 12:07. Wer die naechste
+  Woche waehlt, soll wissen, was die letzte getan hat — eine Auswertung, die
+  danach kommt, kommt fuer die Entscheidung zu spaet.
+
+  Warum ein eigener Dienst und keine Zeile in `sonntagslauf.sh`: Der Lauf
+  bricht ab, wenn keine gueltige Woche zustande kommt, und das ist der
+  haeufigste Fall. Die Auswertung haenge dann an einer Bedingung, mit der sie
+  nichts zu tun hat.
+
+  Es kostet nichts und ruft nichts ab. Die Zahlen stehen bereits in
+  `daten/rueckblick.json`, wo `de.ganzakkurat.rueckblick` sie taeglich
+  hinterlegt.
+
+  Einschalten:
+    launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.kanalwoche.plist
+  Ausschalten:
+    launchctl bootout gui/$UID/de.ganzakkurat.kanalwoche
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>de.ganzakkurat.kanalwoche</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; npm run kanalwoche</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>11</integer>
+    <key>Minute</key><integer>30</integer>
+  </dict>
+
+  <!--
+    Kein RunAtLoad: Die Seite soll sonntags aufgehen, nicht bei jedem
+    Anmelden. Sie oeffnet ein Fenster — ein Dienst, der das ungefragt tut,
+    wird abgeschaltet.
+  -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/ganzakkurat-kanalwoche.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/ganzakkurat-kanalwoche.log</string>
+</dict>
+</plist>

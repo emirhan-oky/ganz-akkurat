@@ -208,6 +208,7 @@ const main = async () => {
 
   const heute = new Date().toISOString().slice(0, 10);
   let ohneAnalytics = 0;
+  const analyticsFehler: string[] = [];
 
   console.log('Short                  Aufrufe  Halte  Durch  Geteilt  Titel');
   console.log('─'.repeat(78));
@@ -217,8 +218,34 @@ const main = async () => {
     if (!s) continue;
     const laenge = laengen.get(videoId) ?? 0;
 
-    const v = await verlaufszahlen(token, videoId);
-    const kurve = await haltekurve(token, videoId);
+    /*
+     * **Ein Fehlschlag nimmt einen Short mit, nicht den Lauf.** Dieselbe Lehre
+     * wie bei der Vertonung am 01.09.2026, hier am 05.09.2026 nachgeholt: Der
+     * Dienst lief, das achte Video bekam von der Analytics-API ein „Internal
+     * error encountered" — und der ganze Durchgang brach ab, bevor
+     * `rueckblick.json` geschrieben war. Die sieben Videos davor waren
+     * gemessen und wurden trotzdem nicht gespeichert.
+     *
+     * Ein Aussetzer der Analytics-API ist kein Sonderfall: Sie verbucht mit
+     * ein bis drei Tagen Verzug, und der Code unten rechnet ohnehin damit,
+     * dass keine Kurve kommt (`ohneAnalytics`). Der Unterschied zwischen
+     * „keine Kurve" und „Fehler beim Holen der Kurve" darf nicht sein, dass
+     * das eine eine Fußnote ist und das andere den Tag kostet.
+     *
+     * Die Stammzahlen oben stehen bewusst außerhalb: Sie kommen aus der Data
+     * API in einem Aufruf für alle Videos, und wenn die ausfällt, gibt es
+     * nichts zu messen.
+     */
+    let v: Awaited<ReturnType<typeof verlaufszahlen>> = null;
+    let kurve: Awaited<ReturnType<typeof haltekurve>> = null;
+    try {
+      v = await verlaufszahlen(token, videoId);
+      kurve = await haltekurve(token, videoId);
+    } catch (fehler) {
+      analyticsFehler.push(
+        `${shortId}: ${fehler instanceof Error ? fehler.message : String(fehler)}`,
+      );
+    }
     const halte = kurve ? halteQuoteBei(kurve, AUFSCHLAG_SEK, laenge) : null;
     if (!kurve) ohneAnalytics++;
 
@@ -283,6 +310,19 @@ const main = async () => {
   }
 
   console.log('─'.repeat(78));
+
+  /*
+   * Fehler der Analytics-API stehen **nach** der Tabelle und nicht statt ihrer.
+   * Ein Befund, den nur ein Absturz kennt, ist keiner — derselbe Grund, aus
+   * dem die Plausibilitaetswache am 01.09.2026 in die Freigabe gewandert ist.
+   */
+  if (analyticsFehler.length > 0) {
+    console.log(
+      `\n${analyticsFehler.length} Video(s) mit Fehler aus der Analytics-API. Ihre Stammzahlen\n` +
+        'sind trotzdem geschrieben, nur Haltequote und Durchsicht fehlen:',
+    );
+    for (const zeile of analyticsFehler) console.log(`  ${zeile}`);
+  }
 
   if (ohneAnalytics > 0) {
     console.log(
