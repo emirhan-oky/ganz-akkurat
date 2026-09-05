@@ -2,7 +2,7 @@
 #
 # Der Sonntagslauf: die fuenf Videos der Folgewoche bereitstellen.
 #
-# Aufgerufen von `de.ganzakkurat.wochenlauf` (sonntags 12:07). Von Hand:
+# Aufgerufen von `de.ganzakkurat.wochenlauf` (sonntags 12:00). Von Hand:
 #
 #   skripte/sonntagslauf.sh              wie sonntags, kostet Kontingent
 #   skripte/sonntagslauf.sh --trocken    dieselbe Kette ohne Vertonung

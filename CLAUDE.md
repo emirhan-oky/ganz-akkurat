@@ -1809,7 +1809,7 @@ an und öffnet sie: alle drei Kanäle nebeneinander, je Kanal und je Video. Sie
 holt nichts ab und kostet nichts — die Zahlen stehen schon in
 `daten/rueckblick.json`.
 
-**11:30, weil der Wochenlauf um 12:07 startet.** Wer die nächste Woche wählt,
+**11:30, weil der Wochenlauf um 12:00 startet.** Wer die nächste Woche wählt,
 soll wissen, was die letzte getan hat; eine Auswertung danach kommt für die
 Entscheidung zu spät. Ein eigener Dienst und keine Zeile in `sonntagslauf.sh`:
 Der Lauf bricht ab, wenn keine gültige Woche zustande kommt, und das ist der
@@ -1956,13 +1956,26 @@ Eine Suche über 4.000 Kombinationen fand am 04.09.2026 nichts.
 
 ### Der Sonntagslauf
 
-`de.ganzakkurat.wochenlauf` stellt **sonntags um 12:07** die fünf Videos der
+`de.ganzakkurat.wochenlauf` stellt **sonntags um 12:00** die fünf Videos der
 Folgewoche bereit: Woche zusammenstellen, vertonen, rendern, Freigabeseite
 öffnen, Mitteilung schicken. Er plant nichts ein.
 
-**12:07 und nicht 12:00**, weil um 12:00 das Sonntagsvideo der laufenden Woche
-sendet. Zwei Dinge zur selben Minute sind zwei Dinge, die man hinterher nicht
-auseinanderhält.
+**Eine halbe Stunde nach der Kanalwoche**, und das ist der ganze Grund für den
+Abstand: Wer die nächste Woche wählt, soll wissen, was die letzte getan hat.
+
+Hier stand bis zum 05.09.2026 **12:07**, begründet damit, dass um 12:00 das
+Sonntagsvideo der laufenden Woche sendet. Das galt dem von Hand gelegten Plan
+**dieser einen** Woche; seit `SENDEPLAETZE` steht der Sonntagsplatz auf 18:00.
+**Eine Ausnahme, deren Fall es nicht mehr gibt, ist keine Ausnahme** — und diese
+hatte ihren Fall verloren, bevor sie das erste Mal griff.
+
+**Der Mac wird dafür nicht geweckt, und das ist entschieden.** Er schläft nach
+einer Minute; ein Aufweckplan (`pmset repeat wakeorpoweron`) würde ihn hochholen,
+aber bei zugeklapptem Deckel im Akkubetrieb lässt macOS das nicht zu — die
+Zuverlässigkeit hinge daran, ob das Netzteil steckt. `launchd` holt einen
+verpassten Termin beim nächsten Aufwachen nach, und **die Woche muss nicht um
+zwölf fertig sein, sondern vor Montag 18 Uhr.** Wird es einmal knapp, ist der
+Ausweg ein Aufruf von Hand (`skripte/sonntagslauf.sh`), nicht der Aufweckplan.
 
 **Das ist die einzige Vertonung, die ohne vorherige Zusage läuft** — rund 3.600
 Zeichen je Woche. Findet die Auswahl keine gültige Woche, bricht der Lauf ab,

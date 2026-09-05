@@ -2499,13 +2499,23 @@ wie eine, die nichts findet.**
 
 ### Was jetzt drängt
 
-- [ ] ▸ **Der Mac schläft zu den Dienstterminen.** `pmset -g log` zeigt für
-      gestern 19:15 DarkWake — `nachlegen` konnte nicht laufen, `runs = 0`
-      stimmt und ist kein Fehler im Dienst. **Ein Aufweckzeitplan fehlt**
-      (`pmset -g sched` ist leer), und der Ruhezustand steht auf einer Minute.
-      **Ohne ihn läuft der Wochenlauf morgen um 12:07 nicht.** Der Eingriff
-      braucht `sudo` und damit Emirhans Zustimmung:
-      `sudo pmset repeat wakeorpoweron S 12:00:00`
+- [x] ~~**Warum die Dienste nie von selbst liefen, ist geklärt.** `pmset -g log`
+      zeigt für den 04.09. um 19:15 DarkWake — `nachlegen` konnte nicht laufen.
+      `runs = 0` stimmt und ist kein Fehler im Dienst. Der Ruhezustand steht auf
+      einer Minute, ein Aufweckzeitplan fehlt~~
+- [x] ~~**Der Mac wird bewusst nicht geweckt** — Emirhans Entscheidung. Ein
+      `pmset repeat wakeorpoweron` funktioniert bei zugeklapptem Deckel im
+      Akkubetrieb nicht; die Zuverlässigkeit hinge daran, ob das Netzteil
+      steckt. `launchd` holt einen verpassten Termin beim nächsten Aufwachen
+      nach, und **die Woche muss nicht um zwölf fertig sein, sondern vor Montag
+      18 Uhr.** Wird es knapp: `skripte/sonntagslauf.sh` von Hand~~
+- [x] ~~**Der Sonntagslauf steht auf 12:00, nicht 12:07.** Die alte Minute war
+      damit begründet, dass um 12:00 das Sonntagsvideo sendet — das galt dem von
+      Hand gelegten Plan dieser einen Woche; seit `SENDEPLAETZE` steht der
+      Sonntagsplatz auf 18:00. **Eine Ausnahme, deren Fall es nicht mehr gibt,
+      ist keine Ausnahme**~~
+- [x] ~~`skripte/wochenlauf.plist` liegt jetzt im Repo, wie die drei anderen.
+      Er war der einzige Dienst, den ein frischer Klon nicht gekannt hätte~~
 - [ ] **Der Vorrat trägt genau eine Woche.** 33 ungesendete Entwürfe, davon
       **27 Zitatkarten**, 4 Stationen, 2 Wechselreden — bei höchstens zwei je
       Bauform und Woche. **Was fehlt, sind Wechselreden und Stationen, nicht

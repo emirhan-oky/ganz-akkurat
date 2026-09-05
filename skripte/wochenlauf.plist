@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Der Sonntagslauf fuer „Ganz akkurat".
+
+  Stellt sonntags um 12:07 die fuenf Videos der Folgewoche bereit: Woche
+  zusammenstellen, vertonen, rendern, Freigabeseite oeffnen, Mitteilung
+  schicken. Er plant nichts ein — das Veroeffentlichen bleibt Handarbeit.
+
+  Warum 12:00 und eine halbe Stunde nach der Kanalwoche (11:30): Wer die
+  naechste Woche waehlt, soll wissen, was die letzte getan hat.
+
+  Hier stand bis zum 05.09.2026 12:07, begruendet damit, dass um 12:00 das
+  Sonntagsvideo der laufenden Woche sendet. Das galt fuer den von Hand gelegten
+  Plan dieser einen Woche; seit `SENDEPLAETZE` steht der Sonntagsplatz auf
+  18:00. **Eine Ausnahme, deren Fall es nicht mehr gibt, ist keine Ausnahme.**
+
+  Warum sonntags: Die Sendewoche beginnt montags. Wer sonntags mittags
+  freigibt, hat den Nachmittag Zeit, bevor am Montag um 18 Uhr das erste
+  Video laeuft.
+
+  Was er kostet: fuenf Videos sind rund 3.600 Zeichen bei ElevenLabs, etwa
+  15.500 im Monat gegen ein Kontingent von 121.000. **Das ist die einzige
+  Vertonung im Projekt, die ohne vorherige Zusage laeuft** — jede andere wird
+  einzeln freigegeben.
+
+  Findet die Auswahl keine gueltige Woche, bricht der Lauf ab, **bevor**
+  etwas bezahlt ist, und die Mitteilung sagt es.
+
+  Einschalten:
+    launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.wochenlauf.plist
+  Sofort ausloesen (zum Pruefen):
+    launchctl kickstart -k gui/$UID/de.ganzakkurat.wochenlauf
+  Ausschalten:
+    launchctl bootout gui/$UID/de.ganzakkurat.wochenlauf
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>de.ganzakkurat.wochenlauf</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; skripte/sonntagslauf.sh</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>12</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <!--
+    Kein RunAtLoad: Der Lauf kostet Kontingent. Ein Dienst, der bei jedem
+    Anmelden vertont, waere eine Rechnung ohne Anlass.
+  -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/ganzakkurat-wochenlauf.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/ganzakkurat-wochenlauf.log</string>
+</dict>
+</plist>
