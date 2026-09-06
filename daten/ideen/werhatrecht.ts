@@ -23,6 +23,91 @@ import type { Idee } from '../../src/typen';
  * muss eine sein.
  */
 export const werhatrechtIdeen: Idee[] = [
+  /*
+   * **Vier Ideen aus einer Fundgrube, gefunden am 06.09.2026.** Das BSI führt
+   * vier Seiten „Sicherheits-Irrtümer" — Internet, Mobil, Computer und
+   * E-Mail —, auf denen eine Behörde verbreitete Annahmen aufzählt und
+   * widerlegt. **Das ist genau die Bauart, die diesem Format fehlt:** zwei
+   * Lager gibt es von selbst, sobald ein Irrtum weit genug verbreitet ist, und
+   * das Dritte steht in der Antwort darunter.
+   *
+   * Der Prüfstein bleibt: Lautet die Auflösung „Lager A hat recht", ist es ein
+   * Märchen. Die vier hier taugen, weil die BSI-Antwort jeweils **„nur
+   * teilweise"** heißt.
+   */
+  {
+    id: "wlan-mitlesen",
+    format: "werhatrecht",
+    sachgebiet: "netz",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Öffentliches WLAN: Die einen rühren es nicht an, die anderen sagen, heute sei ohnehin alles verschlüsselt.",
+    dreh: "Das BSI antwortet weder ja noch nein: „Das stimmt leider nur teilweise.“ Unverschlüsselt ist die Funkstrecke zum Router — nicht die Seite, die man ansteuert.",
+    sache: "Was das Gerät nach dem Trennen tut: Der Hotspot bleibt in der Liste der bevorzugten Netze und wird später von selbst wieder gewählt.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Mobile Sicherheit, Irrtum 2",
+      },
+    ],
+    quellenIds: ["bsi-irrtuemer-mobil"],
+  },
+  {
+    id: "ein-langes-passwort",
+    format: "werhatrecht",
+    sachgebiet: "netz",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Ein richtig langes Passwort für alles — die einen halten das für sicher genug, die anderen für fahrlässig.",
+    dreh: "Das BSI führt es als Irrtum: Die Länge trägt, die Wiederverwendung nicht. Ein Leck bei einem Dienst öffnet alle anderen.",
+    sache: "Warum ein Passwortmanager die Antwort auf beide Lager ist, ohne dass jemand sich etwas merken muss.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Internet-Sicherheit, Irrtum 3",
+      },
+    ],
+    quellenIds: [],
+  },
+  {
+    id: "nichts-zu-verbergen",
+    format: "werhatrecht",
+    sachgebiet: "rechner",
+    reifegrad: "skizze",
+    erzaehlt:
+      "„Ich habe nichts zu verbergen“ — die einen sagen, dann ist auch nichts zu holen, die anderen halten es für naiv.",
+    dreh: "Das BSI listet es als Irrtum: Angegriffen wird nicht der Inhalt, sondern die Rechenleistung, die Kontakte und der Zugang.",
+    sache: "Wozu ein Gerät ohne interessante Daten trotzdem taugt.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 2",
+      },
+    ],
+    quellenIds: [],
+  },
+  {
+    id: "cloud-statt-backup",
+    format: "werhatrecht",
+    sachgebiet: "rechner",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Alles liegt in der Cloud — die einen sagen, damit ist gesichert, die anderen misstrauen ihr grundsätzlich.",
+    dreh: "Das BSI hält beiden dasselbe entgegen: Eine Synchronisation ist keine Sicherung. Was gelöscht wird, ist überall gelöscht.",
+    sache: "Der Unterschied zwischen Synchronisieren und Sichern, an einem gelöschten Ordner erklärt.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 3",
+      },
+    ],
+    quellenIds: [],
+  },
+
   {
     id: "wlan-abendliche-verlangsamung",
     format: "werhatrecht",

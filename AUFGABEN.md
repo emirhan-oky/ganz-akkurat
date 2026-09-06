@@ -1760,7 +1760,14 @@ zu tun ist, steht ab hier.
       `docs/verworfen.md`: Sortiert wird nach der Reaktion, und die Schätzfrage
       löst Staunen aus — **zwei Fächer mit derselben Reaktion sind ein Fach.**
       Sie bleibt ein Mittel in `ZUGARTEN` und `pauseSek`~~
-- [ ] **Eine neue Ideenquelle** — der Pillar-Weg ist verworfen
+- [x] ~~**Eine neue Ideenquelle** — gefunden am 06.09.2026: **die vier Seiten
+      „Sicherheits-Irrtümer" des BSI** (Internet, Mobil, Computer, E-Mail).
+      Eine Behörde zählt dort verbreitete Annahmen auf und widerlegt sie. **Das
+      ist die Bauart, die beiden Engpassfächern fehlt:** Bei `werhatrecht` gibt
+      es die zwei Lager von selbst, sobald ein Irrtum verbreitet genug ist, und
+      das Dritte steht in der Antwort darunter; bei `eswareinmal` liefert sie
+      den Beleg für das „und heute", den keine andere Behörde schreibt.
+      Sieben Ideen sind daraus entstanden~~
 - [x] ~~**Vorrat nachfüllen unter sechs offenen Ideen** — keine Aufgabe,
       sondern eine Schwelle, die bei jedem Lauf mitgerechnet wird. Stand
       06.09.2026: `gibtswirklich` 19, `absicht` 32, `eswareinmal` 7,
@@ -2217,12 +2224,12 @@ der Satz gewinnt, der gerade gut klingt.
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
-- [ ] **Drei Quellen für die Engpassfächer holen:** `apps-schliessen` (Es war
-      einmal), `inkognito-modus` und `oeffentliches-wlan` (Wer hat recht?).
-      **`bildschirmschoner` ist am 06.09.2026 erledigt** — Umweltbundesamt,
-      vier Fundstellen, daraus ist ein Short geworden. **Der Engpass ist der
-      Beleg, nicht das Schreiben**, und die Suche an dem Tag hat gezeigt, wie
-      groß er ist: Von sechs geprüften Behördenseiten trugen zwei ein Märchen
+- [ ] **Zwei Quellen für die Engpassfächer holen:** `apps-schliessen` (Es war
+      einmal) und `inkognito-modus` (Wer hat recht?). **`oeffentliches-wlan`
+      ist am 06.09.2026 erledigt** — `bsi-irrtuemer-mobil` mit vier
+      Fundstellen, darunter die Antwort, die den Streitfall trägt: „Das stimmt
+      leider nur teilweise."" **Der Engpass ist der Beleg, nicht das
+      Schreiben**
 - [ ] **Der dreizehnte Bogen.** Ein Zuschauer wandte zum Passwort-Video ein,
       die BSI-Empfehlung könne ohne Meldung über kompromittierte Zugangsdaten
       nach hinten losgehen. Bei `werhatrecht` ist das genau das Dritte — und es
@@ -2565,16 +2572,10 @@ für das Einbrennen bei Röhren und für Magnete auf Flash-Speicher gibt es kein
 frei abrufbare Behördenquelle — für den Bildschirmschoner schon, weil das
 Umweltbundesamt ihn im Energiespartipp ausdrücklich abrät.
 
-- [ ] ▸ **Der Vorrat hat genau ein Märchen.** Die nächsten Kandidaten aus
-      `daten/ideen/eswareinmal.ts` brauchen zuerst eine Quelle, nicht einen
-      Dialog: `defragmentieren`, `magnete-loeschen`, `sicher-entfernen`,
-      `festplatte-parken` stehen alle auf `quellenIds: []`
-
-## Alles auf Sonntag, und der Grund für die alten Zahlen · 06.09.2026
-
-Emirhans Ansage: *„Das Nachlegen auf Sonntag packen ab 11 Uhr bitte. Ich will,
-dass dieses Projekt zukünftig immer nur am Sonntag stattfindet."*
-
+- [ ] ▸ **Der Vorrat hat zwei Märchen als Entwurf, aber zehn als Idee.** Am
+      06.09.2026 sind drei mit Quelle dazugekommen — Papierkorb, „einen Virus
+      merkt man", die Firewall —, alle drei aus den BSI-Irrtümern. Der
+      Ideenvorrat trägt jetzt zehn Wochen; was fehlt, ist das Schreiben
 - [x] ~~**`rueckblick` von täglich 8:30 auf sonntags 8:30**, `nachlegen` von
       täglich 19:15 auf **sonntags 11:00**. Alle vier Dienste stehen jetzt auf
       `Weekday 0`: messen, auswerten, wählen, einlegen~~

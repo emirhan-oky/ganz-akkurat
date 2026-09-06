@@ -16,6 +16,69 @@ import type { Idee } from '../../src/typen';
  * die Erzaehlung, er behauptet nichts. Alles danach laeuft in der Gegenwart.
  */
 export const eswareinmalIdeen: Idee[] = [
+  /*
+   * **Drei Ideen aus den BSI-Irrtümern, 06.09.2026.** Für dieses Format ist
+   * nicht die Idee knapp, sondern die **Quelle**: Ein Märchen braucht einen
+   * Beleg für das „und heute", und der muss von einer unbeteiligten Instanz
+   * kommen. Behörden schreiben über Alltagsmythen nur, wenn der Mythos in ihr
+   * Ressort fällt — die vier Seiten „Sicherheits-Irrtümer" des BSI tun genau
+   * das.
+   */
+  {
+    id: "papierkorb-leeren",
+    format: "eswareinmal",
+    sachgebiet: "rechner",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Datei löschen, Papierkorb leeren, weg. So hat man das gelernt, und so stimmt es nicht.",
+    dreh: "Gelöscht wird der Verweis, nicht die Datei — und das „und heute“ ist die SSD: Dort hilft mehrfaches Überschreiben nicht mehr zuverlässig.",
+    sache: "Was der Papierkorb wirklich entfernt und warum bei Flash-Speicher ein anderer Weg nötig ist.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 4",
+      },
+    ],
+    quellenIds: [],
+  },
+  {
+    id: "virus-merkt-man",
+    format: "eswareinmal",
+    sachgebiet: "rechner",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Früher merkte man einen Virus: Der Rechner wurde langsam, Fenster gingen auf, irgendwas blinkte.",
+    dreh: "Das „und heute“: Wer entdeckt wird, verdient nichts. Schadprogramme sind darauf gebaut, unauffällig zu bleiben.",
+    sache: "Warum die Auffälligkeit von damals ein Geschäftsmodell hatte und das heutige das Gegenteil verlangt.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 1",
+      },
+    ],
+    quellenIds: [],
+  },
+  {
+    id: "firewall-reicht",
+    format: "eswareinmal",
+    sachgebiet: "rechner",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Die Firewall war einmal die Antwort auf die Frage, wie man sich schützt.",
+    dreh: "Das „und heute“: Sie prüft, was von außen anklopft — geholt wird die Schadsoftware heute vom Nutzer selbst, durch eine Seite oder einen Anhang.",
+    sache: "Was eine Firewall abdeckt und wo der Weg heute stattdessen hineinführt.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Sicherheits-Irrtümer: Internet-Sicherheit, Irrtum 1",
+      },
+    ],
+    quellenIds: [],
+  },
+
   {
     id: "akku-tiefentladung",
     format: "eswareinmal",
