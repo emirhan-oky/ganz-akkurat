@@ -53,10 +53,36 @@ const ausfuehren = promisify(execFile);
 /** Deutsche Systemstimme. `say -v '?'` listet die installierten auf. */
 const STIMME = 'Anna';
 
+/**
+ * Wie lange ein einzelner `say`-Aufruf hoechstens dauern darf.
+ *
+ * **Am 06.09.2026 aus drei haengenden Prozessbaeumen gelernt.** `say` blieb
+ * mitten in einem Lauf stehen — bei 0 % CPU, ohne Ausgabe, ohne Fehler —, und
+ * weil `execFile` ohne Timeout wartet, hing der ganze Node-Prozess mit. Drei
+ * davon standen ueber eine Stunde in der Prozessliste, und gesehen hat sie
+ * nicht die Probe, sondern Emirhan.
+ *
+ * **Ein Aufruf, der haengen kann, braucht eine Grenze** — sonst uebertraegt er
+ * seinen Stillstand auf alles, was auf ihn wartet. Ein Satz spricht sich in
+ * ein bis zwei Sekunden; 20 sind grosszuegig und trotzdem endlich.
+ */
+const SAY_TIMEOUT_MS = 20_000;
+
 const sprechdauer = async (text: string, datei: string): Promise<number> => {
   // Ohne `--data-format`: die Voreinstellung schreibt AIFF, jede andere
   // Angabe lehnt `say` je nach Dateiendung mit „Opening output file failed" ab.
-  await ausfuehren('say', ['-v', STIMME, '-o', datei, text]);
+  try {
+    await ausfuehren('say', ['-v', STIMME, '-o', datei, text], {
+      timeout: SAY_TIMEOUT_MS,
+      killSignal: 'SIGKILL',
+    });
+  } catch {
+    // Einmal nachfassen: Der Stillstand traf bisher immer nur einen Aufruf.
+    await ausfuehren('say', ['-v', STIMME, '-o', datei, text], {
+      timeout: SAY_TIMEOUT_MS,
+      killSignal: 'SIGKILL',
+    });
+  }
   const { stdout } = await ausfuehren('afinfo', [datei]);
   const treffer = /estimated duration: ([\d.]+)/.exec(stdout);
   if (!treffer) throw new Error(`Dauer von ${datei} nicht lesbar.`);
@@ -66,7 +92,35 @@ const sprechdauer = async (text: string, datei: string): Promise<number> => {
 /** Was eine Szene beigetragen hat — roh gemessen, noch nicht umgerechnet. */
 type Probe = { id: string; format: string; art: Szene['art']; roh: number; zeichen: number };
 
+/**
+ * Welche Shorts gemessen werden.
+ *
+ * **Bis zum 06.09.2026 gab es diese Auswahl nicht**, und `npm run sprechprobe
+ * -- <id>` mass trotzdem alle 54 Entwuerfe: Das Argument wurde nie gelesen.
+ * Ein Lauf sind damit rund 300 `say`-Aufrufe statt fuenf — und drei solche
+ * Laeufe standen am selben Tag gleichzeitig in der Prozessliste, weil ich sie
+ * fuer Einzelmessungen gehalten hatte.
+ *
+ * `dialogprobe` konnte es seit dem 04.09.2026; **eine Probe, die ihr Argument
+ * ignoriert, misst jedes Mal alles.**
+ */
+const auswahl = (): typeof ALLE_ENTWUERFE => {
+  const ids = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+  if (ids.length === 0) return ALLE_ENTWUERFE;
+  const gewaehlt = ALLE_ENTWUERFE.filter((s) => ids.includes(s.id));
+  const unbekannt = ids.filter((id) => !ALLE_ENTWUERFE.some((s) => s.id === id));
+  for (const id of unbekannt) console.error(`✕ Unbekannter Short: ${id}`);
+  return gewaehlt;
+};
+
+const GEMESSEN = auswahl();
+
 const main = async () => {
+  if (GEMESSEN.length === 0) {
+    console.error('Keine Shorts zu messen.');
+    process.exitCode = 1;
+    return;
+  }
   const ordner = await fs.mkdtemp(path.join(os.tmpdir(), 'ganzakkurat-sprechprobe-'));
   console.log(`Ganz akkurat · Sprechprobe (Systemstimme ${STIMME}, kostet kein Kontingent)\n`);
 
@@ -76,7 +130,7 @@ const main = async () => {
   const proben: Probe[] = [];
 
   try {
-    for (const short of ALLE_ENTWUERFE) {
+    for (const short of GEMESSEN) {
       /*
        * Szenenweise messen, nicht am Stueck.
        *
@@ -119,7 +173,7 @@ const main = async () => {
   const faktor = tempo / ZEICHEN_PRO_SEKUNDE;
   const [min, max] = zielfenster();
 
-  for (const short of ALLE_ENTWUERFE) {
+  for (const short of GEMESSEN) {
     const meine = proben.filter((p) => p.id === short.id);
     /*
      * `zusatzpausenSek` gehoert dazu, sonst vergleicht die Zeile Aepfel mit
@@ -152,7 +206,7 @@ const main = async () => {
    * der Konstante: Weicht „erwartet" von „Formel" ab, liegt es am Text —
    * Zahlen, Abkuerzungen, Komposita. Die Konstante bleibt davon unberuehrt.
    */
-  const spreizung = ALLE_ENTWUERFE.map((short) => {
+  const spreizung = GEMESSEN.map((short) => {
     const erwartet =
       proben
         .filter((p) => p.id === short.id)

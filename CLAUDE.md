@@ -1752,6 +1752,19 @@ Sekunden. **Zielwert ist die Mitte, nicht der Rand.**
 
 `npm run sprechprobe` prüft das vorab und kostet nichts.
 
+**Sie misst seit dem 06.09.2026 nur die Shorts, die man ihr nennt.** Vorher las
+sie `process.argv` gar nicht: `npm run sprechprobe -- <id>` maß trotzdem alle
+54 Entwürfe, rund 300 `say`-Aufrufe statt fünf. **Eine Probe, die ihr Argument
+ignoriert, misst jedes Mal alles** — `dialogprobe` konnte es zwei Tage länger.
+
+**Und jeder `say`-Aufruf hat jetzt eine Grenze.** `say` blieb mitten in einem
+Lauf stehen, bei 0 % CPU, ohne Ausgabe und ohne Fehler; `execFile` ohne
+`timeout` wartet darauf für immer, und der ganze Node-Prozess hängt mit. Drei
+solche Bäume standen über eine Stunde in der Prozessliste — **gesehen hat sie
+nicht die Probe, sondern Emirhan.** 20 Sekunden je Satz, danach einmal
+nachfassen. Ein Aufruf, der hängen kann, überträgt seinen Stillstand sonst auf
+alles, was auf ihn wartet.
+
 ## Zeitangaben altern — der Short nicht
 
 Zwischen Entwurf und Ausstrahlung liegen ein bis zwei Wochen, und danach bleibt
