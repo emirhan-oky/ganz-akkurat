@@ -550,59 +550,20 @@ Kennzeichnung; `shortPruefen` meldet einen Fehler bei `false`.
 
 ### Was es nicht mehr gibt
 
-Gestrichen und nicht zurückzuholen — die Begründung steht dabei, weil sonst
-jemand sie wieder einbaut:
+Gestrichen und **nicht zurückzuholen**: `warnung` mit `loesung`,
+`merkmalskarte`, `endkarte`, `merksatz`, `symbol`, `GeraeteArt`,
+`src/illustration.ts`, der `stab` und der **Zeiger in der Signatur**. Das alte
+Vokabular war **Erklärvideo-Vokabular** — Lösung, Merkmal, Bewertung, Punkte
+zum Mitnehmen: jedes Feld setzt voraus, dass der Zuschauer etwas lernen will.
 
-| weg | warum |
-|---|---|
-| `warnung` mit `loesung` | eine Lösung anzubieten heißt, eine Handlung zu verlangen |
-| `merkmalskarte` | Gerätezeichnung plus ja/nein-Merkmale: eine Kaufberatungskarte |
-| `endkarte` | erzwang `punkte: min(2).max(4)` — eine Liste kann keine Pointe sein |
-| `merksatz` | stellte bei jedem Entwurf die Frage „was ist hier das Prinzip?" und erzwang siebenmal ein Erklärvideo. Heißt jetzt `weitererzaehlt` |
-| `symbol` | die stehende Zeichnung unter dem Satz; ersetzt durch `buehne` |
-| `GeraeteArt` | neun Gerätezeichnungen, mit der Kaufberatung gegangen |
-| `src/illustration.ts` | schlug Symbole aus dem Szenentext vor — der Erklärvideo-Reflex in Codeform |
-| `stab` | der Zeigestab sah im Video aus wie eine Figur ohne Hände, die einen Stock hält |
-| der **Zeiger in der Signatur** | die kleine Figur, die auf den Folgen- und Gefällt-mir-Knopf deutete. Gestrichen am 04.09.2026 auf Ansage: „Den brauchen wir nicht mehr." |
-
-**Der Zeiger nimmt fünf Dinge mit**, und die Begründungen bleiben hier stehen,
-damit sie niemand erneut versucht:
-
-- Die Prop `dienst` und mit ihr die **drei Fassungen je Short**. Sie waren
-  byte-identisch — der Zeiger war das einzige, was sie unterschied. Der
-  Wochenlauf rendert seitdem eine Datei, `veroeffentlichen.ts` lädt sie für
-  alle drei Kanäle hoch, und ein Lauf mit vier Shorts kostet ein Drittel der
-  Zeit.
-- Die Töne `gefaellt` und `folgen`. Von den Markentönen bleiben `auftakt`,
-  `oeffnung`, `kipppunkt` — und seit demselben Tag `schliessung`.
-- Die Ausnahme in `npm run bildrand`: In der Zeigerszene wurde nur die **linke**
-  Kante geprüft, weil der Zeiger mit Absicht rechts herausragte. Jetzt prüft die
-  Probe wieder beide Kanten in jeder Szene.
-- `Plattformzeichen` in `Geraete.tsx` (tot seit dem 24.08.2026) und
-  `video/Gestenprobe.tsx`.
-
-**Drei Sackgassen und drei Messwerte**, falls jemand wieder auf einen Knopf
-zeigen will: Der Nachleser konnte es nicht selbst — er steht schon auf der
-Bühne, ein Übersteuern mittendrin wäre ein Sprung. Eine **körperlose Hand**
-wurde im fertigen Video als Schlüssel erkannt. Ein **gezeichnetes
-Plattformzeichen** deutet auf nichts: Ein Zeichen, das wir selbst malen, ist
-nicht der Knopf der App. Dazu: Unter **siebzig Grad** sieht man keine Geste, der
-Arm hängt in Ruhe schon schräg nach außen. Der **Unterarm darf nicht
-mitdrehen** — beide Vorzeichen drehen zum Körper hin. Und für „unten Mitte" gibt
-es **keinen Armwinkel**; das ging nur über die Position.
-
-**Ein Satz überlebt, weil er jeder zeigenden Pose gilt:** Zwei gleiche Arme sind
-keine Geste, sondern eine Haltung. Erst die Asymmetrie macht den linken zum
-zeigenden.
-
-Das alte Vokabular war **Erklärvideo-Vokabular**: Lösung, Merkmal, Bewertung,
-Punkte zum Mitnehmen — jedes Feld setzt voraus, dass der Zuschauer etwas lernen
-will.
+→ `docs/verworfen.md` hat zu jedem Punkt die Begründung, dazu die fünf Dinge,
+die der Zeiger mitgenommen hat, und die drei Sackgassen samt Messwerten. **Die
+Datei wird gebraucht, wenn jemand eines davon wieder vorschlägt** — und genau
+dann trägt sie mehr als eine Tabelle.
 
 Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln gehören
 deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein `superRefine`
 auf `Lauf`. Eine Regel dort ist tote Regel.
-
 ## Harte Regeln (`src/pruefung.ts`)
 
 Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersicht.
@@ -1722,54 +1683,13 @@ Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
 liegen in `.env`. Die laufende Aufgabenliste steht in `AUFGABEN.md`.
 
-**Seit dem 25.08.2026 läuft der Umbau auf zwei Stimmen.** Schema, Vertonung,
-Redespalten, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen.
-**Kein Video im neuen Bau ist bisher veröffentlicht** — alle Zahlen oben
-stammen aus der einstimmigen Zeit.
+Drei Umbauten haben den Kanal zu dem gemacht, was er ist: **zwei Stimmen** ab
+dem 25.08.2026, die **Show** mit Vorhang und Kaltstart ab dem 31.08., und ab
+dem 02.09. schreibt Claude die Dialoge. **Kein Video im einstimmigen Bau
+entsteht noch**, und die Zahlen im Rücklauf stammen überwiegend aus jener Zeit.
 
-**Seit dem 31.08.2026 beginnt jeder Short als Show.** Ein Theatervorhang deckt
-die Bühne, links und rechts bleibt gerafftes Tuch über die ganze Laufzeit
-stehen, und die Kopfzeile wechselt auf helle Farben, solange er zu ist. Aus vier
-Rubriken sind sechs benannte Sendungen geworden — Facts, Beef, Märchenstunde,
-Kein Zufall, Schätz mal, Empfehlungen. Was fehlt, ist der **Ton**: sechs feste
-Aufnahmen; `VORSPANN_SEK` steht auf gerechneten 3,8 Sekunden.
-
-**Alle vier Entwürfe sind auf ein Zwiegespräch umgeschrieben**, und
-`npm run pruefen` ist am selben Abend erstmals seit dem 26.08. wieder
-vollständig grün. Ausgenommen wurde keiner: Eine Regel, die den alten Bestand
-durchwinkt, wäre keine.
-
-**Seit dem 02.09.2026 schreibt Claude die Dialoge.** Emirhans Befund: Ich habe
-jeden seiner Dialoge umgeschrieben, weil Regeln dagegenstanden, die ich vorher
-selbst gebaut hatte — keine davon an seinem Material gemessen. Der Weg dahin
-war eine Messung, kein Argument:
-
-1. **Seine neun Dialoge vermessen** — 131 Redezeilen, Zeichen je Figur,
-   Fragenanteil, wo die Zitatkarte sitzt. Erst danach interpretiert.
-2. **Sechs Runden Gegentest.** Ich schreibe einen Dialog, er sagt, was nicht
-   klingt, der Befund geht ins Profil. Runde vier war die erste ohne
-   Beanstandung.
-3. **38 Befunde** in `daten/marke/dialoganalyse.md`, **zwölf Szenarien** in
-   `daten/szenarien/` — der Skill `skript-schreiben` liest den Ordner, er
-   enthält ihn nicht. Eine neue Runde legt dort eine Datei ab.
-4. **Alle zehn Dialoge ins Schema**, dann `shortPruefen`: **91 Befunde an zehn
-   Dialogen, die er geschrieben und abgenommen hat.** Neun Regeln sind daraufhin
-   gewandert, sechs haben recht behalten.
-
-**Die Methode ist das Ergebnis, nicht die Regeln.** Jede Runde legt einen
-**Weg** dazu, keine Regel obendrauf — *„damit du so viele Wege wie möglich hast,
-wodurch keine Schablone entsteht."* Und: **Widersprechen sich eine Regel und
-eine gute Zeile, verliert die Regel.** Einzige Ausnahme ist die Belegpflicht,
-und die ist an diesem Tag nicht gefallen, sondern von der Szene auf die
-behauptende Zeile gewandert.
-
-Was der Umbau dabei über sich selbst gezeigt hat: **Die Nähte lagen zwischen
-den Sätzen, nicht in ihnen.** Ein Aufschlag von 2,9 Sekunden und ein Belegsatz
-von 4,2 sind beide unauffällig — `redebloecke` klebt sie über die Szenengrenze
-zu 6,9 zusammen. Und **jede Kürzung nimmt ein Wort mit, das gedeckt war**: Der
-`belegpruefer` fand sechs Stellen, alle sechs in Sätzen, die gerade erst
-angefasst worden waren.
-
+→ `docs/umbauten.md` hat das Protokoll: wie es dazu kam, was gemessen wurde und
+welche Regel an welchem Tag gefallen ist.
 ## Arbeitsweise
 
 **Die Aufgabenliste gehört ans Ende jeder Antwort**, solange etwas offen ist —
@@ -1794,6 +1714,13 @@ gegenlesen lässt, spart nichts.**
 Und es funktioniert: Der einzige Fehler der ersten automatisch gebauten Woche —
 Watti sagt „kleiner" zu Volti — ist ihm **an der Freigabeseite** aufgefallen, am
 fertigen Video, nicht am Dialogtext. Genau dort gehört die Kritik hin.
+
+**Die Methode ist das Ergebnis, nicht die Regeln.** Jede Runde legt einen
+**Weg** dazu, keine Regel obendrauf — *„damit du so viele Wege wie möglich hast,
+wodurch keine Schablone entsteht."* Und: **Widersprechen sich eine Regel und
+eine gute Zeile, verliert die Regel.** Einzige Ausnahme ist die Belegpflicht,
+und die ist an diesem Tag nicht gefallen, sondern von der Szene auf die
+behauptende Zeile gewandert.
 
 **Wenn eine Größe messbar ist, gehört sie gemessen und nicht begründet.** Das
 ist die Regel, die dieses Projekt am häufigsten gerettet hat: bei
