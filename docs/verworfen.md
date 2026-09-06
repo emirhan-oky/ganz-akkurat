@@ -56,3 +56,26 @@ will.
 Das `Lauf`-Schema wird von **keinem Skript geparst** — laufweite Regeln gehören
 deshalb in `laufweiteBefunde` in `src/pruefung.ts`, nicht in ein `superRefine`
 auf `Lauf`. Eine Regel dort ist tote Regel.
+
+
+## `schaetzmal` als sechstes Format · verworfen am 06.09.2026
+
+Es war einmal als sechste Sendung geplant — Facts, Beef, Märchenstunde, Kein
+Zufall, Empfehlungen und **Schätz mal**. Als einzige der sechs hatte sie kein
+Format hinter sich; sie existierte nur als Name und als geplante
+Vorspannaufnahme, und die ist nie entstanden.
+
+**Verworfen mit dem Argument aus der Formatregel selbst:** Sortiert wird nach
+der **Reaktion**, nicht nach dem Gegenstand. Die Schätzfrage löst Staunen aus,
+und dafür gibt es `gibtswirklich` — **zwei Fächer, die dieselbe Reaktion
+auslösen, sind ein Fach.** Genau das ist der Grund, warum es vier sendende
+Formate gibt und nicht acht.
+
+**Was bleibt, ist die Schätzfrage als Mittel.** Sie steht in `ZUGARTEN` als
+Beispiel und ist der Grund, warum eine Szene über `pauseSek` Stille bestellen
+kann: Nach „Schätz mal." braucht der Zuschauer Zeit, sonst ist die Frage
+rhetorisch. Gemessen sind 2,60 Sekunden mit `<break time="2.5s" />`. **Damit
+kann sie in jedem Format vorkommen, statt eines zu sein.**
+
+Der Kanal bleibt bei fünf Formaten im Schema, von denen vier senden;
+`empfehlung` ruht bis zu den Partnerlinks.

@@ -1740,9 +1740,12 @@ zu tun ist, steht ab hier.
 - [ ] **Beef umbauen:** neue MATRIX-Prüffrage „Ist der Fakt belegt und die
       Folgerung trotzdem strittig?" statt „übersehen beide etwas Drittes?". Die
       alte Frage traf beim Sammeln fast nie zu — daher nur zehn Ideen
-- [ ] **`schaetzmal` als sechstes Format:** Enum, `FORMATE`, `MATRIX`, eigene
-      Ideendatei. Erst dann fehlt die sechste Vorspannaufnahme. Sendet, wenn
-      der Vorrat steht
+- [x] ~~**`schaetzmal` als sechstes Format** — verworfen am 06.09.2026 auf
+      Emirhans Entscheidung: *„Schätzfrage in gibtswirklich besser aufgehoben.
+      Wir bleiben jetzt bei unseren 5 Formaten."* Die Begründung steht in
+      `docs/verworfen.md`: Sortiert wird nach der Reaktion, und die Schätzfrage
+      löst Staunen aus — **zwei Fächer mit derselben Reaktion sind ein Fach.**
+      Sie bleibt ein Mittel in `ZUGARTEN` und `pauseSek`~~
 - [ ] **Eine neue Ideenquelle** — der Pillar-Weg ist verworfen
 - [ ] **Vorrat nachfüllen**, sobald ein Format unter sechs offene Ideen fällt.
       Stand 06.09.2026: `gibtswirklich` 19, `absicht` 32, `eswareinmal` 7,

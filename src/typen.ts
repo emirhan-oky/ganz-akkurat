@@ -2603,9 +2603,16 @@ export const FORMATE: Record<
  * in vier Wochen die Schablone, gegen die der ganze Umbau laeuft — `frei`
  * haelt fest, was er ausdruecklich **nicht** bestimmt.
  *
- * `schaetzmal` fehlt, weil es die Show nicht gibt: Die Schaetzfrage ist am
- * 20.08.2026 vom Sendeplatz zur Machart herabgestuft worden. Der Record-Typ
- * erzwingt ihren Bogen von selbst, sobald sie je angelegt wird.
+ * `schaetzmal` fehlt, und das ist seit dem 06.09.2026 **endgueltig**: Die
+ * Schaetzfrage ist am 20.08.2026 vom Sendeplatz zur Machart herabgestuft
+ * worden, und aus dem offenen Punkt „sechstes Format" ist eine Entscheidung
+ * geworden — sie bleibt ein **Mittel**, kein Fach.
+ *
+ * **Der Grund steht in der Formatregel selbst.** Sortiert wird nach der
+ * Reaktion, nicht nach dem Gegenstand: Die Schaetzfrage loest Staunen aus, und
+ * dafuer gibt es `gibtswirklich`. **Zwei Faecher, die dieselbe Reaktion
+ * ausloesen, sind ein Fach.** Sie kann so in jedem Format vorkommen, statt
+ * eines zu sein — genau das tut sie in `ZUGARTEN` und in `pauseSek`.
  */
 export type Gespraechsbogen = {
   /** Worueber die beiden uneins sind. Als Frage, damit sie offen bleibt. */

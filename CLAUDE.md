@@ -176,6 +176,12 @@ klingt). Beide werden vor jedem Entwurf gelesen.
 
 **Vier Formate, kein Wochentag.** Veröffentlicht wird, was fertig und stark ist.
 
+**Im Schema stehen fünf**, und die Zählung stimmt trotzdem: `empfehlung` ruht
+bis zu den Partnerlinks. **Ein sechstes wird es nicht geben** — `schaetzmal`
+ist am 06.09.2026 verworfen, weil die Schätzfrage Staunen auslöst und dafür
+`gibtswirklich` da ist. Sie bleibt ein Mittel, das in jedem Format vorkommt;
+die Begründung steht in `docs/verworfen.md`.
+
 | Format | Reaktion | Kipppunkt |
 |---|---|---|
 | **Das gibt es wirklich** | Staunen, „das erzähl ich weiter" | die Sache selbst |
