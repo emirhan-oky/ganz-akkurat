@@ -91,7 +91,11 @@ export const akkuGanzLeer: Short = {
     {
       art: 'zitatkarte',
       position: 'kipppunkt',
-      zitat: 'Wenn Sie nicht warten, bis Ihr Akku vollständig leer ist … sondern ihn … vorher aufladen',
+      zitat: 'sondern ihn immer bereits vorher wieder aufladen, verlängert das die Lebensdauer',
+      // Die Karte fasst 90 Zeichen. Vorher stand hier eine mit „…" gekuerzte
+      // Fassung — `quellen-pruefen` sucht die Zeichenkette stumpf und hat sie
+      // zu Recht nicht gefunden. Jetzt steht ein zusammenhaengender Ausschnitt
+      // desselben Satzes da; „ihn" ist der Akku, ueber den beide gerade reden.
       quelleId: 'uba-akku-laden',
       belegId: 'wenn-sie-nicht-warten',
       herausgeber: 'Umweltbundesamt',

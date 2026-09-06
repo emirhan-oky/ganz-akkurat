@@ -36,7 +36,7 @@ export const virusMerktMan: Short = {
   suchbegriff: 'Virus merken',
   kaltstart: {
     art: 'gewissheit',
-    satz: 'Mein Rechner läuft schnell. Also ist da nichts drauf.',
+    satz: 'Ich habe noch nie einen Virus gehabt. Merkt man ja sofort.',
     buehne: { art: 'figur', wer: 'zeiger', von: 'ruhe', nach: 'zeigen', requisite: 'lupe' },
   },
   vorspann: 'Wattis Rechner und das ruhige Gewissen',
@@ -46,7 +46,7 @@ export const virusMerktMan: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-'Volti, auf meinem Rechner ist kein Virus. Woran merkst du das? Merken würde ich das, der läuft schnell.',
+        'Volti, auf meinem Rechner ist kein Virus. Woran merkst du das? Merken würde ich das, der läuft schnell.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -72,12 +72,12 @@ export const virusMerktMan: Short = {
       belegId: 'nicht-immer-feststellbar',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Würdest du nicht. Nicht immer kann man feststellen, ob sich ein Schadprogramm eingenistet hat. Und wie merke ich es dann?',
+        'Nicht immer kann man feststellen, ob sich ein Schadprogramm eingenistet hat. Und wie merke ich es dann?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Würdest du nicht. Nicht immer kann man feststellen, ob sich ein Schadprogramm eingenistet hat.',
+          text: 'Nicht immer kann man feststellen, ob sich ein Schadprogramm eingenistet hat.',
           quelleId: 'bsi-irrtuemer-computer',
           belegId: 'nicht-immer-feststellbar',
         },
@@ -102,12 +102,12 @@ export const virusMerktMan: Short = {
       quelleId: 'bsi-irrtuemer-computer',
       belegId: 'unbemerkt-installiert-identitaetsdiebstahl',
       sprechtext:
-        'Gar nicht, du Pfosten. Viele laufen unbemerkt und können Zugangsdaten stehlen. Unbemerkt? Der versteckt sich also absichtlich?',
+        'Manchmal gar nicht, du Pfosten. Viele können unbemerkt installiert sein. Unbemerkt? Dann macht der ja nichts.',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Gar nicht, du Pfosten. Viele laufen unbemerkt und können Zugangsdaten stehlen.',
+          text: 'Manchmal gar nicht, du Pfosten. Viele können unbemerkt installiert sein.',
           quelleId: 'bsi-irrtuemer-computer',
           belegId: 'unbemerkt-installiert-identitaetsdiebstahl',
         },
@@ -115,7 +115,7 @@ export const virusMerktMan: Short = {
           sprecher: 'zeiger',
           zug: 'zuspitzen',
           machart: 'falscherschluss',
-          text: 'Unbemerkt? Der versteckt sich also absichtlich?',
+          text: 'Unbemerkt? Dann macht der ja nichts.',
         },
       ],
       buehne: {
@@ -132,26 +132,26 @@ export const virusMerktMan: Short = {
       quelleId: 'bsi-irrtuemer-computer',
       belegId: 'tausende-computer-ddos',
       sprechtext:
-        'Und was wollen die von mir? Mit tausenden infizierten Rechnern fahren sie Angriffe auf Webseiten. Ich bin also nur eine Nummer.',
+        'Doch. Die Urheber infizieren tausende Computer und starten damit Angriffe auf Webseiten. Und was wollen die von meinem? Nichts Besonderes, er muss nur laufen.',
       rede: [
-        {
-          sprecher: 'zeiger',
-          zug: 'umdeuten',
-          machart: 'uebercompliance',
-          text: 'Und was wollen die von mir?',
-        },
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Mit tausenden infizierten Rechnern fahren sie Angriffe auf Webseiten.',
+          text: 'Doch. Die Urheber infizieren tausende Computer und starten damit Angriffe auf Webseiten.',
           quelleId: 'bsi-irrtuemer-computer',
           belegId: 'tausende-computer-ddos',
         },
         {
           sprecher: 'zeiger',
-          zug: 'einlenken',
-          machart: 'gestaendnis',
-          text: 'Ich bin also nur eine Nummer.',
+          zug: 'nachhaken',
+          machart: 'uebercompliance',
+          text: 'Und was wollen die von meinem?',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          machart: 'nebenbemerkung',
+          text: 'Nichts Besonderes, er muss nur laufen.',
         },
       ],
       buehne: {
@@ -165,9 +165,9 @@ export const virusMerktMan: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Was auffällt, wollte auffallen.',
+      satz: 'Nicht immer merkt man es.',
       sprechtext:
-        'Wenigstens läuft er schnell. Das haben die anderen tausend auch gesagt. Meiner ist trotzdem der schnellste.',
+        'Wenigstens läuft er schnell. Das haben die anderen tausend auch gesagt. Dann läuft er wohl für jemand anderen mit.',
       rede: [
         {
           sprecher: 'zeiger',
@@ -177,15 +177,15 @@ export const virusMerktMan: Short = {
         },
         {
           sprecher: 'nachleser',
-          zug: 'widersprechen',
-          machart: 'nebenbemerkung',
+          zug: 'richtigstellen',
+          machart: 'parallelbau',
           text: 'Das haben die anderen tausend auch gesagt.',
         },
         {
           sprecher: 'zeiger',
           zug: 'einlenken',
-          machart: 'katastrophe',
-          text: 'Meiner ist trotzdem der schnellste.',
+          machart: 'gestaendnis',
+          text: 'Dann läuft er wohl für jemand anderen mit.',
         },
       ],
       buehne: {
@@ -212,7 +212,7 @@ export const virusMerktMan: Short = {
     instagram: {
       titel: 'Wattis Rechner läuft super, sagt Watti',
       beschreibung:
-        'Virus merken: „Nicht immer kann ein Anwender feststellen, ob sich ein Schadprogramm eingenistet hat", schreibt das BSI.',
+        'Virus merken: Warum das BSI schreibt, dass man ein Schadprogramm nicht immer feststellen kann.',
       hashtags: ['#virus', '#technikwissen', '#computer', '#ganzakkurat'],
     },
     youtube: {
