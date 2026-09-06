@@ -8,6 +8,13 @@ description: Eine Sendewoche produzieren und veröffentlichen — die Kette von 
 Die Reihenfolge ist nicht Geschmack. Jeder Schritt fängt Fehler ab, die eine
 Stufe später Geld kosten.
 
+**Vor Schritt „vertonen" `references/vertonung.md` lesen.** Dort steht seit dem
+06.09.2026, was vorher im Vertrag stand: Modell und Regieanweisungen, die
+beiden Stimmen und ihr Mindestabstand, die Sprecherpausen und
+`tonspurNeuLegen`, dazu die Fehlerbehandlung des bezahlten Laufs. **Die
+Kurzfassung dessen, was Geld kostet, bleibt im Vertrag** — was hier steht, ist
+die Herleitung, nicht die Erlaubnis.
+
 ## Die Kette
 
 ```
