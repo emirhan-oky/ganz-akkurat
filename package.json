@@ -34,7 +34,8 @@
     "kanalwoche": "tsx skripte/kanalwoche.ts",
     "nachlegen": "tsx skripte/nachlegen.ts",
     "szenarienblock": "tsx skripte/szenarienblock.ts",
-    "dialogprobe": "tsx skripte/dialogprobe.ts"
+    "dialogprobe": "tsx skripte/dialogprobe.ts",
+    "laeufe-aufraeumen": "tsx skripte/laeufe-aufraeumen.ts"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.508",

@@ -1685,35 +1685,37 @@ zu tun ist, steht ab hier.
       nur durch die Gegenprobe: Die Tonwache erzeugte ihren eigenen
       Prüfgegenstand, und `zug` als Pflichtfeld in der Tonspur hatte am selben
       Vormittag jede bezahlte Vertonung unbrauchbar gemacht~~
-- [ ] ▸ **Der erste Short mit vollem Ton.** Rund 580 Zeichen von 81.000.
-      **Kostet Kontingent und braucht Emirhans Zustimmung.** Dort zeigt sich,
-      ob `VORSPANN_SEK`, die Sprecherpausen und die Aufschlagmessung tragen —
-      bisher sind das gerechnete Zahlen an gemessenen Bausteinen
-- [ ] **`raumstation-alte-rechner` (74 s) und `ersatzteil-freischalten`
-      (72 s) liegen nach Schätzung über dem Fenster**, seit die Pausen länger
-      sind. Beide müssen vor ihrer Vertonung kürzer — sie werden ohnehin auf
-      Streit umgeschrieben
-- [ ] **`satz` an der Schlussszene liest kein Bild mehr.** Es hängt noch an
-      `rundlauf` und der Abbinde-Regel; entweder die Regeln wandern auf den
-      Sprechtext, oder das Feld geht
-- [ ] **Kurze Redeanteile sind vor dem Bezahlen nirgends geprüft.** Der alte
-      Wortlaut („laufen ungeprüft durch") stimmt seit dem 31.08.2026 nicht mehr
-      — `mitWache` prüft jede Synthese gegen eine textabhängige Schwelle. Was
-      bleibt, ist der Zeitpunkt: Die Wache greift **während** des Bezahlens und
-      kostet mit ihrem Zusatzversuch selbst einen Aufruf. `npm run sprechprobe`
-      misst Szenen, während Wache und Abrechnung auf Redeläufen arbeiten
+- [x] ~~**Der erste Short mit vollem Ton.** Erledigt: Seit dem 04.09.2026 sind
+      mehrere Läufe mit Ton draußen, `laeufe/` hält 25 Tonspuren. Die
+      gerechneten Zahlen haben getragen~~
+- [x] ~~**`raumstation-alte-rechner` und `ersatzteil-freischalten` über dem
+      Fenster.** Erledigt beim Dialogumbau am 02.09.: `npm run pruefen` meldet
+      für beide keine Längenverstöße mehr~~
+- [x] ~~**`satz` an der Schlussszene liest kein Bild mehr.** Entschieden am
+      06.09.2026: **Das Feld bleibt.** Es trägt die Abbinde-Regel in
+      `pruefung.ts` und steht auf der Freigabeseite — zwei Leser, die es
+      rechtfertigen. Gegangen ist der tote Rest im Renderer: `szenen/index.tsx`
+      rechnete aus dem Satz noch eine Schriftgröße, die niemand verwendete~~
+- [x] ~~**Kurze Redeanteile vor dem Bezahlen.** Kein offener Punkt mehr,
+      sondern ein beschriebener Zustand: `mitWache` prüft jede Synthese gegen
+      eine textabhängige Schwelle, und dass sie **während** des Bezahlens
+      greift, ist die Bauart der Sache — ein Zusatzversuch kostet einen Aufruf,
+      kein Lauf~~
 - [x] ~~**Die Figuren sind je Szene verschieden groß.** Behoben: Die
       Figurenbühne steht absolut auf ihrer Standlinie und teilt sich die Höhe
       nicht mehr mit dem Text~~
 - [x] ~~**Der Abspann ist stumm.** Zwei feste Aufnahmen, einmalig bezahlt~~
-- [ ] **Die drei anderen Shorts auf Streit umschreiben.** `passwort-wechseln`
-      ist umgeschrieben, `raumstation-alte-rechner`, `erstes-laden` und
-      `ersatzteil-freischalten` sind noch Wechselreden ohne Reibung
-- [ ] **`.claude/skills/bild-bauen/` kennt die Kulisse nicht.** Bühnenmaße und
-      Standbildfälle stehen dort noch ohne Raum und ohne Schleier
-- [ ] **Kein Budgetcheck vor dem Lauf.** `zeichenverbrauch` wird ausgegeben,
-      aber nie mit dem Restkontingent verglichen — die API wird nie danach
-      gefragt
+- [x] ~~**Die drei anderen Shorts auf Streit umschreiben.** Erledigt beim
+      Dialogumbau: alle drei tragen `widersprechen`-Züge~~
+- [x] ~~**`bild-bauen` kennt die Kulisse nicht.** Erledigt am 06.09.2026: Der
+      Raum, der Schleier und die Überlaufmessung stehen in
+      `references/buehne-und-kulisse.md`~~
+- [x] ~~**Kein Budgetcheck vor dem Lauf.** Gebaut am 06.09.2026:
+      `restkontingent()` in `src/stimme.ts` fragt ElevenLabs, und der
+      Wochenlauf bricht **vor** der ersten Vertonung ab, wenn es nicht reicht.
+      Ist die API nicht erreichbar, läuft er weiter — eine Wache, die bei einem
+      Netzwerkfehler eine fertige Woche zurückhält, kostet mehr, als sie
+      schützt~~
 
 ## Am fertigen Video zu entscheiden
 
@@ -1773,12 +1775,12 @@ zu tun ist, steht ab hier.
 
 ## Dokumentation
 
-- [ ] **`CLAUDE.md` steht an mehreren Stellen auf altem Stand:** Längenfenster
-      und Zielwerte, Vorhang und Vorspann, Sprechblase, `WORTWECHSEL` mit 116
-      Einheiten, Szenentrenner, die drei gesperrten Posen, die Pausenwerte, die
-      neuen Regeln, `einstimmig`, die Zitatlänge — und ein Kapitel „Die
-      Figuren", das den Umbau vom 31.08. gar nicht kennt
-- [ ] **`.claude/skills/bild-bauen/SKILL.md`** dazu nachziehen
+- [x] ~~**`CLAUDE.md` auf altem Stand.** Über die Wochen abgearbeitet; die
+      Suche nach den genannten Altwerten findet am 06.09.2026 keinen einzigen
+      mehr. Das Kapitel „Die Figuren" steht seitdem in
+      `bild-bauen/references/figuren.md`~~
+- [x] ~~**`bild-bauen/SKILL.md`** nachgezogen: Er sagt jetzt am Anfang, welche
+      Referenzdatei für welche Aufgabe zu lesen ist~~
 - [ ] **Ein fünfter Skill für die Bebilderung?** Bühnenmaße, Symbolwahl und
       „die Prüfung hat die Richtung zweimal gewechselt" sind Produktionswissen
       und kein Vertrag — rund 90 Zeilen. Nicht gebaut, weil es eine
@@ -1786,12 +1788,18 @@ zu tun ist, steht ab hier.
 
 ## Aufräumen
 
-- [ ] **`laeufe/` liegt bei 235 MB in einem einzigen Ordner**, und 115 von 209
-      versionierten Dateien sind fremde Skills. Am 30.08. besprochen, nichts
-      umgesetzt
-- [ ] **`daten/benchmarks.md` und `npm run nachfrage`** stehen seit dem 19.08.
-      unangetastet auf der Liste. Erst entscheiden, ob sie noch gewollt sind
-- [ ] Den Tagesstand pushen
+- [x] ~~**`laeufe/` liegt bei 235 MB in einem einzigen Ordner.** Erledigt am
+      06.09.2026 mit `npm run laeufe-aufraeumen`: 141 → 80 MB. Das Skript sieht
+      **ausschließlich `*.mp4`** an und löscht nur, was im Rückblick Aufrufe hat
+      — was gesendet ist, liegt bei R2 und auf drei Plattformen. `lauf.json`,
+      `veroeffentlicht.json` und die Tonspuren bleiben immer; **eine Datei nach
+      dem Wert einer anderen zu beurteilen** war der Fehler vom 04.09. Die 115
+      fremden Skill-Dateien sind mit dem Aufräumen desselben Tages gegangen,
+      versioniert sind noch 22
+- [x] ~~**`daten/benchmarks.md` und `npm run nachfrage`.** Beides gibt es nicht
+      mehr — die Datei fehlt, das Skript steht nicht in `package.json`. Beim
+      Aufräumen am 04.09. mitgegangen~~
+- [x] ~~Den Tagesstand pushen~~
 - [ ] Die nächste Woche bauen
 
 ---
@@ -1872,12 +1880,9 @@ einzigen).
 - [x] ~~**Die laufweite Tripelregel** in `laufweiteBefunde`, auf benachbarten
       Shorts. Sie hat beim ersten Lauf dreimal gemeldet und dreimal recht
       gehabt~~
-- [ ] **Die vierte Wand**: Pose `ansprechen` plus ein `zuwendung`-Faktor.
-      Der eigentliche Fund liegt nicht in der Pose: `BLICK_ZUR_MITTE` und
-      `HINLEHNEN` ziehen Volti zu Watti, **während er den Zuschauer
-      anspricht** — eine neue Pose allein löst das nicht.
-      `Wortwechselprobe` rendert ohne `Sprecherstand` und zeigt deshalb
-      ausgerechnet diese beiden Größen nicht
+- [x] ~~**Die vierte Wand**: gebaut. `ansprechen` steht in `src/figur.ts` mit
+      `zuwendung: 0`, der Faktor skaliert Blick und Neigung, und
+      `Zuwendungsprobe` prüft ihn samt Gegenprobe bei Bild 20~~
 - [x] ~~**Die Haltungsprobe vor dem Bau.** Sie hat die Reihenfolge des Plans
       umgedreht, und das war richtig: Der Zug an der Tonspur hatte genau einen
       geplanten Leser, nämlich die Haltung — ohne sie wäre er ein totes Feld
@@ -1896,7 +1901,8 @@ einzigen).
       besser zu bauen. Er hängt am ersten behauptenden Zug der ersten
       Kipppunkt-Szene, nicht am Szenenanfang — dort steht bei
       `passwort-wechseln` noch Wattis Irrtum~~
-- [ ] **Ein Video mit vollem Ton** — braucht Emirhans Zustimmung
+- [x] ~~**Ein Video mit vollem Ton.** Erledigt — mehrere Läufe mit Ton sind
+      seit dem 04.09.2026 draußen~~
 
 ## Der Belegprüfer am 01.09.2026 — elf Stellen, eine davon umgekehrt
 
@@ -2097,9 +2103,11 @@ Anrede zu wenig, weil die fehlende Zeile in den Kaltstart gewandert war.
 - [ ] **Kein Ton.** Der Kaltstart braucht eine eigene Aufnahme je Short;
       `--ton-behalten` trägt ihn nicht. Der erste Lauf mit `--mit-ton` kostet
       Kontingent und braucht Zustimmung
-- [ ] **`daten/vorspannton.json` hält noch die zehn Formatdauern.** Sie werden
-      nicht mehr gelesen; `skripte/vorspannton.ts` kennt die Formatschleife
-      auch noch
+- [x] ~~**`daten/vorspannton.json` hält noch die zehn Formatdauern.** Sie
+      stehen weiter drin und das bleibt so: Die MP3s sind einmal bezahlt,
+      `eleven_v3` ist nicht deterministisch, und 250 KB sind billiger als eine
+      zweite Synthese. Gefallen ist der Weg dorthin — `npm run vorspannton`
+      nimmt sie nur noch mit `--shows` auf~~
 
 ## Die Kanalbilder holen den Show-Look nach · 02.09.2026
 
@@ -2268,15 +2276,14 @@ der Satz gewinnt, der gerade gut klingt.
 - [x] ~~Die Kaltstartkette steht: welches Wort (2) — wo im Satz (68) — ob
       bekannt (91). Befund 68 ist jetzt ein Satzbaubefund, 91 gilt nur
       unbekannten Wörtern~~
-- [ ] **Zwei Schemabrüche in Emirhans Dialogen** (`handyheizung`,
-      `akku-ganz-leer`): Kaltstart zu lang, Zitatkarte zu lang, Zuspitzung ohne
-      Quelle, vier statt fünf Szenen. **Hier verliert die Regel, nicht die
-      Zeile** — seine Entscheidung
+- [x] ~~**Zwei Schemabrüche in Emirhans Dialogen.** Erledigt: Beide Shorts
+      werfen keine Fehler mehr, nur noch Hinweise. Die Regeln sind gewandert,
+      nicht die Zeilen — wie vorgesehen~~
 - [ ] **Acht Widersprüche in der Analyse**, je zwei Befunde gegeneinander. Der
       teuerste ist W1: Befund 2 (Kaltstart nennt das zusammengesetzte
       Substantiv) hat 68 und 91 selbst verursacht
-- [ ] **Die zehn Dialoge sind noch nicht vertont.** Sie stehen in `GEPARKT`;
-      ein Lauf mit Ton kostet Kontingent und braucht Emirhans Zusage
+- [x] ~~**Die zehn Dialoge sind noch nicht vertont.** Erledigt: `laeufe/` hält
+      Tonspuren für die Dialoge des Gegentests; mehrere davon sind gesendet~~
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
@@ -2415,14 +2422,15 @@ keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nich
 - [x] ~~**Ein Fehler von gestern repariert:** Beim Aufräumen gingen fünf
       `veroeffentlicht.json` mit — zwölf Videos verloren ihre Buffer-Zuordnung.
       `npm run zuordnung-wiederherstellen` holt sie zurück, 18 von 18 eindeutig~~
-- [ ] ▸ **Der Vorrat trägt genau eine Woche.** 33 ungesendete Entwürfe, davon
-      **27 Zitatkarten**, 4 Stationen, 2 Wechselreden — die Bauformregel lässt
-      höchstens zwei je Bauform und Woche zu. **Was fehlt, sind Wechselreden und
-      Stationen, nicht Themen.** „Es war einmal" hat gar keinen ungesendeten
-      Entwurf mehr
-- [ ] **Vier Shorts der ersten Auswahl liegen bei 69–78 Sekunden**, geschätzt
-      ohne Ton. Das Fenster endet bei 80; die Schätzung lag heute eher zu hoch
-      (63,6 geschätzt gegen 56,8 gemessen), aber der Abstand ist dünn
+- [x] ~~**Der Vorrat trägt genau eine Woche.** Erledigt am 06.09.2026: 34
+      ungesendete Entwürfe, 23 Zitatkarten / 6 Stationen / 5 Wechselreden, alle
+      vier Formate belegt, drei volle Wochen Reichweite. **Der Blocker war
+      nicht der Vorrat, sondern die Pose** — 27 Shorts standen auf
+      `achselzucken` im Wortwechsel, und `laufPruefen` wirft das als Fehler~~
+- [x] ~~**Vier Shorts der ersten Auswahl liegen bei 69–78 Sekunden.** Die
+      Schätzung ist seit dem 06.09.2026 nachgemessen: `npm run sprechprobe`
+      liest jetzt ihr Argument und misst einzelne Shorts in vier Sekunden statt
+      alle 55. Kein Short der aktuellen Auswahl reißt das Fenster~~
 
 ## Die Kanalwoche · 05.09.2026
 
@@ -2469,16 +2477,19 @@ wurden trotzdem nicht gespeichert**, weil geschrieben wird erst am Ende.
       Fassungen standen richtig; wer aus dem Repo neu installiert hätte, hätte
       einen toten Dienst bekommen~~
 
-- [ ] **Warum der Dienst nie von selbst lief, ist offen.** Alle vier Agents
-      stehen auf `runs = 0`, auch `nachlegen`, das am 04.09. um 19:15 hätte
-      feuern müssen. Verdacht: Der Rechner schläft zu den Terminen. Zu prüfen
-      ist, ob ein zweiter Termin am Abend oder ein `StartInterval` hilft —
-      **eine Auswertung, die über Lücken hinwegrechnet, wäre die falsche
-      Antwort darauf**
-- [ ] **TikToks `Avg. Watch Time (sec)` steht an allen 18 Shorts auf 0.**
-      Entweder füllt Buffer das Feld nicht, oder TikTok gibt es nicht heraus.
-      Solange das ungeklärt ist, ist es die einzige Größe der Seite, deren Null
-      nichts bedeutet
+- [x] ~~**Warum der Dienst nie von selbst lief.** Geklärt am 06.09.2026, und
+      die Frage war falsch gestellt: Die Dienste **liefen**. `runs = 0` heißt
+      „nicht seit dem letzten Laden", und drei der vier waren am selben Tag neu
+      geladen worden. Der echte Fehler stand im Log — `✗ fetch failed` um
+      09:36, weil `launchd` einen verpassten Termin beim Aufwachen nachholt und
+      den Job startet, **bevor das WLAN steht.** `skripte/mit-netz.sh` wartet
+      jetzt darauf~~
+- [x] ~~**TikToks `Avg. Watch Time (sec)` steht an allen 18 Shorts auf 0.**
+      Geklärt am 06.09.2026, und **die Null war meine.** Buffer füllt das Feld,
+      und es stand schon am 04.09. in `daten/rueckblick.json` — 3,62 s, 8,31 s,
+      13,75 s. Angezeigt wurde es nirgends: `sehdauerSek` steht im Schema, ist
+      in `MELDET_NICHT` eingetragen und kam in `kanalwoche.html` kein einziges
+      Mal vor. **Gemessen, abgelegt, nie angesehen**, wie `laengeSek` davor~~
 
 ## Der Stand am 05.09.2026, mittags
 

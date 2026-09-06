@@ -1003,3 +1003,30 @@ export const shortVertonen = async (
  */
 export const zeichenverbrauch = (short: Short): number =>
   redelaeufe(short).reduce((summe, lauf) => summe + lauf.text.length, 0);
+
+
+/**
+ * Wie viele Zeichen bei ElevenLabs noch frei sind.
+ *
+ * **Der Wert stand seit dem 19.08.2026 in `npm run zugaenge` und wurde vor dem
+ * Lauf nie abgefragt.** `wochenlauf.ts` gibt den Zeichenbedarf aus und
+ * verglich ihn mit nichts — ein Lauf, dem 300 Zeichen fehlen, bricht dann
+ * mitten in der vierten Vertonung ab, und bezahlt ist bis dahin alles.
+ *
+ * `null` heisst: nicht feststellbar. Dann laeuft der Lauf weiter, denn eine
+ * Wache, die bei einer unerreichbaren API abbricht, haelt eine fertige Woche
+ * wegen eines Netzwerkfehlers zurueck.
+ */
+export const restkontingent = async (schluessel: string): Promise<number | null> => {
+  try {
+    const antwort = await fetch('https://api.elevenlabs.io/v1/user/subscription', {
+      headers: { 'xi-api-key': schluessel },
+    });
+    if (!antwort.ok) return null;
+    const d = (await antwort.json()) as { character_count?: number; character_limit?: number };
+    if (d.character_limit === undefined || d.character_count === undefined) return null;
+    return d.character_limit - d.character_count;
+  } catch {
+    return null;
+  }
+};

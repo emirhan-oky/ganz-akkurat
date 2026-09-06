@@ -5,7 +5,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { Quelle, Short, Tonspur } from '../src/typen';
 import { laufPruefen } from '../src/pruefung';
-import { shortVertonen, zeichenverbrauch } from '../src/stimme';
+import { restkontingent, shortVertonen, zeichenverbrauch } from '../src/stimme';
 import { freigabeseiteBauen } from '../src/freigabeseite';
 import { lautheitAngleichen, videoPruefen } from '../src/medien';
 import { durchschnittsdauer, verlaufLesen, verlaufSchreiben } from '../src/verlauf';
@@ -284,7 +284,38 @@ const main = async () => {
   }
   console.log(`   ${shorts.length} Entwürfe entsprechen dem Schema`);
 
-  console.log(`   Zeichenbedarf bei Vertonung: ${shorts.reduce((n, s) => n + zeichenverbrauch(s), 0)}\n`);
+  const bedarf = shorts.reduce((n, s) => n + zeichenverbrauch(s), 0);
+  console.log(`   Zeichenbedarf bei Vertonung: ${bedarf}`);
+
+  /*
+   * **Der Vergleich, der bis zum 06.09.2026 fehlte.**
+   *
+   * Der Bedarf stand hier seit Wochen, das Restkontingent stand in
+   * `npm run zugaenge` — nur nebeneinandergelegt hat sie niemand. Reicht das
+   * Kontingent nicht, bricht der Lauf **mitten in der vierten Vertonung** ab,
+   * und bezahlt ist bis dahin alles.
+   *
+   * Gefragt wird nur, wenn auch vertont wird: Ein Trockenlauf braucht kein
+   * Kontingent und soll nicht an einer fremden API haengen.
+   */
+  if (MIT_TON) {
+    const schluessel = process.env.ELEVENLABS_API_KEY;
+    const rest = schluessel ? await restkontingent(schluessel) : null;
+    if (rest === null) {
+      console.log('   Restkontingent nicht feststellbar — der Lauf geht weiter.\n');
+    } else if (rest < bedarf) {
+      console.log(
+        `\nAbbruch: ${rest} Zeichen frei, ${bedarf} gebraucht. ` +
+          `Es fehlen ${bedarf - rest}.\n` +
+          'Nichts wurde bezahlt. Kürzen, Shorts entfernen oder auf den nächsten Monat warten.',
+      );
+      return;
+    } else {
+      console.log(`   Restkontingent: ${rest} Zeichen — reicht für diesen Lauf\n`);
+    }
+  } else {
+    console.log('');
+  }
 
   /* ── 2  Vertonen (nur mit --mit-ton) ─────────────────────────────── */
 

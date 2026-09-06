@@ -531,9 +531,6 @@ const Schluss: React.FC<SzenenProps<'schluss'>> = ({ szene, dauer }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const laengstesWort = Math.max(...szene.satz.split(/\s+/).map((w) => w.length));
-  const groesse = laengstesWort <= 13 ? GROESSEN.ueberschrift : 62;
-
 
   return (
     <>

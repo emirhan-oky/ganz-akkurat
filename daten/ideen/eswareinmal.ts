@@ -84,7 +84,7 @@ export const eswareinmalIdeen: Idee[] = [
     id: "bildschirmschoner",
     format: "eswareinmal",
     sachgebiet: "bildschirm",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt: "Der Bildschirmschoner hat wirklich den Bildschirm geschont. Bei Röhren.",
     dreh: "Der Name ist das Fossil. Er beschreibt eine Aufgabe, die es seit zwanzig Jahren nicht gibt.",
     sache: "Phosphor-Einbrennen bei Kathodenstrahlröhren gegen Flüssigkristall ohne Leuchtstoff.",
