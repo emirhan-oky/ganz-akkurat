@@ -229,7 +229,16 @@ export const Kopfzeile: React.FC<{
   zaehlung?: { nummer: number; von: number };
   /** Wie stark der Vorhang dahintersteht: 0 heller Grund, 1 Theaterrot. */
   aufVorhang?: number;
-}> = ({ format, zaehlung, aufVorhang = 0 }) => (
+  /**
+   * Die Formatpille weglassen — **nur fuer die Gegenprobe.**
+   *
+   * Sie traegt den Showtitel, und seit dem 02.09.2026 wird der nicht mehr
+   * gesprochen. Ob er im Bild noch etwas beitraegt, entscheidet
+   * `video/Pillenprobe.tsx`: Bei 26 % ist der Text nicht mehr zu lesen, die
+   * Farbe schon.
+   */
+  ohnePille?: boolean;
+}> = ({ format, zaehlung, aufVorhang = 0, ohnePille = false }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
     <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} />
     <Wortmarke
@@ -237,7 +246,8 @@ export const Kopfzeile: React.FC<{
       farbe={mische(FARBEN.kennVoltiTief, AUF_VORHANG.eins, aufVorhang)}
       farbeZwei={mische(FARBEN.kennWattiTief, AUF_VORHANG.zwei, aufVorhang)}
     />
-    <span
+{!ohnePille && (
+      <span
       style={{
         fontFamily: SCHRIFT.wortmarke,
         fontWeight: SCHRIFT.halbfett,
@@ -260,6 +270,7 @@ export const Kopfzeile: React.FC<{
     >
       {FORMATE[format].show}
     </span>
+    )}
 
     {zaehlung && (
       <span
