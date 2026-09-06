@@ -182,29 +182,6 @@ Sprachsynthese korrigiert, die Länge der Denkpause, die Videolänge und den
 Abstand zweier Stimmen. Die Begründung, warum sich etwas angeblich nicht messen
 lässt, ist das verdächtigste Bauteil überhaupt.
 
-## Was offen ist
-
-Zwei Punkte, und beide warten nicht auf Arbeit.
-
-**Zwei Längenklassen innerhalb des neuen Baus.** `npm run laengen` zeigt seit
-dem 06.09.2026 zwei belegte Klassen, misst dabei aber zwei Dinge auf einmal:
-Die kurze Klasse ist vollständig der alte einstimmige Bau, die lange der neue
-zweistimmige. Welche der beiden Änderungen die Sehdauer bewegt, lässt sich erst
-sagen, wenn zwei Klassen **innerhalb** desselben Baus je drei Videos mit
-Aufrufen haben — bei fünf Videos je Woche zwei bis drei Wochen. Drei kurze
-Wechselreden sind dafür am 06.09.2026 geschrieben worden; der Vorrat lag mit
-3 / 34 / 18 fast vollständig in der Mitte, und die untere Klasse hätte sich
-sonst nie belegt.
-
-**Der Märchenvorrat.** `eswareinmal` hat vier ungesendete Entwürfe und ist
-damit das kleinste Fach. Was fehlt, ist nicht das Schreiben, sondern die
-Quelle: Ein Märchen braucht einen Beleg für das „und heute", und der muss von
-einer unbeteiligten Instanz kommen. Für Defragmentieren, das Einbrennen bei
-Röhren und Magnete auf Flash-Speicher gibt es keine frei abrufbare
-Behördenquelle. **Behörden schreiben über Alltagsmythen nur, wenn der Mythos in
-ihr Ressort fällt** — deshalb tragen die vier BSI-Seiten „Sicherheits-Irrtümer"
-den Vorrat und sonst kaum etwas.
-
 ## Verlauf
 
 Was gebaut, gemessen und verworfen wurde, in umgekehrter Reihenfolge — der

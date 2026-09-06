@@ -1133,8 +1133,8 @@ und nicht in diesem Repository.
 
 Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
-liegen in `.env`. **Was offen ist, steht in `README.md`** — dort, wo auch der
-Verlauf steht.
+liegen in `.env`. **Was offen ist, steht in `~/TASKS.md`**; die `README.md`
+hält den Verlauf.
 
 Drei Umbauten haben den Kanal zu dem gemacht, was er ist: **zwei Stimmen** ab
 dem 25.08.2026, die **Show** mit Vorhang und Kaltstart ab dem 31.08., und ab
@@ -1146,16 +1146,19 @@ welche Regel an welchem Tag gefallen ist.
 ## Arbeitsweise
 
 **Die offenen Punkte gehören ans Ende jeder Antwort**, solange es welche gibt —
-aus dem Kapitel „Was offen ist" in `README.md`, die laufende Aufgabe mit `▸`.
-Nicht in die Statuszeile: die gehört Emirhan.
+aus `~/TASKS.md`, die laufende Aufgabe mit `▸`. Nicht in die Statuszeile: die
+gehört Emirhan.
 
 **`AUFGABEN.md` gibt es seit dem 06.09.2026 nicht mehr**, auf Ansage: *„Ich
 möchte fortan keine AUFGABEN.md mehr haben."* Ihre 155 KB stehen wörtlich als
 **Verlauf** in `README.md`, nach dem Vorbild des Projekts Vision — datierte
 Nachträge, der jüngste oben. **Eine Aufgabenliste, in der 24 von 50 Punkten
 erledigt und nie abgehakt waren, misst nicht den Stand, sondern das Abhaken.**
-Was fertig ist, wird zum Nachtrag; was offen ist, steht in einem Absatz und
-nicht in einem Kästchen.
+Was fertig ist, wird zum Nachtrag. **Was offen ist, steht in `~/TASKS.md` und
+nirgends sonst** — ein zweites Kapitel dafür in der README war am selben Tag
+wieder gestrichen: *„Dieses was noch offen ist brauchen wir nicht mehr, dafür
+haben wir ja die TASKS.md."* Zwei Listen für dieselbe Sache laufen
+auseinander, und die schlechtere gewinnt, weil sie näher liegt.
 
 **Erst zu Ende besprechen, dann bauen.** Nach einem bestätigten Einzelpunkt
 sofort loszubauen hat sich als falsch erwiesen — die Umsetzung kommt gesammelt.
