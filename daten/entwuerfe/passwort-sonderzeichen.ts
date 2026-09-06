@@ -63,14 +63,14 @@ export const passwortSonderzeichen: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Watti, wie sieht dein Passwort aus? Acht Zeichen: ein Wort, eine Ziffer, ein Ausrufezeichen. So haben wir das gelernt.',
+        'Watti, wie sieht dein Passwort aus? Acht Zeichen: Ausrufezeichen vorn, ein Wort, Ziffer hinten. So haben wir das gelernt.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Watti, wie sieht dein Passwort aus?' },
         {
           sprecher: 'zeiger',
           zug: 'beantworten',
           machart: 'falscheautoritaet',
-          text: 'Acht Zeichen: ein Wort, eine Ziffer, ein Ausrufezeichen. So haben wir das gelernt.',
+          text: 'Acht Zeichen: Ausrufezeichen vorn, ein Wort, Ziffer hinten. So haben wir das gelernt.',
         },
       ],
       buehne: {
@@ -174,7 +174,7 @@ export const passwortSonderzeichen: Short = {
       quelleId: 'bsi-sichere-passwoerter',
       belegId: 'acht-zeichen-drei-arten-mehrfaktor',
       sprechtext:
-        'Acht mit drei Arten stehen da auch, du Pfosten. Zusammen mit Mehr-Faktor-Authentisierung. Und die habe ich nicht.',
+        'Acht mit drei Arten stehen da auch, du Pfosten. Zusammen mit Mehr-Faktor-Authentisierung. Den Code aufs Handy habe ich nicht.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -187,7 +187,7 @@ export const passwortSonderzeichen: Short = {
           sprecher: 'zeiger',
           zug: 'einlenken',
           machart: 'gestaendnis',
-          text: 'Und die habe ich nicht.',
+          text: 'Den Code aufs Handy habe ich nicht.',
         },
       ],
       buehne: {
