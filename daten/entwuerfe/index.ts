@@ -56,6 +56,7 @@ import { lichtgeschwindigkeitFestgelegt } from './lichtgeschwindigkeit-festgeleg
 import { seiteGesperrt } from './seite-gesperrt';
 import { bildschirmschoner } from './bildschirmschoner';
 import { handyTankstelle } from './handy-tankstelle';
+import { passwortSonderzeichen } from './passwort-sonderzeichen';
 
 /**
  * Die eine Liste der Entwuerfe.
@@ -102,7 +103,7 @@ export const WOCHENLAUF: Short[] = [powerbankWattstunden, handyversicherung, akk
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer, bluetoothBlauzahn, lichtgeschwindigkeitFestgelegt, seiteGesperrt, bildschirmschoner, handyTankstelle];
+export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer, bluetoothBlauzahn, lichtgeschwindigkeitFestgelegt, seiteGesperrt, bildschirmschoner, handyTankstelle, passwortSonderzeichen];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
