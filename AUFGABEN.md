@@ -1751,9 +1751,23 @@ zu tun ist, steht ab hier.
       beabsichtigte Zustand**: Die Zeile muss ohne Anweisung funktionieren, der
       Tag verstärkt und ersetzt nie. Wenn es einen Anlass gibt, steht der Weg
       hier beschrieben~~
-- [ ] **Beef umbauen:** neue MATRIX-Prüffrage „Ist der Fakt belegt und die
-      Folgerung trotzdem strittig?" statt „übersehen beide etwas Drittes?". Die
-      alte Frage traf beim Sammeln fast nie zu — daher nur zehn Ideen
+- [ ] **Beef umbauen — der Anlass ist am 06.09.2026 entfallen, die
+      Entscheidung steht bei Emirhan.** Vorgeschlagen war eine neue
+      MATRIX-Prüffrage („Ist der Fakt belegt und die Folgerung trotzdem
+      strittig?" statt „übersehen beide etwas Drittes?"), **und der Grund war
+      der Vorrat**: Die alte Frage traf beim Sammeln fast nie zu, deshalb nur
+      zehn Ideen.
+
+      Heute sind es **fünfzehn, dreizehn davon offen** — fünf allein von heute,
+      alle aus den BSI-Irrtümern. **Die alte Frage trifft dort regelmäßig zu**,
+      weil eine Behörde, die einen verbreiteten Irrtum widerlegt, die zwei
+      Lager und das Dritte zugleich liefert. Der Engpass war nicht die Frage,
+      sondern die Quelle.
+
+      **Mein Vorschlag: streichen statt umbauen.** Die neue Frage würde das
+      Format öffnen, aber auch verwässern — „belegt und trotzdem strittig"
+      trifft auf fast jeden Fakt zu, und die Abgrenzung zu `gibtswirklich`
+      hinge dann an nichts mehr
 - [x] ~~**`schaetzmal` als sechstes Format** — verworfen am 06.09.2026 auf
       Emirhans Entscheidung: *„Schätzfrage in gibtswirklich besser aufgehoben.
       Wir bleiben jetzt bei unseren 5 Formaten."* Die Begründung steht in
