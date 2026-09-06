@@ -232,7 +232,7 @@ export const passwortSonderzeichen: Short = {
         gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
       rundlauf:
-        'Beim zweiten Sehen ist „sicher" schon die Pointe: Wattis Passwort ist genau das dritte Beispiel des BSI — und dem fehlt der zweite Faktor.',
+        'Beim zweiten Sehen ist „sicher" schon die Pointe: Wattis Passwort steht als Beispiel beim BSI — dort aber mit Mehr-Faktor-Authentisierung.',
     },
   ],
 
@@ -242,17 +242,17 @@ export const passwortSonderzeichen: Short = {
     tiktok: {
       titel: 'Wattis Ausrufezeichen rettet gar nichts',
       beschreibung:
-        'Passwort sicher: Warum die Ziffer am Ende nicht empfehlenswert ist — und welche drei Beispiele das BSI nennt.',
+        'Passwort sicher: Warum die Ziffer am Ende nicht empfehlenswert ist — und welche Beispiele das BSI stattdessen nennt.',
       hashtags: ['#passwort', '#technikwissen', '#sicherheit', '#ganzakkurat'],
     },
     instagram: {
       titel: 'Wattis Ausrufezeichen rettet gar nichts',
       beschreibung:
-        'Passwort sicher: Das BSI nennt drei Beispiele — lang mit zwei Zeichenarten, kurz mit vier, oder acht Zeichen mit zweitem Faktor.',
+        'Passwort sicher: Das BSI nennt Beispiele — lang mit zwei Zeichenarten, kurz mit vier, oder acht Zeichen mit Mehr-Faktor-Authentisierung.',
       hashtags: ['#passwort', '#technikwissen', '#datenschutz', '#ganzakkurat'],
     },
     youtube: {
-      titel: 'Wattis Passwort ist genau das dritte Beispiel',
+      titel: 'Wattis Passwort fehlt die Mehr-Faktor-Authentisierung',
       beschreibung:
         'Passwort sicher: Was das Bundesamt für Sicherheit in der Informationstechnik heute zu Länge und Zeichenarten schreibt.',
       hashtags: ['#passwort', '#sicherheit', '#technikwissen', '#ganzakkurat'],
