@@ -66,32 +66,49 @@ Beide urteilen nicht — sie stellen nebeneinander, und ein Mensch liest.
   die Anmeldung nach sieben Tagen, und `invalid_grant` sieht nach einem
   kaputten Token aus statt nach einer Einstellung.
 
-## Warum nicht Buffer, warum nur YouTube
+## Buffer liefert alle drei Kanäle — seit dem 05.09.2026
 
-Buffers Schnittstelle **hat** ein `metrics`-Feld mit sechzehn Metriktypen. Sie
-füllt es nur nicht: YouTube meldete 112 Aufrufe, Buffer meldete 0 — und
-`metricsUpdatedAt` lag **vor** `sentAt`. Das ist die gefährlichste Sorte Fund,
-weil nichts kaputt aussieht. Wäre es nicht aufgefallen, schriebe der Rückblick
-jede Woche Nullen mit, und niemandem fiele es auf.
+**Der Abschnitt hieß bis zum 06.09.2026 „Warum nicht Buffer, warum nur
+YouTube" und war überholt.** Er stand auf einem Befund aus der Anfangszeit:
+Buffers `metrics`-Feld war leer, YouTube meldete 112 Aufrufe, Buffer 0, und
+`metricsUpdatedAt` lag **vor** `sentAt`. Das war richtig beobachtet und ist
+nicht mehr der Stand.
 
-**Buffer bleibt trotzdem in der Kette:** `veroeffentlicht.json` hält `shortId`
-und `beitragId`, Buffer liefert dazu den `externalLink` — die einzige Brücke
-zwischen einem Entwurf auf der Platte und dem Video draußen. YouTube liefert
-die Zahlen.
+Heute liefert Buffer mit demselben Token, das ohnehin in `.env` liegt, die
+Zahlen aller drei Kanäle:
 
-TikTok lädt seine Zahlen per JavaScript nach, Instagram gibt ohne Anmeldung
-nichts heraus. Beide verlangten Geschäftskonto, Entwickleranmeldung und
-Freigabeverfahren — für Zahlen zu **demselben** Video mit **demselben**
-Aufschlag. Was an Sekunde 3,5 bei YouTube hält, hält auch dort. Die Zahl muss
-an einer Stelle sauber sein, nicht an dreien.
+| Kanal | was ankommt |
+|---|---|
+| **TikTok** | Aufrufe, Reichweite, geteilt, Reaktionen, Kommentare, **durchschnittliche Sehdauer** |
+| **Instagram** | Aufrufe, Reichweite, geteilt, gespeichert, neue Abos, Reaktionen, Kommentare |
+| **YouTube** | Aufrufe, Reaktionen, Kommentare — geteilt und neue Abos kommen weiter aus der Analytics-API |
+
+**Und das ändert, welcher Kanal überhaupt zählt.** `fernseher-hoert` hat 7
+Aufrufe auf YouTube und 271 auf TikTok, `blitzer-app` 13 gegen 228. Neun Wochen
+lang wurde an der schwächsten der drei Plattformen gemessen — jede Schwelle in
+diesem Skill steht auf YouTube-Zahlen und gehört nachgerechnet, sobald drei
+Wochen Kanaldaten vorliegen.
+
+**Die Sehdauer gibt es nur von TikTok**, und sie ist die einzige Zahl im
+Bestand, die sagt, wie weit jemand gekommen ist. Sie stand vom 04.09. bis zum
+06.09.2026 ungelesen in der Datei — beschrieben im Schema, eingetragen in
+`MELDET_NICHT`, auf keiner Seite angezeigt. **Gemessen, abgelegt, nie
+angesehen**, wie `laengeSek` davor. `npm run laengen` rechnet sie jetzt
+getrennt neben der YouTube-Durchsicht: verschiedene Plattformen, verschiedene
+Publika — nebeneinanderstellen, nie mitteln.
+
+**Der alte Grund gegen die Plattform-APIs gilt weiter.** Instagram verlangte
+Geschäftskonto, Facebook-Seite und eine Meta-App-Review von zwei bis vier
+Wochen, TikTok ein Developer-Konto — für dieselben Werte, die Buffer im
+kostenlosen Tarif herausgibt.
 
 ## Wo die Daten liegen
 
-- `daten/rueckblick.json` — wächst nachtragend, eine Messung je Tag und Short.
-  **Deshalb täglich und nicht wöchentlich:** Wer einmal die Woche misst, sieht
-  den letzten Stand; wer täglich misst, sieht die Kurve — und die beantwortet
-  die eigentliche Frage. Nicht „wie viele Aufrufe hat es", sondern „wann sind
-  sie gekommen". Kostet nichts, die YouTube-APIs sind kostenlos
+- `daten/rueckblick.json` — wächst nachtragend, eine Messung je Short und
+  Messtag. **Gemessen wird seit dem 06.09.2026 sonntags, nicht mehr täglich**
+  — auf Ansage: Das Projekt findet nur noch sonntags statt. Der Preis steht im
+  Vertrag unter „Was ohne Zutun läuft": eine Messung je Woche, und die Kurve
+  zeigt Wochenpunkte statt Tage. Die Zahlen selbst kosten nichts
 - `daten/verlauf.json` — wird beim Lauf einmal geschrieben, danach nie wieder
 - `src/rueckschau.ts` — legt beides zusammen; die Brücke ist
   `laeufe/<tag>/lauf.json`, weil nur die `shortId` **und** `themaId` **und**
