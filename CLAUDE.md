@@ -51,13 +51,18 @@ Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen i
 `.claude/skills/`, das **Handwerk** in deren `references/`, und was nur beim
 Nachschlagen gebraucht wird, in `docs/`.
 
-**Am 06.09.2026 sind 46 KB aus dieser Datei umgezogen** — von 119 auf 72. Die
+**Am 06.09.2026 sind 53 KB aus dieser Datei umgezogen** — von 119 auf 66, in
+zwei Durchgängen. Die
 Aufteilung war in der Datei seit langem angelegt und benannt, nur nicht
 durchgezogen: Vier Fünftel waren Ablaufwissen, Messprotokolle und
 Änderungshistorie, die situativ gebraucht werden und trotzdem jede Sitzung
 mitgeladen wurden. Verschoben wurde **wörtlich**, geprüft mit einer Zeilenprobe
 gegen den Tag `vor-aufteilung`; nur „Harte Regeln" ist zu einer Tabelle
 verdichtet, und das alte Kapitel steht vollständig in der Historie.
+
+**Der zweite Durchgang am selben Tag nahm Länge, Kanalwoche und Takt** — 7 KB,
+wieder wörtlich und wieder mit einer Zeilenprobe: Von den entfernten Zeilen
+fehlten drei, und alle drei waren Überleitungssätze auf den verschobenen Text.
 
 | Datei | was drinsteht | wann zu lesen |
 |---|---|---|
@@ -66,11 +71,14 @@ verdichtet, und das alte Kapitel steht vollständig in der Historie.
 | `bild-bauen/references/text-im-bild.md` | Redespalten, Zitatkarte, keine Sprechblase | an Text im Bild |
 | `bild-bauen/references/vorhang-und-vorspann.md` | Vorhang, Vorspann- und Abspannkarte | an der Show außenherum |
 | `woche-bauen/references/vertonung.md` | Modell, Regie, Stimmen, Pausen, bezahlter Lauf | **vor jeder Vertonung** |
+| `woche-bauen/references/takt.md` | die Messungen hinter fünf je Woche, Engpassrechnung, Rubrikenverteilung | eine Woche planen |
+| `rueckblick-lesen/references/kanalwoche.md` | wie die Seite gebaut ist, der Strich statt der Null, TikTok trägt den Kanal | an `src/kanalseite.ts` |
 | `beleg-holen/references/zitat-und-abruf.md` | Subjekt im Zitat, Verneinung, Länge, EUR-Lex | **vor jeder neuen Quelle** |
 | `docs/regelhistorie.md` | wie jede harte Regel entstand | bevor eine Regel geändert wird |
 | `docs/verworfen.md` | was gestrichen ist und warum | wenn jemand es wieder vorschlägt |
 | `docs/ton.md` | die vier Klänge, Abspann, Kipppunktton | an `skripte/toene.ts` |
 | `docs/umbauten.md` | das Protokoll der drei Umbauten | für die Vorgeschichte |
+| `docs/laengenprotokoll.md` | Zielwerte, fremde Messungen, die Sprechprobe-Reparatur | an Längen und Zielwerten |
 
 **Was hier neu aufgenommen wird, muss eine der drei Fragen mit Ja beantworten:**
 Kostet es Geld? Wirkt es nach draußen? Gilt es in **jeder** Sitzung? Sonst
@@ -904,69 +912,9 @@ einem Widerspruch heraus und nie aus einer Zahl.
 drei gleiche Drittel zwischen 40 und 80. Der Längenversuch läuft weiter, nur
 ohne Vorgabe, welche Länge eine Bauform haben soll.
 
-Der Rest dieses Kapitels ist das Protokoll dazu und beschreibt den Stand bis
-zum 02.09.2026.
-
-**Die beiden messen verschiedene Dinge, seit der Vorspann Ton hat.** Das
-Fenster misst, wie lange der Zuschauer zusieht — der Vorspann gehört dazu. Der
-Zielwert einer Bauform misst, wie lang ein so gebautes **Gespräch** ist; der
-Vorspann ist bei jeder Bauform derselbe und sagt über sie nichts aus.
-
-Solange er 3,8 Sekunden gerechnet war, fiel der Unterschied nicht auf. Mit der
-Themenansage kostet er rund 9 — und damit blieben einer Wechselrede von ihren 45
-Sekunden noch 35,5 für den Inhalt. Die Zielwerte anzuheben ging nicht: 62 plus 9
-sind 71 und reißen die Obergrenze. **Zwei Größen, die verschiedene Dinge meinen,
-brauchen verschiedene Zahlen** — nicht dieselbe Zahl mit einem Aufschlag.
-
-Ein einziger Zielwert für alle Bauformen war der eigentliche Fehler, nicht seine
-Höhe: Vier Stationen brauchen mehr Zeit als ein Wortwechsel, weil sie mehr
-Inhalt haben. **Länge ist keine Ursache, sondern eine Folge davon, wie viel es
-zu zeigen gibt.**
-
-Zwei Korrekturen an fremden Videos, beide gegen die eigene Vermutung:
-
-- Zwölf Tech-Shorts vermessen: Die drei mit den meisten Aufrufen sind 41, 29
-  und 31 Sekunden lang; das damalige Fenster hätte alle drei abgelehnt.
-- `@dr_data_dr` (44 Mio. Aufrufe), zwölf Shorts: **48 bis 67 Sekunden**, Median
-  61, das stärkste bei 51. **Kein einziges lag im alten Fenster.**
-
-**Der Zielwert ist erstmals eine Wache statt eines Kommentars.** Bis zum
-25.08.2026 stand er nur im Text; geprüft wurde allein das Fenster.
-
-**Woher die 42 und die 67 kommen.** Die **67** sind gemessen, aber an einem
-fremden Kanal (`@dr_data_dr`, zwölf Shorts, Median 61) — übertragbar ist die
-Größenordnung, nicht mehr. Die **42** sind eine Entscheidung vom 31.08.2026:
-Unter 42 Sekunden bleibt bei zwei Sprechern kaum mehr als ein Beleg und eine
-Reaktion, und genau das war der Bau, der 0-mal geteilt wurde.
-
-### Die drei Zielwerte sind ein Versuchsaufbau
-
-**45 / 52 / 62 seit dem 31.08.2026, und keine dieser Zahlen ist gemessen.**
-Gemessen ist bisher eine einzige Länge: Alle neun veröffentlichten Videos sind
-20 bis 23 Sekunden lang, zu allem darüber gibt es keine eigene Zahl.
-
-Sie sind zweimal gewandert, aus zwei verschiedenen Gründen. Der erste Umbau
-(26.08., auf 25 / 35 / 45 / 60) **spreizte** sie, weil drei von vier in
-dieselbe Längenklasse fielen und ein Versuch über Längen so nicht möglich war.
-
-Der zweite hatte einen anderen Anlass: Mit dem Fenster ab 42 Sekunden lagen
-**drei von vier Zielwerten unter der Untergrenze.** Eine Wechselrede konnte ihr
-eigenes Ziel nicht treffen, ohne durchzufallen — **ein Zielwert, der den
-eigenen Short ungültig macht, ist keine Vorgabe, sondern eine Falle.**
-
-**Die Längenklassen werden aus `BAUFORMEN` abgeleitet** (`LAENGENKLASSEN` in
-`src/zeit.ts`), Grenze jeweils in der Mitte zwischen zwei Zielwerten. Eine
-danebengeschriebene zweite Einteilung wäre eine Doppelung ohne Wache und liefe
-beim ersten Umbau lautlos auseinander.
-
-Der Einwand gehört daneben: Das „zu lang" der ersten Zuschauer galt Videos von
-28 bis 40 Sekunden. Wir halten Langeweile für die Ursache und wissen es nicht
-sicher — eine Bauform mit 60 Sekunden ist eine Wette.
-
-**Und was der Versuch nicht kann:** Bis Ende Oktober sind es rund 36 Shorts.
-Das trägt drei Längenklassen mit je etwa zwölf Videos, aber Format mal Länge
-wären zwölf Felder mit je dreien — Rauschen. Ausgewertet wird eindimensional,
-Länge und Format getrennt.
+→ `docs/laengenprotokoll.md` hat das Protokoll: die beiden Größen, die
+verschiedene Dinge messen, die zwei Korrekturen an fremden Videos, die drei
+Zielwerte als Versuchsaufbau und woher 42 und 67 kamen.
 
 **`ZEICHEN_PRO_SEKUNDE` steht auf 13,0.** Die alte 15,4 war an
 `eleven_multilingual_v2` gemessen und damit nicht unsicher, sondern **für ein
@@ -979,18 +927,8 @@ Sekunden. **Zielwert ist die Mitte, nicht der Rand.**
 
 `npm run sprechprobe` prüft das vorab und kostet nichts.
 
-**Sie misst seit dem 06.09.2026 nur die Shorts, die man ihr nennt.** Vorher las
-sie `process.argv` gar nicht: `npm run sprechprobe -- <id>` maß trotzdem alle
-54 Entwürfe, rund 300 `say`-Aufrufe statt fünf. **Eine Probe, die ihr Argument
-ignoriert, misst jedes Mal alles** — `dialogprobe` konnte es zwei Tage länger.
-
-**Und jeder `say`-Aufruf hat jetzt eine Grenze.** `say` blieb mitten in einem
-Lauf stehen, bei 0 % CPU, ohne Ausgabe und ohne Fehler; `execFile` ohne
-`timeout` wartet darauf für immer, und der ganze Node-Prozess hängt mit. Drei
-solche Bäume standen über eine Stunde in der Prozessliste — **gesehen hat sie
-nicht die Probe, sondern Emirhan.** 20 Sekunden je Satz, danach einmal
-nachfassen. Ein Aufruf, der hängen kann, überträgt seinen Stillstand sonst auf
-alles, was auf ihn wartet.
+→ Was an ihr am 06.09.2026 repariert wurde (das ignorierte Argument, der
+fehlende Timeout an `say`), steht in `docs/laengenprotokoll.md`.
 
 ## Zeitangaben altern — der Short nicht
 
@@ -1042,83 +980,17 @@ Die Form steht seitdem an **einer** Stelle — `Kanalmessung` in
 `src/rueckschau.ts`, importiert von `skripte/rueckblick.ts`. Sie war einen Tag
 lang zweimal beschrieben, und dieser eine Tag hat gereicht.
 
-### `npm run kanalwoche` — die Seite
+→ Wie `npm run kanalwoche` gebaut ist — der Nordstern oben, der gestrichelte
+Verlauf, „ein Strich ist keine Null" und der Befund, dass TikTok den Kanal
+trägt — steht in `.claude/skills/rueckblick-lesen/references/kanalwoche.md`.
 
-Sonntags um 9:00 legt `de.ganzakkurat.kanalwoche` die Seite `kanalwoche.html`
-an und öffnet sie: alle drei Kanäle nebeneinander, je Kanal und je Video. Sie
-holt nichts ab und kostet nichts — die Zahlen stehen schon in
-`daten/rueckblick.json`.
-
-**9:00, weil der Wochenlauf um 10:00 startet.** Wer die nächste Woche wählt,
-soll wissen, was die letzte getan hat; eine Auswertung danach kommt für die
-Entscheidung zu spät. Ein eigener Dienst und keine Zeile in `sonntagslauf.sh`:
-Der Lauf bricht ab, wenn keine gültige Woche zustande kommt, und das ist der
-häufigste Fall — die Auswertung hinge dann an einer Bedingung, mit der sie
-nichts zu tun hat.
-
-**Der Nordstern steht oben, die Aufrufe darunter.** Das ist kein Layout, sondern
-dieselbe Aussage wie im Rückblick: Aufrufe sagen, was der Algorithmus getan hat.
-Eine Seite, die mit der großen Zahl aufmacht, erzieht den Leser auf die falsche
-Größe.
-
-**Ein Strich ist keine Null.** Buffer schickt je Dienst verschiedene Felder —
-für YouTube kein `Reach`, für TikTok kein `Follows`. Wo der Dienst nichts meldet,
-steht ein Strich; eine 0 wäre eine Messung, die niemand gemacht hat. Geteilt und
-neue Abonnenten kommen für YouTube aus der Analytics API und sind als andere
-Herkunft gekennzeichnet — **der erste Anlauf setzte den Nordstern des größten
-Kanals auf einen Strich, obwohl beide Zahlen eine Ebene höher in derselben Datei
-standen.** Gesehen hat das nicht der Code, sondern das gerenderte Bild.
-
-**Der Verlauf ist gestrichelt gezeichnet.** Zwischen zwei Messtagen liegen bis zu
-sechs Tage, an denen nichts gemessen wurde; eine durchgezogene Linie behauptet
-die Zwischenwerte. Aus demselben Grund steht am Zuwachs die **tatsächliche**
-Spanne und nicht „diese Woche".
-
-Und was sofort sichtbar wurde: **TikTok trägt den Kanal.** `fernseher-hoert` hat
-7 Aufrufe auf YouTube und 271 auf TikTok; `blitzer-app` 13 gegen 228. Neun
-Wochen lang wurde an der schwächsten der drei Plattformen gemessen.
-
-**Eine Warnung dazu, aus einem eigenen Fehler:** Die Zuordnung Short →
-Buffer-Beitrag steht in `laeufe/<tag>/veroeffentlicht.json`. Am 04.09.2026 habe
-ich fünf Laufordner gelöscht, weil ihre `lauf.json` nicht mehr parste — die
-`veroeffentlicht.json` daneben tat das sehr wohl, und zwölf Videos verloren ihre
-Zuordnung. **Ich habe eine Datei nach dem Wert einer anderen beurteilt.**
-`npm run zuordnung-wiederherstellen` holt sie aus Buffer zurück (über die
-YouTube-`videoId` und ein Zeitfenster von 30 Minuten); es ist ein Notschlüssel,
-kein Teil der Kette.
-
-**Die Länge ist die offene Frage.** Keiner der vier Zielwerte ist gemessen;
-sie sind am 26.08.2026 gespreizt worden, damit es überhaupt etwas zu messen
-gibt. Die einzige fremde Messung (48–67 s) wurde bewusst **nicht** übernommen —
-eine geratene Zahl durch eine übertragene zu ersetzen, macht sie nicht
-gemessen. Die Zahlen fallen, sobald zwei Längenklassen belegt sind.
-
-Dafür gibt es seit demselben Tag `npm run laengen`. Es rechnet die
-**Verweildauer** (`durchsicht × laengeSek`) statt der Prozent-Durchsicht: Die
-sinkt mit der Länge zwangsläufig, und wer Längen an Prozenten vergleicht, hat
-sich für das kürzere Video entschieden, bevor er hingesehen hat. Es schweigt
-unter drei Videos je Längenklasse.
-
-Der Anlass war eine Lücke: `laengeSek` stand seit Wochen in
-`daten/rueckblick.json` und wurde **von keiner Auswertung gelesen**. Heute sind
-alle neun veröffentlichten Videos 20–23 Sekunden lang; zu jeder Länge darüber
-gibt es keine eigene Zahl.
-
-**Der Nordstern sind geteilt und neue Abonnenten**, dazu Kommentare als frühes
-Signal. Das ist am 25.08.2026 geändert worden, und zwar an den eigenen Zahlen:
-Die Haltequote an Sekunde 3,5 lag bei **100 bis 115 %** — sie ist grün und
-ausgereizt, während geteilt und Abos bei **null** stehen. Ein Messinstrument,
-das auf die ausgereizte Größe zeigt, sagt nichts mehr.
-
-Beide Werkzeuge schweigen, solange zu wenig gemessen ist: Median ab acht
-Videos, Formatvergleich ab fünf je Format. Geratene Größen haben hier zweimal
-Geld gekostet; eine geratene Reichweitenregel wäre die teuerste, weil sie die
-Themenwahl steuert. Die Frage, die früh trägt, ist **„was hatte dieses eine"**.
-
-**Veröffentlichtes wird nicht nachgebessert.** Der Lauf-Ordner `laeufe/<tag>/`
-hält den ausgestrahlten Wortlaut und ist das Archiv; der Entwurf in
-`daten/entwuerfe/` geht weiter. Der Verlauf soll zeigen, wie der Kanal sich
-verändert hat.
+**Die Warnung daraus gehört hierher, weil sie Daten kostet:** Die Zuordnung
+Short → Buffer-Beitrag steht in `laeufe/<tag>/veroeffentlicht.json`. Am
+04.09.2026 habe ich fünf Laufordner gelöscht, weil ihre `lauf.json` nicht mehr
+parste — die `veroeffentlicht.json` daneben tat das sehr wohl, und zwölf Videos
+verloren ihre Zuordnung. **Ich habe eine Datei nach dem Wert einer anderen
+beurteilt.** `npm run zuordnung-wiederherstellen` holt sie aus Buffer zurück;
+es ist ein Notschlüssel, kein Teil der Kette.
 
 ## Takt
 
@@ -1126,48 +998,12 @@ verändert hat.
 auf Instagram um 20:00. Die Plätze stehen als `SENDEPLAETZE` in `src/buffer.ts`,
 die Stunde je Dienst als `UHRZEIT_JE_DIENST` in `skripte/veroeffentlichen.ts`.
 
-**Die Zahl ist gemessen, nicht geraten.** Buffers Auswertung von 11,4 Millionen
-Beiträgen: 2–5 je Woche bringen 17 % mehr Aufrufe je Beitrag als einer, 6–10
-bringen 29 %. **Der große Sprung liegt zwischen eins und 2–5**, darüber wird es
-flach — fünf ist der obere Rand des Optimums. Dazu die Warnung, die zum Kanal
-passt: Ein schwächeres Video täglich zieht den Schnitt stärker herunter, als ein
-starkes dreimal die Woche ihn hebt.
+**Fünf ist gemessen, nicht geraten** (Buffer, 11,4 Mio. Beiträge; Metricool
+2026; Sprout Social), und **die Obergrenze ist 6, nicht 7** — bei sieben Shorts
+lässt sich „keine Bauform über die Hälfte" mit drei Bauformen nicht erfüllen.
 
-**Die Uhrzeiten ebenso** (Metricool 2026, 2 Mio. TikTok-Beiträge aus 92.000
-Konten; Sprout Social, 2 Mrd. Interaktionen): TikTok 18–20 Uhr, **Samstag der
-stärkste Tag**; YouTube Shorts 12–15 und 17–20; Instagram hat um **20 Uhr** die
-meisten Aufrufe. Deshalb liegt Instagram zwei Stunden später — `beitragPlanen`
-nimmt je Kanal eine eigene Fälligkeit, und bis zum 04.09.2026 war das
-verschenkt.
-
-**Die eigenen Zahlen sagen dazu nichts**, und das gehört daneben: 13 der 15
-gemessenen Videos liefen um 18 Uhr, zwei um 12 — bei einer Streuung von 7 bis
-701 Aufrufen. Der Unterschied zwischen den Plätzen ist um ein Vielfaches
-kleiner als die Streuung innerhalb eines Platzes.
-
-**Die Obergrenze ist 6, nicht 7.** Der Skill `youtube-shorts` nannte 3–7
-(„post ~3–7/week, not spam"), und die 7 stand hier bis zum 05.09.2026. Sie ist
-mit der eigenen Bauformregel unvereinbar: Bei sieben Shorts erlaubt „keine
-Bauform über die Hälfte" höchstens drei je Bauform, und drei mal drei sind
-neun — bei drei Bauformen geht sieben nicht auf. Das Kapitel „Harte Regeln" sagt
-es selbst, die Takt-Tabelle sagte weiter 7.
-
-Welcher Engpass zuerst greift:
-
-| Engpass | trägt | Rechnung |
-|---|---|---|
-| **Bauform im Vorrat** | **3 Wochen** | 35 Zitatkarten, 7 Wechselreden, 6 Stationen — höchstens 2 je Bauform und Woche |
-| Ideenvorrat | ~7 Wochen | 77 Ideen bei fünf je Woche |
-| Formatabwechslung | 5 je Woche | vier Formate, eines doppelt, keines hintereinander |
-| Produktion | ~26 je Woche | 11 min je Video, davon 6 min Beleg |
-| Buffer | 10 je Kanal | fünf geplante Beiträge je Kanal gegen ein Limit von zehn |
-| ElevenLabs | ~170 je Monat | rund 715 Zeichen je Video, 121.000 im Monat |
-
-**Der Engpass ist seit dem 05.09.2026 die Bauform, nicht die Idee.** Von 48
-geschriebenen Dialogen sind 35 Zitatkarten; jede Woche braucht drei Videos, die
-keine sind, und davon gibt es dreizehn. `npm run wochenvorschlag` rechnet die
-Reichweite am knappsten Bestandteil und meldet sie bei jedem Aufruf. **Was
-fehlt, sind Wechselreden und Stationen** — nicht Themen.
+→ Die Messungen, die Engpassrechnung und die Rubrikenverteilung stehen in
+`.claude/skills/woche-bauen/references/takt.md`.
 
 Die **Materialgrenze** für Aktuelles: Neue **Geräte** sind durch
 Herstellerankündigung (beteiligt) und Presse (nicht eintragbar) belegt und
@@ -1175,37 +1011,6 @@ fallen aus. Neue **Regeln, Normen und Grenzwerte** sind durch Behörden belegt �
 nur die gehen. Das klingt nach Einschränkung und ist der Vorteil: Über ein neues
 Handy berichten hunderttausend Kanäle am selben Tag; dass ein Recht auf
 Reparatur gilt, erzählt niemand.
-
-### Welche Rubrik wann
-
-**Vier Rubriken je Woche, die vorratsstärkste zweimal.** Keine Zuordnung zu
-Wochentagen — *„Mir ist es egal, was an welchem Tag kommt."*
-
-Die Regel folgt dem Bestand, statt ihn vorzuschreiben: Heute bekommt „Das gibt
-es wirklich" den zweiten Platz (21 Entwürfe), schrumpft der, wandert er von
-allein weiter. **„Es war einmal" bekommt ihn nie**, solange es der kleinste
-Vorrat ist — genau das Format, das mit zwei Entwürfen am Limit steht.
-
-**Der Wochentag ist damit nicht zurück.** Gestrichen wurde am 20.08.2026 die
-Zuordnung **Format → Tag**; die gibt es nicht wieder. Fest ist, **dass**
-gesendet wird, nicht **was**.
-
-`wochenAuswaehlen` in `src/wochenauswahl.ts` sucht die fünf, die Format, Bauform
-und Sachgebiet gleichzeitig erfüllen. Von Hand ist das nicht mehr zu treffen:
-Eine Suche über 4.000 Kombinationen fand am 04.09.2026 nichts.
-
-**Zwei Tage lang lag das an etwas anderem, als die Meldung sagte.** Der
-Vorschlag nannte als Ursache die Bauformregel — tatsächlich standen **27 von 51
-Shorts auf einer verbotenen Pose** (`achselzucken` im Wortwechsel, `staunen` im
-Schluss), und `laufPruefen` wirft beides als Fehler. **Eine Fehlermeldung, die
-rät, schickt die Suche in die falsche Richtung.** Seit dem 06.09.2026 sind die
-Posen ersetzt und die Woche kommt wieder zustande.
-
-Dazu sortiert `wochenAuswaehlen` seitdem **die knappe Bauform nach vorn**: Je
-Format werden höchstens acht Kandidaten durchprobiert, und die wenigen
-Wechselreden und Stationen standen weiter hinten im Vorrat. **Eine Suche, die
-den knappsten Bestandteil zuletzt ansieht, findet ihn bei jeder Kappung
-nicht.**
 
 ### Der Sonntagslauf
 

@@ -2689,5 +2689,10 @@ der beabsichtigte Zustand ist.
   `inkognito-modus`, `oeffentliches-wlan`
 - **Der dreizehnte Bogen** aus dem Zuschauereinwand zum Passwort-Video
 - **Acht Widersprüche in der Dialoganalyse**, je zwei Befunde gegeneinander
-- **Der letzte Aufteilungsschritt**: Datenvertrag, Takt, Länge, Rücklauf,
-  Ideenvorrat straffen — geschätzt 8 bis 12 KB
+- ~~**Der letzte Aufteilungsschritt**~~ — erledigt am 06.09.2026: 7 KB aus
+  Länge, Kanalwoche und Takt, wörtlich verschoben nach
+  `docs/laengenprotokoll.md`,
+  `.claude/skills/rueckblick-lesen/references/kanalwoche.md` und
+  `.claude/skills/woche-bauen/references/takt.md`. **Die Datei steht bei 66 KB**
+  (von 119 am Morgen). Die Zeilenprobe gegen den vorherigen Stand fand drei
+  fehlende Zeilen, alle drei Überleitungssätze auf den verschobenen Text
