@@ -5,6 +5,12 @@ description: Eine Quelle abrufen, das wörtliche Zitat sichern und als Beleg an 
 
 # Einen Beleg holen und binden
 
+**Vor dem Eintragen einer neuen Quelle `references/zitat-und-abruf.md` lesen.**
+Dort steht seit dem 06.09.2026, woran Zitate praktisch scheitern: das fehlende
+Subjekt, die Verneinung außerhalb der Zeichenkette, die Zitatlänge und der
+EUR-Lex-Umweg. Neun Befunde eines einzigen `belegpruefer`-Durchgangs hingen an
+einem Wort außerhalb des Zitats.
+
 Der teuerste Schritt der Produktion, siebenmal die Woche. Er kostet Zeit, weil
 er nicht abgekürzt werden kann — und jede Abkürzung hat hier schon einmal ein
 falsches Video erzeugt.
