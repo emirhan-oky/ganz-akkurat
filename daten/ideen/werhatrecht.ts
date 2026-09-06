@@ -112,7 +112,7 @@ export const werhatrechtIdeen: Idee[] = [
     id: "nichts-zu-verbergen",
     format: "werhatrecht",
     sachgebiet: "rechner",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt:
       "„Ich habe nichts zu verbergen“ — die einen sagen, dann ist auch nichts zu holen, die anderen halten es für naiv.",
     dreh: "Das BSI listet es als Irrtum: Angegriffen wird nicht der Inhalt, sondern die Rechenleistung, die Kontakte und der Zugang.",
@@ -124,7 +124,7 @@ export const werhatrechtIdeen: Idee[] = [
         findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 2",
       },
     ],
-    quellenIds: [],
+    quellenIds: ["bsi-irrtuemer-computer"],
   },
   {
     id: "cloud-statt-backup",
@@ -213,7 +213,7 @@ export const werhatrechtIdeen: Idee[] = [
     id: "inkognito-modus",
     format: "werhatrecht",
     sachgebiet: "netz",
-    reifegrad: "belegt",
+    reifegrad: "produziert",
     erzaehlt: "Privater Modus im Browser: Die einen halten ihn für eine Tarnkappe, die anderen für ein Placebo.",
     dreh: "Beide irren in dieselbe Richtung — sie reden über „sichtbar\", ohne zu sagen, für wen.",
     sache: "Was lokal nicht gespeichert wird, gegen das, was Arbeitgeber, Anbieter und Zielseite trotzdem sehen.",

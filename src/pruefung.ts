@@ -266,6 +266,20 @@ const KEINE_SACHWOERTER = new Set([
    * Titel von acht Woertern.
    */
   'vom', 'beim', 'ans', 'aufs', 'fuers', 'fürs', 'uebers', 'übers', 'unterm', 'hinter', 'neben',
+  /*
+   * Am 06.09.2026 nachgetragen: die Personalpronomen der ersten Person.
+   * Dieselbe Kante, diesmal am **Kaltstart**. „Ich habe nichts zu verbergen.
+   * Bei mir ist nichts zu holen." lieferte als einzige Sachwoerter „ich" und
+   * „bei" — die Bruecke in die erste Szene haengt dann an einem Funktionswort,
+   * und der Hinweis meldete „kein Wort kommt wieder vor", obwohl „verbergen"
+   * und „holen" woertlich wiederkehren.
+   *
+   * **Ein Kaltstart ohne Substantiv ist kein Fehler**, sondern der Normalfall
+   * bei einer Figur, die ueber sich selbst redet. Ohne Sachwort schweigt die
+   * Wache (`bruecke.length > 0`) — und schweigen ist richtiger, als auf ein
+   * „ich" zu zeigen.
+   */
+  'ich', 'mir', 'mich', 'meinem', 'meinen', 'meiner', 'meins',
   'also', 'dann', 'jetzt', 'hier', 'so', 'wenn', 'weil', 'bevor', 'obwohl', 'was', 'wie', 'warum',
   'ist', 'sind', 'war', 'hat', 'haben', 'wird', 'werden', 'kann', 'koennen', 'können', 'muss',
   // Verben am Satzanfang — Titel beginnen oft mit einer Aufforderung.

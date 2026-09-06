@@ -46,7 +46,7 @@ export const eswareinmalIdeen: Idee[] = [
     id: "virus-merkt-man",
     format: "eswareinmal",
     sachgebiet: "rechner",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt:
       "Früher merkte man einen Virus: Der Rechner wurde langsam, Fenster gingen auf, irgendwas blinkte.",
     dreh: "Das „und heute“: Wer entdeckt wird, verdient nichts. Schadprogramme sind darauf gebaut, unauffällig zu bleiben.",
@@ -58,13 +58,13 @@ export const eswareinmalIdeen: Idee[] = [
         findet: "Sicherheits-Irrtümer: Computer-Sicherheit, Irrtum 1",
       },
     ],
-    quellenIds: [],
+    quellenIds: ["bsi-irrtuemer-computer"],
   },
   {
     id: "firewall-reicht",
     format: "eswareinmal",
     sachgebiet: "rechner",
-    reifegrad: "skizze",
+    reifegrad: "produziert",
     erzaehlt:
       "Die Firewall war einmal die Antwort auf die Frage, wie man sich schützt.",
     dreh: "Das „und heute“: Sie prüft, was von außen anklopft — geholt wird die Schadsoftware heute vom Nutzer selbst, durch eine Seite oder einen Anhang.",
@@ -76,7 +76,7 @@ export const eswareinmalIdeen: Idee[] = [
         findet: "Sicherheits-Irrtümer: Internet-Sicherheit, Irrtum 1",
       },
     ],
-    quellenIds: [],
+    quellenIds: ["bsi-irrtuemer-internet"],
   },
 
   {

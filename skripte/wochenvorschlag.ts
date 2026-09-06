@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import { wochenAuswaehlen, reichweiteInWochen } from '../src/wochenauswahl';
+import { geschaetzteDauerSek, laengenklasseVon, LAENGENKLASSEN } from '../src/zeit';
 import { verlaufLesen } from '../src/verlauf';
 import { GEPARKT } from '../daten/entwuerfe';
 import { Quelle } from '../src/typen';
@@ -75,9 +76,44 @@ const main = async () => {
   auswahl.shorts.forEach((s, i) => {
     console.log(
       `   ${tage[i] ?? '  '}  ${s.format.padEnd(14)} ${s.bauform.padEnd(12)} ` +
-        `${s.sachgebiet.padEnd(10)} ${s.arbeitstitel}`,
+        `${s.sachgebiet.padEnd(10)} ${Math.round(geschaetzteDauerSek(s))}s  ${s.arbeitstitel}`,
     );
   });
+
+  /*
+   * **Wie die Woche ueber die Laengenklassen streut — ein Hinweis, keine
+   * Wache.**
+   *
+   * Der Laengenversuch kann nur etwas messen, wenn die gesendeten Shorts sich
+   * ueber die Klassen verteilen. Am 06.09.2026 nachgesehen: Der Vorrat liegt
+   * mit 3 / 34 / 18 fast vollstaendig in der Mitte, und `wochenAuswaehlen`
+   * kennt die Laenge nicht — es waehlt nach Format, Bauform und Sachgebiet.
+   * Bei drei kurzen Kandidaten gegen 52 andere faellt die kurze Klasse in
+   * einer Fuenferwoche praktisch nie, und der Vergleich kaeme **nie**
+   * zustande, so lange man auch wartet.
+   *
+   * **Deshalb ein Hinweis und keine Regel.** Ein Mindestmass laesst sich
+   * ansteuern und wird selbst zur Schablone — dieselbe Lehre wie bei allen
+   * Gespraechsregeln. Und eine Wache, die eine Woche zurueckhaelt, weil kein
+   * kurzer Short im Vorrat liegt, hielte jede Woche zurueck: Das fehlende
+   * Stueck ist nicht die Auswahl, sondern der ungeschriebene Dialog.
+   */
+  const jeKlasse = new Map<string, number>();
+  for (const s of auswahl.shorts) {
+    const k = laengenklasseVon(geschaetzteDauerSek(s)).name;
+    jeKlasse.set(k, (jeKlasse.get(k) ?? 0) + 1);
+  }
+  console.log(
+    '\n   Längenklassen: ' +
+      LAENGENKLASSEN.map((k) => `${k.name} ${jeKlasse.get(k.name) ?? 0}`).join(' · '),
+  );
+  const leer = LAENGENKLASSEN.filter((k) => !jeKlasse.has(k.name));
+  if (leer.length > 0) {
+    console.log(
+      `   ⓘ Ohne Video in ${leer.map((k) => k.name).join(' und ')}. ` +
+        'Der Längenversuch braucht Streuung — geschätzt, nicht gemessen.',
+    );
+  }
 
   console.log('\n   Als WOCHENLAUF in daten/entwuerfe/index.ts:');
   const namen = auswahl.shorts.map((s) => s.id.replace(/-([a-z0-9])/g, (_, c: string) => c.toUpperCase()));

@@ -2292,6 +2292,52 @@
           "id": "tausende-computer-ddos",
           "zitat": "Indem die Urheber etwa tausende von Computern mit der Software infizieren, können sie damit Angriffe auf Webseiten ( DDoS -Attacken) starten, um diese lahmzulegen",
           "stuetzt": "Wozu tausende unauffällige Rechner taugen: Angriffe auf Webseiten. Die Menge und das Prädikat stehen beide mit im Zitat."
+        },
+        {
+          "id": "ansicht-grundlegend-falsch",
+          "zitat": "Diese Ansicht ist grundlegend falsch, da Cyberkriminelle alle verfügbaren Daten für ihre Zwecke nutzen können.",
+          "stuetzt": "Das BSI widerspricht dem „ich habe nichts zu verbergen\" ausdrücklich. Der Nachsatz nennt den Grund und steht mit im Zitat."
+        },
+        {
+          "id": "nicht-unbedingt-urlaubsfotos",
+          "zitat": "Das sind nicht unbedingt die auf dem Rechner gespeicherten Urlaubsfotos, Korrespondenzen oder andere private Dokumente.",
+          "stuetzt": "Das Dritte, das beide Lager übersehen: Es geht nicht um die privaten Dateien, über die beide streiten."
+        },
+        {
+          "id": "zugangs-konto-kreditkartendaten",
+          "zitat": "Von einem ungeschützten Rechner können Kriminelle dort gespeicherte oder im Internet übertragene Zugangs-, Konto- und Kreditkartendaten leicht stehlen und missbrauchen.",
+          "stuetzt": "Woran das Interesse wirklich hängt — an den Daten, die durch den Rechner laufen, nicht an denen, die auf ihm liegen."
+        }
+      ]
+    },
+    {
+      "id": "bsi-irrtuemer-internet",
+      "titel": "Sicherheits-Irrtümer: Internet-Sicherheit",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Sicherheitsirrtuemer/irrtuemer-internet-sicherheit.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "ohne-konfiguration-kein-schutz",
+          "zitat": "Ohne die richtige Konfiguration bietet eine Firewall keinen optimalen Schutz vor Angriffen aus dem Internet.",
+          "stuetzt": "Die Firewall allein reicht nicht — die Verneinung steht mit im Zitat."
+        },
+        {
+          "id": "firewall-selbst-hat-luecken",
+          "zitat": "Angriffe aus dem Internet nutzen jedoch jede Sicherheitslücke in installierten und genutzten Programmen wie auch in der Firewall selbst aus",
+          "stuetzt": "Die Firewall ist selbst ein Programm mit Lücken. Das ist das „und heute\" des Märchens."
+        },
+        {
+          "id": "nur-notwendige-zugriffe",
+          "zitat": "die Filterregeln so definiert werden, dass nur unbedingt notwendige Zugriffe erlaubt sind",
+          "stuetzt": "Was stattdessen zählt: die Regeln, nicht das Vorhandensein."
+        },
+        {
+          "id": "firewall-von-internet-routern",
+          "zitat": "Nicht vergessen werden sollte auch die Firewall von Internet-Routern.",
+          "stuetzt": "Es gibt mehr als eine Firewall im Haus, und die zweite kennt kaum jemand."
         }
       ]
     }

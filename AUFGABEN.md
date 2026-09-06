@@ -2647,6 +2647,31 @@ kommen erst eine Woche später in die Zahlen.
 kurze Klasse ist vollständig der einstimmige Bau, die lange der zweistimmige.
 Welche der beiden Änderungen die Sehdauer bewegt, ist daraus nicht zu lesen.
 
+## Die untere Längenklasse belegt sich nicht von selbst · 06.09.2026
+
+Nachgesehen, statt zu warten: Der Vorrat liegt mit **3 / 34 / 18** fast
+vollständig in der mittleren Klasse. `wochenAuswaehlen` kennt die Länge nicht —
+es wählt nach Format, Bauform und Sachgebiet. Bei drei kurzen Kandidaten gegen
+52 andere fällt die kurze Klasse in einer Fünferwoche praktisch nie. **Der
+Längenversuch wartet also nicht auf Sendungen, sondern auf Dialoge.**
+
+- [x] ~~`npm run wochenvorschlag` zeigt die geschätzte Länge je Short und die
+      Verteilung über die Klassen, mit Hinweis bei leerer Klasse. **Ein
+      Hinweis, keine Wache**: Ein Mindestmaß ließe sich ansteuern, und eine
+      Regel, die eine Woche zurückhält, weil kein kurzer Short im Vorrat liegt,
+      hielte jede Woche zurück~~
+- [x] ~~Drei kurze Wechselreden geschrieben, je rund 52 Sekunden:
+      `inkognito-modus` und `nichts-zu-verbergen` (beide `werhatrecht`, aus dem
+      Beef-Umbau desselben Tages) und `firewall-reicht` (`eswareinmal`, neue
+      Quelle `bsi-irrtuemer-internet`). **Kurz heißt ein Beleg weniger, nicht
+      eine gekürzte Zuspitzung** — ein Short, der kurz ist, weil ihm etwas
+      fehlt, misst am Ende das Fehlende und nicht die Länge~~
+- [x] ~~Ein Fehlalarm der Kaltstart-Wache behoben: `sachwoerter` erkennt
+      Substantive an der Großschreibung, und „Ich habe nichts zu verbergen"
+      ließ nur „ich" und „bei" übrig. Die Pronomen der ersten Person stehen
+      jetzt in `KEINE_SACHWOERTER` — **bei einem Kaltstart ohne Substantiv
+      schweigt die Wache, statt auf ein „ich" zu zeigen**~~
+
 - [ ] **Zwei Längenklassen innerhalb des neuen Baus** — wartet auf Sendungen,
       nicht auf Arbeit. 53–67 s hat drei Videos, über 67 s keines mit Aufrufen;
       bei fünf Videos je Woche sind das zwei bis drei Wochen. **Der Vergleich
