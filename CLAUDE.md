@@ -48,7 +48,35 @@ TypeScript Formen prüft und nicht Werte.
 ## Wo was steht
 
 Diese Datei hält den **Vertrag**: was gilt und warum. Die **Abläufe** stehen in
-`.claude/skills/`.
+`.claude/skills/`, das **Handwerk** in deren `references/`, und was nur beim
+Nachschlagen gebraucht wird, in `docs/`.
+
+**Am 06.09.2026 sind 46 KB aus dieser Datei umgezogen** — von 119 auf 72. Die
+Aufteilung war in der Datei seit langem angelegt und benannt, nur nicht
+durchgezogen: Vier Fünftel waren Ablaufwissen, Messprotokolle und
+Änderungshistorie, die situativ gebraucht werden und trotzdem jede Sitzung
+mitgeladen wurden. Verschoben wurde **wörtlich**, geprüft mit einer Zeilenprobe
+gegen den Tag `vor-aufteilung`; nur „Harte Regeln" ist zu einer Tabelle
+verdichtet, und das alte Kapitel steht vollständig in der Historie.
+
+| Datei | was drinsteht | wann zu lesen |
+|---|---|---|
+| `bild-bauen/references/figuren.md` | Rigs, Posen, Abstände, Haltung, vierte Wand | an einer Figur arbeiten |
+| `bild-bauen/references/buehne-und-kulisse.md` | Raum, Überlaufmessung, gefallene Untertitelzone | an Bühne oder Kulisse |
+| `bild-bauen/references/text-im-bild.md` | Redespalten, Zitatkarte, keine Sprechblase | an Text im Bild |
+| `bild-bauen/references/vorhang-und-vorspann.md` | Vorhang, Vorspann- und Abspannkarte | an der Show außenherum |
+| `woche-bauen/references/vertonung.md` | Modell, Regie, Stimmen, Pausen, bezahlter Lauf | **vor jeder Vertonung** |
+| `beleg-holen/references/zitat-und-abruf.md` | Subjekt im Zitat, Verneinung, Länge, EUR-Lex | **vor jeder neuen Quelle** |
+| `docs/regelhistorie.md` | wie jede harte Regel entstand | bevor eine Regel geändert wird |
+| `docs/verworfen.md` | was gestrichen ist und warum | wenn jemand es wieder vorschlägt |
+| `docs/ton.md` | die vier Klänge, Abspann, Kipppunktton | an `skripte/toene.ts` |
+| `docs/umbauten.md` | das Protokoll der drei Umbauten | für die Vorgeschichte |
+
+**Was hier neu aufgenommen wird, muss eine der drei Fragen mit Ja beantworten:**
+Kostet es Geld? Wirkt es nach draußen? Gilt es in **jeder** Sitzung? Sonst
+gehört es in einen Skill, in eine Referenzdatei oder als Kommentar an die
+Codestelle, die es erzwingt. **Ohne diese Frage steht die Datei in vier Wochen
+wieder bei 110 KB** — und zwar mit den Befunden aus genau diesen vier Wochen.
 
 | Eigener Skill | wofür |
 |---|---|
