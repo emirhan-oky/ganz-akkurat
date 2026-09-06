@@ -256,9 +256,18 @@ export const Muster: React.FC<MusterEigenschaften> = ({
   };
 
   platziere((x, y) => Leitung(x, y, 60 + w() * 140, w() > 0.5 ? 1 : -1, linie), 40);
-  platziere((x, y) => Platte(x, y, 60 + w() * 70, 45 + w() * 55, linie), 38);
-  platziere((x, y) => Quader(x, y, 40 + w() * 45, 40 + w() * 45, 25 + w() * 55, linie), 28);
-  platziere((x, y) => Klappe(x, y, 55 + w() * 45, 45 + w() * 30, linie), 22);
+  /*
+   * **Breiter und flacher als bis zum 06.09.2026.** Die Kaesten standen
+   * annaehernd quadratisch und bis zu 80 Pixel hoch; auf dem Banner ist das
+   * gegen die Form des Bildes gebaut. Sichtbar ist am Telefon ein Streifen von
+   * 1235x338 — **ein hoher Quader nimmt darin ein Drittel der Hoehe und wirkt
+   * wie ein Turm vor der Buehne.** Die Grundflaechen sind jetzt bis zu doppelt
+   * so breit, die Hoehen halbiert; das Muster liest sich als Flucht statt als
+   * Skyline.
+   */
+  platziere((x, y) => Platte(x, y, 95 + w() * 105, 32 + w() * 38, linie), 38);
+  platziere((x, y) => Quader(x, y, 65 + w() * 75, 34 + w() * 36, 14 + w() * 26, linie), 28);
+  platziere((x, y) => Klappe(x, y, 75 + w() * 75, 34 + w() * 26, linie), 22);
   /*
    * Die Drehung ist gerastert, nicht frei.
    *

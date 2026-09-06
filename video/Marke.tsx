@@ -165,10 +165,24 @@ const BANNER_BAHN = 480;
  * auseinander.
  */
 const FIGUR_HOCH = 186;
-const FIGUR_BREIT = Math.round(FIGUR_HOCH * (174 / 130));
-const FIGUR_VERSATZ = Math.round(FIGUR_HOCH * (40 / 130));
 
-export const BannerMuster: React.FC = () => (
+/**
+ * Ohne Wortmarke bekommen die Figuren den Platz — 214 statt 186.
+ *
+ * **YouTube setzt den Kanalnamen direkt unter den Banner**, im Bild steht er
+ * also ein zweites Mal. Ob die Wiederholung die Zeile wert ist, entscheidet
+ * kein Argument, sondern der Vergleich:
+ *
+ *     npx remotion still video/index.ts Banner-muster mit.png
+ *     npx remotion still video/index.ts Banner-muster ohne.png --props='{"ohneWortmarke":true}'
+ */
+const FIGUR_HOCH_OHNE = 214;
+
+export const BannerMuster: React.FC<{ ohneWortmarke?: boolean }> = ({ ohneWortmarke = false }) => {
+  const figurHoch = ohneWortmarke ? FIGUR_HOCH_OHNE : FIGUR_HOCH;
+  const FIGUR_BREIT = Math.round(figurHoch * (174 / 130));
+  const FIGUR_VERSATZ = Math.round(figurHoch * (40 / 130));
+  return (
   <div
     style={{
       width: '100%',
@@ -257,10 +271,10 @@ export const BannerMuster: React.FC = () => (
     >
       {/* Die beiden Figuren, zentriert ueber der Wortmarke. */}
       <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-        <div style={{ width: FIGUR_BREIT, height: FIGUR_HOCH }}>
+        <div style={{ width: FIGUR_BREIT, height: figurHoch }}>
           <Figur rig={nachleser} pose={POSEN.zeigen} />
         </div>
-        <div style={{ width: FIGUR_BREIT, height: FIGUR_HOCH, marginLeft: -FIGUR_VERSATZ }}>
+        <div style={{ width: FIGUR_BREIT, height: figurHoch, marginLeft: -FIGUR_VERSATZ }}>
           <Figur rig={zeiger} pose={POSEN.ruhe} />
         </div>
       </div>
@@ -271,7 +285,9 @@ export const BannerMuster: React.FC = () => (
        * Akkus stehen als Figuren schon darueber, und das Zeichen ist ihre
        * Abkuerzung.
        */}
-      <Wortmarke groesse={30} farbe={FARBEN.kennVoltiTief} farbeZwei={FARBEN.kennWattiTief} />
+      {!ohneWortmarke && (
+        <Wortmarke groesse={30} farbe={FARBEN.kennVoltiTief} farbeZwei={FARBEN.kennWattiTief} />
+      )}
 
       <div
         style={{
@@ -306,4 +322,5 @@ export const BannerMuster: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
