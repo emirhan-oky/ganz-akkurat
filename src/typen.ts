@@ -789,7 +789,7 @@ const ohneWeltbehauptung = (
  * Am 26.08.2026 standen hier sechs geratene Tags, von mir aus dem Gedaechtnis
  * gewaehlt — bei Quellen verbietet dieses Projekt genau das. Das Nachlesen der
  * ElevenLabs-Doku hat einen davon sofort erledigt: **`[confused]` existiert
- * nicht.** Es stand seit dem 25.08. in `src/stimme.ts` und in `AUFGABEN.md`
+ * nicht.** Es stand seit dem 25.08. in `src/stimme.ts` und im Verlauf der `README.md`
  * als *das* Beispiel, ausgerechnet fuer die Machart, fuer die der
  * Modellwechsel gemacht wurde.
  *

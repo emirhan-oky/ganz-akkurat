@@ -9,7 +9,7 @@ datiert und steht so auch im Git-Log.
 
 Die Pipeline steht bis einschließlich Veröffentlichung: Ablage auf Cloudflare
 R2, Einplanung über Buffer, Zugangsprüfung (`npm run zugaenge`). Alle Zugänge
-liegen in `.env`. Die laufende Aufgabenliste steht in `AUFGABEN.md`.
+liegen in `.env`. Was offen ist, steht in `README.md`.
 
 **Seit dem 25.08.2026 läuft der Umbau auf zwei Stimmen.** Schema, Vertonung,
 Redespalten, zwei Rigs, die Bauformen und die fordernden Prüfregeln stehen.
