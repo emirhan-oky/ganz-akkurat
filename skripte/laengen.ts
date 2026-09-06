@@ -59,10 +59,31 @@ import { LAENGENKLASSEN } from '../src/zeit';
  */
 const GENUG_JE_KLASSE = 3;
 
-/** Die Sekunden, die jemand wirklich zugesehen hat. */
+/** Die Sekunden, die jemand wirklich zugesehen hat — aus YouTubes Durchsicht. */
 const verweildauer = (r: Rueckschau): number | null => {
   const d = r.mitHalt?.durchsicht ?? null;
   return d === null ? null : (d / 100) * r.eintrag.laengeSek;
+};
+
+/**
+ * Dasselbe von TikTok — und **nicht dieselbe Zahl.**
+ *
+ * YouTube meldet einen Anteil, aus dem hier Sekunden gerechnet werden; TikTok
+ * meldet die Sekunden direkt (`Avg. Watch Time (sec)` über Buffer). Beide
+ * beantworten dieselbe Frage, aber sie sind auf verschiedenen Plattformen an
+ * verschiedenen Publika gemessen. **Sie werden deshalb nebeneinandergestellt
+ * und nie gemittelt** — dieselbe Regel wie auf der Kanalseite, wo Buffer- und
+ * Analytics-Zahlen getrennt gekennzeichnet sind.
+ *
+ * **Sie ist die tragfähigere der beiden.** Am 06.09.2026 hatten 16 Videos eine
+ * TikTok-Sehdauer und nur 8 eine YouTube-Durchsicht — auf dem Kanal, der zwei
+ * Drittel der Aufrufe bringt, wird auch mehr gemessen.
+ */
+const sehdauer = (r: Rueckschau): number | null => {
+  const t = r.zuletzt.jeKanal?.['tiktok'];
+  if (!t || t.sehdauerSek == null) return null;
+  // Ohne Aufrufe ist die Sehdauer 0 und bedeutet nichts.
+  return t.aufrufe > 0 ? t.sehdauerSek : null;
 };
 
 const main = async () => {
@@ -75,10 +96,12 @@ const main = async () => {
   }
 
   const gemessen = alle.filter((r) => verweildauer(r) !== null);
+  const mitSehdauer = alle.filter((r) => sehdauer(r) !== null);
 
   console.log('Ganz akkurat · Länge und Verweildauer\n');
   console.log(
-    `  ${alle.length} veröffentlichte Shorts, ${gemessen.length} davon mit Durchsicht.`,
+    `  ${alle.length} veröffentlichte Shorts, ${gemessen.length} davon mit YouTube-Durchsicht,\n` +
+      `  ${mitSehdauer.length} mit TikTok-Sehdauer.`,
   );
 
   const laengen = alle.map((r) => r.eintrag.laengeSek);
@@ -110,6 +133,33 @@ const main = async () => {
     );
   }
   console.log('  ' + '─'.repeat(64));
+
+  /*
+   * Dieselben Klassen an der TikTok-Sehdauer. Getrennte Tabelle, weil es eine
+   * getrennte Messung ist — die Zahlen dürfen sich nicht vermischen.
+   */
+  const belegtTikTok: string[] = [];
+  console.log('\n  Dasselbe an TikToks Sehdauer — die einzige Zahl vom größten Kanal:');
+  console.log('  Klasse      Videos     Sehdauer  Anteil (Median)');
+  console.log('  ' + '─'.repeat(52));
+  for (const klasse of LAENGENKLASSEN) {
+    const dazu = mitSehdauer.filter(
+      (r) => r.eintrag.laengeSek >= klasse.von && r.eintrag.laengeSek < klasse.bis,
+    );
+    const genug = dazu.length >= GENUG_JE_KLASSE;
+    if (genug) belegtTikTok.push(klasse.name);
+    const dauer = genug ? median(dazu.map((r) => sehdauer(r)!)) : null;
+    const anteil = genug
+      ? median(dazu.map((r) => (sehdauer(r)! / r.eintrag.laengeSek) * 100))
+      : null;
+    console.log(
+      `  ${klasse.name.padEnd(12)}${String(dazu.length).padStart(4)}    ` +
+        (genug
+          ? `${(dauer ?? 0).toFixed(1).padStart(9)} s  ${prozent(anteil)}`
+          : `zu wenig (${dazu.length} von ${GENUG_JE_KLASSE})`),
+    );
+  }
+  console.log('  ' + '─'.repeat(52));
 
   /*
    * Die Bauform steht daneben, weil sie den Zielwert setzt. Sie ist die
@@ -182,12 +232,26 @@ const main = async () => {
    * Tabelle darueber einordnet: Solange nur eine Klasse belegt ist, misst
    * dieses Skript keine Laengen, sondern eine einzige Laenge.
    */
-  if (belegteKlassen.length < 2) {
+  if (belegtTikTok.length >= 2) {
+    /*
+     * **Der Fall, für den dieses Skript gebaut wurde, ist am 06.09.2026 zum
+     * ersten Mal eingetreten** — und er kam von TikTok, nicht von YouTube.
+     * Zwei Längenklassen tragen an der Sehdauer je drei Videos, an der
+     * YouTube-Durchsicht steht weiter nur eine da.
+     */
+    console.log(
+      `\n  Zwei Längenklassen tragen an TikToks Sehdauer je ${GENUG_JE_KLASSE} Videos ` +
+        `(${belegtTikTok.join(', ')}).\n` +
+        '  Das ist der erste Vergleich über Längen, den dieses Projekt hat — und ein\n' +
+        '  Fingerzeig, keine Erkenntnis: Drei Videos je Klasse ist die Untergrenze,\n' +
+        '  nicht das Maß. An der YouTube-Durchsicht steht weiter nur eine Klasse da.',
+    );
+  } else if (belegteKlassen.length < 2) {
     console.log(
       `\n  Nur eine Längenklasse ist belegt (${belegteKlassen[0] ?? 'keine'}). Damit lässt sich\n` +
-        '  über Länge nichts sagen — auch nicht vorsichtig. Die vier Zielwerte in\n' +
-        '  `BAUFORMEN` sind bis dahin ein Versuchsaufbau und keine Erkenntnis: Sie wurden\n' +
-        `  gespreizt, damit es etwas zu messen gibt. Sie fallen, sobald eine zweite Klasse\n  ${GENUG_JE_KLASSE} gemessene Videos trägt.`,
+        '  über Länge nichts sagen — auch nicht vorsichtig. Das Längenfenster ist bis\n' +
+        '  dahin ein Versuchsaufbau und keine Erkenntnis: Es wurde gespreizt, damit es\n' +
+        `  etwas zu messen gibt. Es fällt, sobald eine zweite Klasse\n  ${GENUG_JE_KLASSE} gemessene Videos trägt.`,
     );
   } else {
     console.log(

@@ -94,6 +94,59 @@ const AUS_ANALYTICS: string[] = ['geteilt', 'neueAbos'];
 
 const zahl = (n: number): string => n.toLocaleString('de-DE');
 
+/**
+ * Die TikTok-Sehdauer je Video, mit ihrem Anteil an der Videolänge.
+ *
+ * **Sie stand ab dem 04.09.2026 in `daten/rueckblick.json` und wurde von
+ * nichts gelesen.** `sehdauerSek` kommt aus Buffers `Avg. Watch Time (sec)`,
+ * steht im Schema und sogar in `MELDET_NICHT` — auf der Seite fehlte sie.
+ * Genau die Lücke, die `laengeSek` schon einmal hatte: **gemessen, abgelegt,
+ * nie angesehen.** Am 06.09.2026 hat sie mich sogar dazu gebracht, sie für
+ * eine Null zu halten und das aufzuschreiben.
+ *
+ * **Gewichtet wird mit den Aufrufen.** Eine Sehdauer, die aus einem einzigen
+ * Aufruf stammt, sagt so viel wie eine Umfrage mit einem Teilnehmer;
+ * `reparatur-gilt` steht mit 1 Aufruf und 1,00 s in der Liste und darf den
+ * Schnitt nicht mitbestimmen.
+ */
+const sehdauerTabelle = (alle: Rueckschau[]): string => {
+  type Zeile = { titel: string; laenge: number; dauer: number; aufrufe: number };
+  const zeilen: Zeile[] = [];
+  for (const r of alle) {
+    const t = r.zuletzt.jeKanal?.['tiktok'];
+    const laenge = r.eintrag.laengeSek;
+    if (!t || t.sehdauerSek == null || !laenge) continue;
+    zeilen.push({ titel: r.eintrag.titel, laenge, dauer: t.sehdauerSek, aufrufe: t.aufrufe });
+  }
+  if (zeilen.length === 0) {
+    return '<p class="warum">Noch keine Sehdauer gemessen.</p>';
+  }
+  zeilen.sort((a, b) => b.dauer / b.laenge - a.dauer / a.laenge);
+
+  const mitAufrufen = zeilen.filter((z) => z.aufrufe > 0);
+  const gewicht = mitAufrufen.reduce((n, z) => n + z.aufrufe, 0);
+  const mittel = gewicht > 0 ? mitAufrufen.reduce((n, z) => n + z.dauer * z.aufrufe, 0) / gewicht : 0;
+
+  const zelle = (z: Zeile): string => {
+    const anteil = z.laenge > 0 ? z.dauer / z.laenge : 0;
+    const breite = Math.max(1, Math.round(anteil * 100));
+    return `<tr>
+      <td>${z.titel}</td>
+      <td class="num">${z.laenge} s</td>
+      <td class="num">${z.dauer.toFixed(2)} s</td>
+      <td class="num">${Math.round(anteil * 100)} %</td>
+      <td><span style="display:inline-block;height:8px;width:${breite}%;min-width:2px;background:${FARBE['tiktok']};border-radius:4px"></span></td>
+      <td class="num">${zahl(z.aufrufe)}</td>
+    </tr>`;
+  };
+
+  return `<table>
+      <tr><th>Video</th><th class="num">Länge</th><th class="num">Sehdauer</th><th class="num">Anteil</th><th></th><th class="num">Aufrufe</th></tr>
+      ${zeilen.map(zelle).join('')}
+    </table>
+    <p class="warum" style="margin-top:12px">Gewichtet mit den Aufrufen: <b>${mittel.toFixed(2)} s</b> über ${mitAufrufen.length} Videos, die überhaupt Aufrufe haben. Videos ohne Aufrufe stehen in der Liste, zählen aber nicht mit — eine Sehdauer ohne Zuschauer ist keine.</p>`;
+};
+
 /** Eine Zahl, oder ein Gedankenstrich, wenn der Dienst sie gar nicht meldet. */
 const wert = (m: Kanalmessung | undefined, feld: keyof Kanalmessung, kanal: Kanal): string => {
   if (!m) return '<span class="ohne">—</span>';
@@ -457,6 +510,12 @@ export const kanalseiteBauen = (alle: Rueckschau[], tageFenster = 7): string => 
   </section>
 
   <section>
+    <h2>Wie lange zugesehen wird</h2>
+    <p class="warum">Die durchschnittliche Sehdauer, und wie viel das vom Video ist. <b>Nur TikTok meldet sie</b> — für YouTube und Instagram schickt Buffer das Feld nicht. Damit ist es die einzige Zahl im Bestand, die sagt, wie weit jemand gekommen ist, und sie kommt ausgerechnet von dem Kanal mit den meisten Aufrufen.</p>
+    ${sehdauerTabelle(alle)}
+  </section>
+
+  <section>
     <h2>Jedes Video, die drei Kanäle nebeneinander</h2>
     <p class="warum">Neueste zuerst. Der Streifen rechts zeigt, wie sich die Aufrufe eines Videos auf die Kanäle verteilen.</p>
     <table>
@@ -468,6 +527,7 @@ export const kanalseiteBauen = (alle: Rueckschau[], tageFenster = 7): string => 
   <section>
     <h2>Was diese Seite nicht weiß</h2>
     <ul class="grenzen">
+      <li><b>Die Sehdauer gibt es nur von TikTok.</b> YouTube und Instagram melden sie über Buffer nicht — die Tabelle oben hat deshalb genau eine Spalte statt drei.</li>
       <li><b>Keine Haltekurve für Instagram und TikTok.</b> Buffer liefert Momentaufnahmen. Die Haltequote an Sekunde 3,5 gibt es nur bei YouTube, über dessen Analytics-Schnittstelle — sie steht in <code>npm run aufschlaege</code>.</li>
       <li><b>Keine neuen Abonnenten bei TikTok</b> und keine Reichweite bei YouTube. Buffer schickt diese Felder je Dienst verschieden; wo ein Strich steht, wurde nichts gemessen.</li>
       <li><b>Nur, was Buffer gesendet hat.</b> Ein von Hand veröffentlichter Beitrag hat keine Beitragskennung und taucht hier nicht auf.</li>
