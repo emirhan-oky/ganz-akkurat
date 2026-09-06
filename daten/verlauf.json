@@ -175,6 +175,41 @@
           "dauerSek": 69.9
         }
       ]
+    },
+    {
+      "lauf": "2026-09-06",
+      "shorts": [
+        {
+          "format": "gibtswirklich",
+          "sachgebiet": "laden",
+          "themaId": "powerbank-wattstunden",
+          "dauerSek": 65.6
+        },
+        {
+          "format": "absicht",
+          "sachgebiet": "recht",
+          "themaId": "handyversicherung",
+          "dauerSek": 57.4
+        },
+        {
+          "format": "gibtswirklich",
+          "sachgebiet": "laden",
+          "themaId": "akku-ganz-leer",
+          "dauerSek": 47.4
+        },
+        {
+          "format": "werhatrecht",
+          "sachgebiet": "netz",
+          "themaId": "werbeblocker",
+          "dauerSek": 61.9
+        },
+        {
+          "format": "absicht",
+          "sachgebiet": "fahren",
+          "themaId": "auto-ereignisspeicher",
+          "dauerSek": 62.4
+        }
+      ]
     }
   ]
 }

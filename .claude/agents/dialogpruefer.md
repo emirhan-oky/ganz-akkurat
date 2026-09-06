@@ -70,6 +70,7 @@ diese Tabelle.**
 | **Der Kaltstart berichtet über den anderen** | Wattis Satz vor dem Vorhang handelt von Volti statt von seiner eigenen Sache | *„Mit wem redet Watti? Das ist komisch."* · Befund 39. Der Kaltstart ist ein Selbstgespräch; ein Bericht über den anderen hat keinen, an den er sich richtet |
 | **Der Titel beschreibt statt zu urteilen** | „Volti wartet keine fünf Tage" statt „Volti predigt und kauft neu"; ein Titel ohne Verb und ohne Person | *„die letzten Titel von dir waren echt nicht gut"* · Befund 53, 56 |
 | **Der Name allein am Schluss trägt keine Enttäuschung** | in der Schlussszene steht der Name des anderen als **eigene Zeile** („Watti."), und die Zeile ist freundlich, sachlich oder erklärend gemeint | *„dann wird es immer ein Watti/Volti … also eine enttäuschte Ausdrucksweise"* · Befund 117. Drei von vier Namensnennungen im Schluss sind genau das. **Der Name im Satz ist der Gegenfall** — „Wir klären das ab, Watti." ist eine normale Anrede und keine Meldung |
+| **Watti nennt Volti „kleiner"** | in einer Zeile mit `sprecher: zeiger` steht „kleiner" als **Anrede** an Volti (nicht als Größenangabe) | *„Das ist gegen unsere Struktur. Er ist der kleine Bruder."* · Befund 118. Die Anrede hat eine Richtung: Volti sagt „kleiner", Watti sagt „großer Bruder". Im Bestand dreizehnmal richtig, einmal falsch — und das eine fiel erst am fertigen Video auf |
 
 **Die Tabelle ist am 04.09.2026 an Emirhans sechs Dialogen geeicht worden, und
 sieben ihrer damals zwölf Zeilen sind dabei enger geworden.** Zwei weitere kamen

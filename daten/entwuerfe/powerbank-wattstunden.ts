@@ -194,7 +194,7 @@ export const powerbankWattstunden: Short = {
       position: 'nachschlag',
       satz: 'Auf der Powerbank steht mAh, gezählt werden Wattstunden.',
       sprechtext:
-        'Und was heißt das für mich? Jede einzeln, alle im Handgepäck, und keine über den Grenzwerten. Ich nehme eine mit. Und die anderen zwei? Die lade ich hier vor, kleiner.',
+        'Und was heißt das für mich? Jede einzeln, alle im Handgepäck, und keine über den Grenzwerten. Ich nehme eine mit. Und die anderen zwei? Die lade ich hier vor.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und was heißt das für mich?' },
         {
@@ -210,7 +210,7 @@ export const powerbankWattstunden: Short = {
           sprecher: 'zeiger',
           zug: 'beantworten',
           machart: 'falscherschluss',
-          text: 'Die lade ich hier vor, kleiner.',
+          text: 'Die lade ich hier vor.',
         },
       ],
       buehne: {

@@ -12,7 +12,7 @@
 >   Satzbau Nummern — und die kollidierten mit der Hauptserie: **Befund 1 und 8
 >   gab es zweimal.** Die übrigen drei Kapitel hatten gar keine, obwohl der Text
 >   sie brauchte.
-> - **`1`–`117`** — die Hauptserie. Jeder Verweis im Text („verwandt mit Befund
+> - **`1`–`118`** — die Hauptserie. Jeder Verweis im Text („verwandt mit Befund
 >   54") meint diese. 95–108 sind am 04.09.2026 aus dem Szenarienordner
 >   nachgetragen worden, wo sie ohne Nummer standen; 109–114 stammen aus der
 >   Gegenprobe des Dialogprüfers und seinem ersten Lauf am selben Tag.
@@ -1513,3 +1513,35 @@ Vorrat mit Wache zu bauen wäre genau der Reflex, gegen den Befund 25 steht.
 Urteil über den anderen ist. Ist sie es und fällt der Name, darf sie allein
 stehen. Der `dialogpruefer` prüft die Gegenrichtung: Steht am Schluss ein Name
 als eigene Zeile, muss die Zeile Enttäuschung tragen.
+
+### 118 · „Kleiner" gehört Volti. Immer.
+
+Emirhan am 06.09.2026 zum fertigen Video von `powerbank-wattstunden`: *„In Watti
+packt drei Powerbanks ein sagt Watti hier kleiner zu Volti. Das ist gegen unsere
+Struktur. Er ist der kleine Bruder."*
+
+Die Zeile war Wattis Schlusspointe: „Die lade ich hier vor, kleiner."
+
+**Gemessen im Bestand: ein einziger Fall, dreizehn richtige.** Volti sagt
+„kleiner" in vier Shorts zu Watti, Watti sagt „großer Bruder" in vier Shorts zu
+Volti — und in fünf weiteren steht „kleiner" als Größenangabe, nicht als Anrede.
+Die Struktur trug also überall, nur an dieser einen Stelle nicht.
+
+| wer | darf sagen |
+|---|---|
+| **Volti** | „kleiner" — er ist der große Bruder |
+| **Watti** | „großer Bruder" — nie „kleiner" |
+
+**Das ist keine Stilfrage, sondern die Figurenordnung.** Watti ist der kleine
+Bruder, der die Welt noch nicht versteht; wer ihn den anderen „kleiner" nennen
+lässt, dreht das Gefälle um, auf dem der ganze Humor steht. Ein Zuschauer, der
+beide zum ersten Mal sieht, lernt die Rollen aus genau solchen Wörtern.
+
+**Der Weg dahin:** Die Anrede am Schluss ist wertvoll (siehe Befund 117) und
+deshalb verlockend. Sie ist aber nicht symmetrisch — sie hat eine Richtung. Vor
+jeder Anrede die Frage: **Wer spricht hier zu wem?**
+
+**Und der Ersatz war nicht „großer Bruder".** Das steht schon am Schluss von
+vier Shorts; ein fünfter hätte aus einem Wort einen Pflichtbaustein gemacht —
+genau der Automatismus, den Emirhan am 03.09.2026 schon einmal beanstandet hat.
+Die Zeile heißt jetzt „Die lade ich hier vor." und trägt ihre Pointe allein.

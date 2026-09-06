@@ -89,7 +89,7 @@ import { bluetoothBlauzahn } from './bluetooth-blauzahn';
  * Zuschauer mit dem, was im Feed wie dasselbe Video aussieht. Bei vier von
  * acht geht das Abwechseln genau auf: jede zweite Stelle ein `absicht`.
  */
-export const WOCHENLAUF: Short[] = [blitzerApp, vierPaketeZurueck, flugmodus, geldscheinDrucken];
+export const WOCHENLAUF: Short[] = [powerbankWattstunden, handyversicherung, akkuGanzLeer, werbeblocker, autoEreignisspeicher];
 
 /**
  * Entwuerfe, die noch nicht tragen.
@@ -98,7 +98,7 @@ export const WOCHENLAUF: Short[] = [blitzerApp, vierPaketeZurueck, flugmodus, ge
  * erscheinen dort nur als Hinweis. Eine Pruefung, die dauerhaft rot ist, liest
  * bald niemand mehr.
  */
-export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, handyversicherung, werbeblocker, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, powerbankWattstunden, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, autoEreignisspeicher, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, akkuGanzLeer, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer, bluetoothBlauzahn];
+export const GEPARKT: Short[] = [raumstationAlteRechner, ersatzteilFreischalten, passwortWechseln, erstesLaden, garantiesiegelNichtig, festplatteLoeschen, fernseherHoertZu, kabelschublade, produktpassAkku, ladekabelWatt, zettelImTreppenhaus, urlaubsfoto, fremdesLadekabel, akkuWechselbar2027, schaltsekundeWette, druckerGelbePunkte, arianeAlteEinstellung, ladezyklenSteckdose, updatefristStichtag, ersatzteilFuenfTage, cafeWlan, handyheizung, updateItalien, virenprogrammWette, achtzigProzentNachbar, laptopUsbC, sekundeVomAtom, mobilfunkMesskampagne, routerZwang, roamingSommer, elektroschrottSupermarkt, nummerMitnehmen, widerrufWette, energielabelBuchstabe, ladegeraetPiktogramm, standbyHalbesWatt, updatesVomHaendler, kassenzettelAusschluss, streamenImZug, wlanPasswortAbmahnung, balkonkraftwerkNachbar, technikerTermin, handyAmSteuer, bluetoothBlauzahn];
 
 /**
  * Alles, was geschrieben ist — Lauf und Geparktes zusammen.
