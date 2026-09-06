@@ -6,13 +6,16 @@
   zusammenstellen, vertonen, rendern, Freigabeseite oeffnen, Mitteilung
   schicken. Er plant nichts ein — das Veroeffentlichen bleibt Handarbeit.
 
-  Warum 12:00 und eine halbe Stunde nach der Kanalwoche (11:30): Wer die
-  naechste Woche waehlt, soll wissen, was die letzte getan hat.
+  Warum 10:00 und eine Stunde nach der Kanalwoche (9:00): Wer die naechste
+  Woche waehlt, soll wissen, was die letzte getan hat.
 
-  Hier stand bis zum 05.09.2026 12:07, begruendet damit, dass um 12:00 das
-  Sonntagsvideo der laufenden Woche sendet. Das galt fuer den von Hand gelegten
-  Plan dieser einen Woche; seit `SENDEPLAETZE` steht der Sonntagsplatz auf
-  18:00. **Eine Ausnahme, deren Fall es nicht mehr gibt, ist keine Ausnahme.**
+  Die Zeiten sind am 06.09.2026 um zwei Stunden vorgezogen worden — auf Ansage,
+  nachdem der erste Sonntag von selbst durchgelaufen war. Davor: 11:30 und
+  12:00, und davor 12:07 mit einer Begruendung, die ihren Fall verloren hatte.
+
+  **Die ganze Kette haengt an einer Reihenfolge**, und die ist der Grund fuer die
+  Abstaende: `rueckblick` traegt um 8:30 die Zahlen nach, `kanalwoche` wertet sie
+  um 9:00 aus, und dieser Lauf waehlt um 10:00 die naechste Woche.
 
   Warum sonntags: Die Sendewoche beginnt montags. Wer sonntags mittags
   freigibt, hat den Nachmittag Zeit, bevor am Montag um 18 Uhr das erste
@@ -48,7 +51,7 @@
   <key>StartCalendarInterval</key>
   <dict>
     <key>Weekday</key><integer>0</integer>
-    <key>Hour</key><integer>12</integer>
+    <key>Hour</key><integer>10</integer>
     <key>Minute</key><integer>0</integer>
   </dict>
 

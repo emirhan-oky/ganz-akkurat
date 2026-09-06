@@ -2532,3 +2532,20 @@ wie eine, die nichts findet.**
 - **Vier Shorts der ersten automatischen Auswahl liegen bei 69–78 Sekunden**,
   geschätzt ohne Ton. Das Fenster endet bei 80. Die Schätzung lag am 04.09.
   eher zu hoch (63,6 gegen 56,8 gemessen), aber der Abstand ist dünn
+
+## Die Sonntagszeiten vorgezogen · 06.09.2026
+
+Der erste automatische Sonntag ist von selbst durchgelaufen: `kanalwoche.html`
+um **11:32**, die erste Tondatei des Wochenlaufs um **12:02** — beide fast auf
+die Minute, Exit-Code 0. Der Mac musste nicht geweckt werden.
+
+Emirhans Ansage danach: *„Auswertung erfolgt 9 Uhr. Hochgeladen wird 10 Uhr."*
+
+- [x] ~~`kanalwoche` von 11:30 auf **9:00**, `wochenlauf` von 12:00 auf
+      **10:00**~~
+- [x] ~~**Und `rueckblick` von 9:30 auf 8:30** — er füllt die Datei, die die
+      Auswertung liest. Bei 9:00 hätte die Kanalwoche die Zahlen von gestern
+      ausgewertet und es nicht gemerkt. **Die drei Zeiten sind eine Kette, und
+      sie hat eine Richtung**~~
+- [x] ~~Alle drei `.plist` im Repo und in `~/Library/LaunchAgents` gleichgezogen,
+      Dienste neu geladen~~

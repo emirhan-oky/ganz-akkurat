@@ -1804,12 +1804,12 @@ lang zweimal beschrieben, und dieser eine Tag hat gereicht.
 
 ### `npm run kanalwoche` — die Seite
 
-Sonntags um 11:30 legt `de.ganzakkurat.kanalwoche` die Seite `kanalwoche.html`
+Sonntags um 9:00 legt `de.ganzakkurat.kanalwoche` die Seite `kanalwoche.html`
 an und öffnet sie: alle drei Kanäle nebeneinander, je Kanal und je Video. Sie
 holt nichts ab und kostet nichts — die Zahlen stehen schon in
 `daten/rueckblick.json`.
 
-**11:30, weil der Wochenlauf um 12:00 startet.** Wer die nächste Woche wählt,
+**9:00, weil der Wochenlauf um 10:00 startet.** Wer die nächste Woche wählt,
 soll wissen, was die letzte getan hat; eine Auswertung danach kommt für die
 Entscheidung zu spät. Ein eigener Dienst und keine Zeile in `sonntagslauf.sh`:
 Der Lauf bricht ab, wenn keine gültige Woche zustande kommt, und das ist der
@@ -1956,18 +1956,29 @@ Eine Suche über 4.000 Kombinationen fand am 04.09.2026 nichts.
 
 ### Der Sonntagslauf
 
-`de.ganzakkurat.wochenlauf` stellt **sonntags um 12:00** die fünf Videos der
+`de.ganzakkurat.wochenlauf` stellt **sonntags um 10:00** die fünf Videos der
 Folgewoche bereit: Woche zusammenstellen, vertonen, rendern, Freigabeseite
 öffnen, Mitteilung schicken. Er plant nichts ein.
 
-**Eine halbe Stunde nach der Kanalwoche**, und das ist der ganze Grund für den
-Abstand: Wer die nächste Woche wählt, soll wissen, was die letzte getan hat.
+**Die drei Sonntagszeiten sind eine Kette, und die Reihenfolge ist ihr Grund:**
 
-Hier stand bis zum 05.09.2026 **12:07**, begründet damit, dass um 12:00 das
-Sonntagsvideo der laufenden Woche sendet. Das galt dem von Hand gelegten Plan
-**dieser einen** Woche; seit `SENDEPLAETZE` steht der Sonntagsplatz auf 18:00.
-**Eine Ausnahme, deren Fall es nicht mehr gibt, ist keine Ausnahme** — und diese
-hatte ihren Fall verloren, bevor sie das erste Mal griff.
+| | | |
+|---|---|---|
+| **8:30** | `rueckblick` | trägt die Zahlen aller drei Kanäle nach |
+| **9:00** | `kanalwoche` | wertet aus, was die letzte Woche getan hat |
+| **10:00** | `wochenlauf` | wählt daraufhin die nächste |
+
+Wer die nächste Woche wählt, soll wissen, was die letzte getan hat — und wer
+auswertet, braucht die Zahlen von heute, nicht die von gestern. **Der tägliche
+Rückblick lief bis zum 06.09.2026 um 9:30 und damit nach der Auswertung**; das
+fiel erst auf, als die Zeiten vorgezogen wurden.
+
+**Vorgezogen wurden sie am 06.09.2026 auf Ansage**, nachdem der erste Sonntag von
+selbst durchgelaufen war — 9:00 und 10:00 statt 11:30 und 12:00. Davor stand dort
+12:07, begründet damit, dass um 12:00 das Sonntagsvideo sendet; das galt dem von
+Hand gelegten Plan einer einzigen Woche, und seit `SENDEPLAETZE` steht der
+Sonntagsplatz auf 18:00. **Eine Ausnahme, deren Fall es nicht mehr gibt, ist
+keine Ausnahme.**
 
 **Der Mac wird dafür nicht geweckt, und das ist entschieden.** Er schläft nach
 einer Minute; ein Aufweckplan (`pmset repeat wakeorpoweron`) würde ihn hochholen,
@@ -2002,8 +2013,9 @@ Streitfall ist, sieht man erst, wenn man es hat.
 |---|---|---|
 | **Senden** | Buffers Server | zu den geplanten Terminen, Rechner darf aus sein |
 | **Nachlegen** | `de.ganzakkurat.nachlegen` | täglich 19:15, wenn ein Platz frei wird |
-| **Messen** | `de.ganzakkurat.rueckblick` | täglich 9:30 |
-| **Auswerten** | `de.ganzakkurat.kanalwoche` | sonntags 11:30, vor dem Wochenlauf |
+| **Messen** | `de.ganzakkurat.rueckblick` | täglich 8:30 |
+| **Auswerten** | `de.ganzakkurat.kanalwoche` | sonntags 9:00, nach dem Messen |
+| **Bereitstellen** | `de.ganzakkurat.wochenlauf` | sonntags 10:00, die fünf der Folgewoche |
 
 **Buffers kostenloser Tarif nimmt zehn geplante Beiträge je Kanal** — zwei
 Wochen lassen sich deshalb nicht auf Vorrat einplanen. `npm run nachlegen` löst

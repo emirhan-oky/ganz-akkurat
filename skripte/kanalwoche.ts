@@ -5,8 +5,8 @@ import { kanalseiteBauen, summieren } from '../src/kanalseite';
 /**
  * `npm run kanalwoche` — die Wochenauswertung über alle drei Kanäle.
  *
- * Läuft sonntags um 11:30 als `de.ganzakkurat.kanalwoche`, also **vor** dem
- * Wochenlauf um 12:00: Wer die nächste Woche wählt, soll wissen, was die
+ * Läuft sonntags um 9:00 als `de.ganzakkurat.kanalwoche`, also **vor** dem
+ * Wochenlauf um 10:00: Wer die nächste Woche wählt, soll wissen, was die
  * letzte getan hat.
  *
  * Es holt nichts ab und kostet nichts — die Zahlen stehen schon in
