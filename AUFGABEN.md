@@ -2666,3 +2666,16 @@ die bei jedem Handgriff auf null springt, misst den Handgriff.**
 Woche statt sieben. YouTube Analytics verbucht mit ein bis drei Tagen Verzug —
 Videos vom Freitag und Samstag sind sonntags früh noch nicht verbucht und
 kommen erst eine Woche später in die Zahlen.
+
+## Was der Längenvergleich noch nicht kann · 06.09.2026
+
+`npm run laengen` zeigt erstmals zwei belegte Klassen (bis 53 s: 3,2 s / 16 %;
+53–67 s: 5,0 s / 8 %). **Der Vergleich misst aber zwei Dinge auf einmal:** Die
+kurze Klasse ist vollständig der einstimmige Bau, die lange der zweistimmige.
+Welche der beiden Änderungen die Sehdauer bewegt, ist daraus nicht zu lesen.
+
+- [ ] **Zwei Längenklassen innerhalb des neuen Baus.** 53–67 s hat drei Videos,
+      über 67 s keines mit Aufrufen. Bei fünf Videos je Woche zwischen 40 und
+      80 Sekunden dauert das zwei bis drei Wochen bis zur Untergrenze von
+      drei — und rund fünf bis zu den acht, ab denen der Rückblick sonst einen
+      Median zeigt

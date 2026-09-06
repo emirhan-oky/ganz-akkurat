@@ -244,7 +244,12 @@ const main = async () => {
         `(${belegtTikTok.join(', ')}).\n` +
         '  Das ist der erste Vergleich über Längen, den dieses Projekt hat — und ein\n' +
         '  Fingerzeig, keine Erkenntnis: Drei Videos je Klasse ist die Untergrenze,\n' +
-        '  nicht das Maß. An der YouTube-Durchsicht steht weiter nur eine Klasse da.',
+        '  nicht das Maß. An der YouTube-Durchsicht steht weiter nur eine Klasse da.\n' +
+        '\n' +
+        '  Und der Vergleich misst zwei Dinge auf einmal: Die kurze Klasse ist der\n' +
+        '  einstimmige Bau, die lange der zweistimmige. Welche der beiden Änderungen\n' +
+        '  die Sehdauer bewegt, lässt sich erst sagen, wenn zwei Klassen innerhalb\n' +
+        '  desselben Baus belegt sind.',
     );
   } else if (belegteKlassen.length < 2) {
     console.log(
