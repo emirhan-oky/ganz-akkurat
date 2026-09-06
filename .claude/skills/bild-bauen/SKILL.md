@@ -9,6 +9,23 @@ Die eine Regel, aus der alle anderen folgen: **Eine Zeichnung ist erst geprüft,
 wenn sie gerendert danebensteht.** Sie hat sich siebenmal bewährt, und jedes
 Mal sah der Code vorher richtig aus.
 
+## Was vorher zu lesen ist
+
+Am 06.09.2026 sind vier Kapitel wörtlich aus `CLAUDE.md` hierher gezogen. Sie
+laden sich nicht von selbst — **welche Datei gebraucht wird, entscheidet die
+Aufgabe:**
+
+| Aufgabe | vorher lesen |
+|---|---|
+| an einer Figur, einer Pose oder ihrer Haltung arbeiten | `references/figuren.md` |
+| an Bühne, Kulisse oder der Überlaufmessung | `references/buehne-und-kulisse.md` |
+| an Redespalten, Zitatkarte oder Text im Bild | `references/text-im-bild.md` |
+| an Vorhang, Vorspann- oder Abspannkarte | `references/vorhang-und-vorspann.md` |
+
+**Im Zweifel die Datei lesen.** Was dort steht, ist teuer erarbeitet: Jede Zahl
+darin ist an einem gerenderten Standbild gemessen, und mehrere Kapitel
+beschreiben Anläufe, die im Code richtig aussahen und im Bild falsch waren.
+
 ## Was gezeichnet wird
 
 **Gezeichnet wird, was der Satz nennt. Nicht gezeichnet wird, was ein
