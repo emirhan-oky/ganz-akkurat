@@ -92,7 +92,7 @@ export const standbyHalbesWatt: Short = {
       belegId: 'aus-zustand-null-fuenf-watt',
       herausgeber: 'Europäische Kommission',
       sprechtext:
-        'Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen. Ein halbes? Ein halbes, du Idiot. Für alles, was in der Liste steht.',
+        'Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen. Ein halbes? Ein halbes, du Idiot. Mehr darf es nicht ziehen.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -105,7 +105,7 @@ export const standbyHalbesWatt: Short = {
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Ein halbes, du Idiot. Für alles, was in der Liste steht.',
+          text: 'Ein halbes, du Idiot. Mehr darf es nicht ziehen.',
           quelleId: 'eu-oekodesign-standby',
           belegId: 'aus-zustand-null-fuenf-watt',
         },
@@ -124,13 +124,20 @@ export const standbyHalbesWatt: Short = {
       quelleId: 'eu-oekodesign-standby',
       belegId: 'spaeter-null-drei-watt',
       sprechtext:
-        'Und das bleibt so? Zwei Jahre nach dem Start sind es nur noch 0,3 Watt. Dann darf mein Toaster ja bald gar nichts mehr.',
+        'Und das bleibt so? Die Verordnung gilt seit Mai 2025. Zwei Jahre danach sind es nur noch 0,3 Watt. Dann darf mein Toaster ja bald gar nichts mehr. Deiner steht sowieso in der Schublade.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und das bleibt so?' },
         {
           sprecher: 'nachleser',
           zug: 'beantworten',
-          text: 'Zwei Jahre nach dem Start sind es nur noch 0,3 Watt.',
+          text: 'Die Verordnung gilt seit Mai 2025.',
+          quelleId: 'eu-oekodesign-standby',
+          belegId: 'gilt-ab-neuntem-mai',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Zwei Jahre danach sind es nur noch 0,3 Watt.',
           quelleId: 'eu-oekodesign-standby',
           belegId: 'spaeter-null-drei-watt',
         },
@@ -139,6 +146,12 @@ export const standbyHalbesWatt: Short = {
           zug: 'zuspitzen',
           machart: 'falscherschluss',
           text: 'Dann darf mein Toaster ja bald gar nichts mehr.',
+        },
+        {
+          sprecher: 'nachleser',
+          zug: 'zuspitzen',
+          machart: 'banaleaufloesung',
+          text: 'Deiner steht sowieso in der Schublade.',
         },
       ],
       buehne: {
