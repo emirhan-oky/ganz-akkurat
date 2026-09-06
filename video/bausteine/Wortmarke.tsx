@@ -181,16 +181,28 @@ export const Doppelzeichen: React.FC<{
   hoehe?: number;
   aufVorhang?: number;
   /**
-   * Den zweiten Akku stauchen wie Watti im Video — **Gegenprobe, Standard aus.**
+   * Den zweiten Akku stauchen wie Watti im Video — **seit dem 06.09.2026 der
+   * Normalfall.**
    *
-   * Watti ist eine Knopfzelle: `scale(1.2 0.74)` um die Standlinie. Das
-   * Kanalzeichen zeigt beide bisher gleich hoch und unterscheidet sie nur an
-   * der Polzahl. Ob die Stauchung bei 40 Pixeln noch als Figur liest oder nur
-   * schief aussieht, entscheidet `video/Zeichenprobe.tsx`.
+   * Watti ist auf der Buehne eine Knopfzelle, `scale(1.2 0.74)` um die
+   * Standlinie; das Kanalzeichen war der einzige Ort, an dem er aufrecht stand
+   * und sich nur an der Polzahl unterschied. **Die Polzahl verschwindet als
+   * erstes, wenn das Zeichen klein wird** — bei 22 Pixeln in der Kopfzeile ist
+   * die Hoehe der einzige Unterschied, der uebrig bleibt.
+   *
+   * Entschieden an `video/Zeichenprobe.tsx`, die beide Fassungen bei 200, 90,
+   * 40 und 22 Pixeln nebeneinanderstellt. `false` zeigt die alte Fassung und
+   * ist nur noch fuer diese Probe da.
    */
   gestaucht?: boolean;
-}> = ({ hoehe = 40, aufVorhang = 0, gestaucht = false }) => {
-  const breite = DOPPEL_VERSATZ + 100;
+}> = ({ hoehe = 40, aufVorhang = 0, gestaucht = true }) => {
+  /*
+   * **Die Stauchung macht den zweiten Akku um ein Fuenftel breiter**, und die
+   * Zeichenflaeche muss mitwachsen: `scale(1.2)` um x = 50 schiebt seine
+   * rechte Kante von 100 auf 110. Ohne die zehn Einheiten schnitte das SVG ihn
+   * ab — sichtbar erst am gerenderten Profilbild, nicht im Code.
+   */
+  const breite = DOPPEL_VERSATZ + (gestaucht ? 110 : 100);
   const gehaeuse = mische(FARBEN.tinte, AUF_VORHANG.gehaeuse, aufVorhang);
   return (
     <svg
@@ -253,11 +265,9 @@ export const Kopfzeile: React.FC<{
    * Farbe schon.
    */
   ohnePille?: boolean;
-  /** Nur fuer `video/Zeichenprobe.tsx` — reicht die Stauchung ans Zeichen durch. */
-  zeichenGestaucht?: boolean;
-}> = ({ format, zaehlung, aufVorhang = 0, ohnePille = false, zeichenGestaucht = false }) => (
+}> = ({ format, zaehlung, aufVorhang = 0, ohnePille = false }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-    <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} gestaucht={zeichenGestaucht} />
+    <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} />
     <Wortmarke
       groesse={34}
       farbe={mische(FARBEN.kennVoltiTief, AUF_VORHANG.eins, aufVorhang)}

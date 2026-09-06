@@ -40,10 +40,10 @@ export const Zeichenprobe: React.FC = () => (
         titel="Heute — beide gleich hoch, Unterschied nur an den Polen"
         kinder={
           <>
-            <Doppelzeichen hoehe={200} />
-            <Doppelzeichen hoehe={90} />
-            <Doppelzeichen hoehe={40} />
-            <Doppelzeichen hoehe={22} />
+            <Doppelzeichen hoehe={200} gestaucht={false} />
+            <Doppelzeichen hoehe={90} gestaucht={false} />
+            <Doppelzeichen hoehe={40} gestaucht={false} />
+            <Doppelzeichen hoehe={22} gestaucht={false} />
           </>
         }
       />
@@ -61,16 +61,11 @@ export const Zeichenprobe: React.FC = () => (
       <div style={{ display: 'flex', gap: 40, marginTop: 6 }}>
         <div style={{ background: FARBEN.grund, borderRadius: 12, padding: '18px 24px' }}>
           <p style={{ margin: '0 0 10px', fontSize: 17, color: FARBEN.tinteWeich }}>
-            Kopfzeile heute
+            Kopfzeile — jetzt mit Stauchung
           </p>
           <Kopfzeile format="gibtswirklich" />
         </div>
-        <div style={{ background: FARBEN.grund, borderRadius: 12, padding: '18px 24px' }}>
-          <p style={{ margin: '0 0 10px', fontSize: 17, color: FARBEN.tinteWeich }}>
-            Kopfzeile mit Stauchung
-          </p>
-          <Kopfzeile format="gibtswirklich" zeichenGestaucht />
-        </div>
+
       </div>
     </div>
   </AbsoluteFill>

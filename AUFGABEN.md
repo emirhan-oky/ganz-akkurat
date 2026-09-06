@@ -1730,8 +1730,13 @@ zu tun ist, steht ab hier.
       Lab-Raum, nicht mit dem Kontrast — dabei kam heraus, dass die beiden Blau
       bei ΔE 23,1 lagen und **das engste Paar ein anderes war**: Beef gegen
       Empfehlungen mit 18,9. Es bleibt, weil `empfehlung` ruht~~
-- [ ] **Das Logozeichen** ist einpolig und aufrecht, während Watti gestaucht
-      ist. Entschieden wird am Bild
+- [x] ~~**Das Logozeichen steht jetzt wie die Figur.** Entschieden und gebaut
+      am 06.09.2026: Der zweite Akku im Kanalzeichen trägt Wattis Stauchung aus
+      dem Video, `scale(1.2 0.74)` um die Standlinie. **Die Polzahl verschwindet
+      als erstes, wenn das Zeichen klein wird** — bei 22 Pixeln in der
+      Kopfzeile war die Höhe der einzige Unterschied, den es nicht gab.
+      Betroffen sind zwei Stellen: Profilbild und Kopfzeile; die Figuren im
+      Video bleiben, wie sie sind~~
 - [x] ~~**Das Szenensymbol `batterie` liegt quer.** Bleibt liegen, entschieden
       am 06.09.2026. Die Dopplung mit dem gestauchten Watti ist echt, fällt
       aber nur auf, wenn beide zusammen im Bild stehen — und das Symbol wird
