@@ -215,7 +215,7 @@ export const handyTankstelle: Short = {
     {
       art: 'schluss',
       position: 'nachschlag',
-      satz: 'Die wahrscheinliche Ursache war die Aufladung.',
+      satz: 'Meistens war die wahrscheinliche Ursache die Aufladung.',
       sprechtext:
         'Also hatte ich recht mit dem Schild. Halb. Keiner von uns beiden lag richtig. Und warum hängt das Schild dann immer noch da?',
       rede: [
@@ -261,7 +261,7 @@ export const handyTankstelle: Short = {
     instagram: {
       titel: 'Watti hütet die Zapfsäule vor seinem Handy',
       beschreibung:
-        'Handy an der Tankstelle: Als wahrscheinliche Ursache fand die Untersuchung die elektrostatische Aufladung.',
+        'Handy an der Tankstelle: In der Mehrzahl der Fälle fand die Untersuchung die elektrostatische Aufladung als wahrscheinliche Ursache.',
       hashtags: ['#tankstelle', '#autowissen', '#technikwissen', '#ganzakkurat'],
     },
     youtube: {
