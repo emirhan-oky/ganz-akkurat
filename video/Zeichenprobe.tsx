@@ -1,38 +1,31 @@
 import React from 'react';
 import { AbsoluteFill } from 'remotion';
 import { FARBEN } from '../src/marke';
-import { Doppelzeichen } from './bausteine/Wortmarke';
-import { Symbol as Symbolzeichnung } from './bausteine/Geraete';
+import { Doppelzeichen, Kopfzeile } from './bausteine/Wortmarke';
 
 /**
- * Das Kanalzeichen und das Batteriesymbol — zwei offene Bildfragen von einem
- * Blatt.
+ * Das Kanalzeichen: beide Akkus gleich hoch, oder Watti gestaucht wie im Video?
  *
- * **1. Steht Watti im Zeichen gestaucht?** Im Video ist er eine Knopfzelle,
- * `scale(1.2 0.74)` um die Standlinie; im Kanalzeichen sind beide Akkus gleich
- * hoch und unterscheiden sich nur an der Polzahl. Die Stauchung macht das
- * Zeichen ehrlicher und riskiert, bei 40 Pixeln schief auszusehen.
+ * Im Video ist er eine Knopfzelle — `scale(1.2 0.74)` um die Standlinie. Das
+ * Zeichen unterscheidet die beiden bisher nur an der Polzahl, und die
+ * verschwindet als erstes, wenn es klein wird.
  *
- * **2. Liegt `batterie` weiter quer?** Sie liegt, weil eine zweite aufrechte
- * Batterie das Logo doppeln wuerde. Seit die Figuren zu zweit im Bild stehen,
- * ist das Querformat selbst die Dopplung — die Frage hat sich umgedreht.
- *
- * Beides in Bildgroesse und in Kopfzeilengroesse, weil die Antwort in den
- * beiden Groessen verschieden ausfallen kann.
+ * **Drei Groessen, weil die Antwort in jeder anders ausfallen kann**, und
+ * darunter dieselbe Frage in der echten Kopfzeile.
  *
  *     npx remotion still video/index.ts Zeichenprobe zeichen.png
  */
 const Feld: React.FC<{ titel: string; kinder: React.ReactNode }> = ({ titel, kinder }) => (
-  <div style={{ marginBottom: 34 }}>
-    <p style={{ margin: '0 0 12px', fontSize: 18, color: FARBEN.tinteWeich }}>{titel}</p>
+  <div style={{ marginBottom: 26 }}>
+    <p style={{ margin: '0 0 10px', fontSize: 19, color: FARBEN.tinteWeich }}>{titel}</p>
     <div
       style={{
         background: FARBEN.grund,
         borderRadius: 12,
-        padding: '20px 26px',
+        padding: '22px 30px',
         display: 'flex',
         alignItems: 'center',
-        gap: 40,
+        gap: 52,
       }}
     >
       {kinder}
@@ -42,47 +35,42 @@ const Feld: React.FC<{ titel: string; kinder: React.ReactNode }> = ({ titel, kin
 
 export const Zeichenprobe: React.FC = () => (
   <AbsoluteFill style={{ background: FARBEN.grundRein, fontFamily: 'system-ui, sans-serif' }}>
-    <div style={{ padding: '40px 54px', display: 'flex', gap: 60 }}>
-      <div style={{ width: 620 }}>
-        <Feld
-          titel="Kanalzeichen — heute: beide gleich hoch"
-          kinder={
-            <>
-              <Doppelzeichen hoehe={120} />
-              <Doppelzeichen hoehe={40} />
-              <Doppelzeichen hoehe={22} />
-            </>
-          }
-        />
-        <Feld
-          titel="Kanalzeichen — Watti gestaucht wie im Video"
-          kinder={
-            <>
-              <Doppelzeichen hoehe={120} gestaucht />
-              <Doppelzeichen hoehe={40} gestaucht />
-              <Doppelzeichen hoehe={22} gestaucht />
-            </>
-          }
-        />
-      </div>
-
-      <div style={{ width: 620 }}>
-        <Feld
-          titel="Szenensymbol `batterie` — heute quer"
-          kinder={
-            <div style={{ width: 260, height: 190 }}>
-              <Symbolzeichnung art="batterie" />
-            </div>
-          }
-        />
-        <Feld
-          titel="Dasselbe aufrecht gedreht"
-          kinder={
-            <div style={{ width: 260, height: 190, transform: 'rotate(-90deg)' }}>
-              <Symbolzeichnung art="batterie" />
-            </div>
-          }
-        />
+    <div style={{ padding: '38px 50px' }}>
+      <Feld
+        titel="Heute — beide gleich hoch, Unterschied nur an den Polen"
+        kinder={
+          <>
+            <Doppelzeichen hoehe={200} />
+            <Doppelzeichen hoehe={90} />
+            <Doppelzeichen hoehe={40} />
+            <Doppelzeichen hoehe={22} />
+          </>
+        }
+      />
+      <Feld
+        titel="Mit Stauchung — Watti als Knopfzelle, wie im Video"
+        kinder={
+          <>
+            <Doppelzeichen hoehe={200} gestaucht />
+            <Doppelzeichen hoehe={90} gestaucht />
+            <Doppelzeichen hoehe={40} gestaucht />
+            <Doppelzeichen hoehe={22} gestaucht />
+          </>
+        }
+      />
+      <div style={{ display: 'flex', gap: 40, marginTop: 6 }}>
+        <div style={{ background: FARBEN.grund, borderRadius: 12, padding: '18px 24px' }}>
+          <p style={{ margin: '0 0 10px', fontSize: 17, color: FARBEN.tinteWeich }}>
+            Kopfzeile heute
+          </p>
+          <Kopfzeile format="gibtswirklich" />
+        </div>
+        <div style={{ background: FARBEN.grund, borderRadius: 12, padding: '18px 24px' }}>
+          <p style={{ margin: '0 0 10px', fontSize: 17, color: FARBEN.tinteWeich }}>
+            Kopfzeile mit Stauchung
+          </p>
+          <Kopfzeile format="gibtswirklich" zeichenGestaucht />
+        </div>
       </div>
     </div>
   </AbsoluteFill>

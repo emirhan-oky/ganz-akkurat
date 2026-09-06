@@ -61,7 +61,7 @@ export const RemotionRoot: React.FC = () => (
   {/* Der Prueftisch fuer die Untertitelschrift. Geht nach der Entscheidung
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
-    <Composition id="Zeichenprobe" component={Zeichenprobe} width={1400} height={620} fps={30} durationInFrames={1} />
+    <Composition id="Zeichenprobe" component={Zeichenprobe} width={1340} height={790} fps={30} durationInFrames={1} />
     <Composition id="Pillenprobe" component={Pillenprobe} width={1810} height={800} fps={30} durationInFrames={1} />
   {/* Der Musterbogen fuer die Bildaufteilung: acht Muster, 4 × 2, halbe
       Aufloesung. `--props='{"zonen":true}'` legt die App-Flaechen darueber. */}

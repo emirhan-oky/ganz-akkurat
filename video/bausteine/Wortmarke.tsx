@@ -253,9 +253,11 @@ export const Kopfzeile: React.FC<{
    * Farbe schon.
    */
   ohnePille?: boolean;
-}> = ({ format, zaehlung, aufVorhang = 0, ohnePille = false }) => (
+  /** Nur fuer `video/Zeichenprobe.tsx` — reicht die Stauchung ans Zeichen durch. */
+  zeichenGestaucht?: boolean;
+}> = ({ format, zaehlung, aufVorhang = 0, ohnePille = false, zeichenGestaucht = false }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-    <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} />
+    <Doppelzeichen hoehe={40} aufVorhang={aufVorhang} gestaucht={zeichenGestaucht} />
     <Wortmarke
       groesse={34}
       farbe={mische(FARBEN.kennVoltiTief, AUF_VORHANG.eins, aufVorhang)}

@@ -1732,9 +1732,12 @@ zu tun ist, steht ab hier.
       Empfehlungen mit 18,9. Es bleibt, weil `empfehlung` ruht~~
 - [ ] **Das Logozeichen** ist einpolig und aufrecht, während Watti gestaucht
       ist. Entschieden wird am Bild
-- [ ] **Das Szenensymbol `batterie` liegt quer** — „weil eine zweite Batterie
-      in derselben Haltung eine Dopplung wäre". Mit zwei querformatigen Figuren
-      daneben ist genau das jetzt der Fall
+- [x] ~~**Das Szenensymbol `batterie` liegt quer.** Bleibt liegen, entschieden
+      am 06.09.2026. Die Dopplung mit dem gestauchten Watti ist echt, fällt
+      aber nur auf, wenn beide zusammen im Bild stehen — und das Symbol wird
+      von **genau einem Entwurf** benutzt (`akku-wechselbar-2027`). Eine
+      aufrechte Fassung wäre neu zu zeichnen: Die Drehung dreht den Schatten
+      mit~~
 
 ## Ton
 
