@@ -1751,23 +1751,24 @@ zu tun ist, steht ab hier.
       beabsichtigte Zustand**: Die Zeile muss ohne Anweisung funktionieren, der
       Tag verstärkt und ersetzt nie. Wenn es einen Anlass gibt, steht der Weg
       hier beschrieben~~
-- [ ] **Beef umbauen — der Anlass ist am 06.09.2026 entfallen, die
-      Entscheidung steht bei Emirhan.** Vorgeschlagen war eine neue
-      MATRIX-Prüffrage („Ist der Fakt belegt und die Folgerung trotzdem
-      strittig?" statt „übersehen beide etwas Drittes?"), **und der Grund war
-      der Vorrat**: Die alte Frage traf beim Sammeln fast nie zu, deshalb nur
-      zehn Ideen.
+- [x] ~~**Beef umgebaut** — am 06.09.2026 auf Emirhans Entscheidung, gegen
+      meinen Vorschlag zu streichen. Die MATRIX-Frage lautet jetzt „Streiten
+      zwei **benennbare** Lager darüber, obwohl der Fakt belegt ist?" statt
+      „und beide übersehen etwas". **Die alte Frage verlangte beim Sammeln,
+      was erst der Dialog leisten kann**: Ob es ein Drittes gibt, sieht man,
+      wenn man die Quelle gelesen hat, nicht wenn man das Thema notiert.
 
-      Heute sind es **fünfzehn, dreizehn davon offen** — fünf allein von heute,
-      alle aus den BSI-Irrtümern. **Die alte Frage trifft dort regelmäßig zu**,
-      weil eine Behörde, die einen verbreiteten Irrtum widerlegt, die zwei
-      Lager und das Dritte zugleich liefert. Der Engpass war nicht die Frage,
-      sondern die Quelle.
+      **Das Dritte ist umgezogen, nicht gestrichen** — es steht weiter in
+      `GESPRAECHSBOEGEN.werhatrecht.wendung` und in `FORMATE.werhatrecht`, also
+      am Kipppunkt. Und weil die Frage weiter ist, steht `eswareinmal` jetzt
+      **vor** `werhatrecht` in der MATRIX: Der Prüfstein „früher stimmte es,
+      heute nicht" trennt die beiden seitdem über die Reihenfolge statt über
+      eine engere Streitfrage.
 
-      **Mein Vorschlag: streichen statt umbauen.** Die neue Frage würde das
-      Format öffnen, aber auch verwässern — „belegt und trotzdem strittig"
-      trifft auf fast jeden Fakt zu, und die Abgrenzung zu `gibtswirklich`
-      hinge dann an nichts mehr
+      **Was die Weitung eng hält, ist ein Wort.** Ohne „benennbar" träfe
+      „belegt und trotzdem strittig" auf fast jeden Fakt zu — genau der Einwand,
+      der vorher fürs Streichen sprach. Zwei Lager, die sich nicht benennen
+      lassen, sind kein Streit, sondern einer, den der Entwurf erfindet~~
 - [x] ~~**`schaetzmal` als sechstes Format** — verworfen am 06.09.2026 auf
       Emirhans Entscheidung: *„Schätzfrage in gibtswirklich besser aufgehoben.
       Wir bleiben jetzt bei unseren 5 Formaten."* Die Begründung steht in
@@ -2241,9 +2242,12 @@ der Satz gewinnt, der gerade gut klingt.
       entgegengesetzten Handlungen? Nur dann ist es ein Widerspruch~~
 - [x] ~~**Die zehn Dialoge sind noch nicht vertont.** Erledigt: `laeufe/` hält
       Tonspuren für die Dialoge des Gegentests; mehrere davon sind gesendet~~
-- [ ] **Die Vorbilder** — mit `watch` ansehen, mit
-      `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
-      `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
+- [x] ~~**Die Vorbilder** — gestrichen am 06.09.2026 auf Ansage: *„Ich denke
+      nicht, dass wir die Vorbilder noch benötigen."* Der Punkt wartete seit dem
+      20.08. auf eine Liste, die nie kam, und was er einbringen sollte, ist
+      inzwischen aus dem eigenen Material gewonnen: die sieben Humorregeln aus
+      dem Eichmaß, die sechzehn `MACHARTEN` und die beiden Prüfagenten. **Ein
+      Vorbild, das man drei Wochen nicht braucht, eicht nichts mehr**~~
 - [x] ~~**Eine Quelle für `apps-schliessen`** — am 06.09.2026 gesucht und
       **nicht gefunden.** Zum Mythos „Apps wegwischen spart Akku" schreiben
       Hersteller (beteiligt), Blogs und Presse (nicht eintragbar) — keine

@@ -34,15 +34,23 @@ Seit dem 20.08.2026 sind es vier statt acht, sortiert nach der **Reaktion**:
 | `gibtswirklich` | Staunen | Klingt es absurd und ist trotzdem dokumentiert? |
 | `absicht` | Empörung | Hat jemand es so entschieden oder tut das Gerät es ungefragt — und steht das in einem Dokument? |
 | `eswareinmal` | Korrektur | Stimmte es früher und heute nicht mehr? |
-| `werhatrecht` | Widerspruch | Streiten zwei Lager, und beide übersehen etwas? |
+| `werhatrecht` | Widerspruch | Streiten zwei **benennbare** Lager darüber, obwohl der Fakt belegt ist? |
 
 `MATRIX` in `src/typen.ts` prüft der Reihe nach, **die erste Übereinstimmung
 gewinnt**. `gibtswirklich` steht am Ende und darf nie zuerst greifen — es fängt
 auf, was keine der drei anderen Bedingungen erfüllt.
 
 **Die eine Abgrenzung, die halten muss:** Lautet die Auflösung schlicht „früher
-stimmte es, heute nicht", ist es ein **Märchen**. `werhatrecht` verlangt, dass
-**beide** Seiten etwas übersehen. Sonst ist es ein Mythos mit zwei Sprechern.
+stimmte es, heute nicht", ist es ein **Märchen**. Seit dem 06.09.2026 trägt das
+die **Reihenfolge**: `eswareinmal` wird vor `werhatrecht` geprüft und fängt
+diese Fälle ab.
+
+**Beef fragt seitdem weiter.** Die alte Frage („und beide übersehen etwas")
+verlangte beim Sammeln, was erst der Dialog leisten kann — ob es ein Drittes
+gibt, sieht man nach dem Lesen der Quelle, nicht beim Notieren des Themas.
+**Das Dritte bleibt Pflicht am Kipppunkt**, nicht am Thema. Und „benennbar"
+hält die Frage eng: Zwei Lager, die sich nicht benennen lassen, sind kein
+Streit, sondern einer, den der Entwurf erfindet.
 
 **Kein Wochentag mehr.** Die Formate sind an keinen Tag gebunden; veröffentlicht
 wird, was fertig und stark ist. Was die Prüfung noch verlangt: kein Format

@@ -157,8 +157,9 @@
 - **Eigene, die nicht trugen:** die sieben Shorts vom 16.08.2026. Sie waren
   Antworten auf Suchanfragen („welche Buchse überträgt Bild") — und im Feed
   sucht niemand.
-- **Fremde Vorbilder:** noch keine. Emirhan reicht sie nach; dann mit `watch`
-  ansehen und mit `viral-reverse-engineering` zerlegen.
+- **Fremde Vorbilder:** keine, und das ist seit dem 06.09.2026 entschieden.
+  Geeicht wird am eigenen Material — den sieben Humorregeln aus Emirhans
+  Dialogen, den sechzehn `MACHARTEN` und den beiden Prüfagenten.
 
 ## Notes
 - **Stand 20.08.2026:** Der Kanal wird umgebaut. Die Nische wird breiter

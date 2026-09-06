@@ -2559,7 +2559,10 @@ export const FORMATE: Record<
     farbe: '#A33B2E',
     farbeHell: '#EFDFDB',
     haltung:
-      'Zwei benennbare Lager, und **beide** uebersehen etwas. Der einzige ' +
+      'Zwei benennbare Lager, und **am Kipppunkt** uebersehen beide etwas. ' +
+      'Das Dritte ist seit dem 06.09.2026 keine Bedingung mehr an das Thema, ' +
+      'sondern an den Dialog — die MATRIX fragt nur noch, ob der Streit trotz ' +
+      'Beleg weitergeht. Der einzige ' +
       'Sendeplatz, der nicht auf einer Pointe endet, sondern auf einer ' +
       'Restfrage — sonst gibt es nichts zu kommentieren, und Kommentare sind ' +
       'bei Shorts ein Verteilungssignal.',
@@ -2710,11 +2713,32 @@ export const GESPRAECHSBOEGEN: Record<Format, Gespraechsbogen> = {
  * Formate gibt. Die beiden Abgrenzungen, die frueher haltbar sein mussten,
  * sind unterschiedlich ausgegangen:
  *
- * **Maerchen gegen Streit muss weiter halten.** Beide handeln von falschen
- * Ueberzeugungen. Pruefstein — lautet die Aufloesung schlicht „frueher stimmte
- * es, heute nicht", ist es ein **Maerchen**. `werhatrecht` braucht, dass
- * **beide** Seiten etwas uebersehen haben. Sonst ist es ein Mythos mit zwei
- * Sprechern.
+ * **Maerchen gegen Streit muss weiter halten, und die Trennung liegt seit dem
+ * 06.09.2026 in der Reihenfolge statt in der Frage.** Beide handeln von
+ * falschen Ueberzeugungen. Pruefstein bleibt: Lautet die Aufloesung schlicht
+ * „frueher stimmte es, heute nicht", ist es ein **Maerchen** — deshalb steht
+ * `eswareinmal` jetzt **vor** `werhatrecht` und faengt diese Faelle ab, bevor
+ * die weitere Streitfrage sie sieht.
+ *
+ * ── Der Umbau von Beef · 06.09.2026 ──────────────────────────────────
+ *
+ * Die Frage lautete „Streiten zwei Lager darueber, und **beide uebersehen
+ * etwas**?" und verlangte damit schon beim **Sammeln**, was erst der Dialog
+ * leisten kann: Ob es ein Drittes gibt, sieht man, wenn man die Quelle gelesen
+ * hat — nicht, wenn man das Thema notiert. Zehn Ideen in drei Wochen waren die
+ * Folge.
+ *
+ * **Verschoben, nicht gestrichen:** Das Dritte bleibt Pflicht, aber am
+ * **Kipppunkt**. `GESPRAECHSBOEGEN.werhatrecht.wendung` und
+ * `FORMATE.werhatrecht` verlangen es weiter; die MATRIX fragt nur noch, ob das
+ * Thema ueberhaupt streitfaehig ist.
+ *
+ * **Was die Frage eng haelt, ist „benennbar".** Ohne dieses Wort traefe
+ * „belegt und trotzdem strittig" auf fast jeden Fakt zu, und die Abgrenzung zu
+ * `gibtswirklich` haenge an nichts mehr. Zwei Lager, die sich nicht benennen
+ * lassen, sind kein Streit, sondern eine Meinungsverschiedenheit, die der
+ * Entwurf selbst erfindet — und die Figur, die das Lager vertritt, haette
+ * niemanden hinter sich.
  *
  * **Gebaut gegen Betrieb ist entfallen.** Sie trennte `absicht` („der Drucker
  * sperrt Fremdpatronen") von `heimlich` („der Drucker meldet den
@@ -2729,8 +2753,8 @@ export const GESPRAECHSBOEGEN: Record<Format, Gespraechsbogen> = {
  * `HOOK_MACHARTEN`.
  */
 export const MATRIX: readonly { prueffrage: string; format: Format }[] = [
-  { prueffrage: 'Streiten zwei Lager darüber, und beide übersehen etwas?', format: 'werhatrecht' },
   { prueffrage: 'Stimmte es früher und heute nicht mehr?', format: 'eswareinmal' },
+  { prueffrage: 'Streiten zwei benennbare Lager darüber, obwohl der Fakt belegt ist?', format: 'werhatrecht' },
   {
     prueffrage: 'Hat jemand es so entschieden oder tut das Gerät es ungefragt — und steht das in einem Dokument?',
     format: 'absicht',

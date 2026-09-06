@@ -205,8 +205,17 @@ keine der drei anderen erfüllt.
 
 **Die eine Abgrenzung, die halten muss:** `eswareinmal` gegen `werhatrecht`.
 Beide handeln von falschen Überzeugungen. Lautet die Auflösung schlicht „früher
-stimmte es, heute nicht", ist es ein **Märchen**. `werhatrecht` braucht, dass
-**beide** Seiten etwas übersehen.
+stimmte es, heute nicht", ist es ein **Märchen** — und seit dem 06.09.2026 steht
+`eswareinmal` deshalb **vor** `werhatrecht` in der Reihe, statt dass eine engere
+Streitfrage die Trennung tragen muss.
+
+**Beef ist am selben Tag geweitet worden.** Die Frage verlangte „und beide
+übersehen etwas" und damit beim **Sammeln**, was erst der Dialog leisten kann;
+sie fragt jetzt, ob zwei **benennbare** Lager streiten, obwohl der Fakt belegt
+ist. **Das Dritte ist nicht gestrichen, sondern umgezogen** — auf den
+Kipppunkt, wo `GESPRAECHSBOEGEN` es weiter verlangt. Das Wort „benennbar" hält
+die Frage eng: Ohne es träfe „belegt und trotzdem strittig" auf fast jeden Fakt
+zu, und die Abgrenzung zu `gibtswirklich` hinge an nichts mehr.
 
 Zwei Regeln für alle vier:
 
