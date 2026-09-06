@@ -2527,7 +2527,7 @@ wie eine, die nichts findet.**
 - [ ] ▸ **„Es war einmal" hat weiter keinen ungesendeten Entwurf.** Zehn Ideen
       liegen im Vorrat, alle ohne Quelle (`quellenIds: []`) — der nächste
       Schreibblock fängt dort an
-- [ ] **Sechs Commits stehen lokal**, nicht gepusht
+- [x] ~~**Sechs Commits gepusht** (`e4ccbff..f162ec3`). Es waren sechs, nicht sieben — die Zahl stand hier zweimal falsch~~
 
 ### Zwei Beobachtungen, die noch keine Aufgabe sind
 
