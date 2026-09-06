@@ -24,6 +24,43 @@ import type { Idee } from '../../src/typen';
  */
 export const werhatrechtIdeen: Idee[] = [
   /*
+   * **Der dreizehnte Bogen — aus einem Zuschauereinwand, 04.09.2026.** Zum
+   * Passwort-Video kam der Hinweis, die BSI-Empfehlung koenne nach hinten
+   * losgehen, wenn niemand von einem Leck erfaehrt: Wer nur bei Verdacht
+   * wechselt und nie einen Verdacht bekommt, wechselt nie.
+   *
+   * **Das ist bei `werhatrecht` genau das Dritte** — und der Einwand kam von
+   * aussen, nicht aus dem Ideenvorrat. Sein Beispiel war Firmen-IT; fuer 18-
+   * bis 30-Jaehrige ist das Gegenstueck der Leakchecker, den das BSI selbst
+   * verlinkt. **Eine Handlung darf daraus nicht werden**, sonst kippt der Kanal
+   * ins Hilfevideo: Der Hinweis gehoert unter das Video, nicht in den Mund
+   * einer Figur.
+   */
+  {
+    id: "wechseln-ohne-verdacht",
+    format: "werhatrecht",
+    sachgebiet: "netz",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Passwort nur bei Verdacht wechseln — die einen halten das für vernünftig, die anderen für gefährlich.",
+    dreh: "Beide setzen voraus, dass ein Verdacht entsteht. Wer nie erfährt, dass seine Adresse in einem Leck steht, hat nie einen.",
+    sache: "Woher der Verdacht kommen soll: Das BSI verweist selbst auf zwei Leakchecker, die eine Adresse gegen bekannte Lecks prüfen.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "Verweis auf Leakchecker im Cybersicherheits-Lotsen",
+      },
+      {
+        instanz: "Hasso-Plattner-Institut",
+        art: "wissenschaft",
+        findet: "Identity Leak Checker",
+      },
+    ],
+    quellenIds: [],
+  },
+
+  /*
    * **Vier Ideen aus einer Fundgrube, gefunden am 06.09.2026.** Das BSI führt
    * vier Seiten „Sicherheits-Irrtümer" — Internet, Mobil, Computer und
    * E-Mail —, auf denen eine Behörde verbreitete Annahmen aufzählt und
@@ -176,7 +213,7 @@ export const werhatrechtIdeen: Idee[] = [
     id: "inkognito-modus",
     format: "werhatrecht",
     sachgebiet: "netz",
-    reifegrad: "skizze",
+    reifegrad: "belegt",
     erzaehlt: "Privater Modus im Browser: Die einen halten ihn für eine Tarnkappe, die anderen für ein Placebo.",
     dreh: "Beide irren in dieselbe Richtung — sie reden über „sichtbar\", ohne zu sagen, für wen.",
     sache: "Was lokal nicht gespeichert wird, gegen das, was Arbeitgeber, Anbieter und Zielseite trotzdem sehen.",
@@ -192,7 +229,7 @@ export const werhatrechtIdeen: Idee[] = [
         findet: "Aufklärung zu Tracking trotz privatem Modus",
       },
     ],
-    quellenIds: [],
+    quellenIds: ["bsi-fingerprints"],
   },
   {
     id: "reis-im-handy",

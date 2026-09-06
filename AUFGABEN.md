@@ -2034,11 +2034,12 @@ Anrede zu wenig, weil die fehlende Zeile in den Kaltstart gewandert war.
 
 ### Offen
 
-- [ ] **Die Dialoge sind nur mechanisch angepasst.** Wo der Anschluss es
-      verlangte, wurde die erste Szene umgestellt — mehr nicht. Der eigentliche
-      Umbau kommt mit Emirhans eigenen Zeilen; daraus wird das Humorprofil im
-      Skill, so wie die sieben Regeln am 25.08. aus fünfzehn bewerteten Zeilen
-      entstanden sind
+- [x] ~~**Die Dialoge sind nur mechanisch angepasst.** Beschreibt den Stand
+      vom 02.09.2026 nachmittags und ist am selben Abend überholt worden: Der
+      Gegentest über sechs Runden hat 118 Befunde ergeben, daraus sind
+      `daten/marke/dialoganalyse.md`, zwölf Szenarien und zwei Prüfagenten
+      geworden. **Das Humorprofil ist genau so entstanden, wie der Punkt es
+      vorsah**~~
 - [x] ~~**Die Wortbrücke bei `passwort-wechseln` meldet.** Der Befund stimmt
       und bleibt stehen: Der Short ist gesendet, und **Veröffentlichtes wird
       nicht nachgebessert.** Die Meldung ist für den nächsten Kaltstart gedacht,
@@ -2216,26 +2217,31 @@ der Satz gewinnt, der gerade gut klingt.
 - [x] ~~**Zwei Schemabrüche in Emirhans Dialogen.** Erledigt: Beide Shorts
       werfen keine Fehler mehr, nur noch Hinweise. Die Regeln sind gewandert,
       nicht die Zeilen — wie vorgesehen~~
-- [ ] **Acht Widersprüche in der Analyse**, je zwei Befunde gegeneinander. Der
-      teuerste ist W1: Befund 2 (Kaltstart nennt das zusammengesetzte
-      Substantiv) hat 68 und 91 selbst verursacht
+- [x] ~~**Acht Widersprüche in der Analyse** — aufgelöst und in
+      `dialoganalyse.md` als Befund 116 festgehalten: **acht gemeldet, null
+      echte.** Jedes Mal dieselbe Ursache: Zwei Befunde standen nebeneinander,
+      klangen gegensätzlich, und niemand hatte gefragt, ob sie überhaupt
+      dieselbe Frage beantworten. Drei lösten sich im eigenen Text auf; was
+      wirklich fehlte, waren **vier Halbsätze**. Der Prüfstein steht dabei:
+      Führen zwei Befunde beim Schreiben **desselben** Satzes zu
+      entgegengesetzten Handlungen? Nur dann ist es ein Widerspruch~~
 - [x] ~~**Die zehn Dialoge sind noch nicht vertont.** Erledigt: `laeufe/` hält
       Tonspuren für die Dialoge des Gegentests; mehrere davon sind gesendet~~
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
-- [ ] **Zwei Quellen für die Engpassfächer holen:** `apps-schliessen` (Es war
-      einmal) und `inkognito-modus` (Wer hat recht?). **`oeffentliches-wlan`
-      ist am 06.09.2026 erledigt** — `bsi-irrtuemer-mobil` mit vier
-      Fundstellen, darunter die Antwort, die den Streitfall trägt: „Das stimmt
-      leider nur teilweise."" **Der Engpass ist der Beleg, nicht das
-      Schreiben**
-- [ ] **Der dreizehnte Bogen.** Ein Zuschauer wandte zum Passwort-Video ein,
-      die BSI-Empfehlung könne ohne Meldung über kompromittierte Zugangsdaten
-      nach hinten losgehen. Bei `werhatrecht` ist das genau das Dritte — und es
-      braucht eine eigene Fundstelle. Sein Beispiel ist Firmen-IT; für 18- bis
-      30-Jährige ist das Gegenstück die Meldung über die eigene Adresse in
-      einem Leck. **Eine Handlung darf daraus nicht werden**
+- [ ] **Eine Quelle für die Engpassfächer holen:** `apps-schliessen` (Es war
+      einmal). **`oeffentliches-wlan` und `inkognito-modus` sind am 06.09.2026
+      erledigt** — die erste über `bsi-irrtuemer-mobil`, die zweite über
+      `bsi-fingerprints`, das **schon im Haus lag und mit keiner Idee verknüpft
+      war**. Bei `apps-schliessen` sind Apple und Google beteiligt; was fehlt,
+      ist eine unbeteiligte Instanz zum Energieverbrauch eines Kaltstarts
+- [x] ~~**Der dreizehnte Bogen** steht als Idee `wechseln-ohne-verdacht` im
+      Vorrat. Der Einwand kam von einem Zuschauer, und er ist bei `werhatrecht`
+      genau das Dritte: **Beide Lager setzen voraus, dass ein Verdacht
+      entsteht.** Wer nie erfährt, dass seine Adresse in einem Leck steht, hat
+      nie einen. Das BSI verweist selbst auf zwei Leakchecker — **eine Handlung
+      darf daraus trotzdem nicht werden**, der Hinweis gehört unter das Video~~
 - [x] ~~**`memory-effekt` fehlt im Ideenvorrat.** Am 06.09.2026 geprüft und
       **bewusst nicht aufgenommen:** `akku-ganz-leer` erzählt bereits genau
       diese Geschichte, mit derselben UBA-Quelle und demselben Sachgebiet — bis
