@@ -2172,8 +2172,8 @@
         },
         {
           "id": "elektrostatische-aufladung-ursache",
-          "zitat": "In der Mehrzahl der Fälle wurde elektrostatische Aufladung als wahrscheinliche Ursache festgestellt",
-          "stuetzt": "Die untersuchten Entzündungen beim Betanken gingen überwiegend auf elektrostatische Aufladung zurück."
+          "zitat": "In der Mehrzahl der Fälle wurde elektrostatische Aufladung als wahrscheinliche Ursache festgestellt, wobei die zunehmende Verwendung elektrisch hochisolierender Materialien für Kraftfahrzeugteile, Reifen und Versiegelungen",
+          "stuetzt": "Die untersuchten Entzündungen beim Betanken gingen überwiegend auf elektrostatische Aufladung zurück. Fahrzeugteile und Reifen stehen im Zitat."
         },
         {
           "id": "aufladung-von-personen",
@@ -2184,6 +2184,16 @@
           "id": "im-tank-keine-zuendgefahr",
           "zitat": "im Inneren des Tankeinfüllstutzens, wie auch im Tank selbst, keine Zündgefahr besteht, da hier - auch unter den Bedingungen der heute zugelassenen Gasrückführung - ein für eine Entzündung zu fettes Gemisch vorliegt",
           "stuetzt": "Im Stutzen und im Tank ist das Gemisch zu fett, um sich zu entzünden."
+        },
+        {
+          "id": "ursachen-untersucht",
+          "zitat": "die Ursachen für die Entzündungen untersucht und sicherheitstechnische Empfehlungen erarbeitet",
+          "stuetzt": "Gegenstand der Untersuchung waren die Ursachen der Entzündungen — nicht das Telefon allein."
+        },
+        {
+          "id": "entzuendungen-mit-fahrzeugbraenden",
+          "zitat": "sind Entzündungen von Benzindämpfen beim Betanken von Kraftfahrzeugen an öffentlichen Tankstellen in Deutschland bekannt geworden, die z. T. zu Fahrzeugbränden geführt haben",
+          "stuetzt": "Es hat tatsächlich gebrannt: Entzündungen beim Betanken, teils mit Fahrzeugbränden."
         }
       ]
     }
