@@ -567,143 +567,55 @@ auf `Lauf`. Eine Regel dort ist tote Regel.
 ## Harte Regeln (`src/pruefung.ts`)
 
 Fehler halten einen Short zurück, Hinweise erscheinen in der Freigabe-Übersicht.
+**Eine Zeile je Regel; wie sie entstanden ist, steht in
+`docs/regelhistorie.md`.**
 
-- **`format`** — kein Format zweimal hintereinander (Fehler); ab vier Shorts
-  ein Hinweis, wenn eines mehr als die Hälfte stellt. Die Regel hieß einmal
-  „jedes Format genau einmal je Lauf" und stand hinter einer Zahlengleichheit —
-  sie war deshalb genau dann still, wenn sie gebraucht wurde. **Eine Wache, die
-  sich bei Abweichung selbst abschaltet, ist keine Wache.**
-- **`bauform`** — keine zweimal hintereinander (Fehler), ab vier Shorts keine
-  über die **Hälfte** je Lauf, und die Deckungsregel oben. Es war einmal ein
-  Drittel ab sechs Shorts, und das war richtig, solange es vier Bauformen gab.
-  Mit dreien kippt dieselbe Rechnung: Bei sechs Shorts erlaubt ein Drittel genau
-  zwei je Bauform, also 2/2/2 und sonst nichts; bei sieben wäre die Regel
-  **unerfüllbar**, und sieben ist die Obergrenze des Takts. Dieselbe Lehre wie
-  bei der Formatregel, nur von der anderen Seite: Eine Wache, die bei sieben
-  Shorts nicht mehr erfüllbar ist, ist keine Wache.
-- **`zweistimmigkeit`** und **`reaktion`** — die beiden einzigen Regeln, die
-  etwas **verlangen** statt etwas zu verbieten, seit dem 26.08.2026. Jeder
-  Short braucht mindestens zwei Szenen mit beiden Stimmen — **ohne Ausnahme,
-  seit `einstimmig` weg ist** — und mindestens eine Zeile mit `machart`; keine
-  Machart kommt zweimal im selben Short vor. Geprüft wird nicht, ob es witzig
-  ist — geprüft wird, ob der Platz benutzt wurde. Genau so arbeitet die
-  Belegregel: Sie prüft nicht, ob das Zitat überzeugt, sondern ob eins da ist.
-- **`antwortpflicht`**, **`abbiegen`**, **`anschluss`**, **`zugpaar`** — die
-  Gesprächsebene, seit dem 01.09.2026. Jeder Redeanteil trägt einen **Zug** aus
-  `ZUGARTEN`, und der beantwortet eine andere Frage als die Machart: Die
-  Machart sagt, was die Zeile dem **Fakt** hinzufügt, der Zug, was sie dem
-  **anderen** antut. Beides gilt gleichzeitig — „Ich bin bei Passwort7" ist ein
-  tadelloses Geständnis *und* geht am Vorredner vorbei.
+| Regel | was sie verlangt |
+|---|---|
+| `format` | kein Format zweimal hintereinander (Fehler); ab vier Shorts Hinweis, wenn eines mehr als die Hälfte stellt |
+| `bauform` | keine zweimal hintereinander (Fehler); ab vier Shorts keine über die Hälfte je Lauf; die Mittel müssen den Namen decken |
+| `zweistimmigkeit` | mindestens zwei Szenen mit beiden Stimmen, ohne Ausnahme (Fehler) |
+| `reaktion` | mindestens eine Zeile mit `machart`, keine Machart zweimal im selben Short |
+| `antwortpflicht` | auf `widersprechen` folgt ein Konter, auf `nachhaken` eine Auskunft — vom anderen, höchstens zwei Zeilen später. Zurückfragen und Ausweichen lösen sie ein |
+| `abbiegen` | höchstens einmal je Short |
+| `anschluss` | anschlusslose Züge höchstens ein Drittel |
+| `zugpaar` | kein Zugpaar über der Hälfte aller Wechsel |
+| `zugtripel` | kein gleiches Zugtripel in zwei aufeinanderfolgenden Shorts (Hinweis) |
+| `zugverlust` | Hinweis, wo zwei Anteile derselben Figur in einer Szene verschiedene Haltungen tragen |
+| `rueckbezug` | Hinweis, wenn keine Zeile ein Wort ihrer Vorzeile aufgreift |
+| `sachgebiet` | höchstens zwei Shorts je Sachgebiet und Woche |
+| `suchbegriff` | jedes Wort steht im Sprechtext und in allen drei Beschreibungen (Fehler) |
+| `beleg` | mindestens **eine unbeteiligte** Quelle je Short |
+| `belegId` | die Fundstelle steht wirklich in der genannten Quelle (Fehler); ein Zitat trägt höchstens zwei Szenen (Hinweis) |
+| Belegpflicht nach Position | `zuspitzung` und `kipppunkt` brauchen eine Quelle, **sobald eine ihrer Zeilen einen behauptenden Zug trägt** |
+| `aufbau` | jede Position kommt vor, Aufschlag und Nachschlag genau einmal, die Folge läuft nur vorwärts |
+| `aufschlag` | die erste Szene spricht höchstens **9 Sekunden** (an den Wortzeitstempeln, sobald eine Tonspur vorliegt); Ansagen wie „heute geht es um" lehnt das Schema ab |
+| `sprache` | Amtsdeutsch im Sprechtext ist ein Fehler, außer hinter einem Doppelpunkt |
+| `laenge` | **40 bis 80 Sekunden hart**; ab drei Shorts Hinweis, wenn alle in derselben Längenklasse liegen |
+| `produktname` | im Video fällt nie ein Markenname aus `ZUBEHOERMARKEN` — Gerätehersteller sind ausgenommen |
+| `kennzeichnung` | ein Partnerlink braucht „Werbung", „Anzeige" oder „Werbepartner" **in derselben Zeile** (LG Erfurt, 23.11.2020) |
+| `produktionsregel` | kein Sprechtext behauptet eigene Produkterfahrung, kein Titel sagt „Test" |
+| `titel` | der Titel nennt nichts, was im Video nicht vorkommt; kein Ausrufezeichen, kein Emoji, keine Konfrontation gegen den Zuschauer |
+| Zeitangaben | „seit heute", „gestern", „diese Woche", „seit N Tagen" werden hart abgelehnt — **geprüft an Wortgrenzen**, seit die Regel „morgen" in „morgens" fand |
+| `kaltstart` | Anrede oder Antwort: die erste Zeile nach dem Vorhang antwortet dem Kaltstart oder spricht den anderen an; dazu ein Hinweis, wenn kein Wort daraus wiederkehrt |
+| `bildvielfalt` | jede bebilderbare Szene trägt eine Zeichnung, keine zweimal im selben Short; die Posenfolge wechselt; **und die Posen, die zu zweit aus dem Bild ragen, sind ein Fehler** — `achselzucken` im Wortwechsel, dazu `staunen` und `hochschauen` im Schluss |
+| `wiederholung` | Hinweis, wenn ein Thema schon in einem früheren Lauf lief |
 
-  Auf `widersprechen` muss ein Konter folgen, auf `nachhaken` eine Auskunft —
-  vom anderen, höchstens zwei Zeilen später. `abbiegen` höchstens einmal je
-  Short, anschlusslose Züge höchstens ein Drittel, kein Zugpaar über der Hälfte
-  aller Wechsel.
+**Vier Sätze aus der Historie, die über ihre Regel hinaus gelten** und deshalb
+hier bleiben:
 
-  **Zwei dieser Zahlen sind am 02.09.2026 an zehn Dialogen gefallen.** Die
-  Zugpaarregel hieß „kein Paar dreimal", gerechnet aus 72 möglichen
-  Kombinationen — und behandelte damit alle Paare als gleich wahrscheinlich.
-  „Nachhaken → Beantworten" ist die Grundbewegung jedes Gesprächs und steht in
-  Emirhans Dialogen vier- bis fünfmal je Short. Acht Meldungen an zehn guten
-  Dialogen, keine davon hatte recht.
-
-  Und die Antwortpflicht gilt als eingelöst, wenn der andere **zurückfragt**
-  („Wieso denn nicht?") oder wenn er **ausweicht**. Beides geht darauf ein;
-  eine Antwort ist es nur noch nicht. `abbiegen` ist ohnehin auf einen je Short
-  gedeckelt, und zwei Regeln auf demselben Zug bestrafen ihn doppelt.
-
-  **Alle vier sind Obergrenzen, keine Mindestmaße.** Das Projekt hat dreimal
-  erlebt, dass eine vorschreibende Regel selbst zur Schablone wird — ein
-  Maximum lässt sich nicht ansteuern. Und die laufweite Regel sitzt auf dem
-  **Zugtripel**: Zugpaare wiederholen sich rund dreißigmal je Woche, das ist
-  Sprache; bei Tripeln liegt die Erwartung bei 1,1 je drei gesehenen Shorts,
-  und das ist die Schwelle, ab der jemand den Takt bemerkt.
-
-  Laufweit kommt **`zugtripel`** dazu: kein gleiches Zugtripel in zwei
-  aufeinanderfolgenden Shorts (Hinweis). Sie hat beim ersten Lauf dreimal
-  gemeldet und dreimal recht gehabt — drei von vier Entwürfen eröffneten mit
-  „Behaupten → Nachhaken → Beantworten", und **gesehen hat das nicht mein Auge,
-  sondern die Regel**, eine Stunde nachdem sie gebaut war.
-
-  Der Anlass war ein Befund, der eine ältere Wache widerlegt: `rueckbezug` war
-  am ersten vertonten Video **weit übererfüllt** (fünf von zehn Zeilen), und es
-  war trotzdem kein Gespräch. **Ein Maß, das eine Zeichenkette zählt, kann eine
-  Beziehung nicht sehen.** Er bleibt trotzdem — als Gegenprobe: Der Zug ist eine
-  *erklärte* Beziehung, der Rückbezug misst die *tatsächlichen* Wörter.
-- **`zugverlust`** — ein Hinweis, wo zwei Anteile derselben Figur in einer
-  Szene **verschiedene Haltungen** tragen. `redelaeufe` klebt sie zu einem
-  Syntheseaufruf zusammen, und ein Abschnitt trägt genau einen Zug: Der erste
-  gewinnt, die Haltung des zweiten kommt im Bild nie an. Die Verschmelzung
-  aufzubrechen wäre falsch — sie fügte eine Sprecherpause ein, wo kein Sprecher
-  wechselt, und kostete einen Aufruf mehr. Gemeldet wird deshalb nur der Fall,
-  in dem der Verlust etwas kostet.
-- **`sachgebiet`** — höchstens zwei Shorts je Sachgebiet und Woche.
-- **`suchbegriff`** — jedes Wort steht im Sprechtext und in allen drei
-  Beschreibungen (Fehler). Das dritte Drittel — der Bildtext — ist am
-  01.09.2026 mit dem Feld `text` entfallen; die beiden tragenden Drittel sind
-  ohnehin der Sprechtext (er ist Wort für Wort der Untertitel) und die
-  Beschreibung.
-- **`beleg`** — mindestens **eine unbeteiligte** Quelle je Short. Die
-  Drei-Quellen-Regel ist entfallen: Die Anzahl war die schwächere Hälfte — drei
-  Herstellerseiten belegen nichts, eine Behördenseite belegt alles. Genau
-  dieser Fall stand im WLAN-Short, der mit drei Quellen sauber durchging und
-  auf TP-Link, TP-Link und Intel stand.
-- **`belegId`** — die Fundstelle steht wirklich in der genannten Quelle
-  (Fehler); ein Zitat trägt höchstens zwei Szenen (Hinweis).
-- **Belegpflicht nach Position** — jede Szene auf `zuspitzung` und `kipppunkt`
-  braucht eine Quelle, **sobald eine ihrer Zeilen einen behauptenden Zug
-  trägt**. Vorher entschied die Wahl der Darstellung darüber, ob ein Satz
-  belegt sein musste; seit dem 17.08.2026 nicht mehr, und seit dem 02.09.2026
-  entscheidet auch die Position allein nicht mehr.
-
-  **Die Belegpflicht wackelt dabei nicht, sie wandert** — dieselbe Bewegung wie
-  am 17.08., als sie von der Quelle auf die Fundstelle ging. Der Anlass sind die
-  Szenarien, in denen Watti erfolgreich kontert oder Volti ertappt wird: Ihr
-  Kipppunkt besteht aus Sätzen über die beiden Brüder — die Fahrradlampe, der
-  Fernseher, den Volti selbst ausgesucht hat. Es gibt keine Quelle dafür, und es
-  soll keine geben. Dafür steht der Zug **`erinnern`** im Katalog: Er hält etwas
-  aus ihrem gemeinsamen Leben dagegen und behauptet nichts über die Welt.
-
-  Wo ein behauptender Zug steht, ist die Pflicht unverändert hart.
-- **`aufbau`** — jede Position kommt vor, Aufschlag und Nachschlag genau
-  einmal, die Folge läuft nur vorwärts. Geprüft im Schema.
-- **`aufschlag`** — die erste Szene spricht höchstens **9 Sekunden**, an den
-  gemessenen Wortzeitstempeln, sobald eine Tonspur vorliegt. Dazu eine Handvoll
-  Ansagen, die das Schema hart ablehnt: „heute geht es um", „in diesem Video",
-  „ich zeige dir".
-
-  **Hier standen bis zum 02.09.2026 3,5 Sekunden**, weil 71 % der Zuschauer in
-  den ersten Sekunden entscheiden. Der Satz stimmt und gilt nicht mehr dieser
-  Szene: Seit dem Kaltstart fällt die Entscheidung **vor** dem Vorhang, und die
-  3,5 Sekunden stehen dort als `KALTSTART_MAX_SEK` — heute 5,2, an zehn
-  Kaltstarts gemessen. Die erste Szene beginnt rund neun Sekunden nach Bild
-  null und ist ein Wortwechsel aus zwei bis drei Zeilen; alle zehn Dialoge von
-  Emirhan lagen zwischen 6,2 und 8,8 Sekunden. **Eine Regel, die zehn von zehn
-  guten Anfängen ablehnt, misst das Falsche.**
-- **`sprache`** — Amtsdeutsch im Sprechtext ist ein Fehler, **außer** hinter
-  einem Doppelpunkt. Siehe „Sprache und Humor".
-- **`laenge`** — 40 bis 80 Sekunden hart. Laufweit ein Hinweis,
-  wenn ab drei Shorts **alle in derselben Längenklasse** liegen: Bis Oktober
-  läuft der Versuch, verschiedene Längen zu senden.
-- **`produktname`** — im Video fällt nie ein Markenname (`ZUBEHOERMARKEN`), nur
-  Merkmale. Gerätehersteller stehen bewusst nicht in der Liste — „dein MacBook"
-  ist Kontext, keine Empfehlung.
-- **`kennzeichnung`** — ein Partnerlink braucht „Werbung", „Anzeige" oder
-  „Werbepartner" **in derselben Zeile** (LG Erfurt, 23.11.2020).
-  „Affiliate-Link" und „gesponsert" hat der BGH als unscharf verworfen
-  (06.02.2014, I ZR 2/11).
-- **`produktionsregel`** — kein Sprechtext behauptet eigene Produkterfahrung,
-  kein Titel sagt „Test". Zulässig: „Vergleich", „Kompatibilitätscheck".
-- **`titel`** — der Titel darf **nichts nennen, was im Video nicht vorkommt**:
-  die Belegpflicht, auf den Titel angewandt. Kein Ausrufezeichen, kein Emoji,
-  keine Konfrontation gegen den Zuschauer.
-- **Zeitangaben** — „seit heute", „gestern", „diese Woche", „seit N Tagen"
-  werden hart abgelehnt. Siehe unten. **Geprüft wird an Wortgrenzen**, seit die
-  Regel am 03.09.2026 „morgen" in Emirhans „damit es **morgens** wieder voll
-  ist" gefunden hat. Eine Tageszeit altert nicht, und der Fehlalarm liegt auf
-  der teuren Seite: Er hält einen richtigen Short zurück und lädt dazu ein, den
-  Sprechtext gegen die Sprache zu verbiegen.
-
+- **Eine Wache, die sich bei Abweichung selbst abschaltet, ist keine Wache.**
+  Die Formatregel hieß einmal „jedes Format genau einmal je Lauf" und stand
+  hinter einer Zahlengleichheit — sie war genau dann still, wenn sie gebraucht
+  wurde.
+- **Eine Wache, die bei sieben Shorts unerfüllbar ist, ist keine Wache.**
+  Dasselbe von der anderen Seite, an der Bauformregel gelernt.
+- **Alle Gesprächsregeln sind Obergrenzen, keine Mindestmaße.** Das Projekt hat
+  dreimal erlebt, dass eine vorschreibende Regel selbst zur Schablone wird — ein
+  Maximum lässt sich nicht ansteuern.
+- **Ein Maß, das eine Zeichenkette zählt, kann eine Beziehung nicht sehen.**
+  `rueckbezug` war am ersten vertonten Video weit übererfüllt, und es war
+  trotzdem kein Gespräch. Er bleibt als Gegenprobe zum Zug.
 ## Sprache und Humor
 
 **Der Humor hängt an der zweiten Stimme.** Bis zum 25.08.2026 stand in
