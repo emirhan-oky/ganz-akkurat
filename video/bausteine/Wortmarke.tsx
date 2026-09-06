@@ -177,10 +177,19 @@ const AUF_VORHANG = {
  */
 const DOPPEL_VERSATZ = 78;
 
-export const Doppelzeichen: React.FC<{ hoehe?: number; aufVorhang?: number }> = ({
-  hoehe = 40,
-  aufVorhang = 0,
-}) => {
+export const Doppelzeichen: React.FC<{
+  hoehe?: number;
+  aufVorhang?: number;
+  /**
+   * Den zweiten Akku stauchen wie Watti im Video — **Gegenprobe, Standard aus.**
+   *
+   * Watti ist eine Knopfzelle: `scale(1.2 0.74)` um die Standlinie. Das
+   * Kanalzeichen zeigt beide bisher gleich hoch und unterscheidet sie nur an
+   * der Polzahl. Ob die Stauchung bei 40 Pixeln noch als Figur liest oder nur
+   * schief aussieht, entscheidet `video/Zeichenprobe.tsx`.
+   */
+  gestaucht?: boolean;
+}> = ({ hoehe = 40, aufVorhang = 0, gestaucht = false }) => {
   const breite = DOPPEL_VERSATZ + 100;
   const gehaeuse = mische(FARBEN.tinte, AUF_VORHANG.gehaeuse, aufVorhang);
   return (
@@ -193,7 +202,13 @@ export const Doppelzeichen: React.FC<{ hoehe?: number; aufVorhang?: number }> = 
       <g>
         <Zeichenformen ladung={FARBEN.anzeigeEins} pole={1} gehaeuse={gehaeuse} />
       </g>
-      <g transform={`translate(${DOPPEL_VERSATZ} 0)`}>
+      <g
+        transform={
+          gestaucht
+            ? `translate(${DOPPEL_VERSATZ} 0) translate(50 100) scale(1.2 0.74) translate(-50 -100)`
+            : `translate(${DOPPEL_VERSATZ} 0)`
+        }
+      >
         <Zeichenformen ladung={FARBEN.anzeigeZwei} pole={2} gehaeuse={gehaeuse} />
       </g>
     </svg>

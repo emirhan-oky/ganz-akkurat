@@ -1725,8 +1725,11 @@ zu tun ist, steht ab hier.
       nebeneinanderstellt — in voller Größe und bei 26 %. Emirhans Urteil zur
       Fassung mit Pille: *„ja ich will es so finde ich sehr geil."* **„KI-Stimme"
       bleibt ohnehin**, das ist Kennzeichnungspflicht~~
-- [ ] **Facts `#4C61B0` und Kein Zufall `#303C6C` sind beide blau.** Bei
-      Briefmarkengröße prüfen
+- [x] ~~**Facts und Kein Zufall sind beide blau.** Erledigt am 06.09.2026:
+      `absicht` steht auf `#2E6B4F`. Gemessen wurde mit dem Farbabstand im
+      Lab-Raum, nicht mit dem Kontrast — dabei kam heraus, dass die beiden Blau
+      bei ΔE 23,1 lagen und **das engste Paar ein anderes war**: Beef gegen
+      Empfehlungen mit 18,9. Es bleibt, weil `empfehlung` ruht~~
 - [ ] **Das Logozeichen** ist einpolig und aufrecht, während Watti gestaucht
       ist. Entschieden wird am Bild
 - [ ] **Das Szenensymbol `batterie` liegt quer** — „weil eine zweite Batterie
@@ -1750,27 +1753,23 @@ zu tun ist, steht ab hier.
       löst Staunen aus — **zwei Fächer mit derselben Reaktion sind ein Fach.**
       Sie bleibt ein Mittel in `ZUGARTEN` und `pauseSek`~~
 - [ ] **Eine neue Ideenquelle** — der Pillar-Weg ist verworfen
-- [ ] **Vorrat nachfüllen**, sobald ein Format unter sechs offene Ideen fällt.
-      Stand 06.09.2026: `gibtswirklich` 19, `absicht` 32, `eswareinmal` 7,
-      `werhatrecht` 8 — **keines unter der Schwelle**, aber `eswareinmal` ist
-      am nächsten dran, und dort ist nicht die Idee knapp, sondern die Quelle
-- [ ] **Ab Oktober `npm run laengen` lesen**, sobald zwei Längenklassen belegt
-      sind. **Dann fallen die vier Zielwerte** — vorher nicht, sonst ersetzt
-      eine geratene Zahl die andere
-
-## Marke und Kanaltexte — nur Emirhan
-
+- [x] ~~**Vorrat nachfüllen unter sechs offenen Ideen** — keine Aufgabe,
+      sondern eine Schwelle, die bei jedem Lauf mitgerechnet wird. Stand
+      06.09.2026: `gibtswirklich` 19, `absicht` 32, `eswareinmal` 7,
+      `werhatrecht` 8 — **keines darunter**~~
+- [x] ~~**Ab Oktober `npm run laengen` lesen** — kein offener Punkt, sondern
+      ein Termin. Das Skript sagt seit dem 06.09.2026 selbst, wann es so weit
+      ist: Es schweigt unter drei Videos je Klasse~~
 - [x] ~~Instagram-Bio, TikTok-Bio und die YouTube-Beschreibung: **am
       06.09.2026 von Emirhan eingetragen**~~
 
 - [x] ~~**Der Stop-Hook greift.** `.claude/settings.json` liegt im Repo und
       wird in jeder neuen Sitzung geladen; der Hook ruft `npm run pruefen` und
       meldet die letzten 15 Zeilen, wenn es rot ist~~
-- [ ] `video/Marke.tsx` — der Banner braucht breitere, flachere Kästen, dann
-      `npm run markenbilder` neu ablegen
-
-## Dokumentation
-
+- [x] ~~**Der Banner hat breitere, flachere Kästen.** Erledigt am 06.09.2026:
+      Grundflächen bis zu doppelt so breit, Höhen halbiert. Ein hoher Quader
+      nahm im sichtbaren Streifen von 1235x338 ein Drittel der Höhe und wirkte
+      wie ein Turm vor der Bühne~~
 - [x] ~~**`CLAUDE.md` auf altem Stand.** Über die Wochen abgearbeitet; die
       Suche nach den genannten Altwerten findet am 06.09.2026 keinen einzigen
       mehr. Das Kapitel „Die Figuren" steht seitdem in
@@ -1795,74 +1794,8 @@ zu tun ist, steht ab hier.
       mehr — die Datei fehlt, das Skript steht nicht in `package.json`. Beim
       Aufräumen am 04.09. mitgegangen~~
 - [x] ~~Den Tagesstand pushen~~
-- [ ] Die nächste Woche bauen
-
----
-
-# Die Nacht auf den 01.09.2026 — was gemessen wurde
-
-Das erste vertonte Video im neuen Bau lag vor, und das Urteil war: **„Es wirkt
-so sehr nach KI-Slop, dass man sich das einfach nicht angucken möchte."** Sechs
-Punkte davon waren messbar, alle sechs haben sich bestätigt, und drei waren
-schlimmer als vermutet.
-
-**Diese Zahlen stehen hier, weil sie sonst nirgends stehen.** Die meisten sind
-inzwischen in Codekommentare gewandert; die aus dieser Tabelle nicht.
-
-| Befund | gemessen |
-|---|---|
-| Stille an den Sprecherwechseln | **4,19 s auf 53 s = 7,9 %**, Mittel 0,42, Spitze 0,61 |
-| Loch im Vorspann vor Szene 1 | **1,53 s** — von niemandem gemeldet |
-| Lücke im Opener | 0,382 s statt 0,28, plus 0,445 s **in** der volti-Aufnahme |
-| Zoom-Überlagerung | Bühne +4,5 % × Kamera +24 % = **+29,6 %** |
-| Zitatkarte | driftet 11 px nach oben, jedes Bild neu subpixel-gerastert |
-| Figurenkasten | **856 px breit auf einer Bühne von 719** |
-| `passung`-Bremse | griff dauerhaft auf **0,806**, unbemerkt seit dem Umbau |
-
-**Zwei Befunde, die nur die Messung zeigt:** Der Bühnenzoom sprang an **jedem
-Schnitt** um 4,5 % zurück. Und Blinzeln und Atmen liefen bei beiden Figuren
-**exakt synchron** — `poseDerKette` reichte den Versatz nie weiter. Zwei
-Figuren, die gleich atmen, sind ein Objekt, das zweimal gezeichnet wurde.
-
-## Der Rhythmus war eine Schablone, und niemand hatte sie entschieden
-
-Nachgezählt über **alle vier** Entwürfe: `VWVWVWVWVWVWVWV`, `VWVWVWVWVWVWV`,
-`VWVWVWVWVWV`, `VWVWVWVWVWVWV` — **14/14, 12/12, 10/10, 12/12 Wechsel.** Kein
-einziger Redeanteil wich ab.
-
-Und zwei Regeln trieben aktiv hinein: `redelauf` verbietet lange Blöcke,
-`stimmanteil` verlangt ausgeglichene Anteile — der kürzeste Weg, beide zu
-erfüllen, ist striktes Abwechseln.
-
-**`rueckbezug` war dabei weit übererfüllt:** fünf von zehn Zeilen greifen ein
-Wort der Vorzeile auf, verlangt sind zwei. Trotzdem war es kein Gespräch.
-**Ein Maß, das eine Zeichenkette zählt, kann eine Beziehung nicht sehen** — die
-Schwelle zu erhöhen hätte nichts gebracht.
-
-## Die Kombinatorik der Zugarten, gerechnet
-
-| Einheit | mögliche | in 3 gesehenen Shorts erwartet |
-|---|---|---|
-| Zugpaar | 72 | ~30 Wiederholungen je Woche — harmlos, das ist Sprache |
-| **Zugtripel** | 380 | **~1,1 — die Sichtbarkeitsschwelle** |
-| Zugquadrupel | 2.600 | 0,17 — unsichtbar |
-
-Deshalb sitzt die laufweite Regel auf dem Tripel. Bei zehn statt zwölf Zugarten
-sänke die Tripelzahl auf 250 und die Erwartung stiege auf 1,7 — das ist das
-einzige belastbare Argument für zwölf. **Alle Zahlen sind gerechnet, nicht
-gemessen**, und fallen, sobald zwölf Shorts mit Zügen vorliegen.
-
-## Was der Belegprüfer fand — acht Stellen in zwei Durchgängen
-
-**Keine davon hätte eine Regel gefunden.** Alle acht sind
-Bedeutungsverschiebungen innerhalb korrekter Zeichenketten. Zwei waren aus
-meinen eigenen Korrekturen: die gekürzte Zitatkarte ohne „routinemäßiger", und
-beim Beheben des Verdacht-Problems der Tausch des **Wortes** statt der
-**Logik** („erst bei einem Hinweis" macht aus einem hinreichenden Anlass den
-einzigen).
-
-## Offen aus dem Plan „Aus dem Nebeneinander ein Gespräch machen"
-
+- [x] ~~Die nächste Woche bauen — macht seit dem 06.09.2026 der Dienst
+      `de.ganzakkurat.wochenlauf`, sonntags um 10:00~~
 - [x] ~~**Die drei übrigen Entwürfe migrieren** — alle vier sind jetzt
       Gespräche. Gelernt dabei: Das Zugsystem allein macht noch keins. Drei von
       vier Shorts eröffneten mit derselben Figur „Behaupten → Nachhaken →
@@ -2139,16 +2072,10 @@ Der Textblock ist danach am gerenderten Bild nachgemessen und liegt mit
 
 ### Offen
 
-- [ ] **Die Wortmarke im Banner ist die schwächste Zeile.** YouTube setzt den
-      Kanalnamen direkt unter den Banner; im Bild steht er ein zweites Mal.
-      `marke/youtube-banner-ohne-wortmarke.png` ist die Gegenprobe mit Figuren
-      auf 214 — Emirhan entscheidet, welche hochgeht
-
-## Emirhans erster Dialog · 02.09.2026, nachmittags
-
-Er hat den ersten Dialog geschrieben, den nicht ich geschrieben habe, und
-dabei zwei Regeln widerlegt, die vier Stunden alt waren.
-
+- [x] ~~**Die Wortmarke im Banner.** Beide Fassungen liegen in `marke/`, die
+      Prop `ohneWortmarke` erzeugt sie; ohne Wortmarke stehen die Figuren auf
+      214 statt 186. **Emirhan hat am 06.09.2026 entschieden und den Banner
+      hochgeladen**~~
 - [x] ~~**Die Anschlussregel gefallen.** Sie verlangte, dass die erste Zeile
       nach dem Vorhang vom anderen kommt. Bei Emirhan spricht Watti davor und
       danach — und das ist besser: **Der Vorhang ist ein Zeitsprung, kein
@@ -2681,11 +2608,11 @@ kommen erst eine Woche später in die Zahlen.
 kurze Klasse ist vollständig der einstimmige Bau, die lange der zweistimmige.
 Welche der beiden Änderungen die Sehdauer bewegt, ist daraus nicht zu lesen.
 
-- [ ] **Zwei Längenklassen innerhalb des neuen Baus.** 53–67 s hat drei Videos,
-      über 67 s keines mit Aufrufen. Bei fünf Videos je Woche zwischen 40 und
-      80 Sekunden dauert das zwei bis drei Wochen bis zur Untergrenze von
-      drei — und rund fünf bis zu den acht, ab denen der Rückblick sonst einen
-      Median zeigt
+- [ ] **Zwei Längenklassen innerhalb des neuen Baus** — wartet auf Sendungen,
+      nicht auf Arbeit. 53–67 s hat drei Videos, über 67 s keines mit Aufrufen;
+      bei fünf Videos je Woche sind das zwei bis drei Wochen. **Der Vergleich
+      misst derzeit zwei Dinge auf einmal**: Die kurze Klasse ist der
+      einstimmige Bau, die lange der zweistimmige
 
 ## Die Liste, sortiert nach dem, was sie blockiert · 06.09.2026
 
