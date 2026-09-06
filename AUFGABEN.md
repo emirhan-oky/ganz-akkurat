@@ -2516,10 +2516,17 @@ wie eine, die nichts findet.**
       ist keine Ausnahme**~~
 - [x] ~~`skripte/wochenlauf.plist` liegt jetzt im Repo, wie die drei anderen.
       Er war der einzige Dienst, den ein frischer Klon nicht gekannt hätte~~
-- [ ] ▸ **Der Vorrat trägt eine Woche.** 31 ungesendete Entwürfe, davon **25
-      Zitatkarten**, 4 Wechselreden, 2 Stationen — bei höchstens zwei je Bauform
-      und Woche. **Was fehlt, sind Stationen**, und „Es war einmal" hat weiter
-      keinen ungesendeten Entwurf
+- [x] ~~**Der Vorrat trägt jetzt zwei Wochen.** 23 Zitatkarten, 4 Stationen,
+      4 Wechselreden. `standby-halbes-watt` und `wlan-passwort-abmahnung` sind
+      auf `stationen` gewechselt — **beide waren immer Stufenreihen und trugen
+      den Namen ihrer Darstellung statt den ihres Baus.** Bei `standby` kam eine
+      echte vierte Station dazu (0,30 W ab zwei Jahren nach Geltungsbeginn); sie
+      steckte vorher als Halbsatz in der ersten Station und hing dort an der
+      falschen Fundstelle. **Ein Halbsatz, der eine eigene Fundstelle braucht,
+      ist eine eigene Station**~~
+- [ ] ▸ **„Es war einmal" hat weiter keinen ungesendeten Entwurf.** Zehn Ideen
+      liegen im Vorrat, alle ohne Quelle (`quellenIds: []`) — der nächste
+      Schreibblock fängt dort an
 - [ ] **Sechs Commits stehen lokal**, nicht gepusht
 
 ### Zwei Beobachtungen, die noch keine Aufgabe sind

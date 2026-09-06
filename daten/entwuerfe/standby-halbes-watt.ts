@@ -26,6 +26,20 @@ import type { Short } from '../../src/typen';
  * **Im `stuetzt`-Feld der Quelle stand es sogar** („7 Watt nach zwei Jahren,
  * davor 8"): Die Belegdatenbank wusste es, der Dialog nicht.
  *
+ * **Die Bauform ist am 06.09.2026 von `zitatkarte` auf `stationen` gewechselt,
+ * und das war eine Korrektur der Etikettierung, nicht des Inhalts.** Der Short
+ * war immer eine Stufenreihe — 0,5 Watt, 2 Watt, 8 Watt —, nur trug er den
+ * Namen der Darstellung statt den des Baus. Dazugekommen ist die vierte
+ * Station: die Absenkung auf 0,30 W zwei Jahre nach Geltungsbeginn, die vorher
+ * als Halbsatz in der ersten Station steckte und dort an der falschen
+ * Fundstelle hing (`gilt-ab-neuntem-mai` sagt nur, ab wann die Verordnung
+ * gilt). **Ein Halbsatz, der eine eigene Fundstelle braucht, ist eine eigene
+ * Station.**
+ *
+ * Der Anlass war der Bauformengpass: 25 Zitatkarten gegen zwei Stationenfolgen
+ * im ungesendeten Vorrat, und jede Woche braucht drei Videos, die keine
+ * Zitatkarte sind.
+ *
  * **Keine Stromrechnung im Short.** 0,5 Watt mal 8.760 Stunden waere eine
  * Kilowattstunde je Jahr — die Rechnung steht in keiner Quelle, der Strompreis
  * erst recht nicht. Watti behauptet trotzdem „frisst mein Geld", und Volti
@@ -36,7 +50,7 @@ export const standbyHalbesWatt: Short = {
   themaId: 'standby-verbrauch',
   format: 'gibtswirklich',
   sachgebiet: 'rechner',
-  bauform: 'zitatkarte',
+  bauform: 'stationen',
   arbeitstitel: 'Watti zieht jeden Abend alle Stecker',
   weitererzaehlt: 'Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen',
   suchbegriff: 'Standby Watt',
@@ -78,7 +92,7 @@ export const standbyHalbesWatt: Short = {
       belegId: 'aus-zustand-null-fuenf-watt',
       herausgeber: 'Europäische Kommission',
       sprechtext:
-        'Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen. Ein halbes? Ein halbes, du Idiot. Und ab Mai 2027 nur noch 0,3.',
+        'Ein halbes Watt darf so ein Haushaltsgerät im Aus-Zustand ziehen. Ein halbes? Ein halbes, du Idiot. Für alles, was in der Liste steht.',
       rede: [
         {
           sprecher: 'nachleser',
@@ -90,10 +104,10 @@ export const standbyHalbesWatt: Short = {
         { sprecher: 'zeiger', zug: 'nachhaken', machart: 'ratlosigkeit', text: 'Ein halbes?' },
         {
           sprecher: 'nachleser',
-          zug: 'nachlegen',
-          text: 'Ein halbes, du Idiot. Und ab Mai 2027 nur noch 0,3.',
+          zug: 'beantworten',
+          text: 'Ein halbes, du Idiot. Für alles, was in der Liste steht.',
           quelleId: 'eu-oekodesign-standby',
-          belegId: 'gilt-ab-neuntem-mai',
+          belegId: 'aus-zustand-null-fuenf-watt',
         },
       ],
       buehne: {
@@ -102,6 +116,37 @@ export const standbyHalbesWatt: Short = {
         von: 'stutzen',
         nach: 'staunen',
         gegenueber: { von: 'erklaeren', nach: 'lesen' },
+      },
+    },
+    {
+      art: 'text',
+      position: 'zuspitzung',
+      quelleId: 'eu-oekodesign-standby',
+      belegId: 'spaeter-null-drei-watt',
+      sprechtext:
+        'Und das bleibt so? Zwei Jahre nach dem Start sind es nur noch 0,3 Watt. Dann darf mein Toaster ja bald gar nichts mehr.',
+      rede: [
+        { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und das bleibt so?' },
+        {
+          sprecher: 'nachleser',
+          zug: 'beantworten',
+          text: 'Zwei Jahre nach dem Start sind es nur noch 0,3 Watt.',
+          quelleId: 'eu-oekodesign-standby',
+          belegId: 'spaeter-null-drei-watt',
+        },
+        {
+          sprecher: 'zeiger',
+          zug: 'zuspitzen',
+          machart: 'falscherschluss',
+          text: 'Dann darf mein Toaster ja bald gar nichts mehr.',
+        },
+      ],
+      buehne: {
+        art: 'figur',
+        wer: 'zeiger',
+        von: 'staunen',
+        nach: 'nachdenken',
+        gegenueber: { von: 'lesen', nach: 'erklaeren' },
       },
     },
     {
@@ -125,9 +170,9 @@ export const standbyHalbesWatt: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'staunen',
+        von: 'nachdenken',
         nach: 'stutzen',
-        gegenueber: { von: 'lesen', nach: 'zeigen' },
+        gegenueber: { von: 'erklaeren', nach: 'zeigen' },
       },
     },
     {

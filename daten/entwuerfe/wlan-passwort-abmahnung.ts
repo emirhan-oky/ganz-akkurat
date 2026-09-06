@@ -16,13 +16,19 @@ import type { Short } from '../../src/typen';
  *
  * Genau die Kosten waren frueher das Druckmittel, und deshalb traegt der Short
  * sie als Zitatkarte.
+ *
+ * **Die Bauform steht seit dem 06.09.2026 auf `stationen`.** Der Short war
+ * immer eine Kette von „auch das nicht" — drei Bedingungen, dann kein
+ * Schadensersatz, dann keine Abmahnkosten, dann nicht einmal die Anwaltskosten
+ * —, und genau das ist eine Stationenfolge. Als `zitatkarte` trug er den Namen
+ * seiner Darstellung statt den seines Baus. Am Dialog ist nichts geaendert.
  */
 export const wlanPasswortAbmahnung: Short = {
   id: 'wlan-passwort-abmahnung',
   themaId: 'stoererhaftung-wlan',
   format: 'gibtswirklich',
   sachgebiet: 'netz',
-  bauform: 'zitatkarte',
+  bauform: 'stationen',
   arbeitstitel: 'Watti hütet ein Passwort vor einer Gefahr, die es nicht gibt',
   weitererzaehlt: 'haftet nicht für das, was durchläuft',
   suchbegriff: 'WLAN Abmahnung',
