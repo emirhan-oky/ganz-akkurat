@@ -20,6 +20,14 @@ import type { Short } from '../../src/typen';
  * Watti, nicht der Kanal — deshalb „So haben wir das gelernt." Belegt ist
  * ausschließlich das „und heute".
  *
+ * **Wattis Passwort hat drei Zeichenarten, und das musste nachgerechnet
+ * werden.** Der erste Anlauf ließ ihn „groß, klein, Ziffer" sagen und im
+ * Kaltstart zusätzlich ein Ausrufezeichen — das sind **vier** Arten, und damit
+ * fiele er unter das zweite Beispiel des BSI und wäre sicher. Der ganze
+ * Kipppunkt hätte ins Leere getroffen. Gefunden hat es der `dialogpruefer`,
+ * nicht die Prüfung: **Eine Zahl im Dialog kann stimmen und trotzdem die
+ * falsche sein.**
+ *
  * **Der `belegpruefer` hat neun Stellen gefunden, und eine war struktureller
  * Natur.** Die drei Längenangaben stehen auf der BSI-Seite als Aufzählung
  * unter einem einleitenden Satz; das tragende „ist sicher" und die
@@ -55,14 +63,14 @@ export const passwortSonderzeichen: Short = {
       art: 'text',
       position: 'aufschlag',
       sprechtext:
-        'Watti, wie sieht dein Passwort aus? Acht Zeichen: groß, klein, Ziffer. So haben wir das gelernt.',
+        'Watti, wie sieht dein Passwort aus? Acht Zeichen: ein Wort, eine Ziffer, ein Ausrufezeichen. So haben wir das gelernt.',
       rede: [
         { sprecher: 'nachleser', zug: 'nachhaken', text: 'Watti, wie sieht dein Passwort aus?' },
         {
           sprecher: 'zeiger',
           zug: 'beantworten',
           machart: 'falscheautoritaet',
-          text: 'Acht Zeichen: groß, klein, Ziffer. So haben wir das gelernt.',
+          text: 'Acht Zeichen: ein Wort, eine Ziffer, ein Ausrufezeichen. So haben wir das gelernt.',
         },
       ],
       buehne: {
@@ -80,12 +88,12 @@ export const passwortSonderzeichen: Short = {
       belegId: 'ziffern-am-ende-nicht-empfehlenswert',
       herausgeber: 'Bundesamt für Sicherheit in der Informationstechnik',
       sprechtext:
-        'Bei einem simplen Passwort ist das nicht empfehlenswert: Ziffer hinten, Sonderzeichen vorn. Was denn sonst?',
+        'Eine Ziffer hinten und ein Sonderzeichen vorn sind bei einem simplen Passwort nicht empfehlenswert. Was denn sonst?',
       rede: [
         {
           sprecher: 'nachleser',
           zug: 'richtigstellen',
-          text: 'Bei einem simplen Passwort ist das nicht empfehlenswert: Ziffer hinten, Sonderzeichen vorn.',
+          text: 'Eine Ziffer hinten und ein Sonderzeichen vorn sind bei einem simplen Passwort nicht empfehlenswert.',
           quelleId: 'bsi-sichere-passwoerter',
           belegId: 'ziffern-am-ende-nicht-empfehlenswert',
         },
@@ -135,7 +143,7 @@ export const passwortSonderzeichen: Short = {
       quelleId: 'bsi-sichere-passwoerter',
       belegId: 'acht-bis-zwoelf-vier-zeichenarten',
       sprechtext:
-        'Und wenn ich es kurz will? 8 bis 12 Zeichen mit vier Zeichenarten stehen auch da. Vier? Ich habe Buchstaben und eine Ziffer.',
+        'Und wenn ich es kurz will? 8 bis 12 Zeichen mit vier Zeichenarten stehen auch da. Vier? Ich habe drei.',
       rede: [
         { sprecher: 'zeiger', zug: 'nachhaken', text: 'Und wenn ich es kurz will?' },
         {
@@ -149,7 +157,7 @@ export const passwortSonderzeichen: Short = {
           sprecher: 'zeiger',
           zug: 'zuspitzen',
           machart: 'uebercompliance',
-          text: 'Vier? Ich habe Buchstaben und eine Ziffer.',
+          text: 'Vier? Ich habe drei.',
         },
       ],
       buehne: {
