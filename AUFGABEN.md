@@ -2230,12 +2230,13 @@ der Satz gewinnt, der gerade gut klingt.
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
-- [ ] **Eine Quelle für die Engpassfächer holen:** `apps-schliessen` (Es war
-      einmal). **`oeffentliches-wlan` und `inkognito-modus` sind am 06.09.2026
-      erledigt** — die erste über `bsi-irrtuemer-mobil`, die zweite über
-      `bsi-fingerprints`, das **schon im Haus lag und mit keiner Idee verknüpft
-      war**. Bei `apps-schliessen` sind Apple und Google beteiligt; was fehlt,
-      ist eine unbeteiligte Instanz zum Energieverbrauch eines Kaltstarts
+- [x] ~~**Eine Quelle für `apps-schliessen`** — am 06.09.2026 gesucht und
+      **nicht gefunden.** Zum Mythos „Apps wegwischen spart Akku" schreiben
+      Hersteller (beteiligt), Blogs und Presse (nicht eintragbar) — keine
+      unbeteiligte Instanz. **Damit ist es keine offene Aufgabe, sondern ein
+      Thema ohne Beleg**, und der Kanal schreibt es nicht. Dieselbe Lehre wie
+      bei Defragmentieren und den Magneten: Behörden schreiben über
+      Alltagsmythen nur, wenn der Mythos in ihr Ressort fällt~~
 - [x] ~~**Der dreizehnte Bogen** steht als Idee `wechseln-ohne-verdacht` im
       Vorrat. Der Einwand kam von einem Zuschauer, und er ist bei `werhatrecht`
       genau das Dritte: **Beide Lager setzen voraus, dass ein Verdacht
@@ -2578,19 +2579,12 @@ für das Einbrennen bei Röhren und für Magnete auf Flash-Speicher gibt es kein
 frei abrufbare Behördenquelle — für den Bildschirmschoner schon, weil das
 Umweltbundesamt ihn im Energiespartipp ausdrücklich abrät.
 
-- [ ] ▸ **Der Vorrat hat zwei Märchen als Entwurf, aber zehn als Idee.** Am
-      06.09.2026 sind drei mit Quelle dazugekommen — Papierkorb, „einen Virus
-      merkt man", die Firewall —, alle drei aus den BSI-Irrtümern. Der
-      Ideenvorrat trägt jetzt zehn Wochen; was fehlt, ist das Schreiben
-- [x] ~~**`rueckblick` von täglich 8:30 auf sonntags 8:30**, `nachlegen` von
-      täglich 19:15 auf **sonntags 11:00**. Alle vier Dienste stehen jetzt auf
-      `Weekday 0`: messen, auswerten, wählen, einlegen~~
-- [x] ~~**`skripte/mit-netz.sh`** wartet bis zu fünf Minuten auf eine
-      Verbindung und fasst bei einem Fehlschlag einmal nach. Rückblick,
-      Wochenlauf und Nachlegen laufen darüber; die Kanalwoche nicht, sie liest
-      nur die lokale Datei~~
-- [x] ~~Testlauf über `launchctl kickstart`: sauber durch,
-      „✓ daten/rueckblick.json fortgeschrieben"~~
+- [ ] ▸ **Der Vorrat hat drei Märchen als Entwurf und zehn als Idee.** Am
+      06.09.2026 dazugekommen: `bildschirmschoner`, `passwort-sonderzeichen`
+      und `virus-merkt-man` — der letzte aus der neuen Ideenquelle, den
+      BSI-Irrtümern. **Was fehlt, ist nicht mehr die Quelle, sondern das
+      Schreiben**: Papierkorb, Firewall und vier Streitfälle liegen mit
+      Belegpfad im Ideenvorrat
 
 **Der Fehler, der zwei Tage alte Zahlen erklärt hat, stand die ganze Zeit im
 Log.** Der Rückblick lief am 06.09. um 09:36 an und brach sofort ab:

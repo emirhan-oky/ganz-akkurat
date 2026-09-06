@@ -2263,6 +2263,37 @@
           "stuetzt": "Das Gerät wählt sich sonst später von selbst wieder ein — in ein Netz, das jemand anders so benannt haben kann."
         }
       ]
+    },
+    {
+      "id": "bsi-irrtuemer-computer",
+      "titel": "Sicherheits-Irrtümer: Computer-Sicherheit",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Cyber-Sicherheitsempfehlungen/Sicherheitsirrtuemer/irrtuemer-computer-sicherheit.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "nicht-immer-feststellbar",
+          "zitat": "Nicht immer kann ein Anwender feststellen, ob sich auf seinem Computer ein Virus oder anderes Schadprogramm eingenistet hat.",
+          "stuetzt": "Die Antwort des BSI auf „einen Virus merkt man\": nicht immer. Das ist das „und heute\" des Märchens."
+        },
+        {
+          "id": "unbemerkt-installiert-identitaetsdiebstahl",
+          "zitat": "Viele Schadprogramme, die unbemerkt auf einem Computer installiert sein können, verfügen über Funktionen zum Identitätsdiebstahl.",
+          "stuetzt": "Unbemerkt ist kein Zufall, sondern die Bauart: Wer ausspähen will, darf nicht auffallen."
+        },
+        {
+          "id": "vollkommen-unauffaellig-fernsteuerung",
+          "zitat": "Ebenfalls für den Nutzer vollkommen unauffällig verhalten sich Schadprogramme, die einem Angreifer die Fernsteuerung von infizierten Geräten ermöglicht.",
+          "stuetzt": "Auch die Fernsteuerung bleibt unauffällig — das Gerät soll ja weiterlaufen."
+        },
+        {
+          "id": "tausende-computer-ddos",
+          "zitat": "Indem die Urheber etwa tausende von Computern mit der Software infizieren, können sie damit Angriffe auf Webseiten",
+          "stuetzt": "Wozu ein unauffälliges Gerät taugt: als eines von tausenden für einen Angriff."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",
