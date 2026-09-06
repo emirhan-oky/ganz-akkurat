@@ -2340,6 +2340,78 @@
           "stuetzt": "Es gibt mehr als eine Firewall im Haus, und die zweite kennt kaum jemand."
         }
       ]
+    },
+    {
+      "id": "bsi-online-ausweisfunktion",
+      "titel": "FAQ Online-Ausweisfunktion",
+      "url": "https://www.bsi.bund.de/DE/Themen/Verbraucherinnen-und-Verbraucher/Informationen-und-Empfehlungen/Digitale-Verwaltung/Online-Ausweisfunktion/FAQ-Online-Ausweisfunktion/faq-online-ausweisfunktion_node.html",
+      "herausgeber": "Bundesamt für Sicherheit in der Informationstechnik",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "seit-2017-standardmaessig-aktiviert",
+          "zitat": "Seit 2017 werden alle Ausweise mit standardmäßig aktivierter Online-Ausweisfunktion ausgegeben.",
+          "stuetzt": "Das „und heute\" des Märchens: Freischalten lassen muss niemand mehr, die Funktion ist ab Werk an."
+        },
+        {
+          "id": "aktiviert-aber-nicht-nutzbar",
+          "zitat": "Im Auslieferungszustand ist die Online-Ausweisfunktion zwar aktiviert, aber noch nicht nutzbar.",
+          "stuetzt": "Der Haken daran: aktiviert heißt nicht benutzbar."
+        },
+        {
+          "id": "transport-pin-aendern",
+          "zitat": "Erst durch Änderung der fünfstelligen Transport- PIN in eine sechsstellige PIN wird die Online-Ausweisfunktion zur Nutzung freigeschaltet.",
+          "stuetzt": "Was tatsächlich zu tun ist — die PIN ändern, sonst nichts."
+        },
+        {
+          "id": "lesegeraet-oder-smartphone",
+          "zitat": "Der Ausweis muss mit einem geeigneten kontaktlosen Kartenlesegerät oder NFC -fähigen Smartphone/Tablet verbunden sein.",
+          "stuetzt": "Ein Lesegerät ist eine Möglichkeit, keine Bedingung: Das Smartphone steht gleichberechtigt daneben."
+        }
+      ]
+    },
+    {
+      "id": "bnetza-2g-abschaltung",
+      "titel": "Abschaltung der 2G-Mobilfunknetze in Deutschland",
+      "url": "https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Breitband/2GAbschaltung/artikel.html",
+      "herausgeber": "Bundesnetzagentur",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "3g-2021-abgeschaltet",
+          "zitat": "Der direkte Nachfolger der 2G -Mobilfunktechnologie waren die 3G -Netze, welche in Deutschland bereits im Jahr 2021 durch die Mobilfunknetzbetreiber abgeschaltet wurden.",
+          "stuetzt": "3G gibt es in Deutschland nicht mehr — das „und heute\" für jeden, der noch aufs UMTS-Symbol hofft."
+        },
+        {
+          "id": "2g-abschaltung-2028",
+          "zitat": "Die Netzbetreiber Telekom, Vodafone und Telefónica haben bekanntgegeben, dass sie ihre 2G -Netze voraussichtlich im Jahr 2028 abschalten werden.",
+          "stuetzt": "Auch das letzte alte Netz hat ein Datum. Die Ankündigung stammt von den Betreibern, die Behörde gibt sie wieder."
+        },
+        {
+          "id": "2g-mehr-als-99-prozent",
+          "zitat": "Allerdings erreichen alle Netzbetreiber mit 2G eine Versorgung von mehr als 99 % der Fläche.",
+          "stuetzt": "Der Kipppunkt: Das älteste Netz deckt die größte Fläche."
+        },
+        {
+          "id": "4g-97-5g-93",
+          "zitat": "Mehr als 97 % der Fläche Deutschlands sind mit 4G -Netzen versorgt und mehr als 93 % mit 5G -Technologie.",
+          "stuetzt": "Die Zahlen daneben, an denen man den Unterschied sieht."
+        },
+        {
+          "id": "2g-veraltet",
+          "zitat": "Mittlerweile ist 2G jedoch veraltet",
+          "stuetzt": "Die Bewertung der Behörde, ohne die die Abschaltung wie Willkür aussieht."
+        },
+        {
+          "id": "abschaltung-geboten",
+          "zitat": "Um die begrenzt verfügbaren Frequenzen effizient zur Versorgung mit breitbandigem Mobilfunk zu nutzen, ist die Abschaltung von alten Technologien wie 2G nach Ablauf ihres jeweiligen Lebenszyklus aus Sicht der Bundesnetzagentur geboten.",
+          "stuetzt": "Der Grund für die Abschaltung, und zwar aus Sicht der Behörde: Die Frequenzen sind begrenzt."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

@@ -43,6 +43,42 @@ export const eswareinmalIdeen: Idee[] = [
     quellenIds: [],
   },
   {
+    id: "ausweis-lesegeraet",
+    format: "eswareinmal",
+    sachgebiet: "handy",
+    reifegrad: "produziert",
+    erzaehlt:
+      "Für den Online-Ausweis brauchte man ein Kartenlesegerät. Heute steht das NFC-fähige Smartphone gleichberechtigt daneben.",
+    dreh: "Der Haken ist nicht das Gerät, sondern die Transport-PIN aus dem Brief, den niemand aufhebt.",
+    sache: "Seit 2017 wird jeder Ausweis mit aktivierter Online-Ausweisfunktion ausgegeben — aktiviert heißt aber nicht nutzbar.",
+    belegpfad: [
+      {
+        instanz: "BSI",
+        art: "behoerde",
+        findet: "FAQ Online-Ausweisfunktion",
+      },
+    ],
+    quellenIds: ["bsi-online-ausweisfunktion"],
+  },
+  {
+    id: "drei-g-abgeschaltet",
+    format: "eswareinmal",
+    sachgebiet: "netz",
+    reifegrad: "produziert",
+    erzaehlt:
+      "Wer kein Netz hat, wartet darauf, dass es auf 3G zurückfällt. Diese Rückfallebene gibt es seit 2021 nicht mehr.",
+    dreh: "Die Zahl steht falsch herum im Kopf: Mit 2G erreicht jeder einzelne Netzbetreiber über 99 % der Fläche — und genau dieses Netz soll 2028 abgeschaltet werden.",
+    sache: "Abschaltung der 3G-Netze 2021, angekündigte 2G-Abschaltung 2028, Flächenversorgung je Technologie.",
+    belegpfad: [
+      {
+        instanz: "Bundesnetzagentur",
+        art: "behoerde",
+        findet: "Abschaltung der 2G-Mobilfunknetze in Deutschland",
+      },
+    ],
+    quellenIds: ["bnetza-2g-abschaltung"],
+  },
+  {
     id: "virus-merkt-man",
     format: "eswareinmal",
     sachgebiet: "rechner",

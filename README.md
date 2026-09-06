@@ -194,6 +194,37 @@ Kästchen zum Abhaken. **Eine Aufgabenliste, in der 24 von 50 Punkten erledigt
 und nie abgehakt waren, misst nicht den Stand, sondern das Abhaken** — was
 offen ist, steht jetzt oben in einem Absatz, und alles andere ist Verlauf.
 
+### Nachtrag vom 06.09.2026 — Zwei neue Märchen, und der Engpass ist bestätigt
+
+Der Märchenvorrat steht bei **sechs** ungesendeten Entwürfen statt vier. Beide
+neuen kommen von Behörden, die ohnehin über den Gegenstand schreiben — und das
+ist keine Beobachtung nebenbei, sondern der ganze Befund: **Drei weitere Ideen
+sind am selben Tag an der Quelle gescheitert** (Defragmentieren, Magnete auf
+Flash-Speicher, Papierkorb — letzteres an der Themendopplung mit
+`dateien-loeschen`).
+
+- `ausweis-lesegeraet` (`stationen`, `handy`) — vier belegte Stufen aus der
+  BSI-FAQ zur Online-Ausweisfunktion: Lesegerät **oder** NFC-Smartphone, seit
+  2017 ab Werk aktiviert, „aktiviert, aber noch nicht nutzbar", und die
+  Transport-PIN als Kipppunkt.
+- `drei-g-abgeschaltet` (`wechselrede`, `netz`) — neue Quelle bei der
+  Bundesnetzagentur, sechs Zitate. Die 3G-Netze sind 2021 abgeschaltet; 2G soll
+  2028 folgen und deckt dabei die größte Fläche.
+
+**Der beste Fund des Tages kam vom `belegpruefer` und betraf zwei Zahlen, die
+nebeneinanderstanden.** Die 99 % gelten laut Quelle **je Netzbetreiber**, die
+97 % und 93 % der **Fläche Deutschlands insgesamt**. Der Kipppunkt stellte sie
+als eine absteigende Reihe dar, und Titel wie Beschreibung hingen daran.
+**Zwei Zahlen mit derselben Einheit sind noch lange nicht dieselbe Messung.**
+
+Drei weitere Befunde derselben Sorte: „voraussichtlich 2028" statt eines festen
+Datums, die drei Betreiber beim Namen statt „die Netzbetreiber", und der Grund
+für die Abschaltung, den die Quelle nennt und der Short unterschlug — begrenzte
+Frequenzen, veraltete Technik. Bei `ausweis-lesegeraet` dieselbe Bauart: Der
+Schlusssatz sagte „war **nie** das Problem", wo das Zitat nur die Gegenwart
+beschreibt, und Volti versprach „zehn Minuten beim Amt" — plausibel und
+unbelegt.
+
 ### Nachtrag vom 06.09.2026 — Die Liste, sortiert nach dem, was sie blockiert
 
 Ein Durchgang durch alle offenen Punkte dieser Datei. **Von 50 waren 24
