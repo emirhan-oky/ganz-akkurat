@@ -280,7 +280,6 @@ sie lässt die Fläche leer.
       Instagram hält sich daran, TikTok sucht sich trotzdem sein eigenes. Der
       Befund steht an der Codestelle~~
 
-
 ## Neues Fundament · 19.08.2026 · läuft
 
 Anlass: Der Eindruck, planlos gearbeitet zu haben — Plan-Modus, Plugins und
@@ -327,7 +326,6 @@ Abschnitt aus. Gegen die eigene Regel — keine Begründung löschen, ohne dass 
 im Skill steht — hätte das den Vertragsteil mitgenommen (Quellenrangfolge,
 Belegpflicht im Aufschlag, `rundlauf`). Ausgelagert ist jetzt der **Ablauf**,
 geblieben ist, **was gilt**.
-
 
 ### Stop-Hook: die Prüfung erinnert sich selbst · 19.08.2026
 
@@ -1181,7 +1179,6 @@ oben als neuem Unterscheidungsmerkmal.
       gegen das Fenster 42–67 s; Blindwahl; neue Ideenquelle~~
       *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
 
-
 ## Korrektur am selben Abend · 31.08.2026
 
 „Ich habe es verkackt. Watti sollte beide Endpunkte haben und nicht Volti. […]
@@ -1222,7 +1219,6 @@ Ich hätte nicht gedacht, dass jetzt beide so klein und dickförmig aussehen."
 - [x] ~~Zitatkartenszene; zweiter Lauf mit Ton; Bauformen gegen 42–67 s;
       Blindwahl; neue Ideenquelle~~
       *(erledigt 31.08. nachts: `mitIllustration` im Schema, Bühne im Renderer, `minHeight` an beiden Enden)*
-
 
 ## Der Vorspann: aus vier Rubriken werden sechs Shows · 31.08.2026, nachts
 
@@ -1297,7 +1293,6 @@ neu: `schaetzmal` **Schätz mal**
       31.08.2026 abends, `einstimmig` gestrichen. 25 / 35 / 45 / 60
       liegen zu drei Vierteln darunter
 
-
 ## Theaterrot im Renderer · 31.08.2026, nachts
 
 Nach drei Vergleichsseiten sind alle Werte entschieden und eingebaut.
@@ -1353,7 +1348,6 @@ Nach drei Vergleichsseiten sind alle Werte entschieden und eingebaut.
 ### Offen
 
 *Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
-
 
 ## Die Bühne steht von Anfang an · 31.08.2026 · Abend
 
@@ -1520,7 +1514,6 @@ Fünf Klänge, zehn Aufnahmen, und der Vorhang ist an den Anfang gewandert.
 ### Offen
 
 *Was hier offen war, steht zusammengeführt in **Offen · Stand 31.08.2026** am Ende dieser Datei.*
-
 
 ## Der Hauptteil wird ein Gespräch · 31.08.2026 · Nacht
 
@@ -1764,11 +1757,9 @@ zu tun ist, steht ab hier.
 
 ## Marke und Kanaltexte — nur Emirhan
 
-- [ ] Instagram-Bio eintragen, **Name-Feld auf „Ganz akkurat · Technikfakten"**,
-      Kategorie weg von „KI-Creator" (YouTube ist erledigt)
-- [ ] TikTok-Bio eintragen
-- [ ] Die restlichen rund 900 Zeichen der YouTube-Beschreibung sind Suchfläche
-      — ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird
+- [x] ~~Instagram-Bio, TikTok-Bio und die YouTube-Beschreibung: **am
+      06.09.2026 von Emirhan eingetragen**~~
+
 - [x] ~~**Der Stop-Hook greift.** `.claude/settings.json` liegt im Repo und
       wird in jeder neuen Sitzung geladen; der Hook ruft `npm run pruefen` und
       meldet die letzten 15 Zeilen, wenn es rot ist~~
@@ -1783,13 +1774,12 @@ zu tun ist, steht ab hier.
       `bild-bauen/references/figuren.md`~~
 - [x] ~~**`bild-bauen/SKILL.md`** nachgezogen: Er sagt jetzt am Anfang, welche
       Referenzdatei für welche Aufgabe zu lesen ist~~
-- [ ] **Ein fünfter Skill für die Bebilderung?** Bühnenmaße, Symbolwahl und
-      „die Prüfung hat die Richtung zweimal gewechselt" sind Produktionswissen
-      und kein Vertrag — rund 90 Zeilen. Nicht gebaut, weil es eine
-      Strukturentscheidung ist
-
-## Aufräumen
-
+- [x] ~~**Ein fünfter Skill für die Bebilderung?** Nicht nötig — erledigt am
+      06.09.2026 auf anderem Weg: Die rund 90 Zeilen Produktionswissen stehen
+      als vier Referenzdateien unter `bild-bauen/references/`, und der Skill
+      sagt am Anfang, welche davon für welche Aufgabe zu lesen ist. **Ein
+      zweiter Skill neben `bild-bauen` hätte dieselbe Frage zweimal
+      beantwortet**~~
 - [x] ~~**`laeufe/` liegt bei 235 MB in einem einzigen Ordner.** Erledigt am
       06.09.2026 mit `npm run laeufe-aufraeumen`: 141 → 80 MB. Das Skript sieht
       **ausschließlich `*.mp4`** an und löscht nur, was im Rückblick Aufrufe hat
@@ -2007,7 +1997,6 @@ Und was die Vergrößerung überhaupt nötig machte: Das Bühnen-SVG ist 200 zu 
 der Kasten im Schluss ist höher als breit — es deckelt die **Breite**. Deshalb
 standen die Figuren ausgerechnet in der höchsten Bühne des Shorts am kleinsten,
 und mehr Platz nach unten hätte daran nichts geändert.
-
 
 ## Vorschau in Buffer · 02.09.2026
 
