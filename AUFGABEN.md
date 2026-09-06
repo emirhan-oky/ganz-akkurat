@@ -1755,7 +1755,9 @@ zu tun ist, steht ab hier.
       der Vorrat steht
 - [ ] **Eine neue Ideenquelle** — der Pillar-Weg ist verworfen
 - [ ] **Vorrat nachfüllen**, sobald ein Format unter sechs offene Ideen fällt.
-      `eswareinmal` und `werhatrecht` stehen bei zehn
+      Stand 06.09.2026: `gibtswirklich` 19, `absicht` 32, `eswareinmal` 7,
+      `werhatrecht` 8 — **keines unter der Schwelle**, aber `eswareinmal` ist
+      am nächsten dran, und dort ist nicht die Idee knapp, sondern die Quelle
 - [ ] **Ab Oktober `npm run laengen` lesen**, sobald zwei Längenklassen belegt
       sind. **Dann fallen die vier Zielwerte** — vorher nicht, sonst ersetzt
       eine geratene Zahl die andere
@@ -1767,9 +1769,9 @@ zu tun ist, steht ab hier.
 - [ ] TikTok-Bio eintragen
 - [ ] Die restlichen rund 900 Zeichen der YouTube-Beschreibung sind Suchfläche
       — ein oder zwei Sätze mit den Wörtern, unter denen gesucht wird
-- [ ] Einmal `/hooks` öffnen oder die Sitzung neu starten: Der Settings-Watcher
-      beobachtet `.claude/` nur, wenn dort beim Sitzungsstart schon eine
-      Settings-Datei lag
+- [x] ~~**Der Stop-Hook greift.** `.claude/settings.json` liegt im Repo und
+      wird in jeder neuen Sitzung geladen; der Hook ruft `npm run pruefen` und
+      meldet die letzten 15 Zeilen, wenn es rot ist~~
 - [ ] `video/Marke.tsx` — der Banner braucht breitere, flachere Kästen, dann
       `npm run markenbilder` neu ablegen
 
@@ -2030,10 +2032,10 @@ weg, `probe/` in R2 ist geleert.
 Beiträge an (`mode: customScheduled`, `schedulingType: automatic`). Der Aufruf
 vom 02.09. war ein einmaliger und ist mit ihm gegangen.
 
-- [ ] **Wer wieder eine Vorschau in Buffer baut, muss den Entwurfsstatus
-      nachweisen** — nicht annehmen. Eine Abfrage der gesendeten Beiträge zeigt
-      binnen Sekunden, ob etwas draußen ist. **Der sichere Weg bleibt die
-      Freigabeseite mit dem lokalen Video**, und der kostet nichts.
+- [x] ~~**Wer wieder eine Vorschau in Buffer baut, muss den Entwurfsstatus
+      nachweisen** — keine Aufgabe, sondern eine Warnung, und sie steht dort,
+      wo sie gebraucht wird. **Der sichere Weg bleibt die Freigabeseite mit dem
+      lokalen Video**, und er kostet nichts~~
 - [x] ~~**Die drei Fassungen je Dienst sind byte-identisch.** Entschieden am
       04.09.2026, und zwar durch den Ausbau des Zeigers: Die Prop `dienst` ist
       gefallen, der Wochenlauf rendert eine Datei je Short, und
@@ -2097,12 +2099,13 @@ Anrede zu wenig, weil die fehlende Zeile in den Kaltstart gewandert war.
       Umbau kommt mit Emirhans eigenen Zeilen; daraus wird das Humorprofil im
       Skill, so wie die sieben Regeln am 25.08. aus fünfzehn bewerteten Zeilen
       entstanden sind
-- [ ] **Die Wortbrücke bei `passwort-wechseln` meldet**, und sie hat recht: Der
-      Kaltstart sagt „Passwort", die erste Szene sagt „Konto". Der Zusammenhang
-      ist da, das Wort nicht
-- [ ] **Kein Ton.** Der Kaltstart braucht eine eigene Aufnahme je Short;
-      `--ton-behalten` trägt ihn nicht. Der erste Lauf mit `--mit-ton` kostet
-      Kontingent und braucht Zustimmung
+- [x] ~~**Die Wortbrücke bei `passwort-wechseln` meldet.** Der Befund stimmt
+      und bleibt stehen: Der Short ist gesendet, und **Veröffentlichtes wird
+      nicht nachgebessert.** Die Meldung ist für den nächsten Kaltstart gedacht,
+      nicht für diesen~~
+- [x] ~~**Kein Ton für den Kaltstart.** Erledigt: `src/stimme.ts`
+      synthetisiert ihn als eigenen Aufruf mit der Stimme, die
+      `KALTSTART_SPRECHER` für das Format vorsieht~~
 - [x] ~~**`daten/vorspannton.json` hält noch die zehn Formatdauern.** Sie
       stehen weiter drin und das bleibt so: Die MP3s sind einmal bezahlt,
       `eleven_v3` ist nicht deterministisch, und 250 KB sind billiger als eine
@@ -2287,30 +2290,31 @@ der Satz gewinnt, der gerade gut klingt.
 - [ ] **Die Vorbilder** — mit `watch` ansehen, mit
       `viral-reverse-engineering` zerlegen, und nur die Lücken füllen.
       `brand-profile.md` wartet seit dem 20.08. auf Emirhans Liste
-- [ ] **Vier Quellen für die Engpassfächer holen:** `apps-schliessen` und
-      `bildschirmschoner` (Es war einmal), `inkognito-modus` und
-      `oeffentliches-wlan` (Wer hat recht?). Beide Fächer haben je acht offene
-      Ideen, aber nur zwei mit abgerufener Quelle — **der Engpass ist der
-      Beleg, nicht das Schreiben**
+- [ ] **Drei Quellen für die Engpassfächer holen:** `apps-schliessen` (Es war
+      einmal), `inkognito-modus` und `oeffentliches-wlan` (Wer hat recht?).
+      **`bildschirmschoner` ist am 06.09.2026 erledigt** — Umweltbundesamt,
+      vier Fundstellen, daraus ist ein Short geworden. **Der Engpass ist der
+      Beleg, nicht das Schreiben**, und die Suche an dem Tag hat gezeigt, wie
+      groß er ist: Von sechs geprüften Behördenseiten trugen zwei ein Märchen
 - [ ] **Der dreizehnte Bogen.** Ein Zuschauer wandte zum Passwort-Video ein,
       die BSI-Empfehlung könne ohne Meldung über kompromittierte Zugangsdaten
       nach hinten losgehen. Bei `werhatrecht` ist das genau das Dritte — und es
       braucht eine eigene Fundstelle. Sein Beispiel ist Firmen-IT; für 18- bis
       30-Jährige ist das Gegenstück die Meldung über die eigene Adresse in
       einem Leck. **Eine Handlung darf daraus nicht werden**
-- [ ] **`memory-effekt` fehlt im Ideenvorrat.** Der Bogen liegt, die Quelle ist
-      geprüft, `daten/ideen/eswareinmal.ts` kennt ihn nicht
-- [ ] **`werhatrecht` verlangt `irrtum: 'beide'`**, und in Emirhans Dialog irrt
-      nur Watti. Das zweite Lager spricht jetzt aus seinem Mund („Das merkt
-      sich doch keiner") — ob das reicht, entscheidet das fertige Video
-
-
-## Vier Korrekturen am fertigen Video · 04.09.2026
-
-Emirhans Urteil an den ersten vier Videos im neuen Bau: *„ich finde die Videos
-so unfassbar viel besser."* Vier Änderungen blieben, alle am Bild oder am Ton,
-keine am Text — der Ton war bezahlt, ein Lauf mit `--ton-behalten` kostet nichts.
-
+- [x] ~~**`memory-effekt` fehlt im Ideenvorrat.** Am 06.09.2026 geprüft und
+      **bewusst nicht aufgenommen:** `akku-ganz-leer` erzählt bereits genau
+      diese Geschichte, mit derselben UBA-Quelle und demselben Sachgebiet — bis
+      hin zu „Unser Vater. Der macht das seit 30 Jahren so." Ein zweiter Short
+      wäre dasselbe Video mit einem anderen Wort~~
+- [x] ~~**`werhatrecht` verlangt `irrtum: 'beide'`.** Die Frage ist am
+      06.09.2026 an `handy-tankstelle` beantwortet worden, und zwar vom
+      `dialogpruefer`: Voltis „Da ist noch nie was passiert" wurde von seinen
+      eigenen Zuspitzungen widerlegt, ohne dass er es einräumt. **Ein
+      Streitfall, in dem eine Seite einfach recht hat, ist ein Märchen mit zwei
+      Sprechern.** Er räumt es jetzt belegt ein, und im Nachschlag fällt der
+      Satz aus allen vier Szenariobeispielen: „Keiner von uns beiden lag
+      richtig."~~
 - [x] ~~**Der Zeiger ist ausgebaut**, beide: der Gefällt-mir-Zeiger mitten im
       Video und der Schluss-Zeiger, der seit dem 01.09. ohnehin nie mehr
       gezeichnet wurde. Mit ihm gingen `FOLGEPOSEN`, `ZEIGER_PLATZ`,
@@ -2690,3 +2694,42 @@ Welche der beiden Änderungen die Sehdauer bewegt, ist daraus nicht zu lesen.
       80 Sekunden dauert das zwei bis drei Wochen bis zur Untergrenze von
       drei — und rund fünf bis zu den acht, ab denen der Rückblick sonst einen
       Median zeigt
+
+## Die Liste, sortiert nach dem, was sie blockiert · 06.09.2026
+
+Ein Durchgang durch alle offenen Punkte dieser Datei. **Von 50 waren 24
+erledigt und nie abgehakt** — jeder ist jetzt mit dem Nachweis geschlossen,
+woran er erledigt ist. Was übrig bleibt, teilt sich in drei Gruppen, und nur
+eine davon kann ich allein bearbeiten.
+
+### Entscheidet Emirhan am fertigen Bild oder am Konto
+
+Nichts davon ist ein Fehler, alles ist eine Wahl. Sie stehen an ihren Stellen
+in dieser Datei und warten dort:
+
+Letterbox (203 Pixel), Randbreite des Vorhangs am Handy, Formatpille in der
+Kopfzeile, die zwei blauen Formatfarben, das aufrechte Logozeichen neben dem
+gestauchten Watti, das querliegende `batterie`-Symbol, der Banner in
+`video/Marke.tsx` samt Wortmarke — dazu Instagram- und TikTok-Bio, die 900
+Zeichen YouTube-Beschreibung, und die Frage, ob `Beef` umgebaut wird und
+`schaetzmal` ein sechstes Format bekommt.
+
+**Die Blindwahl für die Regieanweisungen** gehört auch hierher: Sie kostet
+Kontingent, und alle sechs Vorräte in `MACHARTEN` bleiben bis dahin leer — was
+der beabsichtigte Zustand ist.
+
+### Wartet auf Zahlen, nicht auf Arbeit
+
+- **Zwei Längenklassen innerhalb des neuen Baus** — zwei bis drei Wochen
+- **`npm run laengen` ab Oktober lesen**, wenn die Klassen belegt sind
+- **Vorrat nachfüllen**, sobald ein Format unter sechs offene Ideen fällt
+
+### Bleibt an mir
+
+- **Der Märchenvorrat hat zwei Einträge.** Weitere brauchen zuerst eine Quelle
+- **Drei Quellen für die Engpassfächer** — `apps-schliessen`,
+  `inkognito-modus`, `oeffentliches-wlan`
+- **Der dreizehnte Bogen** aus dem Zuschauereinwand zum Passwort-Video
+- **Acht Widersprüche in der Dialoganalyse**, je zwei Befunde gegeneinander
+- **Der letzte Aufteilungsschritt**: Datenvertrag, Takt, Länge, Rücklauf,
+  Ideenvorrat straffen — geschätzt 8 bis 12 KB
