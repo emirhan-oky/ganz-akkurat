@@ -1720,8 +1720,11 @@ zu tun ist, steht ab hier.
 - [x] ~~**Die Randbreite am Handy** — gestrichen am 06.09.2026 auf Ansage. Der
       Punkt sagte selbst, dass kein Standbild das entscheidet; entschieden hat
       es das gesendete Video~~
-- [ ] **Die Formatpille in der Kopfzeile** — bleibt sie? „KI-Stimme" bleibt in
-      jedem Fall
+- [x] ~~**Die Formatpille in der Kopfzeile bleibt.** Entschieden am 06.09.2026
+      an `video/Pillenprobe.tsx`, die alle fünf Kopfzeilen mit und ohne Pille
+      nebeneinanderstellt — in voller Größe und bei 26 %. Emirhans Urteil zur
+      Fassung mit Pille: *„ja ich will es so finde ich sehr geil."* **„KI-Stimme"
+      bleibt ohnehin**, das ist Kennzeichnungspflicht~~
 - [ ] **Facts `#4C61B0` und Kein Zufall `#303C6C` sind beide blau.** Bei
       Briefmarkengröße prüfen
 - [ ] **Das Logozeichen** ist einpolig und aufrecht, während Watti gestaucht

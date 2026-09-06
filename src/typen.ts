@@ -2384,6 +2384,14 @@ export const FORMATE: Record<
      * unten hat 17 Zeichen.
      */
     pille: string;
+    /*
+     * **Die Pille bleibt — entschieden am 06.09.2026.** Sie stand zur
+     * Diskussion, seit der Showtitel am 02.09. nicht mehr gesprochen wird:
+     * Traegt er im Bild noch etwas bei? `video/Pillenprobe.tsx` stellt alle
+     * fuenf Kopfzeilen mit und ohne nebeneinander, in voller Groesse und bei
+     * 26 %. Bei 26 % ist der Titel nicht mehr zu lesen — was dort ankommt, ist
+     * die Farbe. In voller Groesse traegt er, und das hat entschieden.
+     */
     /**
      * Der Showtitel im Vorspann — „Facts", „Beef", „Maerchenstunde".
      *
