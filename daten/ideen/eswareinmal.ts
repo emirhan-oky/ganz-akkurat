@@ -79,6 +79,44 @@ export const eswareinmalIdeen: Idee[] = [
     quellenIds: ["bnetza-2g-abschaltung"],
   },
   {
+    id: "vertrag-noch-ein-jahr",
+    format: "eswareinmal",
+    sachgebiet: "recht",
+    reifegrad: "produziert",
+    erzaehlt:
+      "Wer zu spät kündigt, hängt noch ein Jahr drin. Bei Telefon- und Internetverträgen gilt das seit dem 01.12.2021 nicht mehr.",
+    dreh: "Der Anbieter muss vor der Verlängerung selbst darauf hinweisen — und vor Vertragsschluss ein Angebot mit höchstens zwölf Monaten anfänglicher Laufzeit machen.",
+    sache: "§ 56 TKG: Kündigungsfrist von einem Monat nach Ablauf der anfänglichen Laufzeit, kostenfrei.",
+    belegpfad: [
+      {
+        instanz: "Bundesministerium der Justiz",
+        art: "behoerde",
+        findet: "§ 56 TKG im Volltext",
+      },
+    ],
+    quellenIds: ["tkg-56-vertragslaufzeit"],
+  },
+  {
+    id: "notruf-ohne-sim",
+    format: "eswareinmal",
+    sachgebiet: "handy",
+    reifegrad: "skizze",
+    erzaehlt:
+      "Der Notruf 112 geht von jedem Handy, auch ohne SIM-Karte. In Deutschland ist genau das abgeschaltet.",
+    dreh: "Das Märchen hält sich, weil es im Ausland stimmt und in vielen Anleitungen weiterlebt.",
+    sache: "Verfügung der Bundesnetzagentur von 2009: Notrufe vom Mobiltelefon nur mit eingelegter, freigeschalteter Karte.",
+    belegpfad: [
+      {
+        instanz: "Bundesnetzagentur",
+        art: "behoerde",
+        findet: "Verfügung Nr. 29/2009 im Amtsblatt",
+      },
+    ],
+    quellenIds: [],
+    notiz:
+      "Am 06.09.2026 gesucht und nicht gefunden: Die Pressemitteilung von 2009 antwortet mit 404, die Notruf-Fachseiten schweigen zur SIM-Karte, und im PDF der Technischen Richtlinie kommt „SIM“ nicht vor. Bleibt das Amtsblatt — bis dahin trägt nur Presse, und die ist nicht eintragbar.",
+  },
+  {
     id: "virus-merkt-man",
     format: "eswareinmal",
     sachgebiet: "rechner",

@@ -194,6 +194,41 @@ Kästchen zum Abhaken. **Eine Aufgabenliste, in der 24 von 50 Punkten erledigt
 und nie abgehakt waren, misst nicht den Stand, sondern das Abhaken** — was
 offen ist, steht jetzt oben in einem Absatz, und alles andere ist Verlauf.
 
+### Nachtrag vom 06.09.2026 — Der Vertrag, der sich nicht mehr um ein Jahr verlängert
+
+`vertrag-noch-ein-jahr` (`stationen`, `recht`) ist der siebte Märchen-Entwurf
+und hat die beste Quellenlage von allen: § 56 TKG, im Volltext abrufbar. Vier
+Stufen — nach der anfänglichen Laufzeit jederzeit mit einem Monat Frist
+kündbar, kostenfrei, mit Hinweispflicht des Anbieters, und vorher muss es ein
+Angebot mit höchstens zwölf Monaten anfänglicher Laufzeit geben.
+
+**Der `belegpruefer` hat den Fehler gefunden, der durch jede maschinelle Prüfung
+gegangen wäre: den Geltungsbereich.** § 56 TKG gilt für
+Telekommunikationsverträge, und diese Einschränkung steht im Gesetzestext
+**vor** der zitierten Stelle. Im Short sagte Watti „mein Vertrag" und Volti
+„Anbieter" — damit galt der Satz fürs Fitnessstudio mit. Der Bezug stand nur im
+Hashtag. **Was außerhalb des Zitats steht, steht auch außerhalb des Belegs.**
+
+Drei weitere Befunde derselben Bauart: Die Schlusskarte ließ die Bedingung
+fallen, die im Dialog noch sauber stand („nach Ablauf der anfänglichen
+Laufzeit") — **und die Karte ist das, was stehen bleibt**. Voltis „darauf
+hinweisen" zeigte auf die Kostenfreiheit, die in der Hinweispflicht gar nicht
+vorkommt. Und beim Zwölfmonatsangebot fehlte „anfängliche Laufzeit"; ohne das
+Wort sagt der Satz, der Vertrag dauere höchstens zwölf Monate — das Gegenteil
+dessen, worum der Short geht.
+
+**Eine Fundstelle ist beim Eintragen wieder ausgezogen.** „darf 24 Monate nicht
+überschreiten" hat sein Subjekt im Satz davor; ein Zitat, dessen Bedeutung an
+Wörtern außerhalb hängt, wird still falsch, sobald die Seite umformuliert wird.
+
+**Und ein Thema ist an der Quelle gescheitert, obwohl es das beste des Tages
+gewesen wäre:** „Der Notruf 112 geht auch ohne SIM-Karte" — in Deutschland seit
+2009 abgeschaltet. Die Pressemitteilung der Bundesnetzagentur antwortet mit 404,
+die Notruf-Fachseiten schweigen zur SIM-Karte, und im PDF der Technischen
+Richtlinie kommt das Wort nicht vor. Übrig bleibt Presse, und die ist nicht
+eintragbar. Die Idee liegt jetzt mit dieser Notiz im Vorrat, damit niemand
+dieselbe Stunde noch einmal sucht.
+
 ### Nachtrag vom 06.09.2026 — Zwei neue Märchen, und der Engpass ist bestätigt
 
 Der Märchenvorrat steht bei **sechs** ungesendeten Entwürfen statt vier. Beide

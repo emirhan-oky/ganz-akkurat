@@ -2412,6 +2412,37 @@
           "stuetzt": "Der Grund für die Abschaltung, und zwar aus Sicht der Behörde: Die Frequenzen sind begrenzt."
         }
       ]
+    },
+    {
+      "id": "tkg-56-vertragslaufzeit",
+      "titel": "§ 56 TKG — Vertragslaufzeit, Kündigung nach stillschweigender Vertragsverlängerung",
+      "url": "https://www.gesetze-im-internet.de/tkg_2021/__56.html",
+      "herausgeber": "Bundesministerium der Justiz",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "jederzeit-ein-monat-kuendigen",
+          "zitat": "kann der Endnutzer einen solchen Vertrag nach Ablauf der anfänglichen Vertragslaufzeit jederzeit unter Einhaltung einer Kündigungsfrist von einem Monat kündigen",
+          "stuetzt": "Das „und heute\": Nach der Mindestlaufzeit hängt niemand mehr ein Jahr fest — einen Monat, jederzeit."
+        },
+        {
+          "id": "zwoelf-monate-anbieten",
+          "zitat": "Anbieter sind vor Vertragsschluss verpflichtet, einem Verbraucher einen Vertrag mit einer anfänglichen Laufzeit von höchstens zwölf Monaten anzubieten.",
+          "stuetzt": "Die Pflicht, die kaum jemand kennt: Es muss ein Angebot mit höchstens zwölf Monaten geben."
+        },
+        {
+          "id": "keine-kosten-durch-kuendigung",
+          "zitat": "Durch eine Kündigung aufgrund des Absatzes 3 Satz 1 dürfen einem Endnutzer keine Kosten entstehen.",
+          "stuetzt": "Die Kündigung nach der Verlängerung ist kostenlos — die Verneinung steht mit im Zitat."
+        },
+        {
+          "id": "hinweis-vor-verlaengerung",
+          "zitat": "Der Anbieter muss den Endnutzer rechtzeitig vor einer Verlängerung des Vertrages auf einem dauerhaften Datenträger hinweisen",
+          "stuetzt": "Der Anbieter muss vor der Verlängerung selbst darauf hinweisen."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",
