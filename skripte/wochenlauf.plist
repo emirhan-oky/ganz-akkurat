@@ -45,7 +45,7 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; skripte/sonntagslauf.sh</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; skripte/mit-netz.sh skripte/sonntagslauf.sh</string>
   </array>
 
   <key>StartCalendarInterval</key>

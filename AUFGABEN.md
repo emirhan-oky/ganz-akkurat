@@ -2627,3 +2627,42 @@ Umweltbundesamt ihn im Energiespartipp ausdrücklich abrät.
       `daten/ideen/eswareinmal.ts` brauchen zuerst eine Quelle, nicht einen
       Dialog: `defragmentieren`, `magnete-loeschen`, `sicher-entfernen`,
       `festplatte-parken` stehen alle auf `quellenIds: []`
+
+## Alles auf Sonntag, und der Grund für die alten Zahlen · 06.09.2026
+
+Emirhans Ansage: *„Das Nachlegen auf Sonntag packen ab 11 Uhr bitte. Ich will,
+dass dieses Projekt zukünftig immer nur am Sonntag stattfindet."*
+
+- [x] ~~**`rueckblick` von täglich 8:30 auf sonntags 8:30**, `nachlegen` von
+      täglich 19:15 auf **sonntags 11:00**. Alle vier Dienste stehen jetzt auf
+      `Weekday 0`: messen, auswerten, wählen, einlegen~~
+- [x] ~~**`skripte/mit-netz.sh`** wartet bis zu fünf Minuten auf eine
+      Verbindung und fasst bei einem Fehlschlag einmal nach. Rückblick,
+      Wochenlauf und Nachlegen laufen darüber; die Kanalwoche nicht, sie liest
+      nur die lokale Datei~~
+- [x] ~~Testlauf über `launchctl kickstart`: sauber durch,
+      „✓ daten/rueckblick.json fortgeschrieben"~~
+
+**Der Fehler, der zwei Tage alte Zahlen erklärt hat, stand die ganze Zeit im
+Log.** Der Rückblick lief am 06.09. um 09:36 an und brach sofort ab:
+
+```
+> ganzakkurat@1.0.0 rueckblick
+✗ fetch failed
+```
+
+`launchd` holt einen verpassten Termin nach, sobald der Mac wach ist — und
+startet den Job, **bevor das WLAN steht.** Der Dienst hatte funktioniert.
+
+**Und eine ältere Diagnose ist damit gefallen.** `launchctl print` zeigte
+`runs = 0` für drei Dienste, und ich habe das zweimal als „hat sich nie
+ausgelöst" gelesen — zuletzt heute. **Der Zähler wird beim Neuladen
+zurückgesetzt**, und genau die drei waren am selben Tag neu geladen worden;
+`nachlegen`, das niemand angefasst hatte, stand auf zwei Läufen. Die Logs in
+`/tmp/ganzakkurat-*.log` zeigen alle vier am selben Tag gelaufen. **Eine Zahl,
+die bei jedem Handgriff auf null springt, misst den Handgriff.**
+
+**Der Preis der Umstellung, damit ihn niemand später sucht:** eine Messung je
+Woche statt sieben. YouTube Analytics verbucht mit ein bis drei Tagen Verzug —
+Videos vom Freitag und Samstag sind sonntags früh noch nicht verbucht und
+kommen erst eine Woche später in die Zahlen.

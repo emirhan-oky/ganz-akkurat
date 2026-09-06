@@ -2038,10 +2038,43 @@ Streitfall ist, sieht man erst, wenn man es hat.
 | | wo | wann |
 |---|---|---|
 | **Senden** | Buffers Server | zu den geplanten Terminen, Rechner darf aus sein |
-| **Nachlegen** | `de.ganzakkurat.nachlegen` | täglich 19:15, wenn ein Platz frei wird |
-| **Messen** | `de.ganzakkurat.rueckblick` | täglich 8:30 |
+| **Messen** | `de.ganzakkurat.rueckblick` | sonntags 8:30 |
 | **Auswerten** | `de.ganzakkurat.kanalwoche` | sonntags 9:00, nach dem Messen |
 | **Bereitstellen** | `de.ganzakkurat.wochenlauf` | sonntags 10:00, die fünf der Folgewoche |
+| **Nachlegen** | `de.ganzakkurat.nachlegen` | sonntags 11:00, nach dem Lauf |
+
+**Alle vier laufen sonntags, und das ist eine Ansage vom 06.09.2026:** *„Ich
+will, dass dieses Projekt zukünftig immer nur am Sonntag stattfindet."* Zwei
+Dienste sind dafür umgezogen — der Rückblick von täglich 8:30 und das
+Nachlegen von täglich 19:15.
+
+**Der Preis steht daneben, damit ihn niemand später sucht.** Der tägliche
+Rückblick hatte einen Grund: YouTube Analytics verbucht mit ein bis drei Tagen
+Verzug, und der Verlauf auf der Kanalseite bekommt ohne tägliche Punkte
+Lücken. Jetzt gibt es eine Messung je Woche, und die Kurve zeigt Wochenpunkte.
+Das Nachlegen lief 19:15, weil der Sendeplatz 18:00 ist und danach ein Platz
+frei wird; bei fünf Videos je Woche geht die Rechnung trotzdem auf — Buffer
+nimmt zehn geplante Beiträge je Kanal, die Vorwoche ist sonntags gesendet,
+also stehen fünf Plätze für fünf neue frei.
+
+**Die Reihenfolge ist der eigentliche Inhalt:** messen, auswerten, wählen,
+einlegen. Nachlegen um 11:00 kommt nach dem Wochenlauf um 10:00 — umgekehrt
+legte der Dienst nach, was es noch nicht gibt.
+
+**Und alle drei Dienste, die ins Netz gehen, laufen über
+`skripte/mit-netz.sh`.** Am 06.09.2026 startete der Rückblick um 09:36 und
+brach sofort mit „✗ fetch failed" ab: `launchd` holt einen verpassten Termin
+nach, sobald der Mac wach ist — und startet den Job, **bevor das WLAN steht.**
+Der Dienst hatte funktioniert, seine Zahlen waren trotzdem zwei Tage alt. Das
+Skript wartet bis zu fünf Minuten auf eine Verbindung und fasst bei einem
+Fehlschlag genau einmal nach.
+
+**Dabei ist eine ältere Diagnose gefallen.** `launchctl print` zeigte für drei
+Dienste `runs = 0`, und ich habe das zweimal als „hat sich nie ausgelöst"
+gelesen. **Der Zähler wird beim Neuladen zurückgesetzt** — und die drei waren
+am selben Tag neu geladen worden. Die Logdateien in `/tmp/ganzakkurat-*.log`
+zeigten alle vier am selben Tag gelaufen. Eine Zahl, die bei jedem Handgriff
+auf null springt, misst den Handgriff und nicht den Dienst.
 
 **Buffers kostenloser Tarif nimmt zehn geplante Beiträge je Kanal** — zwei
 Wochen lassen sich deshalb nicht auf Vorrat einplanen. `npm run nachlegen` löst

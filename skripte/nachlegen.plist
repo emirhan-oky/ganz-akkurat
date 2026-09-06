@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Taeglicher Nachlege-Dienst fuer „Ganz akkurat".
+  Nachlege-Dienst fuer „Ganz akkurat" — sonntags 11:00.
 
-  Warum 19:15: Der Sendeplatz ist 18:00. Ist der Beitrag raus, wird in Buffer
-  je Kanal ein Platz frei — und genau dann kann der naechste offene Short
-  nachruecken. Eine Viertelstunde Puffer, damit Buffer den Versand verbucht
-  hat.
+  **Er lief bis zum 06.09.2026 taeglich um 19:15**, eine Viertelstunde nach dem
+  Sendeplatz: Ist ein Beitrag raus, wird in Buffer je Kanal ein Platz frei, und
+  der naechste offene Short kann nachruecken. Das war richtig gerechnet und ist
+  auf Emirhans Ansage gefallen — **das Projekt findet nur noch sonntags statt.**
+
+  Bei fuenf Videos je Woche geht die Rechnung auf: Buffers kostenloser Tarif
+  nimmt zehn geplante Beitraege je Kanal, die Woche davor ist am Sonntag
+  gesendet, also stehen fuenf Plaetze frei fuer fuenf neue.
+
+  **11:00, also nach dem Wochenlauf um 10:00.** Erst wird die Woche gebaut,
+  dann wird eingelegt; umgekehrt legte der Dienst nach, was es noch nicht gibt.
+
+  Der Aufruf laeuft ueber `skripte/mit-netz.sh`: `launchd` holt einen
+  verpassten Termin beim Aufwachen nach und startet den Job, bevor das WLAN
+  steht — der Rueckblick ist am 06.09.2026 genau daran gescheitert.
 
   Der Dienst ist absichtlich geschwaetzig in der Logdatei und still, wenn
-  nichts zu tun ist: An Tagen ohne freien Platz oder ohne offene Shorts
-  schreibt er zwei Zeilen und beendet sich.
+  nichts zu tun ist.
 
   Einschalten:
     launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.nachlegen.plist
@@ -27,19 +37,18 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; npm run nachlegen -- --wirklich --ab=2026-08-24</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; skripte/mit-netz.sh npm run nachlegen -- --wirklich --ab=2026-08-24</string>
   </array>
 
   <key>StartCalendarInterval</key>
   <dict>
-    <key>Hour</key><integer>19</integer>
-    <key>Minute</key><integer>15</integer>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>11</integer>
+    <key>Minute</key><integer>0</integer>
   </dict>
 
   <!--
-    Kein RunAtLoad: Der Dienst soll zur Sendezeit laufen, nicht bei jedem
-    Anmelden. Sonst legt ein Neustart am Vormittag etwas ein, obwohl der
-    Platz erst abends frei wird.
+    Kein RunAtLoad: Der Dienst soll sonntags laufen, nicht bei jedem Anmelden.
   -->
   <key>RunAtLoad</key>
   <false/>

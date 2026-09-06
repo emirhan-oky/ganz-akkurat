@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Taeglicher Rueckblick fuer „Ganz akkurat".
+  Rueckblick-Dienst fuer „Ganz akkurat" — sonntags 8:30.
 
-  Holt bei Buffer die Adressen der veroeffentlichten Videos und bei YouTube
-  die Zahlen, und traegt sie in daten/rueckblick.json nach — eine Messung je
-  Tag und Short.
+  **Er lief bis zum 06.09.2026 taeglich**, und das hatte einen guten Grund:
+  YouTube Analytics verbucht mit ein bis drei Tagen Verzug, und der Verlauf auf
+  der Kanalseite bekommt ohne taegliche Punkte Luecken. Auf Emirhans Ansage
+  faellt er trotzdem — **das Projekt findet nur noch sonntags statt.** Der
+  Preis steht damit fest: eine Messung je Woche, und der Verlauf zeigt
+  Wochenpunkte statt Tage.
 
-  Warum taeglich und warum morgens: YouTube verbucht Analytics mit ein bis
-  drei Tagen Verzug, und der Rueckblick schreibt **nachtragend**. Wer nur
-  einmal die Woche misst, sieht den letzten Stand; wer taeglich misst, sieht
-  die Kurve — und die beantwortet die eigentliche Frage: nicht „wie viele
-  Aufrufe hat es", sondern „wann sind sie gekommen".
+  **8:30, also vor der Kanalwoche um 9:00 und dem Wochenlauf um 10:00.** Die
+  drei sind eine Kette und haben eine Richtung: erst messen, dann auswerten,
+  dann die naechste Woche waehlen.
 
-  Er kostet nichts: Die YouTube-APIs sind kostenlos, und acht Videos am Tag
-  liegen weit unter jedem Kontingent.
+  **Der Aufruf laeuft ueber `skripte/mit-netz.sh`**, und das ist der Grund,
+  warum es diese Datei ueberhaupt gibt: Am 06.09.2026 startete der Dienst um
+  09:36 und brach sofort mit „✗ fetch failed" ab. `launchd` holt einen
+  verpassten Termin nach, sobald der Mac wach ist — und startet den Job, bevor
+  das WLAN steht. Der Dienst hatte funktioniert, seine Zahlen waren trotzdem
+  zwei Tage alt.
 
   Einschalten:
     launchctl bootstrap gui/$UID ~/Library/LaunchAgents/de.ganzakkurat.rueckblick.plist
   Ausschalten:
     launchctl bootout gui/$UID/de.ganzakkurat.rueckblick
+  Sofort ausloesen (zum Testen):
+    launchctl kickstart -p gui/$UID/de.ganzakkurat.rueckblick
 -->
 <plist version="1.0">
 <dict>
@@ -29,11 +36,12 @@
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; npm run rueckblick</string>
+    <string>cd ~/Projekte/Ganzakkurat &amp;&amp; skripte/mit-netz.sh npm run rueckblick</string>
   </array>
 
   <key>StartCalendarInterval</key>
   <dict>
+    <key>Weekday</key><integer>0</integer>
     <key>Hour</key><integer>8</integer>
     <key>Minute</key><integer>30</integer>
   </dict>
