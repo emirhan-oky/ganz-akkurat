@@ -2593,12 +2593,24 @@ für das Einbrennen bei Röhren und für Magnete auf Flash-Speicher gibt es kein
 frei abrufbare Behördenquelle — für den Bildschirmschoner schon, weil das
 Umweltbundesamt ihn im Energiespartipp ausdrücklich abrät.
 
-- [ ] ▸ **Der Vorrat hat drei Märchen als Entwurf und zehn als Idee.** Am
+- [ ] **Der Vorrat hat drei Märchen als Entwurf und zehn als Idee.** Am
       06.09.2026 dazugekommen: `bildschirmschoner`, `passwort-sonderzeichen`
       und `virus-merkt-man` — der letzte aus der neuen Ideenquelle, den
       BSI-Irrtümern. **Was fehlt, ist nicht mehr die Quelle, sondern das
       Schreiben**: Papierkorb, Firewall und vier Streitfälle liegen mit
       Belegpfad im Ideenvorrat
+
+**`virus-merkt-man` ist am 06.09.2026 abgeschlossen** — beide Prüfer zeigten auf
+dieselbe Stelle. Der `belegpruefer` fand dreimal dieselbe Bauart (aus „nicht
+immer" wurde „gar nicht", eine Menge ohne Fundstelle, ein gekürztes Zitat in
+Anführungszeichen), der `dialogpruefer` sah von der anderen Seite, dass Watti
+die tausend Rechner nannte, bevor sie im Dialog gefallen waren. **Beide Befunde
+hatten dieselbe Ursache: ein Wort, das außerhalb des Zitats stand.**
+
+- [x] ~~Die Fundstelle `tausende-computer-ddos` trägt jetzt den ganzen Satz mit
+      der Menge darin; die Zitatkarte in `akku-ganz-leer` kürzte mit „…" und
+      wurde von `quellen-pruefen` zu Recht beanstandet — **eine Auslassung ist
+      kein Wortlaut**~~
 
 **Der Fehler, der zwei Tage alte Zahlen erklärt hat, stand die ganze Zeit im
 Log.** Der Rückblick lief am 06.09. um 09:36 an und brach sofort ab:
