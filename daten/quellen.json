@@ -2124,6 +2124,68 @@
           "stuetzt": "Die festgelegte Zahl gilt dem Vakuum. In Luft und in Glas ist Licht langsamer."
         }
       ]
+    },
+    {
+      "id": "uba-computer-nutzung",
+      "titel": "Bewusste Computernutzung für mehr Nachhaltigkeit im IT-Alltag",
+      "url": "https://www.umweltbundesamt.de/umwelttipps-fuer-den-alltag/elektrogeraete/computer-pc-laptop",
+      "herausgeber": "Umweltbundesamt",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "verzichten-sie-auf-bildschirmschoner",
+          "zitat": "Verzichten Sie auf Bildschirmschoner. Sie sind zwar hübsch, aber benötigen mehr Strom, als wenn der Bildschirm bei Inaktivität einfach abgeblendet wird und der Computer in den Ruhemodus geht.",
+          "stuetzt": "Der Bildschirmschoner kostet mehr Strom als das Abblenden und der Ruhemodus. Das Umweltbundesamt rät ausdrücklich ab."
+        },
+        {
+          "id": "ruhezustand-paar-watt",
+          "zitat": "der das Gerät in Arbeitspausen automatisch in den Ruhezustand versetzt. Ein moderner PC inklusive Monitor oder ein Notebook braucht dann nur noch ein paar Watt oder weniger",
+          "stuetzt": "Was der Bildschirmschoner einmal tun sollte, tut heute der Ruhezustand — und er kostet nur noch ein paar Watt."
+        },
+        {
+          "id": "lcd-hintergrund-staendig-beleuchtet",
+          "zitat": "bei den üblichen LCD-Bildschirmen gilt das nicht. Bei ihnen ist der Hintergrund ständig beleuchtet, solange der Bildschirm aktiv ist",
+          "stuetzt": "Bei LCD leuchtet der Hintergrund durchgehend — das Bild darauf ändert daran nichts."
+        },
+        {
+          "id": "pixel-hell-oder-dunkel-egal",
+          "zitat": "Ob die Bildschirm-Pixel vor dem Hintergrund hell oder dunkel sind, hat keinen Einfluss auf den Stromverbrauch.",
+          "stuetzt": "Der dunkle Modus spart bei einem LCD keinen Strom."
+        }
+      ]
+    },
+    {
+      "id": "ptb-benzindaempfe",
+      "titel": "Entzündung von Benzindämpfen beim Betanken von Kraftfahrzeugen",
+      "url": "https://www.ptb.de/cms/presseaktuelles/journalisten/nachrichten-presseinformationen/archiv-presseinformationen/archiv-presseinfo.html?tx_news_pi1%5Bnews%5D=1277&tx_news_pi1%5Bcontroller%5D=News&tx_news_pi1%5Baction%5D=detail&tx_news_pi1%5Bday%5D=14&tx_news_pi1%5Bmonth%5D=2&tx_news_pi1%5Byear%5D=1996&cHash=749b85b74d3fd5cabb49116c596a5094",
+      "herausgeber": "Physikalisch-Technische Bundesanstalt",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "funktelefone-keine-zuendgefahr",
+          "zitat": "Mobile Funktelefone mit einer Nennleistung von nicht mehr als 6 Watt stellen an Tankstellen keine Zündgefahr dar, wenn sie außerhalb explosionsgefährdeter Bereiche betrieben werden.",
+          "stuetzt": "Das Handy an der Tankstelle ist keine Zündquelle — mit zwei Bedingungen im Satz: Nennleistung und Ort."
+        },
+        {
+          "id": "elektrostatische-aufladung-ursache",
+          "zitat": "In der Mehrzahl der Fälle wurde elektrostatische Aufladung als wahrscheinliche Ursache festgestellt",
+          "stuetzt": "Die untersuchten Entzündungen beim Betanken gingen überwiegend auf elektrostatische Aufladung zurück."
+        },
+        {
+          "id": "aufladung-von-personen",
+          "zitat": "Aber auch die elektrostatische Aufladung von Personen kommt als Zündquelle in Betracht.",
+          "stuetzt": "Der Mensch selbst kommt als Zündquelle in Betracht — nicht sein Telefon."
+        },
+        {
+          "id": "im-tank-keine-zuendgefahr",
+          "zitat": "im Inneren des Tankeinfüllstutzens, wie auch im Tank selbst, keine Zündgefahr besteht, da hier - auch unter den Bedingungen der heute zugelassenen Gasrückführung - ein für eine Entzündung zu fettes Gemisch vorliegt",
+          "stuetzt": "Im Stutzen und im Tank ist das Gemisch zu fett, um sich zu entzünden."
+        }
+      ]
     }
   ],
   "_entfernt": "Die beiden Apple-Supportseiten (support.apple.com/de-de/122212 und /102501) standen bis zum 13.08.2026 hier. Beide liefern beim automatischen Abruf nur die Kopfzeile - der Inhalt wird per JavaScript nachgeladen. Da kein woertliches Zitat zu belegen war, sind sie entfernt statt als geprueft gefuehrt zu werden. Die Aussage zur Displaygrenze traegt jetzt Plugable, woertlich pruefbar. Wer die Apple-Quellen zurueckholen will, oeffnet die Seite von Hand, schreibt das Zitat ab und traegt sie mit abrufart: manuell ein.",

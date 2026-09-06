@@ -2524,9 +2524,15 @@ wie eine, die nichts findet.**
       steckte vorher als Halbsatz in der ersten Station und hing dort an der
       falschen Fundstelle. **Ein Halbsatz, der eine eigene Fundstelle braucht,
       ist eine eigene Station**~~
-- [ ] ▸ **„Es war einmal" hat weiter keinen ungesendeten Entwurf.** Zehn Ideen
-      liegen im Vorrat, alle ohne Quelle (`quellenIds: []`) — der nächste
-      Schreibblock fängt dort an
+- [x] ~~**„Es war einmal" hat wieder einen Entwurf.** `bildschirmschoner` —
+      Umweltbundesamt, vier Fundstellen, an einem Tag abgerufen und geprüft. Der
+      Short reiht zwei Märchen mit derselben Ursache: den Bildschirmschoner und
+      den dunklen Modus~~
+- [x] ~~**Dazu `handy-tankstelle`** als `werhatrecht`: Beide Lager liegen
+      daneben, das Dritte steht seit 1996 bei der PTB. **Kein `eswareinmal`,
+      obwohl es sich so anfühlt** — ob die Autotelefone der Achtziger über
+      6 Watt lagen, liegt nahe und ist nicht belegt. Eine Vermutung im Format zu
+      verstecken wäre dieselbe Überdehnung wie im Sprechtext~~
 - [x] ~~**Sechs Commits gepusht** (`e4ccbff..f162ec3`). Es waren sechs, nicht sieben — die Zahl stand hier zweimal falsch~~
 
 ### Zwei Beobachtungen, die noch keine Aufgabe sind
@@ -2598,3 +2604,26 @@ es zweimal dieselbe Bauart war:
   Anbieter, über dessen Dienst die Verletzung läuft — nicht den des Zuschauers.
   Der Dialog klärt das jetzt im Stück („Von meinem Anbieter?" — „Von dem, über
   den die Verletzung läuft."), statt es im Kommentar zu behaupten.
+
+## Zwei neue Formate im Vorrat · 06.09.2026 (Fortsetzung)
+
+Emirhans Ansage: *„dann sorg dafür, dass wir dann [un]gesendete Entwürfe
+haben"* — gemeint war das leere Format.
+
+**Der Bauformengpass ist erledigt, der Formatengpass angefangen.** Der Vorrat
+steht auf 33 ungesendeten Entwürfen: 23 Zitatkarten, 5 Stationen, 5
+Wechselreden; nach Format 15 · 11 · 6 · 1. Der Wochenvorschlag trägt drei volle
+Wochen und stellt erstmals vier verschiedene Formate in einer Woche.
+
+**Was beim Schreiben aufgefallen ist — und den Formatengpass erklärt:** Die
+guten `eswareinmal`-Themen sind nicht knapp, ihre **Quellen** sind es. Ein
+Märchen braucht einen Beleg für das „und heute", und der muss von einer
+unbeteiligten Instanz kommen. Für Defragmentieren (JEDEC, hinter Bezahlschranke),
+für das Einbrennen bei Röhren und für Magnete auf Flash-Speicher gibt es keine
+frei abrufbare Behördenquelle — für den Bildschirmschoner schon, weil das
+Umweltbundesamt ihn im Energiespartipp ausdrücklich abrät.
+
+- [ ] ▸ **Der Vorrat hat genau ein Märchen.** Die nächsten Kandidaten aus
+      `daten/ideen/eswareinmal.ts` brauchen zuerst eine Quelle, nicht einen
+      Dialog: `defragmentieren`, `magnete-loeschen`, `sicher-entfernen`,
+      `festplatte-parken` stehen alle auf `quellenIds: []`
