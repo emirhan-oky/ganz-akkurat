@@ -9,6 +9,7 @@ import { beispielShort } from '../daten/beispiel-short';
 import { BannerMuster, ProfilbildHell } from './Marke';
 import { Figurenprobe, Figurenfolge, Figurengang, Buehnenprobe } from './Figurenprobe';
 import { Farbprobe } from './Farbprobe';
+import { Pillenprobe } from './Pillenprobe';
 import { Haltungsprobe, Wortwechselprobe, Wortwechselstaende, Zuwendungsprobe } from './Wortwechselprobe';
 import { Bewegungsprobe, BEWEGUNGSPROBE_BILDER } from './Bewegungsprobe';
 import { Kulissenprobe } from './Kulissenprobe';
@@ -59,6 +60,7 @@ export const RemotionRoot: React.FC = () => (
   {/* Der Prueftisch fuer die Untertitelschrift. Geht nach der Entscheidung
       wieder weg, samt der Kandidatenschriften oben. */}
   <Composition id="Farbprobe" component={Farbprobe} width={2480} height={1320} fps={30} durationInFrames={1} />
+    <Composition id="Pillenprobe" component={Pillenprobe} width={1500} height={1180} fps={30} durationInFrames={1} />
   {/* Der Musterbogen fuer die Bildaufteilung: acht Muster, 4 × 2, halbe
       Aufloesung. `--props='{"zonen":true}'` legt die App-Flaechen darueber. */}
   <Composition

@@ -1712,13 +1712,14 @@ zu tun ist, steht ab hier.
 
 ## Am fertigen Video zu entscheiden
 
-- [ ] **Die Letterbox** — 203 Pixel, strukturell. Zweimal gemessen statt
-      geraten: Ein engerer viewBox macht sie größer (203 → 327), eine größere
-      Schrift gewinnt drei Pixel. Nur mehr Bühnenbreite hilft, und die kostet
-      sichere Zone
-- [ ] **Die Randbreite am Handy.** 100 Pixel Vorhang; sichtbar bleiben nach dem
-      gemessenen Beschnitt 48 links und 44 rechts. Ob das als Kulisse liest
-      oder als Rahmen, entscheidet kein Standbild
+- [x] ~~**Die Letterbox** — gestrichen am 06.09.2026 auf Ansage. Der Punkt war
+      längst beantwortet und stand nur noch als Frage da: Zweimal gemessen,
+      beide Male gegen die Erwartung — ein engerer viewBox macht sie **größer**
+      (203 → 327), eine größere Schrift gewinnt drei Pixel. **Es gibt keine
+      Lösung, nur einen Tausch**, und mehr Bühnenbreite kostet sichere Zone~~
+- [x] ~~**Die Randbreite am Handy** — gestrichen am 06.09.2026 auf Ansage. Der
+      Punkt sagte selbst, dass kein Standbild das entscheidet; entschieden hat
+      es das gesendete Video~~
 - [ ] **Die Formatpille in der Kopfzeile** — bleibt sie? „KI-Stimme" bleibt in
       jedem Fall
 - [ ] **Facts `#4C61B0` und Kein Zufall `#303C6C` sind beide blau.** Bei
@@ -1731,15 +1732,11 @@ zu tun ist, steht ab hier.
 
 ## Ton
 
-- [ ] **Blindwahl für die Regieanweisungen.** Alle sechs Vorräte in
-      `REAKTIONS_MACHARTEN` sind leer, und das ist der beabsichtigte Zustand:
-      Vorher standen dort sechs Tags aus dem Gedächtnis, einer davon existiert
-      nicht. Je Machart die echte Zeile und eine tonlos geschriebene, vier
-      unbeschriftete Fassungen samt der ohne Ansage, zweiter Durchgang für die
-      Überlebenden. `regieprobe` ist neu zu schreiben
-
-## Formate und Vorrat
-
+- [x] ~~**Blindwahl für die Regieanweisungen** — gestrichen am 06.09.2026 auf
+      Ansage. Sie kostet Kontingent, und **die sechs leeren Vorräte sind der
+      beabsichtigte Zustand**: Die Zeile muss ohne Anweisung funktionieren, der
+      Tag verstärkt und ersetzt nie. Wenn es einen Anlass gibt, steht der Weg
+      hier beschrieben~~
 - [ ] **Beef umbauen:** neue MATRIX-Prüffrage „Ist der Fakt belegt und die
       Folgerung trotzdem strittig?" statt „übersehen beide etwas Drittes?". Die
       alte Frage traf beim Sammeln fast nie zu — daher nur zehn Ideen

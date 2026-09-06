@@ -2412,10 +2412,22 @@ export const FORMATE: Record<
      * dafuer nachgedunkelt werden — `#B0417A` lag bei 4,26 und `#B8642A` bei
      * 3,47.
      *
-     * **Ein Einwand steht offen**, damit ihn niemand uebersieht: `gibtswirklich`
-     * und `absicht` tragen beide Blau, in zwei Toenen. Gross nebeneinander sind
-     * sie zu trennen; in der kleinen Pille oben im Video vermutlich nicht mehr.
-     * Das entscheidet ein Standbild bei Briefmarkengroesse.
+     * **Der Einwand ist am 06.09.2026 eingelöst, und die Messung hat ihn
+     * verschoben.** `absicht` trug bis dahin `#303C6C` — dasselbe Blau wie
+     * `FARBEN.blau`, also Voltis Kennfarbe, und in der kleinen Pille kaum von
+     * `gibtswirklich` zu trennen. Es steht jetzt auf einem Gruen, das zu allen
+     * vier anderen mindestens **ΔE 62** Abstand hat.
+     *
+     * **Gemessen wurde mit dem Farbabstand, nicht mit dem Kontrast**, und das
+     * war der Punkt: Helligkeitskontrast sagt ueber Unterscheidbarkeit nichts —
+     * zwei Farben koennen gleich hell und trotzdem klar verschieden sein. Im
+     * Lab-Raum lagen die beiden Blau bei ΔE 23,1, und **das engste Paar war ein
+     * ganz anderes**: `werhatrecht` gegen `empfehlung` mit 18,9, Rot gegen
+     * Orange. Es bleibt stehen, weil `empfehlung` ruht — unter den vier
+     * sendenden Formaten betraegt der kleinste Abstand jetzt 40,3.
+     *
+     * Der Kontrast auf der hellen Flaeche bleibt die zweite Bedingung: `#2E6B4F`
+     * auf `#DCE6E0` liegt bei 4,93.
      */
     farbe: string;
     farbeHell: string;
@@ -2473,8 +2485,8 @@ export const FORMATE: Record<
     titel: 'Das ist Absicht',
     pille: 'Das ist Absicht',
     show: 'Kein Zufall',
-    farbe: '#303C6C',
-    farbeHell: '#DFDFE4',
+    farbe: '#2E6B4F',
+    farbeHell: '#DCE6E0',
     haltung:
       'Nichts davon ist kaputt, es ist so gebaut. Der Unterschied zur blossen ' +
       'Absurditaet: Hier gibt es jemanden, der es entschieden hat. Die Wut ' +
