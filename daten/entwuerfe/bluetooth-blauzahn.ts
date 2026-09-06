@@ -243,9 +243,9 @@ export const bluetoothBlauzahn: Short = {
       buehne: {
         art: 'figur',
         wer: 'nachleser',
-        von: 'staunen',
+        von: 'erklaeren',
         nach: 'nachdenken',
-        gegenueber: { von: 'staunen', nach: 'ansprechen' },
+        gegenueber: { von: 'stutzen', nach: 'ansprechen' },
       },
       rundlauf:
         'Beim zweiten Sehen ist „ein König mit einem toten Zahn" die Kurzfassung von etwas, das nur deshalb so heißt, weil es niemand rechtzeitig geändert hat.',

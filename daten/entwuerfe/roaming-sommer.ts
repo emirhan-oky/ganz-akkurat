@@ -97,7 +97,7 @@ export const roamingSommer: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'erklaeren', nach: 'zeigen' },
       },
     },
@@ -123,7 +123,7 @@ export const roamingSommer: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'staunen',
         gegenueber: { von: 'zeigen', nach: 'lesen' },
       },

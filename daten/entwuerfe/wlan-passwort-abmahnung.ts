@@ -119,7 +119,7 @@ export const wlanPasswortAbmahnung: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'hochschauen',
-        nach: 'achselzucken',
+        nach: 'stutzen',
         gegenueber: { von: 'erklaeren', nach: 'zeigen' },
       },
     },
@@ -143,7 +143,7 @@ export const wlanPasswortAbmahnung: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'stutzen',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },

@@ -87,7 +87,7 @@ export const handyheizung: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'erklaeren',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'stutzen', nach: 'zeigen' },
       },
     },
@@ -113,7 +113,7 @@ export const handyheizung: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'stutzen',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },

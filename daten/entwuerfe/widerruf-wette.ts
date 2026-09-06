@@ -78,7 +78,7 @@ export const widerrufWette: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'zeigen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'erklaeren', nach: 'stutzen' },
       },
     },
@@ -105,7 +105,7 @@ export const widerrufWette: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'staunen',
         gegenueber: { von: 'stutzen', nach: 'lesen' },
       },

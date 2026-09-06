@@ -126,7 +126,7 @@ export const standbyHalbesWatt: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'staunen',
-        nach: 'achselzucken',
+        nach: 'stutzen',
         gegenueber: { von: 'lesen', nach: 'zeigen' },
       },
     },
@@ -161,7 +161,7 @@ export const standbyHalbesWatt: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'nachdenken',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },

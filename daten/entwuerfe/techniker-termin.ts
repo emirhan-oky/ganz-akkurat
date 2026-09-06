@@ -47,7 +47,7 @@ export const technikerTermin: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'stutzen',
         gegenueber: { von: 'ruhe', nach: 'zeigen' },
       },

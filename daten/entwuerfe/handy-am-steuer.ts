@@ -106,7 +106,7 @@ export const handyAmSteuer: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'nachdenken',
-        nach: 'achselzucken',
+        nach: 'stutzen',
         gegenueber: { von: 'lesen', nach: 'zeigen' },
       },
     },
@@ -136,7 +136,7 @@ export const handyAmSteuer: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'staunen',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },

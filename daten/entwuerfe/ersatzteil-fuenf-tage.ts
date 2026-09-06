@@ -54,7 +54,7 @@ export const ersatzteilFuenfTage: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'ruhe', nach: 'erklaeren' },
       },
     },
@@ -87,7 +87,7 @@ export const ersatzteilFuenfTage: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'stutzen',
         gegenueber: { von: 'erklaeren', nach: 'zeigen' },
       },

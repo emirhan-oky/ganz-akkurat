@@ -93,7 +93,7 @@ export const ladezyklenSteckdose: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'ansprechen',
-        nach: 'achselzucken',
+        nach: 'stutzen',
         gegenueber: { von: 'erklaeren', nach: 'zeigen' },
       },
     },
@@ -120,7 +120,7 @@ export const ladezyklenSteckdose: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'nachdenken',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },

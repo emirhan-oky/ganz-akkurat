@@ -113,7 +113,7 @@ export const updatesVomHaendler: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'stutzen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },
     },
@@ -145,7 +145,7 @@ export const updatesVomHaendler: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'stutzen',
         nach: 'staunen',
         gegenueber: { von: 'erklaeren', nach: 'lesen' },
       },

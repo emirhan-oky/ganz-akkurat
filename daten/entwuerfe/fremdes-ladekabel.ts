@@ -69,7 +69,7 @@ export const fremdesLadekabel: Short = {
         wer: 'zeiger',
         von: 'ruhe',
         nach: 'ansprechen',
-        gegenueber: { von: 'stutzen', nach: 'achselzucken' },
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
       },
     },
     {
@@ -101,7 +101,7 @@ export const fremdesLadekabel: Short = {
         wer: 'zeiger',
         von: 'ansprechen',
         nach: 'stutzen',
-        gegenueber: { von: 'achselzucken', nach: 'erklaeren' },
+        gegenueber: { von: 'nachdenken', nach: 'erklaeren' },
       },
     },
     {

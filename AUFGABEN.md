@@ -2516,11 +2516,11 @@ wie eine, die nichts findet.**
       ist keine Ausnahme**~~
 - [x] ~~`skripte/wochenlauf.plist` liegt jetzt im Repo, wie die drei anderen.
       Er war der einzige Dienst, den ein frischer Klon nicht gekannt hätte~~
-- [ ] **Der Vorrat trägt genau eine Woche.** 33 ungesendete Entwürfe, davon
-      **27 Zitatkarten**, 4 Stationen, 2 Wechselreden — bei höchstens zwei je
-      Bauform und Woche. **Was fehlt, sind Wechselreden und Stationen, nicht
-      Themen.** „Es war einmal" hat gar keinen ungesendeten Entwurf mehr
-- [ ] **Vier Commits stehen lokal**, nicht gepusht
+- [ ] ▸ **Der Vorrat trägt eine Woche.** 31 ungesendete Entwürfe, davon **25
+      Zitatkarten**, 4 Wechselreden, 2 Stationen — bei höchstens zwei je Bauform
+      und Woche. **Was fehlt, sind Stationen**, und „Es war einmal" hat weiter
+      keinen ungesendeten Entwurf
+- [ ] **Sechs Commits stehen lokal**, nicht gepusht
 
 ### Zwei Beobachtungen, die noch keine Aufgabe sind
 
@@ -2549,3 +2549,45 @@ Emirhans Ansage danach: *„Auswertung erfolgt 9 Uhr. Hochgeladen wird 10 Uhr."*
       sie hat eine Richtung**~~
 - [x] ~~Alle drei `.plist` im Repo und in `~/Library/LaunchAgents` gleichgezogen,
       Dienste neu geladen~~
+
+## Die Wortwechselposen repariert, und der Vorrat war nie das Problem · 06.09.2026
+
+Emirhans Reihenfolge: *„Die 45 Schlussposen reparieren bitte als letztes. Erst
+alles andere."* Das andere ist getan, und die Reparatur hat nebenbei den
+Engpass gelöst, an dem der Wochenvorschlag seit dem 04.09. hing.
+
+- [x] ~~**27 Shorts standen auf einer verbotenen Pose**, 26 davon auf
+      `achselzucken` im Wortwechsel, einer auf `staunen` im Schluss. Ersetzt
+      durch die nächstliegende erlaubte Haltung, ohne dass zwei benachbarte
+      Stationen gleich werden~~
+- [x] ~~**Der Wochenvorschlag findet wieder eine Woche.** Er meldete zwei Tage
+      lang „keine gültige Woche aus 31 Entwürfen" und nannte als Ursache die
+      Bauformregel — **die Ursache war die Pose.** `laufPruefen` wirft beide als
+      Fehler, und die Meldung des Vorschlags nennt nur die häufigste Ursache.
+      **Eine Fehlermeldung, die rät, schickt die Suche in die falsche Richtung**~~
+- [x] ~~**`wochenAuswaehlen` sortiert die knappe Bauform nach vorn.** Je Format
+      werden höchstens acht Kandidaten durchprobiert; standen die wenigen
+      Wechselreden und Stationen weiter hinten im Vorrat, fielen sie aus dem
+      Fenster. Das allein hat die Woche noch nicht gerettet, aber ohne diese
+      Sortierung hing die Suche am Zufall der Vorratsreihenfolge~~
+- [x] ~~**Zwei neue Wechselreden**: `lichtgeschwindigkeit-festgelegt` (PTB, der
+      Meter aus dem Licht) und `seite-gesperrt` (§ 8 DDG, wer eine Netzsperre
+      verlangen kann). Beide durch `pruefen`, `dialogprobe` und beide
+      Subagenten, in zwei bzw. drei Runden~~
+
+**Was der `belegpruefer` an diesen beiden gefunden hat, gehört hierher**, weil
+es zweimal dieselbe Bauart war:
+
+- **Der erste Anlauf von `lichtgeschwindigkeit` stand auf der falschen Quelle**
+  (BIPM, sieben definierende Konstanten). Sie nennt **keine einzige
+  Einheitendefinition** und die Zahl nur in einer Tabelle — fünf
+  Verdachtsfälle an einem Dialog.
+- **Der zweite stand auf der richtigen Quelle und sagte trotzdem etwas
+  Falsches:** „Der Wert wird nicht gemessen." Dieselbe PTB-Seite schreibt, wir
+  würden „immer den gleichen Wert … messen", und die Fußnote sagt, der Wert sei
+  **1983** als letztgültiger festgelegt worden. **Die Zahl stammt aus Messungen;
+  festgelegt ist ihre Rolle.**
+- **Bei `seite-gesperrt` lag der Fehler beim Adressaten.** § 8 DDG meint den
+  Anbieter, über dessen Dienst die Verletzung läuft — nicht den des Zuschauers.
+  Der Dialog klärt das jetzt im Stück („Von meinem Anbieter?" — „Von dem, über
+  den die Verletzung läuft."), statt es im Kommentar zu behaupten.

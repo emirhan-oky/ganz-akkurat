@@ -78,7 +78,7 @@ export const cafeWlan: Short = {
         wer: 'zeiger',
         von: 'erklaeren',
         nach: 'stutzen',
-        gegenueber: { von: 'stutzen', nach: 'achselzucken' },
+        gegenueber: { von: 'stutzen', nach: 'nachdenken' },
       },
     },
     {
@@ -112,7 +112,7 @@ export const cafeWlan: Short = {
         wer: 'zeiger',
         von: 'stutzen',
         nach: 'staunen',
-        gegenueber: { von: 'achselzucken', nach: 'lesen' },
+        gegenueber: { von: 'nachdenken', nach: 'lesen' },
       },
     },
     {

@@ -155,7 +155,7 @@ export const schaltsekundeWette: Short = {
         wer: 'zeiger',
         von: 'staunen',
         nach: 'zeigen',
-        gegenueber: { von: 'erklaeren', nach: 'achselzucken' },
+        gegenueber: { von: 'erklaeren', nach: 'stutzen' },
       },
     },
     {

@@ -1833,7 +1833,7 @@
       "herausgeber": "Bundesministerium der Justiz",
       "url": "https://www.gesetze-im-internet.de/ddg/__8.html",
       "art": "behoerde",
-      "geprueftAm": "2026-09-04",
+      "geprueftAm": "2026-09-06",
       "belegt": [
         {
           "id": "sperrung-der-nutzung-verlangen",
@@ -1849,6 +1849,21 @@
           "id": "keine-kostenerstattung",
           "zitat": "Ein Anspruch gegen den Diensteanbieter auf Erstattung der vor- und außergerichtlichen Kosten … besteht nicht, es sei denn, der Diensteanbieter arbeitet absichtlich mit einem Nutzer seines Dienstes zusammen",
           "stuetzt": "Abmahn- und Anwaltskosten kann der Rechteinhaber nicht ersetzt verlangen, außer bei absichtlichem Zusammenwirken."
+        },
+        {
+          "id": "nur-wenn-keine-andere-moeglichkeit",
+          "zitat": "besteht für den Inhaber des Rechts keine andere Möglichkeit, der Verletzung seines Rechts abzuhelfen, so kann der Inhaber des Rechts von dem betroffenen Diensteanbieter die Sperrung der Nutzung von Informationen verlangen",
+          "stuetzt": "Die Sperre ist das letzte Mittel: Sie kommt nur in Betracht, wenn dem Rechteinhaber kein anderer Weg bleibt."
+        },
+        {
+          "id": "nur-geistiges-eigentum",
+          "zitat": "von einem Nutzer in Anspruch genommen, um das Recht am geistigen Eigentum eines anderen zu verletzen",
+          "stuetzt": "Der Anspruch gilt nur Verletzungen des geistigen Eigentums, nicht beliebigen Rechtsverletzungen."
+        },
+        {
+          "id": "gilt-auch-unentgeltlich",
+          "zitat": "Die Absätze 1 bis 3 gelten auch dann, wenn der Dienst unentgeltlich oder durch öffentliche Stellen erbracht wird.",
+          "stuetzt": "Kostenlose Zugänge und solche öffentlicher Stellen sind nicht ausgenommen."
         }
       ]
     },
@@ -2050,6 +2065,63 @@
           "id": "zwei-kandidaten-pan-vorn",
           "zitat": "Bluetooth was to be replaced with either RadioWire or PAN (Personal Area Networking). PAN was the front runner, but an exhaustive search discovered it already had tens of thousands of hits throughout the internet.",
           "stuetzt": "Zur Wahl standen zwei Namen, und PAN lag vorn. Er fiel an zehntausenden Internettreffern aus; RadioWire war der Nachruecker, nicht der Favorit."
+        }
+      ]
+    },
+    {
+      "id": "bipm-si-konstanten",
+      "titel": "SI defining constants",
+      "url": "https://www.bipm.org/en/measurement-units/si-defining-constants",
+      "herausgeber": "Internationales Büro für Maß und Gewicht",
+      "geprueftAm": "2026-09-06",
+      "art": "standard",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "keine-unsicherheit",
+          "zitat": "The numerical values of the seven defining constants have no uncertainty.",
+          "stuetzt": "Die sieben definierenden Konstanten des SI haben keine Messunsicherheit — die Lichtgeschwindigkeit ist eine davon."
+        },
+        {
+          "id": "feste-werte-tragen-alle-einheiten",
+          "zitat": "The complete system of units can be derived from the fixed values of these defining constants, expressed in the units of the SI.",
+          "stuetzt": "Das ganze Einheitensystem folgt aus den festgelegten Werten dieser Konstanten. Sie sind der Ausgangspunkt, nicht das Ergebnis."
+        },
+        {
+          "id": "jede-einheit-aus-konstanten",
+          "zitat": "All units of the SI can be written either through a defining constant itself, or through products or quotients of the defining constants.",
+          "stuetzt": "Jede SI-Einheit laesst sich aus den Konstanten schreiben — als eine von ihnen oder als Produkt beziehungsweise Quotient."
+        }
+      ]
+    },
+    {
+      "id": "ptb-der-meter",
+      "titel": "Der Meter — Countdown zum neuen SI",
+      "url": "https://www.ptb.de/cms/forschung-entwicklung/forschung-zum-neuen-si/countdown-zum-neuen-si/der-meter.html",
+      "herausgeber": "Physikalisch-Technische Bundesanstalt",
+      "geprueftAm": "2026-09-06",
+      "art": "behoerde",
+      "abrufart": "automatisch",
+      "belegt": [
+        {
+          "id": "meter-aus-lichtgeschwindigkeit",
+          "zitat": "Der Meter, Einheitenzeichen m, ist die SI-Einheit der Länge. Er ist definiert, indem für die Lichtgeschwindigkeit in Vakuum c der Zahlenwert 299 792 458 festgelegt wird, ausgedrückt in der Einheit m/s",
+          "stuetzt": "Der Meter folgt aus der Lichtgeschwindigkeit, deren Zahlenwert festgelegt ist. Die Seite kündigt die Fassung an („wird geändert zu“); sie gilt seit Mai 2019."
+        },
+        {
+          "id": "zahlenwert-definierend-festgelegt",
+          "zitat": "Aber die Basis bildet ab Mai 2019 die Naturkonstante der Lichtgeschwindigkeit im Vakuum. Deren Zahlenwert ist als definierend festgelegt",
+          "stuetzt": "Der Zahlenwert der Lichtgeschwindigkeit wird festgesetzt, nicht ermittelt. Er ist die Grundlage, nicht das Ergebnis."
+        },
+        {
+          "id": "zahlenwert-1983-letztgueltig",
+          "zitat": "Dieser Zahlenwert wurde sogar bereits 1983 als letztgültiger Wert für die Lichtgeschwindigkeit festgelegt.",
+          "stuetzt": "Die Festlegung ist nicht von 2019: Der Zahlenwert steht seit 1983 als letztgültig fest."
+        },
+        {
+          "id": "licht-im-medium-langsamer",
+          "zitat": "in einem anderen Medium (z. B. Luft oder Glas) hat Licht eine geringere Geschwindigkeit (in Glas noch langsamer als in Luft)",
+          "stuetzt": "Die festgelegte Zahl gilt dem Vakuum. In Luft und in Glas ist Licht langsamer."
         }
       ]
     }

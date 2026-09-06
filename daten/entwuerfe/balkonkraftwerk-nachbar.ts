@@ -50,7 +50,7 @@ export const balkonkraftwerkNachbar: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'zeigen',
         gegenueber: { von: 'ruhe', nach: 'stutzen' },
       },
@@ -156,7 +156,7 @@ export const balkonkraftwerkNachbar: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'lesen',
-        nach: 'achselzucken',
+        nach: 'stutzen',
         gegenueber: { von: 'zeigen', nach: 'erklaeren' },
       },
     },

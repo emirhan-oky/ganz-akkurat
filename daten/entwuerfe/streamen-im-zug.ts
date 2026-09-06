@@ -47,7 +47,7 @@ export const streamenImZug: Short = {
         art: 'figur',
         wer: 'zeiger',
         von: 'zeigen',
-        nach: 'achselzucken',
+        nach: 'nachdenken',
         gegenueber: { von: 'ruhe', nach: 'stutzen' },
       },
     },
@@ -67,7 +67,7 @@ export const streamenImZug: Short = {
       buehne: {
         art: 'figur',
         wer: 'zeiger',
-        von: 'achselzucken',
+        von: 'nachdenken',
         nach: 'stutzen',
         gegenueber: { von: 'stutzen', nach: 'erklaeren' },
       },

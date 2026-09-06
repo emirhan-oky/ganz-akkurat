@@ -159,7 +159,7 @@ export const urlaubsfoto: Short = {
         wer: 'zeiger',
         von: 'ansprechen',
         nach: 'zeigen',
-        gegenueber: { von: 'nachdenken', nach: 'achselzucken' },
+        gegenueber: { von: 'nachdenken', nach: 'stutzen' },
       },
     },
     {

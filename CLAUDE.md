@@ -1954,6 +1954,19 @@ gesendet wird, nicht **was**.
 und Sachgebiet gleichzeitig erfüllen. Von Hand ist das nicht mehr zu treffen:
 Eine Suche über 4.000 Kombinationen fand am 04.09.2026 nichts.
 
+**Zwei Tage lang lag das an etwas anderem, als die Meldung sagte.** Der
+Vorschlag nannte als Ursache die Bauformregel — tatsächlich standen **27 von 51
+Shorts auf einer verbotenen Pose** (`achselzucken` im Wortwechsel, `staunen` im
+Schluss), und `laufPruefen` wirft beides als Fehler. **Eine Fehlermeldung, die
+rät, schickt die Suche in die falsche Richtung.** Seit dem 06.09.2026 sind die
+Posen ersetzt und die Woche kommt wieder zustande.
+
+Dazu sortiert `wochenAuswaehlen` seitdem **die knappe Bauform nach vorn**: Je
+Format werden höchstens acht Kandidaten durchprobiert, und die wenigen
+Wechselreden und Stationen standen weiter hinten im Vorrat. **Eine Suche, die
+den knappsten Bestandteil zuletzt ansieht, findet ihn bei jeder Kappung
+nicht.**
+
 ### Der Sonntagslauf
 
 `de.ganzakkurat.wochenlauf` stellt **sonntags um 10:00** die fünf Videos der
@@ -2100,6 +2113,22 @@ Nicht in die Statuszeile: die gehört Emirhan.
 
 **Erst zu Ende besprechen, dann bauen.** Nach einem bestätigten Einzelpunkt
 sofort loszubauen hat sich als falsch erwiesen — die Umsetzung kommt gesammelt.
+
+**Dialoge werden nicht einzeln vorgelegt. Der Prüfstein ist die
+Freigabeseite.** Emirhan sieht fünf fertige, vertonte Videos — vorher nichts.
+Bis dahin schreibe ich, prüfe mit `npm run pruefen`, `npm run dialogprobe` und
+**beiden** Subagenten, und behebe selbst, was sie finden.
+
+**Der alte Ablauf hatte einen Zweck, und der ist erfüllt.** In Durchgang 4 wurde
+jeder Dialog vorgelegt, weil aus jeder Korrektur ein Befund werden sollte:
+118 Befunde, zwölf Szenarien mit je vier Beispielen, zwei Prüfagenten. Sein
+Einwand am 06.09.2026: *„Wofür haben wir dann sonst die Skills angefertigt und
+die Struktur aufgebaut?"* — **ein Werkzeug, das man nur benutzt und trotzdem
+gegenlesen lässt, spart nichts.**
+
+Und es funktioniert: Der einzige Fehler der ersten automatisch gebauten Woche —
+Watti sagt „kleiner" zu Volti — ist ihm **an der Freigabeseite** aufgefallen, am
+fertigen Video, nicht am Dialogtext. Genau dort gehört die Kritik hin.
 
 **Wenn eine Größe messbar ist, gehört sie gemessen und nicht begründet.** Das
 ist die Regel, die dieses Projekt am häufigsten gerettet hat: bei

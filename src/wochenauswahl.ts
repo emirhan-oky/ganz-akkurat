@@ -136,6 +136,25 @@ export const wochenAuswaehlen = (
     if (!jeFormat.has(s.format)) jeFormat.set(s.format, []);
     jeFormat.get(s.format)!.push(s);
   }
+  /*
+   * **Die knappe Bauform zuerst, sonst sieht die Suche sie nie.**
+   *
+   * Je Format werden unten hoechstens acht Kandidaten durchprobiert
+   * (`grenzen`). Standen die wenigen Wechselreden und Stationen weiter hinten
+   * im Vorrat, fielen sie aus dem Fenster — und die Suche meldete „keine
+   * gueltige Woche", obwohl es eine gab: Ohne drei Videos, die keine
+   * Zitatkarte sind, kann die Bauformregel gar nicht aufgehen.
+   *
+   * Gefunden am 06.09.2026 an einem Vorrat aus 25 Zitatkarten, vier
+   * Wechselreden und zwei Stationen. **Eine Suche, die den knappsten
+   * Bestandteil zuletzt ansieht, findet ihn bei jeder Kappung nicht.**
+   */
+  const jeBauform = new Map<string, number>();
+  for (const s of vorrat) jeBauform.set(s.bauform, (jeBauform.get(s.bauform) ?? 0) + 1);
+  for (const liste of jeFormat.values()) {
+    liste.sort((a, b) => (jeBauform.get(a.bauform) ?? 0) - (jeBauform.get(b.bauform) ?? 0));
+  }
+
   const nachVorrat = [...jeFormat.entries()].sort((a, b) => b[1].length - a[1].length);
   if (nachVorrat.length < 2) {
     return { shorts: [], reichweiteWochen: reichweite, frisch, grund: 'Weniger als zwei Formate im Vorrat.' };
